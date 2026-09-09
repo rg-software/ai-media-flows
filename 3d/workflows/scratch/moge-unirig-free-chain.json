@@ -1,0 +1,150 @@
+{
+  "last_node_id": 8,
+  "last_link_id": 7,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [-1200, 0],
+      "size": [320, 320],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [1], "slot_index": 0 },
+        { "name": "MASK", "type": "MASK", "links": null, "slot_index": 1 }
+      ],
+      "properties": { "Node name for S&R": "LoadImage" },
+      "widgets_values": ["tree.png", "image"]
+    },
+    {
+      "id": 2,
+      "type": "LoadMoGeModel",
+      "pos": [-820, 0],
+      "size": [260, 100],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "MOGE_MODEL", "type": "MOGE_MODEL", "links": [2], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "LoadMoGeModel" },
+      "widgets_values": ["moge_2_vitl_normal_fp16.safetensors"]
+    },
+    {
+      "id": 3,
+      "type": "MoGeInference",
+      "pos": [-500, 0],
+      "size": [360, 220],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        { "name": "moge_model", "type": "MOGE_MODEL", "link": 2 },
+        { "name": "image", "type": "IMAGE", "link": 1 }
+      ],
+      "outputs": [
+        { "name": "moge_geometry", "type": "MOGE_GEOMETRY", "links": [3], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "MoGeInference" },
+      "widgets_values": [6, 0.0, 4, true, true]
+    },
+    {
+      "id": 4,
+      "type": "MoGePointMapToMesh",
+      "pos": [-160, 0],
+      "size": [360, 220],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        { "name": "moge_geometry", "type": "MOGE_GEOMETRY", "link": 3 }
+      ],
+      "outputs": [
+        { "name": "MESH", "type": "MESH", "links": [4], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "MoGePointMapToMesh" },
+      "widgets_values": [0, 1, 0.04, true]
+    },
+    {
+      "id": 5,
+      "type": "MESHToTrimesh",
+      "pos": [160, 0],
+      "size": [240, 100],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        { "name": "mesh", "type": "MESH", "link": 4 }
+      ],
+      "outputs": [
+        { "name": "TRIMESH", "type": "TRIMESH", "links": [5, 6], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "MESHToTrimesh" },
+      "widgets_values": []
+    },
+    {
+      "id": 6,
+      "type": "UniRigLoadModel",
+      "pos": [-500, 300],
+      "size": [340, 140],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "model", "type": "UNIRIG_MODEL", "links": [7], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "UniRigLoadModel" },
+      "widgets_values": ["auto", "auto"]
+    },
+    {
+      "id": 7,
+      "type": "UniRigAutoRig",
+      "pos": [-160, 300],
+      "size": [400, 220],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        { "name": "trimesh", "type": "TRIMESH", "link": 5 },
+        { "name": "model", "type": "UNIRIG_MODEL", "link": 7 }
+      ],
+      "outputs": [
+        { "name": "fbx_output_path", "type": "STRING", "links": [6], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "UniRigAutoRig" },
+      "widgets_values": ["mixamo", "mixamo_auto", 5000, false]
+    },
+    {
+      "id": 8,
+      "type": "TrimeshSave",
+      "pos": [160, 300],
+      "size": [280, 160],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        { "name": "trimesh", "type": "TRIMESH", "link": 6 }
+      ],
+      "outputs": [],
+      "properties": { "Node name for S&R": "TrimeshSave" },
+      "widgets_values": ["moge_mesh_save", "glb"]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 3, 1, "IMAGE"],
+    [2, 2, 0, 3, 0, "MOGE_MODEL"],
+    [3, 3, 0, 4, 0, "MOGE_GEOMETRY"],
+    [4, 4, 0, 5, 0, "MESH"],
+    [5, 5, 0, 6, 0, "TRIMESH"],
+    [6, 5, 0, 8, 0, "TRIMESH"],
+    [7, 6, 0, 7, 1, "UNIRIG_MODEL"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}

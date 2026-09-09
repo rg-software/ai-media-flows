@@ -1,0 +1,500 @@
+{
+  "last_node_id": 26,
+  "last_link_id": 36,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [-2200, 0],
+      "size": [315, 300],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [1], "slot_index": 0 },
+        { "name": "MASK", "type": "MASK", "links": null, "slot_index": 1 }
+      ],
+      "properties": { "Node name for S&R": "LoadImage" },
+      "widgets_values": ["front.png", "image"]
+    },
+    {
+      "id": 21,
+      "type": "ImageResizeKJv2",
+      "pos": [-1900, 0],
+      "size": [320, 170],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        { "name": "image", "type": "IMAGE", "link": 1 }
+      ],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [26], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "ImageResizeKJv2" },
+      "widgets_values": [512, 512, "lanczos", "pad", "0, 0, 0", "center", 16]
+    },
+    {
+      "id": 22,
+      "type": "ImageResizeKJv2",
+      "pos": [-1900, 400],
+      "size": [320, 170],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        { "name": "image", "type": "IMAGE", "link": 2 }
+      ],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [27], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "ImageResizeKJv2" },
+      "widgets_values": [512, 512, "lanczos", "pad", "0, 0, 0", "center", 16]
+    },
+    {
+      "id": 23,
+      "type": "ImageResizeKJv2",
+      "pos": [-1900, 800],
+      "size": [320, 170],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        { "name": "image", "type": "IMAGE", "link": 3 }
+      ],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [28], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "ImageResizeKJv2" },
+      "widgets_values": [512, 512, "lanczos", "pad", "0, 0, 0", "center", 16]
+    },
+    {
+      "id": 24,
+      "type": "ImageResizeKJv2",
+      "pos": [-1900, 1200],
+      "size": [320, 170],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        { "name": "image", "type": "IMAGE", "link": 4 }
+      ],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [29], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "ImageResizeKJv2" },
+      "widgets_values": [512, 512, "lanczos", "pad", "0, 0, 0", "center", 16]
+    },
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [-2200, 400],
+      "size": [315, 300],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [2], "slot_index": 0 },
+        { "name": "MASK", "type": "MASK", "links": null, "slot_index": 1 }
+      ],
+      "properties": { "Node name for S&R": "LoadImage" },
+      "widgets_values": ["left.png", "image"]
+    },
+    {
+      "id": 3,
+      "type": "LoadImage",
+      "pos": [-2200, 800],
+      "size": [315, 300],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [3], "slot_index": 0 },
+        { "name": "MASK", "type": "MASK", "links": null, "slot_index": 1 }
+      ],
+      "properties": { "Node name for S&R": "LoadImage" },
+      "widgets_values": ["right.png", "image"]
+    },
+    {
+      "id": 4,
+      "type": "LoadImage",
+      "pos": [-2200, 1200],
+      "size": [315, 300],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [4], "slot_index": 0 },
+        { "name": "MASK", "type": "MASK", "links": null, "slot_index": 1 }
+      ],
+      "properties": { "Node name for S&R": "LoadImage" },
+      "widgets_values": ["back.png", "image"]
+    },
+    {
+      "id": 5,
+      "type": "Hy3DModelLoader",
+      "pos": [-1870, -100],
+      "size": [300, 100],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "pipeline", "type": "HY3DMODEL", "links": [5], "slot_index": 0 },
+        { "name": "vae", "type": "HY3DVAE", "links": [6], "slot_index": 1 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DModelLoader" },
+      "widgets_values": ["hy3dgen\\hunyuan3d-dit-v2-mv-fast\\model.fp16.safetensors", "sdpa", false]
+    },
+    {
+      "id": 6,
+      "type": "Hy3DGenerateMeshMultiView",
+      "pos": [-1480, 100],
+      "size": [300, 230],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        { "name": "pipeline", "type": "HY3DMODEL", "link": 5 },
+        { "name": "front", "type": "IMAGE", "link": 26 },
+        { "name": "left", "type": "IMAGE", "link": 27 },
+        { "name": "right", "type": "IMAGE", "link": 28 },
+        { "name": "back", "type": "IMAGE", "link": 29 }
+      ],
+      "outputs": [
+        { "name": "latents", "type": "HY3DLATENT", "links": [7], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DGenerateMeshMultiView" },
+      "widgets_values": [5.5, 30, 123, "fixed"]
+    },
+    {
+      "id": 7,
+      "type": "Hy3DVAEDecode",
+      "pos": [-1150, 0],
+      "size": [300, 170],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        { "name": "vae", "type": "HY3DVAE", "link": 6 },
+        { "name": "latents", "type": "HY3DLATENT", "link": 7 }
+      ],
+      "outputs": [
+        { "name": "trimesh", "type": "TRIMESH", "links": [8], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DVAEDecode" },
+      "widgets_values": [1.01, 256, 32000, 0, "mc"]
+    },
+    {
+      "id": 8,
+      "type": "Hy3DPostprocessMesh",
+      "pos": [-820, 0],
+      "size": [315, 174],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        { "name": "trimesh", "type": "TRIMESH", "link": 8 }
+      ],
+      "outputs": [
+        { "name": "trimesh", "type": "TRIMESH", "links": [9], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DPostprocessMesh" },
+      "widgets_values": [true, true, true, 50000, false]
+    },
+    {
+      "id": 9,
+      "type": "Hy3DIMRemesh",
+      "pos": [-480, 40],
+      "size": [300, 230],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        { "name": "trimesh", "type": "TRIMESH", "link": 9 }
+      ],
+      "outputs": [
+        { "name": "trimesh", "type": "TRIMESH", "links": [11, 12], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DIMRemesh" },
+      "widgets_values": [true, 10000, 8, true, true, 40000]
+    },
+    {
+      "id": 10,
+      "type": "Hy3DExportMesh",
+      "pos": [-150, 200],
+      "size": [315, 106],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        { "name": "trimesh", "type": "TRIMESH", "link": 12 }
+      ],
+      "outputs": [
+        { "name": "glb_path", "type": "STRING", "links": null, "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DExportMesh" },
+      "widgets_values": ["3D/Hy3Dmv_untextured", "glb", true]
+    },
+    {
+      "id": 11,
+      "type": "Hy3DMeshUVWrap",
+      "pos": [-150, 0],
+      "size": [214, 46],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        { "name": "trimesh", "type": "TRIMESH", "link": 11 }
+      ],
+      "outputs": [
+        { "name": "trimesh", "type": "TRIMESH", "links": [13], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DMeshUVWrap" },
+      "widgets_values": []
+    },
+    {
+      "id": 12,
+      "type": "Hy3DCameraConfig",
+      "pos": [150, 300],
+      "size": [340, 120],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "camera_config", "type": "HY3DCAMERA", "links": [14, 15], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DCameraConfig" },
+      "widgets_values": ["0, 90, 180, 270, 0, 180", "0, 0, 0, 0, 90, -90", "1, 0.1, 0.5, 0.1, 0.05, 0.05", 1.45, 1.2]
+    },
+    {
+      "id": 13,
+      "type": "Hy3DRenderMultiView",
+      "pos": [160, 0],
+      "size": [342, 170],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        { "name": "trimesh", "type": "TRIMESH", "link": 13 },
+        { "name": "camera_config", "type": "HY3DCAMERA", "link": 14 }
+      ],
+      "outputs": [
+        { "name": "normal_maps", "type": "IMAGE", "links": [16], "slot_index": 0 },
+        { "name": "position_maps", "type": "IMAGE", "links": [17], "slot_index": 1 },
+        { "name": "renderer", "type": "MESHRENDER", "links": [19], "slot_index": 2 },
+        { "name": "masks", "type": "MASK", "links": null, "slot_index": 3 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DRenderMultiView" },
+      "widgets_values": [1024, 2048, "world"]
+    },
+    {
+      "id": 14,
+      "type": "DownloadAndLoadHy3DPaintModel",
+      "pos": [160, 480],
+      "size": [327, 58],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "multiview_pipe", "type": "HY3DDIFFUSERSPIPE", "links": [18], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "DownloadAndLoadHy3DPaintModel" },
+      "widgets_values": ["hunyuan3d-paint-v2-0"]
+    },
+    {
+      "id": 15,
+      "type": "Hy3DSampleMultiView",
+      "pos": [520, 100],
+      "size": [311, 270],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        { "name": "pipeline", "type": "HY3DDIFFUSERSPIPE", "link": 18 },
+        { "name": "ref_image", "type": "IMAGE", "link": 30 },
+        { "name": "normal_maps", "type": "IMAGE", "link": 16 },
+        { "name": "position_maps", "type": "IMAGE", "link": 17 },
+        { "name": "camera_config", "type": "HY3DCAMERA", "link": 15 }
+      ],
+      "outputs": [
+        { "name": "image", "type": "IMAGE", "links": [20], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DSampleMultiView" },
+      "widgets_values": [512, 32, 123, "fixed"]
+    },
+    {
+      "id": 16,
+      "type": "DownloadAndLoadHy3DDelightModel",
+      "pos": [520, 480],
+      "size": [307, 58],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "delight_pipe", "type": "HY3DDIFFUSERSPIPE", "links": [21], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "DownloadAndLoadHy3DDelightModel" },
+      "widgets_values": ["hunyuan3d-delight-v2-0"]
+    },
+    {
+      "id": 17,
+      "type": "Hy3DDelightImage",
+      "pos": [520, 300],
+      "size": [278, 222],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        { "name": "delight_pipe", "type": "HY3DDIFFUSERSPIPE", "link": 21 },
+        { "name": "image", "type": "IMAGE", "link": 20 }
+      ],
+      "outputs": [
+        { "name": "image", "type": "IMAGE", "links": [22], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DDelightImage" },
+      "widgets_values": [50, 512, 512, 1.0, 42]
+    },
+    {
+      "id": 18,
+      "type": "Hy3DBakeFromMultiview",
+      "pos": [820, 100],
+      "size": [302, 66],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        { "name": "images", "type": "IMAGE", "link": 22 },
+        { "name": "renderer", "type": "MESHRENDER", "link": 19 }
+      ],
+      "outputs": [
+        { "name": "texture", "type": "IMAGE", "links": [31], "slot_index": 0 },
+        { "name": "mask", "type": "MASK", "links": [32], "slot_index": 1 },
+        { "name": "renderer", "type": "MESHRENDER", "links": [33], "slot_index": 2 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DBakeFromMultiview" },
+      "widgets_values": []
+    },
+    {
+      "id": 25,
+      "type": "Hy3DMeshVerticeInpaintTexture",
+      "pos": [930, 100],
+      "size": [277, 66],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        { "name": "texture", "type": "IMAGE", "link": 31 },
+        { "name": "mask", "type": "MASK", "link": 32 },
+        { "name": "renderer", "type": "MESHRENDER", "link": 33 }
+      ],
+      "outputs": [
+        { "name": "texture", "type": "IMAGE", "links": [34], "slot_index": 0 },
+        { "name": "mask", "type": "MASK", "links": [35], "slot_index": 1 },
+        { "name": "renderer", "type": "MESHRENDER", "links": [36], "slot_index": 2 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DMeshVerticeInpaintTexture" },
+      "widgets_values": []
+    },
+    {
+      "id": 26,
+      "type": "CV2InpaintTexture",
+      "pos": [1020, 100],
+      "size": [239, 120],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        { "name": "texture", "type": "IMAGE", "link": 34 },
+        { "name": "mask", "type": "MASK", "link": 35 }
+      ],
+      "outputs": [
+        { "name": "texture", "type": "IMAGE", "links": [23], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "CV2InpaintTexture" },
+      "widgets_values": [3, "ns"]
+    },
+    {
+      "id": 19,
+      "type": "Hy3DApplyTexture",
+      "pos": [1130, 100],
+      "size": [226, 46],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        { "name": "texture", "type": "IMAGE", "link": 23 },
+        { "name": "renderer", "type": "MESHRENDER", "link": 36 }
+      ],
+      "outputs": [
+        { "name": "trimesh", "type": "TRIMESH", "links": [25], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DApplyTexture" },
+      "widgets_values": []
+    },
+    {
+      "id": 20,
+      "type": "Hy3DExportMesh",
+      "pos": [1360, 100],
+      "size": [315, 106],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        { "name": "trimesh", "type": "TRIMESH", "link": 25 }
+      ],
+      "outputs": [
+        { "name": "glb_path", "type": "STRING", "links": null, "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "Hy3DExportMesh" },
+      "widgets_values": ["3D/Hy3Dmv_textured", "glb", true]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 21, 0, "IMAGE"],
+    [2, 2, 0, 22, 0, "IMAGE"],
+    [3, 3, 0, 23, 0, "IMAGE"],
+    [4, 4, 0, 24, 0, "IMAGE"],
+    [5, 5, 0, 6, 0, "HY3DMODEL"],
+    [6, 5, 1, 7, 0, "HY3DVAE"],
+    [7, 6, 0, 7, 1, "HY3DLATENT"],
+    [8, 7, 0, 8, 0, "TRIMESH"],
+    [9, 8, 0, 9, 0, "TRIMESH"],
+    [11, 9, 0, 11, 0, "TRIMESH"],
+    [12, 9, 0, 10, 0, "TRIMESH"],
+    [13, 11, 0, 13, 0, "TRIMESH"],
+    [14, 12, 0, 13, 1, "HY3DCAMERA"],
+    [15, 12, 0, 15, 4, "HY3DCAMERA"],
+    [16, 13, 0, 15, 2, "IMAGE"],
+    [17, 13, 1, 15, 3, "IMAGE"],
+    [18, 14, 0, 15, 0, "HY3DDIFFUSERSPIPE"],
+    [19, 13, 2, 18, 1, "MESHRENDER"],
+    [20, 15, 0, 17, 1, "IMAGE"],
+    [21, 16, 0, 17, 0, "HY3DDIFFUSERSPIPE"],
+    [22, 17, 0, 18, 0, "IMAGE"],
+    [23, 26, 0, 19, 0, "IMAGE"],
+    [25, 19, 0, 20, 0, "TRIMESH"],
+    [26, 21, 0, 6, 1, "IMAGE"],
+    [27, 22, 0, 6, 2, "IMAGE"],
+    [28, 23, 0, 6, 3, "IMAGE"],
+    [29, 24, 0, 6, 4, "IMAGE"],
+    [30, 21, 0, 15, 1, "IMAGE"],
+    [31, 18, 0, 25, 0, "IMAGE"],
+    [32, 18, 1, 25, 1, "MASK"],
+    [33, 18, 2, 25, 2, "MESHRENDER"],
+    [34, 25, 0, 26, 0, "IMAGE"],
+    [35, 25, 1, 26, 1, "MASK"],
+    [36, 25, 2, 19, 1, "MESHRENDER"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}

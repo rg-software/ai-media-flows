@@ -1,0 +1,31 @@
+# --- Model weights (never commit; note *where* they live in docs) ---
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+
+# --- Generated / transient outputs ---
+output/
+temp/
+*.glb
+*.fbx
+*.obj
+*.stl
+*.ply
+
+# --- ComfyUI / env scratch ---
+comfy-env/
+*.pixi*
+__pycache__/
+*.pyc
+.python-version
+
+# --- Shared test inputs (user-managed; keep untracked) ---
+assets/*
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
