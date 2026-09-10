@@ -24,7 +24,7 @@ nvidia-smi | head -4
 ## 3. ComfyUI from git + venv
 
 ```bash
-mkdir -p ~/ComfyUI && cd ~/ComfyUI
+mkdir -p ~/Projects-Git/ComfyUI && cd ~/Projects-Git/ComfyUI
 python3.11 -m venv venv
 source venv/bin/activate
 git clone https://github.com/comfyanonymous/ComfyUI.git .
@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 Needed by Hy3D texture bake. Pull from the wrapper's manylinux wheel:
 ```bash
-cd ~/ComfyUI/custom_nodes
+cd ~/Projects-Git/ComfyUI/custom_nodes
 git clone https://github.com/kijai/ComfyUI-Hunyuan3DWrapper.git
 cd ComfyUI-Hunyuan3DWrapper
 pip install -r requirements.txt
@@ -58,11 +58,11 @@ pip install wheels/custom_rasterizer-0.1-*.whl   # manylinux wheel
 
 ```bash
 # your workflows + settings + API keys
-cp -r <backup>/user/* ~/ComfyUI/user/
+cp -r <backup>/user/* ~/Projects-Git/ComfyUI/user/
 # test/input images
-cp -r <backup>/input/* ~/ComfyUI/input/
+cp -r <backup>/input/* ~/Projects-Git/ComfyUI/input/
 # weights (optional — else re-download, identical files)
-cp -r <backup>/models/* ~/ComfyUI/models/
+cp -r <backup>/models/* ~/Projects-Git/ComfyUI/models/
 ```
 Rest of the repo (workflows, docs) is already on GitHub:
 ```bash
