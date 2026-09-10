@@ -12,6 +12,7 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
 | `setup.md` | How the server is installed/run, known caveats, and what to change when migrating to Linux. |
 | `environments.md` | `comfy-env` / pixi per-node environments — how to isolate nodes that need a different Python/torch/CUDA than the host. |
 | `workflow-file-format.md` | The `.json` workflow schema: nodes, links, widgets, `order`/`mode`, import rules, and how to hand-edit safely. |
+| `linux-migration.md` | What carries to a Linux server, what to re-provision, and how to avoid the Windows-specific pain (MSVC, `.pyd`, bpy). |
 
 ## Server runtime facts (reproducibility)
 
