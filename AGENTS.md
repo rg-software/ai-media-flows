@@ -47,13 +47,13 @@ ai-gamedev-tasks/
 - Workflow JSON files live in the scenario's `workflows/` folder. Name by pipeline (`hy3d-full`, `moge-free`, `tripo-bridge`, ...). Only **valuable/curated** workflows stay in `workflows/`; scaffolding (one-off validation, superseded, unmaintained) goes to `workflows/scratch/` and is not cleaned up on refactors.
 - A pipeline that used to be a separate standalone workflow should instead be represented as **mid-node outputs** inside one valuable workflow when the checkpoint is meaningful (e.g. `hy3d-full` exports both the untextured and textured GLB in a single run).
 - References to workflow files inside markdown use `workflows/<name>.json`.
-- Server specifics: ComfyUI server is remote (currently Windows, may move to Linux). See `comfyui/README.md`.
+- Server specifics: ComfyUI server has migrated to Linux (Ubuntu 26.04, RTX 3090, systemd user service `comfyui`). See `comfyui/README.md`.
 - Do not commit model weights or API keys; note *where* weights should live, not ship them.
 
-## Status (2026-09-09)
+## Status (2026-09-11)
 
-- **3d/** — complete: E1–E5 PASS (MoGe, Hy3D shape, texture, retopology, multiview, Unity import). E4 rigging BLOCKED on Windows `bpy` (see EXPERIMENTS.md) — parked until Linux migration.
-- **2d/** — scenario started; core server inventory documented. First experiments pending.
+- **3d/** — complete: E1–E5 PASS + **E4 rigging UNBLOCKED on Linux** (2026-09-11, E4-L): `ComfyUI-UniRig` provides bpy 4.2 LTS via conda/pixi; rigs humanoid GLB → Mixamo FBX in ~90s. Rasterizer texture bake **works on Linux** (nvcc 12.8 header-patch build). All smoke (shape/multiview/texture/MoGe/2D) green.
+- **2d/** — scenario started; E1 SDXL base art PASS on Linux. ControlNet + E2–E7 pending.
 
 URL/password live with the user. Runtime facts that matter for reproducibility:
 

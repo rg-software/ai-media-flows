@@ -75,8 +75,9 @@ The workflow JSONs are fine in the GUI (frontend fills defaults), but **API-only
 2. ✅ Try the rasterizer header-patch (one shot). If it works, texture is unblocked — **it worked, texture UNBLOCKED**.
 3. ✅ Drop in weights, install Manager + pynanoinstantmeshes, run shape + multiview smoke — **all PASS on Linux**.
 4. ✅ Set up 2D scenario (fully works, high value) — **SDXL base art PASS (E1)**; ControlNet weights still need pulling.
-5. ⬜ **Next open items:**
+5. ✅ **UniRig rigging retest — PASS (2026-09-11, E4-L).** `ComfyUI-UniRig` (PozzettiAndrea) installed via `python install.py`; self-contained pixi env `~/.ce/envs/unirig-nodes` with **bpy 4.2 LTS (conda)** — the Windows `bpy` DLL blocker is fully gone. Rigged `realistic_male_character.glb` → Mixamo-normalized FBX (Kaydara FBX v7400) in ~90s incl. weight download. `unirig-humanoid-workflow.json` updated to current node names. Caveat: spconv warns sm86 (3090) not in its prebuilt set — non-fatal.
+6. ⬜ **Next open items:**
+   - Rig a **Hy3D/MoGe-generated humanoid** (not just the pack test asset); try `UniRigApplyAnimation` with the bundled Mixamo animation templates (e.g. `Hip_Hop_Dancing.fbx`, `Breakdance.fbx`).
    - 2D E2 (ControlNet) + E3–E7 per `2d/README.md`.
-   - UniRig retest on Linux (E4 was Windows-bpy-blocked; predicted to work here).
    - E3 Tripo bridge still needs an API key.
    - Consider packaging the patched `custom_rasterizer` as a manylinux wheel so no recompile is needed on the next box (the successful build produced a cp311 wheel in the build dir).

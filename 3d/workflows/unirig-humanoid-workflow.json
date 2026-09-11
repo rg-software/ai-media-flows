@@ -5,8 +5,8 @@
     {
       "id": 1,
       "type": "UniRigLoadModel",
-      "pos": [-800, 0],
-      "size": [340, 140],
+      "pos": [-900, 0],
+      "size": [300, 110],
       "flags": {},
       "order": 0,
       "mode": 0,
@@ -19,9 +19,9 @@
     },
     {
       "id": 2,
-      "type": "TrimeshLoad",
-      "pos": [-400, 0],
-      "size": [300, 100],
+      "type": "UniRigLoadMesh",
+      "pos": [-900, 160],
+      "size": [300, 160],
       "flags": {},
       "order": 1,
       "mode": 0,
@@ -29,14 +29,14 @@
       "outputs": [
         { "name": "trimesh", "type": "TRIMESH", "links": [1], "slot_index": 0 }
       ],
-      "properties": { "Node name for S&R": "TrimeshLoad" },
-      "widgets_values": ["C:\\Projects-Git\\ComfyUI\\ComfyUI\\output\\3D\\Hy3Dmv_textured_00002_.glb", "glb"]
+      "properties": { "Node name for S&R": "UniRigLoadMesh" },
+      "widgets_values": ["input", "3d/realistic_male_character.glb"]
     },
     {
       "id": 3,
       "type": "UniRigAutoRig",
-      "pos": [0, 0],
-      "size": [400, 200],
+      "pos": [-500, 40],
+      "size": [340, 260],
       "flags": {},
       "order": 2,
       "mode": 0,
@@ -45,16 +45,16 @@
         { "name": "model", "type": "UNIRIG_MODEL", "link": 2 }
       ],
       "outputs": [
-        { "name": "fbx_output_path", "type": "STRING", "links": null, "slot_index": 0 }
+        { "name": "fbx_output_path", "type": "STRING", "links": [3], "slot_index": 0 }
       ],
       "properties": { "Node name for S&R": "UniRigAutoRig" },
-      "widgets_values": ["mixamo", "character_rig", 50000, false]
+      "widgets_values": ["mixamo", "E4_linux", 50000, false]
     },
     {
       "id": 4,
-      "type": "ShowText|pysssss",
-      "pos": [420, 0],
-      "size": [320, 120],
+      "type": "SaveText",
+      "pos": [-500, 340],
+      "size": [300, 120],
       "flags": {},
       "order": 3,
       "mode": 0,
@@ -62,8 +62,8 @@
         { "name": "text", "type": "STRING", "link": 3 }
       ],
       "outputs": [],
-      "properties": { "Node name for S&R": "ShowText|pysssss" },
-      "widgets_values": []
+      "properties": { "Node name for S&R": "SaveText" },
+      "widgets_values": ["unirig/fbx_path", "txt"]
     }
   ],
   "links": [
