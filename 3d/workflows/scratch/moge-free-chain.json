@@ -16,7 +16,7 @@
         { "name": "MASK", "type": "MASK", "links": null, "slot_index": 1 }
       ],
       "properties": { "Node name for S&R": "LoadImage" },
-      "widgets_values": ["tree.png", "image"]
+      "widgets_values": ["house.png", "image"]
     },
     {
       "id": 2,
@@ -87,7 +87,7 @@
     },
     {
       "id": 6,
-      "type": "TrimeshSave",
+      "type": "Hy3DExportMesh",
       "pos": [640, 0],
       "size": [280, 160],
       "flags": {},
@@ -97,8 +97,8 @@
         { "name": "trimesh", "type": "TRIMESH", "link": 5 }
       ],
       "outputs": [],
-      "properties": { "Node name for S&R": "TrimeshSave" },
-      "widgets_values": ["moge_mesh", "glb"]
+      "properties": { "Node name for S&R": "Hy3DExportMesh" },
+      "widgets_values": ["3D/MoGe_free", "glb", true]
     }
   ],
   "links": [

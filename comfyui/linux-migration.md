@@ -20,7 +20,7 @@ Guiding principle: **carry the knowledge, re-provision the environment.** Workfl
 | torch + CUDA | embedded py 3.13, torch 2.13+cu130 | `pip install torch --index-url https://download.pytorch.org/whl/cu128` (or cu130) |
 | ComfyUI | `C:\Projects-Git\ComfyUI` | `git clone` + install from source |
 | ComfyUI-Manager | v3.40 | same, cross-platform |
-| `custom_rasterizer` | **local MSVC 2022 compile → ship `.pyd`** (E2b saga) | **prebuilt manylinux wheel upstream** → `pip install custom_rasterizer...whl`, no compile |
+| `custom_rasterizer` | **local MSVC 2022 compile → ship `.pyd`** (E2b saga) | **Linux source build with `math_functions.h noexcept` header patch** (2026-09-11, verified) — no prebuilt manylinux wheel exists on PyPI (Windows-only wheels). See `3d/EXPERIMENTS.md` L1 + `HANDOFF.md`. |
 | comfy-env isolation | `%LOCALAPPDATA%\Programs\comfy-env` | `~/.ce`; packs (unirig etc.) re-provision |
 | **UniRig rigging (E4 blocker)** | blocked: `bpy` DLL load fails on Windows | **bpy is a conda package on Linux** → E4 likely *works* — re-test here |
 | `pynanoinstantmeshes` (retopo) | pip (works) | same pip |
