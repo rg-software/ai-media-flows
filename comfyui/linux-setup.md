@@ -122,6 +122,23 @@ $b64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($script))
 # then: ssh ... "ssh -i ~/.ssh/beelink rg_software@192.168.1.46 'echo $b64 | base64 -d | bash'"
 ```
 
+### API access with ComfyUI-Login
+The login plugin (ComfyUI-Login) blocks `/object_info`, `/prompt`, etc. with 401. It accepts a
+**token query param**; the token is the first line of `~/Projects-Git/ComfyUI/login/PASSWORD`:
+
+```bash
+TOKEN=$(head -1 ~/Projects-Git/ComfyUI/login/PASSWORD)
+curl -s "http://127.0.0.1:8188/object_info?token=$TOKEN"
+```
+Then POST an **API-format** prompt (`{node_id: {class_type, inputs}}`, not the GUI graph):
+```python
+urllib.request.Request(f"{BASE}/prompt?token={quote(TOKEN)}", data=json.dumps({'prompt': api}).encode(),
+                       headers={'Content-Type': 'application/json'})
+```
+`POST /login` expects **form data** (`username`, `password`) — sending JSON yields a 500. Prefer the token.
+The `workflows/*.json` files are the GUI format; API submissions need the node->inputs form
+(generate it with `GET /object_info` for signatures).
+
 ## Repo docs to consult
 - `comfyui/linux-migration.md` (carry vs re-provision)
 - `3d/setup-hy3d.md` (weights + Hy3D node specifics)

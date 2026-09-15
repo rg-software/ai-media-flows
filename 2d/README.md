@@ -21,6 +21,11 @@ Goal: produce game-ready 2D assets (base art, sprites, textures, UI, pixel art, 
 
 **Not present (note for future):** no Flux *checkpoint* (only Flux CLIP/controlnet tooling), no LoRAs downloaded yet.
 
+> **Linux box — actual inventory (2026-09-15):** the table above is the *old Windows* server. On
+> Linux we have only `sd_xl_base_1.0` (checkpoints) and node packs: `comfyui_controlnet_aux` (ACN),
+> KJNodes, Hy3D wrapper, UniRig, ComfyUI-Login, ComfyUI-Manager, CameraPack (1034 nodes total).
+> ControlNet weights: `models/controlnet/xinsir-canny-sdxl-v2.safetensors` (2.4 GB). Re-pull others on demand.
+
 ## Design / first experiments
 
 Same methodology as `3d/`:
