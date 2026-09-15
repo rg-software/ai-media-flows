@@ -44,9 +44,11 @@ Same methodology as `3d/`:
 
 ## Docs
 
+- `PROTOCOL.md` — the **experiment protocol**: canonical asset set, run/sweep rules, evaluation, promotion.
 - `ROADMAP-2D.md` — the **bigger picture**: tracks beyond isolated assets (inpaint, outpaint,
   composition, IPAdapter/reference transfer, consistency, finishing) + the full E-number backlog.
 - `EXPERIMENTS-2D.md` — run log (verdicts with *why*).
 - `workflows/` — valuable pipelines; `workflows/scratch/` — scaffolding.
+- `../scripts/gen_assets.py` — generator for the canonical `input/2d/` asset set (E1b).
 
 (this README grows as experiments land)
