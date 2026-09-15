@@ -32,6 +32,11 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
     into cutout alpha, you must insert **`InvertMask`** first. Skipping it yields a perfectly
     inverted cutout (background kept, subject transparent) — verified in E3.
 - `SaveImageWithAlpha` is **KJNodes**, not core; core has `SplitImageWithAlpha`/`JoinImageWithAlpha`.
+- **`ComfyUI-seamless-tiling` stability**: `SeamlessTile` (patches the *MODEL*) **segfaults in
+  `libcuda.so.1`** on this box and takes ComfyUI down. Use the **VAE-side** route instead
+  (`MakeCircularVAE` + `CircularVAEDecode`). Even that path crashes on a *second* run in the same
+  session — `systemctl --user restart comfyui` between runs. Externally this looks like a dropped
+  connection mid-prompt; `Restart=on-failure` silently brings the server back (masking the crash).
 
 ## How to talk to it programmatically
 
