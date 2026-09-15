@@ -32,8 +32,11 @@ Derived assets (produced by later stages, also versioned under `assets/2d/`):
 
 | id | produced by | note |
 |---|---|---|
-| `prop_chest_cutout` | E3 `workflows/remove-bg.json` | RGBA cutout of `prop_chest` (BiRefNet) |
-| `tex_stone_seamless` | E7b `workflows/seamless-texture.json` | tileable variant of `tex_stone` (circular VAE → `SeamlessTiling(offset)`) |
+| `prop_chest_cutout` | E3b `workflows/remove-bg.json` | RGBA cutout of `prop_chest` (BiRefNet) |
+| `tex_stone_seamless` | E7c `workflows/seamless-texture.json` | tileable variant of `tex_stone` (`SeamlessTiling(method=offset)`) |
+
+Current canonical set is the **E1d** generation (RealVisXL_V5.0_fp16). If the base assets are ever
+regenerated, the derivatives above must be re-derived too (see E3b/E4b/E7c in `EXPERIMENTS-2D.md`).
 
 ## 2. Run protocol
 
