@@ -57,6 +57,7 @@ Visual judgement is ground truth; use numbers as a cheap cross-check, not a repl
 - **Canonical concept art is versioned in the repo** at `assets/2d/<id>.png` (same `<id>` as above).
   This is the durable copy — the ComfyUI `input/` copy can be re-derived from it.
 - Pipeline workflows → `2d/workflows/`; scaffolding → `2d/workflows/scratch/`.
+- Experiment **evidence** (comparison sheets, contact sheets) → `2d/evidence/E<n>-<slug>.png` (tracked).
 - Never commit model weights (`.gitignore` blocks `*.safetensors`, `*.ckpt`, etc.).
 
 ## 5. Reproduce from scratch
