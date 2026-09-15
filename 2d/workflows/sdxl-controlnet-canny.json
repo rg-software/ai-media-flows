@@ -59,7 +59,7 @@
     {"name": "MASK", "type": "MASK", "links": [], "slot_index": 1}
    ],
    "properties": {"Node name for S&R": "LoadImage"},
-   "widgets_values": ["house.png", "image"]
+   "widgets_values": ["2d/prop_chest.png", "image"]
   },
   {
    "id": 9,

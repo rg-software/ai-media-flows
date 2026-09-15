@@ -48,9 +48,8 @@ Visual judgement is ground truth; use numbers as a cheap cross-check, not a repl
 
 - Raw outputs → ComfyUI `output/2D/<E#>/<id>_00001_.png` (transient, gitignored).
 - Accepted assets → ComfyUI `input/2d/<id>.png` (stable names for downstream workflows).
-- **Canonical concept art is versioned in the repo** at `assets/2d/<id>.png` (same `<id>` as above;
-  `assets/*` is gitignored except `assets/2d/`). This is the durable copy — the ComfyUI `input/`
-  copy can be re-derived from it.
+- **Canonical concept art is versioned in the repo** at `assets/2d/<id>.png` (same `<id>` as above).
+  This is the durable copy — the ComfyUI `input/` copy can be re-derived from it.
 - Pipeline workflows → `2d/workflows/`; scaffolding → `2d/workflows/scratch/`.
 - Never commit model weights (`.gitignore` blocks `*.safetensors`, `*.ckpt`, etc.).
 

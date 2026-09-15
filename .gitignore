@@ -21,10 +21,8 @@ __pycache__/
 *.pyc
 .python-version
 
-# --- Shared test inputs ---
-# Most asset binaries stay untracked; curated concept art under assets/2d/ IS tracked.
-assets/*
-!assets/2d/
+# --- Shared test inputs / concept art ---
+# assets/ is tracked (no ad-hoc dumps there anymore); keep model weights ignored below.
 
 # --- OS / editor ---
 .DS_Store
