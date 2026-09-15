@@ -32,11 +32,14 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
     into cutout alpha, you must insert **`InvertMask`** first. Skipping it yields a perfectly
     inverted cutout (background kept, subject transparent) — verified in E3.
 - `SaveImageWithAlpha` is **KJNodes**, not core; core has `SplitImageWithAlpha`/`JoinImageWithAlpha`.
-- **`ComfyUI-seamless-tiling` stability**: `SeamlessTile` (patches the *MODEL*) **segfaults in
-  `libcuda.so.1`** on this box and takes ComfyUI down. Use the **VAE-side** route instead
-  (`MakeCircularVAE` + `CircularVAEDecode`). Even that path crashes on a *second* run in the same
-  session — `systemctl --user restart comfyui` between runs. Externally this looks like a dropped
-  connection mid-prompt; `Restart=on-failure` silently brings the server back (masking the crash).
+- **Tiling**: `SeamlessTile` (comfyui-seamless-tiling, patches the **MODEL**) **segfaults in
+  `libcuda.so.1`** and takes ComfyUI down — avoid. Use **`SeamlessTiling`** (TextureAlchemy, an
+  **image-space** op: `method` = mirror/blend_edges/offset) instead; it is stable and instant.
+  The circular-VAE route (`MakeCircularVAE` + `CircularVAEDecode`) also works but crashes on a
+  *second* run in one session — `systemctl --user restart comfyui` between runs. Externally a
+  crash looks like a dropped connection mid-prompt; `Restart=on-failure` silently restarts.
+- **Metric ≠ quality**: edge-continuity metrics rated `mirror`/`blend_edges` as perfect (0.00)
+  while they looked visibly awful (symmetric kaleidoscope / blurry cross). Always confirm with eyes.
 
 ## How to talk to it programmatically
 

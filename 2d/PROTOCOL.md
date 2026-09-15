@@ -28,7 +28,7 @@ Derived assets (produced by later stages, also versioned under `assets/2d/`):
 | id | produced by | note |
 |---|---|---|
 | `prop_chest_cutout` | E3 `workflows/remove-bg.json` | RGBA cutout of `prop_chest` (BiRefNet) |
-| `tex_stone_seamless` | E7 `workflows/seamless-texture.json` | tileable variant of `tex_stone` (circular VAE img2img, denoise 0.5) |
+| `tex_stone_seamless` | E7b `workflows/seamless-texture.json` | tileable variant of `tex_stone` (circular VAE → `SeamlessTiling(offset)`) |
 
 ## 2. Run protocol
 
