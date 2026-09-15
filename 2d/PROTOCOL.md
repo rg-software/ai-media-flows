@@ -23,6 +23,11 @@ workflows can reference them by name.
 Conventions: plain/neutral background for cutout assets; no text/watermarks; SDXL native 1024²
 (wide formats and outpaint are E9's job, not E1's).
 
+**Default base model: `RealVisXL_V5.0_fp16.safetensors`** (chosen in E1c — best detail and it frames
+full-body solo subjects properly). Use `realvisxlV50_v40LightningBakedvae` (6 steps, cfg 1.5) when
+sweeping many variants. `sd_xl_base_1.0` is the neutral *control*, not the production model.
+Anime: `AnythingXL_xl`. Pony V6 requires its own `score_9, score_8_up, …` prompt dialect.
+
 Derived assets (produced by later stages, also versioned under `assets/2d/`):
 
 | id | produced by | note |
