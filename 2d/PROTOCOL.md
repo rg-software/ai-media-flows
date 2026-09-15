@@ -37,6 +37,8 @@ Derived assets (produced by later stages, also versioned under `assets/2d/`):
 | `prop_chest_pixel` | E5b `workflows/pixel-art.json` | 64×64 14-colour pixel sprite (Retro Diffusion 24x-64x + palette reduce) |
 | `prop_chest_pixel_lora` | E5f | 64×64 sprite from RealVisXL + `nerijs/pixel-art-xl` LoRA @1024², nearest ÷16 |
 | `potion_atlas` / `potion_1..4` | E6 `workflows/sprite-atlas.json` | 128×128 2×2 atlas + its 4 frames (slice round-trip verified) |
+| `env_cottage_bluetile` | E8 `workflows/inpaint.json` | inpainting demo (roof→blue tiles), composited with the mask |
+| `env_mountains_style` | E11 `workflows/ipadapter-style.json` | style transfer (mountains in the forest's palette), IPAdapter weight 0.4 |
 
 **Pixel art rule:** those models emit a *blocky canvas*; downscale **nearest** by the model's grid
 factor (16 for 16x@256², 8 for 24x-64x@512² and 128x@1024²) — never rely on the detector's
