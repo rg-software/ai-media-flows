@@ -30,9 +30,12 @@ DEFAULT_NEG = ("blurry, lowres, text, watermark, signature, jpeg artifacts, "
 ASSETS = [
     {
         "id": "char_knight",
-        "prompt": ("full body game character concept, heroic fantasy knight in ornate plate armor, "
-                   "standing pose, arms at sides, centered, plain light gray background, clean "
-                   "silhouette, highly detailed digital painting, neutral studio lighting"),
+        "prompt": ("full body game character concept art of a single heroic fantasy knight in "
+                   "ornate plate armor, standing relaxed pose, arms at sides, solo, isolated on a "
+                   "plain light gray background, no border, no frame, no text, clean silhouette, "
+                   "highly detailed digital painting, neutral studio lighting"),
+        "negative": (DEFAULT_NEG + ", character sheet, multiple views, multiple figures, border, "
+                     "frame, ornate frame, panel, collage, decorative background"),
         "seed": 1101, "width": 1024, "height": 1024,
         "note": "E3 cutout / E6 sprite / consistency baseline",
     },
@@ -132,7 +135,7 @@ def main():
         print(f"    prompt: {a['prompt']}")
         if args.dry_run:
             continue
-        graph = build_graph(args.ckpt, a["prompt"], DEFAULT_NEG, a["width"], a["height"],
+        graph = build_graph(args.ckpt, a["prompt"], a.get("negative", DEFAULT_NEG), a["width"], a["height"],
                             a["seed"], args.steps, args.cfg, args.sampler, args.scheduler, prefix)
         resp = post("/prompt", {"prompt": graph})
         if "prompt_id" not in resp:
@@ -155,15 +158,27 @@ def main():
                     break
             time.sleep(3)
         print(f"    -> {files or 'TIMEOUT'}")
-        manifest.append({**a, "outputs": files, "ckpt": args.ckpt, "negative": DEFAULT_NEG,
+        manifest.append({**a, "outputs": files, "ckpt": args.ckpt,
+                         "negative": a.get("negative", DEFAULT_NEG),
                          "steps": args.steps, "cfg": args.cfg, "sampler": args.sampler,
                          "scheduler": args.scheduler})
 
     if not args.dry_run:
         mp = Path(args.manifest)
         mp.parent.mkdir(parents=True, exist_ok=True)
-        mp.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-        print(f"manifest -> {mp} ({len(manifest)} assets)")
+        existing = []
+        if mp.exists():
+            try:
+                existing = json.loads(mp.read_text(encoding="utf-8"))
+            except Exception:
+                existing = []
+        by_id = {e["id"]: e for e in existing if isinstance(e, dict) and "id" in e}
+        for e in manifest:
+            by_id[e["id"]] = e
+        merged = [by_id[a["id"]] for a in ASSETS if a["id"] in by_id]
+        merged += [e for k, e in by_id.items() if k not in {a["id"] for a in ASSETS}]
+        mp.write_text(json.dumps(merged, indent=2), encoding="utf-8")
+        print(f"manifest -> {mp} ({len(merged)} assets)")
 
 
 if __name__ == "__main__":
