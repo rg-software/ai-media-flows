@@ -1,11 +1,11 @@
 {
- "last_node_id": 8,
- "last_link_id": 10,
+ "last_node_id": 10,
+ "last_link_id": 12,
  "nodes": [
   {
    "id": 1,
    "type": "CheckpointLoaderSimple",
-   "pos": [-1100, 0],
+   "pos": [-1180, 0],
    "size": [340, 100],
    "flags": {},
    "order": 0,
@@ -22,7 +22,7 @@
   {
    "id": 2,
    "type": "CLIPTextEncode",
-   "pos": [-740, -200],
+   "pos": [-800, -220],
    "size": [440, 150],
    "flags": {},
    "order": 1,
@@ -35,7 +35,7 @@
   {
    "id": 3,
    "type": "CLIPTextEncode",
-   "pos": [-740, 60],
+   "pos": [-800, 60],
    "size": [440, 130],
    "flags": {},
    "order": 2,
@@ -48,7 +48,7 @@
   {
    "id": 4,
    "type": "EmptyLatentImage",
-   "pos": [-740, 260],
+   "pos": [-800, 260],
    "size": [300, 120],
    "flags": {},
    "order": 3,
@@ -61,7 +61,7 @@
   {
    "id": 5,
    "type": "KSampler",
-   "pos": [-340, 0],
+   "pos": [-400, 0],
    "size": [320, 262],
    "flags": {},
    "order": 4,
@@ -79,7 +79,7 @@
   {
    "id": 6,
    "type": "VAEDecode",
-   "pos": [40, 0],
+   "pos": [-20, 0],
    "size": [240, 60],
    "flags": {},
    "order": 5,
@@ -88,27 +88,27 @@
     {"name": "samples", "type": "LATENT", "link": 7},
     {"name": "vae", "type": "VAE", "link": 8}
    ],
-   "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [9], "slot_index": 0}],
+   "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [9, 11], "slot_index": 0}],
    "properties": {"Node name for S&R": "VAEDecode"},
    "widgets_values": []
   },
   {
    "id": 7,
-   "type": "PixelArtDetectorToImage",
-   "pos": [340, 0],
-   "size": [300, 100],
+   "type": "ImageScale",
+   "pos": [280, -140],
+   "size": [300, 130],
    "flags": {},
    "order": 6,
    "mode": 0,
-   "inputs": [{"name": "images", "type": "IMAGE", "link": 9}],
+   "inputs": [{"name": "image", "type": "IMAGE", "link": 9}],
    "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [10], "slot_index": 0}],
-   "properties": {"Node name for S&R": "PixelArtDetectorToImage"},
-   "widgets_values": [true, 16]
+   "properties": {"Node name for S&R": "ImageScale"},
+   "widgets_values": ["nearest-exact", 64, 64, "disabled"]
   },
   {
    "id": 8,
    "type": "SaveImage",
-   "pos": [700, -60],
+   "pos": [640, -240],
    "size": [380, 300],
    "flags": {},
    "order": 7,
@@ -116,7 +116,33 @@
    "inputs": [{"name": "images", "type": "IMAGE", "link": 10}],
    "outputs": [],
    "properties": {"Node name for S&R": "SaveImage"},
-   "widgets_values": ["2D/E5/pixel_art"]
+   "widgets_values": ["2D/E5/pixel_64"]
+  },
+  {
+   "id": 9,
+   "type": "PixelArtDetectorToImage",
+   "pos": [280, 60],
+   "size": [300, 100],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [{"name": "images", "type": "IMAGE", "link": 11}],
+   "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [12], "slot_index": 0}],
+   "properties": {"Node name for S&R": "PixelArtDetectorToImage"},
+   "widgets_values": [true, 16]
+  },
+  {
+   "id": 10,
+   "type": "SaveImage",
+   "pos": [640, 60],
+   "size": [380, 300],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [{"name": "images", "type": "IMAGE", "link": 12}],
+   "outputs": [],
+   "properties": {"Node name for S&R": "SaveImage"},
+   "widgets_values": ["2D/E5/pixel_64_pal16"]
   }
  ],
  "links": [
@@ -129,10 +155,13 @@
   [7, 5, 0, 6, 0, "LATENT"],
   [8, 1, 2, 6, 1, "VAE"],
   [9, 6, 0, 7, 0, "IMAGE"],
-  [10, 7, 0, 8, 0, "IMAGE"]
+  [10, 7, 0, 8, 0, "IMAGE"],
+  [11, 6, 0, 9, 0, "IMAGE"],
+  [12, 9, 0, 10, 0, "IMAGE"]
  ],
  "groups": [
-  {"title": "Retro Diffusion 24x-64x (512² = 64×64 sprite) + palette reduce. Other models: 16x @256² (simple subjects only), 128x @1024² (detailed items).", "bounding": [-1160, -260, 2260, 660], "color": "#8A8A3f", "font_size": 22, "flags": {}}
+  {"title": "Retro Diffusion grid: the model emits a BLOCKY canvas that must be downscaled by NEAREST. Block = 16px for 16x(256²) and 8px for 24x-64x(512²)/128x(1024²) -> art = 16x16 / 64x64 / 128x128. So set the ImageScale size accordingly.", "bounding": [-1240, -300, 2320, 480], "color": "#3f789e", "font_size": 20, "flags": {}},
+  {"title": "Palette branch: PixelArtDetectorToImage auto-detects the grid AND reduces colours. Verified exact (== NEAREST/8) for 512² and 1024², BUT it mis-detects 16x(256²) as 32x32. Also NOT idempotent — never feed it an already-downscaled image.", "bounding": [260, 20, 800, 440], "color": "#8A8A3f", "font_size": 20, "flags": {}}
  ],
  "config": {},
  "extra": {},
