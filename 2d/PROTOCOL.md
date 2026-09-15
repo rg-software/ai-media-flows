@@ -76,10 +76,12 @@ Visual judgement is ground truth; use numbers as a cheap cross-check, not a repl
 git pull
 python scripts/gen_assets.py --token "$(head -1 ~/Projects-Git/ComfyUI/login/PASSWORD)"
 
-# publish the accepted set to the versioned repo copy
-mkdir -p assets/2d
-for id in char_knight prop_chest env_cottage bg_forest tex_stone; do
-  cp -f ~/Projects-Git/ComfyUI/input/2d/$id.png assets/2d/$id.png
-done
-git add assets/2d && git commit -m "assets: 2d E1b concept art set" && git push
+# publish ComfyUI input/2d/ -> repo assets/2d/ (verifies md5; see script header)
+scripts/publish_assets.sh
+git add assets/2d && git commit -m "assets: <what>" && git push
 ```
+
+**Always publish through the script.** Promotion is a separate step from generation, and skipping
+it leaves *stale* assets in the repo while the ComfyUI copy looks right — that is exactly what
+happened in E1d (repo `char_knight` stayed the old two-view E1b image). The script verifies hashes
+so this cannot pass silently.
