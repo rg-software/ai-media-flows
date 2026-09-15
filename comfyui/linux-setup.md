@@ -3,7 +3,10 @@
 Target box: `rg_software@Beelink`, Ubuntu 26.04.1 LTS, RTX 3090, driver 595.91.07 / CUDA 13.2, 850 GB free.
 Python 3.14.4 is default (too new); we install **Python 3.11** (best-compatible for torch + ComfyUI nodes).
 
-Status: ComfyUI NOT installed yet. This is a fresh, clean setup.
+Status: **installed and running** (2026-09-15). This file started as the plan; where it
+disagrees with reality, trust the working notes below (and `HANDOFF.md`). Actual deviations:
+torch is **2.11.0+cu128** (not cu130) because comfy-kitchen 0.2.33 needs it; `custom_rasterizer`
+was **built from source** (nvcc 12.8 header-patch), not installed from a wheel.
 
 ## 1. Python 3.11
 
@@ -77,6 +80,47 @@ git clone https://github.com/rg-software/ai-gamedev-tasks.git
 4. `hy3d-multiview`.
 5. UniRig rigging — re-attempt (was Windows-bpy-blocked).
 6. SDXL 2D base art.
+
+## 8. Service and remote access
+
+### ComfyUI runs as a systemd *user* service
+Deployed unit: `~/.config/systemd/user/comfyui.service` (versioned copy: `comfyui/comfyui.service`).
+It is `enabled` and `active`; the process is `venv/bin/python main.py --listen --disable-api-nodes`
+on `0.0.0.0:8188`.
+
+```bash
+systemctl --user status comfyui        # active (running)
+systemctl --user restart comfyui       # NO sudo
+journalctl --user -u comfyui -f
+```
+`sudo systemctl restart comfyui` reports **not-found** — that's system scope; the unit is user scope.
+Do not add a sudoers rule for this; none is needed.
+
+**Linger is OFF** (`loginctl show-user rg_software` → `Linger=no`), so the service does not start
+at boot until someone logs in. Fix once:
+```bash
+sudo loginctl enable-linger rg_software
+```
+
+### Network topology (why SSH is indirect)
+- Front router forwards all HTTPS to **Synology `192.168.1.40`**; nginx there (in Docker)
+  routes by hostname to the **Beelink `192.168.1.46`** (`:8188`).
+- The Synology runs sshd on **port 5022** (public). Its `AllowTcpForwarding no` blocks `-J`/ProxyJump.
+- The Beelink's sshd listens on `:22` but is not forwarded to the internet.
+
+Agent access therefore chains: **Windows → Synology:5022 → nested SSH → Beelink:22.**
+```bash
+# from the Windows dev box (key authorized on the Synology)
+ssh -p 5022 rg_software@rt247a.ddns.me \
+  "ssh -i ~/.ssh/beelink rg_software@192.168.1.46 '<command>'"
+```
+A dedicated ed25519 key (`~/.ssh/beelink` on the Synology, comment `synology-to-beelink`) is
+authorized on the Beelink. For non-trivial remote scripts, base64-encode to avoid quoting issues:
+```bash
+# powershell
+$b64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($script))
+# then: ssh ... "ssh -i ~/.ssh/beelink rg_software@192.168.1.46 'echo $b64 | base64 -d | bash'"
+```
 
 ## Repo docs to consult
 - `comfyui/linux-migration.md` (carry vs re-provision)

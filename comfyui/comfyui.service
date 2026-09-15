@@ -1,0 +1,40 @@
+# ComfyUI — systemd *user* service (as deployed on Beelink, cleaned).
+#
+# NOTE: this is a USER unit. Manage it with `systemctl --user`, never with sudo:
+#   systemctl --user status  comfyui
+#   systemctl --user restart comfyui
+#   journalctl --user -u comfyui -f
+# `sudo systemctl ... comfyui` looks at SYSTEM scope and says "not-found" —
+# that is the trap that made "restart comfy" appear broken.
+#
+# Install (once):
+#   mkdir -p ~/.config/systemd/user
+#   cp comfyui.service ~/.config/systemd/user/comfyui.service
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now comfyui
+#   sudo loginctl enable-linger rg_software   # start at boot WITHOUT an interactive login
+#
+# The deployed copy additionally had `User=`/`Group=` lines; those are invalid in a
+# user unit (ignored) and are dropped here. Paths are hardcoded to rg_software's home;
+# `%h` could be used instead for portability.
+
+[Unit]
+Description=ComfyUI
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/home/rg_software/Projects-Git/ComfyUI
+ExecStart=/home/rg_software/Projects-Git/ComfyUI/venv/bin/python main.py --listen --disable-api-nodes
+
+Restart=on-failure
+RestartSec=5
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+# NoNewPrivileges=true
+# PrivateTmp=true
+# (kept in the deployed unit; PrivateTmp can break custom nodes that expect a shared /tmp)
+
+[Install]
+WantedBy=default.target
