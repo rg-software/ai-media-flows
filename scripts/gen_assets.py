@@ -22,7 +22,7 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-DEFAULT_CKPT = "sd_xl_base_1.0.safetensors"
+DEFAULT_CKPT = "RealVisXL_V5.0_fp16.safetensors"  # chosen in E1c (best detail, frames full-body solo)
 DEFAULT_NEG = ("blurry, lowres, text, watermark, signature, jpeg artifacts, "
                "deformed, extra limbs, cropped")
 
