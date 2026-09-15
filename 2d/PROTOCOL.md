@@ -23,6 +23,12 @@ workflows can reference them by name.
 Conventions: plain/neutral background for cutout assets; no text/watermarks; SDXL native 1024²
 (wide formats and outpaint are E9's job, not E1's).
 
+Derived assets (produced by later stages, also versioned under `assets/2d/`):
+
+| id | produced by | note |
+|---|---|---|
+| `prop_chest_cutout` | E3 `workflows/remove-bg.json` | RGBA cutout of `prop_chest` (BiRefNet) |
+
 ## 2. Run protocol
 
 - **One knob at a time.** When tuning, vary a single parameter and hold everything else fixed

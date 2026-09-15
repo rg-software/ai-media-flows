@@ -1,9 +1,9 @@
 # ComfyUI — index & server map
 
-The ComfyUI server is the workhorse behind every scenario in this repo. Server is **remote** (Windows), accessed over https.
+The ComfyUI server is the workhorse behind every scenario in this repo. Server is **remote** (Linux box — see `linux-setup.md`), accessed over HTTPS.
 
 - Server URL / password: ask the user (not stored here).
-- The remote instance has **1,759 nodes** registered at last count — most of the "studio" providers (Tripo, Hy3D, Meshy, Rodin, MoGe) are available as nodes, not just an API.
+- The remote instance has **1,034 nodes** registered at last count (Linux box, 2026-09-15); the "studio" providers (Tripo, Hy3D, Meshy, Rodin, MoGe) are nodes, not just an API.
 
 ## Docs in this folder (general = not scenario-specific)
 
@@ -16,16 +16,28 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
 
 ## Server runtime facts (reproducibility)
 
-- Path: `C:\Projects-Git\ComfyUI\` on the server; embedded Python at `C:\Projects-Git\ComfyUI\python_embeded\python.exe`.
-- Python **3.13.12**, torch **2.13.0+cu130**, RTX 3090 (24 GB).
-- ComfyUI v0.27.0; frontend package 1.45.20.
-- Login: ComfyUI-Login plugin (POST `/login`, cookie `AIOHTTP_SESSION`), user `rg_software`.
-- Several custom node packs already installed — most relevant to 3D listed in `../3d/README.md`.
+- Path: `~/Projects-Git/ComfyUI` on the Linux box; venv `./venv/bin/python` (**Python 3.11.16**).
+- torch **2.11.0+cu128**, RTX 3090 (24 GB), Ubuntu 26.04 / driver 595.91.07.
+- systemd **user** unit `comfyui` (`systemctl --user restart comfyui`; no sudo).
+- Login: ComfyUI-Login plugin; API calls need `?token=<first line of login/PASSWORD>`.
+- Custom node packs: ACN (`comfyui_controlnet_aux`), KJNodes, Hy3D wrapper, UniRig, ComfyUI-Login, ComfyUI-Manager, CameraPack.
+
+## Node gotchas
+
+- **MASK convention is "1 = transparent/selected"**, not "1 = keep". Concretely:
+  - core `JoinImageWithAlpha` → `alpha = 1.0 - mask`
+  - KJNodes `SaveImageWithAlpha` → `a = 255 * (1.0 - mask)`
+  - core `SplitImageWithAlpha` → returns `1.0 - alpha`
+  - So to turn a **foreground** mask (e.g. `RemoveBackground`, which sets 1 on the subject)
+    into cutout alpha, you must insert **`InvertMask`** first. Skipping it yields a perfectly
+    inverted cutout (background kept, subject transparent) — verified in E3.
+- `SaveImageWithAlpha` is **KJNodes**, not core; core has `SplitImageWithAlpha`/`JoinImageWithAlpha`.
 
 ## How to talk to it programmatically
 
-- POST `/login` with password → capture `AIOHTTP_SESSION` cookie.
 - `GET /system_stats`, `GET /object_info` (node schemas — the ground truth for inputs/outputs/widget names), `POST /prompt` (queue a workflow).
+- **Auth**: append `?token=<token>` where token = first line of `~/Projects-Git/ComfyUI/login/PASSWORD`. (`POST /login` expects **form** data; sending JSON returns 500.)
+- `POST /prompt` takes **API format** (`{node_id: {class_type, inputs}}`), not the GUI graph JSON.
 - Node schema is the source of truth: whenever in doubt about a node's inputs/option values, read `/object_info` rather than trusting memory.
 
 ## Convention
