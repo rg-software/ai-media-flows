@@ -21,24 +21,27 @@ Working notes + a growing knowledge base for using generative-AI in game develop
 ```
 ai-gamedev-tasks/
 ├── AGENTS.md                    ← this file
+├── HANDOFF.md                   ← Linux box handoff: env, blockers, next steps
 ├── assets/                      ← shared test inputs (images, refs)
 ├── scripts/                     ← helper scripts (find-pythons.bat, ...)
 ├── comfyui/                     ← general ComfyUI knowledge (not scenario-specific)
 │   ├── README.md                ← index + server map
 │   ├── setup.md                 ← install/run, caveats, Linux migration notes
 │   ├── environments.md          ← comfy-env / pixi isolation, per-node envs
+│   ├── linux-setup.md           ← Ubuntu 26.04 + 3090 install/restore commands
+│   ├── linux-migration.md       ← what carries over vs re-provision
 │   └── workflow-file-format.md  ← the ComfyUI .json workflow schema (nodes/links/widgets)
-├── 3d/                          ← 3D asset generation scenario
+├── 3d/                          ← 3D asset generation scenario (complete)
 │   ├── README.md                ← scenario index + workflow map
 │   ├── cookbook-3d-assets.md    ← reference: models per 3D task (superseded by pipeline-design)
 │   ├── pipeline-design.md       ← architecture: free-first + pay-per-stage, GLB gate
-│   ├── EXPLORATION.md             ← run log (E1 ... En)
-│   ├── setup-hy3d.md              ← Hy3D wrapper + weights install (3d-specific)
-│   └── workflows/                 ← *valuable* workflow .json files here
-│       └── scratch/               ← one-off/scaffolding workflows (archive, don't maintain)
-├── 2d/                            ← 2D asset generation scenario
-│   ├── README.md                  ← scenario index + workflow map + server model inventory
-│   └── EXPERIMENTS-2D.md          ← run log (E1 ... En)
+│   ├── EXPERIMENTS.md           ← run log (E1 ... En)
+│   ├── setup-hy3d.md            ← Hy3D wrapper + weights install (3d-specific)
+│   └── workflows/               ← *valuable* workflow .json files here
+│       └── scratch/             ← one-off/scaffolding workflows (archive, don't maintain)
+├── 2d/                          ← 2D asset generation scenario (active)
+│   ├── README.md                ← scenario index + workflow map + server model inventory
+│   └── EXPERIMENTS-2D.md        ← run log (E1 ... En)
 └── <future scenario folders>    ← animation, audio, text, ... as we get there
 ```
 
@@ -52,11 +55,17 @@ ai-gamedev-tasks/
 
 ## Status (2026-09-11)
 
+**Current phase: 3D done → switching to 2D.** The 3D scenario reached "working + understood" (shape, multiview, texture bake, retopo, rigging, Unity import all PASS on Linux), so effort moves to the 2D asset scenario. 3D stays maintained, not extended, unless a task needs it.
+
 - **3d/** — complete: E1–E5 PASS + **E4 rigging UNBLOCKED on Linux** (2026-09-11, E4-L): `ComfyUI-UniRig` provides bpy 4.2 LTS via conda/pixi; rigs humanoid GLB → Mixamo FBX in ~90s. Rasterizer texture bake **works on Linux** (nvcc 12.8 header-patch build). All smoke (shape/multiview/texture/MoGe/2D) green.
-- **2d/** — scenario started; E1 SDXL base art PASS on Linux. ControlNet + E2–E7 pending.
+  - Open (low priority): rig a *generated* humanoid + `UniRigApplyAnimation` templates; package `custom_rasterizer` as a manylinux wheel; E3 Tripo bridge (needs API key).
+- **2d/** — **active scenario**. E1 SDXL base art PASS on Linux. Next: E2 ControlNet (weights to pull) → E3–E7 per `2d/README.md`.
 
 URL/password live with the user. Runtime facts that matter for reproducibility:
 
-- Host: Windows (`C:\Projects-Git\ComfyUI\...`), embedded Python **3.13.12**, torch **2.13.0+cu130**, RTX 3090 (24 GB).
-- Custom nodes live under `custom_nodes\` on the server; several are already installed (see `comfyui/README.md`).
-- The `custom_rasterizer` extension was compiled locally (MSVC 2022, CUDA 13.0) and shipped as a `.pyd`; see `comfyui/environments.md` + `3d/EXPERIMENTS.md` E2b.
+- Host: **Linux** — Ubuntu 26.04.1 LTS, `rg_software@Beelink`, RTX 3090 (24 GB), driver 595.91.07 / CUDA 13.2.
+- ComfyUI: `~/Projects-Git/ComfyUI`; venv `./venv/bin/python` (**Python 3.11.16**), torch **2.11.0+cu128**, comfy-kitchen 0.2.33.
+- Launch: `./venv/bin/python main.py --listen --disable-api-nodes`; systemd unit `comfyui.service` (see `HANDOFF.md`).
+- Custom nodes live under `custom_nodes/`; installed: Hy3D wrapper, MoGe, UniRig (own pixi env, bpy 4.2 LTS), KJNodes, ComfyUI-Manager v3.41.
+- `custom_rasterizer` is built **from source on this box** (nvcc 12.8 header-patch in conda env `cuda128`, gcc-13, `TORCH_CUDA_ARCH_LIST=8.6`); recipe in `HANDOFF.md` + `3d/EXPERIMENTS.md`. Do NOT use nvcc 13.2 (torch 2.11+cu128 hard-errors on the major mismatch).
+- Old Windows host (retired): embedded Python 3.13.12, torch 2.13.0+cu130, MSVC-compiled `.pyd`. Kept only as history; see `comfyui/environments.md` + E2b.
