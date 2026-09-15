@@ -22,7 +22,7 @@ Working notes + a growing knowledge base for using generative-AI in game develop
 ai-gamedev-tasks/
 ├── AGENTS.md                    ← this file
 ├── HANDOFF.md                   ← Linux box handoff: env, blockers, next steps
-├── assets/                      ← shared test inputs (images, refs)
+├── assets/                      ← shared test inputs; assets/2d/ = curated concept art (tracked)
 ├── scripts/                     ← helper scripts (find-pythons.bat, ...)
 ├── comfyui/                     ← general ComfyUI knowledge (not scenario-specific)
 │   ├── README.md                ← index + server map

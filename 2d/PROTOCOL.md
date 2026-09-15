@@ -48,8 +48,11 @@ Visual judgement is ground truth; use numbers as a cheap cross-check, not a repl
 
 - Raw outputs → ComfyUI `output/2D/<E#>/<id>_00001_.png` (transient, gitignored).
 - Accepted assets → ComfyUI `input/2d/<id>.png` (stable names for downstream workflows).
+- **Canonical concept art is versioned in the repo** at `assets/2d/<id>.png` (same `<id>` as above;
+  `assets/*` is gitignored except `assets/2d/`). This is the durable copy — the ComfyUI `input/`
+  copy can be re-derived from it.
 - Pipeline workflows → `2d/workflows/`; scaffolding → `2d/workflows/scratch/`.
-- Never commit binaries/weights (`.gitignore` handles `assets/*`, `output/`, model files).
+- Never commit model weights (`.gitignore` blocks `*.safetensors`, `*.ckpt`, etc.).
 
 ## 5. Reproduce from scratch
 
@@ -57,4 +60,11 @@ Visual judgement is ground truth; use numbers as a cheap cross-check, not a repl
 # on the ComfyUI box, in the repo clone
 git pull
 python scripts/gen_assets.py --token "$(head -1 ~/Projects-Git/ComfyUI/login/PASSWORD)"
+
+# publish the accepted set to the versioned repo copy
+mkdir -p assets/2d
+for id in char_knight prop_chest env_cottage bg_forest tex_stone; do
+  cp -f ~/Projects-Git/ComfyUI/input/2d/$id.png assets/2d/$id.png
+done
+git add assets/2d && git commit -m "assets: 2d E1b concept art set" && git push
 ```
