@@ -39,4 +39,9 @@ Same methodology as `3d/`:
 
 ## Docs
 
+- `ROADMAP-2D.md` — the **bigger picture**: tracks beyond isolated assets (inpaint, outpaint,
+  composition, IPAdapter/reference transfer, consistency, finishing) + the full E-number backlog.
+- `EXPERIMENTS-2D.md` — run log (verdicts with *why*).
+- `workflows/` — valuable pipelines; `workflows/scratch/` — scaffolding.
+
 (this README grows as experiments land)
