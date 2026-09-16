@@ -42,6 +42,7 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 |---|---|---|---|---|---|---|---|
 | `2d/workflows/z-image-turbo.json` | generate | object/scene | image | Z-Image 6B | **Apache 2.0** | 8 steps, cfg 1.0, `res_multistep`; `CLIPLoader type="lumina2"`; **photoreal lean** | **PASS** (U3) |
 | `2d/workflows/qwen-edit-gguf.json` | edit | scene/object | image | Qwen GGUF Q4 | **Apache 2.0** | GGUF 12.3 GB fits (fp8 19.6 GB froze the box); **faithful** edits, 380 s | **PASS** (U2) |
+| `2d/workflows/regional-prompting.json` | guide | scene | image | free | core | `ConditioningSetAreaPercentage` per region + `ConditioningCombine`; **fixes subject dropout** (a single prompt lost one subject) | **PASS** (E15) |
 | `2d/workflows/sdxl-base-art.json` | generate | object/scene | image | free | OpenRAIL++ | checkpoint, cfg, steps; **SDXL now a niche pick — see U3** | **PASS** (E1/E1c/E1d) |
 | `2d/workflows/sdxl-controlnet-canny.json` | guide | object/scene | image | free | OpenRAIL++ | `strength` (0.8), canny thresholds | **PASS** (E2b) |
 | `2d/workflows/ipadapter-style.json` | guide | object/scene | image | free | (verify) | **IPAdapter `weight` 0.2–0.4 style / ≥0.6 takeover** | **PASS** (E11) |
@@ -70,7 +71,7 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 |---|---|---|
 | isolate | ~~E12 depth/normal/SAM masks~~ **done** | depth+normal landed; SAM masks still open |
 | surface | ~~E12b texture → PBR set~~ **done (caveat: metallic)** | `QFXPBRGenerator`; the 2D↔3D crossover |
-| edit | ~~E9~~ · ~~E10~~ · ~~E13~~ · ~~E14 consistency~~ **done** · E15 regional next | **Flux.1 Kontext fp8 + InstantID added 2026-09-16** — the box is no longer SD1.5/SDXL-only. Matching tool to job: Kontext = design/scene edit, InstantID = faces |
+| edit | ~~E9~~ · ~~E10~~ · ~~E13~~ · ~~E14 consistency~~ **done** · E15 regional **done (fixes subject dropout)** | E16 batch next | **Flux.1 Kontext fp8 + InstantID added 2026-09-16** — the box is no longer SD1.5/SDXL-only. Matching tool to job: Kontext = design/scene edit, InstantID = faces |
 | finish | E13 face restore | CodeFormer linked but unrun, **and likely non-commercial** — verify or use SeedVR2 (U1) |
 
 ## Upgrade backlog

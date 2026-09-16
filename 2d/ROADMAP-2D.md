@@ -27,11 +27,11 @@ backlog** (see `AUDIT-tooling-2026-09.md`).
 | **C** | Composition | `scripts/compose_scene.py` + CropAndStitch harmonize | **E10 PASS** |
 | **D** | Image→image / references | IPAdapter-plus SDXL; Flux Kontext multi-reference | **E11, E14a PASS** |
 | **E** | Character consistency | InstantID + insightface; Kontext design refs | **E14 PASS** |
-| **F** | Regional / multi-ref | attention-couple / conditioning-set-mask | **E15 open** |
+| **F** | Regional / multi-ref | core `ConditioningSetAreaPercentage` + `ConditioningCombine` | **E15 PASS** |
 | **G** | Masking / utility | BiRefNet, DepthAnythingV2, DSINE | **E3, E12 PASS** (SAM still open) |
 | **H** | Finishing | Flux Kontext relight, 4x-UltraSharp, CodeFormer (linked, unrun) | **E13 PASS** |
 | **I** | Text / UI | — (Flux text encoders now present, no generation model yet) | **open** |
-| **J** | Batch / consistency system | XY plots, seeded grids | **E16 open** |
+| **J** | Batch / consistency system | XY plots, seeded grids | **E16 open — next** |
 
 ## Backlog — experiments
 
@@ -50,8 +50,8 @@ backlog** (see `AUDIT-tooling-2026-09.md`).
 - [x] **E13** finishing/relight (Kontext) · **E14** consistency (Kontext vs InstantID)
 
 ### Remaining in order
-- [ ] **E15 — Regional / multi-subject.** Regional prompting / attention-couple; multiple characters.
-- [ ] **E16 — Batch/iteration system.** XY plots, seeds, prompt grids — the "sheet" primitive at scale.
+- [x] **E15 - Regional / multi-subject. PASS 2026-09-16.** Core `ConditioningSetAreaPercentage` + `ConditioningCombine` (no install). A single prompt with both subjects **dropped one entirely**; regional rendered both correctly placed (separation 9.9 -> 30.0). `workflows/regional-prompting.json`.
+- [ ] **E16 - Batch/iteration system.** XY plots, seeds, prompt grids - the "sheet" primitive at scale. *(next up; efficiency-nodes / KSampler grid, no install yet)*
 
 ## Upgrade backlog — best-quality & licence-clean
 
