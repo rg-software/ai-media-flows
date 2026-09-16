@@ -80,6 +80,12 @@ downstream steps per GB", licence-clean first. **This list supersedes the old
 - **Licence watch-list** (non-commercial — do not ship output): Flux.1 dev / Kontext dev, SUPIR,
   `4x-UltraSharp`, StableSR, InvSR, insightface pretrained models, CodeFormer (verify).
 
+## 2D→3D bridge (U7)
+
+- [x] **U7. glTF PBR material from 2D maps — DONE 2026-09-16.** `scripts/make_gltf_material.py` turns 2D-generated maps (Marigold albedo/roughness/metallic + DSINE normal) into a **glTF-valid, engine-importable material**, and optionally applies it to a mesh and exports a GLB. Verified from the exported GLB's embedded texture: G=roughness, B=metallic, factors 1.0/1.0.
+- **Not RAM-bound** — everything it uses already fits (Marigold ~2.5 GB, DSINE small, Hy3D mesh). No need to wait for the RAM upgrade.
+- **Open:** no occlusion map (Marigold IID emits no AO — either accept glTF's optional omission, or add a cheap AO estimate); the normal map's green channel is assumed OpenGL (DSINE's default) and `--flip-normal-green` exists for DirectX maps; a visual check in a real engine (Unity/Godot) is still outstanding since this box has none; and the same path should be re-run for a *character* (skin/cloth) to prove it generalises beyond a hard-surface material.
+
 ## Cross-scenario links
 
 - **3D** — E7 tileable + E12 depth/normal maps feed 3D texturing and 2.5D.
