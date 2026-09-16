@@ -59,8 +59,11 @@ Full reasoning and sources: **`AUDIT-tooling-2026-09.md`**. Ordered by "unlocks 
 downstream steps per GB", licence-clean first. **This list supersedes the old
 "dependencies to clear" section.**
 
-- [ ] **U1. SeedVR2** (Apache 2.0, `Comfy-Org/SeedVR2`) — replaces non-commercial `4x-UltraSharp`
-      in E4 and E13, and covers face/photo restoration. Small + immediate licence fix.
+- [x] **U1. SeedVR2 — DONE 2026-09-16** (Apache 2.0, `numz/ComfyUI-SeedVR2_VideoUpscaler` + weights in
+      `models/SEEDVR2/`). Replaces the non-commercial `4x-UltraSharp` in E4 and E13, and covers
+      face/photo restoration. At 2×: more detail (grad-var **137.0 vs 97.7**) but more drift
+      (**2.70 vs 1.29**) and slower (39 s vs 6 s) — it regenerates rather than enlarges.
+      `workflows/upscale-seedvr2.json`.
 - [ ] **U2. Qwen-Image-Edit-2511** (Apache 2.0, `qwen_image_edit_2511_fp8mixed` 19.1 GB) + VL
       encoder + VAE (~28 GB total, shared with U3) — replaces Flux Kontext for E8/E9/E10/E13:
       **native 2K** (kills Kontext's ~1 MP ceiling and its mandatory upscale tail), multi-image

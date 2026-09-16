@@ -29,6 +29,8 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
 
 Plus `models/checkpoints/`: SDXL (RealVisXL_V5.0_fp16 default, juggernautXL, ponyDiffusionV6XL, AnythingXL, sd_xl_refiner, 512-inpainting-ema), SD1.5 (v1-5-pruned, dreamshaper, Deliberate, protogen, chilloutmix, realisticVision, architecturerealmix), RetroDiffusion ×3. ControlNets: SD1.5 depth/openpose/scribble + `xinsir-canny-sdxl-v2`. Upscalers: `4x-UltraSharp`, `RealESRGAN_x4plus`.
 
+**Upscale stack** (added 2026-09-16, U1): **SeedVR2** — node pack `numz/ComfyUI-SeedVR2_VideoUpscaler` (Apache 2.0; 4+ nodes, main = `SeedVR2VideoUpscaler`), weights auto-download to `models/SEEDVR2/`. On disk: `ema_vae_fp16` (0.47 GB), `seedvr2_ema_3b_fp16` (6.32 GB), `seedvr2_ema_7b_fp16` (15.35 GB). Extra pip deps: `rotary_embedding_torch`, `gguf`, `peft`. **`resolution` is the SHORT EDGE, not a multiplier** (1024 input + `resolution=2048` → 2048). **`batch_size` must follow 4n+1** (1 for a single still). `color_correction="lab"` is the highest-fidelity mode. 24 GB → 7B fp16 with no memory tricks; drop to 3B fp16 or 7B fp8 + `blocks_to_swap`/offloading if it OOMs. Still on disk and **non-commercial**: `4x-UltraSharp`.
+
 ## Server runtime facts (reproducibility)
 
 - Path: `~/Projects-Git/ComfyUI` on the Linux box; venv `./venv/bin/python` (**Python 3.11.16**).
