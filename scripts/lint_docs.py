@@ -103,10 +103,20 @@ def lint_file(path: str, rel: str) -> list[str]:
         if "/" in m and re.search(r"\.(json|py|sh|md|png|glb)$", m)
     }
     bases = [os.path.dirname(path), os.path.dirname(os.path.dirname(path)), REPO]
+    def resolves(cand: str) -> bool:
+        """True if cand (or, for a command example like `python scripts/x.py`, its last
+        whitespace-separated token) exists relative to any plausible base."""
+        tries = [cand]
+        if " " in cand:
+            tries.append(cand.split()[-1])
+        return any(
+            os.path.exists(os.path.join(b, t.split("#")[0])) for t in tries for b in bases
+        )
+
     for c in sorted(links):
         if c.startswith(("http://", "https://", "#", "mailto:")):
             continue
-        if not any(os.path.exists(os.path.join(b, c.split("#")[0])) for b in bases):
+        if not resolves(c):
             problems.append(f"{rel} dead link -> {c}")
     for c in sorted(backticks):
         if any(ch in c for ch in "|*{}<>") or c.startswith(("input/", "output/")):
@@ -116,7 +126,7 @@ def lint_file(path: str, rel: str) -> list[str]:
         # look like this, while in-repo refs always have a subdir (workflows/, evidence/).
         if re.fullmatch(r"(2d|3d|2D|3D)/[^/]+\.(png|jpg|jpeg|webp|glb|fbx|obj|stl|ply)", c):
             continue
-        if not any(os.path.exists(os.path.join(b, c.split("#")[0])) for b in bases):
+        if not resolves(c):
             problems.append(f"{rel} dead path -> `{c}`")
     return problems
 
