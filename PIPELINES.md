@@ -56,7 +56,8 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 | `2d/workflows/kontext-character.json` | assemble | object | image | Flux Kontext fp8 | ⚠ non-commercial | 2× `ReferenceLatent` (scene+character); design only, **not** identity (face cos 0.187) | **PASS** (E14a) |
 | `2d/workflows/instantid-character.json` | assemble | object | image | InstantID + SDXL | ⚠ insightface models are non-commercial research | face identity (cos **0.823**); face-only, bust framing | **PASS** (E14b) |
 | `2d/workflows/depth-normal.json` | isolate | object/scene | image | free | Apache | DepthAnythingV2 + DSINE | **PASS** (E12) |
-| `2d/workflows/pbr-from-texture.json` | surface | material | texture→3D | free | (verify) | `QFXPBRGenerator`; **metallic inverted** → replace with Marigold intrinsic (**U4**) | **PASS w/ caveat** (E12b) |
+| `scripts/marigold_pbr.py` | surface | material | texture→3D | free | Apache 2.0 | Marigold intrinsic; **correct metallic**; albedo is de-lit; ≤768 px | **PASS** (U4) |
+| `2d/workflows/pbr-from-texture.json` | surface | material | texture→3D | free | (verify) | `QFXPBRGenerator`; **metallic inverted** — use `marigold_pbr.py` instead | **PASS w/ caveat** (E12b) |
 | `3d/workflows/hy3d-full-workflow.json` | reconstruct | object | 3D | free | (verify) | Hy3D shape→texture→bake | **PASS** (E2a–e) |
 | `3d/workflows/hy3d-multiview-workflow.json` | reconstruct | object | 3D | free | (verify) | mv model + uniform 512² views | **PASS** (E2d) |
 | `3d/workflows/unirig-humanoid-workflow.json` | reconstruct | character | 3D | free | (verify) | UniRig (bpy via pixi) | **PASS** (E4-L) |

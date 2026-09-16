@@ -71,8 +71,10 @@ downstream steps per GB", licence-clean first. **This list supersedes the old
       Also the licence-clean answer for E14 consistency.
 - [ ] **U3. Qwen-Image-2512** (Apache 2.0, 19.0 GB — **reuses U2's encoder/VAE**) — replaces SDXL
       as the base-art model for E1; re-run the E1c shoot-out on a modern footing.
-- [ ] **U4. Marigold intrinsic** (`iid-lighting` / `iid-appearance` — **already on disk**) — fixes
-      E12b's inverted metallic via intrinsic decomposition. No download.
+- [x] **U4. Marigold intrinsic — DONE 2026-09-16** (Apache 2.0; weights were already on disk, so it
+      was **free**). Fixes E12b's inverted metallic: metallic **0.354 with 0 px >0.5** vs QFX's
+      **0.855 / 85.4% >0.5**, and the albedo is properly de-lit. `scripts/marigold_pbr.py`. Note
+      `kijai/ComfyUI-Marigold` is depth-only — this needs a diffusers script.
 - [ ] **U5. PuLID-Flux** — licence-cleaner and far less pose-locked than InstantID; **check the
       insightface terms first**, since that is the real restriction.
 - [ ] **U6. Smaller follow-ups:** E2 ControlNet-Union SDXL (one model, many modes); E11 style via

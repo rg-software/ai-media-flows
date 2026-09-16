@@ -43,6 +43,7 @@ Derived assets (produced by later stages, also versioned under `assets/2d/`):
 | `env_mountains_style` | E11 `workflows/ipadapter-style.json` | style transfer (mountains in the forest's palette), IPAdapter weight 0.4 |
 | `env_cottage_wide` | E9 `workflows/outpaint.json` | 2048×1024 2:1 outpaint of `env_cottage` (+50%/side); original region pixel-identical |
 | `tex_stone_pbr_{basecolor,normal,roughness,ao,orm}` | E12b `workflows/pbr-from-texture.json` | PBR set from `tex_stone_seamless`; **metallic map is suspect/inverted** |
+| `tex_stone_marigold_{albedo,roughness,metallic}` | U4 `scripts/marigold_pbr.py` | **corrected** PBR from the same texture: metallic 0.354 (0 px >0.5) vs QFX's 0.855; albedo is de-lit. Prefer these. |
 | `scene_cottage_knight` | E10 `scripts/compose_scene.py` + `workflows/compose-harmonize.json` | knight + chest placed on `env_cottage_wide`, harmonized at denoise 0.45; placement scripted, lighting blended |
 | `scene_cottage_knight_golden` | E13 `workflows/kontext-edit.json` | Flux Kontext relight (warm late-afternoon sun) + 4x-UltraSharp restore to 2048×1024 |
 | `scene_forest_sorceress` | E14a `workflows/kontext-character.json` | heroine placed in `bg_forest` by Kontext reference — design consistency (face cos 0.187) |
