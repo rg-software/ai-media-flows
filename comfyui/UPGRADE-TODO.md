@@ -43,16 +43,52 @@ Then reboot once and re-check `free -h` to confirm it comes back automatically.
 The single change that alters what is possible: offloading becomes safe, **Qwen-Image 20B fp8
 (27.5 GB) becomes runnable**, FLUX.2 dev INT4 becomes plausible, and the freeze class disappears.
 
-**Buy:** 2× **48 GB DDR5-5600 SO-DIMM** (non-ECC). The GTi14 officially supports 96 GB
-(2×48 GB) at DDR5-5600. The box currently holds 2×16 GB, so it is a straight replacement —
-no slot to free. Match the existing speed (5600 MT/s); faster will downclock.
+### What is in there now (read 2026-09-16, no sudo needed — see below)
 
-**Fit:** GTi14 Ultra, 158×158×56 mm — the two SO-DIMM slots are accessible from the bottom panel.
+| | |
+|---|---|
+| Configuration | **2 × 16 GB DDR5-5600 SO-DIMM, BOTH SLOTS OCCUPIED** (dual-channel) |
+| Total | 32 GB |
+| Likely part | **Crucial `CT16G56C46S5`** (Beelink ships Crucial; a CPU-Z record for this exact CPU shows a 2×16 GB config of that part) |
 
-**Verify**
+So there is **no free slot** — reaching 64/96 GB means **replacing both sticks**, not adding one.
+
+*How this was read without root:* `dmidecode` needs sudo, but **EDAC** does not —
+`/sys/devices/system/edac/mc/mc*/dimm*/size` showed four entries of 8192 MB. DDR5 SO-DIMMs carry
+two 32-bit sub-channels each, so 2 physical sticks appear as 4 EDAC "DIMMs" (which is also why
+Meteor Lake reports as "quad channel"). Note EDAC mislabels DDR5 as `Unbuffered-DDR3` — ignore that.
+
+**For exact part numbers / serials / configured speed, run once with sudo:**
+```bash
+sudo dmidecode -t memory | grep -Ei 'size|speed|manufacturer|part number|serial|rank|locator'
+```
+
+### What to buy
+
+The Core Ultra 9 185H officially supports **96 GB max, DDR5-5600** (Intel spec), and the GTi14 has
+**2 SO-DIMM slots, max 48 GB per slot**.
+
+| target | kit | part number | note |
+|---|---|---|---|
+| **96 GB** ⭐ | 2× 48 GB DDR5-5600 SODIMM | **Crucial `CT2K48G56C46S5`** | Intel's documented maximum; CL46, 1.10 V, 262-pin, non-ECC |
+| 64 GB | 2× 32 GB DDR5-5600 SODIMM | Crucial `CT2K32G56C46S5` | cheaper, still clears Qwen fp8 comfortably |
+| — | alternatives | Kingston `KVR56S46BD8K2-96` / Corsair `CMSX96GX5M2B5600C44` | same class |
+
+**Caveat, and why it doesn't matter for us:** 48 GB modules are **dual-rank (`2Rx8`)**, which is
+harder on the memory controller — this kit is documented to run at 5600 **or downclock to
+5200/4800** depending on the platform. Meteor Lake with 2×48 GB may therefore land below 5600.
+**That is irrelevant to our workload.** We are buying *capacity* to hold offloaded model weights,
+not bandwidth; diffusion inference is not memory-bandwidth-bound. Capacity is the whole point.
+
+Prices vary a lot by region — check locally before ordering.
+
+**Fit:** GTi14 Ultra, 158×158×56 mm; the two SO-DIMM slots are behind the bottom panel.
+
+**Verify after install**
 ```bash
 free -h                              # Mem: should total ~94Gi
-sudo dmidecode -t memory | grep -E 'Size|Speed|Locator'   # 2×48GB @ 5600
+sudo dmidecode -t memory | grep -Ei 'size|configured memory speed|part number'
+#   expect 2x 48GB; note the *Configured* speed (5200/4800 is fine and expected)
 ```
 
 ### Task 2b — ⚠ raise the ComfyUI memory guard to match (do NOT skip)
