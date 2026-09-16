@@ -64,7 +64,7 @@ downstream steps per GB", licence-clean first. **This list supersedes the old
       face/photo restoration. At 2×: more detail (grad-var **137.0 vs 97.7**) but more drift
       (**2.70 vs 1.29**) and slower (39 s vs 6 s) — it regenerates rather than enlarges.
       `workflows/upscale-seedvr2.json`.
-- [ ] **U2. Qwen-Image-Edit-2511** (Apache 2.0, `qwen_image_edit_2511_fp8mixed` 19.1 GB) + VL
+- [ ] **U2. Qwen-Image-Edit-2511 — BLOCKED (fp8 does not fit this box; hard-freezes it. Needs GGUF quant or more RAM; see comfyui/README.md 'Hardware ceiling')** (Apache 2.0, `qwen_image_edit_2511_fp8mixed` 19.1 GB) + VL
       encoder + VAE (~28 GB total, shared with U3) — replaces Flux Kontext for E8/E9/E10/E13:
       **native 2K** (kills Kontext's ~1 MP ceiling and its mandatory upscale tail), multi-image
       refs, multi-person fusion, native ControlNet, and a **`Relight` LoRA** (0.2 GB).

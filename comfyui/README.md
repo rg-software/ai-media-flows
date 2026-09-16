@@ -31,6 +31,43 @@ Plus `models/checkpoints/`: SDXL (RealVisXL_V5.0_fp16 default, juggernautXL, pon
 
 **Upscale stack** (added 2026-09-16, U1): **SeedVR2** — node pack `numz/ComfyUI-SeedVR2_VideoUpscaler` (Apache 2.0; 4+ nodes, main = `SeedVR2VideoUpscaler`), weights auto-download to `models/SEEDVR2/`. On disk: `ema_vae_fp16` (0.47 GB), `seedvr2_ema_3b_fp16` (6.32 GB), `seedvr2_ema_7b_fp16` (15.35 GB). Extra pip deps: `rotary_embedding_torch`, `gguf`, `peft`. **`resolution` is the SHORT EDGE, not a multiplier** (1024 input + `resolution=2048` → 2048). **`batch_size` must follow 4n+1** (1 for a single still). `color_correction="lab"` is the highest-fidelity mode. 24 GB → 7B fp16 with no memory tricks; drop to 3B fp16 or 7B fp8 + `blocks_to_swap`/offloading if it OOMs. Still on disk and **non-commercial**: `4x-UltraSharp`.
 
+## Hardware ceiling — what will and won't run on this box
+
+Host is an **AZW GTi14 mini-PC**: Intel Core Ultra 9 185H (Meteor Lake), **31 GB RAM**, **512 MB swap**,
+RTX 3090 **24 GB** on a PCIe **x8** link, power limit 370 W. The binding constraint is **not** VRAM —
+it is **host RAM + swap**, because any model larger than VRAM must be offloaded to RAM.
+
+Measured model footprints (fp8 checkpoints, as staged by ComfyUI):
+
+| model | UNet | text encoder | total | outcome |
+|---|---|---|---|---|
+| Flux.1 Kontext dev | 11.9 GB | 5.2 GB (T5 fp8) | **~17.6 GB** | ✅ works (69 s) |
+| Qwen-Image-Edit-2511 | **19.6 GB** | **7.9 GB** (Qwen2.5-VL-7B fp8) | **~27.5 GB** | ❌ **hard-freezes the machine** |
+
+**The Qwen-Image-Edit freeze (2026-09-16).** 19.6 GB + 7.9 GB = 27.5 GB against a 24 GB card forces CPU
+offload, and 31 GB RAM with 512 MB swap cannot absorb the offload plus the page cache for a 19.6 GB
+file → kernel thrash → **the whole system hangs and needs a manual reboot**. The journal of that boot
+ends dead on the line `Model QwenImage prepared for dynamic VRAM loading. 19582MB Staged` with **no
+OOM-killer entry** — the kernel never got far enough to log, which is the signature of memory-thrash
+lockup rather than a clean allocation failure. Practical ceiling on this box: **~18 GB of total model
+footprint.**
+
+Why fp8 is not a free win here: the 3090 is **Ampere (sm_86) and has no native fp8**; ComfyUI logs
+`emulated ops: float8_e4m3fn` / `manual cast: torch.bfloat16`. Treat "fp8" sizes as a storage figure
+only on this card.
+
+**Mitigations, cheapest first:**
+1. **Cap the service so it dies instead of the machine** — add `MemoryHigh=20G` / `MemoryMax=26G` to the
+   `comfyui` user unit. The cgroup OOM-killer then kills ComfyUI on runaway allocation; the system stays
+   up and SSH-reachable. No sudo, no hardware.
+2. **A real swapfile** (32–64 GB on the ~500 GB free NVMe) — turns a hard freeze into slow-but-alive.
+   Needs sudo once.
+3. **Use GGUF quants** for anything ≥ ~18 GB (e.g. `unsloth/Qwen-Image-Edit-2511-GGUF` Q4/Q5 ≈ 12 GB)
+   + the `ComfyUI-GGUF` node pack (not installed). The only local route to Qwen on this box.
+4. **Add RAM** — the GTi14 has 2× DDR5 SO-DIMM slots (up to 96 GB). Going to 64 GB makes Qwen viable
+   (still slow: mobile CPU + x8 PCIe).
+5. **Don't run it locally** — keep Kontext as the edit model, or use a cloud GPU for Qwen.
+
 ## Server runtime facts (reproducibility)
 
 - Path: `~/Projects-Git/ComfyUI` on the Linux box; venv `./venv/bin/python` (**Python 3.11.16**).
