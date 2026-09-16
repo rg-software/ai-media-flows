@@ -20,7 +20,7 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
 - torch **2.11.0+cu128**, RTX 3090 (24 GB), Ubuntu 26.04 / driver 595.91.07.
 - systemd **user** unit `comfyui` (`systemctl --user restart comfyui`; no sudo).
 - Login: ComfyUI-Login plugin; API calls need `?token=<first line of login/PASSWORD>`.
-- Custom node packs: ACN (`comfyui_controlnet_aux`), KJNodes, Hy3D wrapper, UniRig, ComfyUI-Login, ComfyUI-Manager, CameraPack.
+- Custom node packs: ACN (`comfyui_controlnet_aux`), KJNodes, Hy3D wrapper, UniRig, ComfyUI-Login, ComfyUI-Manager, CameraPack, TextureAlchemy, QFX-PBRGenerator, PixelArt-Detector, `ComfyUI-IPAdapter_plus`, **`ComfyUI-Inpaint-CropAndStitch`** (lquesada).
 
 ## Node gotchas
 
@@ -32,6 +32,7 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
     into cutout alpha, you must insert **`InvertMask`** first. Skipping it yields a perfectly
     inverted cutout (background kept, subject transparent) — verified in E3.
 - `SaveImageWithAlpha` is **KJNodes**, not core; core has `SplitImageWithAlpha`/`JoinImageWithAlpha`.
+- **Inpaint/outpaint: prefer `ComfyUI-Inpaint-CropAndStitch`** (`InpaintCropImproved` + `InpaintStitchImproved`) over the core `ImagePadForOutpaint` → inpaint → `ImageCompositeMasked` path. `InpaintStitchImproved` never VAE round-trips unmasked pixels, so the original region returns **pixel-identical** (measured mean|diff| **0.041/255** vs **6.477/255** for the core path — verified E9). `extend_for_outpainting` + `extend_*_factor` >1 does the outpaint (1.5 = +50% per side of the source size; 2 = +100%). `device_mode="gpu (much faster)"` is 30-100x over CPU; `output_resize_to_target_size=False` for non-square targets (forcing 1024² squashes a wide crop). `mask` is an *optional* input — omit it for pure canvas extension.
 - **Tiling**: `SeamlessTile` (comfyui-seamless-tiling, patches the **MODEL**) **segfaults in
   `libcuda.so.1`** and takes ComfyUI down — avoid. Use **`SeamlessTiling`** (TextureAlchemy, an
   **image-space** op: `method` = mirror/blend_edges/offset) instead; it is stable and instant.

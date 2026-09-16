@@ -43,6 +43,7 @@ These are *attributes*, not folders — one flow can serve several. Record them 
 | `2d/workflows/upscale.json` | finish | any | image/texture | free | model: **4x-UltraSharp** for art | **PASS** (E4b) |
 | `2d/workflows/seamless-texture.json` | surface | material | texture | free | `SeamlessTiling(method=offset)` | **PASS** (E7c) |
 | `2d/workflows/sprite-atlas.json` | assemble | object | image | free | `ImageGrid(columns)`, tile w/h | **PASS** (E6) |
+| `2d/workflows/outpaint.json` | edit | scene/object | image | free | `InpaintCropImproved` `extend_*_factor` + `InpaintStitchImproved` | **PASS** (E9) |
 | `2d/workflows/depth-normal.json` | isolate | object/scene | image | free | DepthAnythingV2 + DSINE | **PASS** (E12) |
 | `2d/workflows/pbr-from-texture.json` | surface | material | texture→3D | free | `QFXPBRGenerator`; **metallic output suspect** | **PASS w/ caveat** (E12b) |
 | `3d/workflows/hy3d-full-workflow.json` | reconstruct | object | 3D | free | Hy3D shape→texture→bake | **PASS** (E2a–e) |
@@ -55,7 +56,7 @@ These are *attributes*, not folders — one flow can serve several. Record them 
 |---|---|---|
 | isolate | ~~E12 depth/normal/SAM masks~~ **done** | depth+normal landed; SAM masks still open |
 | surface | ~~E12b texture → PBR set~~ **done (caveat: metallic)** | `QFXPBRGenerator`; the 2D↔3D crossover |
-| edit | E9 outpaint · E10 composition | core nodes only |
+| edit | ~~E9 outpaint~~ **done** · E10 composition next | Crop&Stitch is now the preferred inpaint/outpaint tool (also removes E8's drift) |
 | finish | E13 face restore / IC-Light relight | CodeFormer linked; IC-Light to install |
 | guide | E14 consistency (InstantID/FaceID) | weights not pulled |
 | guide | E15 regional / multi-subject | nodes present |
