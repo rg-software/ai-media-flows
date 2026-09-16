@@ -32,6 +32,36 @@ RestartSec=5
 StartLimitIntervalSec=60
 StartLimitBurst=3
 
+# ---------------------------------------------------------------------------
+# MEMORY GUARD — do not remove.
+#
+# On 2026-09-16 loading Qwen-Image-Edit-2511 (19.6 GB UNet + 7.9 GB text encoder
+# = 27.5 GB of model) on a 24 GB card forced CPU offload; the host has only
+# 31 GB RAM and 512 MB swap, so the kernel thrashed and the WHOLE MACHINE hung
+# and needed a manual reboot. The journal ended mid-load with no OOM-killer line.
+# See comfyui/README.md -> "Hardware ceiling".
+#
+# These limits make the *cgroup* kill ComfyUI instead of letting it take the box
+# down. The system stays up and SSH-reachable; `systemctl --user restart comfyui`
+# recovers. Values assume 31 GB RAM: the OS/desktop needs ~5-7 GB headroom.
+#
+#   MemoryHigh    soft limit: this is where the kernel starts reclaiming hard.
+#                 Page cache from mmap'd safetensors is evicted from here rather
+#                 than being allowed to crowd out anonymous memory.
+#   MemoryMax     hard limit: cgroup OOM-killer fires at this point. A clean,
+#                 recoverable kill — never a machine-wide freeze.
+#   MemorySwapMax caps swap use by this cgroup so it cannot thrash the disk. With
+#                 a large swapfile in place this is what keeps the box responsive.
+#
+# Verify:  systemctl --user show comfyui -p MemoryHigh -p MemoryMax -p MemorySwapMax
+# Look for: journalctl --user -u comfyui | grep -i -E 'oom|killed'
+# Raise the limits only if RAM is upgraded; keep every value below (RAM - 6 GB).
+# ---------------------------------------------------------------------------
+MemoryAccounting=yes
+MemoryHigh=20G
+MemoryMax=24G
+MemorySwapMax=8G
+
 # NoNewPrivileges=true
 # PrivateTmp=true
 # (kept in the deployed unit; PrivateTmp can break custom nodes that expect a shared /tmp)
