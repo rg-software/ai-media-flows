@@ -51,7 +51,7 @@ backlog** (see `AUDIT-tooling-2026-09.md`).
 
 ### Remaining in order
 - [x] **E15 - Regional / multi-subject. PASS 2026-09-16.** Core `ConditioningSetAreaPercentage` + `ConditioningCombine` (no install). A single prompt with both subjects **dropped one entirely**; regional rendered both correctly placed (separation 9.9 -> 30.0). `workflows/regional-prompting.json`.
-- [ ] **E16 - Batch/iteration system.** XY plots, seeds, prompt grids - the "sheet" primitive at scale. *(next up; efficiency-nodes / KSampler grid, no install yet)*
+- [x] **E16 - Batch/iteration. PASS 2026-09-16.** Built scripts/sweep.py (reusable 2-axis harness: labelled sheet + per-cell detail metric + JSON manifest) rather than a GUI XY node - reproducible and headless. Result: **cfg 7 / 20 steps** is SDXL value point; cfg 3 washes out, cfg 9 over-burns, 30 steps buys nothing.
 
 ## Upgrade backlog — best-quality & licence-clean
 
