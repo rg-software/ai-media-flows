@@ -46,6 +46,7 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 | `scripts/sweep.py` | assemble | any | image | free | stdlib | 2-axis scripted sweep → labelled sheet + per-cell metric + JSON manifest; **cfg 7 / 20 steps** is SDXL's value point | **PASS** (E16) |
 | `2d/workflows/sdxl-base-art.json` | generate | object/scene | image | free | OpenRAIL++ | checkpoint, cfg, steps; **SDXL now a niche pick — see U3** | **PASS** (E1/E1c/E1d) |
 | `2d/workflows/sdxl-controlnet-canny.json` | guide | object/scene | image | free | OpenRAIL++ | `strength` (0.8), canny thresholds | **PASS** (E2b) |
+| `2d/workflows/controlnet-union.json` | guide | object/scene | image | free | Apache-2.0 | **one model, many modes** via `SetUnionControlNetType`; **`type` values are grouped** (`canny/lineart/anime_lineart/mlsd`) and bad values fail **silently in the API** | **PASS** (U6b) |
 | `2d/workflows/ipadapter-style.json` | guide | object/scene | image | free | (verify) | **IPAdapter `weight` 0.2–0.4 style / ≥0.6 takeover** | **PASS** (E11) |
 | `2d/workflows/pixel-art.json` | stylize | object | image | free | RD licence (verify) | model grid factor (nearest ÷8 or ÷16), palette 16 | **PASS** (E5/E5b/E5f) |
 | `2d/workflows/remove-bg.json` | isolate | object | image | free | MIT | BiRefNet; **must `InvertMask`** | **PASS** (E3b) |
