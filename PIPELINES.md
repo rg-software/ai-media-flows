@@ -50,7 +50,7 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 | `2d/workflows/pixel-art.json` | stylize | object | image | free | RD licence (verify) | model grid factor (nearest ÷8 or ÷16), palette 16 | **PASS** (E5/E5b/E5f) |
 | `2d/workflows/remove-bg.json` | isolate | object | image | free | MIT | BiRefNet; **must `InvertMask`** | **PASS** (E3b) |
 | `2d/workflows/inpaint.json` | edit | scene/object | image | free | OpenRAIL++ | mask; **composite back with the mask** | **PASS** (E8) |
-| `2d/workflows/upscale-seedvr2.json` | finish | any | image/texture | free | Apache 2.0 | `resolution` = **short edge**; `batch_size` 4n+1; more detail, more drift | **PASS** (U1) |
+| `2d/workflows/upscale-seedvr2.json` | finish | any | image/texture | free | Apache 2.0 | `resolution` = **short edge**; `batch_size` 4n+1; more detail, more drift; **set `resolution` = image size for *restore* mode (E13 face restore: detail 15.7→35.5, identity cos 0.926)** | **PASS** (U1, E13f) |
 | `2d/workflows/upscale.json` | finish | any | image/texture | free | ⚠ **4x-UltraSharp is non-commercial** | model: 4x-UltraSharp for art; faithful/smooth, superseded by SeedVR2 (U1) | **PASS** (E4b) |
 | `2d/workflows/seamless-texture.json` | surface | material | texture | free | GPL-3 | `SeamlessTiling(method=offset)` | **PASS** (E7c) |
 | `2d/workflows/sprite-atlas.json` | assemble | object | image | free | n/a | `ImageGrid(columns)`, tile w/h | **PASS** (E6) |

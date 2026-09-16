@@ -29,7 +29,7 @@ backlog** (see `AUDIT-tooling-2026-09.md`).
 | **E** | Character consistency | InstantID + insightface; Kontext design refs | **E14 PASS** |
 | **F** | Regional / multi-ref | core `ConditioningSetAreaPercentage` + `ConditioningCombine` | **E15 PASS** |
 | **G** | Masking / utility | BiRefNet, DepthAnythingV2, DSINE | **E3, E12 PASS** (SAM still open) |
-| **H** | Finishing | Flux Kontext relight, 4x-UltraSharp, CodeFormer (linked, unrun) | **E13 PASS** |
+| **H** | Finishing | Flux Kontext relight, **SeedVR2** (upscale + restore/face restore) | **E13 PASS** |
 | **I** | Text / UI | — (Flux text encoders now present, no generation model yet) | **open** |
 | **J** | Batch / consistency system | scripts/sweep.py (scripted XY + sheet) | **E16 PASS** |
 
