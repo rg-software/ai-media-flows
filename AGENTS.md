@@ -61,14 +61,29 @@ ai-gamedev-tasks/
   removed in 2026-09 for exactly this reason). `output/`, `temp/` and `assets-temp/` are ignored
   wholesale and are where generated/scratch files live. Promotion into `assets/` is always a
   deliberate step (`2d` via `scripts/publish_assets.sh`), never an ad-hoc dump.
+- **Flows are classified by operation, not by folder.** The taxonomy lives in `PIPELINES.md`
+  (Axis 1 family × Axis 2 subject/domain). Two conventions to keep: a harness that does nothing to an
+  asset is `tooling`, not an operation; and a flow that **moves data between domains** writes its
+  domain explicitly as `from->to` (e.g. `texture->3D model`) rather than inventing a string.
+- **Lint the docs before committing:** `python scripts/lint_docs.py`. It catches the two failure modes
+  that silently waste a reviewer's time — a table whose separator has the wrong column count (strict
+  renderers then drop the *whole* table), and a cell containing a literal newline (which splits the
+  row and leaves an orphan paragraph). Both have happened while hand-merging tables with scripts.
 
-## Status (2026-09-11)
+## Status (2026-09-16)
 
-**Current phase: 3D done → switching to 2D.** The 3D scenario reached "working + understood" (shape, multiview, texture bake, retopo, rigging, Unity import all PASS on Linux), so effort moves to the 2D asset scenario. 3D stays maintained, not extended, unless a task needs it.
+**Both scenarios are complete; the repo is consolidating rather than expanding.** The 2D ladder
+**E1–E16** is done, the upgrade track **U1–U7** is done, and the 3D scenario is complete including
+Linux rigging. The live list of open items is **`PIPELINES.md` → "Status — what is actually left"**.
 
-- **3d/** — complete: E1–E5 PASS + **E4 rigging UNBLOCKED on Linux** (2026-09-11, E4-L): `ComfyUI-UniRig` provides bpy 4.2 LTS via conda/pixi; rigs humanoid GLB → Mixamo FBX in ~90s. Rasterizer texture bake **works on Linux** (nvcc 12.8 header-patch build). All smoke (shape/multiview/texture/MoGe/2D) green.
-  - Open (low priority): rig a *generated* humanoid + `UniRigApplyAnimation` templates; package `custom_rasterizer` as a manylinux wheel; E3 Tripo bridge (needs API key).
-- **2d/** — **active scenario**. E1 SDXL base art PASS on Linux. Next: E2 ControlNet (weights to pull) → E3–E7 per `2d/README.md`.
+- **2d/** — ladder + upgrades complete. Licence posture is clean except one item: `insightface`
+  (used by the InstantID and PuLID flows) is non-commercial research-only.
+- **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux).
+- **Next candidates, in order:** (1) the **engine import contract** — assets are Unity-*compatible*
+  but not drop-in (no `.meta`/`.mat`, wrong importer defaults for pixel art and PBR maps, no
+  PPU/pivot convention, and glTF-vs-Unity channel packing differs); (2) **animation** as a new
+  scenario folder, partly gated on more RAM; (3) hardware — the box is **RAM-bound, not
+  VRAM-bound** (`comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md`).
 
 URL/password live with the user. Runtime facts that matter for reproducibility:
 

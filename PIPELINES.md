@@ -13,28 +13,38 @@ subject, and its status. When in doubt, start here.
 
 | # | family | question it answers | flows |
 |---|---|---|---|
-| 1 | **generate** | prompt → brand-new image | `sdxl-base-art` |
-| 2 | **guide** | generation constrained by structure or reference | `sdxl-controlnet-canny`, `ipadapter-style` |
+| 1 | **generate** | prompt -> brand-new image | `sdxl-base-art`, `z-image-turbo` |
+| 2 | **guide** | generation constrained by structure **or reference** | `sdxl-controlnet-canny`, `controlnet-union`, `ipadapter-style`, `regional-prompting`, `kontext-character`, `instantid-character`, `pulid-identity` |
 | 3 | **stylize** | rerender into a disciplined style/palette | `pixel-art` |
-| 4 | **isolate** | subject out of background; masks | `remove-bg` (+ SAM in E12) |
-| 5 | **edit** | change part of an existing image | `inpaint` (+ outpaint in E9) |
-| 6 | **finish** | resolution / restoration / grading | `upscale` (+ face restore, relight) |
-| 7 | **surface** | tileable textures and PBR material sets | `seamless-texture` (+ PBR in E12b) |
-| 8 | **assemble** | atlases, grids, multi-image composition | `sprite-atlas` (+ E10 composition) |
-| 9 | **reconstruct** | image → 3D geometry / texture / rig | `hy3d-full-workflow`, `hy3d-multiview-workflow`, `unirig-humanoid-workflow` |
+| 4 | **isolate** | subject out of background; masks and per-pixel maps | `remove-bg`, `sam3-segment`, `depth-normal` |
+| 5 | **edit** | change part of an existing image | `inpaint`, `outpaint`, `kontext-edit` |
+| 6 | **finish** | resolution / restoration / grading | `upscale`, `upscale-seedvr2` |
+| 7 | **surface** | tileable textures and PBR material sets | `seamless-texture`, `pbr-from-texture`, `marigold_pbr`, `make_gltf_material` |
+| 8 | **assemble** | atlases, grids, multi-image composition | `sprite-atlas`, `compose-harmonize` (+ `compose_scene.py` for placement) |
+| 9 | **reconstruct** | image -> 3D geometry / texture / rig | `hy3d-full-workflow`, `hy3d-multiview-workflow`, `unirig-humanoid-workflow` |
+| 10 | **tooling** | *not* an operation on an asset - harnesses for reproducing or exploring | `gen_assets.py`, `publish_assets.sh`, `sweep.py`, `lint_docs.py` |
+
+Read the family as the answer to "what does this flow *do to* an asset?". A harness such as the
+sweep runner does nothing to an asset, so it is `tooling` rather than pretending to be an operation.
 
 ## Axis 2 — subject & domain (what it is applied to)
 
 - **subject**: `object` (single prop/character) · `scene` (composite picture) · `material` (flat surface/texture)
-- **domain**: `image` (2D pixels) · `texture` (2D, tiling/PBR-authoring) · `3D` (mesh)
+- **domain**: `image` (2D pixels) · `texture` (2D, tiling/PBR authoring) · `3D model` (mesh)
 
 These are *attributes*, not folders — one flow can serve several. Record them per flow in the index.
 
-**Licence column convention: ⚠ = derived from a non-commercial model, fine to learn with, do NOT ship
-output.** Confirmed by the 2026-09 audit (`2d/AUDIT-tooling-2026-09.md`): Flux.1 dev / Kontext dev,
-SUPIR, `4x-UltraSharp`, StableSR, InvSR, insightface pretrained models (so InstantID/FaceID/PuLID),
-CodeFormer (verify). Licence-clean alternatives: Qwen-Image + Qwen-Image-Edit (Apache 2.0),
-SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2 klein 4B (Apache).
+### Bridge flows (`from->to`)
+
+Some flows do not produce *within* one domain, they **move data between domains**. Rather than
+inventing ad-hoc strings, those are written in the domain column in an explicit, defined form:
+
+| written | means | flows |
+|---|---|---|
+| `texture->3D model` | 2D material authoring becomes data a 3D engine/DCC consumes | `scripts/marigold_pbr.py`, `scripts/make_gltf_material.py`, `2d/workflows/pbr-from-texture.json` |
+
+So a `domain` cell is either one of the three domains above, or an explicit `A->B` bridge. The
+per-flow **notes** say what it consumes and what it emits.
 
 ## Index
 
@@ -43,8 +53,8 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 | `2d/workflows/z-image-turbo.json` | generate | object/scene | image | Z-Image 6B | **Apache 2.0** | 8 steps, cfg 1.0, `res_multistep`; `CLIPLoader type="lumina2"`; **photoreal lean** | **PASS** (U3) |
 | `2d/workflows/qwen-edit-gguf.json` | edit | scene/object | image | Qwen GGUF Q4 | **Apache 2.0** | GGUF 12.3 GB fits (fp8 19.6 GB froze the box); **faithful** edits, 380–420 s; **multi-image (image1+image2) replaces Kontext for character placement** | **PASS** (U2, E14c) |
 | `2d/workflows/regional-prompting.json` | guide | scene | image | free | core | `ConditioningSetAreaPercentage` per region + `ConditioningCombine`; **fixes subject dropout** (a single prompt lost one subject) | **PASS** (E15) |
-| `scripts/sweep.py` | assemble | any | image | free | stdlib | 2-axis scripted sweep → labelled sheet + per-cell metric + JSON manifest; **cfg 7 / 20 steps** is SDXL's value point | **PASS** (E16) |
-| `scripts/make_gltf_material.py` | surface | material | texture→3D | free | n/a | **2D→3D bridge**: packs a glTF-correct material (G=rough, B=metal; factors 1.0) and applies it to a mesh; warns on implausible metallic | **PASS** (U7) |
+| `scripts/sweep.py` | tooling | any | image | free | stdlib | 2-axis scripted sweep → labelled sheet + per-cell metric + JSON manifest; **cfg 7 / 20 steps** is SDXL's value point | **PASS** (E16) |
+| `scripts/make_gltf_material.py` | surface | material | texture->3D model | free | n/a | **2D→3D bridge**: packs a glTF-correct material (G=rough, B=metal; factors 1.0) and applies it to a mesh; warns on implausible metallic | **PASS** (U7) |
 | `2d/workflows/sdxl-base-art.json` | generate | object/scene | image | free | OpenRAIL++ | checkpoint, cfg, steps; **SDXL now a niche pick — see U3** | **PASS** (E1/E1c/E1d) |
 | `2d/workflows/sdxl-controlnet-canny.json` | guide | object/scene | image | free | OpenRAIL++ | `strength` (0.8), canny thresholds | **PASS** (E2b) |
 | `2d/workflows/controlnet-union.json` | guide | object/scene | image | free | Apache-2.0 | **one model, many modes** via `SetUnionControlNetType`; **`type` values are grouped** (`canny/lineart/anime_lineart/mlsd`) and bad values fail **silently in the API** | **PASS** (U6b) |
@@ -58,33 +68,40 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 | `2d/workflows/sprite-atlas.json` | assemble | object | image | free | n/a | `ImageGrid(columns)`, tile w/h | **PASS** (E6) |
 | `2d/workflows/outpaint.json` | edit | scene/object | image | free | GPL-3 | `InpaintCropImproved` `extend_*_factor` + `InpaintStitchImproved` | **PASS** (E9) |
 | `2d/workflows/compose-harmonize.json` | assemble | scene | image | free | GPL-3 | `InpaintCropImproved` + denoise **0.45 = integrate / 0.75 = replace** | **PASS** (E10) |
-| `2d/workflows/kontext-edit.json` | finish | any | image | Flux Kontext fp8 | ⚠ non-commercial + **~1 MP ceiling** | instruction edit (relight); upscale tail mandatory | **PASS** (E13) |
-| `2d/workflows/kontext-character.json` | assemble | object | image | Flux Kontext fp8 | ⚠ non-commercial | 2× `ReferenceLatent` (scene+character); design only, **not** identity (face cos 0.187) | **PASS** (E14a) |
-| `2d/workflows/instantid-character.json` | assemble | object | image | InstantID + SDXL | ⚠ insightface models are non-commercial research | face identity (cos **0.823**); face-only, bust framing | **PASS** (E14b) |
-| `2d/workflows/pulid-identity.json` | assemble | object | image | PuLID-SDXL + SDXL | ⚠ insightface | identity with **compositional freedom**: full-body at 9.8% frame vs InstantID's 33% bust; `method` fidelity/style, `weight` | **PASS** (U5) |
+| `2d/workflows/kontext-edit.json` | edit | any | image | Flux Kontext fp8 | ⚠ non-commercial + **~1 MP ceiling** | instruction edit (relight); upscale tail mandatory | **PASS** (E13) |
+| `2d/workflows/kontext-character.json` | guide | object | image | Flux Kontext fp8 | ⚠ non-commercial | 2× `ReferenceLatent` (scene+character); design only, **not** identity (face cos 0.187) | **PASS** (E14a) |
+| `2d/workflows/instantid-character.json` | guide | object | image | InstantID + SDXL | ⚠ insightface models are non-commercial research | face identity (cos **0.823**); face-only, bust framing | **PASS** (E14b) |
+| `2d/workflows/pulid-identity.json` | guide | object | image | PuLID-SDXL + SDXL | ⚠ insightface | identity with **compositional freedom**: full-body at 9.8% frame vs InstantID's 33% bust; `method` fidelity/style, `weight` | **PASS** (U5) |
 | `2d/workflows/sam3-segment.json` | isolate | object/scene | image | SAM 3 1.63 GB | Apache 2.0 | **text-prompted** segmentation; `SAM3_Detect` takes the prompt as `conditioning`; threshold / refine_iterations | **PASS** (U6a) |
 | `2d/workflows/depth-normal.json` | isolate | object/scene | image | free | Apache | DepthAnythingV2 + DSINE | **PASS** (E12) |
-| `scripts/marigold_pbr.py` | surface | material | texture→3D | free | Apache 2.0 | Marigold intrinsic; **correct metallic**; albedo is de-lit; ≤768 px | **PASS** (U4) |
-| `2d/workflows/pbr-from-texture.json` | surface | material | texture→3D | free | (verify) | `QFXPBRGenerator`; **metallic inverted** — use `marigold_pbr.py` instead | **PASS w/ caveat** (E12b) |
+| `scripts/marigold_pbr.py` | surface | material | texture->3D model | free | Apache 2.0 | Marigold intrinsic; **correct metallic**; albedo is de-lit; ≤768 px | **PASS** (U4) |
+| `2d/workflows/pbr-from-texture.json` | surface | material | texture->3D model | free | (verify) | `QFXPBRGenerator`; **metallic inverted** — use `marigold_pbr.py` instead | **PASS w/ caveat** (E12b) |
 | `3d/workflows/hy3d-full-workflow.json` | reconstruct | object | 3D | free | (verify) | Hy3D shape→texture→bake | **PASS** (E2a–e) |
 | `3d/workflows/hy3d-multiview-workflow.json` | reconstruct | object | 3D | free | (verify) | mv model + uniform 512² views | **PASS** (E2d) |
-| `3d/workflows/unirig-humanoid-workflow.json` | reconstruct | character | 3D | free | (verify) | UniRig (bpy via pixi) | **PASS** (E4-L) |
+| `3d/workflows/unirig-humanoid-workflow.json` | reconstruct | object | 3D | free | (verify) | UniRig (bpy via pixi) | **PASS** (E4-L) |
 
-## Planned / not yet built
+## Status — what is actually left
 
-| family | next | notes |
-|---|---|---|
-| isolate | ~~E12 depth/normal/SAM masks~~ **done** | depth+normal landed; SAM masks still open |
-| surface | ~~E12b texture → PBR set~~ **done (caveat: metallic)** | `QFXPBRGenerator`; the 2D↔3D crossover |
-| edit | ~~E9~~ · ~~E10~~ · ~~E13~~ · ~~E14 consistency~~ **done** · E15 regional **done (fixes subject dropout)** | E16 batch next | **Flux.1 Kontext fp8 + InstantID added 2026-09-16** — the box is no longer SD1.5/SDXL-only. Matching tool to job: Kontext = design/scene edit, InstantID = faces |
-| finish | E13 face restore | CodeFormer linked but unrun, **and likely non-commercial** — verify or use SeedVR2 (U1) |
+The 2D ladder (**E1-E16**) and the upgrade track (**U1-U7**) are complete, and the 3D scenario is
+complete. Everything below is genuinely open, roughly in value order.
 
-## Upgrade backlog
+| # | open item | why it matters | detail |
+|---|---|---|---|
+| 1 | **Engine import contract** | assets are Unity-*compatible* but not drop-in: no `.meta`/`.mat`, and Unity's defaults are wrong for our types (pixel art gets filtered + compressed; PBR maps import as sRGB; the atlas needs slice rects; no PPU/pivot convention). The packing also differs: ours is glTF (`G`=rough, `B`=metal), Unity wants (`R`=metal, `A`=smoothness). | `README.md` -> Known gaps |
+| 2 | **No engine has been opened** | the one link we cannot verify from this box; would validate the whole chain end to end | `README.md` -> Known gaps |
+| 3 | **Occlusion / AO map** | Marigold IID emits none, so occlusion is currently omitted rather than faked | E12b, U4 |
+| 4 | **Normal-map green channel** | assumed OpenGL (DSINE's default); `--flip-normal-green` exists but nobody has confirmed it in a real renderer | U7 |
+| 5 | **Animation** | untouched as a domain, and the natural next scenario folder; partly gated on more RAM (video models want 16-40 GB) | `3d/`, AGENTS.md |
+| 6 | **E1d: fixture or production set?** | do we re-baseline the canonical assets on Z-Image/Qwen, or keep E1d purely as the fixture we exercise methods against? | `2d/ROADMAP-2D.md` |
+| 7 | **Batch-tooling extensions** | `scripts/sweep.py` could take checkpoint / prompt axes as well as sampler knobs | E16 |
+| 8 | **Hardware** | the box is RAM-bound, not VRAM-bound; Qwen 20B at fp8 does not fit | `comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md` |
 
-Best-quality / licence-clean swaps, from `2d/AUDIT-tooling-2026-09.md`: **U1 SeedVR2** (kills the ⚠ on upscale) · **U2 Qwen-Image-Edit-2511** (replaces Kontext: Apache 2.0, native 2K, multi-image refs, Relight LoRA) · **U3 Qwen-Image-2512** (replaces SDXL base art; shares U2's encoder+VAE) · **U4 Marigold intrinsic** (fixes E12b, already on disk) · **U5 PuLID-Flux** · **U6** union ControlNet, ref-based style, SAM 2, batch tooling.
-| guide | E14 consistency (InstantID/FaceID) | weights not pulled |
-| guide | E15 regional / multi-subject | nodes present |
-| generate | E16 batch/iteration system | XY plots, seeds |
+**Completed upgrades, for reference** (reasoning in `2d/AUDIT-tooling-2026-09.md` and the E/U log):
+**U1 SeedVR2** (licence-clean upscaler, doubles as face restore) · **U2 Qwen-Image-Edit GGUF**
+(Apache-2.0; replaces Kontext for E8/E9/E10/E13/E14c) · **U3 Z-Image Turbo** (modern base art that
+fits this box) · **U4 Marigold intrinsic** (fixes E12b's inverted metallic) · **U5 PuLID** (identity
+with compositional freedom) · **U6a SAM 3** (text-prompted segmentation) · **U6b ControlNet-Union**
+(one model, many modes) · **U7 glTF PBR bridge**.
 
 ## Conventions
 

@@ -80,5 +80,5 @@ Key points:
 
 Each scenario's `workflows/` folder contains JSONs built by this recipe. Notable examples that exercised unusual cases:
 - `3d/workflows/hy3d-full-workflow.json` — we inserted `Hy3DMeshUVWrap` between two nodes and re-linked; the async `order` field still executed correctly after import.
-- `3d/workflows/tripo-chain-workflow.json` — the `Tripo*` nodes' `widgets_values` wiring for COMBO options (`v1.4-20240625` etc.), demonstrating correct combo-value placement.
-- `3d/workflows/moge-free-chain.json` — MoGe built-in nodes (`LoadMoGeModel` file combo, `MoGeInference`, `MoGePointMapToMesh`), including the "file combo empty until model present" gotcha.
+- `3d/workflows/scratch/tripo-chain-workflow.json` — the `Tripo*` nodes' `widgets_values` wiring for COMBO options (`v1.4-20240625` etc.), demonstrating correct combo-value placement.
+- `3d/workflows/scratch/moge-free-chain.json` — MoGe built-in nodes (`LoadMoGeModel` file combo, `MoGeInference`, `MoGePointMapToMesh`), including the "file combo empty until model present" gotcha.

@@ -1,40 +1,55 @@
 # AI Game-Dev Pipelines — start here
 
-A working, reproducible pipeline for **generating game assets with open models on our own hardware**,
-plus the notes that explain *why* every choice was made. Two goals, held together deliberately:
+A working, reproducible pipeline for **generating game assets with open models on our own hardware**, plus the notes that explain *why* every choice was made. Two goals, held together deliberately:
 
 1. **Get things done** — real assets out of a real pipeline.
-2. **Understand it deeply** — every node, knob, failure mode and version, so the setup can be rebuilt
-   or ported (it already survived a Windows → Linux migration).
+2. **Understand it deeply** — every node, knob, failure mode and version, so the setup can be rebuilt or ported.
 
-If you are new here, read this page top to bottom once, then use the **"I want to…"** table to jump.
-This page is the map; the deep detail lives in the linked files.
+If you are new here, read this page top to bottom once, then use the **"I want to…"** table to jump. This page is the map; the deep detail lives in the linked files.
 
 ---
 
-## The mental model (read this, it makes everything else findable)
+## The mental model
 
-### Assets are indexed by *operation × subject × domain*
+### Every flow is classified by *what it does*, not by which folder it lives in
 
-Two independent axes decide where a pipeline belongs — **not** the scenario folder it happens to sit in:
+Flows are described on two independent axes, so a capability can be found without knowing which
+scenario folder its `.json` happens to sit in. **Browse [`PIPELINES.md`](PIPELINES.md)** — that index
+lists every flow with its family, status, licence and most important knob.
 
-- **Axis 1 — operation family** (what it *does*): `generate` · `guide` · `stylize` · `isolate` · `edit` ·
-  `finish` · `surface` · `assemble` · `reconstruct`
-- **Axis 2 — attributes**: subject `object | scene | material` × domain `image | texture | 3D`
+**Axis 1 — operation family** (what the flow *does to* an asset):
 
-So "make a seamless stone texture and give it PBR maps" is `surface / material / texture→3D` — which is
-why it straddles the 2D and 3D folders. The authoritative index is **[`PIPELINES.md`](PIPELINES.md)**:
-it lists every flow with its family, status, licence and key knob, and it is the first place to look
-when you want to know *what we can already do*.
+| family | what it does |
+|---|---|
+| `generate` | prompt → brand-new image |
+| `guide` | generation constrained by structure **or reference** — ControlNet, regional areas, style/identity references, masks |
+| `stylize` | rerender into a disciplined style/palette |
+| `isolate` | subject out of background; masks and per-pixel maps |
+| `edit` | change part of an existing image |
+| `finish` | resolution / restoration / grading |
+| `surface` | tileable textures and PBR material sets |
+| `assemble` | atlases, grids, multi-image composition |
+| `reconstruct` | image → 3D geometry / texture / rig |
+| `tooling` | *not* an operation on an asset — harnesses for reproducing or exploring |
+
+**Axis 2 — what it is applied to**: subject `object | scene | material`, and domain
+`image | texture | 3D model`. Some flows **bridge** domains instead of producing within one, written
+explicitly as `from→to`: "make a seamless stone texture and give it PBR maps" is
+`surface / material / texture→3D model` — 2D material authoring that a 3D engine consumes, which is
+why it sits between the 2D and 3D folders.
+
+A flow's `.json` still lives in whichever scenario folder it was built for. **Don't browse by
+folder** — the folder is just where the file sits; the classification above is how capabilities are
+organised.
 
 ### Four kinds of file
 
-| kind | where | what it is |
-|---|---|---|
-| **assets** | `assets/` | the curated, tracked artefacts. **Location decides what counts, not file type** — `.png`, `.glb`, `.json` are all first-class here. |
-| **workflows** | `<scenario>/workflows/*.json` | a ComfyUI graph you can open and re-run. Valuable ones here; one-off scaffolding in `workflows/scratch/`. |
-| **scripts** | `scripts/` | the things a workflow can't express: sweeps, generators, format packing, publishing. |
-| **docs** | the `.md` files | the *why*: verdicts, gotchas, measurements, decisions. |
+| kind          | where                         | what it is                                                                                                                          |
+| ------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **assets**    | `assets/`                     | the curated, tracked artefacts. **Location decides what counts, not file type** — `.png`, `.glb`, `.json` are all first-class here. |
+| **workflows** | `<scenario>/workflows/*.json` | a ComfyUI graph you can open and re-run. Valuable ones here; one-off scaffolding in `workflows/scratch/`.                           |
+| **scripts**   | `scripts/`                    | the things a workflow can't express: sweeps, generators, format packing, publishing.                                                |
+| **docs**      | the `.md` files               | the *why*: verdicts, gotchas, measurements, decisions.                                                                              |
 
 ### The numbering is a log, not a version
 

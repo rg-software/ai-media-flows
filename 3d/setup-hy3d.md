@@ -36,7 +36,7 @@ Then pick `hy3dgen\model.fp16.ckpt` in the `Hy3D_2_1SimpleMeshGen` model dropdow
 ## Step 2 — Import & run
 
 1. Import `workflows/hy3d-full-workflow.json` (or the shape-only `workflows/scratch/hy3d-shape-workflow.json` to validate just the model).
-2. Point `LoadImage` at your house image (e.g. `assets/house-reference.png`, upload to server `input/` first).
+2. Point `LoadImage` at your house image (put it in the ComfyUI `input/` dir first, e.g. `input/house-reference.png`).
 3. On `Hy3D_2_1SimpleMeshGen`, confirm the model dropdown shows `hy3dgen\model.fp16.ckpt`.
 4. Queue. Shape gen ~1–2 min on the 3090; GLB lands in `output/3D/Hy3D/`.
 

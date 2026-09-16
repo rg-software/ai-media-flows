@@ -10,7 +10,7 @@ Both pipelines emit/accept **GLB**, so they interoperate at mesh boundaries. Thi
 | Better geometry, free texture | Hy3D shape → **Tripo texturing** (bridge below) |
 | Better texture quality | Hy3D shape → Tripo texturing (Tripo texture is trained on more data) |
 | Rigged/skinned character | Hy3D or Tripo shape → Tripo rig (mixamo FBX) |
-| Text prompt instead of image | `scratch/tripo-chain-workflow.json` (Tripo `TextToModel`) — needs API key |
+| Text prompt instead of image | `workflows/scratch/tripo-chain-workflow.json` (Tripo `TextToModel`) — needs API key |
 
 ## The two swap points
 
@@ -29,7 +29,7 @@ Take a **free Hy3D GLB** and texture it with Tripo:
 Load3D (picks GLB from models/3d/) → TripoImportModelNode → MODEL_TASK_ID
    → TripoTextureNode → TripoConversionNode (FBX/GLB export)
 ```
-Reference: `scratch/tripo-bridge-workflow.json` (validated schema).
+Reference: `workflows/scratch/tripo-bridge-workflow.json` (validated schema).
 
 ## Concrete steps to texture a Hy3D GLB via Tripo
 
@@ -39,7 +39,7 @@ Reference: `scratch/tripo-bridge-workflow.json` (validated schema).
    ComfyUI\models\3d\<name>.glb
    ```
    (`Load3D.model_file` dropdown enumerates `models/3d/`.)
-3. **Import `scratch/tripo-bridge-workflow.json`**, set the `Load3D` dropdown to your GLB.
+3. **Import `workflows/scratch/tripo-bridge-workflow.json`**, set the `Load3D` dropdown to your GLB.
 4. **Provide the Tripo API key** (set once; Tripo nodes use `api_key_comfy_org`). Without it the nodes error at queue.
 5. Queue → textured GLB (or FBX if you set format=FBX, fbx_preset=mixamo for Unity rig import).
 
