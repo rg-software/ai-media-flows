@@ -20,10 +20,11 @@ Working notes + a growing knowledge base for using generative-AI in game develop
 
 ```
 ai-gamedev-tasks/
+├── README.md                    ← FRONT DOOR: mission, mental model, "I want to…" index, known gaps
 ├── AGENTS.md                    ← this file
 ├── HANDOFF.md                   ← Linux box handoff: env, blockers, next steps
 ├── PIPELINES.md                 ← CAPABILITY MAP: every flow by operation × subject × status
-├── assets/                      ← shared test inputs; assets/2d/ = curated concept art (tracked)
+├── assets/                      ← curated, tracked artefacts (2d/, 3d/); location decides, not file type
 ├── scripts/                     ← helper scripts (find-pythons.bat, ...)
 ├── comfyui/                     ← general ComfyUI knowledge (not scenario-specific)
 │   ├── README.md                ← index + server map
