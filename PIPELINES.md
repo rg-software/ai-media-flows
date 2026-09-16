@@ -40,6 +40,7 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 
 | flow | family | subject | domain | cost | licence | key knob | status |
 |---|---|---|---|---|---|---|---|
+| `2d/workflows/z-image-turbo.json` | generate | object/scene | image | Z-Image 6B | **Apache 2.0** | 8 steps, cfg 1.0, `res_multistep`; `CLIPLoader type="lumina2"`; **photoreal lean** | **PASS** (U3) |
 | `2d/workflows/sdxl-base-art.json` | generate | object/scene | image | free | OpenRAIL++ | checkpoint, cfg, steps; **SDXL now a niche pick — see U3** | **PASS** (E1/E1c/E1d) |
 | `2d/workflows/sdxl-controlnet-canny.json` | guide | object/scene | image | free | OpenRAIL++ | `strength` (0.8), canny thresholds | **PASS** (E2b) |
 | `2d/workflows/ipadapter-style.json` | guide | object/scene | image | free | (verify) | **IPAdapter `weight` 0.2–0.4 style / ≥0.6 takeover** | **PASS** (E11) |

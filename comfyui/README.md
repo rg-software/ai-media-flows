@@ -70,6 +70,10 @@ only on this card.
    (still slow: mobile CPU + x8 PCIe).
 5. **Don't run it locally** — keep Kontext as the edit model, or use a cloud GPU for Qwen.
 
+**Z-Image Turbo (U3) — the modern base model that fits:** `models/diffusion_models/z_image_turbo_bf16.safetensors` (11.46 GB) + `models/text_encoders/qwen_3_4b_fp8_mixed.safetensors` (5.25 GB) + the Flux `ae.safetensors` VAE (reused). **Apache 2.0.** Load with `CLIPLoader type="lumina2"` — *not* `qwen_image`. Turbo recipe: 8 steps, cfg 1.0, `res_multistep`/`simple`, `ModelSamplingAuraFlow(3)`, negative via `ConditioningZeroOut`. Measured 25 s @1024², **19.3 GB cgroup peak, zero OOM** — it fits where Qwen 20B fp8 does not.
+
+**GGUF (for anything that doesn't fit at fp8):** node pack `city96/ComfyUI-GGUF` (`UnetLoaderGGUF`); quants live in `models/unet/`. Installed: `qwen-image-edit-2511-Q4_K_M.gguf` (12.34 GB, Apache 2.0) — the replacement for the fp8 Qwen that froze the box.
+
 ## Server runtime facts (reproducibility)
 
 - Path: `~/Projects-Git/ComfyUI` on the Linux box; venv `./venv/bin/python` (**Python 3.11.16**).
