@@ -64,17 +64,7 @@ downstream steps per GB", licence-clean first. **This list supersedes the old
       face/photo restoration. At 2×: more detail (grad-var **137.0 vs 97.7**) but more drift
       (**2.70 vs 1.29**) and slower (39 s vs 6 s) — it regenerates rather than enlarges.
       `workflows/upscale-seedvr2.json`.
-- [ ] **U2. Qwen-Image-Edit-2511 — BLOCKED (fp8 does not fit this box; hard-freezes it. Needs GGUF quant or more RAM; see comfyui/README.md 'Hardware ceiling')** (Apache 2.0, `qwen_image_edit_2511_fp8mixed` 19.1 GB) + VL
-      encoder + VAE (~28 GB total, shared with U3) — replaces Flux Kontext for E8/E9/E10/E13:
-      **native 2K** (kills Kontext's ~1 MP ceiling and its mandatory upscale tail), multi-image
-      refs, multi-person fusion, native ControlNet, and a **`Relight` LoRA** (0.2 GB).
-      Also the licence-clean answer for E14 consistency.
-- [x] **U3. Z-Image Turbo - DONE 2026-09-16** (6B, Apache 2.0; 11.46 GB + 5.25 GB encoder). Validated as the licence-clean base model that **fits**: 25 s at 1024, cgroup peak **19.3 GB, zero OOM events**. More photoreal than SDXL - a style difference, not a drop-in upgrade. `workflows/z-image-turbo.json`. *(The original plan - Qwen-Image-2512 at 19 GB plus a 7.9 GB encoder - does not fit; see `comfyui/hardware.md`.)*
-      as the base-art model for E1; re-run the E1c shoot-out on a modern footing.
-- [x] **U4. Marigold intrinsic — DONE 2026-09-16** (Apache 2.0; weights were already on disk, so it
-      was **free**). Fixes E12b's inverted metallic: metallic **0.354 with 0 px >0.5** vs QFX's
-      **0.855 / 85.4% >0.5**, and the albedo is properly de-lit. `scripts/marigold_pbr.py`. Note
-      `kijai/ComfyUI-Marigold` is depth-only — this needs a diffusers script.
+- [x] **U2. Qwen-Image-Edit-2511 GGUF - DONE 2026-09-16** (Apache 2.0, `unsloth/...-GGUF` Q4_K_M 12.34 GB + `city96/ComfyUI-GGUF`). **The fp8 build hard-froze the box; the Q4 quant fits and completed in 380 s at a 20.0 GB cgroup peak** (467 soft-limit throttles, 0 hard-limit hits, 0 OOM kills - the service memory guard worked). Far more *faithful* than Flux Kontext, which re-dramatises; 5.5x slower. `workflows/qwen-edit-gguf.json`. *(Original entry: replaces Flux Kontext for E8/E9/E10/E13 with a licence-clean model.)*
 - [ ] **U5. PuLID-Flux** — licence-cleaner and far less pose-locked than InstantID; **check the
       insightface terms first**, since that is the real restriction.
 - [ ] **U6. Smaller follow-ups:** E2 ControlNet-Union SDXL (one model, many modes); E11 style via
