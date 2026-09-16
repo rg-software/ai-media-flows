@@ -65,8 +65,12 @@ publish_scenario() {
 
   local exts; exts=$(exts_for "$scen") || true
   [ -n "$exts" ] || { echo "  unknown scenario '$scen'" >&2; rc=1; return; }
-  local prune=()
-  for e in $exts; do prune+=( ! -iname "*.$e" ); done
+  # build an OR list of -iname predicates: (-iname "*.glb" -o -iname "*.fbx" ...)
+  local inc=() first=1
+  for e in $exts; do
+    if [ "$first" -eq 1 ]; then inc+=( -iname "*.$e" ); first=0
+    else inc+=( -o -iname "*.$e" ); fi
+  done
 
   if [ "${#ids[@]}" -gt 0 ]; then
     for id in "${ids[@]}"; do
@@ -83,7 +87,7 @@ publish_scenario() {
     done
   else
     while IFS= read -r f; do publish_file "$scen" "${f#"$src"/}"; done \
-      < <(find "$src" -type f "${prune[@]}" | sort)
+      < <(find "$src" -type f \( "${inc[@]}" \) | sort)
   fi
 }
 
