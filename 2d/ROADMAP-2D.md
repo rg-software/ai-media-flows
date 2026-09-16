@@ -28,7 +28,7 @@ backlog** (see `AUDIT-tooling-2026-09.md`).
 | **D** | Image→image / references | IPAdapter-plus SDXL; Flux Kontext multi-reference | **E11, E14a PASS** |
 | **E** | Character consistency | InstantID + insightface; Kontext design refs | **E14 PASS** |
 | **F** | Regional / multi-ref | core `ConditioningSetAreaPercentage` + `ConditioningCombine` | **E15 PASS** |
-| **G** | Masking / utility | BiRefNet, DepthAnythingV2, DSINE | **E3, E12 PASS** (SAM still open) |
+| **G** | Masking / utility | BiRefNet, **SAM 3 (text-prompted)**, DepthAnythingV2, DSINE | **E3, E12, U6a PASS** |
 | **H** | Finishing | Flux Kontext relight, **SeedVR2** (upscale + restore/face restore) | **E13 PASS** |
 | **I** | Text / UI | — (Flux text encoders now present, no generation model yet) | **open** |
 | **J** | Batch / consistency system | scripts/sweep.py (scripted XY + sheet) | **E16 PASS** |
