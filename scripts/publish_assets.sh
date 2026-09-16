@@ -13,6 +13,10 @@
 # their relative path preserved, so a material folder can travel with its maps as one
 # unit (input/3d/stone_material/* -> assets/3d/stone_material/*).
 #
+# SCRATCH IS EXCLUDED BY CONVENTION: any path component beginning with `_` is skipped
+# (e.g. `_work/`, `_sheet.png`). Those are for intermediates a pipeline needs while
+# running and are never curated, which is why `input/2d/_work/` can exist safely.
+#
 # Usage (on the ComfyUI box, from anywhere):
 #   scripts/publish_assets.sh                    # scenario 2d, everything
 #   scripts/publish_assets.sh 2d                 # same
@@ -76,7 +80,7 @@ publish_scenario() {
     for id in "${ids[@]}"; do
       if [ -d "$src/$id" ]; then
         while IFS= read -r f; do publish_file "$scen" "${f#"$src"/}"; done \
-          < <(find "$src/$id" -type f | sort)
+          < <(find "$src/$id" -type f -not -path '*/_*' | sort)
       else
         local found=0
         for e in $exts; do
@@ -86,8 +90,9 @@ publish_scenario() {
       fi
     done
   else
+    # exclude any path component starting with '_' (scratch: _work/, _sheet.png, ...)
     while IFS= read -r f; do publish_file "$scen" "${f#"$src"/}"; done \
-      < <(find "$src" -type f \( "${inc[@]}" \) | sort)
+      < <(find "$src" -type f -not -path '*/_*' \( "${inc[@]}" \) | sort)
   fi
 }
 
