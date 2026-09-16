@@ -22,6 +22,7 @@ Working notes + a growing knowledge base for using generative-AI in game develop
 ai-gamedev-tasks/
 ├── AGENTS.md                    ← this file
 ├── HANDOFF.md                   ← Linux box handoff: env, blockers, next steps
+├── PIPELINES.md                 ← CAPABILITY MAP: every flow by operation × subject × status
 ├── assets/                      ← shared test inputs; assets/2d/ = curated concept art (tracked)
 ├── scripts/                     ← helper scripts (find-pythons.bat, ...)
 ├── comfyui/                     ← general ComfyUI knowledge (not scenario-specific)
@@ -48,6 +49,7 @@ ai-gamedev-tasks/
 ## Conventions
 
 - Workflow JSON files live in the scenario's `workflows/` folder. Name by pipeline (`hy3d-full`, `moge-free`, `tripo-bridge`, ...). Only **valuable/curated** workflows stay in `workflows/`; scaffolding (one-off validation, superseded, unmaintained) goes to `workflows/scratch/` and is not cleaned up on refactors.
+- **Categories are by operation, not just scenario.** Scenario folders (`2d/`, `3d/`) hold assets/experiments; the cross-cutting capability map lives in `PIPELINES.md` (family × subject × domain). Add a row there for every new flow, and prefer the `<family>-<detail>` filename convention for new ones.
 - A pipeline that used to be a separate standalone workflow should instead be represented as **mid-node outputs** inside one valuable workflow when the checkpoint is meaningful (e.g. `hy3d-full` exports both the untextured and textured GLB in a single run).
 - References to workflow files inside markdown use `workflows/<name>.json`.
 - Server specifics: ComfyUI server has migrated to Linux (Ubuntu 26.04, RTX 3090, systemd user service `comfyui`). See `comfyui/README.md`.
