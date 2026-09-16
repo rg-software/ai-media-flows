@@ -65,12 +65,8 @@ downstream steps per GB", licence-clean first. **This list supersedes the old
       (**2.70 vs 1.29**) and slower (39 s vs 6 s) — it regenerates rather than enlarges.
       `workflows/upscale-seedvr2.json`.
 - [x] **U2. Qwen-Image-Edit-2511 GGUF - DONE 2026-09-16** (Apache 2.0, `unsloth/...-GGUF` Q4_K_M 12.34 GB + `city96/ComfyUI-GGUF`). **The fp8 build hard-froze the box; the Q4 quant fits and completed in 380 s at a 20.0 GB cgroup peak** (467 soft-limit throttles, 0 hard-limit hits, 0 OOM kills - the service memory guard worked). Far more *faithful* than Flux Kontext, which re-dramatises; 5.5x slower. `workflows/qwen-edit-gguf.json`. *(Original entry: replaces Flux Kontext for E8/E9/E10/E13 with a licence-clean model.)*
-- [ ] **U5. PuLID-Flux** — licence-cleaner and far less pose-locked than InstantID; **check the
-      insightface terms first**, since that is the real restriction.
-- [ ] **U6. Smaller follow-ups:** E2 ControlNet-Union SDXL (one model, many modes); E11 style via
-      Qwen/Redux refs instead of 2024-era IPAdapter; E13 face restore (CodeFormer is likely
-      non-commercial — verify or swap); SAM 2 for the still-open auto-mask half of track G;
-      E16 batch tooling.
+- [x] **U5. PuLID - DONE 2026-09-16** (SDXL v1.1, `cubiq/PuLID_ComfyUI` + facexlib). Identity with **compositional freedom**: same prompt as E14b gave a full-body scene (face 9.8% of frame, cos 0.313) where InstantID forced a bust (33%, cos 0.823). Not a replacement — a different job. Note it still depends on insightface. `workflows/pulid-identity.json`.
+- [x] **U6. Smaller follow-ups - PARTIAL (2026-09-16).** ✅ **SAM 3 text-prompted segmentation** (U6a) — closed track G's auto-mask half. Remaining: E2 ControlNet-Union SDXL; E11 style via reference/Redux instead of 2024-era IPAdapter; E16 batch-tooling extensions.
 
 ## Dependencies (updated)
 

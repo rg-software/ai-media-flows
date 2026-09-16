@@ -59,6 +59,7 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 | `2d/workflows/kontext-edit.json` | finish | any | image | Flux Kontext fp8 | ⚠ non-commercial + **~1 MP ceiling** | instruction edit (relight); upscale tail mandatory | **PASS** (E13) |
 | `2d/workflows/kontext-character.json` | assemble | object | image | Flux Kontext fp8 | ⚠ non-commercial | 2× `ReferenceLatent` (scene+character); design only, **not** identity (face cos 0.187) | **PASS** (E14a) |
 | `2d/workflows/instantid-character.json` | assemble | object | image | InstantID + SDXL | ⚠ insightface models are non-commercial research | face identity (cos **0.823**); face-only, bust framing | **PASS** (E14b) |
+| `2d/workflows/pulid-identity.json` | assemble | object | image | PuLID-SDXL + SDXL | ⚠ insightface | identity with **compositional freedom**: full-body at 9.8% frame vs InstantID's 33% bust; `method` fidelity/style, `weight` | **PASS** (U5) |
 | `2d/workflows/sam3-segment.json` | isolate | object/scene | image | SAM 3 1.63 GB | Apache 2.0 | **text-prompted** segmentation; `SAM3_Detect` takes the prompt as `conditioning`; threshold / refine_iterations | **PASS** (U6a) |
 | `2d/workflows/depth-normal.json` | isolate | object/scene | image | free | Apache | DepthAnythingV2 + DSINE | **PASS** (E12) |
 | `scripts/marigold_pbr.py` | surface | material | texture→3D | free | Apache 2.0 | Marigold intrinsic; **correct metallic**; albedo is de-lit; ≤768 px | **PASS** (U4) |
