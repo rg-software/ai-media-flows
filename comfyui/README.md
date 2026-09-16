@@ -13,6 +13,7 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
 | `environments.md` | `comfy-env` / pixi per-node environments — how to isolate nodes that need a different Python/torch/CUDA than the host. |
 | `workflow-file-format.md` | The `.json` workflow schema: nodes, links, widgets, `order`/`mode`, import rules, and how to hand-edit safely. |
 | `linux-migration.md` | What carries to a Linux server, what to re-provision, and how to avoid the Windows-specific pain (MSVC, `.pyd`, bpy). |
+| `hardware.md` | **What fits and what doesn't** — measured model footprints (SDXL → Qwen 20B → FLUX.2 32B), the RAM/VRAM ceiling, and upgrade options in value order (swapfile → RAM → GPU). Read before pulling a large model. |
 
 ## Model stack (reproducibility — where weights live, not the weights)
 
@@ -56,7 +57,8 @@ Why fp8 is not a free win here: the 3090 is **Ampere (sm_86) and has no native f
 `emulated ops: float8_e4m3fn` / `manual cast: torch.bfloat16`. Treat "fp8" sizes as a storage figure
 only on this card.
 
-**Mitigations, cheapest first:**
+**Mitigations, cheapest first:** full analysis with measured numbers and upgrade options is in
+**`hardware.md`**. Short version:
 1. **Cap the service so it dies instead of the machine** — add `MemoryHigh=20G` / `MemoryMax=26G` to the
    `comfyui` user unit. The cgroup OOM-killer then kills ComfyUI on runaway allocation; the system stays
    up and SSH-reachable. No sudo, no hardware.
