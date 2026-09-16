@@ -11,38 +11,32 @@ If you are new here, read this page top to bottom once, then use the **"I want t
 
 ## The mental model
 
-### Every flow is classified by *what it does*, not by which folder it lives in
+### Every flow is classified by *what it does*
 
-Flows are described on two independent axes, so a capability can be found without knowing which
-scenario folder its `.json` happens to sit in. **Browse [`PIPELINES.md`](PIPELINES.md)** — that index
-lists every flow with its family, status, licence and most important knob.
+Flows are described by what they do rather their folder locations. **Browse [`PIPELINES.md`](PIPELINES.md)**, which describes every flow in detail. Flows are categorized according to two axes.
 
 **Axis 1 — operation family** (what the flow *does to* an asset):
 
-| family | what it does |
-|---|---|
-| `generate` | prompt → brand-new image |
-| `guide` | generation constrained by structure **or reference** — ControlNet, regional areas, style/identity references, masks |
-| `stylize` | rerender into a disciplined style/palette |
-| `isolate` | subject out of background; masks and per-pixel maps |
-| `edit` | change part of an existing image |
-| `finish` | resolution / restoration / grading |
-| `surface` | tileable textures and PBR material sets |
-| `assemble` | atlases, grids, multi-image composition |
-| `reconstruct` | image → 3D geometry / texture / rig |
-| `tooling` | *not* an operation on an asset — harnesses for reproducing or exploring |
+| family        | what it does                                                                                                        |
+| ------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `generate`    | prompt → brand-new image                                                                                            |
+| `guide`       | generation constrained by structure **or reference** — ControlNet, regional areas, style/identity references, masks |
+| `stylize`     | rerender into a disciplined style/palette                                                                           |
+| `isolate`     | subject out of background; masks and per-pixel maps                                                                 |
+| `edit`        | change part of an existing image                                                                                    |
+| `finish`      | resolution / restoration / grading                                                                                  |
+| `surface`     | tileable textures and PBR material sets                                                                             |
+| `assemble`    | atlases, grids, multi-image composition                                                                             |
+| `reconstruct` | image → 3D geometry / texture / rig                                                                                 |
+| `tooling`     | harnesses for reproducing or exploring (not an operation)                                                           |
 
 **Axis 2 — what it is applied to**: subject `object | scene | material`, and domain
-`image | texture | 3D model`. Some flows **bridge** domains instead of producing within one, written
-explicitly as `from→to`: "make a seamless stone texture and give it PBR maps" is
-`surface / material / texture→3D model` — 2D material authoring that a 3D engine consumes, which is
-why it sits between the 2D and 3D folders.
+`image | texture | 3D model`. Flows that **bridge** domains are marked as `from→to`. E.g., "make a seamless stone texture and give it PBR maps" is
+`surface • material • texture → 3D model` — 2D material authoring that a 3D engine consumes.
 
-A flow's `.json` still lives in whichever scenario folder it was built for. **Don't browse by
-folder** — the folder is just where the file sits; the classification above is how capabilities are
-organised.
+A flow's `.json` lives in whichever scenario folder it was built for. **Browse by capability rather than by folder**.
 
-### Four kinds of file
+### Four kinds of files
 
 | kind          | where                         | what it is                                                                                                                          |
 | ------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -51,21 +45,26 @@ organised.
 | **scripts**   | `scripts/`                    | the things a workflow can't express: sweeps, generators, format packing, publishing.                                                |
 | **docs**      | the `.md` files               | the *why*: verdicts, gotchas, measurements, decisions.                                                                              |
 
-### The numbering is a log, not a version
+### Numbering principles
 
-- **E-numbers** (`E1`…`E16`) are **experiments** — one capability each, run in order, each with a
-  verdict and the reasoning. `E1c`, `E4b`, `E13f` are refinements of the same experiment.
-- **U-numbers** (`U1`…`U7`) are **upgrades** — swapping a working-but-suboptimal tool for a better or
-  licence-cleaner one, decided by the audit.
-- Both live in **[`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md)** (2D) and
-  **[`3d/EXPERIMENTS.md`](3d/EXPERIMENTS.md)** (3D). **Read the verdicts, not just the results** — the
-  "why it failed" notes are the most valuable thing in this repo.
-- A **verdict** is `PASS` / `MEH` / `BLOCKED` with a reason. Several entries are explicit corrections of
-  earlier entries; that is intentional.
+- **E-numbers** (`E1`…`E16`) are **experiments** — one capability each, run in order, each with a verdict and the reasoning. `E1c`, `E4b`, `E13f` are refinements of the same experiment.
+- **U-numbers** (`U1`…`U7`) are **upgrades** — swapping a working-but-suboptimal tool for a better or license-cleaner one, decided by the audit.
+- Both live in **[`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md)** (2D) and **[`3d/EXPERIMENTS.md`](3d/EXPERIMENTS.md)** (3D). **Read the verdicts, not just the results** — the "why it failed" notes are the most valuable thing in this repo.
+- A **verdict** is `PASS` / `MEH` / `BLOCKED` with a reason. Several entries are explicit corrections of earlier entries; that is intentional.
 
 ---
 
 ## I want to…
+
+**Job-oriented entry point:** start from the outcome you need and it points at the flow to run.
+Every curated flow appears here at least once — including superseded ones, which are *marked* so
+nothing is unfindable without also being recommended.
+
+**[`PIPELINES.md`](PIPELINES.md) is the other axis** — a *capability index* to read when you want the
+landscape rather than a job: every flow with its operation family, subject/domain, cost, **licence**,
+status and key knob, plus the taxonomy both files share.
+
+> Rule of thumb — **have a job → this table. Want to understand, survey, or look something up → `PIPELINES.md`.**
 
 | I want to… | go to |
 |---|---|
@@ -74,23 +73,28 @@ organised.
 | Control composition from an existing image | `2d/workflows/controlnet-union.json` (one model, many modes) · canny-only: `sdxl-controlnet-canny.json` |
 | Cut an object out (transparent PNG) | `2d/workflows/remove-bg.json` (BiRefNet) |
 | **Auto-mask by description** ("the knight", "the roof") | `2d/workflows/sam3-segment.json` — SAM 3, text-prompted |
+| Get a **depth** or **normal** map from an image | `2d/workflows/depth-normal.json` (DepthAnythingV2 + DSINE) — feeders for depth-ControlNet, masking and 2.5D |
 | Inpaint / remove / add an object | `2d/workflows/inpaint.json`, then **`outpaint.json`** (Crop&Stitch — no drift outside the mask) |
 | Make the picture bigger (outpaint) | `2d/workflows/outpaint.json` |
 | Compose a scene from parts (bg + character + prop) | `scripts/compose_scene.py` → `2d/workflows/compose-harmonize.json` |
 | Keep two characters from merging | `2d/workflows/regional-prompting.json` (a single prompt *drops* a subject) |
 | Keep a character consistent across images | `2d/workflows/qwen-edit-gguf.json` (design-level, Apache-2.0) · `instantid-character.json` (tight face, pose-locked) · `pulid-identity.json` (face + free composition) · `kontext-character.json` (superseded, non-commercial) |
 | Relight / change the lighting of an image | `2d/workflows/qwen-edit-gguf.json` (faithful) or `kontext-edit.json` (bolder, non-commercial) |
+| Transfer the **style** of a reference image | `2d/workflows/ipadapter-style.json` (IPAdapter, weight 0.2–0.4) — **superseded**: Qwen-Edit's multi-image reference does this without IPAdapter (E14c) |
 | Make a texture **tile seamlessly** | `2d/workflows/seamless-texture.json` (`method="offset"`; avoid mirror/blend_edges) |
 | Turn a texture into **PBR maps** | **`scripts/marigold_pbr.py`** (correct metallic) — not `pbr-from-texture.json`, whose metallic is inverted |
 | Push a 2D material into **3D** | **`scripts/make_gltf_material.py`** → glTF-valid material + optional GLB |
 | Upscale / restore (incl. faces) | `2d/workflows/upscale-seedvr2.json` (Apache-2.0). Set `resolution` = image size for **restore**, larger to upscale |
+| Upscale **faithfully** (GAN, invents nothing) | `2d/workflows/upscale.json` — ⚠ uses non-commercial `4x-UltraSharp`; for shippable output use SeedVR2 above |
 | Pixel art | `2d/workflows/pixel-art.json` (**downscale nearest ÷8 or ÷16** — never trust the detector) |
 | Build a sprite sheet / atlas | `2d/workflows/sprite-atlas.json` (build + slice round-trip) |
 | Sweep parameters and get a labelled grid | **`scripts/sweep.py`** (`--x cfg:3,5,7 --y steps:10,20,30`) |
 | Reproduce the canonical asset set | **`scripts/gen_assets.py`** |
 | Promote assets into the repo | **`scripts/publish_assets.sh`** (`[2d\|3d\|all] [ids…]`) |
 | Make a 3D model from an image/description | `3d/workflows/hy3d-full-workflow.json`, see [`3d/README.md`](3d/README.md) |
+| Make a 3D model from **multiple views** | `3d/workflows/hy3d-multiview-workflow.json` (the multiview variant of Hy3D) |
 | Rig a character | `3d/workflows/unirig-humanoid-workflow.json` (bpy via pixi — **Linux only**) |
+| **Check the docs** (tables/links) before committing | `scripts/lint_docs.py` |
 | **Know what will and won't run here** | **[`comfyui/hardware.md`](comfyui/hardware.md)** — read *before* pulling a large model |
 | Use the server / fix a crash | [`comfyui/README.md`](comfyui/README.md) → gotchas · [`comfyui/setup.md`](comfyui/setup.md) |
 | Set up a new machine | [`comfyui/linux-setup.md`](comfyui/linux-setup.md) · [`comfyui/linux-migration.md`](comfyui/linux-migration.md) |
@@ -106,7 +110,7 @@ organised.
 | **2D assets** | 38 curated (`assets/2d/`) — characters, props, environments, pixel sprites, atlases, seamless + PBR textures |
 | **3D assets** | 5 (`assets/3d/`) — a generated glTF PBR material + a mesh wearing it |
 | **Workflows** | 23 curated graphs (`2d/workflows/`, `3d/workflows/`) |
-| **Scripts** | 6 (`scripts/`) — generator, sweeper, compose, Marigold PBR, glTF material, publish |
+| **Scripts** | 7 (`scripts/`) — asset generator, sweeper, scene composer, Marigold PBR, glTF material, publisher, doc linter |
 | **Evidence** | 39 comparison sheets (`2d/evidence/`) — every claim has a picture |
 | **Status** | 2D ladder **E1–E16 complete** · upgrades **U1–U7 complete** (bar low-value extras) · 3D scenario complete |
 

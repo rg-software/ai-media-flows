@@ -131,6 +131,31 @@ def lint_file(path: str, rel: str) -> list[str]:
     return problems
 
 
+def check_flow_coverage() -> list[str]:
+    """Every curated flow must be reachable from the two indexes, so a new flow cannot
+    silently become unfindable:
+      * README.md   -> the job-oriented "I want to…" table
+      * PIPELINES.md -> the capability index
+    """
+    problems: list[str] = []
+    flows: list[str] = []
+    for pattern in ("2d/workflows/*.json", "3d/workflows/*.json", "scripts/*"):
+        if pattern.startswith("scripts"):
+            flows += [p for p in glob.glob(os.path.join(REPO, pattern)) if os.path.isfile(p)]
+        else:
+            flows += glob.glob(os.path.join(REPO, pattern))  # scratch/ is excluded by the glob
+    readme = open(os.path.join(REPO, "README.md"), encoding="utf-8").read()
+    pipes = open(os.path.join(REPO, "PIPELINES.md"), encoding="utf-8").read()
+    for f in sorted(flows):
+        rel = os.path.relpath(f, REPO).replace(os.sep, "/")
+        base = os.path.basename(f)
+        if base not in readme:
+            problems.append(f"{rel} is in no README.md 'I want to' row (unreachable from the front door)")
+        if base not in pipes:
+            problems.append(f"{rel} has no row in PIPELINES.md (missing from the capability index)")
+    return problems
+
+
 def main() -> int:
     rc = getattr(sys.stdout, "reconfigure", None)  # may be absent on odd runtimes
     if rc is not None:
@@ -151,6 +176,7 @@ def main() -> int:
     for f in sorted(files):
         rel = os.path.relpath(f, REPO)
         all_problems += lint_file(f, rel)
+    all_problems += check_flow_coverage()
 
     print(f"linted {len(files)} markdown file(s)")
     if all_problems:
