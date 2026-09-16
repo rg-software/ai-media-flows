@@ -1,0 +1,122 @@
+{
+ "last_node_id": 7,
+ "last_link_id": 6,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "LoadImage",
+   "pos": [-900, 0],
+   "size": [320, 320],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {"name": "IMAGE", "type": "IMAGE", "links": [1], "slot_index": 0},
+    {"name": "MASK", "type": "MASK", "links": [], "slot_index": 1}
+   ],
+   "properties": {"Node name for S&R": "LoadImage"},
+   "widgets_values": ["2d/tex_stone_seamless.png", "image"]
+  },
+  {
+   "id": 2,
+   "type": "QFXPBRGenerator",
+   "pos": [-520, 0],
+   "size": [340, 340],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [{"name": "image", "type": "IMAGE", "link": 1}],
+   "outputs": [
+    {"name": "BaseColor", "type": "IMAGE", "links": [2], "slot_index": 0},
+    {"name": "Normal", "type": "IMAGE", "links": [3], "slot_index": 1},
+    {"name": "Roughness", "type": "IMAGE", "links": [4], "slot_index": 2},
+    {"name": "Displacement", "type": "IMAGE", "links": [], "slot_index": 3},
+    {"name": "AO", "type": "IMAGE", "links": [5], "slot_index": 4},
+    {"name": "Metallic", "type": "IMAGE", "links": [], "slot_index": 5},
+    {"name": "ORM", "type": "IMAGE", "links": [6], "slot_index": 6}
+   ],
+   "properties": {"Node name for S&R": "QFXPBRGenerator"},
+   "widgets_values": ["stone_wall", "seamless", 1.2, true, 0.0, 1.0, 0.0, 1.0, 0.15, 2, 1.0, true]
+  },
+  {
+   "id": 3,
+   "type": "SaveImage",
+   "pos": [-120, -320],
+   "size": [380, 280],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [{"name": "images", "type": "IMAGE", "link": 2}],
+   "outputs": [],
+   "properties": {"Node name for S&R": "SaveImage"},
+   "widgets_values": ["2D/E12b/stone_BaseColor"]
+  },
+  {
+   "id": 4,
+   "type": "SaveImage",
+   "pos": [-120, -20],
+   "size": [380, 280],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [{"name": "images", "type": "IMAGE", "link": 3}],
+   "outputs": [],
+   "properties": {"Node name for S&R": "SaveImage"},
+   "widgets_values": ["2D/E12b/stone_Normal"]
+  },
+  {
+   "id": 5,
+   "type": "SaveImage",
+   "pos": [-120, 280],
+   "size": [380, 280],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [{"name": "images", "type": "IMAGE", "link": 4}],
+   "outputs": [],
+   "properties": {"Node name for S&R": "SaveImage"},
+   "widgets_values": ["2D/E12b/stone_Roughness"]
+  },
+  {
+   "id": 6,
+   "type": "SaveImage",
+   "pos": [-120, 580],
+   "size": [380, 280],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [{"name": "images", "type": "IMAGE", "link": 5}],
+   "outputs": [],
+   "properties": {"Node name for S&R": "SaveImage"},
+   "widgets_values": ["2D/E12b/stone_AO"]
+  },
+  {
+   "id": 7,
+   "type": "SaveImage",
+   "pos": [-120, 880],
+   "size": [380, 280],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [{"name": "images", "type": "IMAGE", "link": 6}],
+   "outputs": [],
+   "properties": {"Node name for S&R": "SaveImage"},
+   "widgets_values": ["2D/E12b/stone_ORM"]
+  }
+ ],
+ "links": [
+  [1, 1, 0, 2, 0, "IMAGE"],
+  [2, 2, 0, 3, 0, "IMAGE"],
+  [3, 2, 1, 4, 0, "IMAGE"],
+  [4, 2, 2, 5, 0, "IMAGE"],
+  [5, 2, 4, 6, 0, "IMAGE"],
+  [6, 2, 6, 7, 0, "IMAGE"]
+ ],
+ "groups": [
+  {"title": "E12b — texture -> full PBR set (qornflex ComfyUI-QFX-PBRGenerator). CAVEAT: the Metallic output measured ~219/255 on stone (should be ~0 / non-metallic) -> treat it as suspect/inverted and verify per material. BaseColor/Normal/Roughness/AO/Displacement/ORM are good.", "bounding": [-960, -380, 1300, 1580], "color": "#8A8A3f", "font_size": 22, "flags": {}}
+ ],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}

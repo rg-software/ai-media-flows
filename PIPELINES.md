@@ -43,6 +43,8 @@ These are *attributes*, not folders — one flow can serve several. Record them 
 | `2d/workflows/upscale.json` | finish | any | image/texture | free | model: **4x-UltraSharp** for art | **PASS** (E4b) |
 | `2d/workflows/seamless-texture.json` | surface | material | texture | free | `SeamlessTiling(method=offset)` | **PASS** (E7c) |
 | `2d/workflows/sprite-atlas.json` | assemble | object | image | free | `ImageGrid(columns)`, tile w/h | **PASS** (E6) |
+| `2d/workflows/depth-normal.json` | isolate | object/scene | image | free | DepthAnythingV2 + DSINE | **PASS** (E12) |
+| `2d/workflows/pbr-from-texture.json` | surface | material | texture→3D | free | `QFXPBRGenerator`; **metallic output suspect** | **PASS w/ caveat** (E12b) |
 | `3d/workflows/hy3d-full-workflow.json` | reconstruct | object | 3D | free | Hy3D shape→texture→bake | **PASS** (E2a–e) |
 | `3d/workflows/hy3d-multiview-workflow.json` | reconstruct | object | 3D | free | mv model + uniform 512² views | **PASS** (E2d) |
 | `3d/workflows/unirig-humanoid-workflow.json` | reconstruct | character | 3D | free | UniRig (bpy via pixi) | **PASS** (E4-L) |
@@ -51,8 +53,8 @@ These are *attributes*, not folders — one flow can serve several. Record them 
 
 | family | next | notes |
 |---|---|---|
-| isolate | **E12** depth/normal/SAM masks | feeders for guide (depth CN), edit (masks), assemble (depth order) |
-| surface | **E12b** texture → PBR set | `QFXPBRGenerator` / `ChannelPackerORMA`; the 2D↔3D crossover |
+| isolate | ~~E12 depth/normal/SAM masks~~ **done** | depth+normal landed; SAM masks still open |
+| surface | ~~E12b texture → PBR set~~ **done (caveat: metallic)** | `QFXPBRGenerator`; the 2D↔3D crossover |
 | edit | E9 outpaint · E10 composition | core nodes only |
 | finish | E13 face restore / IC-Light relight | CodeFormer linked; IC-Light to install |
 | guide | E14 consistency (InstantID/FaceID) | weights not pulled |
