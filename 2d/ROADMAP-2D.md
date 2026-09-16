@@ -56,7 +56,7 @@ even while we execute E2→E7 in order.
 - [x] **E12 — Segmentation + depth (SAM / GroundingDINO / DepthAnything).** Auto-masks + depth maps;
       feeds E8–E10 and 2.5D later.
 - [x] **E13 — Finishing.** Tiled upscale + face restore + relight + colour match. **PASS** - relight done with **Flux.1 Kontext** (installed; instruction edit beat ColorMatch outright), not IC-Light. Face restore still untested: no asset in the set has a visible face.
-- [ ] **E14 — Consistency.** InstantID/FaceID + pose CN → character sheets across scenes.
+- [x] **E14 — Consistency.** InstantID/FaceID + pose CN → character sheets across scenes.
 - [ ] **E15 — Regional / multi-subject.** Regional prompting / attention-couple; multiple characters.
 - [ ] **E16 — Batch/iteration system.** XY plots, seeds, prompt grids — the "sheet" primitive at scale.
 

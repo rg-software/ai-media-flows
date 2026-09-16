@@ -46,6 +46,8 @@ These are *attributes*, not folders — one flow can serve several. Record them 
 | `2d/workflows/outpaint.json` | edit | scene/object | image | free | `InpaintCropImproved` `extend_*_factor` + `InpaintStitchImproved` | **PASS** (E9) |
 | `2d/workflows/compose-harmonize.json` | assemble | scene | image | free | `InpaintCropImproved` + denoise **0.45 = integrate / 0.75 = replace** | **PASS** (E10) |
 | `2d/workflows/kontext-edit.json` | finish | any | image | Flux Kontext fp8 | instruction edit (relight); **~1 MP ceiling** → upscale tail is mandatory | **PASS** (E13) |
+| `2d/workflows/kontext-character.json` | assemble | object | image | Flux Kontext fp8 | 2× `ReferenceLatent` (scene+character); design consistency, **not** identity (face cos 0.187) | **PASS** (E14a) |
+| `2d/workflows/instantid-character.json` | assemble | object | image | InstantID + SDXL | face identity (cos **0.823**); face-only, biases to bust framing | **PASS** (E14b) |
 | `2d/workflows/depth-normal.json` | isolate | object/scene | image | free | DepthAnythingV2 + DSINE | **PASS** (E12) |
 | `2d/workflows/pbr-from-texture.json` | surface | material | texture→3D | free | `QFXPBRGenerator`; **metallic output suspect** | **PASS w/ caveat** (E12b) |
 | `3d/workflows/hy3d-full-workflow.json` | reconstruct | object | 3D | free | Hy3D shape→texture→bake | **PASS** (E2a–e) |
@@ -58,7 +60,7 @@ These are *attributes*, not folders — one flow can serve several. Record them 
 |---|---|---|
 | isolate | ~~E12 depth/normal/SAM masks~~ **done** | depth+normal landed; SAM masks still open |
 | surface | ~~E12b texture → PBR set~~ **done (caveat: metallic)** | `QFXPBRGenerator`; the 2D↔3D crossover |
-| edit | ~~E9 outpaint~~ · ~~E10 composition~~ · ~~E13 finishing~~ **done** · E14 consistency next | **Flux.1 Kontext dev fp8 added 2026-09-16** — first instruction-based editor on the box; the box was SD1.5/SDXL-only before. Crop&Stitch remains the inpaint/outpaint/harmonize tool |
+| edit | ~~E9~~ · ~~E10~~ · ~~E13~~ · ~~E14 consistency~~ **done** · E15 regional next | **Flux.1 Kontext fp8 + InstantID added 2026-09-16** — the box is no longer SD1.5/SDXL-only. Matching tool to job: Kontext = design/scene edit, InstantID = faces |
 | finish | E13 face restore / IC-Light relight | CodeFormer linked; IC-Light to install |
 | guide | E14 consistency (InstantID/FaceID) | weights not pulled |
 | guide | E15 regional / multi-subject | nodes present |

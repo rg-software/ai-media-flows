@@ -19,6 +19,8 @@ workflows can reference them by name.
 | `env_cottage` | environment/building | E2 control, E10 composition | medieval cottage exterior, stone, thatch, warm windows | 1103 | 1024² |
 | `bg_forest` | background plate | E9 outpaint, E10 composition | misty pine forest, layered depth, no characters | 1104 | 1024² |
 | `tex_stone` | material/texture | E7 tileable, 3D texturing | seamless stone wall, flat, even lighting | 1105 | 1024² |
+| `char_heroine` | character **with a visible face** | E14 identity consistency, E13 face restore | heroic sorceress, visible face, blue/gold robes | 1106 | 1024² |
+| `portrait_heroine` | large-face reference | E14 InstantID/PuLID face embedding | head-and-shoulders portrait, face large and centered | 1107 | 1024² |
 
 Conventions: plain/neutral background for cutout assets; no text/watermarks; SDXL native 1024²
 (wide formats and outpaint are E9's job, not E1's).
@@ -43,6 +45,10 @@ Derived assets (produced by later stages, also versioned under `assets/2d/`):
 | `tex_stone_pbr_{basecolor,normal,roughness,ao,orm}` | E12b `workflows/pbr-from-texture.json` | PBR set from `tex_stone_seamless`; **metallic map is suspect/inverted** |
 | `scene_cottage_knight` | E10 `scripts/compose_scene.py` + `workflows/compose-harmonize.json` | knight + chest placed on `env_cottage_wide`, harmonized at denoise 0.45; placement scripted, lighting blended |
 | `scene_cottage_knight_golden` | E13 `workflows/kontext-edit.json` | Flux Kontext relight (warm late-afternoon sun) + 4x-UltraSharp restore to 2048×1024 |
+| `scene_forest_sorceress` | E14a `workflows/kontext-character.json` | heroine placed in `bg_forest` by Kontext reference — design consistency (face cos 0.187) |
+| `portrait_forest_sorceress` | E14b `workflows/instantid-character.json` | InstantID face transfer into the forest — identity cos 0.823, bust framing |
+
+**Face-ID rule:** anything that embeds a face (InstantID, IPAdapter-FaceID, PuLID) needs the face to be **≥ ~112 px** in the reference. A 1024² full-body gives only ~60 px, so use a dedicated large-face portrait (`portrait_heroine`) as the identity source. `char_knight` is **unusable** for these tools — it is helmeted.
 
 **Pixel art rule:** those models emit a *blocky canvas*; downscale **nearest** by the model's grid
 factor (16 for 16x@256², 8 for 24x-64x@512² and 128x@1024²) — never rely on the detector's
