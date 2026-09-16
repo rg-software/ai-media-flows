@@ -46,7 +46,11 @@ Same methodology as `3d/`:
 
 - `PROTOCOL.md` — the **experiment protocol**: canonical asset set, run/sweep rules, evaluation, promotion.
 - `ROADMAP-2D.md` — the **bigger picture**: tracks beyond isolated assets (inpaint, outpaint,
-  composition, IPAdapter/reference transfer, consistency, finishing) + the full E-number backlog.
+  composition, IPAdapter/reference transfer, consistency, finishing) + the full E-number backlog
+  **and the tooling upgrade backlog (U1–U6)**.
+- `AUDIT-tooling-2026-09.md` — **are we using the best available?** Per-step comparison of what we
+  use vs. current best, incl. **licence** (several of our tools are non-commercial) and the cost to
+  switch. Read this before choosing a tool for new work.
 - `EXPERIMENTS-2D.md` — run log (verdicts with *why*).
 - `workflows/` — valuable pipelines; `workflows/scratch/` — scaffolding.
 - `../scripts/gen_assets.py` — generator for the canonical `input/2d/` asset set (E1b).

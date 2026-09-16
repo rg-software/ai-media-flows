@@ -1,0 +1,80 @@
+# 2D tooling audit — are we using the best we can?
+
+**Date:** 2026-09-16. **Trigger:** after E14 the user asked to re-check the earlier steps against
+"best quality rather than installed tools" before continuing to E15/E16.
+
+Method: for every 2D step, compare (a) what our workflow actually uses, (b) the current best
+available, (c) **licence**, and (d) the cost to switch. Sources: the vendor model cards and two
+June-2026 tooling surveys (open-weight model comparison; local image/video upscaler benchmark),
+plus the HF repos that ComfyUI actually serves from.
+
+## Headline
+
+Two findings that matter more than any node choice:
+
+1. **Licence, not quality, is our biggest problem.** Four of the tools we now depend on are
+   **non-commercial**: `Flux.1 Kontext dev`, `4x-UltraSharp`, `SUPIR`, and (via insightface) the
+   whole face-embedding family. For a game that might ship, that is a real constraint, and the
+   genuinely best 2026 tools are also the *licence-clean* ones.
+2. **SDXL is now a niche pick.** The SD1.5/SDXL era we built E1–E7 on is no longer the default;
+   **Qwen-Image-2512 + Qwen-Image-Edit-2511 are Apache 2.0** and would replace E1 *and*
+   E8/E9/E10/E13/E14 at **native 2K** — which also fixes Kontext's ~1 MP ceiling that forced the
+   E13 upscale tail.
+
+## Per-step audit
+
+| step | we use today | licence | best available (2026) | verdict |
+|---|---|---|---|---|
+| **E1** base art | RealVisXL_V5.0 / SDXL | OpenRAIL++ (OK) | **Qwen-Image-2512** (Apache 2.0, 20B) — strongest open on Alibaba's AI Arena; fp8 **19.0 GB** + 7B VL encoder **8.7 GB** + VAE 0.2 GB. Alt: FLUX.2 [dev] (best quality but **non-commercial**, ~32 GB), Z-Image Turbo (Apache, 6B, fast) | **UPGRADE** |
+| **E2** control | SD1.5 CN (depth/openpose/scribble) + xinsir-canny-SDXL | OpenRAIL (OK) | ControlNet-Union SDXL (one model, many modes); Qwen-Image-Edit has **native** depth/edge/keypoint CN | upgrade (low priority) |
+| **E3** cutout | BiRefNet general | MIT (OK) | BiRefNet-HR / RMBG-2.0 | **fine** (verify HR variant) |
+| **E4** upscale | **4x-UltraSharp** | **NON-COMMERCIAL** | **SeedVR2** (Apache 2.0, stills *and* video, `Comfy-Org/SeedVR2`); users prefer it over SUPIR. Clean alts: Real-ESRGAN (BSD), 4xNomos2 (CC-BY), HAT/SwinIR (Apache) | **UPGRADE (licence)** |
+| **E5** pixel art | RetroDiffusion ×3 | RD licence (verify) | RetroDiffusion remains best-in-class | **keep** |
+| **E6** atlas | `ImageGrid` | n/a | — | keep |
+| **E7** seamless | TextureAlchemy `SeamlessTiling(offset)` | GPL-3 (OK) | fine | keep |
+| **E8/E9/E10** inpaint / outpaint / compose | SDXL + CropAndStitch | CropAndStitch GPL-3 (OK) | **Qwen-Image-Edit-2511** (Apache 2.0, **native 2K**, multi-image refs, multi-person fusion, native CN, prompt-rewrite tooling); alt FLUX.1 Fill (**non-commercial**) | **UPGRADE** |
+| **E11** style/ref | IPAdapter-plus SDXL + CLIP-ViT-H | Apache-ish (verify) | Qwen-Image-Edit refs; Flux Redux | upgrade (medium) |
+| **E12** depth/normal | DepthAnythingV2 + DSINE | OK | still competitive | keep |
+| **E12b** PBR | `QFXPBRGenerator` (**metallic inverted**) | GPL (verify) | **Marigold `iid-lighting` / `iid-appearance`** — *already on disk* (`models/diffusers/marigold-iid-*`); intrinsic decomposition is the principled route to albedo/roughness | **UPGRADE (cheap)** |
+| **E13** relight | **Flux.1 Kontext dev** | **NON-COMMERCIAL** + ~1 MP | **Qwen-Image-Edit-2511 + `Qwen-Image-Edit-2509-Relight` LoRA** (Apache 2.0, 0.2 GB LoRA) | **UPGRADE** |
+| **E13** upscale tail | 4x-UltraSharp | **NON-COMMERCIAL** | SeedVR2 | **UPGRADE (licence)** |
+| **E13** face restore | CodeFormer (linked, **not yet run**) | **verify — S-Lab License 1.0 is non-commercial** | SeedVR2 also restores faces; or GFPGAN (Apache) | verify/swap |
+| **E14** identity | InstantID (cos **0.823**) + insightface | InstantID Apache-2.0, **but insightface pretrained models are non-commercial research** | **PuLID-Flux** (id ~0.72, works on Flux, least style-drag, most maintained — the 2026 default); InstantID remains the accuracy ceiling but is pose-locked and SDXL-only | **UPGRADE (licence + flexibility)** |
+
+## What this changes about our conclusions
+
+- Everything we *learned* still holds — the measurement findings (E9's pixel-identical stitch,
+  E10's denoise identity knob, E13's "colour statistics ≠ illumination", E14's 0.187-vs-0.823)
+  are properties of the **methods**, not of the checkpoints, and stay valid.
+- But the **artefacts** are on non-commercial footing: `scene_cottage_knight_golden`,
+  `scene_forest_sorceress`, `portrait_forest_sorceress` and any 4x-UltraSharp upscale are
+  derived from non-commercial models. Fine for research/learning (which is the current goal),
+  **not fine to ship**.
+- Our tool *coverage* is good (we now have generation, editing, identity, upscale, PBR,
+  relight). The gap is **quality tier and licence**, not capability.
+
+## Recommended order
+
+Priority is "unlocks the most downstream steps per GB", licence-clean first.
+
+1. **SeedVR2** (Apache) — replaces the non-commercial `4x-UltraSharp` everywhere (E4, E13) and
+   doubles as face/photo restoration. Small, immediate, licence-fixing.
+2. **Qwen-Image-Edit-2511** (Apache, 19.1 GB fp8mixed) + its VL encoder + VAE = **~28 GB**, shared
+   with #3. Replaces Kontext for E8/E9/E10/E13 at native 2K, adds multi-image reference and the
+   **Relight LoRA**; also the licence-clean answer for E14 consistency.
+3. **Qwen-Image-2512** (Apache) — same encoder/VAE as #2, so **+19 GB only**. Replaces SDXL as the
+   base-art model (E1) and reopens E1c's model shoot-out on a modern footing.
+4. **Marigold intrinsic** (already on disk) — fixes E12b's broken metallic without a download.
+5. **PuLID-Flux** — licence-cleaner and more flexible than InstantID; but confirm the insightface
+   dependency's terms first, since that is the actual restriction.
+6. Fold in the follow-ups we already owe: E2 union/Flux control, E11 style via refs, face restore.
+
+## Open questions this raises
+
+1. **Do we re-baseline E1 on Qwen-Image?** It invalidates the E1d canonical set's "best model"
+   claim, and therefore the derivatives. Cheaper alternative: keep the E1d set as the *fixture*
+   for exercising methods, and add a parallel "production" set later once we ship.
+2. **How much do we care about commercial cleanliness now?** If the goal is purely learning,
+   Kontext/InstantID stay usable and we only *record* the constraint.
+3. **Is the 24 GB card enough for Qwen-Image at fp8?** 20 GB of weights plus the 7B VL encoder
+   needs offloading; expect slower iteration and possible OOM pressure alongside other models.

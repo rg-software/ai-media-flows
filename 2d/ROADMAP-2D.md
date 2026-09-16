@@ -1,83 +1,109 @@
 # 2D Roadmap — beyond isolated assets
 
-`2d/README.md` defines the **first ladder** (E1–E7). That ladder is *single-subject* work:
-one prompt → one cutout-able asset. This file is the **bigger picture**: everything that
-turns assets into *images* — scenes, edits, references, consistency, finishing.
+`2d/README.md` defines the **first ladder** (E1–E7): single-subject work, one prompt → one
+cutout-able asset. This file is the **bigger picture**: everything that turns assets into
+*images* — scenes, edits, references, consistency, finishing — plus the **tooling upgrade
+backlog** (see `AUDIT-tooling-2026-09.md`).
 
-Framing: 2D work splits along two axes.
+2D work splits along two axes. As of 2026-09-16 **every cell has at least one PASS**:
 
 ```
-                generate            edit
-   isolated     E1  base art         E3  remove-BG
-   (one subject) E2  control art      E5  pixelate
-                E4  upscale          ...
-                E6  spritesheet
-                E7  tileable
-   scene /      E10 composition       E8  inpaint
-   picture      E11 ref/style         E9  outpaint
-                E14 consistency       E13 relight / finish
+                 generate              edit
+    isolated     E1  base art ✅        E3  remove-BG ✅
+    (one subject) E2  control art ✅     E5  pixelate ✅
+                 E4  upscale ✅         E6  spritesheet ✅
+                 E7  tileable ✅        E12 depth/normal/PBR ✅
+    scene /      E10 composition ✅     E8  inpaint ✅
+    picture      E11 ref/style ✅       E9  outpaint ✅
+                 E14 consistency ✅     E13 relight / finish ✅
 ```
-
-E1–E7 (top-left/top-right) are **banked or planned**. The gap the user flagged is the
-**bottom row**: "pictures", not "props". This roadmap records that gap so it is tracked,
-even while we execute E2→E7 in order.
 
 ## Tracks
 
-| # | Track | Use cases | Core nodes / models | Status |
-|---|---|---|---|---|
-| **A** | Isolated assets | base art, ControlNet, cutout, upscale, pixelate, spritesheet, tileable | SDXL, ACN, rembg, RetroDiffusion, SUPIR | E1 ✅ · E2–E7 planned |
-| **B** | Inpainting / editing | remove object, add prop, fix hands/faces, replace sky, extend canvas (outpaint) | SDXL-inpaint, `SetLatentNoiseMask`, `InpaintModelConditioning`, differential diffusion | **weights to pull** |
-| **C** | Composition | background + character + props, layered scenes, blockout→render, matte painting | `ImageCompositeMasked`, latent composite, Multi-ControlNet (depth+edge+pose) | nodes ✅ · **workflow to design** |
-| **D** | Image→image / references | restyle at strength, style transfer, "make it look like this", pic/pic combos | img2img, **IPAdapter** (+clip vision, +IPAdapter models), reference-only CN | nodes ✅ · **models to pull** |
-| **E** | Character consistency | sheets, storyboards, same face across scenes | **IPAdapter FaceID / InstantID** (+antelopev2), LoRA, pose CN | **models to pull** |
-| **F** | Regional / multi-ref | different content per region, attention coupling, multi-subject | regional prompter / attention-couple, Multi-IPAdapter | nodes ✅ |
-| **G** | Masking / utility | auto-masks for inpaint/cutout, depth/normal extraction | **SAM / GroundingDINO**, DepthAnything | **nodes to install** |
-| **H** | Finishing | tiled upscale, face restore, relight, colour grade | Ultimate SD Upscale / SUPIR, CodeFormer, **IC-Light**, ColorMatch | nodes ✅ · IC-Light to pull |
-| **I** | Text / UI | logos, icon sets, type lockups | Flux (best at text) | **no Flux checkpoint** |
-| **J** | Batch / consistency system | XY plots, prompt travel, seeded variation grids | efficiency-nodes, KSampler grid | partial |
+| # | Track | Core nodes / models **in use** | Status |
+|---|---|---|---|
+| **A** | Isolated assets | SDXL (RealVisXL), ACN, BiRefNet, RetroDiffusion, 4x-UltraSharp | **E1–E7 PASS** |
+| **B** | Inpainting / editing | CropAndStitch (`InpaintCropImproved`/`InpaintStitchImproved`) | **E8 PASS** |
+| **C** | Composition | `scripts/compose_scene.py` + CropAndStitch harmonize | **E10 PASS** |
+| **D** | Image→image / references | IPAdapter-plus SDXL; Flux Kontext multi-reference | **E11, E14a PASS** |
+| **E** | Character consistency | InstantID + insightface; Kontext design refs | **E14 PASS** |
+| **F** | Regional / multi-ref | attention-couple / conditioning-set-mask | **E15 open** |
+| **G** | Masking / utility | BiRefNet, DepthAnythingV2, DSINE | **E3, E12 PASS** (SAM still open) |
+| **H** | Finishing | Flux Kontext relight, 4x-UltraSharp, CodeFormer (linked, unrun) | **E13 PASS** |
+| **I** | Text / UI | — (Flux text encoders now present, no generation model yet) | **open** |
+| **J** | Batch / consistency system | XY plots, seeded grids | **E16 open** |
 
-## Backlog
+## Backlog — experiments
 
-### Track A — isolated assets (current ladder)
-- [x] **E1** — SDXL base art (prose → hero image). **PASS on Linux** (smoke; param-tuning run still open).
-- [ ] **E2** — ControlNet pose/canny → controlled art. *(in progress; weights to pull)*
-- [ ] **E3** — remove-BG (rembg/BRIA) → isolated sprite.
-- [ ] **E4** — upscale (SUPIR / RealESRGAN).
-- [ ] **E5** — pixel-art (RetroDiffusion, or downsample hi-res).
-- [ ] **E6** — spritesheet slicing → per-frame assets.
-- [ ] **E7** — tileable texture (seamless-tiling).
+### Ladder A (done)
+- [x] **E1** — base art + model shoot-out (RealVisXL_V5.0_fp16) ✓ · E1b–E1e
+- [x] **E2** — ControlNet pose/canny ✓
+- [x] **E3** — remove-BG (BiRefNet) ✓
+- [x] **E4** — upscale (4x-UltraSharp) ✓
+- [x] **E5** — pixel art (RetroDiffusion) ✓
+- [x] **E6** — spritesheet build + slice ✓
+- [x] **E7** — tileable texture ✓
 
-### Tracks B–H — pictures, edits, references (proposed)
-- [x] **E8 — Inpaint.** Mask → fill. Gateway edit op (remove/add/fix). Enables the rest of B.
-- [x] **E9 — Outpaint.** Canvas extension / wide backgrounds. "Make the picture bigger".
-- [x] **E10 — Composition.** Background + subject + prop; layered assembly (pic/pic combo, literal).
-- [x] **E11 — Reference/style transfer (IPAdapter).** Image *as* style/composition (pic/pic combo, semantic).
-- [x] **E12 — Segmentation + depth (SAM / GroundingDINO / DepthAnything).** Auto-masks + depth maps;
-      feeds E8–E10 and 2.5D later.
-- [x] **E13 — Finishing.** Tiled upscale + face restore + relight + colour match. **PASS** - relight done with **Flux.1 Kontext** (installed; instruction edit beat ColorMatch outright), not IC-Light. Face restore still untested: no asset in the set has a visible face.
-- [x] **E14 — Consistency.** InstantID/FaceID + pose CN → character sheets across scenes.
+### Tracks B–J (done)
+- [x] **E8** inpaint · **E9** outpaint · **E10** composition · **E11** ref/style
+- [x] **E12** depth/normal · **E12b** texture→PBR (caveat: metallic inverted)
+- [x] **E13** finishing/relight (Kontext) · **E14** consistency (Kontext vs InstantID)
+
+### Remaining in order
 - [ ] **E15 — Regional / multi-subject.** Regional prompting / attention-couple; multiple characters.
 - [ ] **E16 — Batch/iteration system.** XY plots, seeds, prompt grids — the "sheet" primitive at scale.
 
-## Dependencies to clear
+## Upgrade backlog — best-quality & licence-clean
 
-**Weights (≈6–10 GB, pull once):** SDXL-inpainting, IPAdapter (+ CLIP-Vision + IPAdapter model),
-InstantID (+ antelopev2), ControlNet sets (partially present: ACN, SD1.5/3/Flux), SAM/GroundingDINO,
-DepthAnything, IC-Light.
+Full reasoning and sources: **`AUDIT-tooling-2026-09.md`**. Ordered by "unlocks the most
+downstream steps per GB", licence-clean first. **This list supersedes the old
+"dependencies to clear" section.**
 
-**Node packs (may need install):** SAM / GroundingDINO wrappers, IC-Light, maybe efficiency-nodes.
+- [ ] **U1. SeedVR2** (Apache 2.0, `Comfy-Org/SeedVR2`) — replaces non-commercial `4x-UltraSharp`
+      in E4 and E13, and covers face/photo restoration. Small + immediate licence fix.
+- [ ] **U2. Qwen-Image-Edit-2511** (Apache 2.0, `qwen_image_edit_2511_fp8mixed` 19.1 GB) + VL
+      encoder + VAE (~28 GB total, shared with U3) — replaces Flux Kontext for E8/E9/E10/E13:
+      **native 2K** (kills Kontext's ~1 MP ceiling and its mandatory upscale tail), multi-image
+      refs, multi-person fusion, native ControlNet, and a **`Relight` LoRA** (0.2 GB).
+      Also the licence-clean answer for E14 consistency.
+- [ ] **U3. Qwen-Image-2512** (Apache 2.0, 19.0 GB — **reuses U2's encoder/VAE**) — replaces SDXL
+      as the base-art model for E1; re-run the E1c shoot-out on a modern footing.
+- [ ] **U4. Marigold intrinsic** (`iid-lighting` / `iid-appearance` — **already on disk**) — fixes
+      E12b's inverted metallic via intrinsic decomposition. No download.
+- [ ] **U5. PuLID-Flux** — licence-cleaner and far less pose-locked than InstantID; **check the
+      insightface terms first**, since that is the real restriction.
+- [ ] **U6. Smaller follow-ups:** E2 ControlNet-Union SDXL (one model, many modes); E11 style via
+      Qwen/Redux refs instead of 2024-era IPAdapter; E13 face restore (CodeFormer is likely
+      non-commercial — verify or swap); SAM 2 for the still-open auto-mask half of track G;
+      E16 batch tooling.
 
-**No Flux checkpoint** on the box — text/UI (track I) needs one pulled if we want it.
+## Dependencies (updated)
+
+- **On the box now:** SD1.5 + SDXL checkpoints, RetroDiffusion ×3, ControlNets (SD1.5 depth/
+  openpose/scribble, xinsir-canny-SDXL), upscalers (`4x-UltraSharp`, `RealESRGAN_x4plus`),
+  `ip-adapter-plus_sdxl_vit-h` + CLIP-ViT-H, codeformer, sam_vit_b, BLIP, Marigold diffusers ×5,
+  **Flux.1 Kontext dev fp8 + T5 + CLIP-L + `ae.safetensors`**, **InstantID + insightface 2.0 +
+  antelopev2**.
+- **Still absent:** Qwen-Image family (U2/U3), SeedVR2 (U1), PuLID (U5), SAM 2, a Flux
+  *generation* (non-editing) checkpoint.
+- **Licence watch-list** (non-commercial — do not ship output): Flux.1 dev / Kontext dev, SUPIR,
+  `4x-UltraSharp`, StableSR, InvSR, insightface pretrained models, CodeFormer (verify).
 
 ## Cross-scenario links
 
-- **3D** — E15 tileable + E12 depth/normal maps feed 3D texturing and 2.5D.
-- **Animation (future)** — E14 consistency is the prerequisite for frame-to-frame characters.
+- **3D** — E7 tileable + E12 depth/normal maps feed 3D texturing and 2.5D.
+- **Animation (future)** — E14 consistency is the prerequisite for frame-to-frame characters;
+  SeedVR2 (U1) also serves video.
 - **Vault** — `C:\Vault\Notes\Generative AI solutions.md` stays the high-level map; this file is operational.
 
 ## Open questions
 
-1. Do E2→E7 first (finish the isolated-asset ladder), or jump to B/C/D once E2 lands? *(Current call: finish E2, then go wide.)*
-2. Which consistency route for characters — InstantID, IPAdapter-FaceID, or LoRA training? (Cost/quality trade.)
-3. Do we want a Flux checkpoint for text/UI? (quality win, ~12–24 GB pull.)
+1. **Re-baseline E1 on Qwen-Image (U3)?** It would invalidate the E1d set's "best model" claim and
+   therefore its derivatives. Cheaper path: keep the E1d set as the **fixture** for exercising
+   methods, and add a production set once we ship.
+2. **How much do we care about commercial cleanliness now?** If the goal stays learning, Kontext/
+   InstantID remain usable and we only *record* the constraint.
+3. **Is 24 GB enough for Qwen-Image at fp8?** ~20 GB of weights plus a 7B VL encoder needs
+   offloading — expect slower iteration and OOM pressure.
+4. Do E15/E16 first, or start the upgrade backlog? *(Current call: decide before E15 — see audit
+   "Recommended order".)*
