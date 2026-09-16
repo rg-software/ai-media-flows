@@ -43,25 +43,29 @@ Then reboot once and re-check `free -h` to confirm it comes back automatically.
 The single change that alters what is possible: offloading becomes safe, **Qwen-Image 20B fp8
 (27.5 GB) becomes runnable**, FLUX.2 dev INT4 becomes plausible, and the freeze class disappears.
 
-### What is in there now (read 2026-09-16, no sudo needed — see below)
+### What is in there now — **confirmed via `sudo dmidecode -t memory` (2026-09-16)**
 
 | | |
 |---|---|
-| Configuration | **2 × 16 GB DDR5-5600 SO-DIMM, BOTH SLOTS OCCUPIED** (dual-channel) |
-| Total | 32 GB |
-| Likely part | **Crucial `CT16G56C46S5`** (Beelink ships Crucial; a CPU-Z record for this exact CPU shows a 2×16 GB config of that part) |
+| Configuration | **2 × 16 GB DDR5-5600 SO-DIMM, BOTH SLOTS OCCUPIED** (1 DIMM per channel) |
+| Part number | **Crucial `CT16G56C46S5.C8D`** (both slots, matched pair — serials `E93D3AEE` / `E93D3AE1`) |
+| Speed | 5600 MT/s rated, **5600 MT/s *configured*** — i.e. running at full rated speed |
+| Rank | **1 (single-rank)** |
+| Locators | `Controller0-ChannelA-DIMM0`, `Controller1-ChannelA-DIMM0` |
 
-So there is **no free slot** — reaching 64/96 GB means **replacing both sticks**, not adding one.
+Two things follow from this that matter for the upgrade:
 
-*How this was read without root:* `dmidecode` needs sudo, but **EDAC** does not —
-`/sys/devices/system/edac/mc/mc*/dimm*/size` showed four entries of 8192 MB. DDR5 SO-DIMMs carry
-two 32-bit sub-channels each, so 2 physical sticks appear as 4 EDAC "DIMMs" (which is also why
-Meteor Lake reports as "quad channel"). Note EDAC mislabels DDR5 as `Unbuffered-DDR3` — ignore that.
+1. **No free slot** — reaching 64/96 GB means **replacing both sticks**.
+2. The current modules are **single-rank**, and they comfortably hold 5600. The 48 GB modules are
+   **dual-rank (`2Rx8`)**. Dual-rank is the usual reason a SODIMM kit lands below its rated speed.
+   Offsetting that: we run **one DIMM per channel** (not 2 DPC), which is the configuration Intel's
+   "speed may be lower when populating multiple DIMMs per channel" footnote is about — so 2×48 GB
+   has a good chance of holding 5600, but **verify the configured speed after installing**.
 
-**For exact part numbers / serials / configured speed, run once with sudo:**
-```bash
-sudo dmidecode -t memory | grep -Ei 'size|speed|manufacturer|part number|serial|rank|locator'
-```
+*Earlier this was read without root from EDAC (`/sys/devices/system/edac/mc/mc*/dimm*/size` →
+four entries of 8192 MB; DDR5 SO-DIMMs carry two 32-bit sub-channels each, so 2 physical sticks
+appear as 4 EDAC entries — which is also why Meteor Lake reports as "quad channel"). EDAC mislabels
+DDR5 as `Unbuffered-DDR3`; ignore that.*
 
 ### What to buy
 
@@ -74,11 +78,12 @@ The Core Ultra 9 185H officially supports **96 GB max, DDR5-5600** (Intel spec),
 | 64 GB | 2× 32 GB DDR5-5600 SODIMM | Crucial `CT2K32G56C46S5` | cheaper, still clears Qwen fp8 comfortably |
 | — | alternatives | Kingston `KVR56S46BD8K2-96` / Corsair `CMSX96GX5M2B5600C44` | same class |
 
-**Caveat, and why it doesn't matter for us:** 48 GB modules are **dual-rank (`2Rx8`)**, which is
-harder on the memory controller — this kit is documented to run at 5600 **or downclock to
-5200/4800** depending on the platform. Meteor Lake with 2×48 GB may therefore land below 5600.
-**That is irrelevant to our workload.** We are buying *capacity* to hold offloaded model weights,
-not bandwidth; diffusion inference is not memory-bandwidth-bound. Capacity is the whole point.
+**Caveat, and why it doesn't matter for us:** 48 GB modules are **dual-rank (`2Rx8`)** while the
+current 16 GB sticks are single-rank — dual-rank is the usual reason a kit lands below its rated
+speed. Because we run one DIMM per channel, 2×48 GB has a good chance of holding 5600 anyway.
+Even if it downclocks to 5200/4800, **it is irrelevant to our workload**: we are buying *capacity*
+to hold offloaded model weights, not bandwidth, and diffusion inference is not
+memory-bandwidth-bound. Capacity is the whole point.
 
 Prices vary a lot by region — check locally before ordering.
 
