@@ -41,7 +41,7 @@ SeedVR2 (Apache), Real-ESRGAN (BSD), 4xNomos2 (CC-BY), Z-Image / Chroma / FLUX.2
 | flow | family | subject | domain | cost | licence | key knob | status |
 |---|---|---|---|---|---|---|---|
 | `2d/workflows/z-image-turbo.json` | generate | object/scene | image | Z-Image 6B | **Apache 2.0** | 8 steps, cfg 1.0, `res_multistep`; `CLIPLoader type="lumina2"`; **photoreal lean** | **PASS** (U3) |
-| `2d/workflows/qwen-edit-gguf.json` | edit | scene/object | image | Qwen GGUF Q4 | **Apache 2.0** | GGUF 12.3 GB fits (fp8 19.6 GB froze the box); **faithful** edits, 380 s | **PASS** (U2) |
+| `2d/workflows/qwen-edit-gguf.json` | edit | scene/object | image | Qwen GGUF Q4 | **Apache 2.0** | GGUF 12.3 GB fits (fp8 19.6 GB froze the box); **faithful** edits, 380–420 s; **multi-image (image1+image2) replaces Kontext for character placement** | **PASS** (U2, E14c) |
 | `2d/workflows/regional-prompting.json` | guide | scene | image | free | core | `ConditioningSetAreaPercentage` per region + `ConditioningCombine`; **fixes subject dropout** (a single prompt lost one subject) | **PASS** (E15) |
 | `scripts/sweep.py` | assemble | any | image | free | stdlib | 2-axis scripted sweep → labelled sheet + per-cell metric + JSON manifest; **cfg 7 / 20 steps** is SDXL's value point | **PASS** (E16) |
 | `2d/workflows/sdxl-base-art.json` | generate | object/scene | image | free | OpenRAIL++ | checkpoint, cfg, steps; **SDXL now a niche pick — see U3** | **PASS** (E1/E1c/E1d) |
