@@ -69,7 +69,7 @@ downstream steps per GB", licence-clean first. **This list supersedes the old
       **native 2K** (kills Kontext's ~1 MP ceiling and its mandatory upscale tail), multi-image
       refs, multi-person fusion, native ControlNet, and a **`Relight` LoRA** (0.2 GB).
       Also the licence-clean answer for E14 consistency.
-- [ ] **U3. Qwen-Image-2512** (Apache 2.0, 19.0 GB — **reuses U2's encoder/VAE**) — replaces SDXL
+- [x] **U3. Z-Image Turbo - DONE 2026-09-16** (6B, Apache 2.0; 11.46 GB + 5.25 GB encoder). Validated as the licence-clean base model that **fits**: 25 s at 1024, cgroup peak **19.3 GB, zero OOM events**. More photoreal than SDXL - a style difference, not a drop-in upgrade. `workflows/z-image-turbo.json`. *(The original plan - Qwen-Image-2512 at 19 GB plus a 7.9 GB encoder - does not fit; see `comfyui/hardware.md`.)*
       as the base-art model for E1; re-run the E1c shoot-out on a modern footing.
 - [x] **U4. Marigold intrinsic — DONE 2026-09-16** (Apache 2.0; weights were already on disk, so it
       was **free**). Fixes E12b's inverted metallic: metallic **0.354 with 0 px >0.5** vs QFX's
