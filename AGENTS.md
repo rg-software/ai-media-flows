@@ -54,6 +54,12 @@ ai-gamedev-tasks/
 - References to workflow files inside markdown use `workflows/<name>.json`.
 - Server specifics: ComfyUI server has migrated to Linux (Ubuntu 26.04, RTX 3090, systemd user service `comfyui`). See `comfyui/README.md`.
 - Do not commit model weights or API keys; note *where* weights should live, not ship them.
+- **Asset policy — location decides, not file type.** `assets/` is the curated, tracked set; a
+  valuable artefact belongs in the repo whether it is a `.png`, `.glb`, `.fbx` or `.json`. There are
+  deliberately **no per-extension ignore rules for asset formats** (`*.glb`/`*.fbx`/`*.obj` were
+  removed in 2026-09 for exactly this reason). `output/`, `temp/` and `assets-temp/` are ignored
+  wholesale and are where generated/scratch files live. Promotion into `assets/` is always a
+  deliberate step (`2d` via `scripts/publish_assets.sh`), never an ad-hoc dump.
 
 ## Status (2026-09-11)
 

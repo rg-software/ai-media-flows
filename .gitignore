@@ -5,15 +5,19 @@
 *.pth
 *.bin
 
-# --- Generated / transient outputs ---
+# --- Transient locations ---
 output/
 temp/
 assets-temp/
-*.glb
-*.fbx
-*.obj
-*.stl
-*.ply
+
+# --- Assets policy: LOCATION decides, NOT file type ---
+# `assets/` holds the curated, tracked set of valuable artefacts. Anything placed
+# there is committed regardless of format — .png, .glb, .fbx, .json, ... An asset's
+# value does not depend on its extension, so there is deliberately NO *.glb / *.fbx /
+# *.obj / *.stl / *.ply rule here. Generated and scratch output belongs in the
+# transient locations above, which are ignored wholesale.
+# Convention: promote into assets/ deliberately (2d via scripts/publish_assets.sh),
+# never by dumping files there.
 
 # --- ComfyUI / env scratch ---
 comfy-env/
@@ -21,9 +25,6 @@ comfy-env/
 __pycache__/
 *.pyc
 .python-version
-
-# --- Shared test inputs / concept art ---
-# assets/ is tracked (no ad-hoc dumps there anymore); keep model weights ignored below.
 
 # --- OS / editor ---
 .DS_Store
