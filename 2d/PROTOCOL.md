@@ -42,6 +42,7 @@ Derived assets (produced by later stages, also versioned under `assets/2d/`):
 | `env_cottage_wide` | E9 `workflows/outpaint.json` | 2048×1024 2:1 outpaint of `env_cottage` (+50%/side); original region pixel-identical |
 | `tex_stone_pbr_{basecolor,normal,roughness,ao,orm}` | E12b `workflows/pbr-from-texture.json` | PBR set from `tex_stone_seamless`; **metallic map is suspect/inverted** |
 | `scene_cottage_knight` | E10 `scripts/compose_scene.py` + `workflows/compose-harmonize.json` | knight + chest placed on `env_cottage_wide`, harmonized at denoise 0.45; placement scripted, lighting blended |
+| `scene_cottage_knight_golden` | E13 `workflows/kontext-edit.json` | Flux Kontext relight (warm late-afternoon sun) + 4x-UltraSharp restore to 2048×1024 |
 
 **Pixel art rule:** those models emit a *blocky canvas*; downscale **nearest** by the model's grid
 factor (16 for 16x@256², 8 for 24x-64x@512² and 128x@1024²) — never rely on the detector's

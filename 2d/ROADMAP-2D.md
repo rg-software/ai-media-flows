@@ -49,13 +49,13 @@ even while we execute E2→E7 in order.
 - [ ] **E7** — tileable texture (seamless-tiling).
 
 ### Tracks B–H — pictures, edits, references (proposed)
-- [ ] **E8 — Inpaint.** Mask → fill. Gateway edit op (remove/add/fix). Enables the rest of B.
-- [ ] **E9 — Outpaint.** Canvas extension / wide backgrounds. "Make the picture bigger".
-- [ ] **E10 — Composition.** Background + subject + prop; layered assembly (pic/pic combo, literal).
-- [ ] **E11 — Reference/style transfer (IPAdapter).** Image *as* style/composition (pic/pic combo, semantic).
-- [ ] **E12 — Segmentation + depth (SAM / GroundingDINO / DepthAnything).** Auto-masks + depth maps;
+- [x] **E8 — Inpaint.** Mask → fill. Gateway edit op (remove/add/fix). Enables the rest of B.
+- [x] **E9 — Outpaint.** Canvas extension / wide backgrounds. "Make the picture bigger".
+- [x] **E10 — Composition.** Background + subject + prop; layered assembly (pic/pic combo, literal).
+- [x] **E11 — Reference/style transfer (IPAdapter).** Image *as* style/composition (pic/pic combo, semantic).
+- [x] **E12 — Segmentation + depth (SAM / GroundingDINO / DepthAnything).** Auto-masks + depth maps;
       feeds E8–E10 and 2.5D later.
-- [ ] **E13 — Finishing.** Tiled upscale + face restore + IC-Light relight + colour match.
+- [x] **E13 — Finishing.** Tiled upscale + face restore + relight + colour match. **PASS** - relight done with **Flux.1 Kontext** (installed; instruction edit beat ColorMatch outright), not IC-Light. Face restore still untested: no asset in the set has a visible face.
 - [ ] **E14 — Consistency.** InstantID/FaceID + pose CN → character sheets across scenes.
 - [ ] **E15 — Regional / multi-subject.** Regional prompting / attention-couple; multiple characters.
 - [ ] **E16 — Batch/iteration system.** XY plots, seeds, prompt grids — the "sheet" primitive at scale.
