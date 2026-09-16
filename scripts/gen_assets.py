@@ -63,6 +63,31 @@ ASSETS = [
         "note": "E9 outpaint / E10 composition",
     },
     {
+        "id": "char_heroine",
+        "prompt": ("full body game character concept art of a single heroic fantasy sorceress, "
+                   "clearly visible unobstructed face, long auburn hair, ornate blue and gold "
+                   "mage robes, standing relaxed pose, arms at sides, solo, isolated on a plain "
+                   "light gray background, no border, no frame, no text, clean silhouette, "
+                   "highly detailed digital painting, neutral studio lighting, sharp focus"),
+        "negative": (DEFAULT_NEG + ", character sheet, multiple views, multiple figures, border, "
+                     "frame, ornate frame, panel, collage, decorative background, helmet, mask, "
+                     "obscured face"),
+        "seed": 1106, "width": 1024, "height": 1024,
+        "note": "E1e - face-bearing character; unblocks E14 identity (InstantID/PuLID) and E13 face restore",
+    },
+    {
+        "id": "portrait_heroine",
+        "prompt": ("head and shoulders portrait of a heroic fantasy sorceress, clearly visible "
+                   "face centered and large in frame, long auburn hair, ornate blue and gold mage "
+                   "robes, symmetrical composition, neutral expression, looking at camera, isolated "
+                   "on a plain light gray background, highly detailed digital painting, neutral "
+                   "studio lighting, sharp focus on the eyes"),
+        "negative": (DEFAULT_NEG + ", full body, multiple figures, border, frame, panel, collage, "
+                     "decorative background, helmet, mask, obscured face, sunglasses"),
+        "seed": 1107, "width": 1024, "height": 1024,
+        "note": "E1e - large-face reference for face-ID embedding (full body only gives ~60px faces)",
+    },
+    {
         "id": "tex_stone",
         "prompt": ("seamless stone wall texture, irregular grey blocks, weathered, flat "
                    "orthographic view, even lighting, high detail material reference"),
