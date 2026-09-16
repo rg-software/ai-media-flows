@@ -1,0 +1,139 @@
+{
+  "x": {
+    "cfg": [
+      3,
+      5,
+      7,
+      9
+    ]
+  },
+  "y": {
+    "steps": [
+      10,
+      20,
+      30
+    ]
+  },
+  "cells": [
+    {
+      "cfg": 3,
+      "steps": 10,
+      "seconds": 6.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x0_y0_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 5,
+      "steps": 10,
+      "seconds": 6.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x1_y0_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 7,
+      "steps": 10,
+      "seconds": 6.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x2_y0_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 9,
+      "steps": 10,
+      "seconds": 6.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x3_y0_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 3,
+      "steps": 20,
+      "seconds": 6.1,
+      "file": {
+        "filename": "knight_cfg_x_steps_x0_y1_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 5,
+      "steps": 20,
+      "seconds": 9.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x1_y1_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 7,
+      "steps": 20,
+      "seconds": 6.2,
+      "file": {
+        "filename": "knight_cfg_x_steps_x2_y1_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 9,
+      "steps": 20,
+      "seconds": 9.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x3_y1_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 3,
+      "steps": 30,
+      "seconds": 9.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x0_y2_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 5,
+      "steps": 30,
+      "seconds": 9.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x1_y2_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 7,
+      "steps": 30,
+      "seconds": 9.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x2_y2_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    },
+    {
+      "cfg": 9,
+      "steps": 30,
+      "seconds": 9.0,
+      "file": {
+        "filename": "knight_cfg_x_steps_x3_y2_00001_.png",
+        "subfolder": "2D/E16",
+        "type": "output"
+      }
+    }
+  ]
+}
