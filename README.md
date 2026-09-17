@@ -19,7 +19,7 @@ Flows are described by what they do rather their folder locations. **Browse [`PI
 
 | family        | what it does                                                                                                        |
 | ------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `generate`    | prompt → brand-new image                                                                                            |
+| `generate`    | prompt → brand-new artefact                                                                                         |
 | `guide`       | generation constrained by structure **or reference** — ControlNet, regional areas, style/identity references, masks |
 | `stylize`     | rerender into a disciplined style/palette                                                                           |
 | `isolate`     | subject out of background; masks and per-pixel maps                                                                 |
