@@ -19,7 +19,7 @@ Flows are described by what they do rather their folder locations. **Browse [`PI
 
 | family        | what it does                                                                                                        |
 | ------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `generate` | prompt → brand-new artefact of the target domain |
+| `generate`    | prompt → brand-new image                                                                                            |
 | `guide`       | generation constrained by structure **or reference** — ControlNet, regional areas, style/identity references, masks |
 | `stylize`     | rerender into a disciplined style/palette                                                                           |
 | `isolate`     | subject out of background; masks and per-pixel maps                                                                 |
@@ -106,8 +106,8 @@ A flow's `.json` lives in whichever scenario folder it was built for. **Browse b
 
 **Licence posture:** the stack is Apache-2.0/BSD-clean with **one exception** — `insightface`
 (used by `instantid-character.json` and `pulid-identity.json`) is non-commercial research-only.
-Everything else, including Kontext's replacement, is shippable. See
-[`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md).
+Everything else, including Kontext's replacement, is shippable. See the
+[audit](2d/AUDIT-tooling-2026-09.md).
 
 ---
 
