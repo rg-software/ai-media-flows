@@ -43,13 +43,13 @@ A working, reproducible pipeline for **generating game assets with open models o
 
 ## Operating the box
 
-| I need to…                                                            | go to                                                                          |
-|-----------------------------------------------------------------------|--------------------------------------------------------------------------------|
-| Know what will and won't run here (read before pulling a large model) | [`comfyui/hardware.md`](comfyui/hardware.md)                                   |
-| Use the server / fix a crash                                          | [`comfyui/README.md`](comfyui/README.md) - gotchas, runtime facts, model stack |
-| Set up a machine                                                      | [`comfyui/linux-setup.md`](comfyui/linux-setup.md)                             |
-| Upgrade the hardware                                                  | [`comfyui/UPGRADE-TODO.md`](comfyui/UPGRADE-TODO.md)                           |
-| Decide whether a tool is still the right one                          | [`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md)                   |
+| I need to…                                                            | go to                                                        |
+| --------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Know what will and won't run here (read before pulling a large model) | [`comfyui/hardware.md`](comfyui/hardware.md)                 |
+| Use the server / fix a crash                                          | [`comfyui/README.md`](comfyui/README.md)                     |
+| Set up a machine                                                      | [`comfyui/linux-setup.md`](comfyui/linux-setup.md)           |
+| Upgrade the hardware                                                  | [`comfyui/UPGRADE-TODO.md`](comfyui/UPGRADE-TODO.md)         |
+| Decide whether a tool is still the right one                          | [`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md) |
 
 ---
 
@@ -68,14 +68,14 @@ Four places, and you can reach all of them **from the flow itself** — no hunti
 
 ## Reference
 
-| doc                                                                                                                                                                                                       | what it is                                                                                                  |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| [`PIPELINES.md`](PIPELINES.md)                                                                                                                                                                            | the capability index — every flow by operation × subject × domain, plus the taxonomy and what is still open |
-| [`AGENTS.md`](AGENTS.md)                                                                                                                                                                                  | repo layout, conventions, vocabulary, doc map — for working *on* the repo rather than with it               |
-| [`HOWTO.md`](HOWTO.md)                                                                                                                                                                                    | the user stories (this page's "how")                                                                        |
-| 2D scenario — [`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md) · [`2d/PROTOCOL.md`](2d/PROTOCOL.md) · [`2d/ROADMAP-2D.md`](2d/ROADMAP-2D.md) · [`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md) | run log · canonical asset set and rules · roadmap and backlog · tooling audit                               |
-| 3D scenario — [`3d/README.md`](3d/README.md) · [`3d/EXPERIMENTS.md`](3d/EXPERIMENTS.md) · [`3d/pipeline-design.md`](3d/pipeline-design.md)                                                                | scenario index · run log · architecture                                                                     |
-| [`comfyui/README.md`](comfyui/README.md)                                                                                                                                                                  | node gotchas — the highest-density page in the repo                                                         |
-| [`comfyui/linux-setup.md`](comfyui/linux-setup.md)                                                                                                                                                        | install / restore a machine, remote access, topology                                                        |
+| doc                                                                                                                                                                                                            | what it is                                                                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| [`PIPELINES.md`](PIPELINES.md)                                                                                                                                                                                 | the capability index — every flow by operation × subject × domain, plus the taxonomy and what is still open |
+| [`AGENTS.md`](AGENTS.md)                                                                                                                                                                                       | repo layout, conventions, vocabulary, doc map — for working *on* the repo rather than with it               |
+| [`HOWTO.md`](HOWTO.md)                                                                                                                                                                                         | the user stories (this page's "how")                                                                        |
+| 2D scenario:<br>[`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md)<br>[`2d/PROTOCOL.md`](2d/PROTOCOL.md)<br>[`2d/ROADMAP-2D.md`](2d/ROADMAP-2D.md)<br>[`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md) | run log · canonical asset set and rules · roadmap and backlog · tooling audit                               |
+| 3D scenario:<br>[`3d/README.md`](3d/README.md)<br>[`3d/EXPERIMENTS.md`](3d/EXPERIMENTS.md)<br>[`3d/pipeline-design.md`](3d/pipeline-design.md)                                                                 | scenario index · run log · architecture                                                                     |
+| [`comfyui/README.md`](comfyui/README.md)                                                                                                                                                                       | node gotchas (high-density)                                                                                 |
+| [`comfyui/linux-setup.md`](comfyui/linux-setup.md)                                                                                                                                                             | install / restore a machine, remote access, topology                                                        |
 
 **Licence posture:** the stack is Apache-2.0/BSD-clean with **one exception** — `insightface` (used by `instantid-character.json` and `pulid-identity.json`) is non-commercial research-only. Everything else, including Kontext's replacement, is shippable. See the [audit](2d/AUDIT-tooling-2026-09.md).

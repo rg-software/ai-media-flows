@@ -1,8 +1,6 @@
 # HOW TO — user stories
 
-`README.md`'s "I want to…" table tells you **which flow** fits a job. This file tells you **what to
-actually do**: prerequisites, steps, the knobs that matter, the trap to avoid, and what a good result
-looks like. Each story links the flows it uses and points at the deeper doc for the *why*.
+`README.md`'s "I want to…" table tells you **which flow** fits a job. This file tells you **what to actually do**: prerequisites, steps, the knobs that matter, the trap to avoid, and what a good result looks like. Each story links the flows it uses and points at the deeper doc for the *why*.
 
 New here? Read **Part 1** once — every story assumes it. Then jump to the story you need.
 
