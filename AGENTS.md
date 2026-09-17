@@ -20,7 +20,7 @@ Working notes + a growing knowledge base for using generative-AI in game develop
 
 ```
 ai-gamedev-tasks/
-├── README.md                    ← FRONT DOOR: mission, mental model, "I want to…" index, known gaps
+├── README.md                    ← FRONT DOOR (cookbook): mission + "I want to make…" index
 ├── HOWTO.md                     ← USER STORIES: how to actually run each job (prereqs, steps, knobs, traps)
 ├── AGENTS.md                    ← this file
 ├── HANDOFF.md                   ← Linux box handoff: env, blockers, next steps
