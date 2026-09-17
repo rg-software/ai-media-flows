@@ -80,6 +80,10 @@ ai-gamedev-tasks/
   whatever interpreter happens to be around: `uv sync` then `uv run python scripts/<x>.py`.
   Dependencies are declared in `pyproject.toml` and pinned in `uv.lock` (committed). The one exception
   is `scripts/marigold_pbr.py`, which needs torch/diffusers and therefore runs in the ComfyUI venv.
+- **Never hand-parse or hand-pad markdown tables.** Use `scripts/mdtable.py` (AST-based: `parse`,
+  `find`, `render`, `replace`, `add_column`). Five separate documentation bugs came from treating
+  tables as text — see that module's docstring. It has a `--self-test` that round-trips every table in
+  the repo (currently 53) and fails loudly if our content stops surviving a parse->render->parse cycle.
 - **Cross-references must work in both GitHub and Obsidian.** The two tools disagree on heading
   anchors and it is *not* covered by CommonMark: GitHub generates **kebab-case slugs**
   (`#s5-edit-a-picture…`), while Obsidian uses the **URL-encoded heading text** (`#S5.%20Edit…`) and
