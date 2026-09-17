@@ -223,6 +223,49 @@ def check_flow_docs() -> list[str]:
     return problems
 
 
+def check_story_mapping() -> list[str]:
+    """The README's job table and HOWTO's stories are many-to-one (one story can serve several
+    job rows, because the procedure is shared). That mapping must stay complete both ways, or a
+    reader is sent to a story that does not exist - or a story becomes unreachable.
+
+      * every job row names a story, and that story exists in HOWTO.md
+      * every story in HOWTO.md is referenced by at least one job row
+    """
+    problems: list[str] = []
+    howto = open(os.path.join(REPO, "HOWTO.md"), encoding="utf-8").read()
+    defined = set(re.findall(r"^###\s+(S\d+)\.", howto, re.M))
+
+    readme = open(os.path.join(REPO, "README.md"), encoding="utf-8").read().split("\n")
+    hi = next((i for i, l in enumerate(readme) if l.strip().startswith("| I want to make / do")), None)
+    if hi is None:
+        return ["README.md: 'I want to make' table not found"]
+
+    hdr = split_cells(readme[hi])
+    if "story" not in hdr:
+        return ["README.md: 'I want to make' table has no 'story' column"]
+    col = hdr.index("story")
+
+    used: set[str] = set()
+    for i in range(hi + 2, len(readme)):
+        if not readme[i].strip().startswith("|"):
+            break
+        c = split_cells(readme[i])
+        if col >= len(c):
+            problems.append(f"README.md:{i+1} row too short for the story column: {c[0][:40]}")
+            continue
+        m = re.fullmatch(r"S\d+", c[col])
+        if not m:
+            problems.append(f"README.md:{i+1} {c[0][:40]}: story cell is not an S-number ({c[col]!r})")
+            continue
+        used.add(c[col])
+        if c[col] not in defined:
+            problems.append(f"README.md:{i+1} {c[0][:40]}: cites story {c[col]} that HOWTO.md does not define")
+
+    for s in sorted(defined - used):
+        problems.append(f"HOWTO.md defines story {s} that no README job row references")
+    return problems
+
+
 def main() -> int:
     rc = getattr(sys.stdout, "reconfigure", None)  # may be absent on odd runtimes
     if rc is not None:
@@ -245,6 +288,7 @@ def main() -> int:
         all_problems += lint_file(f, rel)
     all_problems += check_flow_coverage()
     all_problems += check_flow_docs()
+    all_problems += check_story_mapping()
 
     print(f"linted {len(files)} markdown file(s)")
     if all_problems:
