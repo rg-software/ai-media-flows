@@ -80,10 +80,19 @@ ai-gamedev-tasks/
   whatever interpreter happens to be around: `uv sync` then `uv run python scripts/<x>.py`.
   Dependencies are declared in `pyproject.toml` and pinned in `uv.lock` (committed). The one exception
   is `scripts/marigold_pbr.py`, which needs torch/diffusers and therefore runs in the ComfyUI venv.
-- **Never hand-parse or hand-pad markdown tables.** Use `scripts/mdtable.py` (AST-based: `parse`,
-  `find`, `render`, `replace`, `add_column`). Five separate documentation bugs came from treating
-  tables as text — see that module's docstring. It has a `--self-test` that round-trips every table in
-  the repo (currently 53) and fails loudly if our content stops surviving a parse->render->parse cycle.
+- **Cross-references must work in both GitHub and Obsidian.** The two tools disagree on heading
+  anchors and it is *not* covered by CommonMark: GitHub generates **kebab-case slugs**
+  (`#s5-edit-a-picture…`), while Obsidian uses the **URL-encoded heading text** (`#S5.%20Edit…`) and
+  natively resolves **neither GFM slugs nor HTML anchors** (GitHub also prefixes user-supplied
+  `id=` with `user-content-`, and custom anchors aren't officially supported there). We therefore
+  write GFM slugs, and Obsidian needs the community plugin **`gfm-compatibility`**
+  (BRAT: `MMadder/Obsidian-GFM-Compatibility`) to resolve them. Lint validates every fragment
+  against the real heading anchors, so renaming a story fails the lint rather than rotting links.
+  *Known cosmetic limitation:* in Obsidian's **live-preview** editor the plugin centres the target
+  line instead of pinning it to the top, so it lands "nearby"; reading view takes a different code
+  path and is closer. Only fixable by forking the plugin. If exactness ever matters more than the
+  single-file layout, the escape hatch is **one file per story** (file links carry no fragment, so
+  they work everywhere and cannot rot).
 
 ## Vocabulary & doc map (for working *on* the repo)
 
