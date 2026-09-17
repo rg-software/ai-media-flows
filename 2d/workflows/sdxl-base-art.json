@@ -1,5 +1,5 @@
 {
- "last_node_id": 7,
+ "last_node_id": 8,
  "last_link_id": 6,
  "nodes": [
   {
@@ -289,6 +289,29 @@
    "widgets_values": [
     "2D/sdxl"
    ]
+  },
+  {
+   "id": 8,
+   "type": "MarkdownNote",
+   "pos": [
+    -900,
+    -434
+   ],
+   "size": [
+    720,
+    221
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## sdxl-base-art.json\n\nSDXL base art\n\n**Does:** prompt -> still image with SDXL (RealVisXL_V5.0_fp16 is the default checkpoint).\n**Knobs:** `cfg` and `steps` — **cfg 7 / 20 steps** is the value point; cfg 3 washes out, cfg 9\nover-burns, 30 steps buys nothing over 20.\n**Trap:** SDXL will not reliably give a full-body **solo** figure at 1024² — say \"solo, single\nfigure, full body\" or you get a two-view sheet or a bust.\n**Note:** SDXL is now a **niche pick** — `z-image-turbo.json` is the modern, licence-clean\nbase model. Kept because the canonical asset set (E1d) came from here.\n\n---\n*How to run it: story **S1** in `HOWTO.md`  ·  Why it is this way: **E1/E1c/E1d** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "color": "#332922",
+   "bgcolor": "#593930"
   }
  ],
  "links": [

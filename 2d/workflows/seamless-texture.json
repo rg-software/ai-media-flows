@@ -1,87 +1,261 @@
 {
- "last_node_id": 5,
+ "last_node_id": 6,
  "last_link_id": 4,
  "nodes": [
   {
    "id": 1,
    "type": "LoadImage",
-   "pos": [-900, 0],
-   "size": [320, 340],
+   "pos": [
+    -900,
+    0
+   ],
+   "size": [
+    320,
+    340
+   ],
    "flags": {},
    "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
-    {"name": "IMAGE", "type": "IMAGE", "links": [1], "slot_index": 0},
-    {"name": "MASK", "type": "MASK", "links": [], "slot_index": 1}
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      1
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
    ],
-   "properties": {"Node name for S&R": "LoadImage"},
-   "widgets_values": ["2d/tex_stone.png", "image"]
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "2d/tex_stone.png",
+    "image"
+   ]
   },
   {
    "id": 2,
    "type": "SeamlessTiling",
-   "pos": [-540, 40],
-   "size": [300, 110],
+   "pos": [
+    -540,
+    40
+   ],
+   "size": [
+    300,
+    110
+   ],
    "flags": {},
    "order": 1,
    "mode": 0,
-   "inputs": [{"name": "image", "type": "IMAGE", "link": 1}],
-   "outputs": [
-    {"name": "image", "type": "IMAGE", "links": [2, 3], "slot_index": 0},
-    {"name": "edge_mask", "type": "MASK", "links": [], "slot_index": 1}
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 1
+    }
    ],
-   "properties": {"Node name for S&R": "SeamlessTiling"},
-   "widgets_values": ["offset", 0.1]
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      2,
+      3
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "edge_mask",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SeamlessTiling"
+   },
+   "widgets_values": [
+    "offset",
+    0.1
+   ]
   },
   {
    "id": 3,
    "type": "SaveImage",
-   "pos": [-180, -120],
-   "size": [360, 280],
+   "pos": [
+    -180,
+    -120
+   ],
+   "size": [
+    360,
+    280
+   ],
    "flags": {},
    "order": 2,
    "mode": 0,
-   "inputs": [{"name": "images", "type": "IMAGE", "link": 2}],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 2
+    }
+   ],
    "outputs": [],
-   "properties": {"Node name for S&R": "SaveImage"},
-   "widgets_values": ["2D/E7/tex_stone_seamless"]
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/E7/tex_stone_seamless"
+   ]
   },
   {
    "id": 4,
    "type": "TextureTiler",
-   "pos": [-180, 200],
-   "size": [300, 130],
+   "pos": [
+    -180,
+    200
+   ],
+   "size": [
+    300,
+    130
+   ],
    "flags": {},
    "order": 3,
    "mode": 0,
-   "inputs": [{"name": "image", "type": "IMAGE", "link": 3}],
-   "outputs": [{"name": "image", "type": "IMAGE", "links": [4], "slot_index": 0}],
-   "properties": {"Node name for S&R": "TextureTiler"},
-   "widgets_values": [2, 2, false]
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      4
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "TextureTiler"
+   },
+   "widgets_values": [
+    2,
+    2,
+    false
+   ]
   },
   {
    "id": 5,
    "type": "SaveImage",
-   "pos": [180, 180],
-   "size": [360, 280],
+   "pos": [
+    180,
+    180
+   ],
+   "size": [
+    360,
+    280
+   ],
    "flags": {},
    "order": 4,
    "mode": 0,
-   "inputs": [{"name": "images", "type": "IMAGE", "link": 4}],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 4
+    }
+   ],
    "outputs": [],
-   "properties": {"Node name for S&R": "SaveImage"},
-   "widgets_values": ["2D/E7/tex_stone_tiled_preview"]
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/E7/tex_stone_tiled_preview"
+   ]
+  },
+  {
+   "id": 6,
+   "type": "MarkdownNote",
+   "pos": [
+    -900,
+    -340
+   ],
+   "size": [
+    720,
+    200
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## seamless-texture.json\n\nSeamless tiling\n\n**Does:** makes an image tile seamlessly, in image space (TextureAlchemy).\n**Knobs:** `method` — use **`offset`**. `mirror`/`blend_edges` score perfectly on continuity\nmetrics and look visibly awful (symmetric kaleidoscope / blurry cross).\n**Avoid:** `SeamlessTile` (comfyui-seamless-tiling) patches the MODEL and **segfaults** the\nserver in libcuda; the circular-VAE route crashes on a second run in one session.\n\n---\n*How to run it: story **S8** in `HOWTO.md`  ·  Why it is this way: **E7c** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "color": "#332922",
+   "bgcolor": "#593930"
   }
  ],
  "links": [
-  [1, 1, 0, 2, 0, "IMAGE"],
-  [2, 2, 0, 3, 0, "IMAGE"],
-  [3, 2, 0, 4, 0, "IMAGE"],
-  [4, 4, 0, 5, 0, "IMAGE"]
+  [
+   1,
+   1,
+   0,
+   2,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   2,
+   0,
+   3,
+   0,
+   "IMAGE"
+  ],
+  [
+   3,
+   2,
+   0,
+   4,
+   0,
+   "IMAGE"
+  ],
+  [
+   4,
+   4,
+   0,
+   5,
+   0,
+   "IMAGE"
+  ]
  ],
  "groups": [
-  {"title": "Seamless tiling — image-space, instant, stable. Use method=offset. (mirror/blend_edges score 'perfect' on edge metrics but look wrong.)", "bounding": [-960, -180, 1520, 560], "color": "#3f789e", "font_size": 22, "flags": {}}
+  {
+   "title": "Seamless tiling",
+   "bounding": [
+    -960,
+    -180,
+    1520,
+    560
+   ],
+   "color": "#3f789e",
+   "font_size": 22,
+   "flags": {}
+  }
  ],
  "config": {},
  "extra": {},

@@ -21,6 +21,7 @@ Exit code 1 if anything is wrong, so it can gate a commit.
 from __future__ import annotations
 
 import glob
+import json
 import os
 import re
 import sys
@@ -30,14 +31,14 @@ ESC = "\x00"  # placeholder for escaped pipes
 
 
 def split_cells(line: str) -> list[str]:
-    """Split a table row on unescaped pipes, dropping the outer empties."""
+    """Split a table row on unescaped pipes, dropping the outer empties and trimming."""
     protected = line.replace("\\|", ESC)
     parts = protected.strip().split("|")
     if parts and parts[0].strip() == "":
         parts = parts[1:]
     if parts and parts[-1].strip() == "":
         parts = parts[:-1]
-    return parts
+    return [p.strip() for p in parts]
 
 
 def is_separator(line: str) -> bool:
@@ -165,6 +166,63 @@ def check_flow_coverage() -> list[str]:
     return problems
 
 
+def check_flow_docs() -> list[str]:
+    """A flow's documentation must exist and be reachable, so a user who opens a flow in the
+    canvas (or lands on its index row) can always find out what to do with it:
+      * every workflow carries a MarkdownNote - a group title renders as a clipped label, a
+        MarkdownNote renders as a readable panel (it is what ComfyUI's own templates use);
+      * every PIPELINES index row names a HOWTO story, and that story must exist.
+    """
+    problems: list[str] = []
+    howto = open(os.path.join(REPO, "HOWTO.md"), encoding="utf-8").read()
+    stories = set(re.findall(r"^###\s+(S\d+)\.", howto, re.M))
+
+    for f in sorted(glob.glob(os.path.join(REPO, "2d", "workflows", "*.json")) +
+                    glob.glob(os.path.join(REPO, "3d", "workflows", "*.json"))):
+        rel = os.path.relpath(f, REPO).replace(os.sep, "/")
+        try:
+            d = json.load(open(f, encoding="utf-8"))
+        except Exception as e:
+            problems.append(f"{rel} unreadable JSON: {e}")
+            continue
+        notes = [n for n in d.get("nodes", []) if n.get("type") == "MarkdownNote"]
+        if not notes:
+            problems.append(
+                f"{rel} has no MarkdownNote - its docs are only a group title, which the canvas "
+                f"renders as a clipped label (run scripts/add_workflow_notes.py)"
+            )
+            continue
+        wv = notes[0].get("widgets_values") or [""]
+        text = wv[0] if wv else ""
+        if len(text) < 200:
+            problems.append(f"{rel} MarkdownNote is only {len(text)} chars (<200)")
+
+    lines = open(os.path.join(REPO, "PIPELINES.md"), encoding="utf-8").read().split("\n")
+    hi = next((i for i, l in enumerate(lines) if re.match(r"^\|\s*flow\s*\|", l)), None)
+    if hi is None:
+        problems.append("PIPELINES.md: index header not found")
+    else:
+        hdr = split_cells(lines[hi])
+        if "how-to" not in hdr:
+            problems.append("PIPELINES.md: index has no 'how-to' column")
+        else:
+            col = hdr.index("how-to")
+            for i in range(hi + 2, len(lines)):
+                if not lines[i].strip().startswith("|"):
+                    break
+                c = split_cells(lines[i])
+                flow = c[0].strip("`")
+                if col >= len(c):
+                    problems.append(f"PIPELINES.md:{i+1} {flow}: row too short for the how-to column")
+                    continue
+                for s in re.findall(r"S\d+", c[col]):
+                    if s not in stories:
+                        problems.append(
+                            f"PIPELINES.md:{i+1} {flow}: cites story {s} that HOWTO.md does not define"
+                        )
+    return problems
+
+
 def main() -> int:
     rc = getattr(sys.stdout, "reconfigure", None)  # may be absent on odd runtimes
     if rc is not None:
@@ -186,6 +244,7 @@ def main() -> int:
         rel = os.path.relpath(f, REPO)
         all_problems += lint_file(f, rel)
     all_problems += check_flow_coverage()
+    all_problems += check_flow_docs()
 
     print(f"linted {len(files)} markdown file(s)")
     if all_problems:

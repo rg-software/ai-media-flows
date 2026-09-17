@@ -1,84 +1,248 @@
 {
- "last_node_id": 5,
+ "last_node_id": 6,
  "last_link_id": 4,
  "nodes": [
   {
    "id": 1,
    "type": "LoadImage",
-   "pos": [-820, 0],
-   "size": [320, 320],
+   "pos": [
+    -820,
+    0
+   ],
+   "size": [
+    320,
+    320
+   ],
    "flags": {},
    "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
-    {"name": "IMAGE", "type": "IMAGE", "links": [1, 2], "slot_index": 0},
-    {"name": "MASK", "type": "MASK", "links": [], "slot_index": 1}
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      1,
+      2
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
    ],
-   "properties": {"Node name for S&R": "LoadImage"},
-   "widgets_values": ["2d/env_cottage.png", "image"]
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "2d/env_cottage.png",
+    "image"
+   ]
   },
   {
    "id": 2,
    "type": "DepthAnythingV2Preprocessor",
-   "pos": [-460, -120],
-   "size": [300, 100],
+   "pos": [
+    -460,
+    -120
+   ],
+   "size": [
+    300,
+    100
+   ],
    "flags": {},
    "order": 1,
    "mode": 0,
-   "inputs": [{"name": "image", "type": "IMAGE", "link": 1}],
-   "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [3], "slot_index": 0}],
-   "properties": {"Node name for S&R": "DepthAnythingV2Preprocessor"},
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      3
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "DepthAnythingV2Preprocessor"
+   },
    "widgets_values": []
   },
   {
    "id": 3,
    "type": "SaveImage",
-   "pos": [-100, -220],
-   "size": [360, 280],
+   "pos": [
+    -100,
+    -220
+   ],
+   "size": [
+    360,
+    280
+   ],
    "flags": {},
    "order": 2,
    "mode": 0,
-   "inputs": [{"name": "images", "type": "IMAGE", "link": 3}],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 3
+    }
+   ],
    "outputs": [],
-   "properties": {"Node name for S&R": "SaveImage"},
-   "widgets_values": ["2D/E12/depth"]
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/E12/depth"
+   ]
   },
   {
    "id": 4,
    "type": "DSINE-NormalMapPreprocessor",
-   "pos": [-460, 100],
-   "size": [300, 100],
+   "pos": [
+    -460,
+    100
+   ],
+   "size": [
+    300,
+    100
+   ],
    "flags": {},
    "order": 3,
    "mode": 0,
-   "inputs": [{"name": "image", "type": "IMAGE", "link": 2}],
-   "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [4], "slot_index": 0}],
-   "properties": {"Node name for S&R": "DSINE-NormalMapPreprocessor"},
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      4
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "DSINE-NormalMapPreprocessor"
+   },
    "widgets_values": []
   },
   {
    "id": 5,
    "type": "SaveImage",
-   "pos": [-100, 120],
-   "size": [360, 280],
+   "pos": [
+    -100,
+    120
+   ],
+   "size": [
+    360,
+    280
+   ],
    "flags": {},
    "order": 4,
    "mode": 0,
-   "inputs": [{"name": "images", "type": "IMAGE", "link": 4}],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 4
+    }
+   ],
    "outputs": [],
-   "properties": {"Node name for S&R": "SaveImage"},
-   "widgets_values": ["2D/E12/normal"]
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/E12/normal"
+   ]
+  },
+  {
+   "id": 6,
+   "type": "MarkdownNote",
+   "pos": [
+    -820,
+    -440
+   ],
+   "size": [
+    720,
+    200
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## depth-normal.json\n\nDepth + normal maps\n\n**Does:** monocular depth (DepthAnythingV2) and tangent-space normals (DSINE) from a single\nimage. No extra weights — ACN downloads them on first use.\n**Reads:** depth = light is *near*; normals are flat ≈ (128,128,255).\n**Feeds:** depth-ControlNet, mask-aware editing, depth-ordered composition, and the\nPBR / 2.5D bridge.\n\n---\n*How to run it: story **S4** in `HOWTO.md`  ·  Why it is this way: **E12** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "color": "#332922",
+   "bgcolor": "#593930"
   }
  ],
  "links": [
-  [1, 1, 0, 2, 0, "IMAGE"],
-  [2, 1, 0, 4, 0, "IMAGE"],
-  [3, 2, 0, 3, 0, "IMAGE"],
-  [4, 4, 0, 5, 0, "IMAGE"]
+  [
+   1,
+   1,
+   0,
+   2,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   1,
+   0,
+   4,
+   0,
+   "IMAGE"
+  ],
+  [
+   3,
+   2,
+   0,
+   3,
+   0,
+   "IMAGE"
+  ],
+  [
+   4,
+   4,
+   0,
+   5,
+   0,
+   "IMAGE"
+  ]
  ],
  "groups": [
-  {"title": "E12 — 2D monocular estimation. depth feeds depth-ControlNet + depth-ordered compositing; normal feeds relighting / 2.5D and is the bridge to PBR.", "bounding": [-880, -260, 1200, 700], "color": "#3f789e", "font_size": 22, "flags": {}}
+  {
+   "title": "Depth + normal maps",
+   "bounding": [
+    -880,
+    -260,
+    1200,
+    700
+   ],
+   "color": "#3f789e",
+   "font_size": 22,
+   "flags": {}
+  }
  ],
  "config": {},
  "extra": {},

@@ -1,196 +1,609 @@
 {
- "last_node_id": 11,
+ "last_node_id": 12,
  "last_link_id": 13,
  "nodes": [
   {
    "id": 1,
    "type": "CheckpointLoaderSimple",
-   "pos": [-1200, 0],
-   "size": [340, 100],
+   "pos": [
+    -1200,
+    0
+   ],
+   "size": [
+    340,
+    100
+   ],
    "flags": {},
    "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
-    {"name": "MODEL", "type": "MODEL", "links": [1], "slot_index": 0},
-    {"name": "CLIP", "type": "CLIP", "links": [12, 13], "slot_index": 1},
-    {"name": "VAE", "type": "VAE", "links": [10], "slot_index": 2}
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      12,
+      13
+     ],
+     "slot_index": 1
+    },
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      10
+     ],
+     "slot_index": 2
+    }
    ],
-   "properties": {"Node name for S&R": "CheckpointLoaderSimple"},
-   "widgets_values": ["RealVisXL_V5.0_fp16.safetensors"]
+   "properties": {
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
+   "widgets_values": [
+    "RealVisXL_V5.0_fp16.safetensors"
+   ]
   },
   {
    "id": 2,
    "type": "CLIPVisionLoader",
-   "pos": [-1200, 220],
-   "size": [340, 60],
+   "pos": [
+    -1200,
+    220
+   ],
+   "size": [
+    340,
+    60
+   ],
    "flags": {},
    "order": 1,
    "mode": 0,
    "inputs": [],
    "outputs": [
-    {"name": "CLIP_VISION", "type": "CLIP_VISION", "links": [4], "slot_index": 0}
+    {
+     "name": "CLIP_VISION",
+     "type": "CLIP_VISION",
+     "links": [
+      4
+     ],
+     "slot_index": 0
+    }
    ],
-   "properties": {"Node name for S&R": "CLIPVisionLoader"},
-   "widgets_values": ["CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"]
+   "properties": {
+    "Node name for S&R": "CLIPVisionLoader"
+   },
+   "widgets_values": [
+    "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+   ]
   },
   {
    "id": 3,
    "type": "IPAdapterModelLoader",
-   "pos": [-1200, 320],
-   "size": [360, 60],
+   "pos": [
+    -1200,
+    320
+   ],
+   "size": [
+    360,
+    60
+   ],
    "flags": {},
    "order": 2,
    "mode": 0,
    "inputs": [],
    "outputs": [
-    {"name": "IPADAPTER", "type": "IPADAPTER", "links": [2], "slot_index": 0}
+    {
+     "name": "IPADAPTER",
+     "type": "IPADAPTER",
+     "links": [
+      2
+     ],
+     "slot_index": 0
+    }
    ],
-   "properties": {"Node name for S&R": "IPAdapterModelLoader"},
-   "widgets_values": ["ip-adapter-plus_sdxl_vit-h.safetensors"]
+   "properties": {
+    "Node name for S&R": "IPAdapterModelLoader"
+   },
+   "widgets_values": [
+    "ip-adapter-plus_sdxl_vit-h.safetensors"
+   ]
   },
   {
    "id": 4,
    "type": "LoadImage",
-   "pos": [-1200, 420],
-   "size": [320, 320],
+   "pos": [
+    -1200,
+    420
+   ],
+   "size": [
+    320,
+    320
+   ],
    "flags": {},
    "order": 3,
    "mode": 0,
    "inputs": [],
    "outputs": [
-    {"name": "IMAGE", "type": "IMAGE", "links": [3], "slot_index": 0},
-    {"name": "MASK", "type": "MASK", "links": [], "slot_index": 1}
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      3
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
    ],
-   "properties": {"Node name for S&R": "LoadImage"},
-   "widgets_values": ["2d/bg_forest.png", "image"]
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "2d/bg_forest.png",
+    "image"
+   ]
   },
   {
    "id": 5,
    "type": "IPAdapterAdvanced",
-   "pos": [-760, 120],
-   "size": [340, 240],
+   "pos": [
+    -760,
+    120
+   ],
+   "size": [
+    340,
+    240
+   ],
    "flags": {},
    "order": 4,
    "mode": 0,
    "inputs": [
-    {"name": "model", "type": "MODEL", "link": 1},
-    {"name": "ipadapter", "type": "IPADAPTER", "link": 2},
-    {"name": "image", "type": "IMAGE", "link": 3},
-    {"name": "image_negative", "type": "IMAGE", "link": null},
-    {"name": "attn_mask", "type": "MASK", "link": null},
-    {"name": "clip_vision", "type": "CLIP_VISION", "link": 4}
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "name": "ipadapter",
+     "type": "IPADAPTER",
+     "link": 2
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 3
+    },
+    {
+     "name": "image_negative",
+     "type": "IMAGE",
+     "link": null
+    },
+    {
+     "name": "attn_mask",
+     "type": "MASK",
+     "link": null
+    },
+    {
+     "name": "clip_vision",
+     "type": "CLIP_VISION",
+     "link": 4
+    }
    ],
    "outputs": [
-    {"name": "MODEL", "type": "MODEL", "links": [5], "slot_index": 0}
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      5
+     ],
+     "slot_index": 0
+    }
    ],
-   "properties": {"Node name for S&R": "IPAdapterAdvanced"},
-   "widgets_values": [0.4, "linear", "concat", 0.0, 1.0, "V only"]
+   "properties": {
+    "Node name for S&R": "IPAdapterAdvanced"
+   },
+   "widgets_values": [
+    0.4,
+    "linear",
+    "concat",
+    0.0,
+    1.0,
+    "V only"
+   ]
   },
   {
    "id": 6,
    "type": "CLIPTextEncode",
-   "pos": [-360, -200],
-   "size": [440, 130],
+   "pos": [
+    -360,
+    -200
+   ],
+   "size": [
+    440,
+    130
+   ],
    "flags": {},
    "order": 5,
    "mode": 0,
-   "inputs": [{"name": "clip", "type": "CLIP", "link": 12}],
-   "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [6], "slot_index": 0}],
-   "properties": {"Node name for S&R": "CLIPTextEncode"},
-   "widgets_values": ["a snowy mountain range at dawn, concept art, highly detailed digital painting"]
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 12
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      6
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "a snowy mountain range at dawn, concept art, highly detailed digital painting"
+   ]
   },
   {
    "id": 7,
    "type": "CLIPTextEncode",
-   "pos": [-360, -40],
-   "size": [440, 110],
+   "pos": [
+    -360,
+    -40
+   ],
+   "size": [
+    440,
+    110
+   ],
    "flags": {},
    "order": 6,
    "mode": 0,
-   "inputs": [{"name": "clip", "type": "CLIP", "link": 13}],
-   "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [7], "slot_index": 0}],
-   "properties": {"Node name for S&R": "CLIPTextEncode"},
-   "widgets_values": ["blurry, lowres, text, watermark, jpeg artifacts, deformed"]
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 13
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      7
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "blurry, lowres, text, watermark, jpeg artifacts, deformed"
+   ]
   },
   {
    "id": 8,
    "type": "EmptyLatentImage",
-   "pos": [-360, 120],
-   "size": [300, 100],
+   "pos": [
+    -360,
+    120
+   ],
+   "size": [
+    300,
+    100
+   ],
    "flags": {},
    "order": 7,
    "mode": 0,
    "inputs": [],
-   "outputs": [{"name": "LATENT", "type": "LATENT", "links": [8], "slot_index": 0}],
-   "properties": {"Node name for S&R": "EmptyLatentImage"},
-   "widgets_values": [1024, 1024, 1]
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptyLatentImage"
+   },
+   "widgets_values": [
+    1024,
+    1024,
+    1
+   ]
   },
   {
    "id": 9,
    "type": "KSampler",
-   "pos": [140, 0],
-   "size": [320, 262],
+   "pos": [
+    140,
+    0
+   ],
+   "size": [
+    320,
+    262
+   ],
    "flags": {},
    "order": 8,
    "mode": 0,
    "inputs": [
-    {"name": "model", "type": "MODEL", "link": 5},
-    {"name": "positive", "type": "CONDITIONING", "link": 6},
-    {"name": "negative", "type": "CONDITIONING", "link": 7},
-    {"name": "latent_image", "type": "LATENT", "link": 8}
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 7
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 8
+    }
    ],
-   "outputs": [{"name": "LATENT", "type": "LATENT", "links": [9], "slot_index": 0}],
-   "properties": {"Node name for S&R": "KSampler"},
-   "widgets_values": [8101, "fixed", 25, 7.0, "euler", "normal", 1.0]
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      9
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    8101,
+    "fixed",
+    25,
+    7.0,
+    "euler",
+    "normal",
+    1.0
+   ]
   },
   {
    "id": 10,
    "type": "VAEDecode",
-   "pos": [520, 0],
-   "size": [240, 60],
+   "pos": [
+    520,
+    0
+   ],
+   "size": [
+    240,
+    60
+   ],
    "flags": {},
    "order": 9,
    "mode": 0,
    "inputs": [
-    {"name": "samples", "type": "LATENT", "link": 9},
-    {"name": "vae", "type": "VAE", "link": 10}
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 9
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 10
+    }
    ],
-   "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [11], "slot_index": 0}],
-   "properties": {"Node name for S&R": "VAEDecode"},
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      11
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
    "widgets_values": []
   },
   {
    "id": 11,
    "type": "SaveImage",
-   "pos": [820, -60],
-   "size": [380, 300],
+   "pos": [
+    820,
+    -60
+   ],
+   "size": [
+    380,
+    300
+   ],
    "flags": {},
    "order": 10,
    "mode": 0,
-   "inputs": [{"name": "images", "type": "IMAGE", "link": 11}],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 11
+    }
+   ],
    "outputs": [],
-   "properties": {"Node name for S&R": "SaveImage"},
-   "widgets_values": ["2D/E11/ipadapter_style"]
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/E11/ipadapter_style"
+   ]
+  },
+  {
+   "id": 12,
+   "type": "MarkdownNote",
+   "pos": [
+    -1200,
+    -420
+   ],
+   "size": [
+    720,
+    200
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## ipadapter-style.json\n\nStyle reference (superseded)\n\n**Does:** transfers the style/look of a reference image (IPAdapter).\n**Knobs:** `weight` — 0.0-0.2 style hint only; 0.3-0.5 blend; **>=0.6 the reference overrides\nthe prompt** (content takeover).\n**Superseded:** Qwen-Edit's multi-image reference does this without IPAdapter and with an\nApache-2.0 licence (E14c; see `qwen-edit-gguf.json`).\n\n---\n*How to run it: story **S13** in `HOWTO.md`  ·  Why it is this way: **E11** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "color": "#332922",
+   "bgcolor": "#593930"
   }
  ],
  "links": [
-  [1, 1, 0, 5, 0, "MODEL"],
-  [2, 3, 0, 5, 1, "IPADAPTER"],
-  [3, 4, 0, 5, 2, "IMAGE"],
-  [4, 2, 0, 5, 5, "CLIP_VISION"],
-  [5, 5, 0, 9, 0, "MODEL"],
-  [6, 6, 0, 9, 1, "CONDITIONING"],
-  [7, 7, 0, 9, 2, "CONDITIONING"],
-  [8, 8, 0, 9, 3, "LATENT"],
-  [9, 9, 0, 10, 0, "LATENT"],
-  [10, 1, 2, 10, 1, "VAE"],
-  [11, 10, 0, 11, 0, "IMAGE"],
-  [12, 1, 1, 6, 0, "CLIP"],
-  [13, 1, 1, 7, 0, "CLIP"]
+  [
+   1,
+   1,
+   0,
+   5,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   3,
+   0,
+   5,
+   1,
+   "IPADAPTER"
+  ],
+  [
+   3,
+   4,
+   0,
+   5,
+   2,
+   "IMAGE"
+  ],
+  [
+   4,
+   2,
+   0,
+   5,
+   5,
+   "CLIP_VISION"
+  ],
+  [
+   5,
+   5,
+   0,
+   9,
+   0,
+   "MODEL"
+  ],
+  [
+   6,
+   6,
+   0,
+   9,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   7,
+   0,
+   9,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   8,
+   8,
+   0,
+   9,
+   3,
+   "LATENT"
+  ],
+  [
+   9,
+   9,
+   0,
+   10,
+   0,
+   "LATENT"
+  ],
+  [
+   10,
+   1,
+   2,
+   10,
+   1,
+   "VAE"
+  ],
+  [
+   11,
+   10,
+   0,
+   11,
+   0,
+   "IMAGE"
+  ],
+  [
+   12,
+   1,
+   1,
+   6,
+   0,
+   "CLIP"
+  ],
+  [
+   13,
+   1,
+   1,
+   7,
+   0,
+   "CLIP"
+  ]
  ],
  "groups": [
-  {"title": "IPAdapter style transfer (cubiq ComfyUI_IPAdapter_plus). WEIGHT is the key knob: 0.0-0.2 = style hint only; 0.3-0.5 = blend; >=0.6 the reference OVERRIDES the prompt (content takeover).", "bounding": [-1260, -280, 2560, 1060], "color": "#3f789e", "font_size": 20, "flags": {}}
+  {
+   "title": "Style reference (superseded)",
+   "bounding": [
+    -1260,
+    -280,
+    2560,
+    1060
+   ],
+   "color": "#3f789e",
+   "font_size": 20,
+   "flags": {}
+  }
  ],
  "config": {},
  "extra": {},

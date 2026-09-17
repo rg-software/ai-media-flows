@@ -101,7 +101,9 @@ downloads, then it's seconds.
 *When:* fix or change part of an existing image; make the canvas bigger.
 *Steps:* inpaint `2d/workflows/inpaint.json`; outpaint `2d/workflows/outpaint.json`
 (`extend_left/right_factor` 1.5 = +50% per side). For an **instruction-style** edit ("relight this",
-"change the material") use `2d/workflows/qwen-edit-gguf.json`.
+"change the material") use `2d/workflows/qwen-edit-gguf.json`. The older `kontext-edit.json`
+(Flux Kontext) did this bolder and more dramatic, but it is **superseded** — non-commercial, and
+capped near 1 MP so it needs an upscale tail.
 *Knobs:* denoise. For harmonisation, **0.45 integrates while keeping the subject; 0.75 replaces it** —
 and small subjects break first.
 *Trap:* raw inpaint drifts ~5/255 *outside* the mask (VAE round-trip). Crop&Stitch avoids this
@@ -113,8 +115,12 @@ entirely; if you use the older path, composite back with the mask.
 *When:* you have a background, a character cutout and props, and need one coherent picture.
 *Steps:* `scripts/compose_scene.py` places them (pixel-exact scale/feet/overlap), then
 `2d/workflows/compose-harmonize.json` blends the lighting.
-*Knobs:* the same denoise rule as S5 — this is the *identity* knob.
-*Go deeper:* E10.
+*Knobs:* the same denoise rule as S5 - this is the *identity* knob.
+*Two subjects that keep merging?* Put each in its own region with
+`2d/workflows/regional-prompting.json` - a single prompt containing both subjects **drops one of
+them entirely** (the model rendered only the sorceress and never the knight). Regional area
+conditioning fixed it with zero cross-bleed.
+*Go deeper:* E10, E15.
 
 ### S7. Keep a character consistent across images
 
@@ -126,6 +132,7 @@ entirely; if you use the older path, composite back with the mask.
 | same **design** (outfit, hair, silhouette) in any composition | `qwen-edit-gguf.json` | Apache-2.0, faithful, but the *face* is not embedding-identical |
 | same **face**, close-up | `instantid-character.json` | strongest face match, but it **forces a bust** |
 | same **face**, free composition | `pulid-identity.json` | full-body works; weaker face score; still needs insightface |
+| same **design**, via the older Kontext route | `kontext-character.json` | **superseded** by `qwen-edit-gguf.json`; non-commercial, ~1 MP |
 
 *Trap:* judge identity by **measurement, not eye** — two renders that look identical to us scored
 far apart. And beware: our own two "same character" assets only score ~0.14 against each other, so
@@ -177,6 +184,18 @@ bpy via pixi).
 `scripts/sweep.py` (2-axis grids with a labelled sheet + per-cell metric); `scripts/publish_assets.sh`
 (`2d`/`3d`/`all`, md5-verified). Before committing docs: `scripts/lint_docs.py`.
 *Go deeper:* `2d/PROTOCOL.md` (the run/sweep/promotion contract), E16.
+
+### S13. Transfer a style or a reference look
+
+*When:* you want an image to adopt the palette, atmosphere or medium of a reference.
+*Steps:* use **`2d/workflows/qwen-edit-gguf.json`** with the reference as `image2` — the multi-image
+reference mechanism does style transfer, with an Apache-2.0 licence (proven in E14c). The older
+`2d/workflows/ipadapter-style.json` (IPAdapter) still works.
+*Knobs:* for IPAdapter, `weight` — 0.0–0.2 is a style hint, 0.3–0.5 blends, and **≥0.6 the reference
+overrides the prompt** entirely (at 0.8 the output was all forest, no subject).
+*Trap:* this transfers a **look**, not a layout. If you need "keep this composition", that is
+ControlNet territory (S2), not style transfer.
+*Go deeper:* E11, E14c.
 
 ---
 

@@ -66,10 +66,53 @@ ai-gamedev-tasks/
   (Axis 1 family × Axis 2 subject/domain). Two conventions to keep: a harness that does nothing to an
   asset is `tooling`, not an operation; and a flow that **moves data between domains** writes its
   domain explicitly as `from->to` (e.g. `texture->3D model`) rather than inventing a string.
-- **Lint the docs before committing:** `python scripts/lint_docs.py`. It catches the two failure modes
-  that silently waste a reviewer's time — a table whose separator has the wrong column count (strict
-  renderers then drop the *whole* table), and a cell containing a literal newline (which splits the
-  row and leaves an orphan paragraph). Both have happened while hand-merging tables with scripts.
+- **Lint the docs before committing:** `python scripts/lint_docs.py`. It checks, in order of what has
+  actually bitten us: table shape (a separator with the wrong column count makes strict renderers drop
+  the *whole* table; a cell containing a literal newline splits the row), a table that interrupts a
+  paragraph, dead internal links/paths, **flow coverage** (every flow must be reachable from the
+  README's table and have a `PIPELINES.md` row), and **per-flow docs** (every workflow must carry a
+  `MarkdownNote`, and every `how-to` story cited in the index must exist in `HOWTO.md`).
+
+## Vocabulary & doc map (for working *on* the repo)
+
+**Four kinds of file**
+
+| kind          | where                         | what it is                                                                 |
+|---------------|-------------------------------|----------------------------------------------------------------------------|
+| **assets**    | `assets/`                     | the curated, tracked artefacts; value decides inclusion, not file type     |
+| **workflows** | `<scenario>/workflows/*.json` | ComfyUI graphs ready to run (one-off scaffolding in `workflows/scratch/`)  |
+| **scripts**   | `scripts/`                    | non-graph scripts: sweeps, generators, format packing, publishing, linting |
+| **docs**      | the `.md` files               | the *why*: verdicts, gotchas, measurements, decisions                      |
+
+**Numbering is a log, not a version**
+
+- **E-numbers** (`E1`…`E16`) are **experiments** — one capability each, run in order, each with a
+  verdict and the reasoning. `E1c`, `E4b`, `E13f` refine the same experiment.
+- **U-numbers** (`U1`…`U7`) are **upgrades** — swapping a working-but-suboptimal tool for a better or
+  licence-cleaner one, decided by the audit.
+- Both live in `2d/EXPERIMENTS-2D.md` and `3d/EXPERIMENTS.md`. **Read the verdicts, not just the
+  results** — several entries are explicit corrections of earlier ones.
+
+**Glossary** — *asset* (curated artefact in `assets/`) · *flow/workflow* (a ComfyUI graph) · *knob* (a
+parameter worth tuning; each flow's `PIPELINES.md` row names its most important one) · *evidence* (a
+labelled comparison sheet in `2d/evidence/`) · *promotion* (the deliberate move from a staging dir into
+`assets/`) · *verdict* (`PASS`/`MEH`/`BLOCKED` **plus the reason**) · *gateway* (a licence or hardware
+constraint deciding whether output is shippable).
+
+**Doc map**
+
+| doc                                               | answers                                                          |
+|---------------------------------------------------|------------------------------------------------------------------|
+| `README.md`                                       | the cookbook gateway — "I want to make X"                        |
+| `HOWTO.md`                                        | user stories — what to actually do, per job                      |
+| `PIPELINES.md`                                    | the capability index, the taxonomy, and what is still open       |
+| `2d/PROTOCOL.md`                                  | the canonical asset set and the run/sweep/promotion contract     |
+| `2d/AUDIT-tooling-2026-09.md`                     | are we using the best tool? (quality + licence + cost to switch) |
+| `2d/ROADMAP-2D.md`                                | tracks A–J and the E/U backlog                                   |
+| `comfyui/README.md`                               | **node gotchas** — the highest-density page in the repo          |
+| `comfyui/hardware.md` · `comfyui/UPGRADE-TODO.md` | what fits / what to buy                                          |
+| `comfyui/workflow-file-format.md`                 | how to hand-edit a workflow `.json` safely                       |
+| `HANDOFF.md`                                      | the Linux box: environment, remote access, blockers              |
 
 ## Status (2026-09-16)
 
@@ -80,6 +123,11 @@ Linux rigging. The live list of open items is **`PIPELINES.md` → "Status — w
 - **2d/** — ladder + upgrades complete. Licence posture is clean except one item: `insightface`
   (used by the InstantID and PuLID flows) is non-commercial research-only.
 - **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux).
+- **Inventory:** 38 2D assets · 5 3D assets · **26 workflows** (23 in `2d/`, 3 in `3d/`; plus scaffolding
+  in `workflows/scratch/`) · 39 evidence sheets · 8 scripts · 26 docs.
+- **Working rules** (full version in `2d/PROTOCOL.md` and `HOWTO.md` Part 1): prefer **scripts over GUI
+  clicks** so every run is replayable; change **one knob at a time**; and remember **a metric is a hint,
+  the image is the truth** (it has misled us three times — E7, E15, U6b).
 - **Next candidates, in order:** (1) the **engine import contract** — assets are Unity-*compatible*
   but not drop-in (no `.meta`/`.mat`, wrong importer defaults for pixel art and PBR maps, no
   PPU/pivot convention, and glTF-vs-Unity channel packing differs); (2) **animation** as a new
