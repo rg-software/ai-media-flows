@@ -5,8 +5,7 @@ A working, reproducible pipeline for **generating game assets with open models o
 1. **Get things done** — real assets out of a real pipeline.
 2. **Understand it deeply** — every node, knob, failure mode and version, so the setup can be rebuilt or ported.
 
-**This page is the cookbook.** Find the job you have, follow the link, and the story in
-[`HOWTO.md`](HOWTO.md) tells you what to actually do.
+**This page is the cookbook.** Find the job you have, follow the link, and the story in [`HOWTO.md`](HOWTO.md) tells you what to actually do.
 
 ---
 

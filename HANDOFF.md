@@ -2,8 +2,7 @@
 
 > **UPDATE 2026-09-11 (second agent pass):** The rasterizer blocker is **resolved** and the full smoke checklist **PASSES on Linux** — shape, multiview, full single-image texture, MoGe, and SDXL 2D all verified (see `3d/EXPERIMENTS.md` L1/L2 + PENDING). Head to **"After the build"** below for the current state; the original blocker notes follow for the record.
 
-Author: Maxim's AI agent (this is a handoff for a coding agent running on the new Linux box).
-Date: 2026-09-11. Read this first; then `AGENTS.md`, `comfyui/linux-setup.md`.
+Author: Maxim's AI agent (this is a handoff for a coding agent running on the new Linux box). Date: 2026-09-11. Read this first; then `AGENTS.md`, `comfyui/linux-setup.md`.
 
 ## Repo
 - GitHub private: `github.com/rg-software/ai-gamedev-tasks` (branch `master`).

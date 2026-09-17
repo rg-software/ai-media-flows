@@ -1,18 +1,12 @@
 # PIPELINES — the capability map
 
-**The problem this file solves.** `2d/` and `3d/` say *what you are making*, but our flows are
-increasingly *operations* that cut across that: `seamless-texture` serves 2D backgrounds **and**
-3D materials; `ipadapter-style` works on objects and on scenes; `pixel-art` is a stylisation, not
-a scenario. So scenario folders no longer answer "which tool for this job?".
+**The problem this file solves.** `2d/` and `3d/` say *what you are making*, but our flows are increasingly *operations* that cut across that: `seamless-texture` serves 2D backgrounds **and** 3D materials; `ipadapter-style` works on objects and on scenes; `pixel-art` is a stylisation, not a scenario. So scenario folders no longer answer "which tool for this job?".
 
-**Where things live:** scenario folders keep *assets, experiments and scenario docs*.
-This file is the **capability index** — every flow, what operation it performs, on what kind of
-subject, and its status.
+**Where things live:** scenario folders keep *assets, experiments and scenario docs*. This file is the **capability index** — every flow, what operation it performs, on what kind of subject, and its status.
 
 **Which file do I want?** Three complementary views, all sharing the taxonomy below:
 
-- **have a job** ("I need a cutout", "I need PBR maps") -> **[`HOWTO.md`](HOWTO.md)** for the steps,
-  knobs and traps, plus the "I want to…" table in [`README.md`](README.md) for which flow.
+- **have a job** ("I need a cutout", "I need PBR maps") -> **[`HOWTO.md`](HOWTO.md)** for the steps, knobs and traps, plus the "I want to…" table in [`README.md`](README.md) for which flow.
 - **want the landscape** (what families exist, what's supported, what licence, what knobs) -> this file.
 - **adding a flow** -> this file: give it a family, subject, domain, cost, licence and key knob.
 
@@ -31,10 +25,7 @@ subject, and its status.
 | 9  | **reconstruct** | image -> 3D geometry / texture / rig                                    | `hy3d-full-workflow`, `hy3d-multiview-workflow`, `unirig-humanoid-workflow`                                                                        |
 | 10 | **tooling**     | *not* an operation on an asset — harnesses for reproducing or exploring | `gen_assets.py`, `publish_assets.sh`, `sweep.py`                                                                                                   |
 
-Read the family as the answer to "what does this flow *do to* an asset?". A harness such as the
-sweep runner does nothing to an asset, so it is `tooling` rather than pretending to be an operation.
-Doc-maintenance tooling (`lint_docs.py`, `mdtable.py`, `add_workflow_notes.py`) acts on the docs rather
-than on assets, so it is documented for contributors in `AGENTS.md` and deliberately has no row here.
+Read the family as the answer to "what does this flow *do to* an asset?". A harness such as the sweep runner does nothing to an asset, so it is `tooling` rather than pretending to be an operation. Doc-maintenance tooling (`lint_docs.py`, `mdtable.py`, `add_workflow_notes.py`) acts on the docs rather than on assets, so it is documented for contributors in `AGENTS.md` and deliberately has no row here.
 
 ## Axis 2 — subject & domain (what it is applied to)
 
@@ -43,27 +34,19 @@ than on assets, so it is documented for contributors in `AGENTS.md` and delibera
 
 These are *attributes*, not folders — one flow can serve several. Record them per flow in the index.
 
-**Extending to new modalities** (`animation`, `audio` are planned scenario folders). Operation
-families are deliberately **modality-agnostic**: `generate` means *prompt → brand-new artefact*,
-whether that artefact is an image, a clip or a sound. So a new modality should arrive as **new `domain`
-values** (`animation`, `audio`) on the *existing* families — not as new families. Text-to-music would
-be `generate / scene / audio`, not a family called "compose".
+**Extending to new modalities** (`animation`, `audio` are planned scenario folders). Operation families are deliberately **modality-agnostic**: `generate` means *prompt → brand-new artefact*, whether that artefact is an image, a clip or a sound. So a new modality should arrive as **new `domain` values** (`animation`, `audio`) on the *existing* families — not as new families. Text-to-music would be `generate / scene / audio`, not a family called "compose".
 
-One honest caveat: the `subject` vocabulary (`object | scene | material`) is image-flavoured. Audio and
-animation may want companions (`clip`, `cue`) — that is an **open question**, recorded here so it
-stays a decision rather than an accident.
+One honest caveat: the `subject` vocabulary (`object | scene | material`) is image-flavoured. Audio and animation may want companions (`clip`, `cue`) — that is an **open question**, recorded here so it stays a decision rather than an accident.
 
 ### Bridge flows (`from->to`)
 
-Some flows do not produce *within* one domain, they **move data between domains**. Rather than
-inventing ad-hoc strings, those are written in the domain column in an explicit, defined form:
+Some flows do not produce *within* one domain, they **move data between domains**. Rather than inventing ad-hoc strings, those are written in the domain column in an explicit, defined form:
 
 | written             | means                                                       | flows                                                                                            |
 |---------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
 | `texture->3D model` | 2D material authoring becomes data a 3D engine/DCC consumes | `scripts/marigold_pbr.py`, `scripts/make_gltf_material.py`, `2d/workflows/pbr-from-texture.json` |
 
-So a `domain` cell is either one of the three domains above, or an explicit `A->B` bridge. The
-per-flow **notes** say what it consumes and what it emits.
+So a `domain` cell is either one of the three domains above, or an explicit `A->B` bridge. The per-flow **notes** say what it consumes and what it emits.
 
 ## Index
 
@@ -101,8 +84,7 @@ per-flow **notes** say what it consumes and what it emits.
 
 ## Status — what is actually left
 
-The 2D ladder (**E1-E16**) and the upgrade track (**U1-U7**) are complete, and the 3D scenario is
-complete. Everything below is genuinely open, roughly in value order.
+The 2D ladder (**E1-E16**) and the upgrade track (**U1-U7**) are complete, and the 3D scenario is complete. Everything below is genuinely open, roughly in value order.
 
 | # | open item                           | why it matters                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | detail                                           |
 |---|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
@@ -115,16 +97,10 @@ complete. Everything below is genuinely open, roughly in value order.
 | 7 | **Batch-tooling extensions**        | `scripts/sweep.py` could take checkpoint / prompt axes as well as sampler knobs                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | E16                                              |
 | 8 | **Hardware**                        | the box is RAM-bound, not VRAM-bound; Qwen 20B at fp8 does not fit                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | `comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md` |
 
-**Completed upgrades, for reference** (reasoning in `2d/AUDIT-tooling-2026-09.md` and the E/U log):
-**U1 SeedVR2** (licence-clean upscaler, doubles as face restore) · **U2 Qwen-Image-Edit GGUF**
-(Apache-2.0; replaces Kontext for E8/E9/E10/E13/E14c) · **U3 Z-Image Turbo** (modern base art that
-fits this box) · **U4 Marigold intrinsic** (fixes E12b's inverted metallic) · **U5 PuLID** (identity
-with compositional freedom) · **U6a SAM 3** (text-prompted segmentation) · **U6b ControlNet-Union**
-(one model, many modes) · **U7 glTF PBR bridge**.
+**Completed upgrades, for reference** (reasoning in `2d/AUDIT-tooling-2026-09.md` and the E/U log): **U1 SeedVR2** (licence-clean upscaler, doubles as face restore) · **U2 Qwen-Image-Edit GGUF** (Apache-2.0; replaces Kontext for E8/E9/E10/E13/E14c) · **U3 Z-Image Turbo** (modern base art that fits this box) · **U4 Marigold intrinsic** (fixes E12b's inverted metallic) · **U5 PuLID** (identity with compositional freedom) · **U6a SAM 3** (text-prompted segmentation) · **U6b ControlNet-Union** (one model, many modes) · **U7 glTF PBR bridge**.
 
 ## Conventions
 
-- **Name flows `<family>-<detail>.json`** in future so the flat folder is self-describing
-  (existing files predate this and keep their names — renaming would churn every doc reference).
+- **Name flows `<family>-<detail>.json`** in future so the flat folder is self-describing (existing files predate this and keep their names — renaming would churn every doc reference).
 - Every flow gets: a row in the scenario's `EXPERIMENTS.md` (verdict + why) **and** a row here.
 - Paid/API stages are marked `paid` in the cost column; keep them behind a GLB/PNG gate.

@@ -132,8 +132,7 @@ glTF KHR2 (the material model Unity's glTF importer reads) uses the *same* chann
 
 ## 8. Experiment log
 
-See `EXPERIMENTS.md` — one table, one row per run, columns:
-`date · variant (free/paid) · stage under test · input · params · GLB path · verdict · next`
+See `EXPERIMENTS.md` — one table, one row per run, columns: `date · variant (free/paid) · stage under test · input · params · GLB path · verdict · next`
 
 Seed experiments queued:
 - E1: MoGe chain, single photo → GLB (validate setup, ~2 min)

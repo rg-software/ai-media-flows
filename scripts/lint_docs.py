@@ -25,6 +25,9 @@ Checks, in the order of what has actually bitten us:
      clipped label in the canvas), and every story cited in the index exists in `HOWTO.md`.
   7. **Story mapping:** every README job row names a story that exists, and every story is
      referenced by at least one row.
+  8. **Prose wrapping:** prose is one line per paragraph. A single newline reflows on GitHub but
+     renders as a visible break in a default Obsidian, and splits sentences so they cannot be
+     grepped. `--fix-wrapping` rewrites files into the canonical form.
 """
 from __future__ import annotations
 
@@ -60,6 +63,75 @@ def unescaped_pipes(line: str) -> int:
 
 def is_separator(line: str) -> bool:
     return bool(re.fullmatch(r"\|[\s:|-]+\|", line.strip()))
+
+
+# --- prose wrapping -----------------------------------------------------------------------------
+# We keep prose as ONE LINE PER PARAGRAPH. Why: GitHub reflows a single newline, but Obsidian only
+# ignores it when "Strict line breaks" is on (its default is off), so a hard-wrapped sentence shows a
+# visible mid-sentence break there. Unwrapped, the source renders identically in both tools, under
+# either setting -- and a sentence becomes greppable again. This predicate is deliberately shared by
+# the check and the fixer so they cannot drift.
+FENCE = re.compile(r"^\s*(```|~~~)")
+REFDEF = re.compile(r"^\s{0,3}\[[^\]]+\]:\s")
+HR = re.compile(r"^\s{0,3}([-*_])(\s*\1){2,}\s*$")
+LIST_ITEM = re.compile(r"^\s{0,3}([-*+]|\d+[.)])\s")
+HARD_BREAK = re.compile(r"(?:  +|\\)$")
+
+
+def _starts_block(line: str) -> bool:
+    """True if the line opens a new block, so it never wraps onto the line above."""
+    s = line.strip()
+    if not s or s[0] == "<" or FENCE.match(line) or REFDEF.match(line) or HR.match(line):
+        return True
+    return bool(BLOCK_MARKER.match(s))
+
+
+def _walk_prose(lines: list[str]):
+    """Shared walk: yield each line tagged 'keep' or 'wrap' (a continuation of the block above)."""
+    in_fence = joinable = False
+    for line in lines:
+        if FENCE.match(line):
+            in_fence = not in_fence
+            joinable = False
+            yield "keep", line
+            continue
+        if in_fence:
+            joinable = False
+            yield "keep", line
+            continue
+        s = line.strip()
+        if not s:
+            joinable = False
+            yield "keep", line
+            continue
+        if len(line) - len(line.lstrip(" ")) >= 4 and not joinable:
+            # An indented code block needs a blank line above it (CommonMark: it cannot interrupt a
+            # paragraph), so an indented line directly under prose is a lazy continuation, not code.
+            joinable = False
+            yield "keep", line
+            continue
+        if _starts_block(line):
+            joinable = bool(LIST_ITEM.match(line))      # a list item absorbs its own wraps
+            yield "keep", line
+            continue
+        yield ("wrap" if joinable else "keep"), line
+        joinable = not HARD_BREAK.search(line)
+
+
+def find_hard_wraps(lines: list[str]) -> list[int]:
+    """Indices of prose lines that merely continue the paragraph or list item above them."""
+    return [i for i, (kind, _) in enumerate(_walk_prose(lines)) if kind == "wrap"]
+
+
+def unwrap_prose(lines: list[str]) -> list[str]:
+    """Join hard-wrapped continuations into the line above (idempotent)."""
+    out: list[str] = []
+    for kind, line in _walk_prose(lines):
+        if kind == "wrap" and out:
+            out[-1] = out[-1].rstrip() + " " + line.strip()
+        else:
+            out.append(line)
+    return out
 
 
 _ANCHOR_CACHE: dict[str, set[str]] = {}
@@ -128,6 +200,13 @@ def lint_file(path: str, rel: str) -> list[str]:
                 f"(usually a separator with the wrong column count) or a split row: "
                 f"{line.strip()[:60]!r}"
             )
+
+    # prose wrapping: one line per paragraph (see the note above _starts_block)
+    for i in find_hard_wraps(lines):
+        problems.append(
+            f"{rel}:{i+1} hard-wrapped prose -> join into the line above "
+            f"(fix: `uv run python scripts/lint_docs.py --fix-wrapping`): {lines[i].strip()[:50]!r}"
+        )
 
     # (4) links and paths
     links = set(re.findall(r"\]\(([^)\s]+)\)", text))
@@ -281,6 +360,24 @@ def main() -> int:
 
     files = [p for p in glob.glob(os.path.join(REPO, "**", "*.md"), recursive=True)
              if f"{os.sep}.git{os.sep}" not in p]
+
+    if "--fix-wrapping" in sys.argv:
+        changed = 0
+        for f in sorted(files):
+            raw = open(f, "rb").read()
+            if b"\x00" in raw:
+                continue
+            lines = raw.decode("utf-8", "replace").split("\n")
+            fixed = unwrap_prose(lines)
+            if fixed != lines:
+                with open(f, "w", encoding="utf-8", newline="\n") as fh:
+                    fh.write("\n".join(fixed))
+                changed += 1
+                print(f"  rewrapped {os.path.relpath(f, REPO)} "
+                      f"({len(lines) - len(fixed)} line(s) joined)")
+        print(f"rewrapped {changed} file(s)")
+        return 0
+
     problems: list[str] = []
     for f in sorted(files):
         problems += lint_file(f, os.path.relpath(f, REPO))

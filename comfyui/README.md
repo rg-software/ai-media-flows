@@ -33,9 +33,7 @@ Plus `models/checkpoints/`: SDXL (RealVisXL_V5.0_fp16 default, juggernautXL, pon
 
 ## Hardware ceiling — what will and won't run on this box
 
-Host is an **AZW GTi14 mini-PC**: Intel Core Ultra 9 185H (Meteor Lake), **31 GB RAM**, **512 MB swap**,
-RTX 3090 **24 GB** on a PCIe **x8** link, power limit 370 W. The binding constraint is **not** VRAM —
-it is **host RAM + swap**, because any model larger than VRAM must be offloaded to RAM.
+Host is an **AZW GTi14 mini-PC**: Intel Core Ultra 9 185H (Meteor Lake), **31 GB RAM**, **512 MB swap**, RTX 3090 **24 GB** on a PCIe **x8** link, power limit 370 W. The binding constraint is **not** VRAM — it is **host RAM + swap**, because any model larger than VRAM must be offloaded to RAM.
 
 Measured model footprints (fp8 checkpoints, as staged by ComfyUI):
 
@@ -44,29 +42,16 @@ Measured model footprints (fp8 checkpoints, as staged by ComfyUI):
 | Flux.1 Kontext dev | 11.9 GB | 5.2 GB (T5 fp8) | **~17.6 GB** | ✅ works (69 s) |
 | Qwen-Image-Edit-2511 | **19.6 GB** | **7.9 GB** (Qwen2.5-VL-7B fp8) | **~27.5 GB** | ❌ **hard-freezes the machine** |
 
-**The Qwen-Image-Edit freeze (2026-09-16).** 19.6 GB + 7.9 GB = 27.5 GB against a 24 GB card forces CPU
-offload, and 31 GB RAM with 512 MB swap cannot absorb the offload plus the page cache for a 19.6 GB
-file → kernel thrash → **the whole system hangs and needs a manual reboot**. The journal of that boot
-ends dead on the line `Model QwenImage prepared for dynamic VRAM loading. 19582MB Staged` with **no
-OOM-killer entry** — the kernel never got far enough to log, which is the signature of memory-thrash
-lockup rather than a clean allocation failure. Practical ceiling on this box: **~18 GB of total model
-footprint.**
+**The Qwen-Image-Edit freeze (2026-09-16).** 19.6 GB + 7.9 GB = 27.5 GB against a 24 GB card forces CPU offload, and 31 GB RAM with 512 MB swap cannot absorb the offload plus the page cache for a 19.6 GB file → kernel thrash → **the whole system hangs and needs a manual reboot**. The journal of that boot ends dead on the line `Model QwenImage prepared for dynamic VRAM loading. 19582MB Staged` with **no OOM-killer entry** — the kernel never got far enough to log, which is the signature of memory-thrash lockup rather than a clean allocation failure. Practical ceiling on this box: **~18 GB of total model footprint.**
 
-Why fp8 is not a free win here: the 3090 is **Ampere (sm_86) and has no native fp8**; ComfyUI logs
-`emulated ops: float8_e4m3fn` / `manual cast: torch.bfloat16`. Treat "fp8" sizes as a storage figure
-only on this card.
+Why fp8 is not a free win here: the 3090 is **Ampere (sm_86) and has no native fp8**; ComfyUI logs `emulated ops: float8_e4m3fn` / `manual cast: torch.bfloat16`. Treat "fp8" sizes as a storage figure only on this card.
 
-**Mitigations, cheapest first:** full analysis with measured numbers and upgrade options is in
-**`hardware.md`**. Short version:
-1. **Cap the service so it dies instead of the machine** — add `MemoryHigh=20G` / `MemoryMax=26G` to the
-   `comfyui` user unit. The cgroup OOM-killer then kills ComfyUI on runaway allocation; the system stays
-   up and SSH-reachable. No sudo, no hardware.
-2. **A real swapfile** (32–64 GB on the ~500 GB free NVMe) — turns a hard freeze into slow-but-alive.
-   Needs sudo once.
+**Mitigations, cheapest first:** full analysis with measured numbers and upgrade options is in **`hardware.md`**. Short version:
+1. **Cap the service so it dies instead of the machine** — add `MemoryHigh=20G` / `MemoryMax=26G` to the `comfyui` user unit. The cgroup OOM-killer then kills ComfyUI on runaway allocation; the system stays up and SSH-reachable. No sudo, no hardware.
+2. **A real swapfile** (32–64 GB on the ~500 GB free NVMe) — turns a hard freeze into slow-but-alive. Needs sudo once.
 3. **Use GGUF quants** for anything ≥ ~18 GB (e.g. `unsloth/Qwen-Image-Edit-2511-GGUF` Q4/Q5 ≈ 12 GB)
    + the `ComfyUI-GGUF` node pack (not installed). The only local route to Qwen on this box.
-4. **Add RAM** — the GTi14 has 2× DDR5 SO-DIMM slots (up to 96 GB). Going to 64 GB makes Qwen viable
-   (still slow: mobile CPU + x8 PCIe).
+4. **Add RAM** — the GTi14 has 2× DDR5 SO-DIMM slots (up to 96 GB). Going to 64 GB makes Qwen viable (still slow: mobile CPU + x8 PCIe).
 5. **Don't run it locally** — keep Kontext as the edit model, or use a cloud GPU for Qwen.
 
 **Z-Image Turbo (U3) — the modern base model that fits:** `models/diffusion_models/z_image_turbo_bf16.safetensors` (11.46 GB) + `models/text_encoders/qwen_3_4b_fp8_mixed.safetensors` (5.25 GB) + the Flux `ae.safetensors` VAE (reused). **Apache 2.0.** Load with `CLIPLoader type="lumina2"` — *not* `qwen_image`. Turbo recipe: 8 steps, cfg 1.0, `res_multistep`/`simple`, `ModelSamplingAuraFlow(3)`, negative via `ConditioningZeroOut`. Measured 25 s @1024², **19.3 GB cgroup peak, zero OOM** — it fits where Qwen 20B fp8 does not.
@@ -87,9 +72,7 @@ only on this card.
   - core `JoinImageWithAlpha` → `alpha = 1.0 - mask`
   - KJNodes `SaveImageWithAlpha` → `a = 255 * (1.0 - mask)`
   - core `SplitImageWithAlpha` → returns `1.0 - alpha`
-  - So to turn a **foreground** mask (e.g. `RemoveBackground`, which sets 1 on the subject)
-    into cutout alpha, you must insert **`InvertMask`** first. Skipping it yields a perfectly
-    inverted cutout (background kept, subject transparent) — verified in E3.
+  - So to turn a **foreground** mask (e.g. `RemoveBackground`, which sets 1 on the subject) into cutout alpha, you must insert **`InvertMask`** first. Skipping it yields a perfectly inverted cutout (background kept, subject transparent) — verified in E3.
 - `SaveImageWithAlpha` is **KJNodes**, not core; core has `SplitImageWithAlpha`/`JoinImageWithAlpha`.
 - **Inpaint/outpaint: prefer `ComfyUI-Inpaint-CropAndStitch`** (`InpaintCropImproved` + `InpaintStitchImproved`) over the core `ImagePadForOutpaint` → inpaint → `ImageCompositeMasked` path. `InpaintStitchImproved` never VAE round-trips unmasked pixels, so the original region returns **pixel-identical** (measured mean|diff| **0.041/255** vs **6.477/255** for the core path — verified E9). `extend_for_outpainting` + `extend_*_factor` >1 does the outpaint (1.5 = +50% per side of the source size; 2 = +100%). `device_mode="gpu (much faster)"` is 30-100x over CPU; `output_resize_to_target_size=False` for non-square targets (forcing 1024² squashes a wide crop). `mask` is an *optional* input — omit it for pure canvas extension.
 - **`LoadImage` reads only from `input/`.** A file in `output/` cannot be loaded — copy it into `input/` first. Corollary: stage working/intermediate images in a **subdirectory** (e.g. `input/2d/_work/`), never directly in `input/2d/`, because `scripts/publish_assets.sh` sweeps `input/2d/*.png` into `assets/` (verified: a staging file got published as an "asset").
@@ -97,19 +80,9 @@ only on this card.
 - **Design consistency ≠ identity.** Flux Kontext with reference images reproduces hair/outfit/silhouette convincingly and is *not* the same face — measured with insightface/antelopev2, cosine **0.187** vs InstantID's **0.823**. **Always measure identity with an embedding, never by eye** — the two results look equally "right" to a human. Face embedders need a face **≥ ~112 px** in the reference; a 1024² full-body gives ~60 px, so keep a large-face portrait as the identity source.
 - **InstantID transfers the face only** and **biases composition toward a close-up bust** — prompting it for a full scene still returns a portrait, because the face embedding wants a large face. Design/clothing must come from the prompt. For full-scene character placement, use Kontext reference instead (accepting the identity trade-off) or run InstantID then composite.
 - **Marigold intrinsic (U4) is a diffusers script, not a node pack.** `kijai/ComfyUI-Marigold` is depth-only. Use `scripts/marigold_pbr.py` with `MarigoldIntrinsicsPipeline` (diffusers 0.40.0). Two traps: the checkpoints ship **only fp16 variants**, so `variant="fp16"` is **mandatory** (else `no file named model.safetensors ... in text_encoder`); and the pipeline returns **one stacked array, not a dict** — appearance → `(2,H,W,3)` = [albedo, material] with material channels `(roughness, metallicity, unused)`; lighting → `(3,H,W,3)` = [albedo, shading, residual]. Runs ~768 px.
-- **`SetUnionControlNetType` fails SILENTLY.** Its `type` values are *grouped by family*, not per-model:
-  `auto, openpose, depth, hed/pidi/scribble/ted, canny/lineart/anime_lineart/mlsd, normal, segment, tile, repaint`.
-  Passing `"canny"` is invalid, and the failure mode is nasty: **`POST /prompt` returns a `prompt_id` and the run
-  reports `status: success` in 3 s having produced no image** — the only message (`Output will be ignored`) goes to
-  the journal. **Any run that succeeds suspiciously fast with no output: check `journalctl --user -u comfyui`.**
-- **Tiling**: `SeamlessTile` (comfyui-seamless-tiling, patches the **MODEL**) **segfaults in
-  `libcuda.so.1`** and takes ComfyUI down — avoid. Use **`SeamlessTiling`** (TextureAlchemy, an
-  **image-space** op: `method` = mirror/blend_edges/offset) instead; it is stable and instant.
-  The circular-VAE route (`MakeCircularVAE` + `CircularVAEDecode`) also works but crashes on a
-  *second* run in one session — `systemctl --user restart comfyui` between runs. Externally a
-  crash looks like a dropped connection mid-prompt; `Restart=on-failure` silently restarts.
-- **Metric ≠ quality**: edge-continuity metrics rated `mirror`/`blend_edges` as perfect (0.00)
-  while they looked visibly awful (symmetric kaleidoscope / blurry cross). Always confirm with eyes.
+- **`SetUnionControlNetType` fails SILENTLY.** Its `type` values are *grouped by family*, not per-model: `auto, openpose, depth, hed/pidi/scribble/ted, canny/lineart/anime_lineart/mlsd, normal, segment, tile, repaint`. Passing `"canny"` is invalid, and the failure mode is nasty: **`POST /prompt` returns a `prompt_id` and the run reports `status: success` in 3 s having produced no image** — the only message (`Output will be ignored`) goes to the journal. **Any run that succeeds suspiciously fast with no output: check `journalctl --user -u comfyui`.**
+- **Tiling**: `SeamlessTile` (comfyui-seamless-tiling, patches the **MODEL**) **segfaults in `libcuda.so.1`** and takes ComfyUI down — avoid. Use **`SeamlessTiling`** (TextureAlchemy, an **image-space** op: `method` = mirror/blend_edges/offset) instead; it is stable and instant. The circular-VAE route (`MakeCircularVAE` + `CircularVAEDecode`) also works but crashes on a *second* run in one session — `systemctl --user restart comfyui` between runs. Externally a crash looks like a dropped connection mid-prompt; `Restart=on-failure` silently restarts.
+- **Metric ≠ quality**: edge-continuity metrics rated `mirror`/`blend_edges` as perfect (0.00) while they looked visibly awful (symmetric kaleidoscope / blurry cross). Always confirm with eyes.
 
 ## How to talk to it programmatically
 

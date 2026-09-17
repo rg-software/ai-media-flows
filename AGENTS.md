@@ -57,48 +57,13 @@ ai-gamedev-tasks/
 - References to workflow files inside markdown use `workflows/<name>.json`.
 - Server specifics: ComfyUI server has migrated to Linux (Ubuntu 26.04, RTX 3090, systemd user service `comfyui`). See `comfyui/README.md`.
 - Do not commit model weights or API keys; note *where* weights should live, not ship them.
-- **Asset policy — location decides, not file type.** `assets/` is the curated, tracked set; a
-  valuable artefact belongs in the repo whether it is a `.png`, `.glb`, `.fbx` or `.json`. There are
-  deliberately **no per-extension ignore rules for asset formats** (`*.glb`/`*.fbx`/`*.obj` were
-  removed in 2026-09 for exactly this reason). `output/`, `temp/` and `assets-temp/` are ignored
-  wholesale and are where generated/scratch files live. Promotion into `assets/` is always a
-  deliberate step (`2d` via `scripts/publish_assets.sh`), never an ad-hoc dump.
-- **Flows are classified by operation, not by folder.** The taxonomy lives in `PIPELINES.md`
-  (Axis 1 family × Axis 2 subject/domain). Two conventions to keep: a harness that does nothing to an
-  asset is `tooling`, not an operation; and a flow that **moves data between domains** writes its
-  domain explicitly as `from->to` (e.g. `texture->3D model`) rather than inventing a string.
-- **Lint the docs before committing:** `uv run python scripts/lint_docs.py`. It checks, in order of
-  what has actually bitten us: **NUL bytes** (which make git treat a file as *binary*, so its diff
-  silently becomes invisible — `git diff --numstat` shows `- -`), table shape via **markdown-it-py**
-  (`scripts/mdtable.py`) rather than string splitting (a malformed separator, a row whose cell count
-  differs from the header — which markdown-it *silently pads or truncates*, i.e. data loss), a table
-  that interrupts a paragraph, dead internal links/paths, **flow coverage** (every flow reachable from
-  the README table and present in `PIPELINES.md`), and **per-flow docs** (every workflow carries a
-    `MarkdownNote`; every story cited must exist in `HOWTO.md`, and every story must be referenced).
-    **Contributors only — none of this is user-facing:** `scripts/add_workflow_notes.py` writes the
-    per-flow `MarkdownNote` that the per-flow-docs check then enforces, and tables are always edited
-    through `scripts/mdtable.py`, never by hand.
-- **Repo-local tooling env (uv).** Python scripts are run from the repo's own environment, not from
-  whatever interpreter happens to be around: `uv sync` then `uv run python scripts/<x>.py`.
-  Dependencies are declared in `pyproject.toml` and pinned in `uv.lock` (committed). The one exception
-  is `scripts/marigold_pbr.py`, which needs torch/diffusers and therefore runs in the ComfyUI venv.
-- **Never hand-parse or hand-pad markdown tables.** Use `scripts/mdtable.py` (AST-based: `parse`,
-  `find`, `render`, `replace`, `add_column`). Five separate documentation bugs came from treating
-  tables as text — see that module's docstring. It has a `--self-test` that round-trips every table in
-  the repo (currently 50) and fails loudly if our content stops surviving a parse->render->parse cycle.
-- **Cross-references must work in both GitHub and Obsidian.** The two tools disagree on heading
-  anchors and it is *not* covered by CommonMark: GitHub generates **kebab-case slugs**
-  (`#s5-edit-a-picture…`), while Obsidian uses the **URL-encoded heading text** (`#S5.%20Edit…`) and
-  natively resolves **neither GFM slugs nor HTML anchors** (GitHub also prefixes user-supplied
-  `id=` with `user-content-`, and custom anchors aren't officially supported there). We therefore
-  write GFM slugs, and Obsidian needs the community plugin **`gfm-compatibility`**
-  (BRAT: `MMadder/Obsidian-GFM-Compatibility`) to resolve them. Lint validates every fragment
-  against the real heading anchors, so renaming a story fails the lint rather than rotting links.
-  *Known cosmetic limitation:* in Obsidian's **live-preview** editor the plugin centres the target
-  line instead of pinning it to the top, so it lands "nearby"; reading view takes a different code
-  path and is closer. Only fixable by forking the plugin. If exactness ever matters more than the
-  single-file layout, the escape hatch is **one file per story** (file links carry no fragment, so
-  they work everywhere and cannot rot).
+- **Asset policy — location decides, not file type.** `assets/` is the curated, tracked set; a valuable artefact belongs in the repo whether it is a `.png`, `.glb`, `.fbx` or `.json`. There are deliberately **no per-extension ignore rules for asset formats** (`*.glb`/`*.fbx`/`*.obj` were removed in 2026-09 for exactly this reason). `output/`, `temp/` and `assets-temp/` are ignored wholesale and are where generated/scratch files live. Promotion into `assets/` is always a deliberate step (`2d` via `scripts/publish_assets.sh`), never an ad-hoc dump.
+- **Flows are classified by operation, not by folder.** The taxonomy lives in `PIPELINES.md` (Axis 1 family × Axis 2 subject/domain). Two conventions to keep: a harness that does nothing to an asset is `tooling`, not an operation; and a flow that **moves data between domains** writes its domain explicitly as `from->to` (e.g. `texture->3D model`) rather than inventing a string.
+- **Lint the docs before committing:** `uv run python scripts/lint_docs.py`. It checks, in order of what has actually bitten us: **NUL bytes** (which make git treat a file as *binary*, so its diff silently becomes invisible — `git diff --numstat` shows `- -`), table shape via **markdown-it-py** (`scripts/mdtable.py`) rather than string splitting (a malformed separator, a row whose cell count differs from the header — which markdown-it *silently pads or truncates*, i.e. data loss), a table that interrupts a paragraph, dead internal links/paths, **flow coverage** (every flow reachable from the README table and present in `PIPELINES.md`), and **per-flow docs** (every workflow carries a `MarkdownNote`; every story cited must exist in `HOWTO.md`, and every story must be referenced), and **prose wrapping**. **Contributors only — none of this is user-facing:** `scripts/add_workflow_notes.py` writes the per-flow `MarkdownNote` that the per-flow-docs check then enforces, and tables are always edited through `scripts/mdtable.py`, never by hand.
+- **Prose is one line per paragraph — never hard-wrap.** Line width is not a thing in Markdown: GitHub *reflows* a single newline, but Obsidian only ignores it when `Strict line breaks` is on (**its default is off**), so a wrapped sentence shows a visible mid-phrase break there — and a sentence split across lines cannot be grepped. Same principle as the anchor/plugin note above: content must not render differently depending on a per-user toggle. Lint flags re-wrapped prose (it shares the exact predicate with the fixer, so they cannot drift); fix it with `uv run python scripts/lint_docs.py --fix-wrapping`, which is idempotent and only ever joins prose — never tables, fenced code, headings, blockquotes or list structure. Verified on adoption by rendering every changed file through markdown-it before and after: **the HTML was identical**, i.e. only source line breaks moved.
+- **Repo-local tooling env (uv).** Python scripts are run from the repo's own environment, not from whatever interpreter happens to be around: `uv sync` then `uv run python scripts/<x>.py`. Dependencies are declared in `pyproject.toml` and pinned in `uv.lock` (committed). The one exception is `scripts/marigold_pbr.py`, which needs torch/diffusers and therefore runs in the ComfyUI venv.
+- **Never hand-parse or hand-pad markdown tables.** Use `scripts/mdtable.py` (AST-based: `parse`, `find`, `render`, `replace`, `add_column`). Five separate documentation bugs came from treating tables as text — see that module's docstring. It has a `--self-test` that round-trips every table in the repo (currently 50) and fails loudly if our content stops surviving a parse->render->parse cycle.
+- **Cross-references must work in both GitHub and Obsidian.** The two tools disagree on heading anchors and it is *not* covered by CommonMark: GitHub generates **kebab-case slugs** (`#s5-edit-a-picture…`), while Obsidian uses the **URL-encoded heading text** (`#S5.%20Edit…`) and natively resolves **neither GFM slugs nor HTML anchors** (GitHub also prefixes user-supplied `id=` with `user-content-`, and custom anchors aren't officially supported there). We therefore write GFM slugs, and Obsidian needs the community plugin **`gfm-compatibility`** (BRAT: `MMadder/Obsidian-GFM-Compatibility`) to resolve them. Lint validates every fragment against the real heading anchors, so renaming a story fails the lint rather than rotting links. *Known cosmetic limitation:* in Obsidian's **live-preview** editor the plugin centres the target line instead of pinning it to the top, so it lands "nearby"; reading view takes a different code path and is closer. Only fixable by forking the plugin. If exactness ever matters more than the single-file layout, the escape hatch is **one file per story** (file links carry no fragment, so they work everywhere and cannot rot).
 
 ## Vocabulary & doc map (for working *on* the repo)
 
@@ -113,18 +78,11 @@ ai-gamedev-tasks/
 
 **Numbering is a log, not a version**
 
-- **E-numbers** (`E1`…`E16`) are **experiments** — one capability each, run in order, each with a
-  verdict and the reasoning. `E1c`, `E4b`, `E13f` refine the same experiment.
-- **U-numbers** (`U1`…`U7`) are **upgrades** — swapping a working-but-suboptimal tool for a better or
-  licence-cleaner one, decided by the audit.
-- Both live in `2d/EXPERIMENTS-2D.md` and `3d/EXPERIMENTS.md`. **Read the verdicts, not just the
-  results** — several entries are explicit corrections of earlier ones.
+- **E-numbers** (`E1`…`E16`) are **experiments** — one capability each, run in order, each with a verdict and the reasoning. `E1c`, `E4b`, `E13f` refine the same experiment.
+- **U-numbers** (`U1`…`U7`) are **upgrades** — swapping a working-but-suboptimal tool for a better or licence-cleaner one, decided by the audit.
+- Both live in `2d/EXPERIMENTS-2D.md` and `3d/EXPERIMENTS.md`. **Read the verdicts, not just the results** — several entries are explicit corrections of earlier ones.
 
-**Glossary** — *asset* (curated artefact in `assets/`) · *flow/workflow* (a ComfyUI graph) · *knob* (a
-parameter worth tuning; each flow's `PIPELINES.md` row names its most important one) · *evidence* (a
-labelled comparison sheet in `2d/evidence/`) · *promotion* (the deliberate move from a staging dir into
-`assets/`) · *verdict* (`PASS`/`MEH`/`BLOCKED` **plus the reason**) · *gateway* (a licence or hardware
-constraint deciding whether output is shippable).
+**Glossary** — *asset* (curated artefact in `assets/`) · *flow/workflow* (a ComfyUI graph) · *knob* (a parameter worth tuning; each flow's `PIPELINES.md` row names its most important one) · *evidence* (a labelled comparison sheet in `2d/evidence/`) · *promotion* (the deliberate move from a staging dir into `assets/`) · *verdict* (`PASS`/`MEH`/`BLOCKED` **plus the reason**) · *gateway* (a licence or hardware constraint deciding whether output is shippable).
 
 **Doc map**
 
@@ -143,23 +101,13 @@ constraint deciding whether output is shippable).
 
 ## Status (2026-09-16)
 
-**Both scenarios are complete; the repo is consolidating rather than expanding.** The 2D ladder
-**E1–E16** is done, the upgrade track **U1–U7** is done, and the 3D scenario is complete including
-Linux rigging. The live list of open items is **`PIPELINES.md` → "Status — what is actually left"**.
+**Both scenarios are complete; the repo is consolidating rather than expanding.** The 2D ladder **E1–E16** is done, the upgrade track **U1–U7** is done, and the 3D scenario is complete including Linux rigging. The live list of open items is **`PIPELINES.md` → "Status — what is actually left"**.
 
-- **2d/** — ladder + upgrades complete. Licence posture is clean except one item: `insightface`
-  (used by the InstantID and PuLID flows) is non-commercial research-only.
+- **2d/** — ladder + upgrades complete. Licence posture is clean except one item: `insightface` (used by the InstantID and PuLID flows) is non-commercial research-only.
 - **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux).
-- **Inventory:** 38 2D assets · 5 3D assets · **26 workflows** (23 in `2d/`, 3 in `3d/`; plus scaffolding
-  in `workflows/scratch/`) · 39 evidence sheets · 9 scripts · 24 docs.
-- **Working rules** (full version in `2d/PROTOCOL.md` and `HOWTO.md` Part 1): prefer **scripts over GUI
-  clicks** so every run is replayable; change **one knob at a time**; and remember **a metric is a hint,
-  the image is the truth** (it has misled us three times — E7, E15, U6b).
-- **Next candidates, in order:** (1) the **engine import contract** — assets are Unity-*compatible*
-  but not drop-in (no `.meta`/`.mat`, wrong importer defaults for pixel art and PBR maps, no
-  PPU/pivot convention, and glTF-vs-Unity channel packing differs); (2) **animation** as a new
-  scenario folder, partly gated on more RAM; (3) hardware — the box is **RAM-bound, not
-  VRAM-bound** (`comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md`).
+- **Inventory:** 38 2D assets · 5 3D assets · **26 workflows** (23 in `2d/`, 3 in `3d/`; plus scaffolding in `workflows/scratch/`) · 39 evidence sheets · 9 scripts · 24 docs.
+- **Working rules** (full version in `2d/PROTOCOL.md` and `HOWTO.md` Part 1): prefer **scripts over GUI clicks** so every run is replayable; change **one knob at a time**; and remember **a metric is a hint, the image is the truth** (it has misled us three times — E7, E15, U6b).
+- **Next candidates, in order:** (1) the **engine import contract** — assets are Unity-*compatible* but not drop-in (no `.meta`/`.mat`, wrong importer defaults for pixel art and PBR maps, no PPU/pivot convention, and glTF-vs-Unity channel packing differs); (2) **animation** as a new scenario folder, partly gated on more RAM; (3) hardware — the box is **RAM-bound, not VRAM-bound** (`comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md`).
 
 URL/password live with the user. Runtime facts that matter for reproducibility:
 

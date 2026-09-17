@@ -1,12 +1,8 @@
 # 2d/reference — legacy workflow archive
 
-**Loose, unorganized, partially broken. Reference only — not maintained.**
-These are workflows recovered from the previous (Windows) machine's
-`user/default/workflows/`. The curated, maintained pipelines live in `../workflows/`.
+**Loose, unorganized, partially broken. Reference only — not maintained.** These are workflows recovered from the previous (Windows) machine's `user/default/workflows/`. The curated, maintained pipelines live in `../workflows/`.
 
-Use them as **design references** (node choices, wiring, prompts) and as a shopping list of
-node packs / weights. Expect schema drift: they were saved against an older ComfyUI
-(e.g. `Checkpoint Loader (Simple)` is WAS-NS, one node has a UUID class name).
+Use them as **design references** (node choices, wiring, prompts) and as a shopping list of node packs / weights. Expect schema drift: they were saved against an older ComfyUI (e.g. `Checkpoint Loader (Simple)` is WAS-NS, one node has a UUID class name).
 
 ## Inventory
 
@@ -26,18 +22,13 @@ node packs / weights. Expect schema drift: they were saved against an older Comf
 | `RR Paltest.json` | palette extraction test | `comfyui-pixelart-detector` | — | E5 |
 | `MIA AutoRig.json` | mesh auto-rig (3D) | `comfyui-unirig` | — | 3D E4 alt |
 
-**"RR" = Retro Diffusion.** Pixel-art checkpoints (all three now hardlinked into
-`models/checkpoints/`):
+**"RR" = Retro Diffusion.** Pixel-art checkpoints (all three now hardlinked into `models/checkpoints/`):
 - `RetroDiffusion16xModel.safetensors` — v2.0, 256² canvas → 16×16 pixel art (range 128–512)
 - `RetroDiffusion24x-64xModel.safetensors` — v1.0, 512² canvas → 64×64 pixel art (range 192–512)
-- `RetroDiffusion128xModel.safetensors` — v5.0, 1024² canvas → 128×128 pixel art (range 768–1280)
-Prompt convention: include **"pixel art"**.
+- `RetroDiffusion128xModel.safetensors` — v5.0, 1024² canvas → 128×128 pixel art (range 768–1280) Prompt convention: include **"pixel art"**.
 
 ## Node packs referenced
 
-Installed on the box: `comfyui-seamless-tiling`, `comfyui-hunyuan3dwrapper`, `comfyui-unirig`,
-`comfyui_controlnet_aux`, `comfyui-kjnodes`, **`texturealchemy`**, **`qornflex/ComfyUI-QFX-PBRGenerator`**.
+Installed on the box: `comfyui-seamless-tiling`, `comfyui-hunyuan3dwrapper`, `comfyui-unirig`, `comfyui_controlnet_aux`, `comfyui-kjnodes`, **`texturealchemy`**, **`qornflex/ComfyUI-QFX-PBRGenerator`**.
 
-Still missing (install when the matching track starts): `comfyui-pixelart-detector`,
-`comfyui_ipadapter_plus`, `comfyui-supir`, `comfyui-inspyrenet-rembg`, `comfyui-marigold`,
-`comfyui-image-compare`.
+Still missing (install when the matching track starts): `comfyui-pixelart-detector`, `comfyui_ipadapter_plus`, `comfyui-supir`, `comfyui-inspyrenet-rembg`, `comfyui-marigold`, `comfyui-image-compare`.

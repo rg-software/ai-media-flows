@@ -1,8 +1,6 @@
 # Hardware — what fits, and what to upgrade (2026-09-16)
 
-Written after Qwen-Image-Edit-2511 fp8 **hard-froze the machine** (see
-`README.md` → "Hardware ceiling"). Purpose: answer "does the model fit?" with measurements
-instead of guesses, and map the upgrade options to the work we actually want to do.
+Written after Qwen-Image-Edit-2511 fp8 **hard-froze the machine** (see `README.md` → "Hardware ceiling"). Purpose: answer "does the model fit?" with measurements instead of guesses, and map the upgrade options to the work we actually want to do.
 
 ## The box
 
@@ -18,17 +16,12 @@ instead of guesses, and map the upgrade options to the work we actually want to 
 
 Two consequences that are easy to miss:
 
-- **The binding constraint is host RAM, not VRAM.** Anything larger than VRAM must be offloaded to
-  system memory; with 32 GB RAM and 512 MB swap, an offload of ~20 GB thrashes the kernel and the
-  *whole machine* hangs.
-- **Ampere has no native fp8.** ComfyUI logs `emulated ops: float8_e4m3fn` / `manual cast:
-  torch.bfloat16`. On this card an "fp8" size is a *storage* figure, and fp8 checkpoints bring no
-  speed advantage the way they do on Ada/Blackwell.
+- **The binding constraint is host RAM, not VRAM.** Anything larger than VRAM must be offloaded to system memory; with 32 GB RAM and 512 MB swap, an offload of ~20 GB thrashes the kernel and the *whole machine* hangs.
+- **Ampere has no native fp8.** ComfyUI logs `emulated ops: float8_e4m3fn` / `manual cast: torch.bfloat16`. On this card an "fp8" size is a *storage* figure, and fp8 checkpoints bring no speed advantage the way they do on Ada/Blackwell.
 
 ## Measured model footprints (all verified on this box)
 
-Model = diffusion weights; +enc = text encoder; the *peak* column is what has to be resident
-somewhere (VRAM ∪ RAM) at the worst moment.
+Model = diffusion weights; +enc = text encoder; the *peak* column is what has to be resident somewhere (VRAM ∪ RAM) at the worst moment.
 
 | workload | model | weights | +enc | peak | verdict |
 |---|---|---|---|---|---|
@@ -45,15 +38,12 @@ somewhere (VRAM ∪ RAM) at the worst moment.
 | Gen | FLUX.2 [dev] INT4 (32B) | ~18 GB | ~9 GB (24B enc) | ~27 GB+ | ❌ |
 | Gen | FLUX.2 [dev] FP16 (32B) | ~70 GB | — | 70 GB+ | ❌ (needs 80 GB GPU) |
 
-**Empirical ceiling on this box: ~18 GB of *total* footprint, i.e. ~14 GB of diffusion weights once
-a ~4-8 GB text encoder is in play.** Everything at or below that has run cleanly; everything above
-has not.
+**Empirical ceiling on this box: ~18 GB of *total* footprint, i.e. ~14 GB of diffusion weights once a ~4-8 GB text encoder is in play.** Everything at or below that has run cleanly; everything above has not.
 
 ## Upgrade options, by value
 
 ### 1. A real swapfile — free, do it first
-32–64 GB on the ~500 GB free NVMe. Turns "machine hangs" into "slow but alive", and gives the
-kernel somewhere to put cold pages. Safe for every future run, not just Qwen.
+32–64 GB on the ~500 GB free NVMe. Turns "machine hangs" into "slow but alive", and gives the kernel somewhere to put cold pages. Safe for every future run, not just Qwen.
 
 ```
 sudo swapoff /swapfile
@@ -68,8 +58,7 @@ grep -i swap /etc/fstab
 echo 'vm.swappiness=10' | sudo tee /etc/sysctl.d/99-swap.conf
 sudo sysctl -w vm.swappiness=10
 ```
-Note: the `comfyui` unit caps *its own* swap at `MemorySwapMax=8G`, so this swapfile protects the
-desktop/OS and lets ComfyUI offload, without letting it thrash the SSD.
+Note: the `comfyui` unit caps *its own* swap at `MemorySwapMax=8G`, so this swapfile protects the desktop/OS and lets ComfyUI offload, without letting it thrash the SSD.
 
 ### 2. RAM 32 → 96 GB — **the best value upgrade**
 2× 48 GB DDR5-5600 SO-DIMM (~the price of a mid-range GPU). It:
@@ -79,8 +68,7 @@ desktop/OS and lets ComfyUI offload, without letting it thrash the SSD.
 - is required before any 20B+ model is worth attempting.
 
 ### 3. GPU — only once RAM is sorted
-The GTi14 has a **PCIe 5.0 x8** interface into the EX dock (600 W PSU). x8 at gen 5 ≈ x16 at gen 4,
-so bandwidth is not the problem; power/budget are.
+The GTi14 has a **PCIe 5.0 x8** interface into the EX dock (600 W PSU). x8 at gen 5 ≈ x16 at gen 4, so bandwidth is not the problem; power/budget are.
 
 | card | VRAM | unlocks | note |
 |---|---|---|---|
@@ -94,17 +82,11 @@ so bandwidth is not the problem; power/budget are.
 
 ## Recommendation
 
-1. **Now:** swapfile (free) + keep the cgroup guard. Use the stack that fits — SDXL, **Z-Image
-   Turbo**, **Flux Kontext**, **SeedVR2**, **Marigold**.
-2. **Next:** **RAM to 96 GB.** That is the single upgrade that changes what is possible; it turns
-   the whole Apache-2.0 Qwen line from "freezes the box" into "runs, slower".
+1. **Now:** swapfile (free) + keep the cgroup guard. Use the stack that fits — SDXL, **Z-Image Turbo**, **Flux Kontext**, **SeedVR2**, **Marigold**.
+2. **Next:** **RAM to 96 GB.** That is the single upgrade that changes what is possible; it turns the whole Apache-2.0 Qwen line from "freezes the box" into "runs, slower".
 3. **Then, if throughput matters:** an **RTX 5090 32 GB** in the EX dock.
-4. **Meanwhile:** for anything >18 GB, prefer **GGUF quants** (a 12 GB Q4 Qwen-Edit does fit) and
-   **cloud** for the 32B+ tier — do not feed this box a 27 GB fp8 model.
+4. **Meanwhile:** for anything >18 GB, prefer **GGUF quants** (a 12 GB Q4 Qwen-Edit does fit) and **cloud** for the 32B+ tier — do not feed this box a 27 GB fp8 model.
 
 ## Licence note
 
-The models that fit best are also the ones with clean licences: **Z-Image Turbo (Apache-2.0)**,
-**SeedVR2 (Apache-2.0)**, **Marigold (Apache-2.0)**, and the **Qwen GGUF** line (Apache-2.0). The
-non-commercial heavy hitters (Flux dev / Kontext dev, SUPIR, `4x-UltraSharp`) are the ones we should
-be replacing anyway — see `../2d/AUDIT-tooling-2026-09.md`.
+The models that fit best are also the ones with clean licences: **Z-Image Turbo (Apache-2.0)**, **SeedVR2 (Apache-2.0)**, **Marigold (Apache-2.0)**, and the **Qwen GGUF** line (Apache-2.0). The non-commercial heavy hitters (Flux dev / Kontext dev, SUPIR, `4x-UltraSharp`) are the ones we should be replacing anyway — see `../2d/AUDIT-tooling-2026-09.md`.

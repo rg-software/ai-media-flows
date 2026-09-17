@@ -2,9 +2,7 @@
 
 > **SUPERSEDED by** [`pipeline-design.md`](pipeline-design.md) (free-first, GLB-compatible architecture) + [`EXPERIMENTS.md`](EXPERIMENTS.md) (run log). Keep this file as reference for raw node signatures.
 
-Server: `https://comfy.rt247a.ddns.me` (RTX 3090 · ComfyUI-Login protected)
-Auth: POST `/login` with the password → capture `AIOHTTP_SESSION` cookie.
-Node source via `/object_info` (1759 nodes available).
+Server: `https://comfy.rt247a.ddns.me` (RTX 3090 · ComfyUI-Login protected) Auth: POST `/login` with the password → capture `AIOHTTP_SESSION` cookie. Node source via `/object_info` (1759 nodes available).
 
 > Status: schemas verified against the live server.
 
