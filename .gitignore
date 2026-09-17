@@ -19,6 +19,9 @@ assets-temp/
 # Convention: promote into assets/ deliberately (2d via scripts/publish_assets.sh),
 # never by dumping files there.
 
+# --- Repo-local python env (uv) ---
+.venv/
+
 # --- ComfyUI / env scratch ---
 comfy-env/
 *.pixi*

@@ -1,22 +1,30 @@
 #!/usr/bin/env python3
-"""Lint the repo's Markdown: tables that won't render, and dead internal links.
+"""Lint the repo's Markdown and its cross-references.
 
-Why this exists: our docs are hand-merged constantly (scripts patch table rows), and
-that has already produced two silent breakages —
-  * a separator row with one column too many, which makes strict renderers drop the
-    ENTIRE table (2d/EXPERIMENTS-2D.md),
-  * a literal newline inside a cell, which splits a row in half and leaves an orphan
-    paragraph (same file).
-Neither is visible when you read the raw text, and both waste a reviewer's time.
+Run it before committing docs:  uv run python scripts/lint_docs.py
 
-Checks:
-  1. Every GFM table: header / separator / each data row must have the same number of
-     columns. Escaped pipes (\\|) inside cells are handled correctly.
-  2. Rows split across lines, and orphan lines interrupting a table.
-  3. Relative Markdown links and backticked repo paths that don't resolve.
+Checks, in the order of what has actually bitten us:
 
-Usage:  python scripts/lint_docs.py [paths...]     (default: every *.md in the repo)
-Exit code 1 if anything is wrong, so it can gate a commit.
+  1. **No NUL bytes.** A stray NUL makes git treat a file as *binary*, so its diff silently
+     becomes invisible (`git diff --numstat` shows `-  -` instead of line counts). This really
+     happened, and cost a review pass.
+  2. **Tables parse, and nothing is silently lost.** Tables are parsed with markdown-it
+     (`scripts/mdtable.py`), not by splitting strings. Two failure modes are caught:
+       - a row-looking line that is *not* inside a parseable table -> a malformed table
+         (usually a separator with the wrong column count, which makes strict renderers drop the
+         WHOLE table);
+       - a row whose raw cell count differs from the header -> markdown-it *normalises* this
+         silently (padding short rows, truncating long ones = data loss), so it is checked
+         against the raw line.
+  3. **A table must not interrupt a paragraph** (GFM cannot start a table mid-paragraph).
+  4. **Links resolve.** Markdown links are file-relative; backticked paths resolve against
+     the file dir, the scenario dir, or the repo root (this repo uses all three).
+  5. **Flow coverage:** every flow is reachable from the README's job table and has a
+     `PIPELINES.md` row.
+  6. **Per-flow docs:** every workflow carries a `MarkdownNote` (a group title renders as a
+     clipped label in the canvas), and every story cited in the index exists in `HOWTO.md`.
+  7. **Story mapping:** every README job row names a story that exists, and every story is
+     referenced by at least one row.
 """
 from __future__ import annotations
 
@@ -26,102 +34,93 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import mdtable  # noqa: E402
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ESC = "\x00"  # placeholder for escaped pipes
+
+BLOCK_MARKER = re.compile(r"^(#{1,6}\s|\||>\s?|[-*+]\s|\d+[.)]\s|-{3,}|_{3,})")
 
 
-def split_cells(line: str) -> list[str]:
-    """Split a table row on unescaped pipes, dropping the outer empties and trimming."""
-    protected = line.replace("\\|", ESC)
-    parts = protected.strip().split("|")
-    if parts and parts[0].strip() == "":
-        parts = parts[1:]
-    if parts and parts[-1].strip() == "":
-        parts = parts[:-1]
-    return [p.strip() for p in parts]
+def unescaped_pipes(line: str) -> int:
+    """Count pipes that are not escaped by an odd number of preceding backslashes."""
+    n, i = 0, 0
+    while i < len(line):
+        if line[i] == "|":
+            bs = 0
+            j = i - 1
+            while j >= 0 and line[j] == "\\":
+                bs += 1
+                j -= 1
+            if bs % 2 == 0:
+                n += 1
+        i += 1
+    return n
 
 
 def is_separator(line: str) -> bool:
     return bool(re.fullmatch(r"\|[\s:|-]+\|", line.strip()))
 
 
+# --------------------------------------------------------------------------- per-file checks
 def lint_file(path: str, rel: str) -> list[str]:
     problems: list[str] = []
-    lines = open(path, encoding="utf-8").read().split("\n")
-
-    i = 0
-    while i < len(lines):
-        line = lines[i].strip()
-        # a table starts where a row is followed by a separator row
-        if line.startswith("|") and i + 1 < len(lines) and is_separator(lines[i + 1]):
-            # GFM: a table cannot interrupt a *paragraph* — it needs a blank line before it.
-            # A heading, list item, blockquote or another table row before it is fine.
-            prev = lines[i - 1].strip() if i > 0 else ""
-            block_marker = re.match(r"^(#{1,6}\s|\||>\s?|[-*+]\s|\d+[.)]\s|-{3,})", prev)
-            if prev and not block_marker:
-                problems.append(
-                    f"{rel}:{i+1} table starts without a blank line before it "
-                    f"(previous: {prev[:50]!r})"
-                )
-            nhead = len(split_cells(line))
-            nsep = len(split_cells(lines[i + 1]))
-            if nhead != nsep:
-                problems.append(
-                    f"{rel}:{i+1} separator has {nsep} columns but the header has {nhead} "
-                    f"-> strict renderers will drop this whole table"
-                )
-            if not line.endswith("|"):
-                problems.append(f"{rel}:{i+1} header row does not end with '|'")
-            j = i + 2
-            while j < len(lines) and lines[j].strip().startswith("|"):
-                row = lines[j].strip()
-                n = len(split_cells(row))
-                if not row.endswith("|"):
-                    problems.append(
-                        f"{rel}:{j+1} table row does not end with '|' (split cell? "
-                        f"expects {nhead} columns, found {n})"
-                    )
-                elif n != nhead:
-                    problems.append(
-                        f"{rel}:{j+1} row has {n} columns, header has {nhead}"
-                    )
-                j += 1
-            # an unterminated table row followed immediately by prose = a split row
-            if j < len(lines) and lines[j].strip() and not lines[j].strip().startswith("#"):
-                if lines[j - 1].strip().startswith("|") and not lines[j].strip().startswith("|"):
-                    problems.append(
-                        f"{rel}:{j+1} prose line interrupts a table (a cell contained a "
-                        f"literal newline?): {lines[j].strip()[:70]!r}"
-                    )
-            i = j
-            continue
-        i += 1
-
-    # links + backticked repo paths.
-    # This repo uses three reference conventions, so we accept a path if it resolves
-    # against ANY plausible base rather than picking one and reporting false rot:
-    #   * markdown links        -> file-relative (standard)
-    #   * `2d/workflows/x.json` -> repo-root-relative
-    #   * `workflows/x.json`    -> scenario-relative (what AGENTS.md specifies)
-    # Also skipped: box-side staging paths (`input/...`) which are deliberately not in
-    # the repo, and anything containing a placeholder (`{a,b}`, `<name>`, `*`).
-    text = "\n".join(lines)
-    links = set(re.findall(r"\]\(([^)\s]+)\)", text))
-    backticks = {
-        m
-        for m in re.findall(r"`([^`\n]+)`", text)
-        if "/" in m and re.search(r"\.(json|py|sh|md|png|glb)$", m)
-    }
-    bases = [os.path.dirname(path), os.path.dirname(os.path.dirname(path)), REPO]
-    def resolves(cand: str) -> bool:
-        """True if cand (or, for a command example like `python scripts/x.py`, its last
-        whitespace-separated token) exists relative to any plausible base."""
-        tries = [cand]
-        if " " in cand:
-            tries.append(cand.split()[-1])
-        return any(
-            os.path.exists(os.path.join(b, t.split("#")[0])) for t in tries for b in bases
+    raw = open(path, "rb").read()
+    n_nul = raw.count(b"\x00")
+    if n_nul:
+        problems.append(
+            f"{rel} contains {n_nul} NUL byte(s) -> git treats it as BINARY, so its diff is "
+            f"invisible. Something wrote a placeholder instead of real text."
         )
+        return problems  # everything else is meaningless on a corrupt file
+
+    text = raw.decode("utf-8", "replace")
+    lines = text.split("\n")
+    tables = mdtable.parse(text)
+    spans = [(t.start, t.end) for t in tables]
+
+    def inside_table(i: int) -> bool:
+        return any(s <= i < e for s, e in spans)
+
+    # (2)+(3) tables
+    for t in tables:
+        ncol = len(t.header)
+        for i in range(t.start, t.end):
+            line = lines[i]
+            if not line.strip().startswith("|") or is_separator(line):
+                continue
+            # -1 because a row of N cells has N+1 unescaped pipes (leading + separators)
+            cells = unescaped_pipes(line) - 1
+            if cells != ncol:
+                problems.append(
+                    f"{rel}:{i+1} row has {cells} cells, header has {ncol} -> markdown-it will "
+                    f"silently {'pad' if cells < ncol else 'TRUNCATE (data loss)'} this row"
+                )
+        if t.start > 0:
+            prev = lines[t.start - 1].strip()
+            if prev and not BLOCK_MARKER.match(prev):
+                problems.append(
+                    f"{rel}:{t.start+1} table starts without a blank line before it "
+                    f"(GFM cannot interrupt a paragraph; previous: {prev[:50]!r})"
+                )
+
+    for i, line in enumerate(lines):
+        if line.strip().startswith("|") and not inside_table(i):
+            problems.append(
+                f"{rel}:{i+1} table row outside any parseable table - malformed table "
+                f"(usually a separator with the wrong column count) or a split row: "
+                f"{line.strip()[:60]!r}"
+            )
+
+    # (4) links and paths
+    links = set(re.findall(r"\]\(([^)\s]+)\)", text))
+    backticks = {m for m in re.findall(r"`([^`\n]+)`", text)
+                 if "/" in m and re.search(r"\.(json|py|sh|md|png|glb)$", m)}
+    bases = [os.path.dirname(path), os.path.dirname(os.path.dirname(path)), REPO]
+
+    def resolves(cand: str) -> bool:
+        tries = [cand] + ([cand.split()[-1]] if " " in cand else [])
+        return any(os.path.exists(os.path.join(b, t.split("#")[0])) for t in tries for b in bases)
 
     for c in sorted(links):
         if c.startswith(("http://", "https://", "#", "mailto:")):
@@ -131,54 +130,43 @@ def lint_file(path: str, rel: str) -> list[str]:
     for c in sorted(backticks):
         if any(ch in c for ch in "|*{}<>") or c.startswith(("input/", "output/")):
             continue
-        # `2d/char_knight.png` (scenario + bare filename) is a reference to the ComfyUI
-        # staging/output dir on the box, not to a path in this repo — staging refs always
-        # look like this, while in-repo refs always have a subdir (workflows/, evidence/).
         if re.fullmatch(r"(2d|3d|2D|3D)/[^/]+\.(png|jpg|jpeg|webp|glb|fbx|obj|stl|ply)", c):
-            continue
+            continue  # box-side staging/output reference, not a repo path
         if not resolves(c):
             problems.append(f"{rel} dead path -> `{c}`")
     return problems
 
 
+# --------------------------------------------------------------------------- repo-wide checks
+def iter_flows():
+    for pat in ("2d/workflows/*.json", "3d/workflows/*.json", "scripts/*"):
+        for p in sorted(glob.glob(os.path.join(REPO, pat))):
+            if os.path.isfile(p):
+                yield p
+
+
 def check_flow_coverage() -> list[str]:
-    """Every curated flow must be reachable from the two indexes, so a new flow cannot
-    silently become unfindable:
-      * README.md   -> the job-oriented "I want to…" table
-      * PIPELINES.md -> the capability index
-    """
-    problems: list[str] = []
-    flows: list[str] = []
-    for pattern in ("2d/workflows/*.json", "3d/workflows/*.json", "scripts/*"):
-        if pattern.startswith("scripts"):
-            flows += [p for p in glob.glob(os.path.join(REPO, pattern)) if os.path.isfile(p)]
-        else:
-            flows += glob.glob(os.path.join(REPO, pattern))  # scratch/ is excluded by the glob
+    """Every flow must be reachable from the two indexes."""
+    problems = []
     readme = open(os.path.join(REPO, "README.md"), encoding="utf-8").read()
     pipes = open(os.path.join(REPO, "PIPELINES.md"), encoding="utf-8").read()
-    for f in sorted(flows):
+    for f in iter_flows():
         rel = os.path.relpath(f, REPO).replace(os.sep, "/")
         base = os.path.basename(f)
         if base not in readme:
-            problems.append(f"{rel} is in no README.md 'I want to' row (unreachable from the front door)")
+            problems.append(f"{rel} is in no README.md 'I want to make' row (unreachable)")
         if base not in pipes:
             problems.append(f"{rel} has no row in PIPELINES.md (missing from the capability index)")
     return problems
 
 
 def check_flow_docs() -> list[str]:
-    """A flow's documentation must exist and be reachable, so a user who opens a flow in the
-    canvas (or lands on its index row) can always find out what to do with it:
-      * every workflow carries a MarkdownNote - a group title renders as a clipped label, a
-        MarkdownNote renders as a readable panel (it is what ComfyUI's own templates use);
-      * every PIPELINES index row names a HOWTO story, and that story must exist.
-    """
-    problems: list[str] = []
+    """Every workflow carries a MarkdownNote; every cited story exists."""
+    problems = []
     howto = open(os.path.join(REPO, "HOWTO.md"), encoding="utf-8").read()
     stories = set(re.findall(r"^###\s+(S\d+)\.", howto, re.M))
-
-    for f in sorted(glob.glob(os.path.join(REPO, "2d", "workflows", "*.json")) +
-                    glob.glob(os.path.join(REPO, "3d", "workflows", "*.json"))):
+    for f in glob.glob(os.path.join(REPO, "2d", "workflows", "*.json")) + \
+             glob.glob(os.path.join(REPO, "3d", "workflows", "*.json")):
         rel = os.path.relpath(f, REPO).replace(os.sep, "/")
         try:
             d = json.load(open(f, encoding="utf-8"))
@@ -193,110 +181,76 @@ def check_flow_docs() -> list[str]:
             )
             continue
         wv = notes[0].get("widgets_values") or [""]
-        text = wv[0] if wv else ""
-        if len(text) < 200:
-            problems.append(f"{rel} MarkdownNote is only {len(text)} chars (<200)")
+        txt = wv[0] if wv else ""
+        if len(txt) < 200:
+            problems.append(f"{rel} MarkdownNote is only {len(txt)} chars (<200)")
 
-    lines = open(os.path.join(REPO, "PIPELINES.md"), encoding="utf-8").read().split("\n")
-    hi = next((i for i, l in enumerate(lines) if re.match(r"^\|\s*flow\s*\|", l)), None)
-    if hi is None:
-        problems.append("PIPELINES.md: index header not found")
+    pipes_text = open(os.path.join(REPO, "PIPELINES.md"), encoding="utf-8").read()
+    idx = mdtable.find(pipes_text, "flow")
+    if idx is None or "how-to" not in idx.header:
+        problems.append("PIPELINES.md: index table has no 'how-to' column")
     else:
-        hdr = split_cells(lines[hi])
-        if "how-to" not in hdr:
-            problems.append("PIPELINES.md: index has no 'how-to' column")
-        else:
-            col = hdr.index("how-to")
-            for i in range(hi + 2, len(lines)):
-                if not lines[i].strip().startswith("|"):
-                    break
-                c = split_cells(lines[i])
-                flow = c[0].strip("`")
-                if col >= len(c):
-                    problems.append(f"PIPELINES.md:{i+1} {flow}: row too short for the how-to column")
-                    continue
-                for s in re.findall(r"S\d+", c[col]):
-                    if s not in stories:
-                        problems.append(
-                            f"PIPELINES.md:{i+1} {flow}: cites story {s} that HOWTO.md does not define"
-                        )
+        col = idx.header.index("how-to")
+        for r in idx.rows:
+            for s in re.findall(r"S\d+", r[col] if col < len(r) else ""):
+                if s not in stories:
+                    problems.append(f"PIPELINES.md: {r[0]} cites story {s} that HOWTO.md does not define")
     return problems
 
 
 def check_story_mapping() -> list[str]:
-    """The README's job table and HOWTO's stories are many-to-one (one story can serve several
-    job rows, because the procedure is shared). That mapping must stay complete both ways, or a
-    reader is sent to a story that does not exist - or a story becomes unreachable.
-
-      * every job row names a story, and that story exists in HOWTO.md
-      * every story in HOWTO.md is referenced by at least one job row
-    """
-    problems: list[str] = []
+    """README job rows <-> HOWTO stories must stay complete in both directions."""
+    problems = []
     howto = open(os.path.join(REPO, "HOWTO.md"), encoding="utf-8").read()
     defined = set(re.findall(r"^###\s+(S\d+)\.", howto, re.M))
-
-    readme = open(os.path.join(REPO, "README.md"), encoding="utf-8").read().split("\n")
-    hi = next((i for i, l in enumerate(readme) if l.strip().startswith("| I want to make / do")), None)
-    if hi is None:
+    readme = open(os.path.join(REPO, "README.md"), encoding="utf-8").read()
+    t = mdtable.find(readme, "I want to make")
+    if t is None:
         return ["README.md: 'I want to make' table not found"]
-
-    hdr = split_cells(readme[hi])
-    if "story" not in hdr:
+    if "story" not in t.header:
         return ["README.md: 'I want to make' table has no 'story' column"]
-    col = hdr.index("story")
-
-    used: set[str] = set()
-    for i in range(hi + 2, len(readme)):
-        if not readme[i].strip().startswith("|"):
-            break
-        c = split_cells(readme[i])
-        if col >= len(c):
-            problems.append(f"README.md:{i+1} row too short for the story column: {c[0][:40]}")
+    col = t.header.index("story")
+    used = set()
+    for r in t.rows:
+        if col >= len(r):
+            problems.append(f"README.md: row too short for the story column: {r[0][:40]}")
             continue
-        m = re.fullmatch(r"S\d+", c[col])
-        if not m:
-            problems.append(f"README.md:{i+1} {c[0][:40]}: story cell is not an S-number ({c[col]!r})")
+        v = r[col]
+        if not re.fullmatch(r"S\d+", v):
+            problems.append(f"README.md: {r[0][:40]}: story cell is not an S-number ({v!r})")
             continue
-        used.add(c[col])
-        if c[col] not in defined:
-            problems.append(f"README.md:{i+1} {c[0][:40]}: cites story {c[col]} that HOWTO.md does not define")
-
+        used.add(v)
+        if v not in defined:
+            problems.append(f"README.md: {r[0][:40]}: cites story {v} that HOWTO.md does not define")
     for s in sorted(defined - used):
         problems.append(f"HOWTO.md defines story {s} that no README job row references")
     return problems
 
 
 def main() -> int:
-    rc = getattr(sys.stdout, "reconfigure", None)  # may be absent on odd runtimes
+    rc = getattr(sys.stdout, "reconfigure", None)
     if rc is not None:
-        try:  # keep output from dying on consoles with a non-UTF-8 codepage
+        try:
             rc(errors="replace")
         except Exception:
             pass
-    args = sys.argv[1:]
-    if args:
-        files = [a for a in args if a.endswith(".md")]
-    else:
-        files = [
-            p
-            for p in glob.glob(os.path.join(REPO, "**", "*.md"), recursive=True)
-            if f"{os.sep}.git{os.sep}" not in p
-        ]
-    all_problems: list[str] = []
+
+    files = [p for p in glob.glob(os.path.join(REPO, "**", "*.md"), recursive=True)
+             if f"{os.sep}.git{os.sep}" not in p]
+    problems: list[str] = []
     for f in sorted(files):
-        rel = os.path.relpath(f, REPO)
-        all_problems += lint_file(f, rel)
-    all_problems += check_flow_coverage()
-    all_problems += check_flow_docs()
-    all_problems += check_story_mapping()
+        problems += lint_file(f, os.path.relpath(f, REPO))
+    problems += check_flow_coverage()
+    problems += check_flow_docs()
+    problems += check_story_mapping()
 
     print(f"linted {len(files)} markdown file(s)")
-    if all_problems:
-        print(f"\n{len(all_problems)} problem(s):")
-        for p in all_problems:
+    if problems:
+        print(f"\n{len(problems)} problem(s):")
+        for p in problems:
             print("  " + p)
         return 1
-    print("no table or link problems found")
+    print("no table, link, coverage or flow-doc problems found")
     return 0
 
 

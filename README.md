@@ -50,7 +50,7 @@ A working, reproducible pipeline for **generating game assets with open models o
 | Set up or migrate a machine                                               | [`comfyui/linux-setup.md`](comfyui/linux-setup.md) · [`comfyui/linux-migration.md`](comfyui/linux-migration.md) |
 | Upgrade the hardware                                                      | [`comfyui/UPGRADE-TODO.md`](comfyui/UPGRADE-TODO.md)                                                            |
 | Decide whether a tool is still the right one                              | [`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md)                                                    |
-| Check the docs (tables, links, flow coverage) before committing           | `scripts/lint_docs.py` · `scripts/add_workflow_notes.py`                                                        |
+| Check the docs (tables, links, flow coverage) before committing           | `scripts/lint_docs.py` (tables, links, coverage) · `scripts/mdtable.py` (table AST) · `scripts/add_workflow_notes.py`                                                        |
 
 ---
 

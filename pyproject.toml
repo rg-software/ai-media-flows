@@ -1,0 +1,22 @@
+[project]
+name = "ai-gamedev-tasks"
+version = "0.1.0"
+description = "Repo-local tooling for the AI game-dev pipeline: doc linting/structure, and light asset helpers"
+requires-python = ">=3.11"
+dependencies = [
+    # doc tooling: parse markdown properly (tables, escapes, inline HTML) instead of
+    # hand-rolled string splitting. We keep OUR formatting; the AST is for reading/editing.
+    "markdown-it-py>=3.0",
+    # asset helpers (scripts/compose_scene.py, scripts/sweep.py, scripts/make_gltf_material.py)
+    "numpy>=1.26",
+    "pillow>=10",
+    "trimesh>=4",
+]
+
+[tool.uv]
+# Usage:  uv sync            -> create/refresh .venv with the locked deps
+#         uv run python scripts/lint_docs.py
+#
+# NOTE: scripts/marigold_pbr.py is deliberately NOT covered here — it needs torch +
+# diffusers, which belong to the ComfyUI environment. Run it with the box's ComfyUI venv
+# (see its docstring).

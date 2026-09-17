@@ -26,7 +26,9 @@ ai-gamedev-tasks/
 ├── HANDOFF.md                   ← Linux box handoff: env, blockers, next steps
 ├── PIPELINES.md                 ← CAPABILITY MAP: every flow by operation × subject × status
 ├── assets/                      ← curated, tracked artefacts (2d/, 3d/); location decides, not file type
-├── scripts/                     ← helper scripts (find-pythons.bat, ...)
+├── scripts/                     ← helper scripts + the repo-local tooling env (uv; see pyproject.toml)
+│   ├── mdtable.py               ← AST-based markdown table parse/render (`--self-test` round-trips all)
+│   └── lint_docs.py             ← the doc gate: NULs, table shape, links, flow coverage, per-flow docs
 ├── comfyui/                     ← general ComfyUI knowledge (not scenario-specific)
 │   ├── README.md                ← index + server map
 │   ├── setup.md                 ← install/run, caveats, Linux migration notes
@@ -66,12 +68,22 @@ ai-gamedev-tasks/
   (Axis 1 family × Axis 2 subject/domain). Two conventions to keep: a harness that does nothing to an
   asset is `tooling`, not an operation; and a flow that **moves data between domains** writes its
   domain explicitly as `from->to` (e.g. `texture->3D model`) rather than inventing a string.
-- **Lint the docs before committing:** `python scripts/lint_docs.py`. It checks, in order of what has
-  actually bitten us: table shape (a separator with the wrong column count makes strict renderers drop
-  the *whole* table; a cell containing a literal newline splits the row), a table that interrupts a
-  paragraph, dead internal links/paths, **flow coverage** (every flow must be reachable from the
-  README's table and have a `PIPELINES.md` row), and **per-flow docs** (every workflow must carry a
-  `MarkdownNote`, and every `how-to` story cited in the index must exist in `HOWTO.md`).
+- **Lint the docs before committing:** `uv run python scripts/lint_docs.py`. It checks, in order of
+  what has actually bitten us: **NUL bytes** (which make git treat a file as *binary*, so its diff
+  silently becomes invisible — `git diff --numstat` shows `- -`), table shape via **markdown-it-py**
+  (`scripts/mdtable.py`) rather than string splitting (a malformed separator, a row whose cell count
+  differs from the header — which markdown-it *silently pads or truncates*, i.e. data loss), a table
+  that interrupts a paragraph, dead internal links/paths, **flow coverage** (every flow reachable from
+  the README table and present in `PIPELINES.md`), and **per-flow docs** (every workflow carries a
+  `MarkdownNote`; every story cited must exist in `HOWTO.md`, and every story must be referenced).
+- **Repo-local tooling env (uv).** Python scripts are run from the repo's own environment, not from
+  whatever interpreter happens to be around: `uv sync` then `uv run python scripts/<x>.py`.
+  Dependencies are declared in `pyproject.toml` and pinned in `uv.lock` (committed). The one exception
+  is `scripts/marigold_pbr.py`, which needs torch/diffusers and therefore runs in the ComfyUI venv.
+- **Never hand-parse or hand-pad markdown tables.** Use `scripts/mdtable.py` (AST-based: `parse`,
+  `find`, `render`, `replace`, `add_column`). Five separate documentation bugs came from treating
+  tables as text — see that module's docstring. It has a `--self-test` that round-trips every table in
+  the repo (currently 53) and fails loudly if our content stops surviving a parse->render->parse cycle.
 
 ## Vocabulary & doc map (for working *on* the repo)
 
