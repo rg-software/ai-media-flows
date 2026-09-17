@@ -85,7 +85,7 @@ ai-gamedev-tasks/
 - **Never hand-parse or hand-pad markdown tables.** Use `scripts/mdtable.py` (AST-based: `parse`,
   `find`, `render`, `replace`, `add_column`). Five separate documentation bugs came from treating
   tables as text — see that module's docstring. It has a `--self-test` that round-trips every table in
-  the repo (currently 53) and fails loudly if our content stops surviving a parse->render->parse cycle.
+  the repo (currently 50) and fails loudly if our content stops surviving a parse->render->parse cycle.
 - **Cross-references must work in both GitHub and Obsidian.** The two tools disagree on heading
   anchors and it is *not* covered by CommonMark: GitHub generates **kebab-case slugs**
   (`#s5-edit-a-picture…`), while Obsidian uses the **URL-encoded heading text** (`#S5.%20Edit…`) and
@@ -151,7 +151,7 @@ Linux rigging. The live list of open items is **`PIPELINES.md` → "Status — w
   (used by the InstantID and PuLID flows) is non-commercial research-only.
 - **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux).
 - **Inventory:** 38 2D assets · 5 3D assets · **26 workflows** (23 in `2d/`, 3 in `3d/`; plus scaffolding
-  in `workflows/scratch/`) · 39 evidence sheets · 8 scripts · 26 docs.
+  in `workflows/scratch/`) · 39 evidence sheets · 9 scripts · 24 docs.
 - **Working rules** (full version in `2d/PROTOCOL.md` and `HOWTO.md` Part 1): prefer **scripts over GUI
   clicks** so every run is replayable; change **one knob at a time**; and remember **a metric is a hint,
   the image is the truth** (it has misled us three times — E7, E15, U6b).
