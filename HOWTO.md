@@ -12,13 +12,13 @@ New here? Read **Part 1** once — every story assumes it. Then jump to the stor
 
 **Where everything lives**
 
-| | |
-|---|---|
-| Server | ComfyUI on the Linux box. URL/password with the user. Manage the service with `systemctl --user restart comfyui` (**never** `sudo`). |
-| Flows | `2d/workflows/*.json`, `3d/workflows/*.json` — openable, editable graphs |
-| Flow inputs | the ComfyUI **`input/`** dir on the box. **`LoadImage` reads only from `input/`** — a file sitting in `output/` cannot be loaded |
-| Flow outputs | `output/<prefix>/` on the box |
-| Curation | `input/2d/` and `input/3d/` are the **staging** dirs; promote from there into `assets/` |
+|              |                                                                                                                                      |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Server       | ComfyUI on the Linux box. URL/password with the user. Manage the service with `systemctl --user restart comfyui` (**never** `sudo`). |
+| Flows        | `2d/workflows/*.json`, `3d/workflows/*.json` — openable, editable graphs                                                             |
+| Flow inputs  | the ComfyUI **`input/`** dir on the box. **`LoadImage` reads only from `input/`** — a file sitting in `output/` cannot be loaded     |
+| Flow outputs | `output/<prefix>/` on the box                                                                                                        |
+| Curation     | `input/2d/` and `input/3d/` are the **staging** dirs; promote from there into `assets/`                                              |
 
 **Two ways to run a flow**
 

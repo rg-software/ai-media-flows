@@ -62,6 +62,23 @@ def is_separator(line: str) -> bool:
     return bool(re.fullmatch(r"\|[\s:|-]+\|", line.strip()))
 
 
+_ANCHOR_CACHE: dict[str, set[str]] = {}
+
+
+def anchors_of(path: str) -> set[str]:
+    """The set of anchors a file's headings produce (GitHub's algorithm)."""
+    if path not in _ANCHOR_CACHE:
+        txt = open(path, encoding="utf-8", errors="replace").read()
+        got = set()
+        for h in re.findall(r"^#{1,6}\s+(.*)$", txt, re.M):
+            s = h.strip().lower()
+            s = re.sub(r"[^\w\s-]", "", s, flags=re.UNICODE)
+            s = re.sub(r"\s+", "-", s)
+            got.add(s)
+        _ANCHOR_CACHE[path] = got
+    return _ANCHOR_CACHE[path]
+
+
 # --------------------------------------------------------------------------- per-file checks
 def lint_file(path: str, rel: str) -> list[str]:
     problems: list[str] = []
@@ -122,11 +139,28 @@ def lint_file(path: str, rel: str) -> list[str]:
         tries = [cand] + ([cand.split()[-1]] if " " in cand else [])
         return any(os.path.exists(os.path.join(b, t.split("#")[0])) for t in tries for b in bases)
 
+    def resolve_path(cand: str) -> str | None:
+        for b in bases:
+            p = os.path.join(b, cand)
+            if os.path.exists(p):
+                return p
+        return None
+
     for c in sorted(links):
-        if c.startswith(("http://", "https://", "#", "mailto:")):
+        if c.startswith(("http://", "https://", "mailto:")):
             continue
         if not resolves(c):
             problems.append(f"{rel} dead link -> {c}")
+            continue
+        # a fragment must match a real heading anchor in the target file, or renames
+        # silently break every link that points here
+        if "#" in c:
+            target, frag = c.split("#", 1)
+            if not frag:
+                continue
+            tp = resolve_path(target) if target else path
+            if tp and os.path.isfile(tp) and frag not in anchors_of(tp):
+                problems.append(f"{rel} dead anchor -> {c} (no heading produces #{frag} in {os.path.relpath(tp, REPO)})")
     for c in sorted(backticks):
         if any(ch in c for ch in "|*{}<>") or c.startswith(("input/", "output/")):
             continue
@@ -216,12 +250,16 @@ def check_story_mapping() -> list[str]:
             problems.append(f"README.md: row too short for the story column: {r[0][:40]}")
             continue
         v = r[col]
-        if not re.fullmatch(r"S\d+", v):
+        # accept a bare id ("S5") or a link whose *text* is the id ("[S5](HOWTO.md#...)")
+        as_link = re.fullmatch(r"\[(S\d+)\]\([^)]*\)", v)
+        as_plain = re.fullmatch(r"S\d+", v)
+        sid = as_link.group(1) if as_link else (v if as_plain else None)
+        if sid is None:
             problems.append(f"README.md: {r[0][:40]}: story cell is not an S-number ({v!r})")
             continue
-        used.add(v)
-        if v not in defined:
-            problems.append(f"README.md: {r[0][:40]}: cites story {v} that HOWTO.md does not define")
+        used.add(sid)
+        if sid not in defined:
+            problems.append(f"README.md: {r[0][:40]}: cites story {sid} that HOWTO.md does not define")
     for s in sorted(defined - used):
         problems.append(f"HOWTO.md defines story {s} that no README job row references")
     return problems
