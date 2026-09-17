@@ -31,10 +31,9 @@ ai-gamedev-tasks/
 │   └── lint_docs.py             ← the doc gate: NULs, table shape, links, flow coverage, per-flow docs
 ├── comfyui/                     ← general ComfyUI knowledge (not scenario-specific)
 │   ├── README.md                ← index + server map
-│   ├── setup.md                 ← install/run, caveats, Linux migration notes
 │   ├── environments.md          ← comfy-env / pixi isolation, per-node envs
-│   ├── linux-setup.md           ← Ubuntu 26.04 + 3090 install/restore commands
-│   ├── linux-migration.md       ← what carries over vs re-provision
+│   ├── linux-setup.md           ← Ubuntu 26.04 + 3090 install/restore, remote access
+│   ├── hardware.md              ← what fits: measured footprints, RAM ceiling, upgrade order
 │   └── workflow-file-format.md  ← the ComfyUI .json workflow schema (nodes/links/widgets)
 ├── 3d/                          ← 3D asset generation scenario (complete)
 │   ├── README.md                ← scenario index + workflow map
@@ -75,7 +74,10 @@ ai-gamedev-tasks/
   differs from the header — which markdown-it *silently pads or truncates*, i.e. data loss), a table
   that interrupts a paragraph, dead internal links/paths, **flow coverage** (every flow reachable from
   the README table and present in `PIPELINES.md`), and **per-flow docs** (every workflow carries a
-  `MarkdownNote`; every story cited must exist in `HOWTO.md`, and every story must be referenced).
+    `MarkdownNote`; every story cited must exist in `HOWTO.md`, and every story must be referenced).
+    **Contributors only — none of this is user-facing:** `scripts/add_workflow_notes.py` writes the
+    per-flow `MarkdownNote` that the per-flow-docs check then enforces, and tables are always edited
+    through `scripts/mdtable.py`, never by hand.
 - **Repo-local tooling env (uv).** Python scripts are run from the repo's own environment, not from
   whatever interpreter happens to be around: `uv sync` then `uv run python scripts/<x>.py`.
   Dependencies are declared in `pyproject.toml` and pinned in `uv.lock` (committed). The one exception
@@ -166,4 +168,4 @@ URL/password live with the user. Runtime facts that matter for reproducibility:
 - Launch: `./venv/bin/python main.py --listen --disable-api-nodes`; systemd unit `comfyui.service` (see `HANDOFF.md`).
 - Custom nodes live under `custom_nodes/`; installed: Hy3D wrapper, MoGe, UniRig (own pixi env, bpy 4.2 LTS), KJNodes, ComfyUI-Manager v3.41.
 - `custom_rasterizer` is built **from source on this box** (nvcc 12.8 header-patch in conda env `cuda128`, gcc-13, `TORCH_CUDA_ARCH_LIST=8.6`); recipe in `HANDOFF.md` + `3d/EXPERIMENTS.md`. Do NOT use nvcc 13.2 (torch 2.11+cu128 hard-errors on the major mismatch).
-- Old Windows host (retired): embedded Python 3.13.12, torch 2.13.0+cu130, MSVC-compiled `.pyd`. Kept only as history; see `comfyui/environments.md` + E2b.
+- Old Windows host (retired): embedded Python 3.13.12, torch 2.13.0+cu130, MSVC-compiled `.pyd`. Kept only as history; see `comfyui/environments.md` + E2b. The Windows-era docs (setup.md, linux-migration.md, both under `comfyui/`) were **deleted** once the migration completed — recover them from git history if the Windows path is ever revived.

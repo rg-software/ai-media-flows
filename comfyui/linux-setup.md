@@ -72,7 +72,7 @@ Rest of the repo (workflows, docs) is already on GitHub:
 git clone https://github.com/rg-software/ai-gamedev-tasks.git
 ```
 
-## 7. Verify (smoke checklist from `linux-migration.md`)
+## 7. Verify (smoke checklist)
 
 1. ComfyUI boots; `/object_info` shows Hy3D + MoGe.
 2. `hy3d-shape` (scratch) → GLB.
@@ -140,6 +140,6 @@ The `workflows/*.json` files are the GUI format; API submissions need the node->
 (generate it with `GET /object_info` for signatures).
 
 ## Repo docs to consult
-- `comfyui/linux-migration.md` (carry vs re-provision)
+- `HANDOFF.md` (the box handoff: environment, blockers, next steps)
 - `3d/setup-hy3d.md` (weights + Hy3D node specifics)
 - `3d/hy3d-knobs.md`, `3d/EXPERIMENTS.md`

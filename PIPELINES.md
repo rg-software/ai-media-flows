@@ -29,10 +29,12 @@ subject, and its status.
 | 7  | **surface**     | tileable textures and PBR material sets                                 | `seamless-texture`, `pbr-from-texture`, `marigold_pbr`, `make_gltf_material`                                                                       |
 | 8  | **assemble**    | atlases, grids, multi-image composition                                 | `sprite-atlas`, `compose-harmonize` (+ `compose_scene.py` for placement)                                                                           |
 | 9  | **reconstruct** | image -> 3D geometry / texture / rig                                    | `hy3d-full-workflow`, `hy3d-multiview-workflow`, `unirig-humanoid-workflow`                                                                        |
-| 10 | **tooling**     | *not* an operation on an asset - harnesses for reproducing or exploring | `gen_assets.py`, `publish_assets.sh`, `sweep.py`, `lint_docs.py`                                                                                   |
+| 10 | **tooling**     | *not* an operation on an asset — harnesses for reproducing or exploring | `gen_assets.py`, `publish_assets.sh`, `sweep.py`                                                                                                   |
 
 Read the family as the answer to "what does this flow *do to* an asset?". A harness such as the
 sweep runner does nothing to an asset, so it is `tooling` rather than pretending to be an operation.
+Doc-maintenance tooling (`lint_docs.py`, `mdtable.py`, `add_workflow_notes.py`) acts on the docs rather
+than on assets, so it is documented for contributors in `AGENTS.md` and deliberately has no row here.
 
 ## Axis 2 — subject & domain (what it is applied to)
 
@@ -96,8 +98,6 @@ per-flow **notes** say what it consumes and what it emits.
 | `3d/workflows/hy3d-full-workflow.json`       | reconstruct | object       | 3D                | free              | (verify)                                         | Hy3D shape→texture→bake                                                                                                                                                                  | **PASS** (E2a–e)          | [S11](HOWTO.md#s11-3d-from-images)                                                                                  |
 | `3d/workflows/hy3d-multiview-workflow.json`  | reconstruct | object       | 3D                | free              | (verify)                                         | mv model + uniform 512² views                                                                                                                                                            | **PASS** (E2d)            | [S11](HOWTO.md#s11-3d-from-images)                                                                                  |
 | `3d/workflows/unirig-humanoid-workflow.json` | reconstruct | object       | 3D                | free              | (verify)                                         | UniRig (bpy via pixi)                                                                                                                                                                    | **PASS** (E4-L)           | [S11](HOWTO.md#s11-3d-from-images)                                                                                  |
-| `scripts/add_workflow_notes.py`              | tooling     | any          | image             | free              | n/a                                              | migrates a flow's group-title note into a **MarkdownNote** panel (idempotent); `--check` audits coverage                                                                                 | **PASS**                  | [S12](HOWTO.md#s12-reproduce-sweep-promote)                                                                         |
-| `scripts/mdtable.py`                         | tooling     | any          | n/a               | free              | n/a                                              | AST-based markdown table parsing (markdown-it-py) - read/edit tables without the text-splitting bugs; `--self-test` round-trips every table in the repo                                  | **PASS**                  | [S12](HOWTO.md#s12-reproduce-sweep-promote)                                                                         |
 
 ## Status — what is actually left
 

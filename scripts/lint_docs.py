@@ -172,10 +172,16 @@ def lint_file(path: str, rel: str) -> list[str]:
 
 
 # --------------------------------------------------------------------------- repo-wide checks
+# Repo-maintenance tooling: it acts on the docs and tables, never on an asset. It is documented
+# for contributors in AGENTS.md, so it is deliberately *not* a flow that must be reachable from the
+# README job table (the user is not expected to run these).
+CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py"}
+
+
 def iter_flows():
     for pat in ("2d/workflows/*.json", "3d/workflows/*.json", "scripts/*"):
         for p in sorted(glob.glob(os.path.join(REPO, pat))):
-            if os.path.isfile(p):
+            if os.path.isfile(p) and os.path.basename(p) not in CONTRIBUTOR_TOOLS:
                 yield p
 
 

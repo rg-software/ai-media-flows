@@ -9,10 +9,9 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
 
 | Doc | What it answers |
 |---|---|
-| `setup.md` | How the server is installed/run, known caveats, and what to change when migrating to Linux. |
+| `linux-setup.md` | How to install/restore the box from scratch — Ubuntu 26.04 + 3090 (driver/CUDA, torch, custom nodes), remote access, and the topology. |
 | `environments.md` | `comfy-env` / pixi per-node environments — how to isolate nodes that need a different Python/torch/CUDA than the host. |
 | `workflow-file-format.md` | The `.json` workflow schema: nodes, links, widgets, `order`/`mode`, import rules, and how to hand-edit safely. |
-| `linux-migration.md` | What carries to a Linux server, what to re-provision, and how to avoid the Windows-specific pain (MSVC, `.pyd`, bpy). |
 | `hardware.md` | **What fits and what doesn't** — measured model footprints (SDXL → Qwen 20B → FLUX.2 32B), the RAM/VRAM ceiling, and upgrade options in value order (swapfile → RAM → GPU). Read before pulling a large model. |
 
 ## Model stack (reproducibility — where weights live, not the weights)
