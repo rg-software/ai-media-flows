@@ -16,6 +16,7 @@ Two distinct efforts — don't conflate:
 ## Core model
 
 Two config files:
+
 | Config | Role |
 |---|---|
 | `comfy-env-root.toml` (pack root) | node dependency mgmt, `[node_packs]`, `[types]`. **Never touches Python env.** |

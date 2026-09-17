@@ -64,6 +64,7 @@ Two shape-gen flavours:
 
 ### `Hy3DCameraConfig`
 Controls the 6 camera views the paint/bake system uses.
+
 | Knob | Default (string of 6) | Effect |
 |---|---|---|
 | `camera_azimuths` | `0, 90, 180, 270, 0, 180` | which angles to look from |

@@ -9,16 +9,18 @@ a scenario. So scenario folders no longer answer "which tool for this job?".
 This file is the **capability index** — every flow, what operation it performs, on what kind of
 subject, and its status.
 
-**Which file do I want?** If you have a *job* ("I need a cutout", "I need PBR maps"), use the
-**"I want to…" table in [`README.md`](README.md)** — it is job-oriented and lists every flow. This
-file is the complement: read it when you want the **landscape** (what families exist, what is
-supported, what licence each flow carries, what knobs matter) or when you are adding a new flow.
+**Which file do I want?** Three complementary views, all sharing the taxonomy below:
+
+- **have a job** ("I need a cutout", "I need PBR maps") -> **[`HOWTO.md`](HOWTO.md)** for the steps,
+  knobs and traps, plus the "I want to…" table in [`README.md`](README.md) for which flow.
+- **want the landscape** (what families exist, what's supported, what licence, what knobs) -> this file.
+- **adding a flow** -> this file: give it a family, subject, domain, cost, licence and key knob.
 
 ## Axis 1 — operation family (what transformation it performs)
 
 | # | family | question it answers | flows |
 |---|---|---|---|
-| 1 | **generate** | prompt -> brand-new image | `sdxl-base-art`, `z-image-turbo` |
+| 1 | **generate** | prompt -> brand-new artefact of the target domain | `sdxl-base-art`, `z-image-turbo` |
 | 2 | **guide** | generation constrained by structure **or reference** | `sdxl-controlnet-canny`, `controlnet-union`, `ipadapter-style`, `regional-prompting`, `kontext-character`, `instantid-character`, `pulid-identity` |
 | 3 | **stylize** | rerender into a disciplined style/palette | `pixel-art` |
 | 4 | **isolate** | subject out of background; masks and per-pixel maps | `remove-bg`, `sam3-segment`, `depth-normal` |
@@ -38,6 +40,16 @@ sweep runner does nothing to an asset, so it is `tooling` rather than pretending
 - **domain**: `image` (2D pixels) · `texture` (2D, tiling/PBR authoring) · `3D model` (mesh)
 
 These are *attributes*, not folders — one flow can serve several. Record them per flow in the index.
+
+**Extending to new modalities** (`animation`, `audio` are planned scenario folders). Operation
+families are deliberately **modality-agnostic**: `generate` means *prompt → brand-new artefact*,
+whether that artefact is an image, a clip or a sound. So a new modality should arrive as **new `domain`
+values** (`animation`, `audio`) on the *existing* families — not as new families. Text-to-music would
+be `generate / scene / audio`, not a family called "compose".
+
+One honest caveat: the `subject` vocabulary (`object | scene | material`) is image-flavoured. Audio and
+animation may want companions (`clip`, `cue`) — that is an **open question**, recorded here so it
+stays a decision rather than an accident.
 
 ### Bridge flows (`from->to`)
 

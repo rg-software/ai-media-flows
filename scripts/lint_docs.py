@@ -53,6 +53,15 @@ def lint_file(path: str, rel: str) -> list[str]:
         line = lines[i].strip()
         # a table starts where a row is followed by a separator row
         if line.startswith("|") and i + 1 < len(lines) and is_separator(lines[i + 1]):
+            # GFM: a table cannot interrupt a *paragraph* — it needs a blank line before it.
+            # A heading, list item, blockquote or another table row before it is fine.
+            prev = lines[i - 1].strip() if i > 0 else ""
+            block_marker = re.match(r"^(#{1,6}\s|\||>\s?|[-*+]\s|\d+[.)]\s|-{3,})", prev)
+            if prev and not block_marker:
+                problems.append(
+                    f"{rel}:{i+1} table starts without a blank line before it "
+                    f"(previous: {prev[:50]!r})"
+                )
             nhead = len(split_cells(line))
             nsep = len(split_cells(lines[i + 1]))
             if nhead != nsep:

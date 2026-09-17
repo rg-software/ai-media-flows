@@ -11,7 +11,7 @@ If you are new here, read this page top to bottom once, then use the **"I want t
 
 ## The mental model
 
-### Every flow is classified by *what it does*
+### Classifying flows
 
 Flows are described by what they do rather their folder locations. **Browse [`PIPELINES.md`](PIPELINES.md)**, which describes every flow in detail. Flows are categorized according to two axes.
 
@@ -19,7 +19,7 @@ Flows are described by what they do rather their folder locations. **Browse [`PI
 
 | family        | what it does                                                                                                        |
 | ------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `generate`    | prompt → brand-new image                                                                                            |
+| `generate` | prompt → brand-new artefact of the target domain |
 | `guide`       | generation constrained by structure **or reference** — ControlNet, regional areas, style/identity references, masks |
 | `stylize`     | rerender into a disciplined style/palette                                                                           |
 | `isolate`     | subject out of background; masks and per-pixel maps                                                                 |
@@ -38,68 +38,58 @@ A flow's `.json` lives in whichever scenario folder it was built for. **Browse b
 
 ### Four kinds of files
 
-| kind          | where                         | what it is                                                                                                                          |
-| ------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **assets**    | `assets/`                     | the curated, tracked artefacts. **Location decides what counts, not file type** — `.png`, `.glb`, `.json` are all first-class here. |
-| **workflows** | `<scenario>/workflows/*.json` | a ComfyUI graph you can open and re-run. Valuable ones here; one-off scaffolding in `workflows/scratch/`.                           |
-| **scripts**   | `scripts/`                    | the things a workflow can't express: sweeps, generators, format packing, publishing.                                                |
-| **docs**      | the `.md` files               | the *why*: verdicts, gotchas, measurements, decisions.                                                                              |
+| kind          | where                         | what it is                                                                          |
+| ------------- | ----------------------------- | ----------------------------------------------------------------------------------- |
+| **assets**    | `assets/`                     | the curated, tracked artefacts                                                      |
+| **workflows** | `<scenario>/workflows/*.json` | ComfyUI graphs ready for running (one-off scaffoldings are in `workflows/scratch/`) |
+| **scripts**   | `scripts/`                    | non-graph scripts: sweeps, generators, format packing, etc.                         |
+| **docs**      | the `.md` files               | the *why*: verdicts, gotchas, measurements, decisions.                              |
 
 ### Numbering principles
 
 - **E-numbers** (`E1`…`E16`) are **experiments** — one capability each, run in order, each with a verdict and the reasoning. `E1c`, `E4b`, `E13f` are refinements of the same experiment.
 - **U-numbers** (`U1`…`U7`) are **upgrades** — swapping a working-but-suboptimal tool for a better or license-cleaner one, decided by the audit.
-- Both live in **[`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md)** (2D) and **[`3d/EXPERIMENTS.md`](3d/EXPERIMENTS.md)** (3D). **Read the verdicts, not just the results** — the "why it failed" notes are the most valuable thing in this repo.
-- A **verdict** is `PASS` / `MEH` / `BLOCKED` with a reason. Several entries are explicit corrections of earlier entries; that is intentional.
+- Both live in **[`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md)** and **[`3d/EXPERIMENTS.md`](3d/EXPERIMENTS.md)**. **Read the verdicts, not just the results*.
+- A **verdict** is `PASS` / `MEH` / `BLOCKED` with a reason. Several entries are explicit corrections of earlier entries.
 
 ---
 
 ## I want to…
 
-**Job-oriented entry point:** start from the outcome you need and it points at the flow to run.
-Every curated flow appears here at least once — including superseded ones, which are *marked* so
-nothing is unfindable without also being recommended.
-
-**[`PIPELINES.md`](PIPELINES.md) is the other axis** — a *capability index* to read when you want the
-landscape rather than a job: every flow with its operation family, subject/domain, cost, **licence**,
-status and key knob, plus the taxonomy both files share.
-
-> Rule of thumb — **have a job → this table. Want to understand, survey, or look something up → `PIPELINES.md`.**
-
-| I want to… | go to |
-|---|---|
-| **See what we can already do** | [`PIPELINES.md`](PIPELINES.md) — capability map + status |
-| Generate base concept art | `2d/workflows/sdxl-base-art.json`, or **`2d/workflows/z-image-turbo.json`** (modern, Apache-2.0, fits this box) |
-| Control composition from an existing image | `2d/workflows/controlnet-union.json` (one model, many modes) · canny-only: `sdxl-controlnet-canny.json` |
-| Cut an object out (transparent PNG) | `2d/workflows/remove-bg.json` (BiRefNet) |
-| **Auto-mask by description** ("the knight", "the roof") | `2d/workflows/sam3-segment.json` — SAM 3, text-prompted |
-| Get a **depth** or **normal** map from an image | `2d/workflows/depth-normal.json` (DepthAnythingV2 + DSINE) — feeders for depth-ControlNet, masking and 2.5D |
-| Inpaint / remove / add an object | `2d/workflows/inpaint.json`, then **`outpaint.json`** (Crop&Stitch — no drift outside the mask) |
-| Make the picture bigger (outpaint) | `2d/workflows/outpaint.json` |
-| Compose a scene from parts (bg + character + prop) | `scripts/compose_scene.py` → `2d/workflows/compose-harmonize.json` |
-| Keep two characters from merging | `2d/workflows/regional-prompting.json` (a single prompt *drops* a subject) |
-| Keep a character consistent across images | `2d/workflows/qwen-edit-gguf.json` (design-level, Apache-2.0) · `instantid-character.json` (tight face, pose-locked) · `pulid-identity.json` (face + free composition) · `kontext-character.json` (superseded, non-commercial) |
-| Relight / change the lighting of an image | `2d/workflows/qwen-edit-gguf.json` (faithful) or `kontext-edit.json` (bolder, non-commercial) |
-| Transfer the **style** of a reference image | `2d/workflows/ipadapter-style.json` (IPAdapter, weight 0.2–0.4) — **superseded**: Qwen-Edit's multi-image reference does this without IPAdapter (E14c) |
-| Make a texture **tile seamlessly** | `2d/workflows/seamless-texture.json` (`method="offset"`; avoid mirror/blend_edges) |
-| Turn a texture into **PBR maps** | **`scripts/marigold_pbr.py`** (correct metallic) — not `pbr-from-texture.json`, whose metallic is inverted |
-| Push a 2D material into **3D** | **`scripts/make_gltf_material.py`** → glTF-valid material + optional GLB |
-| Upscale / restore (incl. faces) | `2d/workflows/upscale-seedvr2.json` (Apache-2.0). Set `resolution` = image size for **restore**, larger to upscale |
-| Upscale **faithfully** (GAN, invents nothing) | `2d/workflows/upscale.json` — ⚠ uses non-commercial `4x-UltraSharp`; for shippable output use SeedVR2 above |
-| Pixel art | `2d/workflows/pixel-art.json` (**downscale nearest ÷8 or ÷16** — never trust the detector) |
-| Build a sprite sheet / atlas | `2d/workflows/sprite-atlas.json` (build + slice round-trip) |
-| Sweep parameters and get a labelled grid | **`scripts/sweep.py`** (`--x cfg:3,5,7 --y steps:10,20,30`) |
-| Reproduce the canonical asset set | **`scripts/gen_assets.py`** |
-| Promote assets into the repo | **`scripts/publish_assets.sh`** (`[2d\|3d\|all] [ids…]`) |
-| Make a 3D model from an image/description | `3d/workflows/hy3d-full-workflow.json`, see [`3d/README.md`](3d/README.md) |
-| Make a 3D model from **multiple views** | `3d/workflows/hy3d-multiview-workflow.json` (the multiview variant of Hy3D) |
-| Rig a character | `3d/workflows/unirig-humanoid-workflow.json` (bpy via pixi — **Linux only**) |
-| **Check the docs** (tables/links) before committing | `scripts/lint_docs.py` |
-| **Know what will and won't run here** | **[`comfyui/hardware.md`](comfyui/hardware.md)** — read *before* pulling a large model |
-| Use the server / fix a crash | [`comfyui/README.md`](comfyui/README.md) → gotchas · [`comfyui/setup.md`](comfyui/setup.md) |
-| Set up a new machine | [`comfyui/linux-setup.md`](comfyui/linux-setup.md) · [`comfyui/linux-migration.md`](comfyui/linux-migration.md) |
-| Upgrade the hardware | **[`comfyui/UPGRADE-TODO.md`](comfyui/UPGRADE-TODO.md)** |
-| Decide whether a tool is still the right one | **[`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md)** — best-available vs installed, incl. licences |
+| I want to…                                              | go to                                                                                                                                                                                                                          |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **See what we can already do**                          | [`PIPELINES.md`](PIPELINES.md) — capability map + status                                                                                                                                                                       |
+| Generate base concept art                               | `2d/workflows/sdxl-base-art.json`, or **`2d/workflows/z-image-turbo.json`** (modern)                                                                                                                                           |
+| Control composition from an existing image              | `2d/workflows/controlnet-union.json` (unified)<br>`sdxl-controlnet-canny.json` (canny-only)                                                                                                                                    |
+| Cut an object out (transparent PNG)                     | `2d/workflows/remove-bg.json` (BiRefNet)                                                                                                                                                                                       |
+| **Auto-mask by description** ("the knight", "the roof") | `2d/workflows/sam3-segment.json` (SAM 3, text-prompted)                                                                                                                                                                        |
+| Get a **depth** or **normal** map from an image         | `2d/workflows/depth-normal.json` (DepthAnythingV2 + DSINE) - feeders for depth-ControlNet, masking and 2.5D                                                                                                                    |
+| Inpaint / remove / add an object                        | `2d/workflows/inpaint.json`, then **`outpaint.json`** (Crop&Stitch — no drift outside the mask)                                                                                                                                |
+| Make the picture bigger (outpaint)                      | `2d/workflows/outpaint.json`                                                                                                                                                                                                   |
+| Compose a scene from parts (bg + character + prop)      | `scripts/compose_scene.py` → `2d/workflows/compose-harmonize.json`                                                                                                                                                             |
+| Keep two characters from merging                        | `2d/workflows/regional-prompting.json` (a single prompt *drops* a subject)                                                                                                                                                     |
+| Keep a character consistent across images               | `2d/workflows/qwen-edit-gguf.json` (design-level, Apache-2.0) · `instantid-character.json` (tight face, pose-locked) · `pulid-identity.json` (face + free composition) · `kontext-character.json` (superseded, non-commercial) |
+| Relight / change the lighting of an image               | `2d/workflows/qwen-edit-gguf.json` (faithful) or `kontext-edit.json` (bolder, non-commercial)                                                                                                                                  |
+| Transfer the **style** of a reference image             | `2d/workflows/ipadapter-style.json` (IPadapter, weight 0.2-0.4) - **superseded**: Qwen-Edit's multi-image reference does this without IPAdapter (E14c)                                                                         |
+| Make a texture **tile seamlessly**                      | `2d/workflows/seamless-texture.json` (`method="offset"`; avoid mirror/blend_edges)                                                                                                                                             |
+| Turn a texture into **PBR maps**                        | **`scripts/marigold_pbr.py`** (correct metallic) — not `pbr-from-texture.json`, whose metallic is inverted                                                                                                                     |
+| Push a 2D material into **3D**                          | **`scripts/make_gltf_material.py`** → glTF-valid material + optional GLB                                                                                                                                                       |
+| Upscale / restore (incl. faces)                         | `2d/workflows/upscale-seedvr2.json` (Apache-2.0). Set `resolution` = image size for **restore**, larger to upscale                                                                                                             |
+| Upscale **faithfully** (GAN, invents nothing)           | `2d/workflows/upscale.json` - uses non-commercial `4x-UltraSharp`; for shippable output use SeedVR2 above                                                                                                                      |
+| Pixel art                                               | `2d/workflows/pixel-art.json` (**downscale nearest ÷8 or ÷16** — never trust the detector)                                                                                                                                     |
+| Build a sprite sheet / atlas                            | `2d/workflows/sprite-atlas.json` (build + slice round-trip)                                                                                                                                                                    |
+| Sweep parameters and get a labelled grid                | **`scripts/sweep.py`** (`--x cfg:3,5,7 --y steps:10,20,30`)                                                                                                                                                                    |
+| Reproduce the canonical asset set                       | **`scripts/gen_assets.py`**                                                                                                                                                                                                    |
+| Promote assets into the repo                            | **`scripts/publish_assets.sh`** (`[2d\|3d\|all] [ids…]`)                                                                                                                                                                       |
+| Make a 3D model from an image/description               | `3d/workflows/hy3d-full-workflow.json`, see [`3d/README.md`](3d/README.md)                                                                                                                                                     |
+| Make a 3D model from **multiple views**                 | `3d/workflows/hy3d-multiview-workflow.json` (the multiview variant of Hy3D)                                                                                                                                                    |
+| Rig a character                                         | `3d/workflows/unirig-humanoid-workflow.json` (bpy via pixi — **Linux only**)                                                                                                                                                   |
+| **Check the docs** (tables/links) before committing     | `scripts/lint_docs.py`                                                                                                                                                                                                         |
+| **Know what will and won't run here**                   | **[`comfyui/hardware.md`](comfyui/hardware.md)** — read *before* pulling a large model                                                                                                                                         |
+| Use the server / fix a crash                            | [`comfyui/README.md`](comfyui/README.md) → gotchas · [`comfyui/setup.md`](comfyui/setup.md)                                                                                                                                    |
+| Set up a new machine                                    | [`comfyui/linux-setup.md`](comfyui/linux-setup.md) · [`comfyui/linux-migration.md`](comfyui/linux-migration.md)                                                                                                                |
+| Upgrade the hardware                                    | **[`comfyui/UPGRADE-TODO.md`](comfyui/UPGRADE-TODO.md)**                                                                                                                                                                       |
+| Decide whether a tool is still the right one            | **[`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md)** — best-available vs installed, incl. licences                                                                                                                 |
 
 ---
 
@@ -110,32 +100,28 @@ status and key knob, plus the taxonomy both files share.
 | **2D assets** | 38 curated (`assets/2d/`) — characters, props, environments, pixel sprites, atlases, seamless + PBR textures |
 | **3D assets** | 5 (`assets/3d/`) — a generated glTF PBR material + a mesh wearing it |
 | **Workflows** | 23 curated graphs (`2d/workflows/`, `3d/workflows/`) |
-| **Scripts** | 7 (`scripts/`) — asset generator, sweeper, scene composer, Marigold PBR, glTF material, publisher, doc linter |
+| **Scripts** | 6 (`scripts/`) — generator, sweeper, compose, Marigold PBR, glTF material, publish |
 | **Evidence** | 39 comparison sheets (`2d/evidence/`) — every claim has a picture |
 | **Status** | 2D ladder **E1–E16 complete** · upgrades **U1–U7 complete** (bar low-value extras) · 3D scenario complete |
 
 **Licence posture:** the stack is Apache-2.0/BSD-clean with **one exception** — `insightface`
 (used by `instantid-character.json` and `pulid-identity.json`) is non-commercial research-only.
-Everything else, including Kontext's replacement, is shippable. See the audit.
+Everything else, including Kontext's replacement, is shippable. See
+[`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md).
 
 ---
 
 ## How to run things
 
-**The machine.** A headless Linux box runs ComfyUI as a **systemd *user* service**; we drive it over
-the API and over SSH. Full detail: [`comfyui/README.md`](comfyui/README.md),
-[`HANDOFF.md`](HANDOFF.md).
+A remote Linux box runs ComfyUI as a **systemd *user* service**. We drive it over
+the API and over SSH. Full detail: [`comfyui/README.md`](comfyui/README.md), [`HANDOFF.md`](HANDOFF.md).
 
-**Two rules that save the most time:**
+We rely on two rules:
 
-1. **Prefer scripts over GUI clicks.** Every run is a scripted, diffable, replayable command with its
-   parameters recorded. That is why the repo has `scripts/` rather than a folder of screenshots.
-2. **One knob at a time**, and every run gets a row in the scenario's `EXPERIMENTS.md` with a verdict
-   and the *why*. See [`2d/PROTOCOL.md`](2d/PROTOCOL.md) — it is the contract this repo runs on.
+1. **Prefer scripts over GUI clicks.** Every run is a scripted replayable command. That is why the repo has `scripts/` rather than screenshots.
+2. **One knob at a time**, and every run gets a row in the scenario's `EXPERIMENTS.md` with a verdict. See [`2d/PROTOCOL.md`](2d/PROTOCOL.md) for the contract.
 
-**The habit that matters most:** *a metric is a hint, the image is the truth.* This has bitten us three
-times (E7 seamless, E15 regional, U6b ControlNet). Whenever a number and your eyes disagree, look at
-the picture.
+**Note:** *a metric is a hint, the image is the truth.* This has bitten us three times (E7 seamless, E15 regional, U6b ControlNet). Whenever a number and your eyes disagree, look at the picture.
 
 ---
 

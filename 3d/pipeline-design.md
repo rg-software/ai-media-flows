@@ -115,6 +115,7 @@ End goal is Unity, so every export decision is made with Unity's importers in mi
 - `with_animation = true` when you want the generated idle/walk baked as an FBX animation clip for review in Unity.
 
 **PBR maps → Unity Standard/URP shader:** the 5 channels from `Hy3DGetMeshPBRTextures` map directly:
+
 | Hy3D channel | Unity Standard channel |
 |---|---|
 | base_color | Albedo |

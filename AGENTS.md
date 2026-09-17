@@ -21,6 +21,7 @@ Working notes + a growing knowledge base for using generative-AI in game develop
 ```
 ai-gamedev-tasks/
 ├── README.md                    ← FRONT DOOR: mission, mental model, "I want to…" index, known gaps
+├── HOWTO.md                     ← USER STORIES: how to actually run each job (prereqs, steps, knobs, traps)
 ├── AGENTS.md                    ← this file
 ├── HANDOFF.md                   ← Linux box handoff: env, blockers, next steps
 ├── PIPELINES.md                 ← CAPABILITY MAP: every flow by operation × subject × status

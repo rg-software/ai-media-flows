@@ -7,6 +7,7 @@ Goal: produce game-ready 2D assets (base art, sprites, textures, UI, pixel art, 
 ## What the server has (verified 2026-09-09)
 
 **Base models available** (`models/checkpoints`):
+
 | Model | Use |
 |---|---|
 | sd_xl_base_1.0 + refiner | general SDXL |
