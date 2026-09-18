@@ -121,11 +121,13 @@
 - *When:* you need game-ready sprites.
 - *Steps:* pixel art — `2d/workflows/pixel-art.json`, then **downscale nearest ÷8 or ÷16** by the model's grid factor. Atlas — `2d/workflows/sprite-atlas.json` (`ImageGrid`) builds and slices round-trip verified.
 - *Trap:* never trust the pixel-art detector's auto-detection (it mis-detects 16x), and it isn't idempotent — don't feed it an already-downscaled image.
+- *Warning:* the pixel-art model (Retro Diffusion) is **non-commercial** — the vendor says its outputs are yours to use, but the model itself may not be used commercially, so clear it before shipping. The `pixel-art-xl` LoRA is OpenRAIL and cleaner.
 
 ### S11. 3D from images
 
 - *When:* you want a mesh, a textured model, multiple views, or a rig.
 - *Steps:* `3d/workflows/hy3d-full-workflow.json` (shape → texture → bake) or `hy3d-multiview-workflow.json`; rig with `3d/workflows/unirig-humanoid-workflow.json`.
+- *Warning:* Hy3D runs under the **Tencent Hunyuan 3D Community License**, which **excludes the EU, UK and South Korea** and requires a licence from Tencent above 1M monthly users. You own the meshes you generate, but only within those limits. UniRig (rigging) is MIT.
 - *More:* `3d/README.md`.
 
 ### S12. Explore parameters with a sweep

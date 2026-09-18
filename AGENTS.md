@@ -105,7 +105,8 @@ ai-gamedev-tasks/
 
 **Both scenarios are complete; the repo is consolidating rather than expanding.** The 2D ladder **E1–E16** is done, the upgrade track **U1–U7** is done, and the 3D scenario is complete including Linux rigging. The live list of open items is **`PIPELINES.md` → "Status — what is actually left"**.
 
-- **2d/** — ladder + upgrades complete. Licence posture is clean except one item: `insightface` (used by the InstantID and PuLID flows) is non-commercial research-only.
+- **2d/** — ladder + upgrades complete. Licence posture: clean except `insightface` (InstantID/PuLID, non-commercial research-only) and the Retro Diffusion pixel-art models (non-commercial). Kontext and `4x-UltraSharp` are non-commercial but superseded.
+- **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux). Licence posture is **not** clean: Hy3D is under the Tencent Hunyuan 3D Community License (excludes EU/UK/South Korea; >1M MAU needs a licence); UniRig is MIT.
 - **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux).
 - **Inventory:** 38 2D assets · 5 3D assets · **26 workflows** (23 in `2d/`, 3 in `3d/`; plus scaffolding in `workflows/scratch/`) · 39 evidence sheets · 9 scripts · 24 docs.
 - **Working rules** (full version in `2d/PROTOCOL.md` and `HOWTO.md` Part 1): prefer **scripts over GUI clicks** so every run is replayable; change **one knob at a time**; and remember **a metric is a hint, the image is the truth** (it has misled us three times — E7, E15, U6b).
