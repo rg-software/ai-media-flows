@@ -1,4 +1,4 @@
-	# AI Game-Dev Pipelines: start here
+# AI Game-Dev Pipelines: start here
 
 A working, reproducible pipeline for **generating game assets with open models on our own hardware**, plus the notes that explain *why* every choice was made. We have two primary goals:
 
@@ -9,7 +9,7 @@ A working, reproducible pipeline for **generating game assets with open models o
 
 ---
 
-## I want to make…
+## I want to…
 
 | I want to make / do                                | flow                                                                                                                                                                                                                   | story                                                         |
 |----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
@@ -32,12 +32,10 @@ A working, reproducible pipeline for **generating game assets with open models o
 | Upscale faithfully (GAN, invents nothing)          | `2d/workflows/upscale.json` — non-commercial `4x-UltraSharp`; prefer SeedVR2 above                                                                                                                                     | [S9](HOWTO.md#s9-finish-upscale-and-restore)                  |
 | Pixel art                                          | `2d/workflows/pixel-art.json` (downscale nearest ÷8 or ÷16)                                                                                                                                                            | [S10](HOWTO.md#s10-sprites-and-atlases)                       |
 | Build a sprite sheet / atlas                       | `2d/workflows/sprite-atlas.json` (build + slice round-trip)                                                                                                                                                            | [S10](HOWTO.md#s10-sprites-and-atlases)                       |
-| Sweep parameters into a labelled grid              | `scripts/sweep.py` (`--x cfg:3,5,7 --y steps:10,20,30`)                                                                                                                                                                | [S12](HOWTO.md#s12-reproduce-sweep-promote)                   |
-| Reproduce the canonical asset set                  | `scripts/gen_assets.py`                                                                                                                                                                                                | [S12](HOWTO.md#s12-reproduce-sweep-promote)                   |
-| Promote assets into the repo                       | `scripts/publish_assets.sh` (`[2d\|3d\|all] [ids…]`)                                                                                                                                                                   | [S12](HOWTO.md#s12-reproduce-sweep-promote)                   |
+| Sweep parameters into a labelled grid              | `scripts/sweep.py` (`--x cfg:3,5,7 --y steps:10,20,30`)                                                                                                                                                                | [S12](HOWTO.md#s12-explore-parameters-with-a-sweep)           |
 | Make a 3D model from an image/description          | `3d/workflows/hy3d-full-workflow.json` · multi-view: `3d/workflows/hy3d-multiview-workflow.json`                                                                                                                       | [S11](HOWTO.md#s11-3d-from-images)                            |
 | Rig a character                                    | `3d/workflows/unirig-humanoid-workflow.json` (bpy via pixi — Linux only)                                                                                                                                               | [S11](HOWTO.md#s11-3d-from-images)                            |
-| Move files to and from the box                     | `scripts/comfy_io.py` (HTTP only — no SSH, so it works on a shared instance)                                                                                                                                           | [S14](HOWTO.md#s14-move-files-to-and-from-the-box)            |
+| Move files to and from the box                     | `scripts/comfy_io.py` (HTTP-based)                                                                                                                                                                                     | [S14](HOWTO.md#s14-move-files-to-and-from-the-box)            |
 
 ---
 
