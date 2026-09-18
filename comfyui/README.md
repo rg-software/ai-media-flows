@@ -3,6 +3,7 @@
 The ComfyUI server is the workhorse behind every scenario in this repo. Server is **remote** (Linux box — see `linux-setup.md`), accessed over HTTPS.
 
 - Server URL / password: ask the user (not stored here).
+- **API auth:** direct calls (scripts, `curl`) need the token — the first line of `~/Projects-Git/ComfyUI/login/PASSWORD` — passed as `?token=…` or `Authorization: Bearer …` (ComfyUI-Login accepts either). A 401 usually means the token is **stale**: re-read that file, it changes when the password is reset.
 - The remote instance has **1,034 nodes** registered at last count (Linux box, 2026-09-15); the "studio" providers (Tripo, Hy3D, Meshy, Rodin, MoGe) are nodes, not just an API.
 
 ## Docs in this folder (general: not scenario-specific)

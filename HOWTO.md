@@ -104,6 +104,10 @@ New here? Read **Part 1** once — every story assumes it. Then jump to the stor
 
 *When:* you want an image to adopt the palette, atmosphere or medium of a reference. *Steps:* use **`2d/workflows/qwen-edit-gguf.json`** with the reference as `image2` — the multi-image reference mechanism does style transfer, with an Apache-2.0 licence (proven in E14c). The older `2d/workflows/ipadapter-style.json` (IPAdapter) still works. *Knobs:* for IPAdapter, `weight` — 0.0–0.2 is a style hint, 0.3–0.5 blends, and **≥0.6 the reference overrides the prompt** entirely (at 0.8 the output was all forest, no subject). *Trap:* this transfers a **look**, not a layout. If you need "keep this composition", that is ControlNet territory (S2), not style transfer. *Go deeper:* E11, E14c.
 
+### S14. Move files to and from the box
+
+*When:* you need to put inputs into the box's `input/`, or get a run's outputs back — and especially when the instance is shared, because this path needs only the ComfyUI URL and token, never a shell. *Steps:* `uv run python scripts/comfy_io.py upload art/*.png --subfolder 2d/_work/refs` puts files into `input/`; `... outputs latest` (or a prompt id) lists what a run produced; `... fetch latest --dest output/fetched` downloads exactly those files and writes a `manifest.json` with a sha256 per file plus the run's full prompt graph. *Knobs:* `--base`/`COMFY_BASE` and `--token`/`COMFY_TOKEN` (on the box the base defaults to localhost and the token to the first line of `~/Projects-Git/ComfyUI/login/PASSWORD`); `--subfolder` sets where uploads land; `fetch --dest` sets where downloads go. *Trap:* `LoadImage` reads **only** from `input/`, so uploads must land there — and the token is a **single shared credential** (query param, or `Authorization: Bearer`), so it carries the same access as the GUI. If bulk *input* is the real need, stage the folder once and read it with `LoadImagesFromFolderKJ` rather than uploading file by file. *Go deeper:* the docstring in `scripts/comfy_io.py`.
+
 ---
 
 ## If your job isn't here

@@ -1,4 +1,4 @@
-# AI Game-Dev Pipelines: start here
+	# AI Game-Dev Pipelines: start here
 
 A working, reproducible pipeline for **generating game assets with open models on our own hardware**, plus the notes that explain *why* every choice was made. We have two primary goals:
 
@@ -37,6 +37,7 @@ A working, reproducible pipeline for **generating game assets with open models o
 | Promote assets into the repo                       | `scripts/publish_assets.sh` (`[2d\|3d\|all] [ids…]`)                                                                                                                                                                   | [S12](HOWTO.md#s12-reproduce-sweep-promote)                   |
 | Make a 3D model from an image/description          | `3d/workflows/hy3d-full-workflow.json` · multi-view: `3d/workflows/hy3d-multiview-workflow.json`                                                                                                                       | [S11](HOWTO.md#s11-3d-from-images)                            |
 | Rig a character                                    | `3d/workflows/unirig-humanoid-workflow.json` (bpy via pixi — Linux only)                                                                                                                                               | [S11](HOWTO.md#s11-3d-from-images)                            |
+| Move files to and from the box                     | `scripts/comfy_io.py` (HTTP only — no SSH, so it works on a shared instance)                                                                                                                                           | [S14](HOWTO.md#s14-move-files-to-and-from-the-box)            |
 
 ---
 
