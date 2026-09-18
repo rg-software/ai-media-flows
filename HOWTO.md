@@ -31,6 +31,8 @@
 
 **Two habits that matter more than any knob:** change **one knob at a time**, and trust the **image over the metric** - the numbers have looked fine on images that were clearly wrong.
 
+**Before you ship anything,** check its `licence` in [`PIPELINES.md`](PIPELINES.md). A few flows are non-commercial (each is flagged in its story below, and marked there); everything else is Apache-2.0/BSD-clean.
+
 ---
 
 ## User stories
@@ -48,7 +50,7 @@
 - *When:* you have a sketch, a screenshot, or an asset whose *layout* you want to keep but whose content/style you want to replace.
 - *Steps:* `2d/workflows/controlnet-union.json` — one 2.34 GB model covering many modes; pick the mode with `SetUnionControlNetType` and feed the matching preprocessed image (`CannyEdgePreprocessor`, `DepthAnythingV2Preprocessor`, …). Canny-only: `2d/workflows/sdxl-controlnet-canny.json`.
 - *Knobs:* `strength` ≈ 0.8 holds structure while freeing style.
-- *Trap:* the union `type` strings are **grouped** — `"canny"` is invalid, it's `"canny/lineart/anime_lineart/mlsd"`. A bad value **fails silently**.
+- *Trap:* the union `type` strings are **grouped** — `"canny"` is invalid, use `"canny/lineart/anime_lineart/mlsd"`. A bad value **fails silently**.
 
 ### S3. Cut an object out, or mask it by description
 
@@ -58,21 +60,22 @@
 
 ### S4. Get depth or normal maps
 
-- *When:* you want depth-ControlNet, depth-ordered composition, relighting, or a 2.5D effect.
+- *When:* you need a **guidance image** or a 2.5D/relight aid — not geometry. Depth is what you feed a depth ControlNet to keep a reference's layout while replacing its content (S2), and what you order or composite elements by distance with.
+- *What it is not:* depth here is **relative** (near = light), with no absolute scale, so it is **not** a height or displacement map. An engine can use it for a parallax/depth look, but you must curve and scale it first, and it stays approximate.
 - *Steps:* `2d/workflows/depth-normal.json` (DepthAnythingV2 + DSINE). No extra weights; first run downloads, then it's seconds.
-- *Expect:* depth reads near = light; tangentspace normals are flat ≈ (128,128,255).
+- *Expect:* depth reads near = light; tangentspace normals are flat ≈ (128,128,255). The normal is an estimated *shading* normal from one image — good for relighting and 2.5D, not a measured surface.
+- *Note:* this is separate from the PBR set (S8), which builds material channels for an engine. That path emits **no normal, height or AO** — so if you need those, this flow is where the normal comes from.
 
 ### S5. Edit a picture: remove, replace, extend
 
 - *When:* fix or change part of an existing image; make the canvas bigger.
 - *Steps:*
 	- inpaint `2d/workflows/inpaint.json`;
-	- outpaint `2d/workflows/outpaint.json`
-	  (`extend_left/right_factor` 1.5 = +50% per side).
-	- For an **instruction-style** edit ("relight this", "change the material") use `2d/workflows/qwen-edit-gguf.json`.
-	  The older `kontext-edit.json` (Flux Kontext) did this bolder, but it is **superseded** now.
+	- outpaint `2d/workflows/outpaint.json` (`extend_left/right_factor` 1.5 = +50% per side).
+	- For an **instruction-style** edit ("relight this", "change the material") use `2d/workflows/qwen-edit-gguf.json`. The older `kontext-edit.json` (Flux Kontext) did this bolder, but it is **superseded** now.
 - *Knobs:* denoise. For harmonisation, **0.45 integrates while keeping the subject; 0.75 replaces it** — and small subjects break first.
 - *Trap:* raw inpaint drifts ~5/255 *outside* the mask (VAE round-trip). Crop&Stitch avoids this entirely; if you use the older path, composite back with the mask.
+- *Warning:* the Kontext route is **non-commercial** — don't ship its output. `qwen-edit-gguf.json` does the same job under Apache-2.0.
 
 ### S6. Compose a scene from parts
 
@@ -94,6 +97,7 @@
 | same **design**, via the older Kontext route                  | `kontext-character.json`   | **superseded** by `qwen-edit-gguf.json`; non-commercial, ~1 MP  |
 
 - *Trap:* judge identity by **measurement, not eye** — two renders can look identical yet score far apart. Prompt-level consistency lands around 0.14-0.19, so expect an embedding-identical face only from InstantID or PuLID.
+- *Warning:* `instantid-character.json` and `pulid-identity.json` depend on **insightface**, licensed for **non-commercial research** — don't ship their output. `qwen-edit-gguf.json` is Apache-2.0, and the older Kontext route is non-commercial too.
 
 ### S8. Materials: seamless textures, PBR, and into 3D
 
@@ -103,12 +107,14 @@
 	- PBR. **`scripts/marigold_pbr.py`** (albedo/roughness/metallic; **correct metallic**; albedo is de-lit).
 	- Into 3D. **`scripts/make_gltf_material.py`** packs a glTF-correct material and can apply it to a mesh.
 - *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Don't use `pbr-from-texture.json` for metallic; its output is inverted. glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
+- *Gap:* the Marigold set is albedo/roughness/metallic only — **no normal, height or AO**. The `normal` in our sample material came from the QFX path with the inverted metallic, so treat it as unverified (a licence-clean normal is step one of the combined flow noted in `PIPELINES.md`).
 
 ### S9. Finish: upscale and restore
 
 - *When:* you need more resolution, or a soft/small face cleaned up.
 - *Steps:* `2d/workflows/upscale-seedvr2.json` (Apache-2.0). Set `resolution` to the **short edge**; set it equal to the image size to **restore** instead of upscaling — that also works as face restore.
-- *Knobs:* `batch_size` must be 4n+1. SeedVR2 *reconstructs* (more detail, more drift, slower); `upscale.json`'s GAN is faithful but **non-commercial**.
+- *Knobs:* `batch_size` must be 4n+1. SeedVR2 *reconstructs* (more detail, more drift, slower); `upscale.json`'s GAN is faithful (it invents nothing) but see the warning.
+- *Warning:* don't ship output from `upscale.json` — its `4x-UltraSharp` model is **non-commercial**. `upscale-seedvr2.json` is Apache-2.0.
 
 ### S10. Sprites and atlases
 
@@ -144,7 +150,8 @@
 	- `... outputs latest` (or a prompt id) lists what a run produced;
 	- `... fetch latest --dest from-box` downloads those files and records what it fetched in a small `manifest.json`.
 - *Knobs:*
-	- `--base`/`COMFY_BASE` and `--token`/`COMFY_TOKEN` (ask for both);
+	- `--base`/`COMFY_BASE` — the ComfyUI URL;
+	- `--token`/`COMFY_TOKEN` — **ask the operator**. It lives on the server and your browser login does not expose one; it is a shared credential carrying the same access as the password.
 	- `--subfolder refs` keeps uploads tidy;
 	- `--dest` chooses where downloads land.
 - *Trap:* image nodes read **only** from `input/` - a file sitting in `output/` cannot be loaded, so upload it before running a flow that needs it. With many inputs, upload the folder once and read it with the `LoadImagesFromFolderKJ` node rather than one file at a time.
