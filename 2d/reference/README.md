@@ -1,4 +1,4 @@
-# 2d/reference — legacy workflow archive
+# 2d/reference: legacy workflow archive
 
 **Loose, unorganized, partially broken. Reference only — not maintained.** These are workflows recovered from the previous (Windows) machine's `user/default/workflows/`. The curated, maintained pipelines live in `../workflows/`.
 

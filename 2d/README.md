@@ -1,4 +1,4 @@
-# 2D Asset Generation — scenario index
+# 2D Asset Generation: scenario index
 
 Goal: produce game-ready 2D assets (base art, sprites, textures, UI, pixel art, icons, BGs) on the ComfyUI server. This becomes the **high-volume** pipeline — env props, characters sheets, spritesheets, tileable textures, promotional art.
 
@@ -27,7 +27,7 @@ Goal: produce game-ready 2D assets (base art, sprites, textures, UI, pixel art, 
 > KJNodes, Hy3D wrapper, UniRig, ComfyUI-Login, ComfyUI-Manager, CameraPack (1034 nodes total).
 > ControlNet weights: `models/controlnet/xinsir-canny-sdxl-v2.safetensors` (2.4 GB). Re-pull others on demand.
 
-## Design / first experiments
+## Design: first experiments
 
 Same methodology as `3d/`:
 - Valuable workflows in `workflows/`, scaffolding → `workflows/scratch/`, one `EXPERIMENTS-2D.md`, one `README` per scenario.

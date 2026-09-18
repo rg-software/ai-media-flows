@@ -1,4 +1,4 @@
-# ComfyUI environments — comfy-env / pixi isolation
+# ComfyUI environments: comfy-env and pixi isolation
 
 The root problem it solves: **ComfyUI shares one Python for all custom nodes, but real-world node packs need conflicting Pythons/torchs/CUDA.**
 

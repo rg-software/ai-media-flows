@@ -1,4 +1,4 @@
-# ComfyUI Linux setup — Ubuntu 26.04 + RTX 3090
+# ComfyUI Linux setup: Ubuntu 26.04 and RTX 3090
 
 Target box: `rg_software@Beelink`, Ubuntu 26.04.1 LTS, RTX 3090, driver 595.91.07 / CUDA 13.2, 850 GB free. Python 3.14.4 is default (too new); we install **Python 3.11** (best-compatible for torch + ComfyUI nodes).
 
@@ -12,7 +12,7 @@ sudo apt install -y python3.11 python3.11-venv python3.11-dev
 python3.11 --version
 ```
 
-## 2. NVIDIA driver (already present: 595.91.07) — verify + persist
+## 2. NVIDIA driver (already present: 595.91.07): verify and persist
 
 Driver + CUDA 13.2 already working. Confirm:
 ```bash
@@ -20,7 +20,7 @@ nvidia-smi | head -4
 ```
 (no driver install needed; only add cuda libs if torch needs them — it ships its own).
 
-## 3. ComfyUI from git + venv
+## 3. ComfyUI from git and venv
 
 ```bash
 mkdir -p ~/Projects-Git/ComfyUI && cd ~/Projects-Git/ComfyUI
@@ -34,7 +34,7 @@ pip install -r requirements.txt
 > `cu130` matches the driver; torch 2.10.0+cu130 has cp311 manylinux wheels (verified).
 > ComfyUI also ships default custom-node manager; install `ComfyUI-Manager` per its repo if not bundled.
 
-## 4. custom_rasterizer (the one-time Windows pain — now a wheel on Linux)
+## 4. custom_rasterizer (the one-time Windows pain: now a wheel on Linux)
 
 Needed by Hy3D texture bake. Pull from the wrapper's manylinux wheel:
 ```bash

@@ -1,4 +1,4 @@
-# 3D Asset Pipeline — Robust Design
+# 3D Asset Pipeline: Robust Design
 
 Free-first architecture. Every stage emits a GLB at a well-defined gate, so any free component can be swapped for a paid upgrade (and back) without redoing the chain.
 
@@ -87,7 +87,7 @@ Node packages assumed present: ComfyUI-3D-Pack (Hy3D/Trimesh nodes), comfyui-uni
 
 ---
 
-## 5. Decisions / things to weigh
+## 5. Decisions: things to weigh
 
 - **Hy3D vs MoGe for geometry:** Hy3D = higher fidelity, needs the big base checkpoint, slower. MoGe = fast, tileable, good for props/scan-like capture, auto-downloads. Start MoGe for experimentation, move to Hy3D for real assets.
 - **Bake or export channel maps?** Bake = single textured GLB (fast, Blender-friendly). Export channels via `Hy3DGetMeshPBRTextures` = 5 maps for engine PBR. Decide by target engine.
@@ -96,7 +96,7 @@ Node packages assumed present: ComfyUI-3D-Pack (Hy3D/Trimesh nodes), comfyui-uni
 
 ---
 
-## 7. Unity target — artifact conventions
+## 7. Unity target: artifact conventions
 
 End goal is Unity, so every export decision is made with Unity's importers in mind.
 

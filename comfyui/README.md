@@ -1,11 +1,11 @@
-# ComfyUI — index & server map
+# ComfyUI: index and server map
 
 The ComfyUI server is the workhorse behind every scenario in this repo. Server is **remote** (Linux box — see `linux-setup.md`), accessed over HTTPS.
 
 - Server URL / password: ask the user (not stored here).
 - The remote instance has **1,034 nodes** registered at last count (Linux box, 2026-09-15); the "studio" providers (Tripo, Hy3D, Meshy, Rodin, MoGe) are nodes, not just an API.
 
-## Docs in this folder (general = not scenario-specific)
+## Docs in this folder (general: not scenario-specific)
 
 | Doc | What it answers |
 |---|---|
@@ -14,7 +14,7 @@ The ComfyUI server is the workhorse behind every scenario in this repo. Server i
 | `workflow-file-format.md` | The `.json` workflow schema: nodes, links, widgets, `order`/`mode`, import rules, and how to hand-edit safely. |
 | `hardware.md` | **What fits and what doesn't** — measured model footprints (SDXL → Qwen 20B → FLUX.2 32B), the RAM/VRAM ceiling, and upgrade options in value order (swapfile → RAM → GPU). Read before pulling a large model. |
 
-## Model stack (reproducibility — where weights live, not the weights)
+## Model stack (reproducibility: where weights live, not the weights)
 
 **2D generation/edit stack.** Before 2026-09-16 the box was **SD1.5/SDXL-only** (`unet/`, `diffusion_models/`, `text_encoders/` were empty placeholders). Flux.1 Kontext dev (fp8) was added for instruction-based editing:
 
@@ -31,7 +31,7 @@ Plus `models/checkpoints/`: SDXL (RealVisXL_V5.0_fp16 default, juggernautXL, pon
 
 **Upscale stack** (added 2026-09-16, U1): **SeedVR2** — node pack `numz/ComfyUI-SeedVR2_VideoUpscaler` (Apache 2.0; 4+ nodes, main = `SeedVR2VideoUpscaler`), weights auto-download to `models/SEEDVR2/`. On disk: `ema_vae_fp16` (0.47 GB), `seedvr2_ema_3b_fp16` (6.32 GB), `seedvr2_ema_7b_fp16` (15.35 GB). Extra pip deps: `rotary_embedding_torch`, `gguf`, `peft`. **`resolution` is the SHORT EDGE, not a multiplier** (1024 input + `resolution=2048` → 2048). **`batch_size` must follow 4n+1** (1 for a single still). `color_correction="lab"` is the highest-fidelity mode. 24 GB → 7B fp16 with no memory tricks; drop to 3B fp16 or 7B fp8 + `blocks_to_swap`/offloading if it OOMs. Still on disk and **non-commercial**: `4x-UltraSharp`.
 
-## Hardware ceiling — what will and won't run on this box
+## Hardware ceiling: what will and won't run on this box
 
 Host is an **AZW GTi14 mini-PC**: Intel Core Ultra 9 185H (Meteor Lake), **31 GB RAM**, **512 MB swap**, RTX 3090 **24 GB** on a PCIe **x8** link, power limit 370 W. The binding constraint is **not** VRAM — it is **host RAM + swap**, because any model larger than VRAM must be offloaded to RAM.
 

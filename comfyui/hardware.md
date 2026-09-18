@@ -1,4 +1,4 @@
-# Hardware — what fits, and what to upgrade (2026-09-16)
+# Hardware: what fits, and what to upgrade (2026-09-16)
 
 Written after Qwen-Image-Edit-2511 fp8 **hard-froze the machine** (see `README.md` → "Hardware ceiling"). Purpose: answer "does the model fit?" with measurements instead of guesses, and map the upgrade options to the work we actually want to do.
 
@@ -42,7 +42,7 @@ Model = diffusion weights; +enc = text encoder; the *peak* column is what has to
 
 ## Upgrade options, by value
 
-### 1. A real swapfile — free, do it first
+### 1. A real swapfile: free, do it first
 32–64 GB on the ~500 GB free NVMe. Turns "machine hangs" into "slow but alive", and gives the kernel somewhere to put cold pages. Safe for every future run, not just Qwen.
 
 ```
@@ -60,14 +60,14 @@ sudo sysctl -w vm.swappiness=10
 ```
 Note: the `comfyui` unit caps *its own* swap at `MemorySwapMax=8G`, so this swapfile protects the desktop/OS and lets ComfyUI offload, without letting it thrash the SSD.
 
-### 2. RAM 32 → 96 GB — **the best value upgrade**
+### 2. RAM 32 to 96 GB: **the best value upgrade**
 2× 48 GB DDR5-5600 SO-DIMM (~the price of a mid-range GPU). It:
 - removes the freeze class entirely (offload becomes safe);
 - makes **Qwen-Image fp8 (27.5 GB)** runnable, at reduced speed;
 - makes **FLUX.2 dev INT4** and video models plausible;
 - is required before any 20B+ model is worth attempting.
 
-### 3. GPU — only once RAM is sorted
+### 3. GPU: only once RAM is sorted
 The GTi14 has a **PCIe 5.0 x8** interface into the EX dock (600 W PSU). x8 at gen 5 ≈ x16 at gen 4, so bandwidth is not the problem; power/budget are.
 
 | card | VRAM | unlocks | note |

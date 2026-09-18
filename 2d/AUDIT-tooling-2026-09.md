@@ -1,4 +1,4 @@
-# 2D tooling audit — are we using the best we can?
+# 2D tooling audit: are we using the best we can?
 
 **Date:** 2026-09-16. **Trigger:** after E14 the user asked to re-check the earlier steps against "best quality rather than installed tools" before continuing to E15/E16.
 

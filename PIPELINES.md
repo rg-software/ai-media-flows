@@ -1,4 +1,4 @@
-# PIPELINES — the capability map
+# PIPELINES: the capability map
 
 **The problem this file solves.** `2d/` and `3d/` say *what you are making*, but our flows are increasingly *operations* that cut across that: `seamless-texture` serves 2D backgrounds **and** 3D materials; `ipadapter-style` works on objects and on scenes; `pixel-art` is a stylisation, not a scenario. So scenario folders no longer answer "which tool for this job?".
 
@@ -10,7 +10,7 @@
 - **want the landscape** (what families exist, what's supported, what licence, what knobs) -> this file.
 - **adding a flow** -> this file: give it a family, subject, domain, cost, licence and key knob.
 
-## Axis 1 — operation family (what transformation it performs)
+## Axis 1: operation family (what transformation it performs)
 
 | #  | family          | question it answers                                                     | flows                                                                                                                                              |
 |----|-----------------|-------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -27,7 +27,7 @@
 
 Read the family as the answer to "what does this flow *do to* an asset?". A harness such as the sweep runner does nothing to an asset, so it is `tooling` rather than pretending to be an operation. Doc-maintenance tooling (`lint_docs.py`, `mdtable.py`, `add_workflow_notes.py`) acts on the docs rather than on assets, so it is documented for contributors in `AGENTS.md` and deliberately has no row here.
 
-## Axis 2 — subject & domain (what it is applied to)
+## Axis 2: subject and domain (what it is applied to)
 
 - **subject**: `object` (single prop/character) · `scene` (composite picture) · `material` (flat surface/texture)
 - **domain**: `image` (2D pixels) · `texture` (2D, tiling/PBR authoring) · `3D model` (mesh)
@@ -82,7 +82,7 @@ So a `domain` cell is either one of the three domains above, or an explicit `A->
 | `3d/workflows/hy3d-multiview-workflow.json`  | reconstruct | object       | 3D                | free              | (verify)                                         | mv model + uniform 512² views                                                                                                                                                            | **PASS** (E2d)            | [S11](HOWTO.md#s11-3d-from-images)                                                                                  |
 | `3d/workflows/unirig-humanoid-workflow.json` | reconstruct | object       | 3D                | free              | (verify)                                         | UniRig (bpy via pixi)                                                                                                                                                                    | **PASS** (E4-L)           | [S11](HOWTO.md#s11-3d-from-images)                                                                                  |
 
-## Status — what is actually left
+## Status: what is actually left
 
 The 2D ladder (**E1-E16**) and the upgrade track (**U1-U7**) are complete, and the 3D scenario is complete. Everything below is genuinely open, roughly in value order.
 

@@ -1,4 +1,4 @@
-# 2D Roadmap — beyond isolated assets
+# 2D Roadmap: beyond isolated assets
 
 `2d/README.md` defines the **first ladder** (E1–E7): single-subject work, one prompt → one cutout-able asset. This file is the **bigger picture**: everything that turns assets into *images* — scenes, edits, references, consistency, finishing — plus the **tooling upgrade backlog** (see `AUDIT-tooling-2026-09.md`).
 
@@ -30,7 +30,7 @@
 | **I** | Text / UI | — (Flux text encoders now present, no generation model yet) | **open** |
 | **J** | Batch / consistency system | scripts/sweep.py (scripted XY + sheet) | **E16 PASS** |
 
-## Backlog — experiments
+## Backlog: experiments
 
 ### Ladder A (done)
 - [x] **E1** — base art + model shoot-out (RealVisXL_V5.0_fp16) ✓ · E1b–E1e
@@ -50,7 +50,7 @@
 - [x] **E15 - Regional / multi-subject. PASS 2026-09-16.** Core `ConditioningSetAreaPercentage` + `ConditioningCombine` (no install). A single prompt with both subjects **dropped one entirely**; regional rendered both correctly placed (separation 9.9 -> 30.0). `workflows/regional-prompting.json`.
 - [x] **E16 - Batch/iteration. PASS 2026-09-16.** Built scripts/sweep.py (reusable 2-axis harness: labelled sheet + per-cell detail metric + JSON manifest) rather than a GUI XY node - reproducible and headless. Result: **cfg 7 / 20 steps** is SDXL value point; cfg 3 washes out, cfg 9 over-burns, 30 steps buys nothing.
 
-## Upgrade backlog — best-quality & licence-clean
+## Upgrade backlog: best-quality and licence-clean
 
 Full reasoning and sources: **`AUDIT-tooling-2026-09.md`**. Ordered by "unlocks the most downstream steps per GB", licence-clean first. **This list supersedes the old "dependencies to clear" section.**
 

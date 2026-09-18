@@ -1,4 +1,4 @@
-# Hy3D ↔ Tripo swap guide
+# Hy3D and Tripo swap guide
 
 Both pipelines emit/accept **GLB**, so they interoperate at mesh boundaries. This is the practical "free-first, pay-per-stage" mechanic from `pipeline-design.md`.
 
@@ -14,7 +14,7 @@ Both pipelines emit/accept **GLB**, so they interoperate at mesh boundaries. Thi
 
 ## The two swap points
 
-### Swap point A — shape stage: Hy3D → Tripo
+### Swap point A, shape stage: Hy3D to Tripo
 Replace the **shape front-end** of the full workflow:
 ```
 (Hy3D_2_1SimpleMeshGen | Hy3DModelLoader+GenerateMesh(+VAEDecode))  →  TripoTextToModelNode (text) | TripoImageToModelNode (image)
@@ -23,7 +23,7 @@ Tripo text/image-gen outputs a `MODEL_TASK_ID` + `FILE_3D_GLB`. You can then eit
 - bake Tripo's own texture (`TripoTextureNode → MODEL_TASK_ID`), or
 - export the bare `FILE_3D_GLB`, save it, and feed *Hy3D's* texture tail.
 
-### Swap point B — texture stage: Hy3D → Tripo (the bridge)
+### Swap point B, texture stage: Hy3D to Tripo (the bridge)
 Take a **free Hy3D GLB** and texture it with Tripo:
 ```
 Load3D (picks GLB from models/3d/) → TripoImportModelNode → MODEL_TASK_ID

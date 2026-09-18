@@ -1,4 +1,4 @@
-# HANDOFF — AI Gamedev Tasks / ComfyUI Linux Migration
+# HANDOFF: AI Gamedev Tasks (ComfyUI Linux Migration)
 
 > **UPDATE 2026-09-11 (second agent pass):** The rasterizer blocker is **resolved** and the full smoke checklist **PASSES on Linux** — shape, multiview, full single-image texture, MoGe, and SDXL 2D all verified (see `3d/EXPERIMENTS.md` L1/L2 + PENDING). Head to **"After the build"** below for the current state; the original blocker notes follow for the record.
 
@@ -25,7 +25,7 @@ Author: Maxim's AI agent (this is a handoff for a coding agent running on the ne
 - **Inpaint** after bake: `Hy3DMeshVerticeInpaintTexture → CV2InpaintTexture` (removes black-grid seams).
 - Workflows: `3d/workflows/hy3d-full-workflow.json`, `hy3d-multiview-workflow.json` (+ scratch/).
 
-## ⚠️ ORIGINAL OPEN BLOCKER — `custom_rasterizer` won't compile — **RESOLVED 2026-09-11**
+## ⚠️ ORIGINAL OPEN BLOCKER: `custom_rasterizer` won't compile: **RESOLVED 2026-09-11**
 
 **The texturing blocker is UNBLOCKED.** The exact "best next move" in the original doc worked. Texture bake is verified end-to-end (textured GLBs from both `hy3d-full` and `hy3d-multiview`, see `3d/EXPERIMENTS.md` L1).
 
@@ -51,7 +51,7 @@ pip install omegaconf pyrootutils timm rembg onnxruntime pynanoinstantmeshes
 ```
 (`rembg` without `onnxruntime` first use downloads `bria-rmbg-2.0.onnx` ~1GB to `~/.rembg/` and **hangs silently** if the backend import fails — the original "ComfyUI won't stop" symptom was exactly this. Install onnxruntime first.)
 
-### Weights + nodes (current state — all present)
+### Weights and nodes (current state: all present)
 - 3 weights already on disk (dropdowns populated): `hy3dgen/model.fp16.ckpt`, `hy3dgen/hunyuan3d-dit-v2-mv-fast/model.fp16.safetensors`, `moge_2_vitl_normal_fp16.safetensors`.
   - (Re-download sources, if ever needed: `tencent/Hunyuan3D-2.1` → `hunyuan3d-dit-v2-1/model.fp16.ckpt`; `tencent/Hunyuan3D-2mv` → `hunyuan3d-dit-v2-mv-fast/model.fp16.safetensors`; `Comfy-Org/MoGe` → `geometry_estimation/moge_2_vitl_normal_fp16.safetensors`.)
 - Paint/delight diffusers models **auto-download on first texture run** → `models/diffusers/hunyuan3d-{paint,delight}-v2-0/` (~14GB total).

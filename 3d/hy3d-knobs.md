@@ -17,7 +17,7 @@ Two shape-gen flavours:
 
 ## Shape generation
 
-### `Hy3D_2_1SimpleMeshGen` (single image → TRIMESH)
+### `Hy3D_2_1SimpleMeshGen` (single image to TRIMESH)
 | Knob | Default | Effect |
 |---|---|---|
 | `model` | `hy3dgen\model.fp16.ckpt` | base 2.1 checkpoint (diffusion_models combo) |
@@ -25,7 +25,7 @@ Two shape-gen flavours:
 | `guidance_scale` | 5.0 (range 1–30) | higher = adheres tighter to source shape/content, can stiffness/warp; lower = smoother, more generic |
 | `octree_resolution` | 384 (32–1024) | **geometry density** — the biggest quality lever. 512+ = finer details (slow), 256 = blocky |
 
-### `Hy3DModelLoader` + `Hy3DGenerateMesh` + `Hy3DVAEDecode` (manual / multiview path)
+### `Hy3DModelLoader` and `Hy3DGenerateMesh` and `Hy3DVAEDecode` (manual or multiview path)
 - `Hy3DModelLoader`: `model` (diffusion combo), `attention_mode` (sdpa|sageattn — use sdpa), `cublas_ops` (bool speedup), `compile_args` (torch.compile, requires triton — leave off).
 - `Hy3DGenerateMesh`: `pipeline` (HY3DMODEL), `image`, `guidance_scale`, `steps`, `seed`, `mask` (opt), `scheduler` FlowMatchEuler|ConsistencyFlowMatch. Outputs `latents`.
 - `Hy3DGenerateMeshMultiView`: `pipeline`, front/left/right/back (opt IMAGE), `guidance_scale=5.5`, `steps=30`, `seed`, `scheduler`. Outputs latents+image+mask.
@@ -38,7 +38,7 @@ Two shape-gen flavours:
 > - Multiview checkpoint: `tencent/Hunyuan3D-2mv → hunyuan3d-dit-v2-mv-fast/model.fp16.safetensors` (fast) or `hunyuan3d-dit-v2-mv` (normal).
 > Don't feed the single-image ckpt to multiview node (dimension mismatch), and don't swap `.ckpt`/`.safetensors` between the two loaders.
 
-## Postprocess & retopology
+## Postprocess and retopology
 
 ### `Hy3DPostprocessMesh`
 | Knob | Default | Effect |
@@ -58,9 +58,9 @@ Two shape-gen flavours:
 ### `Hy3DBPT` (point/geometry refinement, optional)
 `enable_bpt` (bool), `seed`, `temperature`, `pc_num`, `samples` — BPT shape refinement using the michelangelo point cloud refinery. Optional + heavy; off by default in examples.
 
-## UV + rendering (texture prep)
+## UV and rendering (texture prep)
 
-### `Hy3DMeshUVWrap` — **required before bake** (with a UV-UV wrap onto the mesh). Without it the bake crashes (`NoneType`, `back_project`). No knobs.
+### `Hy3DMeshUVWrap`: **required before bake** (with a UV-UV wrap onto the mesh). Without it the bake crashes (`NoneType`, `back_project`). No knobs.
 
 ### `Hy3DCameraConfig`
 Controls the 6 camera views the paint/bake system uses.
@@ -82,7 +82,7 @@ Controls the 6 camera views the paint/bake system uses.
 
 ## Texture synthesis
 
-### `Hy3DSampleMultiView` (paint — the actual texture generator)
+### `Hy3DSampleMultiView` (paint: the actual texture generator)
 | Knob | Default | Effect |
 |---|---|---|
 | `view_size` | 512 | per-view render size for painting |
@@ -91,7 +91,7 @@ Controls the 6 camera views the paint/bake system uses.
 | `denoise_strength` | 1.0 | 1 = full repaint, ~0.5 = keep more of geometry colors / reference |
 | `scheduler` | fixed | FlowMatch defaults |
 
-### `Hy3DDelightImage` (remove baked-in shading → flat albedo)
+### `Hy3DDelightImage` (remove baked-in shading to flat albedo)
 | Knob | Default | Effect |
 |---|---|---|
 | `steps` | 50 | re-light diffusion steps |
@@ -104,7 +104,7 @@ Controls the 6 camera views the paint/bake system uses.
 ### `Hy3DBakeFromMultiview`
 Applies the painted views onto the mesh using the renderer + camera config. No widgets (uses renderer + `camera_config` optional). Outputs the baked texture + mask + renderer.
 
-### `Hy3DMeshVerticeInpaintTexture` / `CV2InpaintTexture` (touch-up)
+### `Hy3DMeshVerticeInpaintTexture`: `CV2InpaintTexture` (touch-up)
 Fill missed seams/holes in the baked texture. `Hy3DMeshVerticeInpaintTexture` (texture+mask+renderer) is the GPU/CPU inpainter; `CV2InpaintTexture` (texture+mask) is OpenCV-based. Only needed when bake leaves gaps.
 
 ### `Hy3DApplyTexture`

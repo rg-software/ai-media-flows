@@ -1,4 +1,4 @@
-# Upgrade TODO — Beelink GTi14 (owner: user)
+# Upgrade TODO: Beelink GTi14 (owner: user)
 
 Actionable checklist derived from `hardware.md`. Ordered by value. Each task has a **Do → Verify** pair so a change can be confirmed rather than assumed.
 
@@ -6,7 +6,7 @@ Context: the box has **32 GB RAM / 512 MB swap**, and that — not the 24 GB RTX
 
 ---
 
-## Task 1 — Swapfile (free, ~5 min, do first)
+## Task 1: Swapfile (free, ~5 min, do first)
 
 Turns "machine hangs" into "slow but alive" and gives the kernel somewhere to put cold pages.
 
@@ -35,11 +35,11 @@ Then reboot once and re-check `free -h` to confirm it comes back automatically.
 
 ---
 
-## Task 2 — RAM 32 GB → 96 GB ⭐ highest value
+## Task 2: RAM 32 GB to 96 GB (highest value)
 
 The single change that alters what is possible: offloading becomes safe, **Qwen-Image 20B fp8 (27.5 GB) becomes runnable**, FLUX.2 dev INT4 becomes plausible, and the freeze class disappears.
 
-### What is in there now — **confirmed via `sudo dmidecode -t memory` (2026-09-16)**
+### What is in there now: **confirmed via `sudo dmidecode -t memory` (2026-09-16)**
 
 | | |
 |---|---|
@@ -79,7 +79,7 @@ sudo dmidecode -t memory | grep -Ei 'size|configured memory speed|part number'
 #   expect 2x 48GB; note the *Configured* speed (5200/4800 is fine and expected)
 ```
 
-### Task 2b — ⚠ raise the ComfyUI memory guard to match (do NOT skip)
+### Task 2b: raise the ComfyUI memory guard to match (do NOT skip)
 
 The service is deliberately capped so an oversized model kills ComfyUI instead of the machine. Those values assume 32 GB. **After** the RAM upgrade, edit `~/.config/systemd/user/comfyui.service` (repo copy: `comfyui/comfyui.service`):
 
@@ -101,7 +101,7 @@ systemctl --user show comfyui -p MemoryHigh -p MemoryMax   # confirm new values
 
 ---
 
-## Task 3 — GPU (optional; only after Task 2)
+## Task 3: GPU (optional; only after Task 2)
 
 The GTi14 exposes **PCIe 5.0 x8** through the bottom door into the Beelink **EX dock** (built-in 600 W PSU, rated for cards up to 600 W). x8 at gen 5 ≈ x16 at gen 4, so bandwidth is not the limiting factor for diffusion inference.
 
@@ -124,7 +124,7 @@ Also confirm the dock's PSU headroom before buying anything above 600 W.
 
 ---
 
-## Task 4 — Keep learning honest (no hardware)
+## Task 4: Keep learning honest (no hardware)
 
 - **Before pulling any model over ~10 GB**, check its expected footprint against the ceiling in `hardware.md`. The failure mode is a machine-wide hang, not a tidy error.
 - Prefer **GGUF quants** locally above ~14 GB of weights, and **cloud** for the 32B+ tier.

@@ -1,4 +1,4 @@
-# 3D Asset Generation — scenario index
+# 3D Asset Generation: scenario index
 
 Goal: generate game-ready 3D assets (props, characters) with a mix of free and paid tools on ComfyUI. Everything here operates against the remote ComfyUI server (`comfyui/README.md`).
 
@@ -28,7 +28,7 @@ Only the **valuable** pipelines live in `workflows/`. Scaffolding/one-off experi
 | `hy3d-full-workflow.json` | image → shape → postprocess → **IMRemesh (retopology)** → UV-wrap → paint → delight → bake. **Dual output:** `Hy3D_untextured.glb` (remeshed geometry checkpoint) + `Hy3D_textured.glb` (final) — you see the source→untextured→textured progression in one run | free | **PASS (E2a/E2b/E2c)** |
 | `hy3d-multiview-workflow.json` | 4 view images (front/left/right/back) → **mv checkpoint** → multi-view shape → retopology → texture tail → dual GLB | free | **ready to run; needs mv checkpoint** (`hy3dgen\hunyuan3d-dit-v2-mv-fast\model.fp16.safetensors` from `tencent/Hunyuan3D-2mv`) |
 
-### `workflows/scratch/` (one-off scaffolding — archive, don't maintain)
+### `workflows/scratch/` (one-off scaffolding: archive, don't maintain)
 
 | File | Why it existed | Worth keeping? |
 |---|---|---|

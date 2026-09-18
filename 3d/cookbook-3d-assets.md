@@ -1,4 +1,4 @@
-# 3D Asset Pipeline — Cookbook (Tripo + Hy3D on ComfyUI)
+# 3D Asset Pipeline: Cookbook (Tripo and Hy3D on ComfyUI)
 
 > **SUPERSEDED by** [`pipeline-design.md`](pipeline-design.md) (free-first, GLB-compatible architecture) + [`EXPERIMENTS.md`](EXPERIMENTS.md) (run log). Keep this file as reference for raw node signatures.
 
@@ -38,7 +38,7 @@ TripoRefineNode            ← retopology step
 
 ---
 
-## 2. Free/weights fallback chain (Hy3D + ComfyUI-3D-Pack)
+## 2. Free/weights fallback chain (Hy3D and ComfyUI-3D-Pack)
 
 Use this when you don't want to spend API credits or want to run locally.
 
@@ -82,7 +82,7 @@ Use this when you don't want to spend API credits or want to run locally.
 
 ---
 
-## 5. Next steps / open questions
+## 5. Next steps: open questions
 
 1. **Set the Tripo API key** as a ComfyUI org secret so all Tripo nodes pick it up (`api_key_comfy_org`), and confirm billing/quota in the Tripo account.
 2. **Build the chain wiring in the UI** (or I can draft the workflow JSON to POST to `/prompt` and iterate). Once it runs, save the exported JSON here.

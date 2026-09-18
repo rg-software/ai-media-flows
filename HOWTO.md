@@ -1,4 +1,4 @@
-# HOW TO — user stories
+# HOW TO: user stories
 
 `README.md`'s "I want to…" table tells you **which flow** fits a job. This file tells you **what to actually do**: prerequisites, steps, the knobs that matter, the trap to avoid, and what a good result looks like. Each story links the flows it uses and points at the deeper doc for the *why*.
 
@@ -6,7 +6,7 @@ New here? Read **Part 1** once — every story assumes it. Then jump to the stor
 
 ---
 
-## Part 1 — How to run a flow at all
+## Part 1: How to run a flow at all
 
 **Where everything lives**
 
@@ -41,7 +41,7 @@ New here? Read **Part 1** once — every story assumes it. Then jump to the stor
 
 ---
 
-## Part 2 — User stories
+## Part 2: User stories
 
 ### S1. Generate concept art from a prompt
 
@@ -59,7 +59,7 @@ New here? Read **Part 1** once — every story assumes it. Then jump to the stor
 
 *When:* you want depth-ControlNet, depth-ordered composition, relighting, or a 2.5D effect. *Steps:* `2d/workflows/depth-normal.json` (DepthAnythingV2 + DSINE). No extra weights; first run downloads, then it's seconds. *Expect:* depth reads near = light; tangentspace normals are flat ≈ (128,128,255). *Go deeper:* E12.
 
-### S5. Edit a picture — remove, replace, extend
+### S5. Edit a picture: remove, replace, extend
 
 *When:* fix or change part of an existing image; make the canvas bigger. *Steps:* inpaint `2d/workflows/inpaint.json`; outpaint `2d/workflows/outpaint.json` (`extend_left/right_factor` 1.5 = +50% per side). For an **instruction-style** edit ("relight this", "change the material") use `2d/workflows/qwen-edit-gguf.json`. The older `kontext-edit.json` (Flux Kontext) did this bolder and more dramatic, but it is **superseded** — non-commercial, and capped near 1 MP so it needs an upscale tail. *Knobs:* denoise. For harmonisation, **0.45 integrates while keeping the subject; 0.75 replaces it** — and small subjects break first. *Trap:* raw inpaint drifts ~5/255 *outside* the mask (VAE round-trip). Crop&Stitch avoids this entirely; if you use the older path, composite back with the mask. *Go deeper:* E8, E9, E10, U2.
 
@@ -80,11 +80,11 @@ New here? Read **Part 1** once — every story assumes it. Then jump to the stor
 
 *Trap:* judge identity by **measurement, not eye** — two renders that look identical to us scored far apart. And beware: our own two "same character" assets only score ~0.14 against each other, so ~0.14–0.19 is *normal* prompt-level consistency, not a failure. *Go deeper:* E14a/b/c, U5.
 
-### S8. Materials — seamless textures, PBR, and into 3D
+### S8. Materials: seamless textures, PBR, and into 3D
 
 *When:* you need a tileable texture, or a texture's PBR maps, or a material an engine can use. *Steps:* tile it — `2d/workflows/seamless-texture.json` with `method="offset"`. PBR — **`scripts/marigold_pbr.py`** (albedo/roughness/metallic; **correct metallic**; albedo is de-lit). Into 3D — **`scripts/make_gltf_material.py`** packs a glTF-correct material and can apply it to a mesh. *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Don't use `pbr-from-texture.json` for metallic; its output is inverted. glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness. *Go deeper:* E7c, E12b, U4, U7.
 
-### S9. Finish — upscale and restore
+### S9. Finish: upscale and restore
 
 *When:* you need more resolution, or a soft/small face cleaned up. *Steps:* `2d/workflows/upscale-seedvr2.json` (Apache-2.0). Set `resolution` to the **short edge**; set it equal to the image size to **restore** instead of upscaling — that also works as face restore. *Knobs:* `batch_size` must be 4n+1. SeedVR2 *reconstructs* (more detail, more drift, slower); `upscale.json`'s GAN is faithful but **non-commercial**. *Go deeper:* E4b, U1, E13f.
 
@@ -98,7 +98,7 @@ New here? Read **Part 1** once — every story assumes it. Then jump to the stor
 
 ### S12. Reproduce, sweep, promote
 
-*When:* you're regenerating the canonical set, exploring parameters, or landing work in the repo. *Steps:* `scripts/gen_assets.py` (canonical asset set, writes a manifest recording the checkpoint); `scripts/sweep.py` (2-axis grids with a labelled sheet + per-cell metric); `scripts/publish_assets.sh` (`2d`/`3d`/`all`, md5-verified). Before committing docs: `scripts/lint_docs.py`. *Go deeper:* `2d/PROTOCOL.md` (the run/sweep/promotion contract), E16.
+*When:* you're regenerating the canonical set, exploring parameters, or landing work in the repo. *Steps:* `scripts/gen_assets.py` (canonical asset set, writes a manifest recording the checkpoint); `scripts/sweep.py` (2-axis grids with a labelled sheet + per-cell metric); `scripts/publish_assets.sh` (`2d`/`3d`/`all`, md5-verified). *Go deeper:* `2d/PROTOCOL.md` (the run/sweep/promotion contract), E16.
 
 ### S13. Transfer a style or a reference look
 

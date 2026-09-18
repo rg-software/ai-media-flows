@@ -1,4 +1,4 @@
-# AI Game-Dev Pipelines — start here
+# AI Game-Dev Pipelines: start here
 
 A working, reproducible pipeline for **generating game assets with open models on our own hardware**, plus the notes that explain *why* every choice was made. We have two primary goals:
 

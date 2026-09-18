@@ -1,4 +1,4 @@
-# Hy3D (Hunyuan 2) via kijai/ComfyUI-Hunyuan3DWrapper — install & run
+# Hy3D (Hunyuan 2) via kijai/ComfyUI-Hunyuan3DWrapper: install and run
 
 **No ComfyUI-3D-Pack needed.** The wrapper (`comfyui-hunyuan3dwrapper`) is already loaded on the server (`C:\Projects-Git\ComfyUI\ComfyUI\custom_nodes\comfyui-hunyuan3dwrapper`), so this is the low-friction path.
 
@@ -9,7 +9,7 @@ A shape-only quick-check workflow (image → mesh → GLB, no texture) exists in
 
 ---
 
-## Step 1 — Place the base checkpoint (the ONLY manual download)
+## Step 1: Place the base checkpoint (the ONLY manual download)
 
 > **CRITICAL — use the 2.1 combined `.ckpt`, not 2.0 and not the flat `.safetensors`.**
 > - `Hy3D_2_1SimpleMeshGen` builds the **2.1** model from `dit_config_2_1.yaml` (`HunYuanDiTPlain` with `x_embedder`/`t_embedder`/`blocks.*`/`moe`). A v2-0 checkpoint fails with a state_dict size mismatch (`final_layer.linear` `[64,1024]` vs `[64,2048]`).
@@ -33,7 +33,7 @@ curl -L -O "https://huggingface.co/tencent/Hunyuan3D-2.1/resolve/main/hunyuan3d-
 ```
 Then pick `hy3dgen\model.fp16.ckpt` in the `Hy3D_2_1SimpleMeshGen` model dropdown (default in the shipped workflows). You can delete the old v2-0 `model.ckpt` / `hunyuan3d-dit-v2-0-fp16.safetensors` files in this folder to reclaim ~11 GB.
 
-## Step 2 — Import & run
+## Step 2: Import and run
 
 1. Import `workflows/hy3d-full-workflow.json` (or the shape-only `workflows/scratch/hy3d-shape-workflow.json` to validate just the model).
 2. Point `LoadImage` at your house image (put it in the ComfyUI `input/` dir first, e.g. `input/house-reference.png`).
@@ -42,7 +42,7 @@ Then pick `hy3dgen\model.fp16.ckpt` in the `Hy3D_2_1SimpleMeshGen` model dropdow
 
 **What "works" looks like:** rotate the `Preview3D`/imported GLB and the **back of the house is present** — Hy3D is generative, so it completes the full 360° form from the single image. That's the whole point vs MoGe.
 
-## Step 3 — Full texture (once shape passes)
+## Step 3: Full texture (once shape passes)
 
 Import `workflows/hy3d-full-workflow.json` instead. Same first three steps, then:
 - `DownloadAndLoadHy3DPaintModel` → auto-downloads `hunyuan3d-paint-v2-0` (diffusers) on first run.

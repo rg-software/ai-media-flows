@@ -134,21 +134,74 @@ def unwrap_prose(lines: list[str]) -> list[str]:
     return out
 
 
+def iter_headings(text: str):
+    """(line_no, text) for real ATX headings; fenced code is skipped so shell comments don't count."""
+    in_fence = False
+    for i, line in enumerate(text.split("\n")):
+        if FENCE.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        m = re.match(r"^#{1,6}\s+(.*?)\s*$", line)
+        if m:
+            yield i, m.group(1)
+
+
+def github_anchor(h: str) -> str:
+    """GitHub's heading id: drop punctuation, then replace EACH space with a hyphen (no collapsing)."""
+    s = h.strip().lower()
+    s = re.sub(r"[^\w\- ]", "", s, flags=re.UNICODE)
+    return s.replace(" ", "-") or "section"
+
+
+def obsidian_anchor(h: str) -> str:
+    """What the Obsidian `gfm-compatibility` plugin computes: whitespace runs collapse to ONE hyphen."""
+    s = h.strip().lower()
+    s = re.sub(r"[^\w\s\-]", "", s, flags=re.UNICODE)
+    return re.sub(r"\s+", "-", s) or "section"
+
+
 _ANCHOR_CACHE: dict[str, set[str]] = {}
 
 
 def anchors_of(path: str) -> set[str]:
-    """The set of anchors a file's headings produce (GitHub's algorithm)."""
+    """Every anchor a file's headings produce, GitHub's algorithm incl. the -1/-2 dedup suffixes."""
     if path not in _ANCHOR_CACHE:
-        txt = open(path, encoding="utf-8", errors="replace").read()
-        got = set()
-        for h in re.findall(r"^#{1,6}\s+(.*)$", txt, re.M):
-            s = h.strip().lower()
-            s = re.sub(r"[^\w\s-]", "", s, flags=re.UNICODE)
-            s = re.sub(r"\s+", "-", s)
-            got.add(s)
+        got: set[str] = set()
+        seen: dict[str, int] = {}
+        for _, h in iter_headings(open(path, encoding="utf-8", errors="replace").read()):
+            base = github_anchor(h)
+            n = seen.get(base, 0)
+            seen[base] = n + 1
+            got.add(base if n == 0 else f"{base}-{n}")
         _ANCHOR_CACHE[path] = got
     return _ANCHOR_CACHE[path]
+
+
+def check_heading_anchors() -> list[str]:
+    """A heading must slugify identically on GitHub and in Obsidian, or one of the two breaks.
+
+    The two disagree whenever punctuation sits *between spaces*: GitHub turns each space into a
+    hyphen (`picture---remove` -> actually `picture--remove`), while the plugin collapses the run
+    (one hyphen). Now that we write GitHub's slugs, a divergent heading means one tool cannot find
+    it, so the fix is to avoid that punctuation in headings (`: ` or parentheses instead).
+    """
+    problems = []
+    for f in sorted(glob.glob(os.path.join(REPO, "**", "*.md"), recursive=True)):
+        if f"{os.sep}.git{os.sep}" in f:
+            continue
+        rel = os.path.relpath(f, REPO).replace(os.sep, "/")
+        text = open(f, encoding="utf-8", errors="replace").read()
+        for i, h in iter_headings(text):
+            g, o = github_anchor(h), obsidian_anchor(h)
+            if g != o:
+                problems.append(
+                    f"{rel}:{i+1} heading has different slugs in GitHub (#{g}) and Obsidian (#{o}) - "
+                    f"avoid space-surrounded punctuation (em dash, spaced / & + = or arrows/emoji), "
+                    f"prefer ': ' or parentheses: {h[:60]!r}"
+                )
+    return problems
 
 
 # --------------------------------------------------------------------------- per-file checks
@@ -384,6 +437,7 @@ def main() -> int:
     problems += check_flow_coverage()
     problems += check_flow_docs()
     problems += check_story_mapping()
+    problems += check_heading_anchors()
 
     print(f"linted {len(files)} markdown file(s)")
     if problems:
