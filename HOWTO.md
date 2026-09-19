@@ -73,6 +73,7 @@
 	- outpaint `2d/workflows/outpaint.json` (`extend_left/right_factor` 1.5 = +50% per side).
 	- For an **instruction-style** edit ("relight this", "change the material") use `2d/workflows/qwen-edit-gguf.json`. The older `kontext-edit.json` (Flux Kontext) did this bolder, but it is **superseded** now.
 - *Knobs:* denoise. For harmonisation, **0.45 integrates while keeping the subject; 0.75 replaces it** — and small subjects break first.
+- *Outpaint seam:* if the extension shows a border, **`mask_blend_pixels` is the knob** — measured on the cottage, 8 → 32 → 64 lowers the seam step from **19.6 → 13.4 → 11.7** (0-255 luminance; at 64 the boundary no longer stands out) and the colour step from 16.3 → 14.8. Then `denoise` ≈ **0.9** matches the colour best (11.7 vs 14.8 at 1.0); **below ~0.8 the mirrored fill ghosts** — a second half-cottage appears. Two knobs do **nothing** in this flow: `mask_expand_pixels` and `context_from_mask_extend_factor` run *before* the image is extended, so with no mask input they act on an empty mask. And a **clipped object** (half a tree) will not be continued by any of these — the new area is invented; a mask-based inpaint is the way to extend an object deliberately. Sweep harness: `scripts/sweep_outpaint.py`.
 - *Trap:* raw inpaint drifts ~5/255 *outside* the mask (VAE round-trip). Crop&Stitch avoids this entirely; if you use the older path, composite back with the mask.
 - *Warning:* the Kontext route is **non-commercial** — don't ship its output. `qwen-edit-gguf.json` does the same job under Apache-2.0.
 
