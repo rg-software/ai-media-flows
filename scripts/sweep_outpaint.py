@@ -52,8 +52,9 @@ CROP = {
     "mask_blend_pixels": 32, "mask_hipass_filter": 0.1, "extend_for_outpainting": True,
     "extend_up_factor": 1.0, "extend_down_factor": 1.0, "extend_left_factor": 1.5,
     "extend_right_factor": 1.5, "context_from_mask_extend_factor": 1.2,
-    "output_resize_to_target_size": False, "output_target_width": 512,
-    "output_target_height": 512, "output_padding": "32", "device_mode": "gpu (much faster)",
+    # sample at 1536x768 rather than the raw 2048x1024 crop: E19 showed 2.1 MP makes SDXL mushy
+    "output_resize_to_target_size": True, "output_target_width": 1536,
+    "output_target_height": 768, "output_padding": "32", "device_mode": "gpu (much faster)",
 }
 SAMPLER = {"seed": 9101, "steps": 25, "cfg": 6.0, "sampler_name": "euler",
            "scheduler": "normal", "denoise": 1.0}
@@ -157,11 +158,37 @@ def main() -> int:
     ap.add_argument("--out", default="2D/E17/outpaint_seam")
     ap.add_argument("--x", default="mask_blend_pixels:8,32,64")
     ap.add_argument("--y", default="denoise:1.0,0.9,0.8")
+    ap.add_argument("--sample", default=None,
+                    help="WxH: force the sampling resolution via output_resize_to_target_size. Match the "
+                         "crop's aspect (2:1 here) so nothing is distorted - SDXL is ~1 MP native and a "
+                         "2048x1024 crop is 2.1 MP, which is where invention tends to go mushy")
+    ap.add_argument("--preresize", type=int, default=None,
+                    help="cap the sampling size to NxN via `preresize` + 'ensure maximum resolution', "
+                         "which PRESERVES the crop's aspect (unlike --sample, which forces WxH)")
     ap.add_argument("--timeout", type=int, default=600)
     a = ap.parse_args()
 
     xname, xvals = parse_axis(a.x)
     yname, yvals = parse_axis(a.y)
+
+    if a.sample:
+        try:
+            sw, sh = (int(v) for v in a.sample.lower().split("x"))
+        except ValueError:
+            raise SystemExit(f"bad --sample {a.sample!r}; expected WxH, e.g. 1536x768") from None
+        CROP["output_resize_to_target_size"] = True
+        CROP["output_target_width"] = sw
+        CROP["output_target_height"] = sh
+        print(f"sampling at {sw}x{sh} ({sw * sh / 1e6:.2f} MP; the stitcher scales back)")
+
+    if a.preresize:
+        CROP["preresize"] = True
+        CROP["preresize_mode"] = "ensure maximum resolution"
+        CROP["preresize_min_width"] = 0
+        CROP["preresize_min_height"] = 0
+        CROP["preresize_max_width"] = a.preresize
+        CROP["preresize_max_height"] = a.preresize
+        print(f"capping the sample to {a.preresize}x{a.preresize} (aspect preserved)")
 
     from PIL import Image
     src = COMFY_INPUT / a.image

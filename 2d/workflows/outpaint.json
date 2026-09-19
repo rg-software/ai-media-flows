@@ -249,9 +249,9 @@
     1.5,
     1.5,
     1.2,
-    false,
-    512,
-    512,
+    true,
+    1536,
+    768,
     "32",
     "gpu (much faster)"
    ]
@@ -518,7 +518,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## outpaint.json\n\nOutpaint\n\n**Does:** outpaint to a wider canvas (Crop&Stitch). `extend_left/right_factor=1.5` is +50% width\nper side. The original region returns at mean|diff| **0.041/255** (pixel-identical) because the\nstitcher never VAE round-trips unmasked pixels; the core `ImagePadForOutpaint` baseline drifted\n6.477/255. `device_mode=\"gpu (much faster)\"` matters 30-100x.\n**By design:** the new area is *invented* (the node pads the canvas by edge-clamp and the\nsampler replaces it). For a *controlled* extension - the same trees/sky carried outward - pad\nthe canvas with `scripts/pad_image.py` and run `inpaint.json` at denoise ~0.7 instead (S5, E18).\n**Seam (E17):** this graph ships `mask_blend_pixels` **64** - the border knob (seam step\n19.6 -> 11.7 of 255; at 64 the boundary no longer stands out from its own surroundings) - with\n`denoise` **0.9** for the colour match (colour step 16.1 -> 11.7). At ~0.8 and below the model\nstarts *inventing* rather than refining - on the cottage it painted a second, different cottage\n(the extension fill is an **edge-clamp smear**, not a mirror, so what survives is not the source).\n**`mask_expand_pixels` and\n`context_from_mask_extend_factor` do nothing here**: the mask ops run before the extension and\nno mask is wired in. A clipped object (half a tree) is not continued by any blend width - the\nnew area is invented.\n\n---\n*How to run it: story **S5** in `HOWTO.md`  ·  Why it is this way: **E9, E17** in the scenarios' `EXPERIMENTS` logs.*"
+    "## outpaint.json\n\nOutpaint\n\n**Does:** outpaint to a wider canvas (Crop&Stitch). `extend_left/right_factor=1.5` is +50% width\nper side. The original region returns at mean|diff| **0.041/255** (pixel-identical) because the\nstitcher never VAE round-trips unmasked pixels; the core `ImagePadForOutpaint` baseline drifted\n6.477/255. `device_mode=\"gpu (much faster)\"` matters 30-100x.\n**By design:** the new area is *invented* (the node pads the canvas by edge-clamp and the\nsampler replaces it). For a *controlled* extension - the same trees/sky carried outward - pad\nthe canvas with `scripts/pad_image.py` and run `inpaint.json` at denoise ~0.7 instead (S5, E18).\n**Resolution (E19):** samples at **1536x768**, not the raw 2048x1024 crop - at 2.1 MP\nSDXL goes mushy (blurry foliage, smeared wall); 1536x768 is crisp and ~33% faster (12 s vs\n18 s). Keep the target's aspect equal to the crop's. `preresize` cannot help: it runs\nBEFORE the extension, so it never sees the padded canvas.\n**Seam (E17):** this graph ships `mask_blend_pixels` **64** - the border knob (seam step\n19.6 -> 11.7 of 255; at 64 the boundary no longer stands out from its own surroundings) - with\n`denoise` **0.9** for the colour match (colour step 16.1 -> 11.7). At ~0.8 and below the model\nstarts *inventing* rather than refining - on the cottage it painted a second, different cottage\n(the extension fill is an **edge-clamp smear**, not a mirror, so what survives is not the source).\n**`mask_expand_pixels` and\n`context_from_mask_extend_factor` do nothing here**: the mask ops run before the extension and\nno mask is wired in. A clipped object (half a tree) is not continued by any blend width - the\nnew area is invented.\n\n---\n*How to run it: story **S5** in `HOWTO.md`  ·  Why it is this way: **E9, E17** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
