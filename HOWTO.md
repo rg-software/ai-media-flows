@@ -105,6 +105,7 @@
 	- Tile it. `2d/workflows/seamless-texture.json` with `method="offset"`.
 	- Material. **`scripts/pbr_set.py`** does the whole set in one command: Marigold (OpenRAIL++) for albedo/roughness/**correct metallic**, QFX (Apache-2.0) for **normal/AO/displacement**, then packs a glTF 2.0 material. It also keeps `displacement.png` in case you want a height map.
 	- Into 3D. Add `--mesh <glb> --glb-out <glb>` and it applies the material to a mesh too.
+	- Back to your machine. It writes under ComfyUI's `output/2D/pbr_set/<texture>/`, so `scripts/comfy_io.py get 2D/pbr_set/<texture>/material/normal.png` pulls it down (S14) — no SSH.
 - *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Never take metallic from `pbr-from-texture.json`: it is wrong even with the node's own range knobs flipped (14.6% of pixels above 0.5, against Marigold's 0.02%). glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
 - *Unverified:* the normal's Y convention. QFX defaults to `normal_invert_y=True` while glTF expects OpenGL (+Y up), and a flat sheet cannot show the difference — on a lit mesh the relief reads *engraved* instead of *raised* if it is wrong. Check a render, and pass `--flip-normal-green` if needed (see `PIPELINES.md`).
 
@@ -149,13 +150,14 @@
 - *Steps:*
 	- `uv run python scripts/comfy_io.py upload art/*.png` uploads into `input/`;
 	- `... outputs latest` (or a prompt id) lists what a run produced;
-	- `... fetch latest --dest from-box` downloads those files and records what it fetched in a small `manifest.json`.
+	- `... fetch latest --dest from-box` downloads those files and records what it fetched in a small `manifest.json`;
+	- `... get 2D/pbr_set/<texture>/material/normal.png` downloads **any** file under ComfyUI's `output/`, `input/` or `temp/` — including ones a script wrote (a PBR material, a contact sheet), which never appear in a run's history.
 - *Knobs:*
 	- `--base`/`COMFY_BASE` — the ComfyUI URL;
 	- `--token`/`COMFY_TOKEN` — **ask the operator**. It lives on the server as the first line of `~/Projects-Git/ComfyUI/login/PASSWORD`.
 	- `--subfolder refs` keeps uploads tidy;
 	- `--dest` chooses where downloads land.
-- *Trap:* image nodes read **only** from `input/` - a file sitting in `output/` cannot be loaded, so upload it before running a flow that needs it. With many inputs, upload the folder once and read it with the `LoadImagesFromFolderKJ` node rather than one file at a time.
+- *Trap:* image nodes read **only** from `input/` - a file sitting in `output/` cannot be loaded, so upload it before running a flow that needs it. With many inputs, upload the folder once and read it with the `LoadImagesFromFolderKJ` node rather than one file at a time. And only those three dirs are served: a file anywhere else on the box (e.g. a result written into the repo) cannot be fetched at all, by any route short of SSH.
 - *More:* `scripts/comfy_io.py --help`.
 
 ---
