@@ -40,7 +40,6 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parent.parent
 COMFY_INPUT = Path.home() / "Projects-Git" / "ComfyUI" / "input"
 COMFY_OUT = Path.home() / "Projects-Git" / "ComfyUI" / "output"   # SaveImage writes here
 
@@ -64,24 +63,40 @@ NEG = ("blurry, lowres, text, watermark, jpeg artifacts, deformed, seams, horizo
 CKPT = "RealVisXL_V5.0_fp16.safetensors"
 
 
-def build_graph(image: str, crop: dict, sampler: dict, prefix: str) -> dict:
-    return {
+def build_graph(image: str, crop: dict, sampler: dict, prefix: str, mask_image: str | None = None) -> dict:
+    """Two modes:
+
+    * no `mask_image` -> the shipped canvas-extension path: `InpaintCropImproved` creates the padded
+      canvas itself and fills it by edge-clamp (a smear the sampler then replaces);
+    * `mask_image` given -> the E18 path: the image is ALREADY padded (see `scripts/pad_image.py`)
+      and the mask marks the new area, so `mask_expand_pixels`/`mask_blend_pixels` are live and the
+      sampler starts from a fill that carries structure (mirror/reflect/edge).
+    """
+    g = {
         "1": {"class_type": "LoadImage", "inputs": {"image": image}},
         "2": {"class_type": "CheckpointLoaderSimple", "inputs": {"ckpt_name": CKPT}},
         "3": {"class_type": "CLIPTextEncode", "inputs": {"text": POS, "clip": ["2", 1]}},
         "4": {"class_type": "CLIPTextEncode", "inputs": {"text": NEG, "clip": ["2", 1]}},
-        "5": {"class_type": "InpaintCropImproved", "inputs": {**crop, "image": ["1", 0]}},
-        "6": {"class_type": "InpaintModelConditioning",
-              "inputs": {"noise_mask": True, "positive": ["3", 0], "negative": ["4", 0],
-                         "vae": ["2", 2], "pixels": ["5", 1], "mask": ["5", 2]}},
-        "7": {"class_type": "KSampler", "inputs": {**sampler, "model": ["2", 0],
-                                                   "positive": ["6", 0], "negative": ["6", 1],
-                                                   "latent_image": ["6", 2]}},
         "8": {"class_type": "VAEDecode", "inputs": {"samples": ["7", 0], "vae": ["2", 2]}},
         "9": {"class_type": "InpaintStitchImproved",
               "inputs": {"stitcher": ["5", 0], "inpainted_image": ["8", 0]}},
         "10": {"class_type": "SaveImage", "inputs": {"filename_prefix": prefix, "images": ["9", 0]}},
     }
+    if mask_image is None:
+        g["5"] = {"class_type": "InpaintCropImproved", "inputs": {**crop, "image": ["1", 0]}}
+    else:
+        g["11"] = {"class_type": "LoadImage", "inputs": {"image": mask_image}}
+        g["12"] = {"class_type": "ImageToMask", "inputs": {"channel": "red", "image": ["11", 0]}}
+        g["5"] = {"class_type": "InpaintCropImproved",
+                  "inputs": {**crop, "extend_for_outpainting": False,
+                             "image": ["1", 0], "mask": ["12", 0]}}
+    g["6"] = {"class_type": "InpaintModelConditioning",
+              "inputs": {"noise_mask": True, "positive": ["3", 0], "negative": ["4", 0],
+                         "vae": ["2", 2], "pixels": ["5", 1], "mask": ["5", 2]}}
+    g["7"] = {"class_type": "KSampler", "inputs": {**sampler, "model": ["2", 0],
+                                                   "positive": ["6", 0], "negative": ["6", 1],
+                                                   "latent_image": ["6", 2]}}
+    return g
 
 
 def parse_axis(spec: str):
@@ -134,7 +149,11 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default="http://127.0.0.1:8188")
     ap.add_argument("--token", default="")
-    ap.add_argument("--image", default="2d/env_cottage.png")
+    ap.add_argument("--image", default="2d/env_cottage.png",
+                    help="source image (or the ALREADY-padded canvas when --mask is given)")
+    ap.add_argument("--mask", default=None,
+                    help="E18 path: a mask (white = area to generate) for the padded canvas")
+
     ap.add_argument("--out", default="2D/E17/outpaint_seam")
     ap.add_argument("--x", default="mask_blend_pixels:8,32,64")
     ap.add_argument("--y", default="denoise:1.0,0.9,0.8")
@@ -147,9 +166,20 @@ def main() -> int:
     from PIL import Image
     src = COMFY_INPUT / a.image
     with Image.open(src) as im:
-        orig_w, orig_h = im.size
-    left_new = round(orig_w * (CROP["extend_left_factor"] - 1.0))
-    print(f"input {src.name} {orig_w}x{orig_h}; seams at x={left_new} and x={left_new + orig_w}")
+        src_w, orig_h = im.size
+    if a.mask:
+        # padded mode: the mask defines where the original is, so take the seam from it
+        import numpy as np
+        m = np.asarray(Image.open(COMFY_INPUT / a.mask).convert("L"))
+        unmasked = (m.max(axis=0) == 0)
+        left_new, orig_w = int(np.argmax(unmasked)), int(unmasked.sum())
+        if orig_w == 0:
+            raise SystemExit(f"mask {a.mask} leaves no unmasked (original) columns")
+    else:
+        orig_w = src_w
+        left_new = round(orig_w * (CROP["extend_left_factor"] - 1.0))
+    print(f"input {src.name} {orig_w}x{orig_h}; seams at x={left_new} and x={left_new + orig_w}"
+          + (f"  [padded mode: mask {a.mask}, extend_for_outpainting forced OFF]" if a.mask else ""))
 
     def url(path, **params):
         if a.token:
@@ -178,7 +208,7 @@ def main() -> int:
             prefix = f"{a.out}_x{xi}_y{yi}"
             t0 = time.time()
             try:
-                resp = post({"prompt": build_graph(a.image, crop, sampler, prefix)})
+                resp = post({"prompt": build_graph(a.image, crop, sampler, prefix, a.mask)})
             except urllib.error.HTTPError as e:
                 print(f"  [{xname}={xv} {yname}={yv}] SUBMIT FAILED {e.code}: {e.read()[:200]!r}")
                 continue
