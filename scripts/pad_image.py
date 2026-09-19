@@ -19,7 +19,10 @@ Produces:
                                (blurred) because `ImageCompositeMasked` does not feather
 
 Then run the ordinary inpaint flow with those two files and a **reduced denoise** (~0.6-0.75) so it
-refines the fill instead of replacing it:
+refines the fill instead of replacing it. **Use `--mirror-band 128` for this** (E18b): mirroring only a
+band at the seam keeps the boundary continuous *and* leaves the sampler free to invent the rest - no
+echo of a building, which whole-padding mirror and the node's edge smear both produce. The band is an
+*option*; with `--mirror-band 0` (the default) the whole padding is mirrored.
 
     uv run python scripts/pad_image.py input/2d/env_cottage.png --left 512 --right 512 \\
         --mode mirror --mask-feather 24 --out-dir <ComfyUI>/input/_outpaint
@@ -55,6 +58,10 @@ def main() -> int:
     ap.add_argument("--up", type=int, default=0)
     ap.add_argument("--down", type=int, default=0)
     ap.add_argument("--mode", choices=sorted(MODES), default="mirror")
+    ap.add_argument("--mirror-band", type=int, default=0,
+                    help="with --mode mirror: mirror only this many px at the seam and edge-clamp the "
+                         "rest, so the boundary gets real structure to continue while the far region "
+                         "carries nothing duplicated (0 = mirror the whole padding)")
     ap.add_argument("--mask-feather", type=int, default=0,
                     help="blur the mask edge by N px - the inpaint step needs a soft boundary, "
                          "because ImageCompositeMasked does not feather")
@@ -65,8 +72,30 @@ def main() -> int:
         raise SystemExit(f"no such image: {src}")
     im = np.asarray(Image.open(src).convert("RGB"))
     h, w = im.shape[:2]
-    pad = ((a.up, a.down), (a.left, a.right), (0, 0))
-    filled = np.pad(im, pad, mode=MODES[a.mode])  # type: ignore[call-overload]  # str mode is valid
+
+    def pad_side(arr, amount, axis, pre):
+        """symmetric for the first `band` px (structure at the seam), edge-clamp beyond it."""
+        if amount <= 0:
+            return arr
+        band = min(a.mirror_band, amount) if a.mode == "mirror" and a.mirror_band > 0 else amount
+        pads = [(0, 0)] * 3
+        pads[axis] = (band, 0) if pre else (0, band)
+        arr = np.pad(arr, pads, mode="symmetric")
+        rest = amount - band
+        if rest > 0:
+            pads = [(0, 0)] * 3
+            pads[axis] = (rest, 0) if pre else (0, rest)
+            arr = np.pad(arr, pads, mode="edge")
+        return arr
+
+    if a.mode == "mirror" and a.mirror_band > 0:
+        filled = im
+        filled = pad_side(filled, a.up, 0, True)
+        filled = pad_side(filled, a.down, 0, False)
+        filled = pad_side(filled, a.left, 1, True)
+        filled = pad_side(filled, a.right, 1, False)
+    else:
+        filled = np.pad(im, ((a.up, a.down), (a.left, a.right), (0, 0)), mode=MODES[a.mode])  # type: ignore[call-overload]
 
     mask = np.zeros(filled.shape[:2], np.uint8)
     mask[: a.up, :] = 255
@@ -80,7 +109,8 @@ def main() -> int:
 
     out = Path(a.out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    padded = out / f"{src.stem}_padded_{a.mode}.png"
+    suffix = f"_{a.mode}" + (f"_band{a.mirror_band}" if a.mode == "mirror" and a.mirror_band else "")
+    padded = out / f"{src.stem}_padded{suffix}.png"
     maskp = out / f"{src.stem}_mask.png"
     Image.fromarray(filled).save(padded)
     mask_im.save(maskp)
