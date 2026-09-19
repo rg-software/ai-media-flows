@@ -40,7 +40,7 @@ MAPPING = {
     "sam3-segment.json":              ("SAM 3 text-prompted mask",      "S3", "U6a"),
     "depth-normal.json":              ("Depth map",                     "S4", "E12"),
     "inpaint.json":                   ("Inpaint",                       "S5", "E8"),
-    "outpaint.json":                  ("Outpaint",                      "S5", "E9"),
+    "outpaint.json":                  ("Outpaint",                      "S5", "E9, E17"),
     "kontext-edit.json":              ("Relight (Kontext, superseded)", "S5", "E13 -> see U2"),
     "qwen-edit-gguf.json":            ("Instruction edit + consistency","S5, S7", "U2/E14c"),
     "compose-harmonize.json":         ("Compose + harmonize",           "S6", "E10"),
@@ -88,6 +88,18 @@ NOTES = {
         "`upscale-seedvr2.json` (Apache-2.0) instead.\n"
         "**Trade-off:** a GAN is faithful but soft/blurry at 2x; SeedVR2 reconstructs more detail but\n"
         "drifts further from the source.",
+    "outpaint.json":
+        "**Does:** outpaint to a wider canvas (Crop&Stitch). `extend_left/right_factor=1.5` is +50% width\n"
+        "per side. The original region returns at mean|diff| **0.041/255** (pixel-identical) because the\n"
+        "stitcher never VAE round-trips unmasked pixels; the core `ImagePadForOutpaint` baseline drifted\n"
+        "6.477/255. `device_mode=\"gpu (much faster)\"` matters 30-100x.\n"
+        "**Seam (E17):** this graph ships `mask_blend_pixels` **64** - the border knob (seam step\n"
+        "19.6 -> 11.7 of 255; at 64 the boundary no longer stands out from its own surroundings) - with\n"
+        "`denoise` **0.9** for the colour match (colour step 16.1 -> 11.7). Below ~0.8 the mirrored\n"
+        "extension fill ghosts (a second half-cottage). **`mask_expand_pixels` and\n"
+        "`context_from_mask_extend_factor` do nothing here**: the mask ops run before the extension and\n"
+        "no mask is wired in. A clipped object (half a tree) is not continued by any blend width - the\n"
+        "new area is invented.",
     "seamless-texture.json":
         "**Does:** makes an image tile seamlessly, in image space (TextureAlchemy).\n"
         "**Knobs:** `method` — use **`offset`**. `mirror`/`blend_edges` score perfectly on continuity\n"
