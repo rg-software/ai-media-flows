@@ -67,7 +67,8 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      26
+      26,
+      30
      ],
      "slot_index": 0
     }

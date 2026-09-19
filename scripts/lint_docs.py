@@ -28,6 +28,11 @@ Checks, in the order of what has actually bitten us:
   8. **Prose wrapping:** prose is one line per paragraph. A single newline reflows on GitHub but
      renders as a visible break in a default Obsidian, and splits sentences so they cannot be
      grepped. `--fix-wrapping` rewrites files into the canonical form.
+  9. **Workflow link integrity:** every workflow's node link references agree with its authoritative
+     `links` array. ComfyUI wires from the array, so a stale reference (a hand-edit that shifted
+     ids) is inert until it points at a link of the wrong TYPE - then the canvas reports "Invalid
+     connection" (how `inpaint.json` shipped with SaveImage fed by a MASK). Fix with
+     `uv run python scripts/fix_workflow_links.py --write`.
 """
 from __future__ import annotations
 
@@ -39,6 +44,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mdtable  # noqa: E402
+import fix_workflow_links  # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -308,7 +314,7 @@ def lint_file(path: str, rel: str) -> list[str]:
 # promotion into assets/) rather than producing a user asset. Documented for contributors in AGENTS.md
 # and 2d/PROTOCOL.md, so it is deliberately *not* a flow reachable from the README job table.
 CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
-                     "gen_assets.py", "publish_assets.sh"}
+                     "gen_assets.py", "publish_assets.sh", "fix_workflow_links.py"}
 
 
 def iter_flows():
@@ -404,6 +410,23 @@ def check_story_mapping() -> list[str]:
     return problems
 
 
+def check_workflow_links() -> list[str]:
+    """Every workflow's node link references must agree with its `links` array.
+
+    ComfyUI wires from the array, so a stale reference is inert until it carries the wrong type -
+    which is when the canvas errors ("Invalid connection"). Checked by fix_workflow_links so the
+    gate and the repair tool cannot drift.
+    """
+    problems = []
+    for p in fix_workflow_links.iter_curated():
+        rel = os.path.relpath(p, REPO).replace(os.sep, "/")
+        problems += fix_workflow_links.check_data(fix_workflow_links.load(p), rel)
+    if problems:
+        problems.append("workflow link refs disagree with the links array -> "
+                        "run: uv run python scripts/fix_workflow_links.py --write")
+    return problems
+
+
 def main() -> int:
     rc = getattr(sys.stdout, "reconfigure", None)
     if rc is not None:
@@ -439,6 +462,7 @@ def main() -> int:
     problems += check_flow_docs()
     problems += check_story_mapping()
     problems += check_heading_anchors()
+    problems += check_workflow_links()
 
     print(f"linted {len(files)} markdown file(s)")
     if problems:
@@ -446,7 +470,7 @@ def main() -> int:
         for p in problems:
             print("  " + p)
         return 1
-    print("no table, link, coverage or flow-doc problems found")
+    print("no table, link, coverage, workflow-link or flow-doc problems found")
     return 0
 
 

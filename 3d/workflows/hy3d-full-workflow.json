@@ -109,6 +109,7 @@
      "name": "trimesh",
      "type": "TRIMESH",
      "links": [
+      16,
       17
      ],
      "slot_index": 0
@@ -150,8 +151,7 @@
      "name": "trimesh",
      "type": "TRIMESH",
      "links": [
-      3,
-      16
+      3
      ],
      "slot_index": 0
     }
@@ -743,7 +743,7 @@
    1,
    0,
    2,
-   1,
+   0,
    "IMAGE"
   ],
   [

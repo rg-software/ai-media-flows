@@ -1,6 +1,6 @@
 {
  "last_node_id": 17,
- "last_link_id": 18,
+ "last_link_id": 21,
  "nodes": [
   {
    "id": 1,
@@ -22,7 +22,9 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      1
+      1,
+      19,
+      20
      ],
      "slot_index": 0
     },
@@ -130,7 +132,8 @@
      "links": [
       5,
       6,
-      7
+      7,
+      21
      ],
      "slot_index": 0
     }
@@ -363,7 +366,7 @@
     {
      "name": "image1",
      "type": "IMAGE",
-     "link": 1
+     "link": 19
     }
    ],
    "outputs": [
@@ -411,7 +414,7 @@
     {
      "name": "image1",
      "type": "IMAGE",
-     "link": 1
+     "link": 20
     }
    ],
    "outputs": [
@@ -589,7 +592,7 @@
     {
      "name": "vae",
      "type": "VAE",
-     "link": 5
+     "link": 21
     }
    ],
    "outputs": [
@@ -804,6 +807,30 @@
    16,
    0,
    "IMAGE"
+  ],
+  [
+   19,
+   1,
+   0,
+   10,
+   2,
+   "IMAGE"
+  ],
+  [
+   20,
+   1,
+   0,
+   11,
+   2,
+   "IMAGE"
+  ],
+  [
+   21,
+   4,
+   0,
+   15,
+   1,
+   "VAE"
   ]
  ],
  "groups": [
