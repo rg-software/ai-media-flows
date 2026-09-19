@@ -140,7 +140,9 @@ def fetch_qfx(base: str, token: str | None, entry: dict, outdir: Path, timeout: 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Texture -> complete glTF PBR material (Marigold + QFX).")
     ap.add_argument("texture", help="source texture (seamless albedo)")
-    ap.add_argument("--outdir", required=True, help="output dir; gets marigold/, qfx/, material/")
+    ap.add_argument("--outdir", default=None,
+                    help="output dir; gets marigold/, qfx/, material/ (default: "
+                         "<ComfyUI>/output/2D/pbr_set/<texture>, which stays fetchable over HTTP)")
     ap.add_argument("--base", help="ComfyUI URL (default localhost or COMFY_BASE)")
     ap.add_argument("--token", help="API token (default COMFY_TOKEN or the box's login/PASSWORD)")
     ap.add_argument("--size", type=int, default=1024)
@@ -162,7 +164,6 @@ def main() -> int:
     tex = Path(a.texture).resolve()
     if not tex.is_file():
         raise SystemExit(f"no such texture: {tex}")
-    outdir = Path(a.outdir).resolve()
     base = comfy_io.resolve_base(a.base)
     token = comfy_io.resolve_token(a.token, base)
     # NB: do NOT resolve() the interpreter path - a venv's bin/python is usually a symlink to the
@@ -175,6 +176,9 @@ def main() -> int:
     mcwd = Path(os.path.abspath(a.marigold_cwd)) if a.marigold_cwd else mpy.parents[2]
     if not (mcwd / "models" / "diffusers").is_dir():
         raise SystemExit(f"marigold cwd {mcwd} has no models/diffusers - pass --marigold-cwd")
+    # Default under ComfyUI's own output/: only that tree is served by /view, so anywhere else
+    # makes the result unreachable except over SSH (fetch it back with `comfy_io.py get`).
+    outdir = Path(a.outdir).resolve() if a.outdir else (mcwd / "output" / "2D" / "pbr_set" / tex.stem)
 
     print(f"texture : {tex}")
     print(f"outdir  : {outdir.resolve()}")
@@ -206,6 +210,13 @@ def main() -> int:
     run(pack_cmd, "pack")
 
     print(f"\nDone. Material in {outdir / 'material'}/")
+    try:
+        rel = (outdir / "material").relative_to(mcwd / "output")
+        print(f"  fetch it back: uv run python scripts/comfy_io.py get "
+              f"{rel.as_posix()}/normal.png --dest from-box")
+    except ValueError:
+        print("  NB: that dir is outside ComfyUI's output/, so it is reachable over SSH only - "
+              "drop --outdir to keep results fetchable over HTTP.")
     print("  basecolor.png, metallicRoughness.png (G=rough, B=metal), normal.png, occlusion.png, material.json")
     if a.mesh:
         print(f"  mesh with the material applied -> {a.glb_out or (outdir / 'material.glb')}")

@@ -8,12 +8,15 @@ shared: a collaborator can move files without ever being given a shell.
   upload   PUT files INTO input/      (POST /upload/image - the GUI's drag-and-drop is a wrapper)
   outputs  list what a run produced   (GET  /history/<prompt_id>)
   fetch    pull those files down      (GET  /view?...) + a manifest recording the run
+  get      pull ANY file under ComfyUI's output/, input/ or temp/ (GET /view)
+           - for files written by scripts (PBR materials, sheets), which never appear in history
 
 Usage:
     # on the box (token defaults to the login/PASSWORD first line, base to localhost):
     python comfy_io.py upload art/*.png --subfolder 2d/_work/refs
     python comfy_io.py outputs latest
     python comfy_io.py fetch latest --dest output/fetched
+    python comfy_io.py get 2D/pbr_set/tex_stone/material/normal.png --dest from-box
 
     # from anywhere the server is reachable:
     python comfy_io.py fetch latest --base https://comfy.example.ddns.me --token "$COMFY_TOKEN"
@@ -21,6 +24,10 @@ Usage:
 Why 'fetch <prompt_id>' instead of syncing the output dir: the run tells you exactly which files
 it made, so you get a precise, replayable set + manifest rather than a mirror of everything
 (including scratch and temp). Load*FromFolder nodes cover bulk *input* by reading a folder once.
+'get' exists because script-written artefacts (scripts/marigold_pbr.py, scripts/pbr_set.py) are
+not runs and therefore have no history entry - but they are still servable if they live under
+ComfyUI's own output/ (a file elsewhere on the box cannot be fetched at all, over any route
+except SSH).
 
 No third-party deps: stdlib urllib only (same as scripts/gen_assets.py).
 """
@@ -157,6 +164,39 @@ def collect_files(entry: dict) -> list[dict]:
     return out
 
 
+def _get_optional(url: str, timeout: float) -> bytes | None:
+    """Like _get, but returns None instead of raising (for 'try this file' lookups)."""
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as r:
+            return r.read()
+    except (urllib.error.HTTPError, urllib.error.URLError):
+        return None
+
+
+def cmd_get(a: argparse.Namespace) -> int:
+    """Download arbitrary files from ComfyUI's served roots (output/, input/, temp/)."""
+    base, token = resolve_base(a.base), resolve_token(a.token, resolve_base(a.base))
+    got = 0
+    for spec in a.paths:
+        spec = spec.strip("/")
+        subfolder, _, filename = spec.rpartition("/")
+        if not filename:
+            print(f"  SKIP {spec!r} (needs a filename)")
+            continue
+        url = _url(base, "/view", token, filename=filename, subfolder=subfolder or None, type=a.type)
+        data = _get_optional(url, a.timeout)
+        if data is None:
+            print(f"  FAIL {spec} - not in ComfyUI's {a.type}/ (only that tree is served)")
+            continue
+        target = Path(a.dest) / spec
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(data)
+        print(f"  OK   {spec} -> {target}  ({len(data):,} B)")
+        got += 1
+    print(f"fetched {got} file(s) into {a.dest}")
+    return 0 if got else 1
+
+
 def cmd_outputs(a: argparse.Namespace) -> int:
     base, token = resolve_base(a.base), resolve_token(a.token, resolve_base(a.base))
     pid, entry = history_entry(base, token, a.prompt_id, a.timeout)
@@ -228,6 +268,12 @@ def main() -> int:
     f.add_argument("--no-manifest", action="store_true")
     f.add_argument("--dry-run", action="store_true")
     f.set_defaults(fn=cmd_fetch)
+
+    g = sub.add_parser("get", help="download any file under ComfyUI's output/ input/ temp/")
+    g.add_argument("paths", nargs="+", help="e.g. 2D/pbr_set/tex_stone/material/normal.png")
+    g.add_argument("--type", default="output", choices=["output", "input", "temp"])
+    g.add_argument("--dest", default="output/fetched", help="parent dir (default output/fetched)")
+    g.set_defaults(fn=cmd_get)
 
     a = p.parse_args()
     return a.fn(a)
