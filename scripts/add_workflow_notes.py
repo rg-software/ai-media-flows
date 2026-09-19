@@ -38,7 +38,7 @@ MAPPING = {
     "regional-prompting.json":        ("Regional prompting",            "S6", "E15"),
     "remove-bg.json":                 ("Cutout (BiRefNet)",             "S3", "E3b"),
     "sam3-segment.json":              ("SAM 3 text-prompted mask",      "S3", "U6a"),
-    "depth-normal.json":              ("Depth + normal maps",           "S4", "E12"),
+    "depth-normal.json":              ("Depth map",                     "S4", "E12"),
     "inpaint.json":                   ("Inpaint",                       "S5", "E8"),
     "outpaint.json":                  ("Outpaint",                      "S5", "E9"),
     "kontext-edit.json":              ("Relight (Kontext, superseded)", "S5", "E13 -> see U2"),
@@ -95,13 +95,13 @@ NOTES = {
         "**Avoid:** `SeamlessTile` (comfyui-seamless-tiling) patches the MODEL and **segfaults** the\n"
         "server in libcuda; the circular-VAE route crashes on a second run in one session.",
     "depth-normal.json":
-        "**Does:** monocular depth (DepthAnythingV2) and a normal map (DSINE) from a single image.\n"
-        "No extra weights — ACN downloads them on first use.\n"
-        "**Reads:** depth = light is *near*; depth is *relative* (no absolute scale), so it is a\n"
+        "**Does:** monocular depth (DepthAnythingV2) from a single image. No extra weights - ACN\n"
+        "downloads it on first use.\n"
+        "**Reads:** depth = light is *near*. Depth is **relative** (no absolute scale), so it is a\n"
         "guidance/parallax cue, **not** a height or displacement map.\n"
-        "**Caveats:** DSINE's model is **non-commercial** and estimates **camera-space** normals, so\n"
-        "do not ship either as a material map — a material normal belongs to the PBR path.\n"
-        "**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.",
+        "**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.\n"
+        "**Note:** DSINE was removed from this graph - it is non-commercial and camera-space. A\n"
+        "material normal belongs to the PBR path.",
     "ipadapter-style.json":
         "**Does:** transfers the style/look of a reference image (IPAdapter).\n"
         "**Knobs:** `weight` — 0.0-0.2 style hint only; 0.3-0.5 blend; **>=0.6 the reference overrides\n"

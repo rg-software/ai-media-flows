@@ -22,8 +22,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      1,
-      2
+      1
      ],
      "slot_index": 0
     },
@@ -108,71 +107,6 @@
    ]
   },
   {
-   "id": 4,
-   "type": "DSINE-NormalMapPreprocessor",
-   "pos": [
-    -460,
-    100
-   ],
-   "size": [
-    300,
-    100
-   ],
-   "flags": {},
-   "order": 3,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "image",
-     "type": "IMAGE",
-     "link": 2
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "links": [
-      4
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "DSINE-NormalMapPreprocessor"
-   },
-   "widgets_values": []
-  },
-  {
-   "id": 5,
-   "type": "SaveImage",
-   "pos": [
-    -100,
-    120
-   ],
-   "size": [
-    360,
-    280
-   ],
-   "flags": {},
-   "order": 4,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 4
-    }
-   ],
-   "outputs": [],
-   "properties": {
-    "Node name for S&R": "SaveImage"
-   },
-   "widgets_values": [
-    "2D/E12/normal"
-   ]
-  },
-  {
    "id": 6,
    "type": "MarkdownNote",
    "pos": [
@@ -190,7 +124,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## depth-normal.json\n\nDepth + normal maps\n\n**Does:** monocular depth (DepthAnythingV2) and a normal map (DSINE) from a single image.\nNo extra weights — ACN downloads them on first use.\n**Reads:** depth = light is *near*; depth is *relative* (no absolute scale), so it is a\nguidance/parallax cue, **not** a height or displacement map.\n**Caveats:** DSINE's model is **non-commercial** and estimates **camera-space** normals, so\ndo not ship either as a material map — a material normal belongs to the PBR path.\n**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.\n\n---\n*How to run it: story **S4** in `HOWTO.md`  ·  Why it is this way: **E12** in the scenarios' `EXPERIMENTS` logs.*"
+    "## depth-normal.json\n\nDepth map\n\n**Does:** monocular depth (DepthAnythingV2) from a single image. No extra weights - ACN\ndownloads it on first use.\n**Reads:** depth = light is *near*. Depth is **relative** (no absolute scale), so it is a\nguidance/parallax cue, **not** a height or displacement map.\n**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.\n**Note:** DSINE was removed from this graph - it is non-commercial and camera-space. A\nmaterial normal belongs to the PBR path.\n\n---\n*How to run it: story **S4** in `HOWTO.md`  ·  Why it is this way: **E12** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
@@ -206,33 +140,17 @@
    "IMAGE"
   ],
   [
-   2,
-   1,
-   0,
-   4,
-   0,
-   "IMAGE"
-  ],
-  [
    3,
    2,
    0,
    3,
-   0,
-   "IMAGE"
-  ],
-  [
-   4,
-   4,
-   0,
-   5,
    0,
    "IMAGE"
   ]
  ],
  "groups": [
   {
-   "title": "Depth + normal maps",
+   "title": "Depth map",
    "bounding": [
     -880,
     -260,

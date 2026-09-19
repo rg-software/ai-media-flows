@@ -64,7 +64,7 @@
 - *What it is not:* depth here is **relative** (near = light), with no absolute scale, so it is **not** a height or displacement map. An engine can use it for a parallax look, but you must curve and scale it first, and it stays approximate.
 - *Steps:* `2d/workflows/depth-normal.json` (DepthAnythingV2). No extra weights; first run downloads, then it's seconds.
 - *Expect:* near = light, greyscale and low-frequency.
-- *Note:* this flow also saves a DSINE normal, but a **material** normal is S8's business — don't ship this one as a material map.
+- *Normal?* This flow no longer makes one — a material normal belongs to S8.
 
 ### S5. Edit a picture: remove, replace, extend
 
@@ -105,9 +105,10 @@
 - *Steps:*
 	- Tile it. `2d/workflows/seamless-texture.json` with `method="offset"`. 
 	- PBR. **`scripts/marigold_pbr.py`** (albedo/roughness/metallic; **correct metallic**; albedo is de-lit).
+	- The rest of the set. `2d/workflows/pbr-from-texture.json` (QFX) supplies **normal, AO and displacement** — use it for those, never for metallic.
 	- Into 3D. **`scripts/make_gltf_material.py`** packs a glTF-correct material and can apply it to a mesh.
-- *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Don't use `pbr-from-texture.json` for metallic; its output is inverted. glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
-- *Gaps:* the Marigold set is albedo/roughness/metallic only — **no normal, height or AO**. A glTF material still needs a normal, so today it comes from the QFX path (the inverted-metallic one) and is **unverified**: check both the space convention (camera vs tangent) and the green channel. Marigold's own normals model is the planned licence-consistent fix — see the combined-flow item in `PIPELINES.md`.
+- *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Don't take metallic from `pbr-from-texture.json`; its output is inverted. glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
+- *Gaps:* the two halves are not yet joined into one run — Marigold gives albedo/roughness/metallic, QFX gives normal/AO/displacement, and **the committed sample material is stale**: its normal came from DSINE, which is non-commercial and estimates camera-space normals. Regenerate before shipping, and verify the normal's space convention (camera vs tangent) and green channel — see the combined-flow item in `PIPELINES.md`.
 
 ### S9. Finish: upscale and restore
 
