@@ -107,7 +107,8 @@
 	- Into 3D. Add `--mesh <glb> --glb-out <glb>` and it applies the material to a mesh too.
 	- Back to your machine. It writes under ComfyUI's `output/2D/pbr_set/<texture>/`, so `scripts/comfy_io.py get 2D/pbr_set/<texture>/material/normal.png` pulls it down (S14) — no SSH.
 - *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Never take metallic from `pbr-from-texture.json`: it is wrong even with the node's own range knobs flipped (14.6% of pixels above 0.5, against Marigold's 0.02%). But Marigold's metallic is an **estimate, not ground truth** — on our stone it sits at a flat **~0.36** where a dielectric should be ~0, so a faint metallic sheen in an engine means the *value*, not the packing; remap or override it per material. glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
-- *Unverified:* the normal's Y convention. QFX defaults to `normal_invert_y=True` while glTF expects OpenGL (+Y up), and a flat sheet cannot show the difference — on a lit mesh the relief reads *engraved* instead of *raised* if it is wrong. Check a render, and pass `--flip-normal-green` if needed (see `PIPELINES.md`).
+- *Checked:* the normal's Y convention. QFX defaults to `normal_invert_y=True` while glTF expects OpenGL (+Y up); comparing the packed normal against QFX's own height map, the map as stored agrees (**mean cos +0.38** over 71% of tilted pixels) and a flipped copy does not (−0.10) — and a Lambert preview reads as raised masonry, consistent with the AO. An engine look is still worth it; `--flip-normal-green` exists if a renderer disagrees.
+- *Legacy asset:* the sample material in `assets/3d/stone_material/` predates this flow — its normal is **DSINE-derived**, i.e. non-commercial and camera-space. Regenerate it before shipping anything that depends on it.
 
 ### S9. Finish: upscale and restore
 
