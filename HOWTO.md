@@ -60,11 +60,10 @@
 
 ### S4. Get a depth map
 
-- *When:* you want a depth map you can **keep and reuse** — to drive a depth ControlNet (S2 computes its own inline, but saving one lets you reuse the same depth across attempts and strengths), or to fake parallax or depth-of-field in an engine.
+- *When:* you want a depth map to drive a depth ControlNet, or to fake parallax or depth-of-field in an engine.
 - *What it is not:* depth here is **relative** (near = light), with no absolute scale, so it is **not** a height or displacement map. An engine can use it for a parallax look, but you must curve and scale it first, and it stays approximate.
-- *Steps:* `2d/workflows/depth-normal.json` (DepthAnythingV2). No extra weights; first run downloads, then it's seconds.
+- *Steps:* `2d/workflows/depth-normal.json` (DepthAnythingV2).
 - *Expect:* near = light, greyscale and low-frequency.
-- *Normal?* This flow no longer makes one — a material normal belongs to S8.
 
 ### S5. Edit a picture: remove, replace, extend
 
@@ -101,14 +100,13 @@
 
 ### S8. Materials: seamless textures, PBR, and into 3D
 
-- *When:* you need a tileable texture, or a texture's PBR maps, or a material an engine can use.
+- *When:* you need a tileable texture, or a complete PBR material an engine can use.
 - *Steps:*
-	- Tile it. `2d/workflows/seamless-texture.json` with `method="offset"`. 
-	- PBR. **`scripts/marigold_pbr.py`** (albedo/roughness/metallic; **correct metallic**; albedo is de-lit).
-	- The rest of the set. `2d/workflows/pbr-from-texture.json` (QFX) supplies **normal, AO and displacement** — use it for those, never for metallic.
-	- Into 3D. **`scripts/make_gltf_material.py`** packs a glTF-correct material and can apply it to a mesh.
-- *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Don't take metallic from `pbr-from-texture.json`; its output is inverted. glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
-- *Gaps:* the two halves are not yet joined into one run — Marigold gives albedo/roughness/metallic, QFX gives normal/AO/displacement, and **the committed sample material is stale**: its normal came from DSINE, which is non-commercial and estimates camera-space normals. Regenerate before shipping, and verify the normal's space convention (camera vs tangent) and green channel — see the combined-flow item in `PIPELINES.md`.
+	- Tile it. `2d/workflows/seamless-texture.json` with `method="offset"`.
+	- Material. **`scripts/pbr_set.py`** does the whole set in one command: Marigold (OpenRAIL++) for albedo/roughness/**correct metallic**, QFX (Apache-2.0) for **normal/AO/displacement**, then packs a glTF 2.0 material. It also keeps `displacement.png` in case you want a height map.
+	- Into 3D. Add `--mesh <glb> --glb-out <glb>` and it applies the material to a mesh too.
+- *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Never take metallic from `pbr-from-texture.json`: it is wrong even with the node's own range knobs flipped (14.6% of pixels above 0.5, against Marigold's 0.02%). glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
+- *Unverified:* the normal's Y convention. QFX defaults to `normal_invert_y=True` while glTF expects OpenGL (+Y up), and a flat sheet cannot show the difference — on a lit mesh the relief reads *engraved* instead of *raised* if it is wrong. Check a render, and pass `--flip-normal-green` if needed (see `PIPELINES.md`).
 
 ### S9. Finish: upscale and restore
 
