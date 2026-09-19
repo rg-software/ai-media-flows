@@ -3,13 +3,18 @@
 
 Texture -> packed glTF material, using two models because neither is complete alone:
 
-  Marigold IID (OpenRAIL++)  albedo, roughness, metallic   <- metallic is *correct*
-  QFX PBR (Apache-2.0)       normal, AO, displacement      <- metallic is *wrong*
+  Marigold IID (OpenRAIL++)  albedo, roughness, metallic   <- metallic is plausible
+  QFX PBR (Apache-2.0)       normal, AO, displacement      <- metallic is inverted
 
 Why the split (measured, E12b/U4/U7b): QFX's metallic is not merely inverted - its own
 `metallic_min/max` knobs do invert it linearly (0.855 -> 0.145), but the distribution stays
 wrong (14.6% of pixels >0.5, vs Marigold's 0.02% on the same stone). So QFX contributes no
 metallic, and Marigold contributes no normal/AO.
+
+"Plausible" is not "ground truth": Marigold's metallic is an estimate too. On our stone test it
+sits at a flat ~0.36 everywhere (p5 0.31, p95 0.42) where a dielectric should be ~0, so an engine
+can show a faint metallic sheen. The packing is right; the value may want a remap or a
+per-material override. Deferred: a proper look at the metallic channel on real dielectrics.
 
 Steps run by this script:
   1. upload the texture into ComfyUI's input/        (POST /upload/image)

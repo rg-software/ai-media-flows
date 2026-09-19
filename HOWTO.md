@@ -103,10 +103,10 @@
 - *When:* you need a tileable texture, or a complete PBR material an engine can use.
 - *Steps:*
 	- Tile it. `2d/workflows/seamless-texture.json` with `method="offset"`.
-	- Material. **`scripts/pbr_set.py`** does the whole set in one command: Marigold (OpenRAIL++) for albedo/roughness/**correct metallic**, QFX (Apache-2.0) for **normal/AO/displacement**, then packs a glTF 2.0 material. It also keeps `displacement.png` in case you want a height map.
+	- Material. **`scripts/pbr_set.py`** does the whole set in one command: Marigold (OpenRAIL++) for albedo/roughness/metallic, QFX (Apache-2.0) for **normal/AO/displacement**, then packs a glTF 2.0 material. It also keeps `displacement.png` in case you want a height map.
 	- Into 3D. Add `--mesh <glb> --glb-out <glb>` and it applies the material to a mesh too.
 	- Back to your machine. It writes under ComfyUI's `output/2D/pbr_set/<texture>/`, so `scripts/comfy_io.py get 2D/pbr_set/<texture>/material/normal.png` pulls it down (S14) — no SSH.
-- *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Never take metallic from `pbr-from-texture.json`: it is wrong even with the node's own range knobs flipped (14.6% of pixels above 0.5, against Marigold's 0.02%). glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
+- *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Never take metallic from `pbr-from-texture.json`: it is wrong even with the node's own range knobs flipped (14.6% of pixels above 0.5, against Marigold's 0.02%). But Marigold's metallic is an **estimate, not ground truth** — on our stone it sits at a flat **~0.36** where a dielectric should be ~0, so a faint metallic sheen in an engine means the *value*, not the packing; remap or override it per material. glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
 - *Unverified:* the normal's Y convention. QFX defaults to `normal_invert_y=True` while glTF expects OpenGL (+Y up), and a flat sheet cannot show the difference — on a lit mesh the relief reads *engraved* instead of *raised* if it is wrong. Check a render, and pass `--flip-normal-green` if needed (see `PIPELINES.md`).
 
 ### S9. Finish: upscale and restore
