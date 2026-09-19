@@ -1,26 +1,32 @@
 #!/usr/bin/env python3
 """Make a padded canvas + mask for a *controlled* outpaint fill (E18).
 
+**Outpainting is invention** (`outpaint.json` does that, and should). This script exists for the
+other, deliberately manual technique: when you want the frame *extended* rather than *invented*,
+mirror (or reflect/clamp) the canvas yourself and then inpaint the seam - "mirror manually, then
+inpaint", not a separate flow.
+
 `InpaintCropImproved`'s own `extend_for_outpainting` fills the new area by **edge-clamp** - it
-repeats the border row/column outward - and then `KSampler` usually replaces the whole thing, so the
-extension is pure invention and a clipped object (half a tree) simply stops at the boundary.
+repeats the border row/column outward - and then `KSampler` usually replaces the whole thing, so a
+clipped object (half a tree) simply stops at the boundary. Padding first instead gives the sampler a
+fill that carries structure, and gives the mask knobs something to act on.
 
-This script instead produces the two inputs the deliberate route needs:
+Produces:
 
-    <stem>_padded.png   the source, extended by `--left/--right/--up/--down` **pixels**, filled with
-                        `--mode` (mirror / reflect / edge) - a fill the extension can *continue from*
-    <stem>_mask.png     white (255) over the new area only, black over the original
+    <stem>_padded_<mode>.png   the source, extended by `--left/--right/--up/--down` **pixels**, filled
+                               with `--mode` (mirror / reflect / edge)
+    <stem>_mask.png            white (255) over the new area only, optionally `--mask-feather`ed
+                               (blurred) because `ImageCompositeMasked` does not feather
 
-which you then load as an image + mask into the `outpaint-continue` flow (mask the new area, inpaint
-at moderate denoise, stitch). A mirrored canopy is a plausible continuation, so the model refines
-rather than invents; an edge smear gives it nothing to continue.
+Then run the ordinary inpaint flow with those two files and a **reduced denoise** (~0.6-0.75) so it
+refines the fill instead of replacing it:
 
-Usage:
-    uv run python scripts/pad_image.py assets/2d/env_cottage.png --left 512 --right 512 \
-        --mode mirror --out-dir output/from-box/pads
-    # then, on the box:
-    uv run python scripts/comfy_io.py upload output/from-box/pads/env_cottage_padded.png \
-        output/from-box/pads/env_cottage_mask.png --subfolder _outpaint
+    uv run python scripts/pad_image.py input/2d/env_cottage.png --left 512 --right 512 \\
+        --mode mirror --mask-feather 24 --out-dir <ComfyUI>/input/_outpaint
+
+E18 measured the fills on a cottage: mirror beats the node's edge smear on the seam (step ratio
+0.83-0.85 vs 0.97) and carries walls/ground/foliage across, but **a mirrored building survives** -
+mirror suits self-similar content (trees, sky, ground, water), not a building-dominated frame.
 
 No third-party deps beyond numpy/PIL (already in the repo env).
 """
@@ -49,6 +55,9 @@ def main() -> int:
     ap.add_argument("--up", type=int, default=0)
     ap.add_argument("--down", type=int, default=0)
     ap.add_argument("--mode", choices=sorted(MODES), default="mirror")
+    ap.add_argument("--mask-feather", type=int, default=0,
+                    help="blur the mask edge by N px - the inpaint step needs a soft boundary, "
+                         "because ImageCompositeMasked does not feather")
     a = ap.parse_args()
 
     src = Path(a.image)
@@ -64,17 +73,22 @@ def main() -> int:
     mask[a.up + h:, :] = 255
     mask[:, : a.left] = 255
     mask[:, a.left + w:] = 255
+    mask_im = Image.fromarray(mask, "L")
+    if a.mask_feather > 0:
+        from PIL import ImageFilter
+        mask_im = mask_im.filter(ImageFilter.GaussianBlur(a.mask_feather))
 
     out = Path(a.out_dir)
     out.mkdir(parents=True, exist_ok=True)
     padded = out / f"{src.stem}_padded_{a.mode}.png"
     maskp = out / f"{src.stem}_mask.png"
     Image.fromarray(filled).save(padded)
-    Image.fromarray(mask, "L").save(maskp)
+    mask_im.save(maskp)
     print(f"  source  : {src} {w}x{h}")
     print(f"  padded  : {padded} {filled.shape[1]}x{filled.shape[0]}  (mode={a.mode}, "
           f"l{a.left} r{a.right} u{a.up} d{a.down})")
-    print(f"  mask    : {maskp}   (white = the {int((mask > 0).mean() * 100)}% to be generated)")
+    print(f"  mask    : {maskp}   (white = the {int((mask > 0).mean() * 100)}% to be generated"
+          + (f", feathered {a.mask_feather} px" if a.mask_feather else "") + ")")
     print(f"  seams   : x={a.left} and x={a.left + w}, y={a.up} and y={a.up + h}")
     return 0
 
