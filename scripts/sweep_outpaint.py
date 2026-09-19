@@ -19,8 +19,11 @@ Usage (on the box, from the repo root):
         --x mask_blend_pixels:8,32,64 --y denoise:1.0,0.9,0.8
 
 E17 result (why the defaults are these axes): `mask_blend_pixels` is the seam knob (8/32/64 -> seam
-19.6/13.4/11.7 on a 0-255 scale), `denoise` ~0.9 matches the colour best (and <=0.8 ghosts the mirrored
-extension fill). **`mask_expand_pixels` and `context_from_mask_extend_factor` do nothing here** - the
+19.6/13.4/11.7 on a 0-255 scale), `denoise` ~0.9 matches the colour best; at ~0.8 and below the model
+invents instead of refining (it painted a SECOND cottage). The extension fill is an **edge-clamp
+smear** (the node repeats the border row/column outward - not a mirror), so nothing of the source
+survives there to explain that. **`mask_expand_pixels` and `context_from_mask_extend_factor` are
+inert here** - the
 node manipulates the mask *before* `extend_for_outpainting`, and with no mask wired in it expands an
 empty one. Results are written under ComfyUI's own output/ so `scripts/comfy_io.py get` can fetch them.
 

@@ -95,8 +95,10 @@ NOTES = {
         "6.477/255. `device_mode=\"gpu (much faster)\"` matters 30-100x.\n"
         "**Seam (E17):** this graph ships `mask_blend_pixels` **64** - the border knob (seam step\n"
         "19.6 -> 11.7 of 255; at 64 the boundary no longer stands out from its own surroundings) - with\n"
-        "`denoise` **0.9** for the colour match (colour step 16.1 -> 11.7). Below ~0.8 the mirrored\n"
-        "extension fill ghosts (a second half-cottage). **`mask_expand_pixels` and\n"
+        "`denoise` **0.9** for the colour match (colour step 16.1 -> 11.7). At ~0.8 and below the model\n"
+        "starts *inventing* rather than refining - on the cottage it painted a second, different cottage\n"
+        "(the extension fill is an **edge-clamp smear**, not a mirror, so what survives is not the source).\n"
+        "**`mask_expand_pixels` and\n"
         "`context_from_mask_extend_factor` do nothing here**: the mask ops run before the extension and\n"
         "no mask is wired in. A clipped object (half a tree) is not continued by any blend width - the\n"
         "new area is invented.",
