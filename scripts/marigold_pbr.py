@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""U4 - texture -> PBR set via Marigold intrinsic decomposition (Apache-2.0).
+"""U4 - texture -> PBR set via Marigold intrinsic decomposition (CreativeML OpenRAIL++-M).
 
 Replaces `QFXPBRGenerator`, whose Metallic output is inverted (mean 0.855 on stone,
 85% of pixels > 0.5 - see 2d/EXPERIMENTS-2D.md E12b/U4). Marigold predicts

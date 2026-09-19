@@ -89,4 +89,4 @@ The GTi14 has a **PCIe 5.0 x8** interface into the EX dock (600 W PSU). x8 at ge
 
 ## Licence note
 
-The models that fit best are also the ones with clean licences: **Z-Image Turbo (Apache-2.0)**, **SeedVR2 (Apache-2.0)**, **Marigold (Apache-2.0)**, and the **Qwen GGUF** line (Apache-2.0). The non-commercial heavy hitters (Flux dev / Kontext dev, SUPIR, `4x-UltraSharp`) are the ones we should be replacing anyway — see `../2d/AUDIT-tooling-2026-09.md`.
+The models that fit best are also the ones with clean licences: **Z-Image Turbo (Apache-2.0)**, **SeedVR2 (Apache-2.0)**, **Marigold (OpenRAIL++, not Apache as once assumed)**, and the **Qwen GGUF** line (Apache-2.0). The non-commercial heavy hitters (Flux dev / Kontext dev, SUPIR, `4x-UltraSharp`) are the ones we should be replacing anyway — see `../2d/AUDIT-tooling-2026-09.md`.

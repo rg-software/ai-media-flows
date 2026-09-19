@@ -128,7 +128,7 @@ Also confirm the dock's PSU headroom before buying anything above 600 W.
 
 - **Before pulling any model over ~10 GB**, check its expected footprint against the ceiling in `hardware.md`. The failure mode is a machine-wide hang, not a tidy error.
 - Prefer **GGUF quants** locally above ~14 GB of weights, and **cloud** for the 32B+ tier.
-- The models that fit are also the **licence-clean** ones (Z-Image Turbo, SeedVR2, Marigold, Qwen GGUF — all Apache-2.0), so the fit constraint and the licence goal point the same way.
+- The models that fit are also the **licence-clean** ones (Z-Image Turbo, SeedVR2 and the Qwen GGUF line are Apache-2.0; Marigold is OpenRAIL++), so the fit constraint and the licence goal point the same way.
 
 ---
 

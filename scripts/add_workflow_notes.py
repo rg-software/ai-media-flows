@@ -15,8 +15,9 @@ same header so the cross-references are always present:
 Idempotent: a workflow that already has a MarkdownNote is skipped, so it is safe to re-run
 after adding a workflow (add an entry to MAPPING/NOTES first).
 
-Usage (from the repo root):  python scripts/add_workflow_notes.py [--check]
-    --check   report only, change nothing, exit 1 if any flow is undocumented
+Usage (from the repo root):  python scripts/add_workflow_notes.py [--check] [--update]
+--check   report only, change nothing, exit 1 if any flow is undocumented
+--update  also rewrite existing notes from NOTES (use after editing a note's text)
 """
 from __future__ import annotations
 
@@ -94,11 +95,13 @@ NOTES = {
         "**Avoid:** `SeamlessTile` (comfyui-seamless-tiling) patches the MODEL and **segfaults** the\n"
         "server in libcuda; the circular-VAE route crashes on a second run in one session.",
     "depth-normal.json":
-        "**Does:** monocular depth (DepthAnythingV2) and tangent-space normals (DSINE) from a single\n"
-        "image. No extra weights — ACN downloads them on first use.\n"
-        "**Reads:** depth = light is *near*; normals are flat ≈ (128,128,255).\n"
-        "**Feeds:** depth-ControlNet, mask-aware editing, depth-ordered composition, and the\n"
-        "PBR / 2.5D bridge.",
+        "**Does:** monocular depth (DepthAnythingV2) and a normal map (DSINE) from a single image.\n"
+        "No extra weights — ACN downloads them on first use.\n"
+        "**Reads:** depth = light is *near*; depth is *relative* (no absolute scale), so it is a\n"
+        "guidance/parallax cue, **not** a height or displacement map.\n"
+        "**Caveats:** DSINE's model is **non-commercial** and estimates **camera-space** normals, so\n"
+        "do not ship either as a material map — a material normal belongs to the PBR path.\n"
+        "**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.",
     "ipadapter-style.json":
         "**Does:** transfers the style/look of a reference image (IPAdapter).\n"
         "**Knobs:** `weight` — 0.0-0.2 style hint only; 0.3-0.5 blend; **>=0.6 the reference overrides\n"
@@ -132,6 +135,9 @@ def note_markdown(flow: str, body: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="report only; exit 1 if a flow is undocumented")
+    ap.add_argument("--update", action="store_true",
+                    help="rewrite existing notes from their authored NOTES entry (review the diff)")
+    ap.add_argument("flows", nargs="*", help="with --update: only these flow files (e.g. depth-normal.json)")
     args = ap.parse_args()
 
     paths = sorted(glob.glob(os.path.join(REPO, "2d", "workflows", "*.json"))) + \
@@ -143,14 +149,32 @@ def main() -> int:
         d = json.load(open(p, encoding="utf-8"))
         nodes = d.get("nodes", [])
         existing = next((n for n in nodes if n.get("type") == "MarkdownNote"), None)
-        if existing:
-            continue
-
         labels = [g.get("title", "") for g in (d.get("groups") or [])]
         body = "\n".join(t for t in labels if t)
         authored = NOTES.get(flow, "")
         if len(body) < len(authored):
             body = authored
+
+        if existing:
+            # --update is deliberately conservative: it rewrites a note ONLY from that flow's authored
+            # NOTES entry. Falling back to group titles here would silently downgrade notes whose body
+            # was authored from the (now-shortened) group titles, i.e. it would lose text.
+            if not args.update or not authored or (args.flows and flow not in args.flows):
+                continue
+            md = note_markdown(flow, authored)
+            if (existing.get("widgets_values") or [None])[0] == md:
+                continue
+            if args.check:
+                changed.append(flow)
+                continue
+            existing["widgets_values"] = [md]
+            for g in d.get("groups") or []:
+                if g.get("title"):
+                    g["title"] = MAPPING[flow][0]
+            json.dump(d, open(p, "w", encoding="utf-8", newline="\n"), indent=1, ensure_ascii=False)
+            changed.append(flow)
+            continue
+
         if not body:
             problems.append(f"{flow}: no note text (add an entry to NOTES)")
             continue

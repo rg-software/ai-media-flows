@@ -190,7 +190,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## depth-normal.json\n\nDepth + normal maps\n\n**Does:** monocular depth (DepthAnythingV2) and tangent-space normals (DSINE) from a single\nimage. No extra weights — ACN downloads them on first use.\n**Reads:** depth = light is *near*; normals are flat ≈ (128,128,255).\n**Feeds:** depth-ControlNet, mask-aware editing, depth-ordered composition, and the\nPBR / 2.5D bridge.\n\n---\n*How to run it: story **S4** in `HOWTO.md`  ·  Why it is this way: **E12** in the scenarios' `EXPERIMENTS` logs.*"
+    "## depth-normal.json\n\nDepth + normal maps\n\n**Does:** monocular depth (DepthAnythingV2) and a normal map (DSINE) from a single image.\nNo extra weights — ACN downloads them on first use.\n**Reads:** depth = light is *near*; depth is *relative* (no absolute scale), so it is a\nguidance/parallax cue, **not** a height or displacement map.\n**Caveats:** DSINE's model is **non-commercial** and estimates **camera-space** normals, so\ndo not ship either as a material map — a material normal belongs to the PBR path.\n**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.\n\n---\n*How to run it: story **S4** in `HOWTO.md`  ·  Why it is this way: **E12** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

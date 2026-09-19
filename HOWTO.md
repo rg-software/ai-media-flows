@@ -58,13 +58,13 @@
 - *Steps:* **by description** (recommended): `2d/workflows/sam3-segment.json` — type "the knight in silver armor" and get an outline-accurate mask, even in a two-subject scene. **By subject isolation:** `2d/workflows/remove-bg.json` (BiRefNet).
 - *Trap:* MASK is **1 = transparent/selected**, and `RemoveBackground` returns 1 on the *foreground* — insert `InvertMask` or you get a perfectly inverted cutout.
 
-### S4. Get depth or normal maps
+### S4. Get a depth map
 
-- *When:* you need a **guidance image** or a 2.5D/relight aid — not geometry. Depth is what you feed a depth ControlNet to keep a reference's layout while replacing its content (S2), and what you order or composite elements by distance with.
-- *What it is not:* depth here is **relative** (near = light), with no absolute scale, so it is **not** a height or displacement map. An engine can use it for a parallax/depth look, but you must curve and scale it first, and it stays approximate.
-- *Steps:* `2d/workflows/depth-normal.json` (DepthAnythingV2 + DSINE). No extra weights; first run downloads, then it's seconds.
-- *Expect:* depth reads near = light; tangentspace normals are flat ≈ (128,128,255). The normal is an estimated *shading* normal from one image — good for relighting and 2.5D, not a measured surface.
-- *Note:* this is separate from the PBR set (S8), which builds material channels for an engine. That path emits **no normal, height or AO** — so if you need those, this flow is where the normal comes from.
+- *When:* you want a depth map you can **keep and reuse** — to drive a depth ControlNet (S2 computes its own inline, but saving one lets you reuse the same depth across attempts and strengths), or to fake parallax or depth-of-field in an engine.
+- *What it is not:* depth here is **relative** (near = light), with no absolute scale, so it is **not** a height or displacement map. An engine can use it for a parallax look, but you must curve and scale it first, and it stays approximate.
+- *Steps:* `2d/workflows/depth-normal.json` (DepthAnythingV2). No extra weights; first run downloads, then it's seconds.
+- *Expect:* near = light, greyscale and low-frequency.
+- *Note:* this flow also saves a DSINE normal, but a **material** normal is S8's business — don't ship this one as a material map.
 
 ### S5. Edit a picture: remove, replace, extend
 
@@ -107,7 +107,7 @@
 	- PBR. **`scripts/marigold_pbr.py`** (albedo/roughness/metallic; **correct metallic**; albedo is de-lit).
 	- Into 3D. **`scripts/make_gltf_material.py`** packs a glTF-correct material and can apply it to a mesh.
 - *Traps:* `mirror`/`blend_edges` score well on continuity metrics and look awful — use `offset`. Don't use `pbr-from-texture.json` for metallic; its output is inverted. glTF wants `G`=roughness/`B`=metallic, Unity's own shaders want `R`=metal/`A`=smoothness.
-- *Gap:* the Marigold set is albedo/roughness/metallic only — **no normal, height or AO**. The `normal` in our sample material came from the QFX path with the inverted metallic, so treat it as unverified (a licence-clean normal is step one of the combined flow noted in `PIPELINES.md`).
+- *Gaps:* the Marigold set is albedo/roughness/metallic only — **no normal, height or AO**. A glTF material still needs a normal, so today it comes from the QFX path (the inverted-metallic one) and is **unverified**: check both the space convention (camera vs tangent) and the green channel. Marigold's own normals model is the planned licence-consistent fix — see the combined-flow item in `PIPELINES.md`.
 
 ### S9. Finish: upscale and restore
 
@@ -153,7 +153,7 @@
 	- `... fetch latest --dest from-box` downloads those files and records what it fetched in a small `manifest.json`.
 - *Knobs:*
 	- `--base`/`COMFY_BASE` — the ComfyUI URL;
-	- `--token`/`COMFY_TOKEN` — **ask the operator**. It lives on the server and your browser login does not expose one; it is a shared credential carrying the same access as the password.
+	- `--token`/`COMFY_TOKEN` — **ask the operator**. It lives on the server as the first line of `~/Projects-Git/ComfyUI/login/PASSWORD`.
 	- `--subfolder refs` keeps uploads tidy;
 	- `--dest` chooses where downloads land.
 - *Trap:* image nodes read **only** from `input/` - a file sitting in `output/` cannot be loaded, so upload it before running a flow that needs it. With many inputs, upload the folder once and read it with the `LoadImagesFromFolderKJ` node rather than one file at a time.
