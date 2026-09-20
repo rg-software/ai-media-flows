@@ -310,11 +310,12 @@ def lint_file(path: str, rel: str) -> list[str]:
 
 
 # --------------------------------------------------------------------------- repo-wide checks
-# Contributor tooling = acts on the docs/tables, or maintains OUR repo (the canonical fixture set, and
-# promotion into assets/) rather than producing a user asset. Documented for contributors in AGENTS.md
-# and 2d/PROTOCOL.md, so it is deliberately *not* a flow reachable from the README job table.
+# Contributor tooling = acts on the docs/tables, maintains OUR repo (the canonical fixture set, promotion
+# into assets/), or is an *experiment probe* that reproduces a measurement rather than producing a user
+# asset. Documented for contributors in AGENTS.md, so it is deliberately *not* a flow reachable from the
+# README job table.
 CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
-                     "gen_assets.py", "publish_assets.sh", "fix_workflow_links.py"}
+                     "gen_assets.py", "publish_assets.sh", "fix_workflow_links.py", "pose_probe.py"}
 
 
 def iter_flows():
