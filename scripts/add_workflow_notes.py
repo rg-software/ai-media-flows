@@ -118,9 +118,13 @@ NOTES = {
         "joints by hand) and upload it to `input/_pose/`. `OpenposePreprocessor` is wired to a reference\n"
         "image but left **DISCONNECTED**: connect its IMAGE output to `ControlNetApplyAdvanced.image` to\n"
         "take a pose from a photo instead - it finds no person in stylised art, so photos only (E21).\n"
-        "**Knobs:** CN `strength` 0.9 (the pose follows; the DESIGN drifts). IPAdapter `weight` **0.35**\n"
-        "holds the design - do NOT raise it expecting a closer character: at >=0.6 the reference's own\n"
-        "pose wins and your skeleton is ignored (E21/E11).\n"
+        "**THE PROMPT MUST NAME THE POSE.** A skeleton alone loses to the model's prior: the T-pose\n"
+        "skeleton came out arms-DOWN at CN 0.9 with no adapter at all, and naming the pose in the prompt\n"
+        "(\"both arms outstretched to the sides\") fixed it at the same settings (E21b). So change the prompt\n"
+        "and the skeleton TOGETHER - and put the old stance in the negative (`arms at sides, hands on hips`).\n"
+        "**Knobs:** CN `strength` 0.9 is enough once the prompt agrees (1.3 bought nothing). IPAdapter\n"
+        "`weight` **0.15** is a design hint - it FIGHTS the pose: 0.35 already erased a 45-deg spread and\n"
+        ">=0.6 freezes the reference's own stance (E21/E21b/E11).\n"
         "**Limits:** a 2D COCO skeleton has no yaw, so a **camera angle** change is not this flow's job -\n"
         "use an instruction edit, or the 3D path (`Hy3DCameraConfig` + `Hy3DRenderMultiview`).",
     "seamless-texture.json":

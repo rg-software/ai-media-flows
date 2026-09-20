@@ -9,6 +9,11 @@ the character is) - hence the optional PuLID arm.
 
 Subcommands (all talk to the ComfyUI HTTP API; no third-party deps beyond numpy/PIL):
 
+    template out.json [--preset standing|arms_spread|t_pose] [--arm DEG] [--rotate DEG]
+             [--width W] [--height H]
+             write an EDITABLE keypoints file (18 joints x [x, y, confidence]) - start here if you
+             just want a pose without running anything else
+
     extract  <image in ComfyUI input/> [--prefix 2D/E21/pose] [--resolution 1024]
              keypoints of an image -> JSON in ComfyUI's output/ (prints the path + a summary)
 
@@ -18,12 +23,44 @@ Subcommands (all talk to the ComfyUI HTTP API; no third-party deps beyond numpy/
                roll:<deg>  rotate the whole figure in-plane (a lean/tilt - NOT a viewpoint change;
                            a 2D COCO skeleton cannot express yaw, which is what "camera angle" needs)
 
-    run-cn   <skeleton in ComfyUI input/> [--strength 0.9] [--prompt ...] [--pulid <identity image>]
-             RealVisXL + ControlNet-Union(`openpose`) + optional PuLID for identity -> output/2D/E21/
+    run-cn   <skeleton in ComfyUI input/> [--strength 0.9] [--prompt ...] [--ipadapter <image>]
+             RealVisXL + ControlNet-Union(`openpose`) + optional IPAdapter for the design ->
+             output/2D/E21/   (this is what 2d/workflows/pose-skeleton.json does, via the API)
 
-    measure  <generated image in ComfyUI input/> <target keypoints.json>
-             re-extract the generated pose and compare per joint with the target -> mean/median px
-             error and detection coverage (objective "did it follow the pose")
+    run-qwen <image> --instruction "..."   the Qwen-Edit instruction arm (E21's best single shot)
+    measure  <generated image> <target keypoints.json>
+             re-extract the generated pose and compare -> mean/median joint error in px
+
+## How to author a pose (three ways, cheapest first)
+
+1. **Start from a preset** - the common case, no other tooling:
+       uv run python scripts/pose_probe.py template /tmp/pose.json --preset t_pose
+       # edit the numbers (e.g. move joints 4/7 - the wrists - to change the hands)
+       uv run python scripts/pose_probe.py draw /tmp/pose.json output/pose_t.png
+   Then upload `output/pose_t.png` to the box's `input/_pose/` and set the flow's first LoadImage to it:
+       uv run python scripts/comfy_io.py upload output/pose_t.png --subfolder _pose
+   Presets: `standing` (arms ~8 deg), `arms_spread` (45), `t_pose` (90); `--arm` sets any angle and
+   `--rotate` leans the figure in-plane.
+
+2. **Take a pose from a PHOTO** (not stylised art - see the caveat below):
+       uv run python scripts/pose_probe.py extract 2d/some_photo.png --prefix 2D/pose
+       # the JSON lands in ComfyUI/output/2D/pose_00001.json - fetch it with a base64/ssh copy,
+       # or edit it in place on the box; then `draw` it and upload as above.
+
+3. **Take the pose from an existing picture of your character** - same as (2), but it needs the
+   preprocessor to see a person: it returns `people: []` on our stylised/armoured assets (E21), so
+   for those author the joints by hand with (1) instead.
+
+Then run `2d/workflows/pose-skeleton.json` (or `run-cn` for the API equivalent) and judge by eye: the
+pose CN follows the skeleton, the DESIGN drifts unless IPAdapter holds it at a LOW weight.
+
+**The one rule that matters: NAME THE POSE IN THE PROMPT.** A skeleton by itself loses to the model's
+prior for an extreme pose - a T-pose skeleton produced an arms-down knight at CN 0.9 *with no adapter at
+all* - and adding "standing with both arms outstretched to the sides" made the same skeleton stick at the
+same settings (E21b). Put the old stance in the negative too (`arms at sides, hands on hips`), and change
+the prompt and the skeleton together. CN `strength` 0.9 is then enough (1.3 bought nothing), and keep
+IPAdapter at ~0.15 because it fights the pose (0.35 erased a 45-deg spread; >=0.6 freezes the reference's
+own stance).
 
 Combo options (ApplyPulid.method, PulidInsightFaceLoader.provider) are read from /object_info before
 submitting, because a bad combo value fails SILENTLY in ComfyUI (the `SetUnionControlNetType` lesson).
@@ -54,6 +91,41 @@ COLORS = [(255, 0, 0), (255, 85, 0), (255, 170, 0), (255, 255, 0), (170, 255, 0)
           (0, 0, 255), (85, 0, 255), (170, 0, 255), (255, 0, 255), (255, 0, 170), (255, 0, 85)]
 L_SHOULDER, L_ELBOW, L_WRIST = 5, 6, 7
 R_SHOULDER, R_ELBOW, R_WRIST = 2, 3, 4
+
+# joints: 0 nose, 1 neck, 2/3/4 R shoulder/elbow/wrist, 5/6/7 L shoulder/elbow/wrist,
+#         8/9/10 R hip/knee/ankle, 11/12/13 L hip/knee/ankle, 14/15 R/L eye, 16/17 R/L ear
+# "R" is the SUBJECT's right = image LEFT (OpenPose convention).
+PRESETS = {"standing": 8, "arms_spread": 45, "t_pose": 90}
+
+
+def build_figure(w: int, h: int, arm_deg: float, rotate: float = 0.0):
+    """A centred standing figure on a w x h canvas; `arm_deg` swings the arms out from vertical."""
+    import math
+    cx = w / 2
+    nose, neck = h * 0.13, h * 0.28
+    hip, knee, ankle = h * 0.55, h * 0.72, h * 0.93
+    shx, hipx = w * 0.085, w * 0.048
+    upper, fore = h * 0.13, h * 0.12
+    pt = {
+        0: (cx, nose), 1: (cx, neck),
+        2: (cx - shx, neck), 3: None, 4: None, 5: (cx + shx, neck), 6: None, 7: None,
+        8: (cx - hipx, hip), 9: (cx - hipx * 0.9, knee), 10: (cx - hipx * 0.8, ankle),
+        11: (cx + hipx, hip), 12: (cx + hipx * 0.9, knee), 13: (cx + hipx * 0.8, ankle),
+        14: (cx - w * 0.02, nose - h * 0.015), 15: (cx + w * 0.02, nose - h * 0.015),
+        16: (cx - w * 0.035, nose - h * 0.01), 17: (cx + w * 0.035, nose - h * 0.01),
+    }
+    for side, (sh, el, wr) in (("L", (5, 6, 7)), ("R", (2, 3, 4))):
+        sx, sy = pt[sh]
+        s = 1.0 if side == "L" else -1.0
+        a = math.radians(90 - arm_deg)          # 90 = straight out (T-pose)
+        ex, ey = sx + s * upper * math.cos(a), sy + upper * math.sin(a)
+        a2 = math.radians(90 - arm_deg * 0.7)
+        wx, wy = ex + s * fore * math.cos(a2), ey + fore * math.sin(a2)
+        pt[el], pt[wr] = (ex, ey), (wx, wy)
+    if rotate:
+        cx0, cy0 = w / 2, h / 2
+        pt = {k: rotate_about((v[0], v[1], 1.0), (cx0, cy0), rotate)[:2] for k, v in pt.items()}
+    return [c for i in range(18) for c in (pt[i][0], pt[i][1], 1.0)]
 
 
 # --------------------------------------------------------------------------- HTTP
@@ -359,6 +431,26 @@ def cmd_run_qwen(a):
     return 0
 
 
+def cmd_template(a):
+    """Emit a keypoints JSON you can edit, so nobody has to hand-write 54 numbers."""
+    arm = a.arm if a.arm is not None else PRESETS[a.preset]
+    flat = build_figure(a.width, a.height, arm, a.rotate)
+    payload = [{"people": [{"pose_keypoints_2d": flat}], "canvas_width": a.width,
+                "canvas_height": a.height}]
+    out = Path(a.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(payload), encoding="utf-8")
+    print(f"  wrote {out}   preset={a.preset}  arm={arm:+g} deg  rotate={a.rotate:+g}  "
+          f"canvas {a.width}x{a.height}")
+    print("  18 joints in order (x, y, confidence each):")
+    print("   0 nose   1 neck   2 Rsh  3 Rel  4 Rwr  5 Lsh  6 Lel  7 Lwr")
+    print("   8 Rhp    9 Rkn   10 Ran  11 Lhp 12 Lkn 13 Lan  14 Rey 15 Ley 16 Rear 17 Lear")
+    print("  ('R' is the SUBJECT's right = image LEFT, OpenPose convention)")
+    print("  edit the numbers, then draw and use it:")
+    print(f"    uv run python scripts/pose_probe.py draw {out} input/_pose/mypose.png")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="E21: pose change + adherence measurement.")
     ap.add_argument("--base", default="http://127.0.0.1:8188")
@@ -376,6 +468,17 @@ def main() -> int:
     d.add_argument("out")
     d.add_argument("--transform", default="none")
     d.set_defaults(fn=cmd_draw)
+
+    t = sub.add_parser("template", help="emit an editable keypoints JSON from a preset")
+    t.add_argument("out")
+    t.add_argument("--preset", choices=sorted(PRESETS), default="standing")
+    t.add_argument("--arm", type=float, default=None,
+                   help="arm angle in degrees from vertical (overrides the preset's)")
+    t.add_argument("--rotate", type=float, default=0.0,
+                   help="rotate the whole figure in-plane (a lean/tilt - NOT a camera yaw)")
+    t.add_argument("--width", type=int, default=1024)
+    t.add_argument("--height", type=int, default=1024)
+    t.set_defaults(fn=cmd_template)
 
     r = sub.add_parser("run-cn")
     r.add_argument("skeleton")
