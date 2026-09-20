@@ -43,6 +43,7 @@ MAPPING = {
     "outpaint.json":                  ("Outpaint",                      "S5", "E9, E17"),
     "kontext-edit.json":              ("Relight (Kontext, superseded)", "S5", "E13 -> see U2"),
     "qwen-edit-gguf.json":            ("Instruction edit + consistency","S5, S7", "U2/E14c"),
+    "pose-skeleton.json":             ("Pose from a skeleton",           "S7", "E21"),
     "compose-harmonize.json":         ("Compose + harmonize",           "S6", "E10"),
     "instantid-character.json":       ("Face identity (InstantID)",     "S7", "E14b"),
     "pulid-identity.json":            ("Identity + free composition",   "S7", "U5"),
@@ -109,6 +110,19 @@ NOTES = {
         "`context_from_mask_extend_factor` do nothing here**: the mask ops run before the extension and\n"
         "no mask is wired in. A clipped object (half a tree) is not continued by any blend width - the\n"
         "new area is invented.",
+    "pose-skeleton.json":
+        "**Does:** puts the character in a POSE you supply as a skeleton - ControlNet-Union's `openpose`\n"
+        "mode drives the pose while IPAdapter carries the design.\n"
+        "**Skeleton in:** the ControlNet reads node 1. Author one with\n"
+        "`scripts/pose_probe.py draw <keypoints.json>` (edit an extracted keypoints file, or write the\n"
+        "joints by hand) and upload it to `input/_pose/`. `OpenposePreprocessor` is wired to a reference\n"
+        "image but left **DISCONNECTED**: connect its IMAGE output to `ControlNetApplyAdvanced.image` to\n"
+        "take a pose from a photo instead - it finds no person in stylised art, so photos only (E21).\n"
+        "**Knobs:** CN `strength` 0.9 (the pose follows; the DESIGN drifts). IPAdapter `weight` **0.35**\n"
+        "holds the design - do NOT raise it expecting a closer character: at >=0.6 the reference's own\n"
+        "pose wins and your skeleton is ignored (E21/E11).\n"
+        "**Limits:** a 2D COCO skeleton has no yaw, so a **camera angle** change is not this flow's job -\n"
+        "use an instruction edit, or the 3D path (`Hy3DCameraConfig` + `Hy3DRenderMultiview`).",
     "seamless-texture.json":
         "**Does:** makes an image tile seamlessly, in image space (TextureAlchemy).\n"
         "**Knobs:** `method` — use **`offset`**. `mirror`/`blend_edges` score perfectly on continuity\n"
