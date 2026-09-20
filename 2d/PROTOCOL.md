@@ -24,22 +24,23 @@ Conventions: plain/neutral background for cutout assets; no text/watermarks; SDX
 
 Derived assets (produced by later stages, also versioned under `assets/2d/`):
 
-| id | produced by | note |
-|---|---|---|
-| `prop_chest_cutout` | E3b `workflows/remove-bg.json` | RGBA cutout of `prop_chest` (BiRefNet) |
-| `tex_stone_seamless` | E7c `workflows/seamless-texture.json` | tileable variant of `tex_stone` (`SeamlessTiling(method=offset)`) |
-| `prop_chest_pixel` | E5b `workflows/pixel-art.json` | 64×64 14-colour pixel sprite (Retro Diffusion 24x-64x + palette reduce) |
-| `prop_chest_pixel_lora` | E5f | 64×64 sprite from RealVisXL + `nerijs/pixel-art-xl` LoRA @1024², nearest ÷16 |
-| `potion_atlas` / `potion_1..4` | E6 `workflows/sprite-atlas.json` | 128×128 2×2 atlas + its 4 frames (slice round-trip verified) |
-| `env_cottage_bluetile` | E8 `workflows/inpaint.json` | inpainting demo (roof→blue tiles), composited with the mask |
-| `env_mountains_style` | E11 `workflows/ipadapter-style.json` | style transfer (mountains in the forest's palette), IPAdapter weight 0.4 |
-| `env_cottage_wide` | E9 `workflows/outpaint.json` | 2048×1024 2:1 outpaint of `env_cottage` (+50%/side); original region pixel-identical |
-| `tex_stone_pbr_{basecolor,normal,roughness,ao,orm}` | E12b `workflows/pbr-from-texture.json` | PBR set from `tex_stone_seamless`; **metallic map is suspect/inverted** |
-| `tex_stone_marigold_{albedo,roughness,metallic}` | U4 `scripts/marigold_pbr.py` | **corrected** PBR from the same texture: metallic 0.354 (0 px >0.5) vs QFX's 0.855; albedo is de-lit. Prefer these. |
-| `scene_cottage_knight` | E10 `scripts/compose_scene.py` + `workflows/compose-harmonize.json` | knight + chest placed on `env_cottage_wide`, harmonized at denoise 0.45; placement scripted, lighting blended |
-| `scene_cottage_knight_golden` | E13 `workflows/kontext-edit.json` | Flux Kontext relight (warm late-afternoon sun) + 4x-UltraSharp restore to 2048×1024 |
-| `scene_forest_sorceress` | E14a `workflows/kontext-character.json` | heroine placed in `bg_forest` by Kontext reference — design consistency (face cos 0.187) |
-| `portrait_forest_sorceress` | E14b `workflows/instantid-character.json` | InstantID face transfer into the forest — identity cos 0.823, bust framing |
+| id                                                  | produced by                                                                                  | note                                                                                                                                                         |
+|-----------------------------------------------------|----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `prop_chest_cutout`                                 | E3b `workflows/remove-bg.json`                                                               | RGBA cutout of `prop_chest` (BiRefNet)                                                                                                                       |
+| `tex_stone_seamless`                                | E7c `workflows/seamless-texture.json`                                                        | tileable variant of `tex_stone` (`SeamlessTiling(method=offset)`)                                                                                            |
+| `prop_chest_pixel`                                  | E5b `workflows/pixel-art.json`                                                               | 64×64 14-colour pixel sprite (Retro Diffusion 24x-64x + palette reduce)                                                                                      |
+| `prop_chest_pixel_lora`                             | E5f                                                                                          | 64×64 sprite from RealVisXL + `nerijs/pixel-art-xl` LoRA @1024², nearest ÷16                                                                                 |
+| `potion_atlas` / `potion_1..4`                      | E6 `workflows/sprite-atlas.json`                                                             | 128×128 2×2 atlas + its 4 frames (slice round-trip verified)                                                                                                 |
+| `env_cottage_bluetile`                              | E8 `workflows/inpaint.json`                                                                  | inpainting demo (roof→blue tiles), composited with the mask                                                                                                  |
+| `env_mountains_style`                               | E11 `workflows/ipadapter-style.json`                                                         | style transfer (mountains in the forest's palette), IPAdapter weight 0.4                                                                                     |
+| `env_cottage_wide`                                  | E9 `workflows/outpaint.json`                                                                 | 2048×1024 2:1 outpaint of `env_cottage` (+50%/side); original region pixel-identical                                                                         |
+| `tex_stone_pbr_{basecolor,normal,roughness,ao,orm}` | E12b `workflows/pbr-from-texture.json`                                                       | PBR set from `tex_stone_seamless`; **metallic map is suspect/inverted**                                                                                      |
+| `tex_stone_marigold_{albedo,roughness,metallic}`    | U4 `scripts/marigold_pbr.py`                                                                 | **corrected** PBR from the same texture: metallic 0.354 (0 px >0.5) vs QFX's 0.855; albedo is de-lit. Prefer these.                                          |
+| `scene_cottage_knight`                              | E10 `scripts/compose_scene.py` + `workflows/compose-harmonize.json`                          | knight + chest placed on `env_cottage_wide`, harmonized at denoise 0.45; placement scripted, lighting blended                                                |
+| `scene_cottage_knight_golden`                       | E13 `workflows/kontext-edit.json`                                                            | Flux Kontext relight (warm late-afternoon sun) + 4x-UltraSharp restore to 2048×1024                                                                          |
+| `scene_forest_sorceress`                            | E14a `workflows/kontext-character.json`                                                      | heroine placed in `bg_forest` by Kontext reference — design consistency (face cos 0.187)                                                                     |
+| `portrait_forest_sorceress`                         | E14b `workflows/instantid-character.json`                                                    | InstantID face transfer into the forest — identity cos 0.823, bust framing                                                                                   |
+| `pose_arms_spread`                                  | E21 `workflows/pose-skeleton.json` (+ `scripts/pose_probe.py template --preset arms_spread`) | the shipped example **pose skeleton**: `pose_arms_spread.png` is the ControlNet cue, `pose_arms_spread.json` its editable source (one joint per line, named) |
 
 **Face-ID rule:** anything that embeds a face (InstantID, IPAdapter-FaceID, PuLID) needs the face to be **≥ ~112 px** in the reference. A 1024² full-body gives only ~60 px, so use a dedicated large-face portrait (`portrait_heroine`) as the identity source. `char_knight` is **unusable** for these tools — it is helmeted.
 

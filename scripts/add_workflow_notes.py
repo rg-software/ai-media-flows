@@ -113,7 +113,10 @@ NOTES = {
     "pose-skeleton.json":
         "**Does:** puts the character in a POSE you supply as a skeleton - ControlNet-Union's `openpose`\n"
         "mode drives the pose while IPAdapter carries the design.\n"
-        "**Skeleton in:** the ControlNet reads node 1. Make one with `scripts/pose_probe.py`:\n"
+        "**Skeleton in:** the ControlNet reads node 1. It ships a working example -\n"
+        "`2d/pose_arms_spread.png` (published from `assets/2d/`, source `assets/2d/pose_arms_spread.json`,\n"
+        "one named joint per line) - so the flow runs as-is; point node 1 elsewhere for your own pose.\n"
+        "Make one with `scripts/pose_probe.py`:\n"
         "`template /tmp/pose.json --preset standing|arms_spread|t_pose` (`--arm 30` for any arm angle,\n"
         "`--rotate -10` to lean the figure), or `extract <photo.png>` to lift a pose off a real photo, then\n"
         "`draw /tmp/pose.json <out.png> --labels` to render it with every joint's index printed on the\n"

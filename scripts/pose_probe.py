@@ -98,6 +98,8 @@ R_SHOULDER, R_ELBOW, R_WRIST = 2, 3, 4
 #         8/9/10 R hip/knee/ankle, 11/12/13 L hip/knee/ankle, 14/15 R/L eye, 16/17 R/L ear
 # "R" is the SUBJECT's right = image LEFT (OpenPose convention).
 PRESETS = {"standing": 8, "arms_spread": 45, "t_pose": 90}
+JOINT_NAMES = ["nose", "neck", "Rshoulder", "Relbow", "Rwrist", "Lshoulder", "Lelbow", "Lwrist",
+               "Rhip", "Rknee", "Rankle", "Lhip", "Lknee", "Lankle", "Reye", "Leye", "Rear", "Lear"]
 
 
 def build_figure(w: int, h: int, arm_deg: float, rotate: float = 0.0):
@@ -216,6 +218,8 @@ def pose_of(payload):
     p = dict(people[0])
     for k in ("pose_keypoints_2d",):
         v = p.get(k) or []
+        if v and isinstance(v[0], (list, tuple)):
+            v = [c for t in v for c in t]          # [[x, y, conf], ...] -> flat
         pts = [(v[i], v[i + 1], v[i + 2] if i + 2 < len(v) else 1.0) for i in range(0, len(v) - 2, 3)]
         if len(pts) >= 18:
             return pts, data
@@ -440,15 +444,32 @@ def cmd_run_qwen(a):
     return 0
 
 
+def write_pose_json(path, triples, width: int, height: int):
+    """Emit a keypoints file that is actually editable: one joint per line, named, flat-array shape.
+
+    Plain `json.dumps` puts each of the 54 numbers on its own line, which defeats the purpose of a
+    file whose only job is to be hand-edited (`%g` keeps it compact: 512, 133.12, 1). The result is
+    re-parsed and compared against the joints it was built from, so this formatting can never drift.
+    """
+    body = ",\n".join("      [%s]" % ", ".join(f"{c:g}" for c in t) for t in triples)
+    text = ('[\n {\n  "people": [\n   {\n    "pose_keypoints_2d": [\n' + body + "\n    ],\n"
+            '    "joint_names": [' + ", ".join(f'"{n}"' for n in JOINT_NAMES) + "]\n"
+            "   }\n  ],\n"
+            f'  "canvas_width": {width},\n  "canvas_height": {height}\n }}\n]\n')
+    pts, _ = pose_of(json.loads(text))
+    if len(pts) != len(triples) or max(abs(p[i] - t[i]) for p, t in zip(pts, triples) for i in range(2)) > 0.01:
+        raise SystemExit("write_pose_json: the formatted file does not round-trip - refusing to write")
+    Path(path).write_text(text, encoding="utf-8")
+
+
 def cmd_template(a):
     """Emit a keypoints JSON you can edit, so nobody has to hand-write 54 numbers."""
     arm = a.arm if a.arm is not None else PRESETS[a.preset]
     flat = build_figure(a.width, a.height, arm, a.rotate)
-    payload = [{"people": [{"pose_keypoints_2d": flat}], "canvas_width": a.width,
-                "canvas_height": a.height}]
+    triples = [flat[i:i + 3] for i in range(0, len(flat), 3)]
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(payload), encoding="utf-8")
+    write_pose_json(out, triples, a.width, a.height)
     print(f"  wrote {out}   preset={a.preset}  arm={arm:+g} deg  rotate={a.rotate:+g}  "
           f"canvas {a.width}x{a.height}")
     print("  18 joints in order (x, y, confidence each):")
