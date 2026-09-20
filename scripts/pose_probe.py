@@ -485,10 +485,12 @@ def main() -> int:
     r.add_argument("--strength", type=float, default=0.9)
     r.add_argument("--cn-type", default="openpose")
     r.add_argument("--prompt", default=("full body game character concept art of a single heroic fantasy knight "
-                                        "in ornate plate armor, solo, isolated on a plain light gray background, "
+                                        "in ornate plate armor, standing with both arms outstretched to the sides, "
+                                        "solo, arms and legs fully visible, plain light gray background, "
                                         "clean silhouette, highly detailed digital painting, neutral studio lighting"))
     r.add_argument("--negative", default="blurry, lowres, text, watermark, extra limbs, cropped, "
-                                         "character sheet, multiple views, multiple figures, border, frame")
+                                         "character sheet, multiple views, multiple figures, border, frame, "
+                                         "deformed, arms at sides, hands on hips")
     r.add_argument("--ckpt", default=CKPT)
     r.add_argument("--seed", type=int, default=1101)
     r.add_argument("--width", type=int, default=1024)
