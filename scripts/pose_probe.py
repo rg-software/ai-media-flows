@@ -17,8 +17,9 @@ Subcommands (all talk to the ComfyUI HTTP API; no third-party deps beyond numpy/
     extract  <image in ComfyUI input/> [--prefix 2D/E21/pose] [--resolution 1024]
              keypoints of an image -> JSON in ComfyUI's output/ (prints the path + a summary)
 
-    draw     <keypoints.json> <out.png> [--transform none|spread|roll:<deg>]
-             render an OpenPose-style body skeleton for the ControlNet, optionally posed:
+    draw     <keypoints.json> <out.png> [--transform none|spread|roll:<deg>] [--labels]
+             render an OpenPose-style body skeleton for the ControlNet, optionally posed; `--labels`
+             prints each joint's index on the image (the way to learn or verify the joint order):
                spread      rotate each upper arm ~35 deg away from the body (a real pose change)
                roll:<deg>  rotate the whole figure in-plane (a lean/tilt - NOT a viewpoint change;
                            a 2D COCO skeleton cannot express yaw, which is what "camera angle" needs)
@@ -36,7 +37,8 @@ Subcommands (all talk to the ComfyUI HTTP API; no third-party deps beyond numpy/
 1. **Start from a preset** - the common case, no other tooling:
        uv run python scripts/pose_probe.py template /tmp/pose.json --preset t_pose
        # edit the numbers (e.g. move joints 4/7 - the wrists - to change the hands)
-       uv run python scripts/pose_probe.py draw /tmp/pose.json output/pose_t.png
+       uv run python scripts/pose_probe.py draw /tmp/pose.json output/pose_t.png --labels
+       #   --labels prints every joint's index on the picture: draw once, see which number to move
    Then upload `output/pose_t.png` to the box's `input/_pose/` and set the flow's first LoadImage to it:
        uv run python scripts/comfy_io.py upload output/pose_t.png --subfolder _pose
    Presets: `standing` (arms ~8 deg), `arms_spread` (45), `t_pose` (90); `--arm` sets any angle and
@@ -313,6 +315,13 @@ def cmd_draw(a):
         if p[2] > 0.1:
             r = max(4, W // 150)
             d.ellipse([p[0] - r, p[1] - r, p[0] + r, p[1] + r], fill=(255, 255, 255))
+    if a.labels:
+        from PIL import ImageFont
+        fnt = ImageFont.load_default(size=max(12, W // 40))
+        for i, p in enumerate(pts):
+            if p[2] > 0.1:
+                d.text((p[0] + max(6, W // 90), p[1] - max(8, W // 70)), str(i),
+                       fill=(255, 255, 0), font=fnt)
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     im.save(a.out)
     print(f"  wrote {a.out} ({W}x{H}, transform={a.transform})")
@@ -467,6 +476,8 @@ def main() -> int:
     d.add_argument("keypoints")
     d.add_argument("out")
     d.add_argument("--transform", default="none")
+    d.add_argument("--labels", action="store_true",
+                   help="print each joint's index on the image (for hand-editing the JSON)")
     d.set_defaults(fn=cmd_draw)
 
     t = sub.add_parser("template", help="emit an editable keypoints JSON from a preset")
