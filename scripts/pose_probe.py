@@ -56,13 +56,13 @@ Subcommands (all talk to the ComfyUI HTTP API; no third-party deps beyond numpy/
 Then run `2d/workflows/pose-skeleton.json` (or `run-cn` for the API equivalent) and judge by eye: the
 pose CN follows the skeleton, the DESIGN drifts unless IPAdapter holds it at a LOW weight.
 
-**The one rule that matters: NAME THE POSE IN THE PROMPT.** A skeleton by itself loses to the model's
-prior for an extreme pose - a T-pose skeleton produced an arms-down knight at CN 0.9 *with no adapter at
-all* - and adding "standing with both arms outstretched to the sides" made the same skeleton stick at the
-same settings (E21b). Put the old stance in the negative too (`arms at sides, hands on hips`), and change
-the prompt and the skeleton together. CN `strength` 0.9 is then enough (1.3 bought nothing), and keep
-IPAdapter at ~0.15 because it fights the pose (0.35 erased a 45-deg spread; >=0.6 freezes the reference's
-own stance).
+**Do not expect the ControlNet to pose the character (E21c).** The TEXT decides: an arms-down cue plus a
+"T-pose" prompt renders a T-pose even at CN strength **0.0**, while a 45-deg cue renders arms-at-the-sides
+at 0.9-1.2 whatever the prompt says; `openpose` only dominates at >=1.5, where it traces the sticks and
+destroys the render (the union CN's `depth` mode at 0.9 *does* transfer structure, so the wiring is fine -
+the mode is weak). `run-cn` is therefore a probe, not a pose tool: use it to compare a skeleton against an
+instruction (`run-qwen`), and send real pose work through the instruction route. Keep IPAdapter at ~0.15
+(0.35 erased a 45-deg spread; >=0.6 freezes the reference's own stance) and say the pose in the prompt.
 
 Combo options (ApplyPulid.method, PulidInsightFaceLoader.provider) are read from /object_info before
 submitting, because a bad combo value fails SILENTLY in ComfyUI (the `SetUnionControlNetType` lesson).
