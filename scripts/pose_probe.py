@@ -256,15 +256,56 @@ def cmd_extract(a):
     return 0
 
 
+def arm_geometry(pts):
+    """Scale-free description of the arms - the thing 'did the pose take?' actually means.
+
+    Pixel error is only comparable between renders of the SAME size (and a 512px SD1.5 run vs a 1024px
+    SDXL run share no coordinate system at all), so measure everything in units of the figure's own
+    torso length. `spread` is how far the wrist sits out to the side of the hip, `drop` how far the
+    wrist sits below the shoulder: a T-pose is spread >> 1 with drop ~ 0, arms-down is spread < 0.5 with
+    drop > 1. Returns None when the detector did not see the joints.
+    """
+    R_SH, R_WR, R_HP = 2, 4, 8
+    L_SH, L_WR, L_HP = 5, 7, 11
+    if max(pts[i][2] for i in (R_SH, R_WR, R_HP, L_SH, L_WR, L_HP)) <= 0.1:
+        return None
+    sh_y = (pts[R_SH][1] + pts[L_SH][1]) / 2
+    hp_y = (pts[R_HP][1] + pts[L_HP][1]) / 2
+    torso = abs(hp_y - sh_y)
+    if torso < 1e-6:
+        return None
+    out = {"torso_px": torso}
+    for side, (sh, wr, hp) in (("R", (R_SH, R_WR, R_HP)), ("L", (L_SH, L_WR, L_HP))):
+        if min(pts[sh][2], pts[wr][2], pts[hp][2]) <= 0.1:
+            out[side] = None
+            continue
+        out[side] = {"spread": abs(pts[wr][0] - pts[hp][0]) / torso,
+                     "drop": (pts[wr][1] - sh_y) / torso}
+    return out
+
+
+def _fmt_geom(g):
+    if g is None:
+        return "no person detected"
+    parts = []
+    for side in ("R", "L"):
+        s = g[side]
+        parts.append(f"{side} spread {s['spread']:.2f} drop {s['drop']:+.2f}" if s else f"{side} no joints")
+    return "   ".join(parts)
+
+
 def cmd_measure(a):
     target = json.loads(Path(a.target).read_text(encoding="utf-8"))
     tpts, _ = pose_of(target)
     pid, files = run_graph(a, graph_extract(a.image, "2D/E21/measure", 1024), "measure")
     payload = json.loads(latest_json("2D/E21/measure").read_text(encoding="utf-8"))
     gpts, _ = pose_of(payload)
+    print(f"  target pose: {_fmt_geom(arm_geometry(tpts))}")
     if not gpts:
         print("  no person detected (pose NOT followed)")
         return 1
+    g = arm_geometry(gpts)
+    print(f"  got         : {_fmt_geom(g)}")
     errs = []
     for (tx, ty, ts), (gx, gy, gs) in zip(tpts, gpts):
         if ts > 0.1 and gs > 0.1:
@@ -273,8 +314,11 @@ def cmd_measure(a):
         print("  no joints comparable")
         return 1
     errs.sort()
+    mean = sum(errs) / len(errs)
     print(f"  comparable joints: {len(errs)}/18")
-    print(f"  joint error: mean {sum(errs) / len(errs):.1f} px, median {errs[len(errs) // 2]:.1f} px")
+    unit = f"{mean / g['torso_px']:.2f} torso lengths" if g else "torso not measurable"
+    print(f"  joint error: mean {mean:.1f} px = {unit}"
+          f", median {errs[len(errs) // 2]:.1f} px")
     return 0
 
 
@@ -334,21 +378,26 @@ def cmd_draw(a):
 
 # --------------------------------------------------------------------------- run-cn
 def graph_cn(a, prompt, neg, seed, pulid_options):
+    # ControlNet-Union needs the mode-selector node; a plain SD1.5/SDXL CN (e.g. the official
+    # openpose or a dedicated xinsir file) is loaded and applied directly.
+    cn_from = ["5", 0]
     g = {
         "1": {"class_type": "CheckpointLoaderSimple", "inputs": {"ckpt_name": a.ckpt}},
         "2": {"class_type": "CLIPTextEncode", "inputs": {"text": prompt, "clip": ["1", 1]}},
         "3": {"class_type": "CLIPTextEncode", "inputs": {"text": neg, "clip": ["1", 1]}},
         "4": {"class_type": "LoadImage", "inputs": {"image": a.skeleton}},
-        "5": {"class_type": "ControlNetLoader", "inputs": {"control_net_name": UNION_CN}},
-        "6": {"class_type": "SetUnionControlNetType",
-              "inputs": {"control_net": ["5", 0], "type": a.cn_type}},
-        "7": {"class_type": "ControlNetApplyAdvanced",
-              "inputs": {"positive": ["2", 0], "negative": ["3", 0], "control_net": ["6", 0],
+        "5": {"class_type": "ControlNetLoader", "inputs": {"control_net_name": a.cn_file}},
+        "6": {"class_type": "ControlNetApplyAdvanced",
+              "inputs": {"positive": ["2", 0], "negative": ["3", 0], "control_net": cn_from,
                          "image": ["4", 0], "strength": a.strength,
-                         "start_percent": 0.0, "end_percent": 1.0}},
+                         "start_percent": a.cn_start, "end_percent": a.cn_end}},
         "8": {"class_type": "EmptyLatentImage", "inputs": {"width": a.width, "height": a.height,
                                                            "batch_size": 1}},
     }
+    if a.cn_file == UNION_CN:
+        g["21"] = {"class_type": "SetUnionControlNetType",
+                   "inputs": {"control_net": ["5", 0], "type": a.cn_type}}
+        g["6"]["inputs"]["control_net"] = ["21", 0]
     model_from = ["1", 0]
     if a.ipadapter:
         # a helmeted character has no face to embed, so carry the DESIGN (IPAdapter), not a face (PuLID)
@@ -375,7 +424,7 @@ def graph_cn(a, prompt, neg, seed, pulid_options):
                               "weight": a.pulid_weight, "start_at": 0.0, "end_at": 1.0}}
         model_from = ["13", 0]
     g["14"] = {"class_type": "KSampler",
-               "inputs": {"seed": seed, "steps": 25, "cfg": 7.0, "sampler_name": "euler",
+               "inputs": {"seed": seed, "steps": a.steps, "cfg": a.cfg, "sampler_name": a.sampler,
                           "scheduler": "normal", "denoise": 1.0, "model": model_from,
                           "positive": ["7", 0], "negative": ["7", 1], "latent_image": ["8", 0]}}
     g["15"] = {"class_type": "VAEDecode", "inputs": {"samples": ["14", 0], "vae": ["1", 2]}}
@@ -525,6 +574,16 @@ def main() -> int:
                                          "deformed, arms at sides, hands on hips")
     r.add_argument("--ckpt", default=CKPT)
     r.add_argument("--seed", type=int, default=1101)
+    r.add_argument("--cfg", type=float, default=7.0,
+                   help="keep 7.0 for the shipped look; LOWER (4-5) gives the ControlNet relatively more say")
+    r.add_argument("--steps", type=int, default=25)
+    r.add_argument("--sampler", default="euler")
+    r.add_argument("--cn-start", type=float, default=0.0)
+    r.add_argument("--cn-end", type=float, default=1.0,
+                   help="apply the CN only early (e.g. 0.5): pose set in the first steps, model free later")
+    r.add_argument("--cn-file", default=UNION_CN,
+                   help="any models/controlnet file; a NON-union file skips the union mode-selector node "
+                        "(e.g. control_v11p_sd15_openpose_fp16.safetensors with --ckpt v1-5-pruned-emaonly.safetensors)")
     r.add_argument("--width", type=int, default=1024)
     r.add_argument("--height", type=int, default=1024)
     r.add_argument("--ipadapter", default=None,
