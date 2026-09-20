@@ -164,7 +164,24 @@ def _api(base, token):
     return url, post, get, wait
 
 
+def check_graph(graph):
+    """Every ["id", slot] reference must point at a node that exists in the graph.
+
+    ComfyUI reports a dangling reference as an opaque `400 prompt_outputs_failed_validation` (the detail
+    names only the *dependent* node), so a renamed node turned into a stack trace instead of a message.
+    Renumbering the ControlNet node while the KSampler still pointed at the old id did exactly this.
+    """
+    bad = []
+    for nid, node in graph.items():
+        for name, val in node["inputs"].items():
+            if isinstance(val, list) and len(val) == 2 and isinstance(val[0], str) and val[0] not in graph:
+                bad.append(f"  node {nid} ({node['class_type']}).{name} -> node {val[0]} (missing)")
+    if bad:
+        raise SystemExit("graph has dangling references:\n" + "\n".join(bad))
+
+
 def run_graph(a, graph, label):
+    check_graph(graph)
     base = a.base.rstrip("/")
     url, post, get, wait = _api(base, a.token)
     resp = post({"prompt": graph, "client_id": "pose_probe"})
@@ -426,7 +443,7 @@ def graph_cn(a, prompt, neg, seed, pulid_options):
     g["14"] = {"class_type": "KSampler",
                "inputs": {"seed": seed, "steps": a.steps, "cfg": a.cfg, "sampler_name": a.sampler,
                           "scheduler": "normal", "denoise": 1.0, "model": model_from,
-                          "positive": ["7", 0], "negative": ["7", 1], "latent_image": ["8", 0]}}
+                          "positive": ["6", 0], "negative": ["6", 1], "latent_image": ["8", 0]}}
     g["15"] = {"class_type": "VAEDecode", "inputs": {"samples": ["14", 0], "vae": ["1", 2]}}
     g["16"] = {"class_type": "SaveImage", "inputs": {"filename_prefix": a.out, "images": ["15", 0]}}
     return g
