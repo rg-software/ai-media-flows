@@ -1,0 +1,643 @@
+{
+ "last_node_id": 13,
+ "last_link_id": 13,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    200
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      1,
+      5,
+      7
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "2d/tex_stone_seamless.png",
+    "image"
+   ]
+  },
+  {
+   "id": 2,
+   "type": "MarigoldModelLoader",
+   "pos": [
+    360,
+    120
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "marigold_model",
+     "type": "MARIGOLDMODEL",
+     "links": [
+      2
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "MarigoldModelLoader"
+   },
+   "widgets_values": [
+    "prs-eth/marigold-iid-appearance-v1-1"
+   ],
+   "title": "Marigold: appearance"
+  },
+  {
+   "id": 3,
+   "type": "MarigoldDepthEstimation_v2",
+   "pos": [
+    700,
+    120
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "marigold_model",
+     "type": "MARIGOLDMODEL",
+     "link": 2
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      3
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "MarigoldDepthEstimation_v2"
+   },
+   "widgets_values": [
+    1101,
+    "fixed",
+    10,
+    1,
+    768,
+    "DDIMScheduler",
+    false,
+    false
+   ],
+   "title": "Marigold: albedo + material"
+  },
+  {
+   "id": 4,
+   "type": "MarigoldModelLoader",
+   "pos": [
+    360,
+    340
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "marigold_model",
+     "type": "MARIGOLDMODEL",
+     "links": [
+      4
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "MarigoldModelLoader"
+   },
+   "widgets_values": [
+    "prs-eth/marigold-iid-lighting-v1-1"
+   ],
+   "title": "Marigold: lighting"
+  },
+  {
+   "id": 5,
+   "type": "MarigoldDepthEstimation_v2",
+   "pos": [
+    700,
+    340
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "marigold_model",
+     "type": "MARIGOLDMODEL",
+     "link": 4
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      6
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "MarigoldDepthEstimation_v2"
+   },
+   "widgets_values": [
+    1101,
+    "fixed",
+    10,
+    1,
+    768,
+    "DDIMScheduler",
+    false,
+    false
+   ],
+   "title": "Marigold: albedo + shading + residual"
+  },
+  {
+   "id": 6,
+   "type": "QFXPBRGeneratorAdvanced",
+   "pos": [
+    1060,
+    220
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 7
+    },
+    {
+     "name": "marigold_appearance",
+     "type": "IMAGE",
+     "link": 3
+    },
+    {
+     "name": "marigold_lighting",
+     "type": "IMAGE",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "Original",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    },
+    {
+     "name": "BaseColor",
+     "type": "IMAGE",
+     "links": [
+      8
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "Normal",
+     "type": "IMAGE",
+     "links": [
+      9
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "Roughness",
+     "type": "IMAGE",
+     "links": [
+      10
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "Displacement",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    },
+    {
+     "name": "AO",
+     "type": "IMAGE",
+     "links": [
+      11
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "Metallic",
+     "type": "IMAGE",
+     "links": [
+      12
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "ORM",
+     "type": "IMAGE",
+     "links": [
+      13
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "QFXPBRGeneratorAdvanced"
+   },
+   "widgets_values": [
+    "tex_stone",
+    "off",
+    "appearance",
+    0.45,
+    2.2,
+    0.45,
+    0,
+    1,
+    0,
+    1,
+    1,
+    true,
+    2,
+    1,
+    false
+   ]
+  },
+  {
+   "id": 7,
+   "type": "SaveImage",
+   "pos": [
+    1400,
+    60
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 8
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/pbr_material/basecolor"
+   ]
+  },
+  {
+   "id": 8,
+   "type": "SaveImage",
+   "pos": [
+    1400,
+    200
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 9
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/pbr_material/normal"
+   ]
+  },
+  {
+   "id": 9,
+   "type": "SaveImage",
+   "pos": [
+    1400,
+    340
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 10
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/pbr_material/roughness"
+   ]
+  },
+  {
+   "id": 10,
+   "type": "SaveImage",
+   "pos": [
+    1400,
+    480
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 11
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/pbr_material/ao"
+   ]
+  },
+  {
+   "id": 11,
+   "type": "SaveImage",
+   "pos": [
+    1400,
+    620
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 12
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/pbr_material/metallic"
+   ]
+  },
+  {
+   "id": 12,
+   "type": "SaveImage",
+   "pos": [
+    1400,
+    760
+   ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 13
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/pbr_material/metallicRoughness_ORM"
+   ]
+  },
+  {
+   "id": 13,
+   "type": "MarkdownNote",
+   "pos": [
+    40,
+    460
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## pbr-material.json\n\nMarigold-sourced PBR material set\n\n**Does:** one texture in -> albedo (basecolor), normal, roughness, metallic, AO and a glTF-valid **ORM** out. Marigold IID predicts the intrinsics; QFX turns them into maps. This is the graph version of `scripts/pbr_set.py`, and the two agree: the node's raw metallic (mean **0.359**, 0.5% of pixels > 0.5) matches the script's **0.354** within the run-to-run spread of the method itself (the script differs from its own re-run by 0.017 per pixel).\n**Why two Marigold loaders:** `MarigoldModelLoader` is stateful - the second load replaces the first - so each model gets its own loader + inference pair. Appearance gives albedo + material (roughness, metallic); lighting gives albedo + shading + residual, and QFX uses its index 1 as AO.\n**`albedo_source`:** `appearance` or `lighting` - both are legitimate albedos; pick the one that looks de-lit. `gamma_metal_rough 2.2` is what takes metallic from Marigold's ~0.36 down to ~0.11 in the packed output, so do not 'correct' it away.\n**The ORM output is glTF-ordered already** (R=occlusion, G=roughness, B=metallic - verified against the node's own Metallic output, byte-identical), so it drops straight into a glTF/engine material; the `metallicRoughness` slot and the `occlusion` slot share this one image by convention. No repacking step is needed. NB the channel swap that DOES matter is Unity's own shaders (R=metal, A=smoothness) - see PIPELINES open item 1.\n**Input:** `LoadImage` reads only ComfyUI's `input/`. Marigold wants ~768 px, so feed a seamless, power-of-two-ish square; the flow ships `2d/tex_stone_seamless.png` at 768.\n**Prefer `seamless_mode=off`** here: the source is already tileable (make it so first - `seamless-texture.json` with `method=offset`), and QFX's seamless crop shrinks the maps by 16 px per side, which then has to be tiled back up.\n**From here:** apply the maps to a mesh with `scripts/make_gltf_material.py --mesh <glb> --glb-out <glb>` (the mesh needs UVs - that is what `Hy3DMeshUVWrap` is for); `assets/3d/stone_statue.glb` is the worked example.\n\n---\n*Why it is this way: E25 (node route verified against U4), and the U4 entry in `2d/EXPERIMENTS-2D.md`.*"
+   ],
+   "title": "pbr-material"
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   3,
+   1,
+   "IMAGE"
+  ],
+  [
+   2,
+   2,
+   0,
+   3,
+   0,
+   "MARIGOLDMODEL"
+  ],
+  [
+   3,
+   3,
+   0,
+   6,
+   1,
+   "IMAGE"
+  ],
+  [
+   4,
+   4,
+   0,
+   5,
+   0,
+   "MARIGOLDMODEL"
+  ],
+  [
+   5,
+   1,
+   0,
+   5,
+   1,
+   "IMAGE"
+  ],
+  [
+   6,
+   5,
+   0,
+   6,
+   2,
+   "IMAGE"
+  ],
+  [
+   7,
+   1,
+   0,
+   6,
+   0,
+   "IMAGE"
+  ],
+  [
+   8,
+   6,
+   1,
+   7,
+   0,
+   "IMAGE"
+  ],
+  [
+   9,
+   6,
+   2,
+   8,
+   0,
+   "IMAGE"
+  ],
+  [
+   10,
+   6,
+   3,
+   9,
+   0,
+   "IMAGE"
+  ],
+  [
+   11,
+   6,
+   5,
+   10,
+   0,
+   "IMAGE"
+  ],
+  [
+   12,
+   6,
+   6,
+   11,
+   0,
+   "IMAGE"
+  ],
+  [
+   13,
+   6,
+   7,
+   12,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}

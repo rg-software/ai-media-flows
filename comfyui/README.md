@@ -66,7 +66,7 @@ Why fp8 is not a free win here: the 3090 is **Ampere (sm_86) and has no native f
 - torch **2.11.0+cu128**, RTX 3090 (24 GB), Ubuntu 26.04 / driver 595.91.07.
 - systemd **user** unit `comfyui` (`systemctl --user restart comfyui`; no sudo).
 - Login: ComfyUI-Login plugin; API calls need `?token=<first line of login/PASSWORD>`.
-- Custom node packs: ACN (`comfyui_controlnet_aux`), KJNodes, Hy3D wrapper, UniRig, ComfyUI-Login, ComfyUI-Manager, CameraPack, TextureAlchemy, QFX-PBRGenerator, PixelArt-Detector, `ComfyUI-IPAdapter_plus`, **`ComfyUI-Inpaint-CropAndStitch`** (lquesada).
+- Custom node packs: ACN (`comfyui_controlnet_aux`), KJNodes, Hy3D wrapper, UniRig, ComfyUI-Login, ComfyUI-Manager, CameraPack, TextureAlchemy, QFX-PBRGenerator, PixelArt-Detector, `ComfyUI-IPAdapter_plus`, **`ComfyUI-Inpaint-CropAndStitch`** (lquesada), **`ComfyUI-Marigold`** (kijai - the IID route for PBR materials, E25).
 
 ## Node gotchas
 
