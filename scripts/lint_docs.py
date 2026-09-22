@@ -33,6 +33,12 @@ Checks, in the order of what has actually bitten us:
      ids) is inert until it points at a link of the wrong TYPE - then the canvas reports "Invalid
      connection" (how `inpaint.json` shipped with SaveImage fed by a MASK). Fix with
      `uv run python scripts/fix_workflow_links.py --write`.
+  10. **Commentary nodes stay out of the execution order:** a `MarkdownNote`/`Note` must not take an
+     execution slot, or the ComfyUI frontend cannot attribute the workflow's nodes to a pack and offers
+     them as an install prompt ("Unknown pack: <nodes>") - which reads as a missing pack although every
+     node loads and `/prompt` accepts the graph (`pbr-material.json` shipped that way, and the symptom
+     cost a debugging round because it is invisible to every server-side check). Build workflows with
+     `scripts/build_workflow.py` (`--spec`), which cannot produce it.
 """
 from __future__ import annotations
 
@@ -315,7 +321,8 @@ def lint_file(path: str, rel: str) -> list[str]:
 # asset. Documented for contributors in AGENTS.md, so it is deliberately *not* a flow reachable from the
 # README job table.
 CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
-                     "gen_assets.py", "publish_assets.sh", "fix_workflow_links.py", "pose_probe.py"}
+                     "gen_assets.py", "publish_assets.sh", "fix_workflow_links.py", "pose_probe.py",
+                     "build_workflow.py"}
 
 
 def iter_flows():
@@ -411,6 +418,46 @@ def check_story_mapping() -> list[str]:
     return problems
 
 
+def check_workflow_order() -> list[str]:
+    """A workflow's commentary nodes (MarkdownNote/Note) must be outside the execution order.
+
+    ComfyUI re-derives execution order from the link graph, so the `order` values themselves are only a
+    saved hint - files do legitimately differ here (`pose-skeleton.json` ships every node at 0,
+    `hy3d-full-workflow.json` repeats values, `outpaint.json` is dense) and all of them load. What is not
+    safe is a commentary node *interleaved into* the execution order: `pbr-material.json` shipped with its
+    MarkdownNote at `order: 13` among execution nodes 1..12, and the frontend then could not attribute the
+    other nodes to a pack - it fell back to an install prompt naming the node types ("Unknown pack:
+    MarigoldModelLoader ..."), which reads exactly like a missing pack, even though the nodes load fine and
+    `/prompt` accepts the graph. All 25 other workflows put the note at order 0.
+
+    Deliberately narrow: it asserts only what was actually observed to break frontend attribution, not a
+    canonical numbering, because the frontend symptom is unreproducible from here (posting to /prompt
+    bypasses the UI loader) and over-claiming would fail files that demonstrably work.
+    """
+    problems = []
+    for p in sorted(glob.glob(os.path.join(REPO, "*", "workflows", "*.json"))):
+        rel = os.path.relpath(p, REPO).replace(os.sep, "/")
+        try:
+            data = json.loads(open(p, encoding="utf-8").read())
+        except Exception as exc:
+            problems.append(f"{rel}: unreadable JSON ({exc})")
+            continue
+        nodes = data.get("nodes")
+        if not isinstance(nodes, list):
+            continue
+        execs = [n for n in nodes if n.get("type") not in ("MarkdownNote", "Note")]
+        for n in nodes:
+            if n.get("type") not in ("MarkdownNote", "Note"):
+                continue
+            o = n.get("order")
+            if isinstance(o, int) and o != 0:
+                problems.append(
+                    f"{rel}: {n.get('type')} node {n.get('id')} is numbered in the execution order "
+                    f"(order {o}) - commentary nodes must not take an execution slot, or the frontend "
+                    f"cannot attribute the workflow's nodes and offers them as an install prompt; set it to 0")
+    return problems
+
+
 def check_workflow_links() -> list[str]:
     """Every workflow's node link references must agree with its `links` array.
 
@@ -464,6 +511,7 @@ def main() -> int:
     problems += check_story_mapping()
     problems += check_heading_anchors()
     problems += check_workflow_links()
+    problems += check_workflow_order()
 
     print(f"linted {len(files)} markdown file(s)")
     if problems:
