@@ -9,12 +9,17 @@ MarigoldModelLoader ...") - which reads exactly like a missing pack even though 
 (`fix_workflow_links.py`) came from, so generation is worth doing once, carefully.
 
 The rules this encodes (each one learned from a shipped bug):
+  * **no node `title`.** A UI `title` on a node without the frontend's own widget state makes the
+    UI->API conversion emit an entry with a title and no `class_type`, and the server answers
+    `missing_node_type` ("Node 'Marigold: appearance' has no class_type") - so the whole workflow refuses
+    to queue even though every node type resolves. Working workflows express a node's name through
+    `properties["Node name for S&R"]` and carry no `title` at all. Rejected loudly here.
   * **commentary nodes are never numbered.** A `MarkdownNote`/`Note` gets `order: 0` and no execution slot.
     `scripts/lint_docs.py::check_workflow_order` enforces it.
   * **execution nodes are numbered 0..N-1** in the order they are listed, so a rebuild is deterministic.
-  * **every node carries `properties["Node name for S&R"]`** - ComfyUI uses it for the node title.
-  * **links are declared once** and the per-node `outputs[].links` / `inputs[].link` are derived from them,
-    so the two views cannot disagree (that is what `scripts/fix_workflow_links.py` repairs elsewhere).
+  * **output slots are numbered 0..N-1** and links are declared once - the per-node `outputs[].links` /
+    `inputs[].link` are derived from them, so the two views cannot disagree (that is what
+    `scripts/fix_workflow_links.py` repairs elsewhere).
 
 Usage:  uv run python scripts/build_workflow.py --spec <spec.py> --out <file.json>
 
@@ -46,6 +51,12 @@ def build(mod) -> dict:
     nodes = []
     for raw in mod.NODES:
         n = {k: v for k, v in raw.items()}
+        if "title" in n:
+            raise SystemExit(
+                f"spec sets a title on node {raw.get('id')} ({raw.get('type')}): a UI title without the "
+                f"frontend's widget state makes the UI->API conversion emit an entry with no class_type, "
+                f"and the server rejects the whole workflow as missing_node_type. Use "
+                f"properties['Node name for S&R'] (set automatically) or a MarkdownNote to label things.")
         n.setdefault("flags", {})
         n.setdefault("mode", 0)
         n.setdefault("size", [270, 100])
