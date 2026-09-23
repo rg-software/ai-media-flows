@@ -30,6 +30,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 
 import numpy as np
@@ -78,6 +79,7 @@ def main() -> int:
     rgba[..., 1] = 0                                             # G unused by Unity
     rgba[..., 2] = 0                                             # B unused by Unity
     rgba[..., 3] = np.round(np.clip(1.0 - rough_f, 0, 1) * 255)   # A = smoothness
+    os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     Image.fromarray(rgba, "RGBA").save(args.out)
 
     print(f"packed @ {S}x{S} -> {args.out}")

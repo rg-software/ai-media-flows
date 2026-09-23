@@ -5,13 +5,19 @@ For glTF (Unity, Godot, Blender's glTF importer, three.js). glTF reads one packe
 
     R = unused, G = roughness, B = metallic
 
-That packing - and the mesh, if you want one - is all this tool does. Our ComfyUI PBR flow already writes
-basecolor, normal and occlusion correctly, and glTF wants occlusion in the R channel of its own image, which
-a **grayscale** map already satisfies, so none of those are touched, copied or re-encoded here.
+and that map is required by the format, not a convenience: glTF 2.0 has NO separate roughness or metallic
+texture - `pbrMetallicRoughness.metallicRoughnessTexture` is a single image, with metallic sampled from B
+and roughness from G. The only alternative is the scalar `metallicFactor`/`roughnessFactor`, which is
+uniform and gives up per-pixel variation. Note that when the packed map IS supplied, those two factors must
+stay **1.0** - any other value multiplies the texture and silently darkens the material (the GLB written
+here sets them 1.0). (Occlusion is separate: glTF has its own `occlusionTexture` slot,
+read from R, which is why a grayscale AO is already correct here.)
 
-When that map is supplied as `metallicRoughnessTexture`, `metallicFactor` and `roughnessFactor` MUST stay
-1.0 - any other value multiplies the texture and silently darkens the material. The GLB written below sets
-them 1.0.
+What you get:
+  * with `--mesh`/`--glb-out`: the packed map PLUS a **self-contained GLB** - the textures are embedded, so
+    one file carries mesh + material and an engine imports it already wired. `--out` is optional here.
+  * without a mesh: just the packed map, for assembling the material yourself in Blender / Godot / a viewer,
+    or adding it to a GLB built elsewhere.
 
 Two tasks, two tools: this one is the glTF/GLB route. For Unity's shader slots (assigned by hand) use
 `scripts/pack_pbr_material.py`, which packs R=metallic / A=smoothness instead - Unity samples smoothness
@@ -31,6 +37,7 @@ Usage (anywhere - no ComfyUI needed; deps numpy + Pillow, trimesh only for --mes
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 
 import numpy as np
@@ -52,7 +59,10 @@ def main() -> int:
     ap.add_argument("--metallic", required=True)
     ap.add_argument("--occlusion", default=None, help="optional; glTF reads occlusion from R, so a "
                                                       "grayscale map is already correct")
-    ap.add_argument("--out", required=True, help="output PNG, e.g. out/metallicRoughness.png")
+    ap.add_argument("--out", default=None,
+                    help="output PNG for the packed map. Optional when --glb-out is given (defaults to "
+                         "metallicRoughness.png next to the GLB); required when there is no mesh, since "
+                         "the map is then the only output")
     ap.add_argument("--size", type=int, default=None,
                     help="force this square size; by default all inputs must already match (they do when "
                          "they come from the same ComfyUI run)")
@@ -62,6 +72,12 @@ def main() -> int:
     ap.add_argument("--mesh", default=None, help="optional GLB whose material will be replaced")
     ap.add_argument("--glb-out", default=None, help="where to write the textured GLB (needs --mesh)")
     args = ap.parse_args()
+
+    if args.out is None:
+        if not args.glb_out:
+            raise SystemExit("--out is required when there is no --mesh/--glb-out: the packed map would be "
+                             "the only output. Pass --out metallicRoughness.png, or add a mesh.")
+        args.out = os.path.join(os.path.dirname(os.path.abspath(args.glb_out)), "metallicRoughness.png")
 
     inputs = [("basecolor", args.basecolor), ("normal", args.normal),
               ("roughness", args.roughness), ("metallic", args.metallic)]
@@ -88,6 +104,8 @@ def main() -> int:
     pack[..., 0] = 255                       # R unused
     pack[..., 1] = np.asarray(rough)         # G = roughness
     pack[..., 2] = np.asarray(metal)         # B = metallic
+    out_dir = os.path.dirname(os.path.abspath(args.out))
+    os.makedirs(out_dir, exist_ok=True)
     Image.fromarray(pack, "RGB").save(args.out)
 
     print(f"packed @ {S}x{S} -> {args.out}")
