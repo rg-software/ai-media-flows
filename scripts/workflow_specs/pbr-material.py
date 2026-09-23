@@ -34,7 +34,10 @@ NOTE = (
     "the maps 16 px per side - so enable it deliberately, not as a default.\n"
     "**From here:** apply the maps to a mesh with `scripts/make_gltf_material.py --mesh <glb> --glb-out <glb>` "
     "(the mesh needs UVs; see S11 for how a generated mesh gets them); `assets/3d/stone_statue.glb` is the worked "
-    "example.\n\n"
+    "example. The GLB carries **standard glTF**, so an engine's glTF importer reads it with nothing extra. "
+    "`--unity` is for the OTHER route - assigning PNGs by hand to a shader in an Inspector - because Unity "
+    "shaders sample smoothness where glTF packs roughness; it writes `metallicSmoothness.png` "
+    "(R=metallic, A=1-roughness) and does not alter the GLB.\n\n"
     "---\n*Why it is this way: E25 (node route verified against U4), and the U4 entry in `2d/EXPERIMENTS-2D.md`.*"
 )
 
