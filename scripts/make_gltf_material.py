@@ -20,6 +20,12 @@ plausibility check beats trust: a dielectric (stone, wood) must come out with a 
 metallic channel. Our earlier QFX map failed exactly this test (mean 0.855 - see
 2d/EXPERIMENTS-2D.md E12b/U4), so this script prints the values and warns.
 
+NOTE: this is not a copy operation. Every map is **resampled to one common size** (the
+docstring rule above - mismatched sizes make UVs disagree), and PNG output is a fresh
+encode. By default the size is taken from `--basecolor`, so same-size inputs are written
+back at their own size; pass `--size` to force one, and the report says what was resampled
+and whether that upscaled (which adds no detail, only file size).
+
 Usage (anywhere - this needs no ComfyUI; deps are numpy + Pillow, and trimesh only for --mesh,
 all in the repo's uv env):
     uv run python scripts/make_gltf_material.py \
@@ -27,15 +33,23 @@ all in the repo's uv env):
         --roughness tex_stone_roughness.png \
         --metallic  tex_stone_metallic.png \
         --normal    tex_stone_normal.png \
-        --size 1024 \
+        --occlusion tex_stone_ao.png \
         --outdir  out/stone_material \
         --unity
 
 Writes (glTF 2.0, read by Unity, Godot, Blender's glTF importer, three.js):
-    basecolor.png, normal.png, metallicRoughness.png, material.json
-Add --unity to ALSO write the packed map Unity's own shaders want
-    metallicSmoothness.png (R=metallic, A=smoothness = 1 - roughness) + roughness.png
+    basecolor.png, normal.png, metallicRoughness.png, occlusion.png (if given)
+    material.json  - a MANIFEST for a human or a future importer script: slot names,
+                     colourspaces, factors, per-channel statistics. It is NOT an engine
+                     asset and no engine reads it. The importable things are the PNGs and
+                     the exported GLB.
+Add --unity to ALSO write the maps Unity's own shaders want when you assign textures by
+    hand in an Inspector (this does not change the GLB):
+    metallicSmoothness.png (R=metallic, A=smoothness = 1 - roughness), roughness.png,
+    occlusion.png (AO in G, which is the channel Unity's _OcclusionMap samples)
 Add --mesh <glb> --glb-out <glb> to apply the material to a mesh and export (needs UVs).
+    The GLB carries a standard glTF material, so an engine's glTF importer reads it with
+    nothing extra - including occlusionTexture when --occlusion is supplied.
 The maps themselves come from the box's ComfyUI output - fetch them first (see HOWTO S14).
 """
 from __future__ import annotations
@@ -46,6 +60,12 @@ import os
 
 import numpy as np
 from PIL import Image
+
+
+def probe_size(path):
+    """Native size of an input map, so we resample only when it is actually needed."""
+    with Image.open(path) as im:
+        return im.size
 
 
 def load_l(path, size):
@@ -66,8 +86,10 @@ def main():
     ap.add_argument("--roughness", required=True)
     ap.add_argument("--metallic", required=True)
     ap.add_argument("--normal", required=True)
-    ap.add_argument("--occlusion", default=None, help="optional; often unavailable from IID")
-    ap.add_argument("--size", type=int, default=1024)
+    ap.add_argument("--occlusion", default=None, help="optional AO map (glTF occlusionTexture, AO in R)")
+    ap.add_argument("--size", type=int, default=None,
+                    help="force every map to this square size; default = --basecolor's own size "
+                         "(so same-size inputs are not resampled). Upscaling adds no detail.")
     ap.add_argument("--outdir", required=True)
     ap.add_argument("--flip-normal-green", action="store_true",
                     help="convert DirectX (Y-down) normal maps to glTF's OpenGL (Y-up)")
@@ -79,7 +101,28 @@ def main():
     args = ap.parse_args()
 
     os.makedirs(args.outdir, exist_ok=True)
-    S = args.size
+
+    # --- size: default to the basecolor's own, resample only when a map differs or --size is given ------
+    inputs = [("basecolor", args.basecolor), ("roughness", args.roughness),
+              ("metallic", args.metallic), ("normal", args.normal)]
+    if args.occlusion:
+        inputs.append(("occlusion", args.occlusion))
+    native = {name: probe_size(path) for name, path in inputs}
+
+    if args.size:
+        S = args.size
+        if native["basecolor"] != (S, S):
+            up = S > native["basecolor"][0]
+            print(f"  --size {S}: resampling {native['basecolor'][0]}x{native['basecolor'][1]} -> {S}x{S}"
+                  f"{'  (UPSCALE - adds no detail, only file size)' if up else ''}")
+    else:
+        w, h = native["basecolor"]
+        if w != h:
+            raise SystemExit(f"--basecolor is {w}x{h}, not square; pass --size to pick a square target")
+        S = w
+    for name, size in native.items():
+        if size != (S, S):
+            print(f"  {name}: {size[0]}x{size[1]} -> {S}x{S} (resampled to match the other maps)")
 
     base = load_rgb(args.basecolor, S)
     rough = load_l(args.roughness, S)
@@ -109,9 +152,6 @@ def main():
         # also emit the inverse map, so a shader that wants roughness in G can use it
         rough_out = Image.fromarray(np.round(rough_f * 255).astype(np.uint8), "L")
         rough_out.save(f"{args.outdir}/roughness.png")
-        # and Unity wants an occlusion map in R for _OcclusionMap
-        if args.occlusion:
-            load_l(args.occlusion, S).save(f"{args.outdir}/occlusion.png")
 
     # --- pack metallicRoughness: R unused(=255), G=roughness, B=metallic -------------
     # (glTF 2.0 convention; still emitted in --unity mode so both engines can be fed from one run)
@@ -124,8 +164,20 @@ def main():
     base.save(f"{args.outdir}/basecolor.png")
     normal.save(f"{args.outdir}/normal.png")
     mr.save(f"{args.outdir}/metallicRoughness.png")
-    if args.occlusion and not args.unity:
-        load_l(args.occlusion, S).save(f"{args.outdir}/occlusion.png")
+
+    # --- occlusion: one write, placed for the consumer ---------------------------------
+    # glTF reads occlusion from the R channel of occlusionTexture; Unity's _OcclusionMap samples G.
+    # A grayscale map satisfies glTF (R = the value); the Unity variant needs it in G explicitly.
+    if args.occlusion:
+        ao = load_l(args.occlusion, S)
+        if args.unity:
+            a = np.zeros((S, S, 3), np.uint8)
+            a[..., 0] = 255                     # R unused by Unity
+            a[..., 1] = np.asarray(ao)          # G = occlusion (what _OcclusionMap samples)
+            a[..., 2] = 255                     # B unused
+            Image.fromarray(a, "RGB").save(f"{args.outdir}/occlusion.png")
+        else:
+            ao.save(f"{args.outdir}/occlusion.png")
 
     # --- plausibility report ---------------------------------------------------------
     r, m = np.asarray(rough, np.float32) / 255, np.asarray(metal, np.float32) / 255
@@ -186,6 +238,8 @@ def main():
             baseColorTexture=Image.open(f"{args.outdir}/basecolor.png"),
             metallicRoughnessTexture=Image.open(f"{args.outdir}/metallicRoughness.png"),
             normalTexture=Image.open(f"{args.outdir}/normal.png"),
+            occlusionTexture=(Image.open(f"{args.outdir}/occlusion.png").convert("L")
+                              if args.occlusion else None),
             baseColorFactor=[255, 255, 255, 255],
             metallicFactor=1.0,
             roughnessFactor=1.0,
@@ -207,6 +261,7 @@ def main():
                   f"baseColor={'yes' if getattr(m2,'baseColorTexture',None) is not None else 'no'} "
                   f"metalRough={'yes' if getattr(m2,'metallicRoughnessTexture',None) is not None else 'no'} "
                   f"normal={'yes' if getattr(m2,'normalTexture',None) is not None else 'no'} "
+                  f"occlusion={'yes' if getattr(m2,'occlusionTexture',None) is not None else 'no'} "
                   f"factors={getattr(m2,'metallicFactor',None)}/{getattr(m2,'roughnessFactor',None)}")
 
 
