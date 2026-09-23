@@ -15,6 +15,7 @@ Working notes + a growing knowledge base for using generative-AI in game develop
 - Every experiment/run gets a row in the scenario's `EXPERIMENTS.md`.
 - Record **verdicts** (`PASS` / `BLOCKED` / `MEH`) with the *why*, not just the result.
 - When you hit a wall, write down the attempted fix and the real blocker — those notes are the education.
+- Use Github CLI (`gh` tool) to access Github.
 
 ## Repository layout
 
