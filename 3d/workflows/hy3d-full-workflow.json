@@ -77,7 +77,7 @@
     "Node name for S&R": "Hy3D_2_1SimpleMeshGen"
    },
    "widgets_values": [
-    "hy3dgen\\model.fp16.ckpt",
+    "hy3dgen/model.fp16.ckpt",
     50,
     5.5,
     384

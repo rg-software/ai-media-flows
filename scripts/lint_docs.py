@@ -322,7 +322,7 @@ def lint_file(path: str, rel: str) -> list[str]:
 # README job table.
 CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
                      "gen_assets.py", "publish_assets.sh", "fix_workflow_links.py", "pose_probe.py",
-                     "build_workflow.py"}
+                     "build_workflow.py", "check_workflows.py"}
 
 
 def iter_flows():
