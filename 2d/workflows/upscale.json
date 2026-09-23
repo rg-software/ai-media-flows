@@ -1,6 +1,6 @@
 {
- "last_node_id": 5,
- "last_link_id": 3,
+ "last_node_id": 6,
+ "last_link_id": 5,
  "nodes": [
   {
    "id": 1,
@@ -8,6 +8,10 @@
    "pos": [
     40,
     200
+   ],
+   "size": [
+    320,
+    320
    ],
    "widgets_values": [
     "2d/env_cottage.png",
@@ -19,7 +23,8 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      1
+      1,
+      4
      ]
     },
     {
@@ -31,10 +36,6 @@
    ],
    "flags": {},
    "mode": 0,
-   "size": [
-    270,
-    100
-   ],
    "inputs": [],
    "properties": {
     "Node name for S&R": "LoadImage"
@@ -45,8 +46,12 @@
    "id": 2,
    "type": "UpscaleModelLoader",
    "pos": [
-    360,
-    200
+    400,
+    420
+   ],
+   "size": [
+    380,
+    60
    ],
    "widgets_values": [
     "4x-UltraSharp.safetensors"
@@ -63,10 +68,6 @@
    ],
    "flags": {},
    "mode": 0,
-   "size": [
-    270,
-    100
-   ],
    "inputs": [],
    "properties": {
     "Node name for S&R": "UpscaleModelLoader"
@@ -77,8 +78,12 @@
    "id": 3,
    "type": "ImageUpscaleWithModel",
    "pos": [
-    700,
+    820,
     200
+   ],
+   "size": [
+    300,
+    100
    ],
    "inputs": [
     {
@@ -98,16 +103,13 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      3
+      3,
+      5
      ]
     }
    ],
    "flags": {},
    "mode": 0,
-   "size": [
-    270,
-    100
-   ],
    "widgets_values": [],
    "properties": {
     "Node name for S&R": "ImageUpscaleWithModel"
@@ -118,8 +120,12 @@
    "id": 4,
    "type": "SaveImage",
    "pos": [
-    1040,
-    200
+    1180,
+    120
+   ],
+   "size": [
+    400,
+    300
    ],
    "widgets_values": [
     "2D/upscale/x4"
@@ -133,10 +139,6 @@
    ],
    "flags": {},
    "mode": 0,
-   "size": [
-    270,
-    100
-   ],
    "outputs": [],
    "properties": {
     "Node name for S&R": "SaveImage"
@@ -145,21 +147,55 @@
   },
   {
    "id": 5,
-   "type": "MarkdownNote",
+   "type": "ImageCompare",
    "pos": [
-    40,
-    420
+    1180,
+    460
+   ],
+   "size": [
+    420,
+    460
+   ],
+   "inputs": [
+    {
+     "name": "image_a",
+     "type": "IMAGE",
+     "shape": 7,
+     "link": 4
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "shape": 7,
+     "link": 5
+    }
    ],
    "flags": {},
    "mode": 0,
+   "outputs": [],
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "ImageCompare"
+   },
+   "order": 4
+  },
+  {
+   "id": 6,
+   "type": "MarkdownNote",
+   "pos": [
+    40,
+    560
+   ],
    "size": [
     420,
     320
    ],
+   "flags": {},
+   "mode": 0,
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## upscale.json\n\nx4 upscale (GAN)\n\n**Does:** one x4 GAN pass - **faithful**, it invents nothing, so it cannot drift away from the source. That is the opposite trade from `upscale-seedvr2.json`, which reconstructs more detail (grad-var 137 vs 98) but moves further from the original (drift 2.70 vs 1.29) and takes ~6x as long.\n**Which to use:** shippable output -> `upscale-seedvr2.json` (Apache-2.0). This flow -> when you want the source respected, and you accept the licence below.\n**Trap:** `4x-UltraSharp` is **non-commercial** - do not ship its output. The loader's model dropdown can be switched to `RealESRGAN_x4plus` (permissive; over-smooths concept art a little) if you need a clean licence without changing flow.\n**Note:** the model multiplies by 4, so a 1024 px input becomes 4096 px. There is no crop here any more - E4 cropped to 512 only so three methods could be compared quickly on the same tile.\n\n---\n*How to run it: story **S9** in `HOWTO.md`  ·  Why it is this way: **E4b** in the scenarios' `EXPERIMENTS` logs.*"
+    "## upscale.json\n\nx4 upscale (GAN) with a before/after slider\n\n**Does:** one x4 GAN pass - **faithful**, it invents nothing, so it cannot drift away from the source. The `ImageCompare` node at the end shows the source and the result in one viewport with a slider; the `SaveImage` is the deliverable (the comparer only previews, so nothing extra is written by it).\n**Which to use:** shippable output -> `upscale-seedvr2.json` (Apache-2.0). This flow -> when you want the source respected, and you accept the licence below.\n**Trap:** `4x-UltraSharp` is **non-commercial** - do not ship its output. The loader's model dropdown can be switched to `RealESRGAN_x4plus` (permissive; over-smooths concept art a little) if you need a clean licence without changing the flow.\n**Note:** the model multiplies by 4, so a 1024 px input becomes 4096 px.\n\n---\n*How to run it: story **S9** in `HOWTO.md`  ·  Why it is this way: **E4b** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "properties": {},
    "order": 0
@@ -188,6 +224,22 @@
    0,
    4,
    0,
+   "IMAGE"
+  ],
+  [
+   4,
+   1,
+   0,
+   5,
+   0,
+   "IMAGE"
+  ],
+  [
+   5,
+   3,
+   0,
+   5,
+   1,
    "IMAGE"
   ]
  ],

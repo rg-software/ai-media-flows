@@ -123,6 +123,7 @@
 
 - *When:* you need more resolution, or a soft/small face cleaned up.
 - *Steps:* `2d/workflows/upscale-seedvr2.json` (Apache-2.0). Set `resolution` to the **short edge**; set it equal to the image size to **restore** instead of upscaling — that also works as face restore.
+- *See the result:* both flows end in an `ImageCompare` node — drag the slider in the canvas to flip between the source and the upscaled result in the same viewport. It only previews; the `SaveImage` output is the deliverable.
 - *Knobs:* `batch_size` must be 4n+1. SeedVR2 *reconstructs* (more detail, more drift, slower); `upscale.json`'s GAN is faithful (it invents nothing) but see the warning.
 - *Warning:* don't ship output from `upscale.json` — its `4x-UltraSharp` model is **non-commercial**. `upscale-seedvr2.json` is Apache-2.0.
 

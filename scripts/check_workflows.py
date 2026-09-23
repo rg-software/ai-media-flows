@@ -71,7 +71,12 @@ def choices_of(decl):
 
 def is_widget(decl):
     t = decl[0] if isinstance(decl, list) and decl else decl
-    return isinstance(t, list) or t == "COMBO" or t in WIDGET_TYPES
+    if isinstance(t, list) or t == "COMBO" or t in WIDGET_TYPES:
+        return True
+    # "socketless" inputs are frontend widgets that are not wired between nodes (ImageCompare's
+    # compare_view is one) - they still occupy a slot in the stored value list.
+    return (isinstance(decl, list) and len(decl) > 1 and isinstance(decl[1], dict)
+            and decl[1].get("socketless") is True)
 
 
 def widget_slots(spec):
