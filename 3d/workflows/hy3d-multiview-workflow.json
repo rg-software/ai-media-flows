@@ -372,7 +372,7 @@
     "Node name for S&R": "Hy3DModelLoader"
    },
    "widgets_values": [
-    "hy3dgen/hunyuan3d-dit-v2-mv-fast\\model.fp16.safetensors",
+    "hy3dgen/hunyuan3d-dit-v2-mv-fast/model.fp16.safetensors",
     "sdpa",
     false
    ]
