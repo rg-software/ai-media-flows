@@ -341,7 +341,8 @@ def check_flow_coverage() -> list[str]:
         rel = os.path.relpath(f, REPO).replace(os.sep, "/")
         base = os.path.basename(f)
         if base not in readme:
-            problems.append(f"{rel} is in no README.md 'I want to make' row (unreachable)")
+            problems.append(f"{rel} is named nowhere in README.md (unreachable - a job row, or the "
+                            f"'Not for end users' table for superseded/headless entries)")
         if base not in pipes:
             problems.append(f"{rel} has no row in PIPELINES.md (missing from the capability index)")
     return problems

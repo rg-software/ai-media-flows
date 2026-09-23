@@ -111,10 +111,10 @@
 
 - *When:* you need a tileable texture, or a complete PBR material an engine can use.
 - *Steps:*
-	- **Tile it — only if your UVs repeat.** One quad or one UV island spanning the texture needs nothing; make it tile with `2d/workflows/seamless-texture.json` (`method="offset"`) when the UVs repeat across a surface (grid/tiled UVs, or `Hy3DMeshUVWrap` on a 3D mesh), because nothing hides the join.
+	- **Tile it — only if your UVs repeat.** One quad or one UV island spanning the texture needs nothing; make it tile with `2d/workflows/seamless-texture.json` (`method="offset"`) when the UVs repeat across a surface (grid/tiled UVs, or a 3D mesh whose UVs tile), because nothing hides the join.
 	- **Material.** `2d/workflows/pbr-material.json` writes albedo, normal, roughness, metallic, AO and a packed map. Feed it a square texture around 768 px. `albedo_source` picks which Marigold albedo to use (`appearance` or `lighting` — take the one that looks de-lit); leave the rest at their defaults. Output lands in ComfyUI's `output/2D/pbr_material/`; pull it down with `comfy_io.py get 2D/pbr_material/<file>.png` (S14).
-	- **Into 3D — on the box.** `scripts/make_gltf_material.py` turns the maps into an engine material and can apply it to a mesh: `make_gltf_material.py --basecolor <png> --roughness <png> --metallic <png> --normal <png> --outdir <dir> --mesh <glb> --glb-out <out.glb>`. It needs a mesh that **already has UVs** and it **replaces** that mesh's material. Run it on the box (it reads ComfyUI's `output/`), then fetch the `.glb` with `comfy_io.py get`.
-	- **For Unity, add `--unity`.** Unity samples **smoothness** where glTF samples **roughness**, so passing our roughness map straight into a Unity material inverts the surface — a rough stone would come out looking polished. `--unity` writes `metallicSmoothness.png` (R=metallic, A=1−roughness) alongside the glTF map, so one run feeds both. In the importer, keep alpha (don't crop it) and assign it to `_MetallicGlossMap`.
+	- **Into 3D — runs on your machine, no ComfyUI needed.** Fetch the maps (S14), then `uv run python scripts/make_gltf_material.py --basecolor <png> --roughness <png> --metallic <png> --normal <png> --outdir <dir>` packs them into a **glTF 2.0** material — the interchange format read by Unity, Godot, Blender's glTF importer and three.js (its checks are the spec's channel order, colourspaces and factors). Add `--mesh <glb> --glb-out <out.glb>` to apply it to a mesh: the mesh must **already have UVs** and its existing material is **replaced**. It also runs fine on the box if the files are already there.
+	- **For Unity's own shaders, add `--unity`.** glTF packs **roughness** in `G`; Unity's shaders sample **smoothness** in `A`. Passing our map straight into Unity inverts the surface — rough stone would look polished. `--unity` writes `metallicSmoothness.png` (R=metallic, A=1−roughness) next to the glTF map, so one run feeds both. In the importer keep alpha (don't crop it) and assign it to `_MetallicGlossMap`.
 - *Traps:* `mirror`/`blend_edges` tile without a visible seam but look visibly wrong (a mirrored building becomes a second cottage) — use `offset`. Marigold's metallic is an **estimate**: on stone it sits near 0.36 where a dielectric should be ~0, so a faint sheen in-engine is the *value*, not the packing — remap or override it per material.
 - *Normal direction:* the normal map is **OpenGL (+Y up)** as glTF expects. If your renderer disagrees, pass `--flip-normal-green`.
 - *Legacy asset:* the sample material in `assets/3d/stone_material/` predates this flow — its normal is **DSINE-derived** (non-commercial). Regenerate it before shipping anything that depends on it.
@@ -136,7 +136,7 @@
 ### S11. 3D from images
 
 - *When:* you want a mesh, a textured model, multiple views, or a rig.
-- *Steps:* `3d/workflows/hy3d-full-workflow.json` (shape → texture → bake) or `hy3d-multiview-workflow.json`; rig with `3d/workflows/unirig-humanoid-workflow.json`.
+- *Steps:* `3d/workflows/hy3d-full-workflow.json` (shape → texture → bake) or `hy3d-multiview-workflow.json`; rig with `3d/workflows/unirig-humanoid-workflow.json`. Its `Hy3DMeshUVWrap` node is what gives a generated mesh its UVs, which is why a Hy3D mesh can take a material straight from S8.
 - *Warning:* Hy3D runs under the **Tencent Hunyuan 3D Community License**, which **excludes the EU, UK and South Korea** and requires a licence from Tencent above 1M monthly users. You own the meshes you generate, but only within those limits. UniRig (rigging) is MIT.
 - *More:* `3d/README.md`.
 

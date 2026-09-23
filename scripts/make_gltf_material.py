@@ -20,17 +20,23 @@ plausibility check beats trust: a dielectric (stone, wood) must come out with a 
 metallic channel. Our earlier QFX map failed exactly this test (mean 0.855 - see
 2d/EXPERIMENTS-2D.md E12b/U4), so this script prints the values and warns.
 
-Usage (on the ComfyUI box):
-    venv/bin/python scripts/make_gltf_material.py \
-        --basecolor input/2d/tex_stone_marigold_albedo.png \
-        --roughness input/2d/tex_stone_marigold_roughness.png \
-        --metallic  input/2d/tex_stone_marigold_metallic.png \
-        --normal    output/2D/U7/tex_stone_normal_00001_.png \
+Usage (anywhere - this needs no ComfyUI; deps are numpy + Pillow, and trimesh only for --mesh,
+all in the repo's uv env):
+    uv run python scripts/make_gltf_material.py \
+        --basecolor tex_stone_albedo.png \
+        --roughness tex_stone_roughness.png \
+        --metallic  tex_stone_metallic.png \
+        --normal    tex_stone_normal.png \
         --size 1024 \
-        --outdir  output/2D/U7/stone_material
+        --outdir  out/stone_material \
+        --unity
 
-Writes: basecolor.png, normal.png, metallicRoughness.png, material.json
-Add --mesh <glb> --glb-out <glb> to apply the material to a mesh and export.
+Writes (glTF 2.0, read by Unity, Godot, Blender's glTF importer, three.js):
+    basecolor.png, normal.png, metallicRoughness.png, material.json
+Add --unity to ALSO write the packed map Unity's own shaders want
+    metallicSmoothness.png (R=metallic, A=smoothness = 1 - roughness) + roughness.png
+Add --mesh <glb> --glb-out <glb> to apply the material to a mesh and export (needs UVs).
+The maps themselves come from the box's ComfyUI output - fetch them first (see HOWTO S14).
 """
 from __future__ import annotations
 
