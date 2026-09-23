@@ -1,6 +1,6 @@
 {
- "last_node_id": 12,
- "last_link_id": 13,
+ "last_node_id": 13,
+ "last_link_id": 14,
  "nodes": [
   {
    "id": 1,
@@ -288,8 +288,7 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      10,
-      12
+      10
      ]
     }
    ],
@@ -331,7 +330,8 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      11
+      11,
+      12
      ]
     }
    ],
@@ -373,30 +373,30 @@
   },
   {
    "id": 10,
-   "type": "PixelArtDetectorToImage",
+   "type": "PixelArtLoadPalettes",
    "pos": [
     420,
-    560
+    900
    ],
    "size": [
-    300,
-    100
+    340,
+    300
    ],
    "widgets_values": [
+    "pico-8-1x.png",
+    false,
+    "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
+    40,
+    "#f40e12",
+    "#fff",
+    6,
     true,
-    16
-   ],
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 12
-    }
+    3
    ],
    "outputs": [
     {
-     "name": "IMAGE",
-     "type": "IMAGE",
+     "name": "paletteList",
+     "type": "LIST",
      "slot_index": 0,
      "links": [
       13
@@ -405,17 +405,80 @@
    ],
    "flags": {},
    "mode": 0,
+   "inputs": [],
    "properties": {
-    "Node name for S&R": "PixelArtDetectorToImage"
+    "Node name for S&R": "PixelArtLoadPalettes"
    },
    "order": 9
   },
   {
    "id": 11,
+   "type": "PixelArtDetectorConverter",
+   "pos": [
+    820,
+    700
+   ],
+   "size": [
+    420,
+    620
+   ],
+   "widgets_values": [
+    "GAMEBOY",
+    64,
+    64,
+    "contain",
+    "Image.quantize",
+    2,
+    false,
+    "Image.quantize",
+    128,
+    true,
+    "MAXCOVERAGE",
+    "OpenCV.kmeans: only when reducing is enabled.\nRANDOM_CENTERS: Fast but doesn't guarantee same labels for the same image.\nPP_CENTERS: Slow but will yield optimum and consistent results for same input image.\nattempts: to run criteria_max_iterations so it gets the best labels. Increasing this value will slow down the runtime a lot, but improves the colors!\n",
+    "RANDOM_CENTERS",
+    10,
+    10,
+    "EUCLIDEAN_SQUARE",
+    "Clean up colors: Iterate and eliminate pixels while there was none left covering less than the 'cleanup_pixels_threshold' of the image.\nOptionally, enable the 'reduce colors' option, which runs before this cleanup. Good cleanup_threshold values: between .01 & .05",
+    false,
+    0.02,
+    "none"
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 12
+    },
+    {
+     "name": "paletteList",
+     "type": "LIST",
+     "link": 13
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      14
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "PixelArtDetectorConverter"
+   },
+   "order": 10
+  },
+  {
+   "id": 12,
    "type": "SaveImage",
    "pos": [
-    780,
-    600
+    1300,
+    700
    ],
    "size": [
     380,
@@ -428,7 +491,7 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 13
+     "link": 14
     }
    ],
    "flags": {},
@@ -437,10 +500,10 @@
    "properties": {
     "Node name for S&R": "SaveImage"
    },
-   "order": 10
+   "order": 11
   },
   {
-   "id": 12,
+   "id": 13,
    "type": "MarkdownNote",
    "pos": [
     -1500,
@@ -455,7 +518,7 @@
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## pixel-art.json\n\nPixel art (game-ready sprites)\n\n**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024²** -> `ImageScale` **nearest /16** = 64x64, then a palette pass (`PixelArtDetectorToImage`, 16 colours). Run it at 1024²: at 512² the frames come out far too tight.\n**Downscale by NEAREST with the model's KNOWN factor** (16 here). Never trust the detector's auto-detect - it mis-detects, and it is not idempotent, so only ever feed it the generation-sized image.\n**Want the flat retro look instead?** Switch the checkpoint to `RetroDiffusion24x-64xModel` at **512²**, 20 steps, cfg 9.5, and divide by **8** (its grid is 8 px at 512²). That model is **non-commercial**; `pixel-art-xl` is OpenRAIL, which is why this is the shipped arm.\n**Already have a picture?** `pixel-art-convert.json` pixelises and palettises an existing image to a chosen palette instead of generating one.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E5/E5b/E5f** in the scenarios' `EXPERIMENTS` logs.*"
+    "## pixel-art.json\n\nPixel art from a prompt (game-ready sprites)\n\n**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024²** -> `ImageScale` **nearest /16** = **64x64**, then `PixelArtDetectorConverter` at a **fixed 64x64** with a chosen palette = the same sprite, palettised (`paletteList` comes from `PixelArtLoadPalettes`, pico-8 by default). Both outputs are 64 px, so they are directly comparable.\n**Downscale by NEAREST with the model's KNOWN factor** (16 here). The palette pass uses a FIXED size on purpose: `PixelArtDetectorToImage` auto-detects the grid and, measured on this flow, returned **128 px** from a 1024 px image - and it is not idempotent, so never feed it an already-downscaled image. That is why it is not used here.\n**Want the flat retro look instead?** Switch the checkpoint to `RetroDiffusion24x-64xModel` at **512²**, 20 steps, cfg 9.5, and divide by **8** (its grid is 8 px at 512²). That model is **non-commercial**; `pixel-art-xl` is OpenRAIL, which is why this is the shipped arm.\n**Converting an existing picture instead?** `pixel-art-convert.json` keeps the source exactly (resize + palette); `pixel-art-restyle.json` redraws it with the LoRA first.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E5/E5b/E5f** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "properties": {},
    "order": 0
@@ -552,9 +615,9 @@
   ],
   [
    12,
-   7,
+   8,
    0,
-   10,
+   11,
    0,
    "IMAGE"
   ],
@@ -563,6 +626,14 @@
    10,
    0,
    11,
+   1,
+   "LIST"
+  ],
+  [
+   14,
+   11,
+   0,
+   12,
    0,
    "IMAGE"
   ]

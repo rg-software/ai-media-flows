@@ -1,26 +1,43 @@
 """Spec for 2d/workflows/pixel-art.json - build with scripts/build_workflow.py.
 
-Single arm: SDXL + `pixel-art-xl` LoRA (OpenRAIL). It used to carry two arms that differed only in the base
-checkpoint - Retro Diffusion 24x-64x at 512² (flat retro, but non-commercial) and this one at 1024² - and the
-choice belongs in the story, not in a duplicated graph. The Retro Diffusion recipe is in the note below and
-in HOWTO S10.
+Single arm (SDXL + pixel-art-xl LoRA, OpenRAIL) with TWO outputs at the SAME size: the plain nearest-/16
+downscale, and the same 64 px sprite palettised to a chosen palette.
+
+It used to have a second arm that differed only in the base checkpoint (Retro Diffusion, non-commercial) -
+that choice now lives in the story and the note. Its palette pass was `PixelArtDetectorToImage`, which
+auto-detects the pixel grid: measured on a 1024 px generation it returned **128 px**, not the 64 px sprite,
+and it is not idempotent. The palette pass is now `PixelArtDetectorConverter` with a FIXED 64x64 resize, the
+same node the convert/restyle flows use, so both outputs are 64 px and the palette is one you choose.
 """
+
+_GRID = ("Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid "
+         "with all palettes from this node.'")
+_OPENCV = ("OpenCV.kmeans: only when reducing is enabled.\nRANDOM_CENTERS: Fast but doesn't guarantee same "
+           "labels for the same image.\nPP_CENTERS: Slow but will yield optimum and consistent results for "
+           "same input image.\nattempts: to run criteria_max_iterations so it gets the best labels. "
+           "Increasing this value will slow down the runtime a lot, but improves the colors!\n")
+_CLEANUP = ("Clean up colors: Iterate and eliminate pixels while there was none left covering less than the "
+            "'cleanup_pixels_threshold' of the image.\nOptionally, enable the 'reduce colors' option, which "
+            "runs before this cleanup. Good cleanup_threshold values: between .01 & .05")
 
 NOTE = (
     "## pixel-art.json\n\n"
-    "Pixel art (game-ready sprites)\n\n"
-    "**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024²** -> `ImageScale` **nearest /16** "
-    "= 64x64, then a palette pass (`PixelArtDetectorToImage`, 16 colours). Run it at 1024²: at 512² the frames "
-    "come out far too tight.\n"
-    "**Downscale by NEAREST with the model's KNOWN factor** (16 here). Never trust the detector's auto-detect - "
-    "it mis-detects, and it is not idempotent, so only ever feed it the generation-sized image.\n"
-    "**Want the flat retro look instead?** Switch the checkpoint to `RetroDiffusion24x-64xModel` at **512²**, "
-    "20 steps, cfg 9.5, and divide by **8** (its grid is 8 px at 512²). That model is **non-commercial**; "
+    "Pixel art from a prompt (game-ready sprites)\n\n"
+    "**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024\u00b2** -> `ImageScale` "
+    "**nearest /16** = **64x64**, then `PixelArtDetectorConverter` at a **fixed 64x64** with a chosen palette "
+    "= the same sprite, palettised (`paletteList` comes from `PixelArtLoadPalettes`, pico-8 by default). Both "
+    "outputs are 64 px, so they are directly comparable.\n"
+    "**Downscale by NEAREST with the model's KNOWN factor** (16 here). The palette pass uses a FIXED size on "
+    "purpose: `PixelArtDetectorToImage` auto-detects the grid and, measured on this flow, returned **128 px** "
+    "from a 1024 px image - and it is not idempotent, so never feed it an already-downscaled image. That is "
+    "why it is not used here.\n"
+    "**Want the flat retro look instead?** Switch the checkpoint to `RetroDiffusion24x-64xModel` at **512\u00b2**, "
+    "20 steps, cfg 9.5, and divide by **8** (its grid is 8 px at 512\u00b2). That model is **non-commercial**; "
     "`pixel-art-xl` is OpenRAIL, which is why this is the shipped arm.\n"
-    "**Already have a picture?** `pixel-art-convert.json` pixelises and palettises an existing image to a "
-    "chosen palette instead of generating one.\n\n"
-    "---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E5/E5b/E5f** in the scenarios' "
-    "`EXPERIMENTS` logs.*"
+    "**Converting an existing picture instead?** `pixel-art-convert.json` keeps the source exactly (resize + "
+    "palette); `pixel-art-restyle.json` redraws it with the LoRA first.\n\n"
+    "---\n*How to run it: story **S10** in `HOWTO.md`  \u00b7  Why it is this way: **E5/E5b/E5f** in the "
+    "scenarios' `EXPERIMENTS` logs.*"
 )
 
 NODES = [
@@ -60,13 +77,18 @@ NODES = [
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0}]},
     {"id": 9, "type": "SaveImage", "pos": [780, 280], "size": [380, 300],
      "widgets_values": ["2D/E5/pixel_lora_64"], "inputs": [{"name": "images", "type": "IMAGE"}]},
-    {"id": 10, "type": "PixelArtDetectorToImage", "pos": [420, 560], "size": [300, 100],
-     "widgets_values": [True, 16],
-     "inputs": [{"name": "images", "type": "IMAGE"}],
+    {"id": 10, "type": "PixelArtLoadPalettes", "pos": [420, 900], "size": [340, 300],
+     "widgets_values": ["pico-8-1x.png", False, _GRID, 40, "#f40e12", "#fff", 6, True, 3],
+     "outputs": [{"name": "paletteList", "type": "LIST", "slot_index": 0}]},
+    {"id": 11, "type": "PixelArtDetectorConverter", "pos": [820, 700], "size": [420, 620],
+     "widgets_values": ["GAMEBOY", 64, 64, "contain", "Image.quantize", 2, False, "Image.quantize", 128,
+                        True, "MAXCOVERAGE", _OPENCV, "RANDOM_CENTERS", 10, 10, "EUCLIDEAN_SQUARE",
+                        _CLEANUP, False, 0.02, "none"],
+     "inputs": [{"name": "images", "type": "IMAGE"}, {"name": "paletteList", "type": "LIST"}],
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0}]},
-    {"id": 11, "type": "SaveImage", "pos": [780, 600], "size": [380, 300],
+    {"id": 12, "type": "SaveImage", "pos": [1300, 700], "size": [380, 300],
      "widgets_values": ["2D/E5/pixel_lora_64_pal"], "inputs": [{"name": "images", "type": "IMAGE"}]},
-    {"id": 12, "type": "MarkdownNote", "pos": [-1500, -480], "size": [720, 200]},
+    {"id": 13, "type": "MarkdownNote", "pos": [-1500, -480], "size": [720, 200]},
 ]
 
 LINKS = [
@@ -81,6 +103,7 @@ LINKS = [
     [9, 1, 2, 7, 1, "VAE"],
     [10, 7, 0, 8, 0, "IMAGE"],
     [11, 8, 0, 9, 0, "IMAGE"],
-    [12, 7, 0, 10, 0, "IMAGE"],
-    [13, 10, 0, 11, 0, "IMAGE"],
+    [12, 8, 0, 11, 0, "IMAGE"],
+    [13, 10, 0, 11, 1, "LIST"],
+    [14, 11, 0, 12, 0, "IMAGE"],
 ]

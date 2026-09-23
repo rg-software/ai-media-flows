@@ -1,0 +1,689 @@
+{
+ "last_node_id": 13,
+ "last_link_id": 16,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    200
+   ],
+   "size": [
+    320,
+    320
+   ],
+   "widgets_values": [
+    "2d/char_knight.png",
+    "image"
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": []
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "CheckpointLoaderSimple",
+   "pos": [
+    400,
+    380
+   ],
+   "size": [
+    340,
+    100
+   ],
+   "widgets_values": [
+    "RealVisXL_V5.0_fp16.safetensors"
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      2
+     ]
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "slot_index": 1,
+     "links": [
+      3
+     ]
+    },
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "slot_index": 2,
+     "links": [
+      6,
+      12
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "LoraLoader",
+   "pos": [
+    780,
+    380
+   ],
+   "size": [
+    340,
+    130
+   ],
+   "widgets_values": [
+    "pixel-art-xl.safetensors",
+    1.0,
+    1.0
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    },
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      7
+     ]
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "slot_index": 1,
+     "links": [
+      4,
+      5
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "LoraLoader"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "CLIPTextEncode",
+   "pos": [
+    1160,
+    120
+   ],
+   "size": [
+    420,
+    140
+   ],
+   "widgets_values": [
+    "retro game pixel art of a knight in ornate plate armor, flat colors, cel shading, limited palette, no background"
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      8
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "CLIPTextEncode",
+   "pos": [
+    1160,
+    320
+   ],
+   "size": [
+    420,
+    140
+   ],
+   "widgets_values": [
+    "photorealistic, 3D, realistic, blurry, smooth gradients, noise, watermark, text, extra limbs, deformed"
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      9
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "order": 4
+  },
+  {
+   "id": 6,
+   "type": "VAEEncode",
+   "pos": [
+    780,
+    200
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 1
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      10
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "order": 5
+  },
+  {
+   "id": 7,
+   "type": "KSampler",
+   "pos": [
+    1620,
+    120
+   ],
+   "size": [
+    320,
+    262
+   ],
+   "widgets_values": [
+    7701,
+    "fixed",
+    25,
+    8.0,
+    "euler",
+    "normal",
+    0.6
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 7
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 8
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 9
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      11
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "order": 6
+  },
+  {
+   "id": 8,
+   "type": "VAEDecode",
+   "pos": [
+    1980,
+    120
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 11
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 12
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      13,
+      14
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "order": 7
+  },
+  {
+   "id": 9,
+   "type": "SaveImage",
+   "pos": [
+    2260,
+    60
+   ],
+   "size": [
+    400,
+    300
+   ],
+   "widgets_values": [
+    "2D/pixel_convert/restyled_raw"
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 13
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "order": 8
+  },
+  {
+   "id": 10,
+   "type": "PixelArtLoadPalettes",
+   "pos": [
+    1980,
+    520
+   ],
+   "size": [
+    340,
+    300
+   ],
+   "widgets_values": [
+    "pico-8-1x.png",
+    false,
+    "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
+    40,
+    "#f40e12",
+    "#fff",
+    6,
+    true,
+    3
+   ],
+   "outputs": [
+    {
+     "name": "paletteList",
+     "type": "LIST",
+     "slot_index": 0,
+     "links": [
+      15
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "PixelArtLoadPalettes"
+   },
+   "order": 9
+  },
+  {
+   "id": 11,
+   "type": "PixelArtDetectorConverter",
+   "pos": [
+    2380,
+    380
+   ],
+   "size": [
+    420,
+    620
+   ],
+   "widgets_values": [
+    "GAMEBOY",
+    64,
+    64,
+    "contain",
+    "Image.quantize",
+    2,
+    false,
+    "Image.quantize",
+    128,
+    true,
+    "MAXCOVERAGE",
+    "OpenCV.kmeans: only when reducing is enabled.\nRANDOM_CENTERS: Fast but doesn't guarantee same labels for the same image.\nPP_CENTERS: Slow but will yield optimum and consistent results for same input image.\nattempts: to run criteria_max_iterations so it gets the best labels. Increasing this value will slow down the runtime a lot, but improves the colors!\n",
+    "RANDOM_CENTERS",
+    10,
+    10,
+    "EUCLIDEAN_SQUARE",
+    "Clean up colors: Iterate and eliminate pixels while there was none left covering less than the 'cleanup_pixels_threshold' of the image.\nOptionally, enable the 'reduce colors' option, which runs before this cleanup. Good cleanup_threshold values: between .01 & .05",
+    false,
+    0.02,
+    "none"
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 14
+    },
+    {
+     "name": "paletteList",
+     "type": "LIST",
+     "link": 15
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      16
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "PixelArtDetectorConverter"
+   },
+   "order": 10
+  },
+  {
+   "id": 12,
+   "type": "SaveImage",
+   "pos": [
+    2860,
+    380
+   ],
+   "size": [
+    400,
+    300
+   ],
+   "widgets_values": [
+    "2D/pixel_convert/restyled_pal"
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 16
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "order": 11
+  },
+  {
+   "id": 13,
+   "type": "MarkdownNote",
+   "pos": [
+    40,
+    560
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "widgets_values": [
+    "## pixel-art-restyle.json\n\nExisting image -> pixel art, REDRAWN (img2img with the pixel-art LoRA)\n\n**Does:** re-paints the source with `pixel-art-xl` before making a sprite, so detail is simplified into the pixel idiom instead of being resampled. `KSampler` is img2img at the model's native resolution: `denoise` **0.6** is the knob - low keeps the source, high redraws it (0.8 moves noticeably further). Then `PixelArtDetectorConverter` at a **fixed 64x64** with a chosen palette makes the grid (`paletteList` from `PixelArtLoadPalettes`; pico-8 by default). Two saves: the redrawn image at full size and the 64 px sprite.\n**Do NOT downscale before the sampler.** A 64-128 px latent makes SDXL produce mush - measured: a 128 px latent at denoise 0.93 returned a colour blob, not a knight. Downscaling belongs at the END, with the known factor.\n**Faithful instead?** `pixel-art-convert.json` keeps the source exactly (resize + palette, no redraw). **Restoring an existing small sprite?** that is a third job - upscale it first so the model can work at native resolution (the `comfyui-pixelart-detector` pack ships an example for it), which is not what this flow does.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E5** nodes + **E31/E32** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   6,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   2,
+   0,
+   3,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   2,
+   1,
+   3,
+   1,
+   "CLIP"
+  ],
+  [
+   4,
+   3,
+   1,
+   4,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   3,
+   1,
+   5,
+   0,
+   "CLIP"
+  ],
+  [
+   6,
+   2,
+   2,
+   6,
+   1,
+   "VAE"
+  ],
+  [
+   7,
+   3,
+   0,
+   7,
+   0,
+   "MODEL"
+  ],
+  [
+   8,
+   4,
+   0,
+   7,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   9,
+   5,
+   0,
+   7,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   10,
+   6,
+   0,
+   7,
+   3,
+   "LATENT"
+  ],
+  [
+   11,
+   7,
+   0,
+   8,
+   0,
+   "LATENT"
+  ],
+  [
+   12,
+   2,
+   2,
+   8,
+   1,
+   "VAE"
+  ],
+  [
+   13,
+   8,
+   0,
+   9,
+   0,
+   "IMAGE"
+  ],
+  [
+   14,
+   8,
+   0,
+   11,
+   0,
+   "IMAGE"
+  ],
+  [
+   15,
+   10,
+   0,
+   11,
+   1,
+   "LIST"
+  ],
+  [
+   16,
+   11,
+   0,
+   12,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}

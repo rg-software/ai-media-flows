@@ -130,10 +130,11 @@
 ### S10. Sprites and atlases
 
 - *When:* you need game-ready sprites - generated, converted from existing art, or packed into an atlas.
-- *From a prompt:* `2d/workflows/pixel-art.json` - SDXL + `pixel-art-xl` LoRA (OpenRAIL) at 1024², then a **nearest /16** downscale to a 64 px sprite. For the flat retro look instead, use `RetroDiffusion24x-64xModel` at 512² (20 steps, cfg 9.5) and divide by **8** - but that model is **non-commercial**, which is why the LoRA arm is the one shipped.
-- *From an existing picture:* `2d/workflows/pixel-art-convert.json` - pixelises **and** palettises to a palette you choose (**56 bundled**: NES, Game Boy, pico-8, Sweetie-16, DawnBringer-32, …). Nothing is generated, so the composition is kept; `resize_w`/`resize_h` set the sprite size, and `dither` is `none` because dithering is what makes a downscale look noisy.
+- *Generate:* `2d/workflows/pixel-art.json` - SDXL + `pixel-art-xl` LoRA (OpenRAIL) at 1024², then a **nearest /16** downscale to a **64 px** sprite. It saves **two files at the same size**: the plain sprite, and the same sprite palettised to a palette you choose (pico-8 by default). For the flat retro look instead, use `RetroDiffusion24x-64xModel` at 512² (20 steps, cfg 9.5) and divide by **8** - that model is **non-commercial**, which is why the LoRA arm is the one shipped.
+- *Convert an existing picture, faithfully:* `2d/workflows/pixel-art-convert.json` - resize + palette only, so the source is kept exactly. This is the "pixelated image" route; nothing is invented.
+- *Convert an existing picture, redrawn:* `2d/workflows/pixel-art-restyle.json` - an img2img pass with the pixel-art LoRA first (`denoise` **0.6** is the knob: lower keeps the source, higher redraws it), then the same fixed-size palette pass. More sprite-like, but it invents detail.
 - *Atlas:* `2d/workflows/sprite-atlas.json` (`ImageGrid`) builds and slices, round-trip verified.
-- *Trap:* downscale by **nearest** with the model's known factor; never trust the detector's auto-detection. Measured here: the palette pass on a 1024² generation returned **128 px**, not the 64 px sprite it was meant to match - auto-detection is a hint, and the node is not idempotent, so don't feed it an already-downscaled image.
+- *Trap:* downscale by **nearest** with the model's known factor, and palette at a **fixed size**. The detector's auto-detection is unreliable - measured, it returned **128 px** from a 1024² image - which is why these flows palette with `PixelArtDetectorConverter` at 64x64 instead and never feed it an already-downscaled image. And never downscale *before* an img2img pass: a 64-128 px latent makes SDXL produce mush (measured: a colour blob, not a knight).
 - *Warning:* Retro Diffusion's pixel-art models are **non-commercial** (the vendor says outputs are the creator's); `pixel-art-xl` is OpenRAIL and cleaner.
 
 
