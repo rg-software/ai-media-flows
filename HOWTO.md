@@ -129,10 +129,13 @@
 
 ### S10. Sprites and atlases
 
-- *When:* you need game-ready sprites.
-- *Steps:* pixel art — `2d/workflows/pixel-art.json`, then **downscale nearest ÷8 or ÷16** by the model's grid factor. Atlas — `2d/workflows/sprite-atlas.json` (`ImageGrid`) builds and slices round-trip verified.
-- *Trap:* never trust the pixel-art detector's auto-detection (it mis-detects 16x), and it isn't idempotent — don't feed it an already-downscaled image.
-- *Warning:* the pixel-art model (Retro Diffusion) is **non-commercial** — the vendor says its outputs are yours to use, but the model itself may not be used commercially, so clear it before shipping. The `pixel-art-xl` LoRA is OpenRAIL and cleaner.
+- *When:* you need game-ready sprites - generated, converted from existing art, or packed into an atlas.
+- *From a prompt:* `2d/workflows/pixel-art.json` - SDXL + `pixel-art-xl` LoRA (OpenRAIL) at 1024², then a **nearest /16** downscale to a 64 px sprite. For the flat retro look instead, use `RetroDiffusion24x-64xModel` at 512² (20 steps, cfg 9.5) and divide by **8** - but that model is **non-commercial**, which is why the LoRA arm is the one shipped.
+- *From an existing picture:* `2d/workflows/pixel-art-convert.json` - pixelises **and** palettises to a palette you choose (**56 bundled**: NES, Game Boy, pico-8, Sweetie-16, DawnBringer-32, …). Nothing is generated, so the composition is kept; `resize_w`/`resize_h` set the sprite size, and `dither` is `none` because dithering is what makes a downscale look noisy.
+- *Atlas:* `2d/workflows/sprite-atlas.json` (`ImageGrid`) builds and slices, round-trip verified.
+- *Trap:* downscale by **nearest** with the model's known factor; never trust the detector's auto-detection. Measured here: the palette pass on a 1024² generation returned **128 px**, not the 64 px sprite it was meant to match - auto-detection is a hint, and the node is not idempotent, so don't feed it an already-downscaled image.
+- *Warning:* Retro Diffusion's pixel-art models are **non-commercial** (the vendor says outputs are the creator's); `pixel-art-xl` is OpenRAIL and cleaner.
+
 
 ### S11. 3D from images
 

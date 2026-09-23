@@ -1,0 +1,235 @@
+{
+ "last_node_id": 5,
+ "last_link_id": 3,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    200
+   ],
+   "size": [
+    320,
+    320
+   ],
+   "widgets_values": [
+    "2d/char_knight.png",
+    "image"
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": []
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "PixelArtLoadPalettes",
+   "pos": [
+    400,
+    420
+   ],
+   "size": [
+    340,
+    300
+   ],
+   "widgets_values": [
+    "pico-8-1x.png",
+    false,
+    "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
+    40,
+    "#f40e12",
+    "#fff",
+    6,
+    true,
+    3
+   ],
+   "outputs": [
+    {
+     "name": "paletteList",
+     "type": "LIST",
+     "slot_index": 0,
+     "links": [
+      2
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "PixelArtLoadPalettes"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "PixelArtDetectorConverter",
+   "pos": [
+    800,
+    200
+   ],
+   "size": [
+    420,
+    620
+   ],
+   "widgets_values": [
+    "GAMEBOY",
+    64,
+    64,
+    "contain",
+    "Image.quantize",
+    2,
+    false,
+    "Image.quantize",
+    128,
+    true,
+    "MAXCOVERAGE",
+    "OpenCV.kmeans: only when reducing is enabled.\nRANDOM_CENTERS: Fast but doesn't guarantee same labels for the same image.\nPP_CENTERS: Slow but will yield optimum and consistent results for same input image.\nattempts: to run criteria_max_iterations so it gets the best labels. Increasing this value will slow down the runtime a lot, but improves the colors!\n",
+    "RANDOM_CENTERS",
+    10,
+    10,
+    "EUCLIDEAN_SQUARE",
+    "Clean up colors: Iterate and eliminate pixels while there was none left covering less than the 'cleanup_pixels_threshold' of the image.\nOptionally, enable the 'reduce colors' option, which runs before this cleanup. Good cleanup_threshold values: between .01 & .05",
+    false,
+    0.02,
+    "none"
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 1
+    },
+    {
+     "name": "paletteList",
+     "type": "LIST",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      3
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "PixelArtDetectorConverter"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "SaveImage",
+   "pos": [
+    1280,
+    200
+   ],
+   "size": [
+    400,
+    300
+   ],
+   "widgets_values": [
+    "2D/pixel_convert/sprite"
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 3
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "MarkdownNote",
+   "pos": [
+    40,
+    620
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "widgets_values": [
+    "## pixel-art-convert.json\n\nExisting image -> pixel art, with a chosen palette\n\n**Does:** pixelises and palettises a **picture you already have** - no generation, so the composition is kept. `PixelArtLoadPalettes` supplies the palette from an image bundled with the `comfyui-pixelart-detector` pack (**56 of them**: `nintendo-entertainment-system-1x.png`, `nintendo-gameboy-bgb-1x.png`, `pico-8-1x.png`, `sweetie-16-1x.png`, `dawnbringer-32-1x.png`, ...), wired into the converter's `paletteList`.\n**Output size** is `resize_w`/`resize_h` (64x64 here) with `resize_type=contain`, which is the sprite size you get - change both if you want 32 or 128.\n**Dither** is `none`: for game sprites a clean ramp usually beats dithering, and dithering is what makes a downscale look noisy (try `floyd-steinberg` if you want it).\n**Generating instead?** `pixel-art.json` makes a fresh sprite from a prompt; this flow is for converting.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E5/E6** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   3,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   2,
+   0,
+   3,
+   1,
+   "LIST"
+  ],
+  [
+   3,
+   3,
+   0,
+   4,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
