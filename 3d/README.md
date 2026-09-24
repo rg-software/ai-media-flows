@@ -30,6 +30,8 @@ Only the **valuable** pipelines live in `workflows/`. Scaffolding/one-off experi
 
 **Viewing a run:** every 3D flow ends in a viewer node — `Preview3D` on both Hy3D exports, `UniRigPreviewRiggedMesh` on the rig — so the mesh is orbited **inside the ComfyUI canvas**; a dedicated 3D app is not needed to check a run (the GLB/FBX is still written to `output/` for Blender/Unity). The viewers load from `output/`, which is why they take the export node's own path output; `Load3D`, the node that feeds a model *into* a graph, reads `input/3d/` instead. The 3D viewer is a frontend **Beta** feature, enabled by default (*Settings → 3D → Enable 3D Viewer*). Node-level detail: `../comfyui/README.md`.
 
+**Seeing the texture:** the deprecated `Preview3D` viewer has a known upstream bug and does **not** render GLB textures (the file is correct — it shows in Blender and Windows 3D Viewer; see `EXPERIMENTS.md` E6/E7). So both Hy3D flows also end in a **`Textured render (still)`**: `Hy3DNvdiffrastRenderer(render_type="textured")` → `SaveImage`, an ordinary image preview of the textured mesh. `num_frames` > 1 turns it into a turntable batch. That node needs **nvdiffrast** and a **pinned `utils3d`** in the server venv — see `../HANDOFF.md`.
+
 ### `workflows/scratch/` (one-off scaffolding: archive, don't maintain)
 
 | File | Why it existed | Worth keeping? |

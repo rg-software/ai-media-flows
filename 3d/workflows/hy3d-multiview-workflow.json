@@ -1,6 +1,6 @@
 {
- "last_node_id": 29,
- "last_link_id": 38,
+ "last_node_id": 31,
+ "last_link_id": 40,
  "nodes": [
   {
    "id": 1,
@@ -1117,7 +1117,8 @@
      "name": "trimesh",
      "type": "TRIMESH",
      "links": [
-      25
+      25,
+      39
      ],
      "slot_index": 0
     }
@@ -1260,6 +1261,93 @@
     "original",
     "original",
     ""
+   ]
+  },
+  {
+   "id": 30,
+   "type": "Hy3DNvdiffrastRenderer",
+   "pos": [
+    1400,
+    1100
+   ],
+   "size": [
+    300,
+    380
+   ],
+   "flags": {},
+   "order": 26,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 39
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      40
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": null,
+     "slot_index": 1
+    }
+   ],
+   "title": "Textured render (still)",
+   "properties": {
+    "Node name for S&R": "Hy3DNvdiffrastRenderer"
+   },
+   "widgets_values": [
+    "textured",
+    768,
+    768,
+    2,
+    1,
+    2.0,
+    0.0,
+    0.0,
+    60.0,
+    0.1,
+    1000.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "id": 31,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    1100
+   ],
+   "size": [
+    420,
+    420
+   ],
+   "flags": {},
+   "order": 27,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 40
+    }
+   ],
+   "outputs": [],
+   "title": "Textured render (save)",
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "3D/Hy3Dmv_textured_render"
    ]
   }
  ],
@@ -1551,6 +1639,22 @@
    29,
    0,
    "STRING"
+  ],
+  [
+   39,
+   19,
+   0,
+   30,
+   0,
+   "TRIMESH"
+  ],
+  [
+   40,
+   30,
+   0,
+   31,
+   0,
+   "IMAGE"
   ]
  ],
  "groups": [],

@@ -29,6 +29,9 @@ __pycache__/
 *.pyc
 .python-version
 
+# --- OpenChamber browser-tool scratch (screenshots) ---
+.openchamber/
+
 # --- OS / editor ---
 .DS_Store
 Thumbs.db

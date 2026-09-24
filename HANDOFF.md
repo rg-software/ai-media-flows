@@ -51,6 +51,15 @@ pip install omegaconf pyrootutils timm rembg onnxruntime pynanoinstantmeshes
 ```
 (`rembg` without `onnxruntime` first use downloads `bria-rmbg-2.0.onnx` ~1GB to `~/.rembg/` and **hangs silently** if the backend import fails — the original "ComfyUI won't stop" symptom was exactly this. Install onnxruntime first.)
 
+For the **textured render** (`Hy3DNvdiffrastRenderer`, the reliable texture check — E7):
+```
+pip install ninja nvdiffrast                       # nvdiffrast from PyPI builds the CUDA plugin at install time
+pip install "utils3d @ git+https://github.com/EasternJournalist/utils3d.git@580474822b0a72098f687dbe820c38f1214edfec"
+```
+- Pin `utils3d`: upstream **master renamed `intrinsics_from_fov_xy` → `intrinsics_from_fov`**, so `Hy3DNvdiffrastRenderer` dies with `module 'utils3d.torch' has no attribute 'intrinsics_from_fov_xy'`. Commit `5804748` (2025-08-31) is the last one that still defines it.
+- Build env for nvdiffrast = the `custom_rasterizer` recipe (`CUDA_HOME=~/miniconda3/envs/cuda128`, `CC=gcc-13`, `TORCH_CUDA_ARCH_LIST=8.6`); it is a `CUDAExtension` compiled **at install time**, so no nvcc is needed at runtime.
+- **Restart `comfyui` after installing any of these**: a module imported earlier in the running process stays in `sys.modules`, so the new code is not picked up (`No module named` → `has no attribute` → correct, in that order, if you install while it runs).
+
 ### Weights and nodes (current state: all present)
 - 3 weights already on disk (dropdowns populated): `hy3dgen/model.fp16.ckpt`, `hy3dgen/hunyuan3d-dit-v2-mv-fast/model.fp16.safetensors`, `moge_2_vitl_normal_fp16.safetensors`.
   - (Re-download sources, if ever needed: `tencent/Hunyuan3D-2.1` → `hunyuan3d-dit-v2-1/model.fp16.ckpt`; `tencent/Hunyuan3D-2mv` → `hunyuan3d-dit-v2-mv-fast/model.fp16.safetensors`; `Comfy-Org/MoGe` → `geometry_estimation/moge_2_vitl_normal_fp16.safetensors`.)
