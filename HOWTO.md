@@ -26,7 +26,7 @@
 **When something goes wrong**
 
 - **A run reports success in ~2 s and saves nothing** - a known failure mode; the API still says success (a bad node setting). Note which flow it was and tell the operator, who can read the service journal.
-- **The box freezes, or a model won't fit** - read `comfyui/hardware.md` *before* pulling anything large. The box *was* RAM-bound; since 2026-09-24 it has **64 GB** and a raised memory guard (48G/56G), so the Qwen fp8 tier now runs (measured 29.9 GB peak) - the remaining limit is *speed*, and VRAM for the 32B+ tier. The guard still kills ComfyUI rather than the machine on a runaway allocation.
+- **The box freezes, or a model won't fit** - read `comfyui/hardware.md` *before* pulling anything large. The box is RAM-bound, not VRAM-bound, and the service has a memory guard that kills ComfyUI rather than the machine.
 - **Masks come out inverted** - the MASK convention is *1 = transparent/selected*; see `comfyui/README.md` (node gotchas).
 
 **Two habits that matter more than any knob:** change **one knob at a time**, and trust the **image over the metric** - the numbers have looked fine on images that were clearly wrong.
@@ -129,8 +129,8 @@
 
 ### S10. Sprites and atlases
 
-- *When:* you need game-ready sprites - generated, converted from existing art, packed into a sheet, or unpacked from one.
-- *Generate:* `2d/workflows/pixel-art.json` - SDXL + `pixel-art-xl` LoRA (OpenRAIL) at 1024², then a **nearest /16** downscale to a **64 px** sprite. It saves **two files at the same size**: the plain sprite, and the same sprite palettised to a palette you choose (pico-8 by default). For the flat retro look instead, use `RetroDiffusion24x-64xModel` at 512² (20 steps, cfg 9.5) and divide by **8** - that model is **non-commercial**, which is why the LoRA arm is the one shipped.
+- *When:* you need game-ready sprites (generated, converted from existing art, packed into a sheet, or unpacked from one).
+- *Generate:* `2d/workflows/pixel-art.json`: SDXL + `pixel-art-xl` LoRA (OpenRAIL) at 1024². **That LoRA paints on an 8 px grid** (measured: the adjacent-column step ratio peaks at period 8, modal spike gap 8 px), so **/8 is its native factor - 128 px is its native sprite**. The flow ships a **nearest /16 -> 64 px** sprite, which is a deliberate *smaller* target - each output pixel covers 2x2 of the LoRA's pixels, so half the painted detail is gone - **not** the model's factor. It saves two files at that size: the plain sprite, and the same sprite palettised to a palette you choose (pico-8 by default). For the flat retro look instead, `RetroDiffusion24x-64xModel` at 512² (20 steps, cfg 9.5) with **its** measured factor /8 -> 64 px - that model is **non-commercial**, which is why the LoRA arm is the one shipped.
 - *Convert an existing picture, faithfully:* `2d/workflows/pixel-art-convert.json` - resize + palette only, so the source is kept exactly. This is the "pixelated image" route; nothing is invented.
 - *Convert an existing picture, redrawn:* `2d/workflows/pixel-art-restyle.json` - an img2img pass with the pixel-art LoRA first (`denoise` **0.6** is the knob: lower keeps the source, higher redraws it), then the same fixed-size palette pass. More sprite-like, but it invents detail.
 - *Pack or slice a sheet:* `scripts/atlas.py` - local, no ComfyUI, since this is pixel-grid arithmetic on files you already have. `pack --out sheet.png --columns 2 --cell 64x64 a.png b.png ...` lays images out row-major (optional `--padding` gap between cells); `slice sheet.png --outdir tiles --tile 64x64 --verify` cuts one file per tile and then merges them back and compares, so the round trip is **checked, not asserted**. Verified on the E6 sheet: packing the four 64 px potions reproduces `assets/2d/potion_atlas.png` pixel-identical, and slicing it back reports identical (including with `--overlap`).
