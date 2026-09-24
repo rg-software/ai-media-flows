@@ -42,18 +42,18 @@ Measured model footprints (fp8 checkpoints, as staged by ComfyUI):
 | model | UNet | text encoder | total | outcome |
 |---|---|---|---|---|
 | Flux.1 Kontext dev | 11.9 GB | 5.2 GB (T5 fp8) | **~17.6 GB** | ✅ works (69 s) |
-| Qwen-Image-Edit-2511 | **19.6 GB** | **7.9 GB** (Qwen2.5-VL-7B fp8) | **~27.5 GB** | ❌ **hard-freezes the machine** |
+| Qwen-Image-Edit-2511 | **19.6 GB** | **7.9 GB** (Qwen2.5-VL-7B fp8) | **~27.5 GB** | ✅ **runs since 64 GB** (29.9 GB peak) — ❌ hard-froze at 32 GB |
 
-**The Qwen-Image-Edit freeze (2026-09-16).** 19.6 GB + 7.9 GB = 27.5 GB against a 24 GB card forces CPU offload, and 31 GB RAM with 512 MB swap cannot absorb the offload plus the page cache for a 19.6 GB file → kernel thrash → **the whole system hangs and needs a manual reboot**. The journal of that boot ends dead on the line `Model QwenImage prepared for dynamic VRAM loading. 19582MB Staged` with **no OOM-killer entry** — the kernel never got far enough to log, which is the signature of memory-thrash lockup rather than a clean allocation failure. Practical ceiling on this box: **~18 GB of total model footprint.**
+**The Qwen-Image-Edit freeze (2026-09-16).** 19.6 GB + 7.9 GB = 27.5 GB against a 24 GB card forces CPU offload, and 31 GB RAM with 512 MB swap cannot absorb the offload plus the page cache for a 19.6 GB file → kernel thrash → **the whole system hangs and needs a manual reboot**. The journal of that boot ends dead on the line `Model QwenImage prepared for dynamic VRAM loading. 19582MB Staged` with **no OOM-killer entry** — the kernel never got far enough to log, which is the signature of memory-thrash lockup rather than a clean allocation failure. The practical ceiling *was* **~18 GB of total footprint at 32 GB RAM**; since 2026-09-24 the box has **64 GB** and the same model completes at a **29.9 GB peak**, comfortably under the 48G/56G guard.
 
 Why fp8 is not a free win here: the 3090 is **Ampere (sm_86) and has no native fp8**; ComfyUI logs `emulated ops: float8_e4m3fn` / `manual cast: torch.bfloat16`. Treat "fp8" sizes as a storage figure only on this card.
 
 **Mitigations, cheapest first:** full analysis with measured numbers and upgrade options is in **`hardware.md`**. Short version:
-1. **Cap the service so it dies instead of the machine** — add `MemoryHigh=20G` / `MemoryMax=26G` to the `comfyui` user unit. The cgroup OOM-killer then kills ComfyUI on runaway allocation; the system stays up and SSH-reachable. No sudo, no hardware.
+1. **Cap the service so it dies instead of the machine** — `MemoryHigh`/`MemoryMax` on the `comfyui` user unit (**now 48G/56G for 64 GB RAM**; was 20G/24G). The cgroup OOM-killer then kills ComfyUI on runaway allocation; the system stays up and SSH-reachable.
 2. **A real swapfile** (32–64 GB on the ~500 GB free NVMe) — turns a hard freeze into slow-but-alive. Needs sudo once.
-3. **Use GGUF quants** for anything ≥ ~18 GB (e.g. `unsloth/Qwen-Image-Edit-2511-GGUF` Q4/Q5 ≈ 12 GB)
+3. **Use GGUF quants** for anything ≥ ~30 GB (e.g. `unsloth/Qwen-Image-Edit-2511-GGUF` Q4/Q5 ≈ 12 GB) + the `ComfyUI-GGUF` node pack (**installed**). With 64 GB the fp8 model runs too, but a GGUF quant stays the lighter, more predictable path on an Ampere card.
    + the `ComfyUI-GGUF` node pack (not installed). The only local route to Qwen on this box.
-4. **Add RAM** — the GTi14 has 2× DDR5 SO-DIMM slots (up to 96 GB). Going to 64 GB makes Qwen viable (still slow: mobile CPU + x8 PCIe).
+4. **Add RAM — DONE 2026-09-24:** 64 GB installed; Qwen fp8 runs (29.9 GB peak). 96 GB remains the slot maximum if the video tier needs it.
 5. **Don't run it locally** — keep Kontext as the edit model, or use a cloud GPU for Qwen.
 
 **Z-Image Turbo (U3) — the modern base model that fits:** `models/diffusion_models/z_image_turbo_bf16.safetensors` (11.46 GB) + `models/text_encoders/qwen_3_4b_fp8_mixed.safetensors` (5.25 GB) + the Flux `ae.safetensors` VAE (reused). **Apache 2.0.** Load with `CLIPLoader type="lumina2"` — *not* `qwen_image`. Turbo recipe: 8 steps, cfg 1.0, `res_multistep`/`simple`, `ModelSamplingAuraFlow(3)`, negative via `ConditioningZeroOut`. Measured 25 s @1024², **19.3 GB cgroup peak, zero OOM** — it fits where Qwen 20B fp8 does not.

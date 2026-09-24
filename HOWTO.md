@@ -26,7 +26,7 @@
 **When something goes wrong**
 
 - **A run reports success in ~2 s and saves nothing** - a known failure mode; the API still says success (a bad node setting). Note which flow it was and tell the operator, who can read the service journal.
-- **The box freezes, or a model won't fit** - read `comfyui/hardware.md` *before* pulling anything large. The box is RAM-bound, not VRAM-bound, and the service has a memory guard that kills ComfyUI rather than the machine.
+- **The box freezes, or a model won't fit** - read `comfyui/hardware.md` *before* pulling anything large. The box *was* RAM-bound; since 2026-09-24 it has **64 GB** and a raised memory guard (48G/56G), so the Qwen fp8 tier now runs (measured 29.9 GB peak) - the remaining limit is *speed*, and VRAM for the 32B+ tier. The guard still kills ComfyUI rather than the machine on a runaway allocation.
 - **Masks come out inverted** - the MASK convention is *1 = transparent/selected*; see `comfyui/README.md` (node gotchas).
 
 **Two habits that matter more than any knob:** change **one knob at a time**, and trust the **image over the metric** - the numbers have looked fine on images that were clearly wrong.

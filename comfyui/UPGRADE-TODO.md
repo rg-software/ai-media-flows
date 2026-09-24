@@ -2,7 +2,7 @@
 
 Actionable checklist derived from `hardware.md`. Ordered by value. Each task has a **Do → Verify** pair so a change can be confirmed rather than assumed.
 
-Context: the box has **32 GB RAM / 512 MB swap**, and that — not the 24 GB RTX 3090 — is what stopped Qwen-Image-Edit (27.5 GB of model) from running. Measured ceiling today is ~18 GB of total model footprint.
+Context: the box had **32 GB RAM / 512 MB swap**, and that — not the 24 GB RTX 3090 — is what stopped Qwen-Image-Edit (27.5 GB of model) from running; the measured ceiling then was ~18 GB of total footprint. **Both are fixed: 64 GB RAM (2026-09-24) + a 32 GB swapfile, and the same fp8 model now completes at a 29.9 GB peak.**
 
 ---
 
@@ -35,7 +35,7 @@ Then reboot once and re-check `free -h` to confirm it comes back automatically.
 
 ---
 
-## Task 2: RAM 32 GB to 96 GB (highest value)
+## Task 2: RAM (DONE 2026-09-24, 64 GB installed; 96 GB remains the slot maximum)
 
 The single change that alters what is possible: offloading becomes safe, **Qwen-Image 20B fp8 (27.5 GB) becomes runnable**, FLUX.2 dev INT4 becomes plausible, and the freeze class disappears.
 
@@ -81,15 +81,15 @@ sudo dmidecode -t memory | grep -Ei 'size|configured memory speed|part number'
 
 ### Task 2b: raise the ComfyUI memory guard to match (do NOT skip)
 
-The service is deliberately capped so an oversized model kills ComfyUI instead of the machine. Those values assume 32 GB. **After** the RAM upgrade, edit `~/.config/systemd/user/comfyui.service` (repo copy: `comfyui/comfyui.service`):
+The service is deliberately capped so an oversized model kills ComfyUI instead of the machine. The 32 GB-era values were `MemoryHigh=20G` / `MemoryMax=24G`; **applied for 64 GB: `MemoryHigh=48G` / `MemoryMax=56G`** (`MemorySwapMax=8G` unchanged). Rule: `High = installed − 16 GB`, `Max = installed − 8 GB` — for 96 GB that is 72G/88G. **After** the change: edit the unit (repo copy: `comfyui/comfyui.service`), then:
 
 ```ini
-MemoryHigh=72G      # was 20G
-MemoryMax=88G       # was 24G
+MemoryHigh=48G      # was 20G (96 GB would be 72G)
+MemoryMax=56G       # was 24G (96 GB would be 88G)
 MemorySwapMax=8G    # unchanged
 ```
 
-Rule of thumb: keep every value at least ~6 GB below installed RAM (96 → High 72, Max 88).
+Rule of thumb: keep every value at least ~6 GB below installed RAM — applied 64 → High 48 / Max 56 (96 → 72/88).
 
 ```bash
 systemctl --user daemon-reload
@@ -97,7 +97,7 @@ systemctl --user restart comfyui
 systemctl --user show comfyui -p MemoryHigh -p MemoryMax   # confirm new values
 ```
 
-**Then re-test the model that failed:** it should run, slowly, without hanging.
+**Re-tested 2026-09-24:** the model that used to freeze the box (`UNETLoader` + `qwen_image_edit_2511_fp8mixed`, 40 steps) **completed in ~5 min at a 29.9 GB cgroup peak** — `memory.events` reported `oom 0 / max 0 / high 0`, output written (`qwen_fp8_00001_.png` under `2D/ramtest/`), box responsive throughout. (An SSH session dropped mid-run: that was the nested connection, not the box — the job finished and `uptime`/load were clean.)
 
 ---
 
@@ -127,14 +127,14 @@ Also confirm the dock's PSU headroom before buying anything above 600 W.
 ## Task 4: Keep learning honest (no hardware)
 
 - **Before pulling any model over ~10 GB**, check its expected footprint against the ceiling in `hardware.md`. The failure mode is a machine-wide hang, not a tidy error.
-- Prefer **GGUF quants** locally above ~14 GB of weights, and **cloud** for the 32B+ tier.
+- Above ~30 GB of weights, prefer **GGUF quants** locally, and **cloud** for the 32B+ tier. (The ~27 GB fp8 tier that needed this advice now runs, at a 29.9 GB peak.)
 - The models that fit are also the **licence-clean** ones (Z-Image Turbo, SeedVR2 and the Qwen GGUF line are Apache-2.0; Marigold is OpenRAIL++), so the fit constraint and the licence goal point the same way.
 
 ---
 
 ## Status
 
-- [x] Swapfile — *(commands above; pending you)*
-- [ ] RAM 96 GB — *(purchase + install)*
-- [ ] Raise the memory guard to match — **required with RAM, easy to forget**
+- [x] Swapfile — done (32 GB, persistent in `/etc/fstab`)
+- [x] RAM — **64 GB installed 2026-09-24** (96 GB not needed yet)
+- [x] Memory guard raised to **48G/56G** and verified with `systemctl --user show comfyui`
 - [ ] GPU (optional)

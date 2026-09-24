@@ -43,7 +43,9 @@ StartLimitBurst=3
 #
 # These limits make the *cgroup* kill ComfyUI instead of letting it take the box
 # down. The system stays up and SSH-reachable; `systemctl --user restart comfyui`
-# recovers. Values assume 31 GB RAM: the OS/desktop needs ~5-7 GB headroom.
+# recovers. Values assume 64 GB RAM (62 GiB usable): the OS/desktop needs ~5-7 GB headroom.
+# Chosen as High = installed - 16 GB, Max = installed - 8 GB, i.e. never within
+# ~6 GB of installed RAM (96 GB -> 72G/88G, 64 GB -> 48G/56G).
 #
 #   MemoryHigh    soft limit: this is where the kernel starts reclaiming hard.
 #                 Page cache from mmap'd safetensors is evicted from here rather
@@ -58,8 +60,8 @@ StartLimitBurst=3
 # Raise the limits only if RAM is upgraded; keep every value below (RAM - 6 GB).
 # ---------------------------------------------------------------------------
 MemoryAccounting=yes
-MemoryHigh=20G
-MemoryMax=24G
+MemoryHigh=48G
+MemoryMax=56G
 MemorySwapMax=8G
 
 # NoNewPrivileges=true
