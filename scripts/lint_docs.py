@@ -24,7 +24,11 @@ Checks, in the order of what has actually bitten us:
   6. **Per-flow docs:** every workflow carries a `MarkdownNote` (a group title renders as a
      clipped label in the canvas), and every story cited in the index exists in `HOWTO.md`.
   7. **Story mapping:** every README job row names a story that exists, and every story is
-     referenced by at least one row.
+     referenced by at least one row. Since `workflows/jobs.json` became the single source for the
+     job -> flow -> story mapping, `check_job_docs` additionally asserts that the README table, every
+     PIPELINES story cell and every workflow's note footer still *equal* what that registry renders -
+     so the mapping cannot drift, and adding or moving a job is a one-file edit
+     (`scripts/gen_job_docs.py --write`).
   8. **Prose wrapping:** prose is one line per paragraph. A single newline reflows on GitHub but
      renders as a visible break in a default Obsidian, and splits sentences so they cannot be
      grepped. `--fix-wrapping` rewrites files into the canonical form.
@@ -51,6 +55,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mdtable  # noqa: E402
 import fix_workflow_links  # noqa: E402
+import check_job_docs  # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -322,7 +327,9 @@ def lint_file(path: str, rel: str) -> list[str]:
 # README job table.
 CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
                      "gen_assets.py", "publish_assets.sh", "fix_workflow_links.py", "pose_probe.py",
-                     "build_workflow.py", "check_workflows.py"}
+                     "build_workflow.py", "check_workflows.py",
+                     # the job/story/flow registry and its renderer+gate (see workflows/jobs.json)
+                     "gen_job_docs.py", "check_job_docs.py"}
 
 
 def iter_flows():
@@ -510,6 +517,7 @@ def main() -> int:
     problems += check_flow_coverage()
     problems += check_flow_docs()
     problems += check_story_mapping()
+    problems += check_job_docs.check()
     problems += check_heading_anchors()
     problems += check_workflow_links()
     problems += check_workflow_order()

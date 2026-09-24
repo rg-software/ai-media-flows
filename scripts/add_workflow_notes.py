@@ -31,32 +31,32 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # flow -> (short group label, story id(s), E/U reference(s))
 MAPPING = {
-    "z-image-turbo.json":             ("Z-Image Turbo base art",        "S1", "U3"),
-    "sdxl-base-art.json":             ("SDXL base art",                 "S1", "E1/E1c/E1d"),
-    "sdxl-controlnet-canny.json":     ("ControlNet canny",              "S2", "E2b"),
-    "controlnet-union.json":          ("ControlNet-Union SDXL",         "S2", "U6b"),
-    "regional-prompting.json":        ("Regional prompting",            "S6", "E15"),
-    "remove-bg.json":                 ("Cutout (BiRefNet)",             "S3", "E3b"),
-    "sam3-segment.json":              ("SAM 3 text-prompted mask",      "S3", "U6a"),
-    "depth-normal.json":              ("Depth map",                     "S4", "E12"),
-    "inpaint.json":                   ("Inpaint",                       "S5", "E8"),
-    "outpaint.json":                  ("Outpaint",                      "S5", "E9, E17"),
-    "kontext-edit.json":              ("Relight (Kontext, superseded)", "S5", "E13 -> see U2"),
-    "qwen-edit-gguf.json":            ("Instruction edit + consistency","S5, S7", "U2/E14c"),
-    "pose-skeleton.json":             ("Pose from a skeleton",           "S7", "E21"),
-    "compose-harmonize.json":         ("Compose + harmonize",           "S6", "E10"),
-    "instantid-character.json":       ("Face identity (InstantID)",     "S7", "E14b"),
-    "pulid-identity.json":            ("Identity + free composition",   "S7", "U5"),
-    "kontext-character.json":         ("Character ref (superseded)",    "S7", "E14a -> see E14c"),
-    "ipadapter-style.json":           ("Style reference (superseded)",  "S13", "E11"),
-    "seamless-texture.json":          ("Seamless tiling",               "S8", "E7c"),
-    "pbr-from-texture.json":          ("PBR set (metallic inverted)",   "S8", "E12b -> see U4"),
-    "upscale-seedvr2.json":           ("SeedVR2 upscale / restore",     "S9", "U1/E13f"),
-    "upscale.json":                   ("GAN upscale (non-commercial)",  "S9", "E4b"),
-    "pixel-art.json":                 ("Pixel art",                     "S10", "E5/E5b/E5f"),
-    "hy3d-full-workflow.json":        ("Hy3D shape -> texture",         "S11", "E2a-e"),
-    "hy3d-multiview-workflow.json":   ("Hy3D multiview",                "S11", "E2d"),
-    "unirig-humanoid-workflow.json":  ("UniRig (Linux only)",           "S11", "E4-L"),
+    "z-image-turbo.json":             ("Z-Image Turbo base art",        "U3"),
+    "sdxl-base-art.json":             ("SDXL base art",                 "E1/E1c/E1d"),
+    "sdxl-controlnet-canny.json":     ("ControlNet canny",              "E2b"),
+    "controlnet-union.json":          ("ControlNet-Union SDXL",         "U6b"),
+    "regional-prompting.json":        ("Regional prompting",            "E15"),
+    "remove-bg.json":                 ("Cutout (BiRefNet)",             "E3b"),
+    "sam3-segment.json":              ("SAM 3 text-prompted mask",      "U6a"),
+    "depth-normal.json":              ("Depth map",                     "E12"),
+    "inpaint.json":                   ("Inpaint",                       "E8"),
+    "outpaint.json":                  ("Outpaint",                      "E9, E17"),
+    "kontext-edit.json":              ("Relight (Kontext, superseded)", "E13 -> see U2"),
+    "qwen-edit-gguf.json":            ("Instruction edit + consistency","U2/E14c"),
+    "pose-skeleton.json":             ("Pose from a skeleton",           "E21"),
+    "compose-harmonize.json":         ("Compose + harmonize",           "E10"),
+    "instantid-character.json":       ("Face identity (InstantID)",     "E14b"),
+    "pulid-identity.json":            ("Identity + free composition",   "U5"),
+    "kontext-character.json":         ("Character ref (superseded)",    "E14a -> see E14c"),
+    "ipadapter-style.json":           ("Style reference (superseded)",  "E11"),
+    "seamless-texture.json":          ("Seamless tiling",               "E7c"),
+    "pbr-from-texture.json":          ("PBR set (metallic inverted)",   "E12b -> see U4"),
+    "upscale-seedvr2.json":           ("SeedVR2 upscale / restore",     "U1/E13f"),
+    "upscale.json":                   ("GAN upscale (non-commercial)",  "E4b"),
+    "pixel-art.json":                 ("Pixel art",                     "E5/E5b/E5f"),
+    "hy3d-full-workflow.json":        ("Hy3D shape -> texture",         "E2a-e"),
+    "hy3d-multiview-workflow.json":   ("Hy3D multiview",                "E2d"),
+    "unirig-humanoid-workflow.json":  ("UniRig (Linux only)",           "E4-L"),
 }
 
 # Authored bodies for flows that had no usable note (or a too-thin one).
@@ -178,8 +178,18 @@ NOTES = {
 }
 
 
+def _story_of(flow: str) -> str:
+    """The story for a flow comes from the one registry (workflows/jobs.json), never a local copy."""
+    reg = json.load(open(os.path.join(REPO, "workflows", "jobs.json"), encoding="utf-8"))
+    meta = reg["flows"].get(flow)
+    if not meta:
+        raise SystemExit(f"workflows/jobs.json has no story claim for {flow}")
+    return ", ".join(meta.get("stories") or [meta["story"]])
+
+
 def note_markdown(flow: str, body: str) -> str:
-    label, story, ref = MAPPING[flow]
+    label, ref = MAPPING[flow]
+    story = _story_of(flow)
     footer = f"*How to run it: story **{story}** in `HOWTO.md`  ·  Why it is this way: **{ref}** in the scenarios' `EXPERIMENTS` logs.*"
     body = (body or "").strip()
     return f"## {flow}\n\n{label}\n\n{body}\n\n---\n{footer}"

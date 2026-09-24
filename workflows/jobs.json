@@ -1,0 +1,277 @@
+{
+ "_comment": "Source of truth for job -> flow -> story. Rendered into README.md, PIPELINES.md and each workflow's MarkdownNote by scripts/gen_job_docs.py; gated by lint_docs.py.",
+ "stories": {
+  "S1": "Generate concept art from a prompt",
+  "S2": "Control composition from an existing image",
+  "S3": "Cut an object out, or mask it by description",
+  "S4": "Get a depth map",
+  "S5": "Edit a picture: remove, replace, extend",
+  "S6": "Compose a scene from parts",
+  "S7": "Keep a character consistent across images",
+  "S8": "Transfer a style or a reference look",
+  "S9": "Sprites and atlases",
+  "S10": "Finish: upscale and restore",
+  "S11": "Materials: seamless textures, PBR, and into 3D",
+  "S12": "3D from images",
+  "S13": "Explore parameters with a sweep",
+  "S14": "Move files to and from the box"
+ },
+ "jobs": [
+  {
+   "want": "Generate concept art from a prompt",
+   "detail": "`2d/workflows/z-image-turbo.json` (modern, Apache-2.0) or `2d/workflows/sdxl-base-art.json` (SDXL, painted look)",
+   "story": "S1"
+  },
+  {
+   "want": "Control composition from an existing image",
+   "detail": "`2d/workflows/controlnet-union.json` (one model, many modes) · `2d/workflows/sdxl-controlnet-canny.json` (canny only)",
+   "story": "S2"
+  },
+  {
+   "want": "Cut an object out (transparent PNG)",
+   "detail": "`2d/workflows/remove-bg.json` (BiRefNet)",
+   "story": "S3"
+  },
+  {
+   "want": "Mask by description (\"the knight\", \"the roof\")",
+   "detail": "`2d/workflows/sam3-segment.json` (SAM 3, text-prompted)",
+   "story": "S3"
+  },
+  {
+   "want": "Get a depth map",
+   "detail": "`2d/workflows/depth-normal.json` (DepthAnythingV2)",
+   "story": "S4"
+  },
+  {
+   "want": "Inpaint / remove / add an object",
+   "detail": "`2d/workflows/inpaint.json`",
+   "story": "S5"
+  },
+  {
+   "want": "Make the picture bigger (outpaint)",
+   "detail": "`2d/workflows/outpaint.json` (invents the new area; the original stays pixel-exact)",
+   "story": "S5"
+  },
+  {
+   "want": "Extend a frame with its own content (not invented)",
+   "detail": "`scripts/pad_image.py` (mirror band + mask) → `2d/workflows/inpaint.json`",
+   "story": "S5"
+  },
+  {
+   "want": "Fix a colour or tone cast across a result",
+   "detail": "`scripts/color_match.py` (palette match; global cast only - see E20)",
+   "story": "S5"
+  },
+  {
+   "want": "Relight / change the lighting",
+   "detail": "`2d/workflows/qwen-edit-gguf.json` (faithful) · `2d/workflows/kontext-edit.json` (bolder, superseded)",
+   "story": "S5"
+  },
+  {
+   "want": "Compose a scene from parts (bg + character + prop)",
+   "detail": "`scripts/compose_scene.py` → `2d/workflows/compose-harmonize.json`",
+   "story": "S6"
+  },
+  {
+   "want": "Keep two subjects from merging",
+   "detail": "`2d/workflows/regional-prompting.json` (a single prompt *drops* one)",
+   "story": "S6"
+  },
+  {
+   "want": "Keep a character consistent across images",
+   "detail": "`2d/workflows/qwen-edit-gguf.json` (design) · `2d/workflows/instantid-character.json` (tight face) · `2d/workflows/pulid-identity.json` (face + free composition) · `2d/workflows/kontext-character.json` (superseded)",
+   "story": "S7"
+  },
+  {
+   "want": "Put a character in a specific pose",
+   "detail": "`2d/workflows/qwen-edit-gguf.json` (instruction - best for a specific pose) · `2d/workflows/pose-skeleton.json` (skeleton cue - holds a **coarse stance** at `strength 1.5` + `end_percent 0.5`, but not limb angles)",
+   "story": "S7"
+  },
+  {
+   "want": "Transfer a style or reference look",
+   "detail": "`2d/workflows/qwen-edit-gguf.json` (multi-image reference) · `2d/workflows/ipadapter-style.json` (superseded)",
+   "story": "S8"
+  },
+  {
+   "want": "Pixel art",
+   "detail": "`2d/workflows/pixel-art.json` (from a prompt) · `pixel-art-convert.json` (existing image, faithful) · `pixel-art-restyle.json` (existing image, redrawn) · `scripts/atlas.py` (pack a sheet / slice one - local)",
+   "story": "S9"
+  },
+  {
+   "want": "Build a sprite sheet / atlas",
+   "detail": "`scripts/atlas.py` (pack images into a sheet / slice one back - local, `--verify` checks the round-trip)",
+   "story": "S9"
+  },
+  {
+   "want": "Upscale / restore (incl. faces)",
+   "detail": "`2d/workflows/upscale-seedvr2.json` (Apache-2.0; `resolution` = image size for *restore*)",
+   "story": "S10"
+  },
+  {
+   "want": "Upscale faithfully (GAN, invents nothing)",
+   "detail": "`2d/workflows/upscale.json` — non-commercial `4x-UltraSharp`; prefer SeedVR2 above",
+   "story": "S10"
+  },
+  {
+   "want": "Make a texture tile seamlessly",
+   "detail": "`2d/workflows/seamless-texture.json` (`method=\"offset\"`)",
+   "story": "S11"
+  },
+  {
+   "want": "Turn a texture into PBR maps",
+   "detail": "`2d/workflows/pbr-material.json` (maps) -> `scripts/pack_pbr_material.py` (the packed map Unity needs) or `scripts/make_gltf_material.py` (glTF packing, optional GLB)",
+   "story": "S11"
+  },
+  {
+   "want": "Push a 2D material into 3D",
+   "detail": "`scripts/make_gltf_material.py` (glTF-valid material + optional GLB)",
+   "story": "S11"
+  },
+  {
+   "want": "Make a 3D model from an image/description",
+   "detail": "`3d/workflows/hy3d-full-workflow.json` · multi-view: `3d/workflows/hy3d-multiview-workflow.json`",
+   "story": "S12"
+  },
+  {
+   "want": "Rig a character",
+   "detail": "`3d/workflows/unirig-humanoid-workflow.json` (bpy via pixi — Linux only)",
+   "story": "S12"
+  },
+  {
+   "want": "Sweep parameters into a labelled grid",
+   "detail": "`scripts/sweep.py` (any flow's knobs) · `scripts/sweep_outpaint.py` (outpaint seam and fill)",
+   "story": "S13"
+  },
+  {
+   "want": "Move files to and from the box",
+   "detail": "`scripts/comfy_io.py` (HTTP-based)",
+   "story": "S14"
+  }
+ ],
+ "flows": {
+  "atlas.py": {
+   "story": "S9"
+  },
+  "color_match.py": {
+   "story": "S5"
+  },
+  "comfy_io.py": {
+   "story": "S14"
+  },
+  "compose-harmonize.json": {
+   "story": "S6"
+  },
+  "controlnet-union.json": {
+   "story": "S2"
+  },
+  "depth-normal.json": {
+   "story": "S4"
+  },
+  "hy3d-full-workflow.json": {
+   "story": "S12"
+  },
+  "hy3d-multiview-workflow.json": {
+   "story": "S12"
+  },
+  "inpaint.json": {
+   "story": "S5"
+  },
+  "instantid-character.json": {
+   "story": "S7"
+  },
+  "ipadapter-style.json": {
+   "story": "S8"
+  },
+  "kontext-character.json": {
+   "story": "S7"
+  },
+  "kontext-edit.json": {
+   "story": "S5"
+  },
+  "make_gltf_material.py": {
+   "story": "S11"
+  },
+  "marigold_pbr.py": {
+   "story": "S11"
+  },
+  "outpaint.json": {
+   "story": "S5"
+  },
+  "pack_pbr_material.py": {
+   "story": "S11"
+  },
+  "pad_image.py": {
+   "story": "S5"
+  },
+  "pbr-from-texture.json": {
+   "story": "S11"
+  },
+  "pbr-material.json": {
+   "story": "S11",
+   "stories": [
+    "S11"
+   ]
+  },
+  "pbr_set.py": {
+   "story": "S11"
+  },
+  "pixel-art-convert.json": {
+   "story": "S9"
+  },
+  "pixel-art-restyle.json": {
+   "story": "S9"
+  },
+  "pixel-art.json": {
+   "story": "S9"
+  },
+  "pose-skeleton.json": {
+   "story": "S7"
+  },
+  "pulid-identity.json": {
+   "story": "S7"
+  },
+  "qwen-edit-gguf.json": {
+   "story": "S5",
+   "stories": [
+    "S5",
+    "S7"
+   ]
+  },
+  "regional-prompting.json": {
+   "story": "S6"
+  },
+  "remove-bg.json": {
+   "story": "S3"
+  },
+  "sam3-segment.json": {
+   "story": "S3"
+  },
+  "sdxl-base-art.json": {
+   "story": "S1"
+  },
+  "sdxl-controlnet-canny.json": {
+   "story": "S2"
+  },
+  "seamless-texture.json": {
+   "story": "S11"
+  },
+  "sweep.py": {
+   "story": "S13"
+  },
+  "sweep_outpaint.py": {
+   "story": "S5"
+  },
+  "unirig-humanoid-workflow.json": {
+   "story": "S12"
+  },
+  "upscale-seedvr2.json": {
+   "story": "S10"
+  },
+  "upscale.json": {
+   "story": "S10"
+  },
+  "z-image-turbo.json": {
+   "story": "S1"
+  }
+ }
+}
