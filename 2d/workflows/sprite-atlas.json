@@ -1,728 +1,317 @@
 {
- "last_node_id": 15,
- "last_link_id": 15,
+ "last_node_id": 7,
+ "last_link_id": 5,
  "nodes": [
   {
    "id": 1,
-   "type": "CheckpointLoaderSimple",
-   "pos": [
-    -1300,
-    0
-   ],
-   "size": [
-    340,
-    100
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "MODEL",
-     "type": "MODEL",
-     "links": [
-      3
-     ],
-     "slot_index": 0
-    },
-    {
-     "name": "CLIP",
-     "type": "CLIP",
-     "links": [
-      1,
-      2
-     ],
-     "slot_index": 1
-    },
-    {
-     "name": "VAE",
-     "type": "VAE",
-     "links": [
-      9
-     ],
-     "slot_index": 2
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CheckpointLoaderSimple"
-   },
-   "widgets_values": [
-    "RealVisXL_V5.0_fp16.safetensors"
-   ]
-  },
-  {
-   "id": 2,
-   "type": "LoraLoaderModelOnly",
-   "pos": [
-    -940,
-    60
-   ],
-   "size": [
-    340,
-    90
-   ],
-   "flags": {},
-   "order": 1,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 3
-    }
-   ],
-   "outputs": [
-    {
-     "name": "MODEL",
-     "type": "MODEL",
-     "links": [
-      4
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "LoraLoaderModelOnly"
-   },
-   "widgets_values": [
-    "pixel-art-xl.safetensors",
-    1.0
-   ]
-  },
-  {
-   "id": 3,
-   "type": "CLIPTextEncode",
-   "pos": [
-    -940,
-    -240
-   ],
-   "size": [
-    440,
-    140
-   ],
-   "flags": {},
-   "order": 2,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 1
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "links": [
-      5
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "widgets_values": [
-    "pixel art of a magic potion bottle, flat colors, cel shading, plain white background, pixel art style, pixel art"
-   ]
-  },
-  {
-   "id": 4,
-   "type": "CLIPTextEncode",
-   "pos": [
-    -940,
-    -60
-   ],
-   "size": [
-    440,
-    110
-   ],
-   "flags": {},
-   "order": 3,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 2
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "links": [
-      6
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "widgets_values": [
-    "blurry, muted, dull, hazy, muddy colors, mutated, deformed, noise, borders, frame, watermark, text, signature, cropped, out of frame"
-   ]
-  },
-  {
-   "id": 5,
-   "type": "EmptyLatentImage",
-   "pos": [
-    -940,
-    200
-   ],
-   "size": [
-    300,
-    100
-   ],
-   "flags": {},
-   "order": 4,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "links": [
-      7
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "EmptyLatentImage"
-   },
-   "widgets_values": [
-    1024,
-    1024,
-    4
-   ]
-  },
-  {
-   "id": 6,
-   "type": "KSampler",
-   "pos": [
-    -540,
-    0
-   ],
-   "size": [
-    320,
-    262
-   ],
-   "flags": {},
-   "order": 5,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 4
-    },
-    {
-     "name": "positive",
-     "type": "CONDITIONING",
-     "link": 5
-    },
-    {
-     "name": "negative",
-     "type": "CONDITIONING",
-     "link": 6
-    },
-    {
-     "name": "latent_image",
-     "type": "LATENT",
-     "link": 7
-    }
-   ],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "links": [
-      8
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "KSampler"
-   },
-   "widgets_values": [
-    6002,
-    "fixed",
-    25,
-    7.0,
-    "euler",
-    "normal",
-    1.0
-   ]
-  },
-  {
-   "id": 7,
-   "type": "VAEDecode",
-   "pos": [
-    -160,
-    0
-   ],
-   "size": [
-    240,
-    60
-   ],
-   "flags": {},
-   "order": 6,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "samples",
-     "type": "LATENT",
-     "link": 8
-    },
-    {
-     "name": "vae",
-     "type": "VAE",
-     "link": 9
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "links": [
-      10
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
-  },
-  {
-   "id": 8,
-   "type": "ImageScale",
-   "pos": [
-    140,
-    0
-   ],
-   "size": [
-    300,
-    130
-   ],
-   "flags": {},
-   "order": 7,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "image",
-     "type": "IMAGE",
-     "link": 10
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "links": [
-      11,
-      12
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ImageScale"
-   },
-   "widgets_values": [
-    "nearest-exact",
-    64,
-    64,
-    "disabled"
-   ]
-  },
-  {
-   "id": 9,
-   "type": "SaveImage",
-   "pos": [
-    500,
-    -180
-   ],
-   "size": [
-    380,
-    280
-   ],
-   "flags": {},
-   "order": 8,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 11
-    }
-   ],
-   "outputs": [],
-   "properties": {
-    "Node name for S&R": "SaveImage"
-   },
-   "widgets_values": [
-    "2D/E6/frame"
-   ]
-  },
-  {
-   "id": 10,
-   "type": "ImageGrid",
-   "pos": [
-    500,
-    140
-   ],
-   "size": [
-    320,
-    140
-   ],
-   "flags": {},
-   "order": 9,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 12
-    }
-   ],
-   "outputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "links": [
-      13
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ImageGrid"
-   },
-   "widgets_values": [
-    2,
-    64,
-    64,
-    0
-   ]
-  },
-  {
-   "id": 11,
-   "type": "SaveImage",
-   "pos": [
-    860,
-    80
-   ],
-   "size": [
-    380,
-    300
-   ],
-   "flags": {},
-   "order": 10,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 13
-    }
-   ],
-   "outputs": [],
-   "properties": {
-    "Node name for S&R": "SaveImage"
-   },
-   "widgets_values": [
-    "2D/E6/potion_atlas"
-   ]
-  },
-  {
-   "id": 12,
    "type": "LoadImage",
    "pos": [
-    -1300,
-    420
+    40,
+    120
    ],
    "size": [
     320,
     320
    ],
-   "flags": {},
-   "order": 11,
-   "mode": 0,
-   "inputs": [],
+   "widgets_values": [
+    "2d/potion_1.png",
+    "image"
+   ],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
-      14
-     ],
-     "slot_index": 0
+      1
+     ]
     },
     {
      "name": "MASK",
      "type": "MASK",
-     "links": [],
-     "slot_index": 1
+     "slot_index": 1,
+     "links": []
     }
    ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
    "properties": {
     "Node name for S&R": "LoadImage"
    },
-   "widgets_values": [
-    "2d/potion_atlas.png",
-    "image"
-   ]
+   "order": 0
   },
   {
-   "id": 13,
-   "type": "SplitImageToTileList",
+   "id": 2,
+   "type": "LoadImage",
    "pos": [
-    -940,
-    440
+    40,
+    460
    ],
    "size": [
     320,
-    130
+    320
+   ],
+   "widgets_values": [
+    "2d/potion_2.png",
+    "image"
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      2
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": []
+    }
    ],
    "flags": {},
-   "order": 12,
    "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    800
+   ],
+   "size": [
+    320,
+    320
+   ],
+   "widgets_values": [
+    "2d/potion_3.png",
+    "image"
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      3
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": []
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    1140
+   ],
+   "size": [
+    320,
+    320
+   ],
+   "widgets_values": [
+    "2d/potion_4.png",
+    "image"
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      4
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": []
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "ImageGridComposite2x2",
+   "pos": [
+    420,
+    300
+   ],
+   "size": [
+    300,
+    180
+   ],
    "inputs": [
     {
-     "name": "image",
+     "name": "image1",
      "type": "IMAGE",
-     "link": 14
+     "link": 1
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 2
+    },
+    {
+     "name": "image3",
+     "type": "IMAGE",
+     "link": 3
+    },
+    {
+     "name": "image4",
+     "type": "IMAGE",
+     "link": 4
     }
    ],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
-     "links": [
-      15
-     ],
      "slot_index": 0,
-     "is_list": true
+     "links": [
+      5
+     ]
     }
    ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
    "properties": {
-    "Node name for S&R": "SplitImageToTileList"
+    "Node name for S&R": "ImageGridComposite2x2"
    },
-   "widgets_values": [
-    64,
-    64,
-    0
-   ]
+   "order": 4
   },
   {
-   "id": 14,
+   "id": 6,
    "type": "SaveImage",
    "pos": [
-    -560,
-    420
-   ],
-   "size": [
-    380,
+    780,
     300
    ],
-   "flags": {},
-   "order": 13,
-   "mode": 0,
+   "size": [
+    400,
+    300
+   ],
+   "widgets_values": [
+    "2D/atlas/potion_atlas"
+   ],
    "inputs": [
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 15
+     "link": 5
     }
    ],
+   "flags": {},
+   "mode": 0,
    "outputs": [],
    "properties": {
     "Node name for S&R": "SaveImage"
    },
-   "widgets_values": [
-    "2D/E6/resliced"
-   ]
+   "order": 5
   },
   {
-   "id": 15,
+   "id": 7,
    "type": "MarkdownNote",
    "pos": [
-    -1300,
-    -460
+    420,
+    560
    ],
    "size": [
-    720,
-    200
+    420,
+    320
    ],
    "flags": {},
-   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [],
-   "properties": {},
    "widgets_values": [
-    "## sprite-atlas.json\n\nSprite atlas\n\nBUILD: batch of N sprites -> ImageGrid(columns=2) = one atlas. Save frames individually too if you want them loose.\nSLICE: any atlas -> SplitImageToTileList(tile w/h, overlap) = a LIST of tiles; SaveImage writes one file per tile. Verified round-trip identical.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E6** in the scenarios' `EXPERIMENTS` logs.*"
+    "## sprite-atlas.json\n\nCombine individual sprites into one sheet\n\n**Does:** packs four separate images into one 2x2 sheet with core `ImageGridComposite2x2` - swap the `LoadImage` nodes for your own files. It ships the four 64 px potion sprites, so it runs as-is and reproduces `input/2d/potion_atlas.png` exactly (verified pixel-identical).\n**Other counts:** `ImageBatchMulti` (`inputcount`, then `image_1`...) feeds a generic `ImageGrid` (`columns`, `cell_width`, `cell_height`, `padding`) - use that pair for anything that is not 2x2 or 3x3. Those extra inputs are created by the frontend, so a headless replica must build them by hand.\n**No generation here:** make the sprites with `pixel-art.json` (or convert an existing picture with `pixel-art-convert.json` / `pixel-art-restyle.json`), then pack them.\n**Unpacking?** `sprite-slice.json` turns a sheet back into tiles and proves the round-trip in the same run.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E6/E33** in the scenarios' `EXPERIMENTS` logs.*"
    ],
-   "color": "#332922",
-   "bgcolor": "#593930"
+   "properties": {},
+   "order": 0
   }
  ],
  "links": [
   [
    1,
    1,
+   0,
+   5,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   2,
+   0,
+   5,
    1,
+   "IMAGE"
+  ],
+  [
+   3,
    3,
    0,
-   "CLIP"
+   5,
+   2,
+   "IMAGE"
   ],
   [
-   2,
-   1,
-   1,
+   4,
    4,
    0,
-   "CLIP"
-  ],
-  [
+   5,
    3,
-   1,
-   0,
-   2,
-   0,
-   "MODEL"
-  ],
-  [
-   4,
-   2,
-   0,
-   6,
-   0,
-   "MODEL"
+   "IMAGE"
   ],
   [
    5,
-   3,
-   0,
-   6,
-   1,
-   "CONDITIONING"
-  ],
-  [
-   6,
-   4,
-   0,
-   6,
-   2,
-   "CONDITIONING"
-  ],
-  [
-   7,
    5,
    0,
    6,
-   3,
-   "LATENT"
-  ],
-  [
-   8,
-   6,
-   0,
-   7,
-   0,
-   "LATENT"
-  ],
-  [
-   9,
-   1,
-   2,
-   7,
-   1,
-   "VAE"
-  ],
-  [
-   10,
-   7,
-   0,
-   8,
-   0,
-   "IMAGE"
-  ],
-  [
-   11,
-   8,
-   0,
-   9,
-   0,
-   "IMAGE"
-  ],
-  [
-   12,
-   8,
-   0,
-   10,
-   0,
-   "IMAGE"
-  ],
-  [
-   13,
-   10,
-   0,
-   11,
-   0,
-   "IMAGE"
-  ],
-  [
-   14,
-   12,
-   0,
-   13,
-   0,
-   "IMAGE"
-  ],
-  [
-   15,
-   13,
-   0,
-   14,
    0,
    "IMAGE"
   ]
  ],
- "groups": [
-  {
-   "title": "Sprite atlas",
-   "bounding": [
-    -1360,
-    -300,
-    2620,
-    620
-   ],
-   "color": "#3f789e",
-   "font_size": 22,
-   "flags": {}
-  },
-  {
-   "title": "Sprite atlas",
-   "bounding": [
-    -1360,
-    380,
-    1600,
-    400
-   ],
-   "color": "#8A8A3f",
-   "font_size": 22,
-   "flags": {}
-  }
- ],
+ "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
  "version": 0.4
 }
