@@ -142,6 +142,7 @@
 
 - *When:* you want a mesh, a textured model, multiple views, or a rig.
 - *Steps:* `3d/workflows/hy3d-full-workflow.json` (shape → texture → bake) or `hy3d-multiview-workflow.json`; rig with `3d/workflows/unirig-humanoid-workflow.json`. Its `Hy3DMeshUVWrap` node is what gives a generated mesh its UVs, which is why a Hy3D mesh can take a material straight from S8.
+- *View:* the run ends in a viewer node — `Preview3D` on both Hy3D exports, `UniRigPreviewRiggedMesh` on the rig — so you orbit the model **in the canvas** rather than opening a dedicated 3D app. The viewers read from `output/`, where the GLB/FBX already land. No extra setup: the 3D viewer is a frontend feature (Beta) that is on by default.
 - *Warning:* Hy3D runs under the **Tencent Hunyuan 3D Community License**, which **excludes the EU, UK and South Korea** and requires a licence from Tencent above 1M monthly users. You own the meshes you generate, but only within those limits. UniRig (rigging) is MIT.
 - *More:* `3d/README.md`.
 

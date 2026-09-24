@@ -28,6 +28,8 @@ Only the **valuable** pipelines live in `workflows/`. Scaffolding/one-off experi
 | `hy3d-full-workflow.json` | image → shape → postprocess → **IMRemesh (retopology)** → UV-wrap → paint → delight → bake. **Dual output:** `Hy3D_untextured.glb` (remeshed geometry checkpoint) + `Hy3D_textured.glb` (final) — you see the source→untextured→textured progression in one run | free | **PASS (E2a/E2b/E2c)** |
 | `hy3d-multiview-workflow.json` | 4 view images (front/left/right/back) → **mv checkpoint** → multi-view shape → retopology → texture tail → dual GLB | free | **ready to run; needs mv checkpoint** (`hy3dgen\hunyuan3d-dit-v2-mv-fast\model.fp16.safetensors` from `tencent/Hunyuan3D-2mv`) |
 
+**Viewing a run:** every 3D flow ends in a viewer node — `Preview3D` on both Hy3D exports, `UniRigPreviewRiggedMesh` on the rig — so the mesh is orbited **inside the ComfyUI canvas**; a dedicated 3D app is not needed to check a run (the GLB/FBX is still written to `output/` for Blender/Unity). The viewers load from `output/`, which is why they take the export node's own path output; `Load3D`, the node that feeds a model *into* a graph, reads `input/3d/` instead. The 3D viewer is a frontend **Beta** feature, enabled by default (*Settings → 3D → Enable 3D Viewer*). Node-level detail: `../comfyui/README.md`.
+
 ### `workflows/scratch/` (one-off scaffolding: archive, don't maintain)
 
 | File | Why it existed | Worth keeping? |

@@ -1,6 +1,6 @@
 {
- "last_node_id": 17,
- "last_link_id": 23,
+ "last_node_id": 19,
+ "last_link_id": 25,
  "nodes": [
   {
    "id": 1,
@@ -193,7 +193,9 @@
     {
      "name": "glb_path",
      "type": "STRING",
-     "links": null,
+     "links": [
+      25
+     ],
      "slot_index": 0
     }
    ],
@@ -700,7 +702,9 @@
     {
      "name": "glb_path",
      "type": "STRING",
-     "links": null,
+     "links": [
+      24
+     ],
      "slot_index": 0
     }
    ],
@@ -731,10 +735,82 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## hy3d-full-workflow.json\n\nHy3D shape -> texture\n\n**Does:** image -> 3D mesh -> texture -> bake, with Hunyuan3D 2.x.\n**Note:** the shape and the texture are exported separately (untextured and textured GLB) so\nthe shape can be rigged/retopo'd before texturing.\n**See:** `3d/README.md`, `3d/pipeline-design.md`, and the widget reference in `3d/hy3d-knobs.md`.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2a-e** in the scenarios' `EXPERIMENTS` logs.*"
+    "## hy3d-full-workflow.json\n\nHy3D shape -> texture\n\n**Does:** image -> 3D mesh -> texture -> bake, with Hunyuan3D 2.x.\n**View:** both exports end in a `Preview3D` node — the untextured checkpoint and the textured result can be orbited in the canvas (the viewer reads from `output/`).\n**Note:** the shape and the texture are exported separately (untextured and textured GLB) so\nthe shape can be rigged/retopo'd before texturing.\n**See:** `3d/README.md`, `3d/pipeline-design.md`, and the widget reference in `3d/hy3d-knobs.md`.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2a-e** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
+  },
+  {
+   "id": 18,
+   "type": "Preview3D",
+   "pos": [
+    1455,
+    200
+   ],
+   "size": [
+    860,
+    900
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model_file",
+     "type": "STRING",
+     "widget": {
+      "name": "model_file"
+     },
+     "link": 24
+    }
+   ],
+   "outputs": [],
+   "title": "Preview textured GLB",
+   "properties": {
+    "Node name for S&R": "Preview3D"
+   },
+   "widgets_values": [
+    "",
+    "original",
+    "original",
+    ""
+   ]
+  },
+  {
+   "id": 19,
+   "type": "Preview3D",
+   "pos": [
+    -300,
+    586
+   ],
+   "size": [
+    860,
+    900
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model_file",
+     "type": "STRING",
+     "widget": {
+      "name": "model_file"
+     },
+     "link": 25
+    }
+   ],
+   "outputs": [],
+   "title": "Preview untextured GLB",
+   "properties": {
+    "Node name for S&R": "Preview3D"
+   },
+   "widgets_values": [
+    "",
+    "original",
+    "original",
+    ""
+   ]
   }
  ],
  "links": [
@@ -913,6 +989,22 @@
    10,
    1,
    "MESHRENDER"
+  ],
+  [
+   24,
+   11,
+   0,
+   18,
+   0,
+   "STRING"
+  ],
+  [
+   25,
+   13,
+   0,
+   19,
+   0,
+   "STRING"
   ]
  ],
  "groups": [],

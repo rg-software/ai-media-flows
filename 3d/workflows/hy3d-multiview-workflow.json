@@ -1,6 +1,6 @@
 {
- "last_node_id": 27,
- "last_link_id": 36,
+ "last_node_id": 29,
+ "last_link_id": 38,
  "nodes": [
   {
    "id": 1,
@@ -596,7 +596,9 @@
     {
      "name": "glb_path",
      "type": "STRING",
-     "links": null,
+     "links": [
+      38
+     ],
      "slot_index": 0
     }
    ],
@@ -1150,7 +1152,9 @@
     {
      "name": "glb_path",
      "type": "STRING",
-     "links": null,
+     "links": [
+      37
+     ],
      "slot_index": 0
     }
    ],
@@ -1181,10 +1185,82 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D — several consistent views (uniform 512²) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
+    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D — several consistent views (uniform 512²) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node — orbit the untextured and textured meshes in the canvas (the viewer reads from `output/`).\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
+  },
+  {
+   "id": 28,
+   "type": "Preview3D",
+   "pos": [
+    1755,
+    100
+   ],
+   "size": [
+    860,
+    900
+   ],
+   "flags": {},
+   "order": 24,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model_file",
+     "type": "STRING",
+     "widget": {
+      "name": "model_file"
+     },
+     "link": 37
+    }
+   ],
+   "outputs": [],
+   "title": "Preview textured GLB",
+   "properties": {
+    "Node name for S&R": "Preview3D"
+   },
+   "widgets_values": [
+    "",
+    "original",
+    "original",
+    ""
+   ]
+  },
+  {
+   "id": 29,
+   "type": "Preview3D",
+   "pos": [
+    -150,
+    600
+   ],
+   "size": [
+    860,
+    900
+   ],
+   "flags": {},
+   "order": 25,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model_file",
+     "type": "STRING",
+     "widget": {
+      "name": "model_file"
+     },
+     "link": 38
+    }
+   ],
+   "outputs": [],
+   "title": "Preview untextured GLB",
+   "properties": {
+    "Node name for S&R": "Preview3D"
+   },
+   "widgets_values": [
+    "",
+    "original",
+    "original",
+    ""
+   ]
   }
  ],
  "links": [
@@ -1459,6 +1535,22 @@
    19,
    1,
    "MESHRENDER"
+  ],
+  [
+   37,
+   20,
+   0,
+   28,
+   0,
+   "STRING"
+  ],
+  [
+   38,
+   10,
+   0,
+   29,
+   0,
+   "STRING"
   ]
  ],
  "groups": [],

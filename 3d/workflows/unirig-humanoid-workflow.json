@@ -1,6 +1,6 @@
 {
- "last_node_id": 5,
- "last_link_id": 3,
+ "last_node_id": 6,
+ "last_link_id": 4,
  "nodes": [
   {
    "id": 1,
@@ -99,7 +99,8 @@
      "name": "fbx_output_path",
      "type": "STRING",
      "links": [
-      3
+      3,
+      4
      ],
      "slot_index": 0
     }
@@ -162,10 +163,44 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## unirig-humanoid-workflow.json\n\nUniRig (Linux only)\n\n**Does:** auto-rigs a humanoid mesh and exports a **Mixamo-compatible FBX** (Unity-friendly).\n**Platform:** **Linux only** — UniRig needs `bpy` (Blender-as-Python), which the pack provides\nin its own pixi/conda env. It failed on Windows with a native DLL error (E4).\n**See:** `3d/EXPERIMENTS.md` E4-L, `3d/pipeline-design.md`.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E4-L** in the scenarios' `EXPERIMENTS` logs.*"
+    "## unirig-humanoid-workflow.json\n\nUniRig (Linux only)\n\n**Does:** auto-rigs a humanoid mesh and exports a **Mixamo-compatible FBX** (Unity-friendly).\n**View:** `UniRigPreviewRiggedMesh` shows the rigged FBX with its skeleton in the canvas; the path is also written to text by `SaveText`.\n**Platform:** **Linux only** — UniRig needs `bpy` (Blender-as-Python), which the pack provides\nin its own pixi/conda env. It failed on Windows with a native DLL error (E4).\n**See:** `3d/EXPERIMENTS.md` E4-L, `3d/pipeline-design.md`.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E4-L** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
+  },
+  {
+   "id": 6,
+   "type": "UniRigPreviewRiggedMesh",
+   "pos": [
+    -100,
+    40
+   ],
+   "size": [
+    842,
+    822
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "fbx_output_path",
+     "type": "STRING",
+     "widget": {
+      "name": "fbx_output_path"
+     },
+     "link": 4
+    }
+   ],
+   "outputs": [],
+   "title": "Preview rigged FBX",
+   "properties": {
+    "Node name for S&R": "UniRigPreviewRiggedMesh"
+   },
+   "widgets_values": [
+    "",
+    ""
+   ]
   }
  ],
  "links": [
@@ -190,6 +225,14 @@
    3,
    0,
    4,
+   0,
+   "STRING"
+  ],
+  [
+   4,
+   3,
+   0,
+   6,
    0,
    "STRING"
   ]
