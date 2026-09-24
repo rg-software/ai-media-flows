@@ -297,7 +297,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## pbr-from-texture.json\n\nPBR set (metallic inverted)\n\nE12b — texture -> full PBR set (qornflex ComfyUI-QFX-PBRGenerator). CAVEAT: the Metallic output measured ~219/255 on stone (should be ~0 / non-metallic) -> treat it as suspect/inverted and verify per material. BaseColor/Normal/Roughness/AO/Displacement/ORM are good.\n\n---\n*How to run it: story **S8** in `HOWTO.md`  ·  Why it is this way: **E12b -> see U4** in the scenarios' `EXPERIMENTS` logs.*"
+    "## pbr-from-texture.json\n\nPBR set (metallic inverted)\n\nE12b — texture -> full PBR set (qornflex ComfyUI-QFX-PBRGenerator). CAVEAT: the Metallic output measured ~219/255 on stone (should be ~0 / non-metallic) -> treat it as suspect/inverted and verify per material. BaseColor/Normal/Roughness/AO/Displacement/ORM are good.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E12b -> see U4** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

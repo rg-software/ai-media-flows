@@ -107,7 +107,33 @@
 - *Tooling caveat:* the OpenPose detector finds **no person in most of our stylised renders** (13 of 15 in one batch), so a pose can be *imposed* but not *measured* automatically — `extract` and `measure` are for real photographs (see `comfyui/README.md`).
 - *Warning:* `instantid-character.json` and `pulid-identity.json` depend on **insightface**, licensed for **non-commercial research** — don't ship their output. `qwen-edit-gguf.json` is Apache-2.0, and the older Kontext route is non-commercial too.
 
-### S8. Materials: seamless textures, PBR, and into 3D
+### S8. Transfer a style or a reference look
+
+- *When:* you want an image to adopt the palette, atmosphere or medium of a reference.
+- *Steps:* use **`2d/workflows/qwen-edit-gguf.json`** with the reference as `image2` — the multi-image reference mechanism does style transfer. The older `2d/workflows/ipadapter-style.json` (IPAdapter) still works.
+- *Knobs:* for IPAdapter, `weight` — 0.0–0.2 is a style hint, 0.3–0.5 blends, and **≥0.6 the reference overrides the prompt** entirely.
+- *Trap:* this transfers a **look**, not a layout. If you need "keep this composition", that is ControlNet territory (S2), not style transfer.
+
+### S9. Sprites and atlases
+
+- *When:* you need game-ready sprites (generated, converted from existing art, packed into a sheet, or unpacked from one).
+- *Generate:* `2d/workflows/pixel-art.json`: SDXL + `pixel-art-xl` LoRA (OpenRAIL) at 1024². **That LoRA paints on an 8 px grid** (measured: the adjacent-column step ratio peaks at period 8, modal spike gap 8 px), so **/8 is its native factor - 128 px is its native sprite, and that is what the flow ships** (nothing the model painted is thrown away). For a classic 64 px sprite, set `ImageScale` to 64x64 and the palette pass to match - a deliberate 2x reduction of the model's own pixels. It saves two files: the plain sprite, and the same sprite palettised to a palette you choose (pico-8 by default). For the flat retro look instead, `RetroDiffusion24x-64xModel` at 512² (20 steps, cfg 9.5) with **its** measured factor /8 -> 64 px - that model is **non-commercial**, which is why the LoRA arm is the one shipped.
+- *Convert an existing picture, faithfully:* `2d/workflows/pixel-art-convert.json` - resize + palette only, so the source is kept exactly. This is the "pixelated image" route; nothing is invented.
+- *Convert an existing picture, redrawn:* `2d/workflows/pixel-art-restyle.json` - an img2img pass with the pixel-art LoRA first (`denoise` **0.6** is the knob: lower keeps the source, higher redraws it). More sprite-like, but it invents detail.
+- *Pack or slice a sheet:* `scripts/atlas.py`. Use with `pack --out sheet.png --columns 2 --cell 64x64 a.png b.png ...` to lay images out row-major (optional `--padding` gap between cells).
+- *Palettes:* the **56 palettes ship inside the `comfyui-pixelart-detector` pack**, so they are already on the box - `PixelArtLoadPalettes` reads that folder (hardcoded; no user directory). To use your own, drop a PNG into the pack's `palettes` folder, or derive one from an image with `PixelArtPaletteGenerator`. `render_all_palettes_in_grid` renders them all as a labelled sheet if you want to browse.
+- *Traps:* downscale by **nearest** with the model's **known** factor - /8 for `pixel-art-xl` at 1024², /8 for Retro Diffusion at 512², so changing the target size means editing `ImageScale` **and** the palette pass together. Keep the palette pass at a **fixed** size, never an already-downscaled input. Never downscale *before* an img2img pass: a 64-128 px latent makes SDXL produce mush.
+- *Warning:* Retro Diffusion's pixel-art models are **non-commercial** (the vendor says outputs are the creator's); `pixel-art-xl` is OpenRAIL and cleaner.
+
+### S10. Finish: upscale and restore
+
+- *When:* you need more resolution, or a soft/small face cleaned up.
+- *Steps:* `2d/workflows/upscale-seedvr2.json` (Apache-2.0). Set `resolution` to the **short edge**; set it equal to the image size to **restore** instead of upscaling (including face restore).
+- *See the result:* check the slider in the `ImageCompare` node; the `SaveImage` output is the deliverable.
+- *Knobs:* `batch_size` must be 4n+1. SeedVR2 *reconstructs* (more detail, more drift, slower); `upscale.json`'s GAN is faithful (it invents nothing).
+- *Warning:* don't ship output from `upscale.json` — its `4x-UltraSharp` model is **non-commercial**. `upscale-seedvr2.json` is Apache-2.0.
+
+### S11. Materials: seamless textures, PBR, and into 3D
 
 - *When:* you need a tileable texture, or a complete PBR material an engine can use.
 - *Steps:*
@@ -119,48 +145,22 @@
 - *Traps:* `mirror`/`blend_edges` tile without a visible seam but look visibly wrong (a mirrored building becomes a second cottage) — use `offset`. Marigold's metallic is an **estimate**: on stone it sits near 0.36 where a dielectric should be ~0, so a faint sheen in-engine is the *value*, not the packing — remap or override it per material.
 - *Normal direction:* the normal map is **OpenGL (+Y up)** as glTF expects. If your renderer disagrees, pass `--flip-normal-green`.
 
-### S9. Finish: upscale and restore
-
-- *When:* you need more resolution, or a soft/small face cleaned up.
-- *Steps:* `2d/workflows/upscale-seedvr2.json` (Apache-2.0). Set `resolution` to the **short edge**; set it equal to the image size to **restore** instead of upscaling (including face restore).
-- *See the result:* check the slider in the `ImageCompare` node; the `SaveImage` output is the deliverable.
-- *Knobs:* `batch_size` must be 4n+1. SeedVR2 *reconstructs* (more detail, more drift, slower); `upscale.json`'s GAN is faithful (it invents nothing).
-- *Warning:* don't ship output from `upscale.json` — its `4x-UltraSharp` model is **non-commercial**. `upscale-seedvr2.json` is Apache-2.0.
-
-### S10. Sprites and atlases
-
-- *When:* you need game-ready sprites (generated, converted from existing art, packed into a sheet, or unpacked from one).
-- *Generate:* `2d/workflows/pixel-art.json`: SDXL + `pixel-art-xl` LoRA (OpenRAIL) at 1024². **That LoRA paints on an 8 px grid** (measured: the adjacent-column step ratio peaks at period 8, modal spike gap 8 px), so **/8 is its native factor - 128 px is its native sprite, and that is what the flow ships** (nothing the model painted is thrown away). For a classic 64 px sprite, set `ImageScale` to 64x64 and the palette pass to match - a deliberate 2x reduction of the model's own pixels. It saves two files: the plain sprite, and the same sprite palettised to a palette you choose (pico-8 by default). For the flat retro look instead, `RetroDiffusion24x-64xModel` at 512² (20 steps, cfg 9.5) with **its** measured factor /8 -> 64 px - that model is **non-commercial**, which is why the LoRA arm is the one shipped.
-- *Convert an existing picture, faithfully:* `2d/workflows/pixel-art-convert.json` - resize + palette only, so the source is kept exactly. This is the "pixelated image" route; nothing is invented.
-- *Convert an existing picture, redrawn:* `2d/workflows/pixel-art-restyle.json` - an img2img pass with the pixel-art LoRA first (`denoise` **0.6** is the knob: lower keeps the source, higher redraws it). More sprite-like, but it invents detail.
-- *Pack or slice a sheet:* `scripts/atlas.py`. Use with `pack --out sheet.png --columns 2 --cell 64x64 a.png b.png ...` to lay images out row-major (optional `--padding` gap between cells).
-- *Palettes:* the **56 palettes ship inside the `comfyui-pixelart-detector` pack**, so they are already on the box - `PixelArtLoadPalettes` reads that folder (hardcoded; no user directory). To use your own, drop a PNG into the pack's `palettes` folder, or derive one from an image with `PixelArtPaletteGenerator`. `render_all_palettes_in_grid` renders them all as a labelled sheet if you want to browse.
-- *Traps:* downscale by **nearest** with the model's **known** factor - /8 for `pixel-art-xl` at 1024², /8 for Retro Diffusion at 512², so changing the target size means editing `ImageScale` **and** the palette pass together. Keep the palette pass at a **fixed** size, never an already-downscaled input. Never downscale *before* an img2img pass: a 64-128 px latent makes SDXL produce mush.
-- *Warning:* Retro Diffusion's pixel-art models are **non-commercial** (the vendor says outputs are the creator's); `pixel-art-xl` is OpenRAIL and cleaner.
-
-### S11. 3D from images
+### S12. 3D from images
 
 - *When:* you want a mesh, a textured model, multiple views, or a rig.
-- *Steps:* `3d/workflows/hy3d-full-workflow.json` (shape → texture → bake) or `hy3d-multiview-workflow.json`; rig with `3d/workflows/unirig-humanoid-workflow.json`. Its `Hy3DMeshUVWrap` node is what gives a generated mesh its UVs, which is why a Hy3D mesh can take a material straight from S8.
+- *Steps:* `3d/workflows/hy3d-full-workflow.json` (shape → texture → bake) or `hy3d-multiview-workflow.json`; rig with `3d/workflows/unirig-humanoid-workflow.json`. Its `Hy3DMeshUVWrap` node is what gives a generated mesh its UVs, which is why a Hy3D mesh can take a material straight from S11.
 - *View:* the run ends in a viewer node — `Preview3D` on both Hy3D exports, `UniRigPreviewRiggedMesh` on the rig — so you orbit the model **in the canvas** rather than opening a dedicated 3D app. The viewers read from `output/`, where the GLB/FBX already land. No extra setup: the 3D viewer is a frontend feature (Beta) that is on by default.
 - *Textures:* the ComfyUI 3D viewer does not show GLB textures on the current frontend — neither the deprecated `Preview3D` nor the modern `Load3D` (both tested). The file itself is fine: it renders correctly in Blender and Windows 3D Viewer. Each Hy3D flow therefore also ends in a **Textured turntable**, which renders the textured mesh to a 12-frame 360° image batch — that is the reliable way to confirm the texture in ComfyUI, and it shows every side.
 - *PBR:* the generated texture is **base colour only** — one atlas, a constant roughness, no metallic/normal/occlusion maps (and our GLB omits `metallicFactor`, which glTF then defaults to **1.0**, i.e. fully metallic). Each flow also saves that **atlas as an image**; load it into `2d/workflows/pbr-material.json` to get BaseColor/Normal/Roughness/Metallic/ORM, then pack it for the target with `scripts/make_gltf_material.py` (glTF) or `scripts/pack_pbr_material.py` (Unity).
 - *Warning:* Hy3D runs under the **Tencent Hunyuan 3D Community License**, which **excludes the EU, UK and South Korea** and requires a licence from Tencent above 1M monthly users. You own the meshes you generate, but only within those limits. UniRig (rigging) is MIT.
 - *More:* `3d/README.md`.
 
-### S12. Explore parameters with a sweep
+### S13. Explore parameters with a sweep
 
 - *When:* you want to find a value yourself rather than take a story's default - the defaults quoted in these stories came from exactly this.
 - *Steps:* `scripts/sweep.py` runs a two-axis grid over a flow and writes a labelled sheet plus a per-cell metric, e.g. `--x cfg:3,5,7 --y steps:10,20,30`.
 - *Knobs:* which two axes you sweep; hold everything else fixed.
 - *Trap:* the sheet's metric is a hint, not a verdict - judge it by eye.
-
-### S13. Transfer a style or a reference look
-
-- *When:* you want an image to adopt the palette, atmosphere or medium of a reference.
-- *Steps:* use **`2d/workflows/qwen-edit-gguf.json`** with the reference as `image2` — the multi-image reference mechanism does style transfer. The older `2d/workflows/ipadapter-style.json` (IPAdapter) still works.
-- *Knobs:* for IPAdapter, `weight` — 0.0–0.2 is a style hint, 0.3–0.5 blends, and **≥0.6 the reference overrides the prompt** entirely.
-- *Trap:* this transfers a **look**, not a layout. If you need "keep this composition", that is ControlNet territory (S2), not style transfer.
 
 ### S14. Move files to and from the box
 

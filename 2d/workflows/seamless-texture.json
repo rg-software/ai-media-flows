@@ -203,7 +203,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## seamless-texture.json\n\nSeamless tiling\n\n**Does:** makes an image tile seamlessly, in image space (TextureAlchemy).\n**Knobs:** `method` — use **`offset`**. `mirror`/`blend_edges` score perfectly on continuity\nmetrics and look visibly awful (symmetric kaleidoscope / blurry cross).\n**Avoid:** `SeamlessTile` (comfyui-seamless-tiling) patches the MODEL and **segfaults** the\nserver in libcuda; the circular-VAE route crashes on a second run in one session.\n\n---\n*How to run it: story **S8** in `HOWTO.md`  ·  Why it is this way: **E7c** in the scenarios' `EXPERIMENTS` logs.*"
+    "## seamless-texture.json\n\nSeamless tiling\n\n**Does:** makes an image tile seamlessly, in image space (TextureAlchemy).\n**Knobs:** `method` — use **`offset`**. `mirror`/`blend_edges` score perfectly on continuity\nmetrics and look visibly awful (symmetric kaleidoscope / blurry cross).\n**Avoid:** `SeamlessTile` (comfyui-seamless-tiling) patches the MODEL and **segfaults** the\nserver in libcuda; the circular-VAE route crashes on a second run in one session.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E7c** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

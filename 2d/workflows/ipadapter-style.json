@@ -479,7 +479,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## ipadapter-style.json\n\nStyle reference (superseded)\n\n**Does:** transfers the style/look of a reference image (IPAdapter).\n**Knobs:** `weight` — 0.0-0.2 style hint only; 0.3-0.5 blend; **>=0.6 the reference overrides\nthe prompt** (content takeover).\n**Superseded:** Qwen-Edit's multi-image reference does this without IPAdapter and with an\nApache-2.0 licence (E14c; see `qwen-edit-gguf.json`).\n\n---\n*How to run it: story **S13** in `HOWTO.md`  ·  Why it is this way: **E11** in the scenarios' `EXPERIMENTS` logs.*"
+    "## ipadapter-style.json\n\nStyle reference (superseded)\n\n**Does:** transfers the style/look of a reference image (IPAdapter).\n**Knobs:** `weight` — 0.0-0.2 style hint only; 0.3-0.5 blend; **>=0.6 the reference overrides\nthe prompt** (content takeover).\n**Superseded:** Qwen-Edit's multi-image reference does this without IPAdapter and with an\nApache-2.0 licence (E14c; see `qwen-edit-gguf.json`).\n\n---\n*How to run it: story **S8** in `HOWTO.md`  ·  Why it is this way: **E11** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
