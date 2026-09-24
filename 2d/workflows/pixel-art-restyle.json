@@ -444,8 +444,8 @@
    ],
    "widgets_values": [
     "GAMEBOY",
-    64,
-    64,
+    128,
+    128,
     "contain",
     "Image.quantize",
     2,
@@ -538,7 +538,7 @@
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## pixel-art-restyle.json\n\nExisting image -> pixel art, REDRAWN (img2img with the pixel-art LoRA)\n\n**Does:** re-paints the source with `pixel-art-xl` before making a sprite, so detail is simplified into the pixel idiom instead of being resampled. `KSampler` is img2img at the model's native resolution: `denoise` **0.6** is the knob - low keeps the source, high redraws it (0.8 moves noticeably further). Then `PixelArtDetectorConverter` at a **fixed 64x64** with a chosen palette makes the grid (`paletteList` from `PixelArtLoadPalettes`; pico-8 by default). Two saves: the redrawn image at full size and the 64 px sprite.\n**Do NOT downscale before the sampler.** A 64-128 px latent makes SDXL produce mush - measured: a 128 px latent at denoise 0.93 returned a colour blob, not a knight. Downscaling belongs at the END, with the known factor.\n**Faithful instead?** `pixel-art-convert.json` keeps the source exactly (resize + palette, no redraw). **Restoring an existing small sprite?** that is a third job - upscale it first so the model can work at native resolution (the `comfyui-pixelart-detector` pack ships an example for it), which is not what this flow does.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E5** nodes + **E31/E32** in the scenarios' `EXPERIMENTS` logs.*"
+    "## pixel-art-restyle.json\n\nExisting image -> pixel art, REDRAWN (img2img with the pixel-art LoRA)\n\n**Does:** re-paints the source with `pixel-art-xl` before making a sprite, so detail is simplified into the pixel idiom instead of being resampled. `KSampler` is img2img at the model's native resolution: `denoise` **0.6** is the knob - low keeps the source, high redraws it (0.8 moves noticeably further). Then `PixelArtDetectorConverter` at a **fixed 128x128** with a chosen palette makes the grid (`paletteList` from `PixelArtLoadPalettes`; pico-8 by default) - 128 is the same LoRA's native sprite (it paints an 8 px grid at 1024², so /8; set it to 64 for a deliberate 2x reduction). Two saves: the redrawn image at full size and the sprite.\n**Do NOT downscale before the sampler.** A 64-128 px latent makes SDXL produce mush - measured: a 128 px latent at denoise 0.93 returned a colour blob, not a knight. Downscaling belongs at the END, with the known factor.\n**Faithful instead?** `pixel-art-convert.json` keeps the source exactly (resize + palette, no redraw). **Restoring an existing small sprite?** that is a third job - upscale it first so the model can work at native resolution (the `comfyui-pixelart-detector` pack ships an example for it), which is not what this flow does.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E5** nodes + **E31/E32** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "properties": {},
    "order": 0

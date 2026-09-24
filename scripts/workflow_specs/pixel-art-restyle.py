@@ -5,7 +5,7 @@ pixelating to a fixed size with a chosen palette. This is the step `pixel-art-co
 (that one only resizes and palettises, so it keeps the source exactly).
 
 Shape: img2img at the model's NATIVE resolution (so the LoRA can redraw), then PixelArtDetectorConverter at a
-fixed 64x64 for the grid + palette. Do NOT downscale before the sampler - a 64-128 px latent makes SDXL
+fixed 128x128 for the grid + palette (the same LoRA's native /8). Do NOT downscale before the sampler - a 64-128 px latent makes SDXL
 produce mush (measured: 128 px latent at denoise 0.93 gave a colour blob). The pack's own img2img example
 looks similar but is a different job: its `ImageScaleBy ... 8` is x8 UPSCALE, for restoring an existing small
 sprite so the model can work at native resolution.
@@ -27,9 +27,10 @@ NOTE = (
     "**Does:** re-paints the source with `pixel-art-xl` before making a sprite, so detail is simplified into "
     "the pixel idiom instead of being resampled. `KSampler` is img2img at the model's native resolution: "
     "`denoise` **0.6** is the knob - low keeps the source, high redraws it (0.8 moves noticeably further). "
-    "Then `PixelArtDetectorConverter` at a **fixed 64x64** with a chosen palette makes the grid (`paletteList` "
-    "from `PixelArtLoadPalettes`; pico-8 by default). Two saves: the redrawn image at full size and the 64 px "
-    "sprite.\n"
+    "Then `PixelArtDetectorConverter` at a **fixed 128x128** with a chosen palette makes the grid (`paletteList` "
+    "from `PixelArtLoadPalettes`; pico-8 by default) - 128 is the same LoRA's native sprite (it paints an 8 px "
+    "grid at 1024\u00b2, so /8; set it to 64 for a deliberate 2x reduction). Two saves: the redrawn image at "
+    "full size and the sprite.\n"
     "**Do NOT downscale before the sampler.** A 64-128 px latent makes SDXL produce mush - measured: a 128 px "
     "latent at denoise 0.93 returned a colour blob, not a knight. Downscaling belongs at the END, with the "
     "known factor.\n"
@@ -83,7 +84,7 @@ NODES = [
      "widgets_values": ["pico-8-1x.png", False, _GRID, 40, "#f40e12", "#fff", 6, True, 3],
      "outputs": [{"name": "paletteList", "type": "LIST", "slot_index": 0}]},
     {"id": 11, "type": "PixelArtDetectorConverter", "pos": [2380, 380], "size": [420, 620],
-     "widgets_values": ["GAMEBOY", 64, 64, "contain", "Image.quantize", 2, False, "Image.quantize", 128,
+     "widgets_values": ["GAMEBOY", 128, 128, "contain", "Image.quantize", 2, False, "Image.quantize", 128,
                         True, "MAXCOVERAGE", _OPENCV, "RANDOM_CENTERS", 10, 10, "EUCLIDEAN_SQUARE",
                         _CLEANUP, False, 0.02, "none"],
      "inputs": [{"name": "images", "type": "IMAGE"}, {"name": "paletteList", "type": "LIST"}],
