@@ -104,6 +104,7 @@ Why fp8 is not a free win here: the 3090 is **Ampere (sm_86) and has no native f
 - **Auth**: append `?token=<token>` where token = first line of `~/Projects-Git/ComfyUI/login/PASSWORD`. (`POST /login` expects **form** data; sending JSON returns 500.)
 - `POST /prompt` takes **API format** (`{node_id: {class_type, inputs}}`), not the GUI graph JSON.
 - Node schema is the source of truth: whenever in doubt about a node's inputs/option values, read `/object_info` rather than trusting memory.
+- **Convert a GUI workflow to API format positionally, then fill in the defaults a saved workflow omits.** The GUI maps `widgets_values` by position and silently falls back to a node's default for any widget the file does not carry — so a node that *grew* an input after the workflow was written still runs in the UI. `/prompt` has no such fallback: submitting `hy3d-full` straight from its stored values returned `400 prompt_outputs_failed_validation` / `required_input_missing: smooth_normals` on `Hy3DPostprocessMesh`. Fill every required input from `/object_info`'s declared default (the check is per-node, and `node_errors` names the culprit).
 
 ## Convention
 
