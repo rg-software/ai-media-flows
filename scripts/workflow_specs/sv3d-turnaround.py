@@ -11,21 +11,28 @@ and that its `azimuth_points_string` gives exact camera control: the point index
 NOTE = (
     "## sv3d-turnaround.json\n\n"
     "One image -> a consistent multi-view turnaround (no mesh needed)\n\n"
-    "**Does:** SV3D_p takes a single image and renders the same object from fixed azimuths. One batch, "
-    "four views at 0/90/180/270, in ~15 s on the 3090 at ~7 GB VRAM (E9).\n"
-    "**Why:** `hy3d-multiview` needs front/left/right/back, and nothing in the repo made them - the flow "
-    "presumed an asset we never had. This is that asset, and it needs no mesh, so it also serves cases "
-    "where only views are wanted (a sprite that must read from several angles, a reference sheet).\n"
-    "**The knob that matters:** `azimuth_points_string` / `elevation_points_string` - the point index is "
-    "the frame, so `0:(0.0), 1:(90.0), 2:(180.0), 3:(270.0)` is four evenly spaced views and "
-    "`batch_size` must equal the last index + 1. Raise `batch_size` to 21 with the default 0/180/360 "
-    "points for a smooth orbit instead of four stops. `VideoLinearCFGGuidance` is required (SV3D is an "
-    "image-to-video model), and `elevation` stays at 0 for a level turnaround.\n"
+    "**Does:** SV3D_p takes a single image and renders the same object from fixed azimuths. Ships a "
+    "**21-frame orbit** (18 deg per frame): ~45 s on the 3090 at ~7 GB VRAM, all frames saved, and you "
+    "take whatever views you need.\n"
+    "**Why the orbit and not four stops:** measured on `char_knight.png` (E9b) - asking for four "
+    "independent 90 deg jumps makes the model hallucinate the back badly, because it is a *video* "
+    "diffusion model and is far better at advancing the camera a little than teleporting it.\n"
+    "A smooth orbit sampled at the compass points gives a coherent rear view instead of a jumble "
+    "(compare rows A and C of `3d/evidence/E9b-knight-sv3d-variants.png`). No text prompt is involved "
+    "and none can be: the node conditions on CLIP *vision* embeds and camera pose only, with an "
+    "all-zeros negative (see `SV3D_Conditioning.execute`).\n"
+    "**Picking views:** with 21 frames the increment is 360/20 = 18 deg, so **frame 0 = 0 deg, "
+    "5 = 90, 10 = 180, 15 = 270** and frame 20 wraps back to 0 deg. Those four are what "
+    "`hy3d-multiview-workflow.json` wants for front/left/right/back.\n"
+    "**The knob that matters:** `batch_size` must equal the last point index + 1. `azimuth_points_string` "
+    "`0:(0.0), 9:(180.0), 20:(360.0)` is a full orbit; put more points in for finer sampling. Elevation "
+    "stays 0 for a level turnaround. `VideoLinearCFGGuidance` is required (SV3D is an image-to-video "
+    "model); 25 steps / cfg 2.5 is fine - 40/3.5 changed nothing much.\n"
     "**Licence:** the SV3D weights are Stability **non-commercial** (commercial use needs a Stability "
     "Membership), so anything shipped from this flow inherits that - same posture as Kontext and "
     "4x-UltraSharp in the 2D scenario. The weights live in `models/checkpoints/sv3d_p.safetensors` and "
     "are gated on Hugging Face (`stabilityai/sv3d`).\n"
-    "**See:** `3d/EXPERIMENTS.md` E9, `3d/README.md`.\n"
+    "**See:** `3d/EXPERIMENTS.md` E9/E9b, `3d/README.md`.\n"
     "\n---\n"
     "*How to run it: story **S12** in `HOWTO.md`  \u00b7  Why it is this way: **E9** in the scenario's "
     "`EXPERIMENTS` logs.*"
@@ -42,9 +49,9 @@ NODES = [
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0},
                  {"name": "MASK", "type": "MASK", "slot_index": 1}]},
     {"id": 3, "type": "SV3D_BatchSchedule", "pos": [-500, 200], "size": [400, 200],
-     "widgets_values": [576, 576, 4, "linear",
-                        "0:(0.0),\n1:(90.0),\n2:(180.0),\n3:(270.0)",
-                        "0:(0.0),\n1:(0.0),\n2:(0.0),\n3:(0.0)"],
+     "widgets_values": [576, 576, 21, "linear",
+                        "0:(0.0),\n9:(180.0),\n20:(360.0)",
+                        "0:(0.0),\n9:(0.0),\n20:(0.0)"],
      "inputs": [{"name": "clip_vision", "type": "CLIP_VISION"},
                 {"name": "init_image", "type": "IMAGE"},
                 {"name": "vae", "type": "VAE"}],

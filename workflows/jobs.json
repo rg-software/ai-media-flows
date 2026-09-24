@@ -129,7 +129,7 @@
   },
   {
    "want": "Turn one image into a multi-view turnaround",
-   "detail": "`3d/workflows/sv3d-turnaround.json` (SV3D_p; 4 views at 0/90/180/270, no mesh needed)",
+   "detail": "`3d/workflows/sv3d-turnaround.json` (SV3D_p; a 21-frame 360° orbit, no mesh needed — take frames 0/5/10/15 for 0/90/180/270)",
    "story": "S12"
   },
   {
