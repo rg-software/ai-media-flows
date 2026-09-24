@@ -1,6 +1,6 @@
 {
- "last_node_id": 31,
- "last_link_id": 40,
+ "last_node_id": 33,
+ "last_link_id": 42,
  "nodes": [
   {
    "id": 1,
@@ -1118,7 +1118,8 @@
      "type": "TRIMESH",
      "links": [
       25,
-      39
+      39,
+      41
      ],
      "slot_index": 0
     }
@@ -1186,7 +1187,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D — several consistent views (uniform 512²) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node — orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) — plus a **Textured turntable (12 frames)** image\nbatch from `Hy3DNvdiffrastRenderer`, the reliable way to see the texture.\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
+    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D — several consistent views (uniform 512²) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node — orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) — plus a **Textured turntable (12 frames)** image\nbatch from `Hy3DNvdiffrastRenderer`, the reliable way to see the texture.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3Dmv_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` for a full PBR set.\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
@@ -1348,6 +1349,75 @@
    },
    "widgets_values": [
     "3D/Hy3Dmv_textured_render"
+   ]
+  },
+  {
+   "id": 32,
+   "type": "Hy3DGetMeshPBRTextures",
+   "pos": [
+    1400,
+    1540
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 41
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      42
+     ],
+     "slot_index": 0
+    }
+   ],
+   "title": "Base-colour atlas (for PBR)",
+   "properties": {
+    "Node name for S&R": "Hy3DGetMeshPBRTextures"
+   },
+   "widgets_values": [
+    "base_color"
+   ]
+  },
+  {
+   "id": 33,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    1540
+   ],
+   "size": [
+    420,
+    420
+   ],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 42
+    }
+   ],
+   "outputs": [],
+   "title": "Base-colour atlas (save)",
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "3D/Hy3Dmv_texture_atlas"
    ]
   }
  ],
@@ -1653,6 +1723,22 @@
    30,
    0,
    31,
+   0,
+   "IMAGE"
+  ],
+  [
+   41,
+   19,
+   0,
+   32,
+   0,
+   "TRIMESH"
+  ],
+  [
+   42,
+   32,
+   0,
+   33,
    0,
    "IMAGE"
   ]

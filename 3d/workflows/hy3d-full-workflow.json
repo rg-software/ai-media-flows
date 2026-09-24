@@ -1,6 +1,6 @@
 {
- "last_node_id": 21,
- "last_link_id": 27,
+ "last_node_id": 23,
+ "last_link_id": 29,
  "nodes": [
   {
    "id": 1,
@@ -668,7 +668,8 @@
      "type": "TRIMESH",
      "links": [
       14,
-      26
+      26,
+      28
      ],
      "slot_index": 0
     }
@@ -736,7 +737,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## hy3d-full-workflow.json\n\nHy3D shape -> texture\n\n**Does:** image -> 3D mesh -> texture -> bake, with Hunyuan3D 2.x.\n**View:** both exports end in a `Preview3D` node — orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) — plus a **Textured turntable (12 frames)**:\n`Hy3DNvdiffrastRenderer` renders the textured mesh through a full 360° as an image batch, which is the\nreliable way to see the texture.\n**Note:** the untextured export is the **retopologised** shape (`Hy3DIMRemesh`) and the textured GLB\nis the final — so the shape checkpoint is the one to rig or bring into an engine.\n**See:** `3d/README.md`, `3d/pipeline-design.md`, and the widget reference in `3d/hy3d-knobs.md`.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2a-e** in the scenarios' `EXPERIMENTS` logs.*"
+    "## hy3d-full-workflow.json\n\nHy3D shape -> texture\n\n**Does:** image -> 3D mesh -> texture -> bake, with Hunyuan3D 2.x.\n**View:** both exports end in a `Preview3D` node — orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) — plus a **Textured turntable (12 frames)**:\n`Hy3DNvdiffrastRenderer` renders the textured mesh through a full 360° as an image batch, which is the\nreliable way to see the texture.\n**Note:** the untextured export is the **retopologised** shape (`Hy3DIMRemesh`) and the textured GLB\nis the final — so the shape checkpoint is the one to rig or bring into an engine.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3D_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` to get\nBaseColor/Normal/Roughness/Metallic/ORM for an engine.\n**See:** `3d/README.md`, `3d/pipeline-design.md`, and the widget reference in `3d/hy3d-knobs.md`.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2a-e** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
@@ -898,6 +899,75 @@
    },
    "widgets_values": [
     "3D/Hy3D_textured_render"
+   ]
+  },
+  {
+   "id": 22,
+   "type": "Hy3DGetMeshPBRTextures",
+   "pos": [
+    1400,
+    1620
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 28
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      29
+     ],
+     "slot_index": 0
+    }
+   ],
+   "title": "Base-colour atlas (for PBR)",
+   "properties": {
+    "Node name for S&R": "Hy3DGetMeshPBRTextures"
+   },
+   "widgets_values": [
+    "base_color"
+   ]
+  },
+  {
+   "id": 23,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    1620
+   ],
+   "size": [
+    420,
+    420
+   ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 29
+    }
+   ],
+   "outputs": [],
+   "title": "Base-colour atlas (save)",
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "3D/Hy3D_texture_atlas"
    ]
   }
  ],
@@ -1107,6 +1177,22 @@
    20,
    0,
    21,
+   0,
+   "IMAGE"
+  ],
+  [
+   28,
+   10,
+   0,
+   22,
+   0,
+   "TRIMESH"
+  ],
+  [
+   29,
+   22,
+   0,
+   23,
    0,
    "IMAGE"
   ]
