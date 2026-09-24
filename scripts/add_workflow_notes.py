@@ -54,7 +54,6 @@ MAPPING = {
     "upscale-seedvr2.json":           ("SeedVR2 upscale / restore",     "S9", "U1/E13f"),
     "upscale.json":                   ("GAN upscale (non-commercial)",  "S9", "E4b"),
     "pixel-art.json":                 ("Pixel art",                     "S10", "E5/E5b/E5f"),
-    "sprite-atlas.json":              ("Sprite atlas",                  "S10", "E6"),
     "hy3d-full-workflow.json":        ("Hy3D shape -> texture",         "S11", "E2a-e"),
     "hy3d-multiview-workflow.json":   ("Hy3D multiview",                "S11", "E2d"),
     "unirig-humanoid-workflow.json":  ("UniRig (Linux only)",           "S11", "E4-L"),
