@@ -1,4 +1,4 @@
-"""Spec for 3d/workflows/sv3d-turnaround.json - build with scripts/build_workflow.py.
+"""Spec for 2d/workflows/sv3d-turnaround.json - build with scripts/build_workflow.py.
 
 Kept next to the generator it feeds so the workflow can be rebuilt instead of hand-edited.
 
@@ -32,7 +32,8 @@ NOTE = (
     "Membership), so anything shipped from this flow inherits that - same posture as Kontext and "
     "4x-UltraSharp in the 2D scenario. The weights live in `models/checkpoints/sv3d_p.safetensors` and "
     "are gated on Hugging Face (`stabilityai/sv3d`).\n"
-    "**See:** `3d/EXPERIMENTS.md` E9/E9b, `3d/README.md`.\n"
+    "**See:** `2d/EXPERIMENTS-2D.md` (the flow) and `3d/EXPERIMENTS.md` E9-E9c (why it exists: the\n"
+    "multiview gap). The E-rows stay in the 3D log because E9c is a 3D chain.\n"
     "\n---\n"
     "*How to run it: story **S12** in `HOWTO.md`  \u00b7  Why it is this way: **E9** in the scenario's "
     "`EXPERIMENTS` logs.*"

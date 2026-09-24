@@ -93,6 +93,11 @@
    "story": "S8"
   },
   {
+   "want": "Turn one image into a multi-view turnaround",
+   "detail": "`2d/workflows/sv3d-turnaround.json` (SV3D_p; a 21-frame 360° orbit, no mesh needed — take frames 0/5/10/15 for 0/90/180/270)",
+   "story": "S8"
+  },
+  {
    "want": "Pixel art",
    "detail": "`2d/workflows/pixel-art.json` (from a prompt) · `pixel-art-convert.json` (existing image, faithful) · `pixel-art-restyle.json` (existing image, redrawn) · `scripts/atlas.py` (pack a sheet / slice one - local)",
    "story": "S9"
@@ -126,11 +131,6 @@
    "want": "Push a 2D material into 3D",
    "detail": "`scripts/make_gltf_material.py` (glTF-valid material + optional GLB)",
    "story": "S11"
-  },
-  {
-   "want": "Turn one image into a multi-view turnaround",
-   "detail": "`3d/workflows/sv3d-turnaround.json` (SV3D_p; a 21-frame 360° orbit, no mesh needed — take frames 0/5/10/15 for 0/90/180/270)",
-   "story": "S12"
   },
   {
    "want": "Make a 3D model from an image/description",
@@ -279,7 +279,7 @@
    "story": "S1"
   },
   "sv3d-turnaround.json": {
-   "story": "S12"
+   "story": "S8"
   }
  }
 }

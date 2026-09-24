@@ -92,7 +92,7 @@ def check() -> list[str]:
         if not name.endswith(".json"):
             continue
         # locate the file rather than guessing the scenario folder from its name: a new flow may not
-        # follow the packing's naming (sv3d-turnaround.json lives in 3d/, not 2d/)
+        # follow the packing's naming (a scenario folder must not be guessed from a flow's name)
         hits = glob.glob(os.path.join(REPO, "*", "workflows", name))
         if not hits:
             problems.append("jobs.json: claims %s but no such workflow file exists" % name)
