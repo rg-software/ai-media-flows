@@ -128,6 +128,11 @@
    "story": "S11"
   },
   {
+   "want": "Turn one image into a multi-view turnaround",
+   "detail": "`3d/workflows/sv3d-turnaround.json` (SV3D_p; 4 views at 0/90/180/270, no mesh needed)",
+   "story": "S12"
+  },
+  {
    "want": "Make a 3D model from an image/description",
    "detail": "`3d/workflows/hy3d-full-workflow.json` · multi-view: `3d/workflows/hy3d-multiview-workflow.json`",
    "story": "S12"
@@ -272,6 +277,9 @@
   },
   "z-image-turbo.json": {
    "story": "S1"
+  },
+  "sv3d-turnaround.json": {
+   "story": "S12"
   }
  }
 }

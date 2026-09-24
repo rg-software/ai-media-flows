@@ -91,8 +91,13 @@ def check() -> list[str]:
                 problems.append("jobs.json: %s claims story %s which has no entry" % (name, s))
         if not name.endswith(".json"):
             continue
-        w = json.load(io.open(os.path.join(REPO, "3d" if name.startswith(("hy3d", "unirig")) else "2d",
-                                           "workflows", name), encoding="utf-8"))
+        # locate the file rather than guessing the scenario folder from its name: a new flow may not
+        # follow the packing's naming (sv3d-turnaround.json lives in 3d/, not 2d/)
+        hits = glob.glob(os.path.join(REPO, "*", "workflows", name))
+        if not hits:
+            problems.append("jobs.json: claims %s but no such workflow file exists" % name)
+            continue
+        w = json.load(io.open(hits[0], encoding="utf-8"))
         note = [n for n in w["nodes"] if n.get("type") in ("Note", "MarkdownNote")]
         if not note:
             continue
