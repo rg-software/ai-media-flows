@@ -24,15 +24,14 @@ NOTE = (
     "## pixel-art.json\n\n"
     "Pixel art from a prompt (game-ready sprites)\n\n"
     "**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024\u00b2**, then `ImageScale` "
-    "**nearest /16 -> 64x64**, then `PixelArtDetectorConverter` at a **fixed 64x64** with a chosen palette "
-    "(`paletteList` from `PixelArtLoadPalettes`, pico-8 by default). Both outputs are 64 px, so they are "
-    "directly comparable.\n"
-    "**The grid is 8 px, not 16 (measured).** This LoRA paints on an **8 px grid at 1024\u00b2** - the "
-    "adjacent-column step ratio peaks at period 8 (6.38, vs 5.35 at 16) and the modal gap between column "
-    "spikes is 8 px - so **/8 is its native factor and 128 px its native sprite**. The shipped /16 -> 64 px is "
-    "a deliberate *smaller* target: each output pixel covers 2x2 of the LoRA's pixels, so half the painted "
-    "detail is gone. For the native size instead, set `ImageScale` to **128x128** and the converter's "
-    "`resize_w`/`resize_h` to **128**.\n"
+    "**nearest /8 -> 128x128** (the model's own grid), then `PixelArtDetectorConverter` at a **fixed "
+    "128x128** with a chosen palette (`paletteList` from `PixelArtLoadPalettes`, pico-8 by default). Both "
+    "outputs are 128 px, so they are directly comparable.\n"
+    "**The grid is 8 px (measured).** This LoRA paints on an **8 px grid at 1024\u00b2** - the adjacent-column "
+    "step ratio peaks at period 8 (6.38, vs 5.35 at 16) and the modal gap between column spikes is 8 px - so "
+    "**/8 is its native factor and 128 px its native sprite**, which is what the flow ships: nothing the "
+    "model painted is thrown away. **Want a classic 64 px sprite?** set `ImageScale` to **64x64** and the "
+    "converter's `resize_w`/`resize_h` to **64** - a deliberate 2x reduction of the model's own pixels.\n"
     "**Never auto-detect.** `PixelArtDetectorToImage`'s grid detection is unreliable (measured: it returned "
     "128 px from a 1024\u00b2 image) and is not idempotent - which is why the palette pass here uses a FIXED "
     "size and never an already-downscaled input.\n"
@@ -44,7 +43,6 @@ NOTE = (
     "---\n*How to run it: story **S10** in `HOWTO.md`  \u00b7  Why it is this way: **E5/E5b/E5f** in the "
     "scenarios' `EXPERIMENTS` logs.*"
 )
-
 
 NODES = [
     {"id": 1, "type": "CheckpointLoaderSimple", "pos": [-1500, 520], "size": [340, 100],
@@ -78,22 +76,22 @@ NODES = [
      "inputs": [{"name": "samples", "type": "LATENT"}, {"name": "vae", "type": "VAE"}],
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0}]},
     {"id": 8, "type": "ImageScale", "pos": [420, 380], "size": [300, 130],
-     "widgets_values": ["nearest-exact", 64, 64, "disabled"],
+     "widgets_values": ["nearest-exact", 128, 128, "disabled"],
      "inputs": [{"name": "image", "type": "IMAGE"}],
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0}]},
     {"id": 9, "type": "SaveImage", "pos": [780, 280], "size": [380, 300],
-     "widgets_values": ["2D/E5/pixel_lora_64"], "inputs": [{"name": "images", "type": "IMAGE"}]},
+     "widgets_values": ["2D/E5/pixel_lora_128"], "inputs": [{"name": "images", "type": "IMAGE"}]},
     {"id": 10, "type": "PixelArtLoadPalettes", "pos": [420, 900], "size": [340, 300],
      "widgets_values": ["pico-8-1x.png", False, _GRID, 40, "#f40e12", "#fff", 6, True, 3],
      "outputs": [{"name": "paletteList", "type": "LIST", "slot_index": 0}]},
     {"id": 11, "type": "PixelArtDetectorConverter", "pos": [820, 700], "size": [420, 620],
-     "widgets_values": ["GAMEBOY", 64, 64, "contain", "Image.quantize", 2, False, "Image.quantize", 128,
+     "widgets_values": ["GAMEBOY", 128, 128, "contain", "Image.quantize", 2, False, "Image.quantize", 128,
                         True, "MAXCOVERAGE", _OPENCV, "RANDOM_CENTERS", 10, 10, "EUCLIDEAN_SQUARE",
                         _CLEANUP, False, 0.02, "none"],
      "inputs": [{"name": "images", "type": "IMAGE"}, {"name": "paletteList", "type": "LIST"}],
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0}]},
     {"id": 12, "type": "SaveImage", "pos": [1300, 700], "size": [380, 300],
-     "widgets_values": ["2D/E5/pixel_lora_64_pal"], "inputs": [{"name": "images", "type": "IMAGE"}]},
+     "widgets_values": ["2D/E5/pixel_lora_128_pal"], "inputs": [{"name": "images", "type": "IMAGE"}]},
     {"id": 13, "type": "MarkdownNote", "pos": [-1500, -480], "size": [720, 200]},
 ]
 

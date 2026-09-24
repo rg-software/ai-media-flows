@@ -313,8 +313,8 @@
    ],
    "widgets_values": [
     "nearest-exact",
-    64,
-    64,
+    128,
+    128,
     "disabled"
    ],
    "inputs": [
@@ -354,7 +354,7 @@
     300
    ],
    "widgets_values": [
-    "2D/E5/pixel_lora_64"
+    "2D/E5/pixel_lora_128"
    ],
    "inputs": [
     {
@@ -424,8 +424,8 @@
    ],
    "widgets_values": [
     "GAMEBOY",
-    64,
-    64,
+    128,
+    128,
     "contain",
     "Image.quantize",
     2,
@@ -485,7 +485,7 @@
     300
    ],
    "widgets_values": [
-    "2D/E5/pixel_lora_64_pal"
+    "2D/E5/pixel_lora_128_pal"
    ],
    "inputs": [
     {
@@ -518,7 +518,7 @@
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## pixel-art.json\n\nPixel art from a prompt (game-ready sprites)\n\n**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024²**, then `ImageScale` **nearest /16 -> 64x64**, then `PixelArtDetectorConverter` at a **fixed 64x64** with a chosen palette (`paletteList` from `PixelArtLoadPalettes`, pico-8 by default). Both outputs are 64 px, so they are directly comparable.\n**The grid is 8 px, not 16 (measured).** This LoRA paints on an **8 px grid at 1024²** - the adjacent-column step ratio peaks at period 8 (6.38, vs 5.35 at 16) and the modal gap between column spikes is 8 px - so **/8 is its native factor and 128 px its native sprite**. The shipped /16 -> 64 px is a deliberate *smaller* target: each output pixel covers 2x2 of the LoRA's pixels, so half the painted detail is gone. For the native size instead, set `ImageScale` to **128x128** and the converter's `resize_w`/`resize_h` to **128**.\n**Never auto-detect.** `PixelArtDetectorToImage`'s grid detection is unreliable (measured: it returned 128 px from a 1024² image) and is not idempotent - which is why the palette pass here uses a FIXED size and never an already-downscaled input.\n**Flat retro instead?** `RetroDiffusion24x-64xModel` at 512², 20 steps, cfg 9.5, with **its** measured factor /8 -> 64 px. That model is **non-commercial**; `pixel-art-xl` is OpenRAIL, which is why this is the shipped arm.\n**Converting an existing picture?** `pixel-art-convert.json` keeps the source exactly (resize + palette); `pixel-art-restyle.json` redraws it with the LoRA first.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E5/E5b/E5f** in the scenarios' `EXPERIMENTS` logs.*"
+    "## pixel-art.json\n\nPixel art from a prompt (game-ready sprites)\n\n**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024²**, then `ImageScale` **nearest /8 -> 128x128** (the model's own grid), then `PixelArtDetectorConverter` at a **fixed 128x128** with a chosen palette (`paletteList` from `PixelArtLoadPalettes`, pico-8 by default). Both outputs are 128 px, so they are directly comparable.\n**The grid is 8 px (measured).** This LoRA paints on an **8 px grid at 1024²** - the adjacent-column step ratio peaks at period 8 (6.38, vs 5.35 at 16) and the modal gap between column spikes is 8 px - so **/8 is its native factor and 128 px its native sprite**, which is what the flow ships: nothing the model painted is thrown away. **Want a classic 64 px sprite?** set `ImageScale` to **64x64** and the converter's `resize_w`/`resize_h` to **64** - a deliberate 2x reduction of the model's own pixels.\n**Never auto-detect.** `PixelArtDetectorToImage`'s grid detection is unreliable (measured: it returned 128 px from a 1024² image) and is not idempotent - which is why the palette pass here uses a FIXED size and never an already-downscaled input.\n**Flat retro instead?** `RetroDiffusion24x-64xModel` at 512², 20 steps, cfg 9.5, with **its** measured factor /8 -> 64 px. That model is **non-commercial**; `pixel-art-xl` is OpenRAIL, which is why this is the shipped arm.\n**Converting an existing picture?** `pixel-art-convert.json` keeps the source exactly (resize + palette); `pixel-art-restyle.json` redraws it with the LoRA first.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E5/E5b/E5f** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "properties": {},
    "order": 0
