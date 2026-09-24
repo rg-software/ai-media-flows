@@ -53,7 +53,7 @@
     170
    ],
    "flags": {},
-   "order": 20,
+   "order": 1,
    "mode": 0,
    "inputs": [
     {
@@ -98,7 +98,7 @@
     170
    ],
    "flags": {},
-   "order": 21,
+   "order": 1,
    "mode": 0,
    "inputs": [
     {
@@ -142,7 +142,7 @@
     170
    ],
    "flags": {},
-   "order": 22,
+   "order": 1,
    "mode": 0,
    "inputs": [
     {
@@ -186,7 +186,7 @@
     170
    ],
    "flags": {},
-   "order": 23,
+   "order": 1,
    "mode": 0,
    "inputs": [
     {
@@ -230,7 +230,7 @@
     300
    ],
    "flags": {},
-   "order": 1,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -269,7 +269,7 @@
     300
    ],
    "flags": {},
-   "order": 2,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -308,7 +308,7 @@
     300
    ],
    "flags": {},
-   "order": 3,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -347,7 +347,7 @@
     100
    ],
    "flags": {},
-   "order": 4,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -389,7 +389,7 @@
     230
    ],
    "flags": {},
-   "order": 5,
+   "order": 2,
    "mode": 0,
    "inputs": [
     {
@@ -450,7 +450,7 @@
     170
    ],
    "flags": {},
-   "order": 6,
+   "order": 3,
    "mode": 0,
    "inputs": [
     {
@@ -497,7 +497,7 @@
     174
    ],
    "flags": {},
-   "order": 7,
+   "order": 4,
    "mode": 0,
    "inputs": [
     {
@@ -539,7 +539,7 @@
     230
    ],
    "flags": {},
-   "order": 8,
+   "order": 5,
    "mode": 0,
    "inputs": [
     {
@@ -583,7 +583,7 @@
     106
    ],
    "flags": {},
-   "order": 9,
+   "order": 6,
    "mode": 0,
    "inputs": [
     {
@@ -623,7 +623,7 @@
     46
    ],
    "flags": {},
-   "order": 10,
+   "order": 6,
    "mode": 0,
    "inputs": [
     {
@@ -659,7 +659,7 @@
     120
    ],
    "flags": {},
-   "order": 11,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -696,7 +696,7 @@
     170
    ],
    "flags": {},
-   "order": 12,
+   "order": 7,
    "mode": 0,
    "inputs": [
     {
@@ -763,7 +763,7 @@
     58
    ],
    "flags": {},
-   "order": 13,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -795,7 +795,7 @@
     270
    ],
    "flags": {},
-   "order": 14,
+   "order": 8,
    "mode": 0,
    "inputs": [
     {
@@ -856,7 +856,7 @@
     58
    ],
    "flags": {},
-   "order": 15,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -888,7 +888,7 @@
     222
    ],
    "flags": {},
-   "order": 16,
+   "order": 9,
    "mode": 0,
    "inputs": [
     {
@@ -935,7 +935,7 @@
     66
    ],
    "flags": {},
-   "order": 17,
+   "order": 10,
    "mode": 0,
    "inputs": [
     {
@@ -992,7 +992,7 @@
     66
    ],
    "flags": {},
-   "order": 18,
+   "order": 11,
    "mode": 0,
    "inputs": [
     {
@@ -1054,7 +1054,7 @@
     120
    ],
    "flags": {},
-   "order": 19,
+   "order": 12,
    "mode": 0,
    "inputs": [
     {
@@ -1098,7 +1098,7 @@
     46
    ],
    "flags": {},
-   "order": 20,
+   "order": 13,
    "mode": 0,
    "inputs": [
     {
@@ -1140,7 +1140,7 @@
     106
    ],
    "flags": {},
-   "order": 19,
+   "order": 14,
    "mode": 0,
    "inputs": [
     {
@@ -1186,7 +1186,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D — several consistent views (uniform 512²) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node — orbit the untextured and textured meshes in the canvas (the viewer reads from `output/`).\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
+    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D — several consistent views (uniform 512²) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node — orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) — plus a **Textured turntable (12 frames)** image\nbatch from `Hy3DNvdiffrastRenderer`, the reliable way to see the texture.\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
@@ -1203,7 +1203,7 @@
     900
    ],
    "flags": {},
-   "order": 24,
+   "order": 15,
    "mode": 0,
    "inputs": [
     {
@@ -1239,7 +1239,7 @@
     900
    ],
    "flags": {},
-   "order": 25,
+   "order": 7,
    "mode": 0,
    "inputs": [
     {
@@ -1275,7 +1275,7 @@
     380
    ],
    "flags": {},
-   "order": 26,
+   "order": 14,
    "mode": 0,
    "inputs": [
     {
@@ -1300,7 +1300,7 @@
      "slot_index": 1
     }
    ],
-   "title": "Textured render (still)",
+   "title": "Textured turntable (12 frames)",
    "properties": {
     "Node name for S&R": "Hy3DNvdiffrastRenderer"
    },
@@ -1309,7 +1309,7 @@
     768,
     768,
     2,
-    1,
+    12,
     2.0,
     0.0,
     0.0,
@@ -1332,7 +1332,7 @@
     420
    ],
    "flags": {},
-   "order": 27,
+   "order": 15,
    "mode": 0,
    "inputs": [
     {
@@ -1342,7 +1342,7 @@
     }
    ],
    "outputs": [],
-   "title": "Textured render (save)",
+   "title": "Textured turntable (save)",
    "properties": {
     "Node name for S&R": "SaveImage"
    },

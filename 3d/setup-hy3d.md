@@ -40,7 +40,7 @@ Then pick `hy3dgen\model.fp16.ckpt` in the `Hy3D_2_1SimpleMeshGen` model dropdow
 3. On `Hy3D_2_1SimpleMeshGen`, confirm the model dropdown shows `hy3dgen\model.fp16.ckpt`.
 4. Queue. Shape gen ~1–2 min on the 3090; GLB lands in `output/3D/Hy3D/`.
 
-**What "works" looks like:** rotate the `Preview3D`/imported GLB and the **back of the house is present** — Hy3D is generative, so it completes the full 360° form from the single image. That's the whole point vs MoGe.
+**What "works" looks like:** rotate the `Preview3D`/imported GLB and the **back of the house is present** — Hy3D is generative, so it completes the full 360° form from the single image. That's the whole point vs MoGe. (The viewer shows geometry only — it renders no textures on the current frontend; check the texture with the flow's `Textured turntable` output instead.)
 
 ## Step 3: Full texture (once shape passes)
 

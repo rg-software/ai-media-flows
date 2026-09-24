@@ -30,7 +30,7 @@ Only the **valuable** pipelines live in `workflows/`. Scaffolding/one-off experi
 
 **Viewing a run:** every 3D flow ends in a viewer node — `Preview3D` on both Hy3D exports, `UniRigPreviewRiggedMesh` on the rig — so the mesh is orbited **inside the ComfyUI canvas**; a dedicated 3D app is not needed to check a run (the GLB/FBX is still written to `output/` for Blender/Unity). The viewers load from `output/`, which is why they take the export node's own path output; `Load3D`, the node that feeds a model *into* a graph, reads `input/3d/` instead. The 3D viewer is a frontend **Beta** feature, enabled by default (*Settings → 3D → Enable 3D Viewer*). Node-level detail: `../comfyui/README.md`.
 
-**Seeing the texture:** on the current frontend (1.52.6) the ComfyUI 3D viewer does **not** render GLB textures — true for the deprecated `Preview3D` *and* the modern `Load3D`/`Preview3DAdvanced` (A/B tested on one GLB; the file itself is correct and shows in Blender and Windows 3D Viewer). So both Hy3D flows also end in a **`Textured render (still)`**: `Hy3DNvdiffrastRenderer(render_type="textured")` → `SaveImage`, an ordinary image preview of the textured mesh — that is the in-canvas way to confirm a texture. `num_frames` > 1 turns it into a turntable batch. That node needs **nvdiffrast** and a **pinned `utils3d`** in the server venv — see `../HANDOFF.md`; re-test the viewer after a frontend update with `workflows/scratch/load3d-texture-probe.json`.
+**Seeing the texture:** on the current frontend (1.52.6) the ComfyUI 3D viewer does **not** render GLB textures — true for the deprecated `Preview3D` *and* the modern `Load3D`/`Preview3DAdvanced` (A/B tested on one GLB; the file itself is correct and shows in Blender and Windows 3D Viewer). So both Hy3D flows also end in a **`Textured turntable (12 frames)`**: `Hy3DNvdiffrastRenderer(render_type="textured")` → `SaveImage`, an ordinary image batch preview of the textured mesh — the in-canvas way to confirm a texture, and it shows all sides because `num_frames=12` sweeps a full 360° (`num_frames=1` gives a single still; measured 22 s for 12 frames at 768², ssaa=2). That node needs **nvdiffrast** and a **pinned `utils3d`** in the server venv — see `../HANDOFF.md`; re-test the viewer after a frontend update with `workflows/scratch/load3d-texture-probe.json`.
 
 ### `workflows/scratch/` (one-off scaffolding: archive, don't maintain)
 
@@ -65,8 +65,6 @@ Only the **valuable** pipelines live in `workflows/`. Scaffolding/one-off experi
 - Tripo requires an API key on the server for the paid workflows.
 
 ## Next candidates (from pipeline-design.md)
-
-- **Decide what `Hy3D_untextured.glb` should be (open question).** The flow currently exports the *post-processed* mesh (`Hy3DExportMesh` ← `Hy3DPostprocessMesh`, 50 000 faces = that node's `max_facenum` cap), while `hy3d-full`'s own note and this README/E2c describe the untextured GLB as the *retopologised* checkpoint — and `Hy3DIMRemesh` (vc=10000) feeds only the texture branch. Either the wiring regressed when retopo was inserted, or the docs are stale: keep the raw high-poly checkpoint (then fix the docs) or move the export onto `Hy3DIMRemesh`'s output.
 
 - **E2d** — multiview (`workflows/hy3d-multiview-workflow.json`) — needs the mv checkpoint downloaded.
 - **E3** Tripo bridge on a free Hy3D GLB (paid texture/rig comparison). See `hy3d-tripo-swap.md`.

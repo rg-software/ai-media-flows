@@ -109,7 +109,6 @@
      "name": "trimesh",
      "type": "TRIMESH",
      "links": [
-      16,
       17
      ],
      "slot_index": 0
@@ -151,7 +150,8 @@
      "name": "trimesh",
      "type": "TRIMESH",
      "links": [
-      3
+      3,
+      16
      ],
      "slot_index": 0
     }
@@ -180,7 +180,7 @@
     106
    ],
    "flags": {},
-   "order": 3,
+   "order": 4,
    "mode": 0,
    "inputs": [
     {
@@ -220,7 +220,7 @@
     46
    ],
    "flags": {},
-   "order": 3,
+   "order": 4,
    "mode": 0,
    "inputs": [
     {
@@ -256,7 +256,7 @@
     170
    ],
    "flags": {},
-   "order": 4,
+   "order": 5,
    "mode": 0,
    "inputs": [
     {
@@ -318,7 +318,7 @@
     58
    ],
    "flags": {},
-   "order": 4,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -350,7 +350,7 @@
     270
    ],
    "flags": {},
-   "order": 5,
+   "order": 6,
    "mode": 0,
    "inputs": [
     {
@@ -406,7 +406,7 @@
     58
    ],
    "flags": {},
-   "order": 6,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -690,7 +690,7 @@
     106
    ],
    "flags": {},
-   "order": 10,
+   "order": 12,
    "mode": 0,
    "inputs": [
     {
@@ -736,7 +736,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## hy3d-full-workflow.json\n\nHy3D shape -> texture\n\n**Does:** image -> 3D mesh -> texture -> bake, with Hunyuan3D 2.x.\n**View:** both exports end in a `Preview3D` node — the untextured checkpoint and the textured result can be orbited in the canvas (the viewer reads from `output/`).\n**Note:** the shape and the texture are exported separately (untextured and textured GLB) so\nthe shape can be rigged/retopo'd before texturing.\n**See:** `3d/README.md`, `3d/pipeline-design.md`, and the widget reference in `3d/hy3d-knobs.md`.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2a-e** in the scenarios' `EXPERIMENTS` logs.*"
+    "## hy3d-full-workflow.json\n\nHy3D shape -> texture\n\n**Does:** image -> 3D mesh -> texture -> bake, with Hunyuan3D 2.x.\n**View:** both exports end in a `Preview3D` node — orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) — plus a **Textured turntable (12 frames)**:\n`Hy3DNvdiffrastRenderer` renders the textured mesh through a full 360° as an image batch, which is the\nreliable way to see the texture.\n**Note:** the untextured export is the **retopologised** shape (`Hy3DIMRemesh`) and the textured GLB\nis the final — so the shape checkpoint is the one to rig or bring into an engine.\n**See:** `3d/README.md`, `3d/pipeline-design.md`, and the widget reference in `3d/hy3d-knobs.md`.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E2a-e** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
@@ -753,7 +753,7 @@
     900
    ],
    "flags": {},
-   "order": 12,
+   "order": 13,
    "mode": 0,
    "inputs": [
     {
@@ -789,7 +789,7 @@
     900
    ],
    "flags": {},
-   "order": 13,
+   "order": 5,
    "mode": 0,
    "inputs": [
     {
@@ -825,7 +825,7 @@
     380
    ],
    "flags": {},
-   "order": 14,
+   "order": 12,
    "mode": 0,
    "inputs": [
     {
@@ -850,7 +850,7 @@
      "slot_index": 1
     }
    ],
-   "title": "Textured render (still)",
+   "title": "Textured turntable (12 frames)",
    "properties": {
     "Node name for S&R": "Hy3DNvdiffrastRenderer"
    },
@@ -859,7 +859,7 @@
     768,
     768,
     2,
-    1,
+    12,
     2.0,
     0.0,
     0.0,
@@ -882,7 +882,7 @@
     420
    ],
    "flags": {},
-   "order": 15,
+   "order": 13,
    "mode": 0,
    "inputs": [
     {
@@ -892,7 +892,7 @@
     }
    ],
    "outputs": [],
-   "title": "Textured render (save)",
+   "title": "Textured turntable (save)",
    "properties": {
     "Node name for S&R": "SaveImage"
    },
@@ -1016,7 +1016,7 @@
   ],
   [
    16,
-   3,
+   14,
    0,
    13,
    0,
