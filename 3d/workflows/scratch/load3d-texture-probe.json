@@ -1,0 +1,145 @@
+{
+ "id": "load3d-texture-probe",
+ "revision": 0,
+ "last_node_id": 2,
+ "last_link_id": 0,
+ "nodes": [
+  {
+   "id": 2,
+   "type": "Note",
+   "pos": [
+    -320,
+    240
+   ],
+   "size": [
+    520,
+    420
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "title": "",
+   "properties": {},
+   "color": "#432",
+   "bgcolor": "#653",
+   "widgets_values": [
+    "## load3d-texture-probe.json\n\nDoes the ComfyUI 3D viewer render GLB textures yet?\n\n**Does:** loads `input/3d/E6_textured_AB.glb` (a copy of a Hy3D textured export) in a single `Load3D` node - the *modern* viewer, so this tests the viewer, not a pipeline.\n**Expected on frontend 1.52.6:** the mesh appears **untextured** even with material mode `original` - a frontend limitation; the GLB itself is fine (Blender and Windows 3D Viewer show colour).\n**If it shows colour:** the limitation is fixed, and `Preview3D`/`Preview3DAdvanced` become usable for texture checks again (the nvdiffrast still can stay as a cheap second opinion).\n**Before running:** put any textured GLB in `ComfyUI/input/3d/` and pick it in the node.\n**See:** `../../comfyui/README.md` (3D preview gotcha), `../EXPERIMENTS.md` E6/E7.\n"
+   ]
+  },
+  {
+   "id": 1,
+   "type": "Load3D",
+   "pos": [
+    240,
+    240
+   ],
+   "size": [
+    560,
+    620
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model_file",
+     "type": "COMBO",
+     "widget": {
+      "name": "model_file"
+     },
+     "link": null
+    },
+    {
+     "name": "image",
+     "type": "LOAD_3D",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": null,
+     "slot_index": 0
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": null,
+     "slot_index": 1
+    },
+    {
+     "name": "mesh_path",
+     "type": "STRING",
+     "links": null,
+     "slot_index": 2
+    },
+    {
+     "name": "normal",
+     "type": "IMAGE",
+     "links": null,
+     "slot_index": 3
+    },
+    {
+     "name": "camera_info",
+     "type": "LOAD3D_CAMERA",
+     "links": null,
+     "slot_index": 4
+    },
+    {
+     "name": "recording_video",
+     "type": "VIDEO",
+     "links": null,
+     "slot_index": 5
+    },
+    {
+     "name": "model_3d",
+     "type": "FILE_3D",
+     "links": null,
+     "slot_index": 6
+    },
+    {
+     "name": "model_3d_info",
+     "type": "LOAD3D_MODEL_INFO",
+     "links": null,
+     "slot_index": 7
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Load3D"
+   },
+   "widgets_values": [
+    "E6_textured_AB.glb",
+    "",
+    1024,
+    1024
+   ]
+  }
+ ],
+ "links": [],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}
