@@ -45,10 +45,10 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def iter_curated():
-    """Every maintained workflow (scratch excluded)."""
-    for pat in ("2d/workflows/*.json", "3d/workflows/*.json"):
-        for p in sorted(glob.glob(os.path.join(REPO, pat))):
-            yield p
+    """Every maintained workflow (scratch excluded). Scenario-generic: the wildcard cannot cross a path
+    separator, so `*/workflows/scratch/*.json` stays out."""
+    for p in sorted(glob.glob(os.path.join(REPO, "*", "workflows", "*.json"))):
+        yield p
 
 
 def load(path: str) -> dict:

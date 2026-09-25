@@ -55,9 +55,10 @@ A working, reproducible pipeline for **generating game assets with open models o
 
 ### Animation
 
-| I want to make / do                 | flow                                                                                                                                                            | story                                 |
-|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------|
-| Animate a sprite across a few poses | `scripts/pose_probe.py` (script the poses) -> `2d/workflows/pose-skeleton.json` (render them, design held by IPAdapter) -> `scripts/atlas.py` (pack the frames) | [S9](HOWTO.md#s9-sprites-and-atlases) |
+| I want to make / do                      | flow                                                                                                                                                                     | story                                                        |
+|------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
+| Animate a sprite across a few poses      | `scripts/pose_probe.py` (script the poses) -> `2d/workflows/pose-skeleton.json` (render them, design held by IPAdapter) -> `scripts/atlas.py` (pack the frames)          | [S9](HOWTO.md#s9-sprites-and-atlases)                        |
+| Animate a character from a driving video | `animation/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly - no pose extraction or skeleton step) | [S15](HOWTO.md#s15-animate-a-character-from-a-driving-video) |
 
 ### Cross-cutting tooling
 
@@ -100,6 +101,7 @@ Four places, and you can reach all of them **from the flow itself** — no hunti
 | [`HOWTO.md`](HOWTO.md)                                                                                                                                                                                         | the user stories (this page's "how")                                                                        |
 | 2D scenario:<br>[`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md)<br>[`2d/PROTOCOL.md`](2d/PROTOCOL.md)<br>[`2d/ROADMAP-2D.md`](2d/ROADMAP-2D.md)<br>[`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md) | run log · canonical asset set and rules · roadmap and backlog · tooling audit                               |
 | 3D scenario:<br>[`3d/README.md`](3d/README.md)<br>[`3d/EXPERIMENTS.md`](3d/EXPERIMENTS.md)<br>[`3d/pipeline-design.md`](3d/pipeline-design.md)                                                                 | scenario index · run log · architecture                                                                     |
+| Animation scenario:<br>[nimation/README.md](animation/README.md)<br>[nimation/EXPERIMENTS.md](animation/EXPERIMENTS.md) | scenario index · run log |
 | [`comfyui/README.md`](comfyui/README.md)                                                                                                                                                                       | node gotchas (high-density)                                                                                 |
 | [`comfyui/linux-setup.md`](comfyui/linux-setup.md)                                                                                                                                                             | install / restore a machine, remote access, topology                                                        |
 

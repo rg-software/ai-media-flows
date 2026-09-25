@@ -14,7 +14,8 @@
   "S11": "Materials: seamless textures, PBR, and into 3D",
   "S12": "3D from images",
   "S13": "Explore parameters with a sweep",
-  "S14": "Move files to and from the box"
+  "S14": "Move files to and from the box",
+  "S15": "Animate a character from a driving video"
  },
  "jobs": [
   {
@@ -184,6 +185,12 @@
    "detail": "`scripts/comfy_io.py` (HTTP-based)",
    "story": "S14",
    "category": "workflow"
+  },
+  {
+   "want": "Animate a character from a driving video",
+   "detail": "`animation/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly - no pose extraction or skeleton step)",
+   "story": "S15",
+   "category": "animation"
   }
  ],
  "flows": {
@@ -313,6 +320,9 @@
   },
   "sweep_workflow.py": {
    "story": "S13"
+  },
+  "wan-animate-motion.json": {
+   "story": "S15"
   }
  },
  "categories": [

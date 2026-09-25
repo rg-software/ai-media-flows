@@ -335,7 +335,10 @@ CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
 
 
 def iter_flows():
-    for pat in ("2d/workflows/*.json", "3d/workflows/*.json", "scripts/*"):
+    # scenario-generic on purpose: a hardcoded ("2d", "3d") list is exactly how a new scenario folder
+    # would silently escape coverage and the per-flow docs check. One wildcard segment between
+    # "workflows" and the file also keeps workflows/scratch/ out (a `*` cannot cross a path separator).
+    for pat in ("*/workflows/*.json", "scripts/*"):
         for p in sorted(glob.glob(os.path.join(REPO, pat))):
             if os.path.isfile(p) and os.path.basename(p) not in CONTRIBUTOR_TOOLS:
                 yield p
@@ -362,8 +365,7 @@ def check_flow_docs() -> list[str]:
     problems = []
     howto = open(os.path.join(REPO, "HOWTO.md"), encoding="utf-8").read()
     stories = set(re.findall(r"^###\s+(S\d+)\.", howto, re.M))
-    for f in glob.glob(os.path.join(REPO, "2d", "workflows", "*.json")) + \
-             glob.glob(os.path.join(REPO, "3d", "workflows", "*.json")):
+    for f in sorted(glob.glob(os.path.join(REPO, "*", "workflows", "*.json"))):
         rel = os.path.relpath(f, REPO).replace(os.sep, "/")
         try:
             d = json.load(open(f, encoding="utf-8"))

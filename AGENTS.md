@@ -47,8 +47,11 @@ ai-gamedev-tasks/
 ├── 2d/                          ← 2D asset generation scenario (active)
 │   ├── README.md                ← scenario index + workflow map + server model inventory
 │   └── EXPERIMENTS-2D.md        ← run log (E1 ... En)
-├── animation/                   ← planned: parametric (rig + clips) and sprite (frames); see
-│                                   PIPELINES.md 'Not yet a scenario: motion and animation'
+├── animation/                   ← animation scenario: form (sprite / video / parametric) × motion source.
+│   ├── README.md                ← scenario index + the form/source map + the Ampere/GGUF trap
+│   ├── EXPERIMENTS.md           ← run log (E1 ... En)
+│   └── workflows/               ← `wan-animate-motion.json` (video reference; the flat rebuild of an
+│                                   upstream *subgraph* template, which cannot be scripted as shipped)
 ├── video/                       ← planned, TOP-LEVEL: motion as content, not an engine asset
 └── <future scenario folders>    ← audio, text, ... as we get there
 ```
@@ -114,7 +117,7 @@ ai-gamedev-tasks/
 - **2d/** — ladder + upgrades complete. Licence posture: clean except `insightface` (InstantID/PuLID, non-commercial research-only) and the Retro Diffusion pixel-art models (non-commercial). Kontext and `4x-UltraSharp` are non-commercial but superseded.
 - **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux). Licence posture is **not** clean: Hy3D is under the Tencent Hunyuan 3D Community License (excludes EU/UK/South Korea; >1M MAU needs a licence); UniRig is MIT.
 - **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux).
-- **Inventory:** 38 2D assets · 5 3D assets · **26 workflows** (23 in `2d/`, 3 in `3d/`; plus scaffolding   in `workflows/scratch/`) · 39 evidence sheets · 11 scripts · 24 docs.
+- **Inventory:** 38 2D assets · 5 3D assets · **29 workflows** (25 in `2d/`, 3 in `3d/`, 1 in `animation/`; plus scaffolding   in `workflows/scratch/`) · 46 evidence sheets · 25 scripts · 26 docs.
 - **Working rules** (full version in `2d/PROTOCOL.md` and `HOWTO.md` Part 1): prefer **scripts over GUI clicks** so every run is replayable; change **one knob at a time**; and remember **a metric is a hint, the image is the truth** (it has misled us three times — E7, E15, U6b).
 - **Next candidates, in order:** (1) the **engine import contract** — assets are Unity-*compatible* but not drop-in (no `.meta`/`.mat`, wrong importer defaults for pixel art and PBR maps, no PPU/pivot convention, and glTF-vs-Unity channel packing differs); (2) **animation** as a new scenario folder, partly gated on more RAM; (3) hardware — the box is **RAM-bound, not VRAM-bound** (`comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md`).
 

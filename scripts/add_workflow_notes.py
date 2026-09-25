@@ -203,8 +203,7 @@ def main() -> int:
     ap.add_argument("flows", nargs="*", help="with --update: only these flow files (e.g. depth-normal.json)")
     args = ap.parse_args()
 
-    paths = sorted(glob.glob(os.path.join(REPO, "2d", "workflows", "*.json"))) + \
-            sorted(glob.glob(os.path.join(REPO, "3d", "workflows", "*.json")))
+    paths = sorted(glob.glob(os.path.join(REPO, "*", "workflows", "*.json")))
     problems, changed = [], []
 
     for p in paths:

@@ -179,6 +179,22 @@
 - *Trap:* image nodes read **only** from `input/` - a file sitting in `output/` cannot be loaded, so upload it before running a flow that needs it. With many inputs, upload the folder once and read it with the `LoadImagesFromFolderKJ` node rather than one file at a time. And only those three dirs are served: a file anywhere else on the box (e.g. a result written into the repo) cannot be fetched at all, by any route short of SSH.
 - *More:* `scripts/comfy_io.py --help`.
 
+### S15. Animate a character from a driving video
+
+- *When:* you have a still character and a clip whose motion you want on it. The motion is transferred directly — no pose extraction and no skeleton step.
+- *Steps:*
+	- put your character image and your driving clip in `input/` (the flow ships pointing at the upstream example pair: `pink_hair_mech_arms_ref.png` + `street_dance_drive.mp4`);
+	- open `animation/workflows/wan-animate-motion.json` and set the **reference image** (`LoadImage`) and the **driving video** (`LoadVideo`);
+	- describe **scene, background and camera** in the positive prompt — *not* the motion, which comes from the video;
+	- run. One clip takes about a minute and a half at the shipped size.
+- *Knobs:*
+	- `length` — frames (4n+1); the default 33 is about 1.4 s, and this is the main cost knob;
+	- `pose_strength` — how literally the driving motion is copied;
+	- `reference_image_strength` — identity vs motion trade;
+	- the prompt's camera wording *is* the viewpoint control: the output camera is decoupled from the driving video.
+- *Trap:* the output size comes from the **driving video**, snapped to a multiple of 16 — not from the node's defaults. Use the **GGUF** model: the 3090 rejects `fp8e4nv`, so the fp8/int8 formats the upstream template ships with are not the path on this box. It runs at ~20.8 GB peak VRAM for a 33-frame clip, so there is little room to raise `length` without the upstream chunking.
+- *More:* [`animation/README.md`](animation/README.md), and E1 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).
+
 ---
 
 ## If your job isn't here
