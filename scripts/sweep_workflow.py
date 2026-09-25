@@ -214,7 +214,7 @@ def main() -> int:
     if args.dry_run:
         print("\ndry run: %d cell(s) of %s" % (len(cells), os.path.basename(path)))
         for idx, assignment in cells:
-            print("  cell %-3d %s" % (idx, ", ".join("%s.%s=%s" % a for a in assignment)))
+            print("  cell %-3d %s" % (idx, ", ".join("%s.%s=%s" % tuple(str(x) for x in a) for a in assignment)))
         return 0
     manifest = []
     for idx, assignment in cells:
@@ -249,7 +249,7 @@ def main() -> int:
                     for im in o.get("images", []):
                         files.append(im.get("filename"))
                 print("  cell %-3d %5.1fs  %s  %s" % (
-                    idx, time.time() - t0, st, ", ".join(a[2] for a in assignment)))
+                    idx, time.time() - t0, st, ", ".join(str(a[2]) for a in assignment)))
                 break
         manifest.append({"cell": idx, "assignment": assignment, "files": files})
 
