@@ -47,7 +47,10 @@ ai-gamedev-tasks/
 ├── 2d/                          ← 2D asset generation scenario (active)
 │   ├── README.md                ← scenario index + workflow map + server model inventory
 │   └── EXPERIMENTS-2D.md        ← run log (E1 ... En)
-└── <future scenario folders>    ← animation, audio, text, ... as we get there
+├── animation/                   ← planned: parametric (rig + clips) and sprite (frames); see
+│                                   PIPELINES.md 'Not yet a scenario: motion and animation'
+├── video/                       ← planned, TOP-LEVEL: motion as content, not an engine asset
+└── <future scenario folders>    ← audio, text, ... as we get there
 ```
 
 ## Conventions
