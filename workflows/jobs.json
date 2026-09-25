@@ -108,6 +108,11 @@
    "story": "S9"
   },
   {
+   "want": "Animate a sprite across a few poses",
+   "detail": "`scripts/pose_probe.py` (script the poses) -> `2d/workflows/pose-skeleton.json` (render them, design held by IPAdapter) -> `scripts/atlas.py` (pack the frames)",
+   "story": "S9"
+  },
+  {
    "want": "Upscale / restore (incl. faces)",
    "detail": "`2d/workflows/upscale-seedvr2.json` (Apache-2.0; `resolution` = image size for *restore*)",
    "story": "S10"
@@ -274,6 +279,9 @@
   },
   "sv3d-turnaround.json": {
    "story": "S8"
+  },
+  "pose_probe.py": {
+   "story": "S9"
   }
  }
 }
