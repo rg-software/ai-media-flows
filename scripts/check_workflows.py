@@ -33,6 +33,11 @@ import urllib.request
 
 # A widget is a scalar the UI edits inline; anything else is a socket wired between nodes.
 WIDGET_TYPES = ("INT", "FLOAT", "STRING", "BOOLEAN")
+# ComfyUI's v3 dynamic combos are widgets too: they hold a string and the UI writes them into
+# widgets_values exactly like a classic combo. Missing this made `SaveVideo.format` invisible to both the
+# validator and `sweep_workflow`'s prompt builder, which then dropped the value and the run died with
+# `SaveVideo.execute() missing 1 required positional argument: 'format'`.
+DYNAMIC_WIDGET_TYPES = ("COMFY_DYNAMICCOMBO_V3",)
 COMFY_INPUT = os.path.expanduser("~/Projects-Git/ComfyUI/input")
 CONTROL_AFTER_GENERATE = ("fixed", "randomize", "increment", "decrement")
 
@@ -71,7 +76,7 @@ def choices_of(decl):
 
 def is_widget(decl):
     t = decl[0] if isinstance(decl, list) and decl else decl
-    if isinstance(t, list) or t == "COMBO" or t in WIDGET_TYPES:
+    if isinstance(t, list) or t == "COMBO" or t in WIDGET_TYPES or t in DYNAMIC_WIDGET_TYPES:
         return True
     # "socketless" inputs are frontend widgets that are not wired between nodes (ImageCompare's
     # compare_view is one) - they still occupy a slot in the stored value list.
@@ -178,18 +183,33 @@ def main() -> int:
                 continue
             slots = widget_slots(spec)
             values = n.get("widgets_values") or []
-            # An EMPTY array on a node that has widgets is never legitimate: the UI always writes the
-            # values, so this means the file was generated (or hand-edited) without them, and every
-            # setting below silently falls back to a schema default. This is not the tolerated "trailing
-            # values absent because the node grew a widget" case - that one keeps a prefix. It is worth
-            # its own check because the loop below has nothing to contradict, so a workflow with no model
-            # names, no prompt and no size passes every other gate. (build_workflow.py's spec-key typo
-            # produced exactly that across 25 nodes.)
-            if slots and not values:
+            # An EMPTY widgets_values is worth flagging when - and only when - a setting would be genuinely
+            # UNSPECIFIED. The UI always writes the values, so an empty array means the file was generated
+            # or hand-edited without them, and the loop below has nothing to contradict: a workflow with no
+            # model names, no prompt and no size passes every other gate (build_workflow.py's spec-key typo
+            # produced exactly that across 25 nodes). But an empty array is *not* by itself a defect, which
+            # is the stance the docstring already takes for trailing values - so a widget is exempt when it
+            # is well-defined without a stored value:
+            #   * it is *wired* (converting an input to a link removes its widget - TrimVideoLatent.trim_amount
+            #     is normally fed by a link and must not be flagged);
+            #   * it declares an explicit schema `default` (DepthAnythingV2Preprocessor.ckpt_name is exactly
+            #     its default, so its empty array changes nothing);
+            #   * it is a socketless display toggle (ImageCompare.compare_view - not a result-affecting setting).
+            # What remains is a combo with no default at all (UnetLoaderGGUF.unet_name and friends), where
+            # there is no way to know which entry was meant.
+            wired = {i.get("name") for i in (n.get("inputs") or []) if i.get("link") is not None}
+
+            def _opts(d):
+                return d[1] if isinstance(d, list) and len(d) > 1 and isinstance(d[1], dict) else {}
+
+            unspecified = [s for s, d in slots
+                           if s and s not in wired
+                           and not _opts(d).get("socketless")
+                           and "default" not in _opts(d)]
+            if unspecified and not values:
                 problems += 1
-                named = ", ".join(s for s, _ in slots if s)[:70]
-                print(f"  {rel}: node {n.get('id')} {t}: widgets_values is EMPTY but the node has "
-                      f"{len(slots)} widget(s) ({named}); every setting would fall back to a default")
+                print(f"  {rel}: node {n.get('id')} {t}: widgets_values is EMPTY and these widgets have no "
+                      f"schema default, so nothing says what they are ({', '.join(unspecified)[:70]})")
                 continue
             bad = []
             for i, v in enumerate(values):
