@@ -100,7 +100,9 @@ def render_readme(readme_text, reg):
     if bounds is None:
         raise SystemExit("README.md: jobs anchor not found (%s)" % JOBS_ANCHOR)
     a, b = bounds
-    return readme_text[:a] + jobs_block(reg) + readme_text[b:]
+    # the block must end with a blank line: a table butted against the next '## ' heading is a broken table,
+    # and markdown-it renders the text instead of the table (the class of bug this repo already hit once)
+    return readme_text[:a] + jobs_block(reg) + "\n" + readme_text[b:].lstrip("\n")
 
 
 def readme_tables(readme_text):
