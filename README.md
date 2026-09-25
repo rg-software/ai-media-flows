@@ -61,10 +61,10 @@ A working, reproducible pipeline for **generating game assets with open models o
 
 ### Cross-cutting tooling
 
-| I want to make / do                   | flow                                                                                         | story                                               |
-|---------------------------------------|----------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| Sweep parameters into a labelled grid | `scripts/sweep.py` (any flow's knobs) · `scripts/sweep_outpaint.py` (outpaint seam and fill) | [S13](HOWTO.md#s13-explore-parameters-with-a-sweep) |
-| Move files to and from the box        | `scripts/comfy_io.py` (HTTP-based)                                                           | [S14](HOWTO.md#s14-move-files-to-and-from-the-box)  |
+| I want to make / do                   | flow                                                                                                                                                                                                                                                   | story                                               |
+|---------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| Sweep parameters into a labelled grid | scripts/sweep_workflow.py (any shipped flow, any widget, 1-2 axes - image-conditioned flows included) · scripts/sweep.py (plain text-to-image, sampler axes) · scripts/sweep_outpaint.py (the outpaint seam specifically, with a boundary-step metric) | [S13](HOWTO.md#s13-explore-parameters-with-a-sweep) |
+| Move files to and from the box        | `scripts/comfy_io.py` (HTTP-based)                                                                                                                                                                                                                     | [S14](HOWTO.md#s14-move-files-to-and-from-the-box)  |
 
 ## Operating the box
 

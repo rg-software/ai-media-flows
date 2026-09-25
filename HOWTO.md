@@ -157,6 +157,7 @@
 
 ### S13. Explore parameters with a sweep
 
+- *Any flow, not just text-to-image:* `scripts/sweep_workflow.py <flow.json> --set "<node_id>.<widget>:v1,v2" [--set ...] --out PREFIX`. Widgets are named (or an index), resolved against the live schema before anything runs, so a typo fails loudly; up to two axes make a grid; `--image` overrides every `LoadImage` so image-conditioned flows sweep too. `scripts/sweep.py` remains the simpler path for plain text-to-image.
 - *When:* you want to find a value yourself rather than take a story's default - the defaults quoted in these stories came from exactly this.
 - *Steps:* `scripts/sweep.py` runs a two-axis grid over a flow and writes a labelled sheet plus a per-cell metric, e.g. `--x cfg:3,5,7 --y steps:10,20,30`.
 - *Knobs:* which two axes you sweep; hold everything else fixed.

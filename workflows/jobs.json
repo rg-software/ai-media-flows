@@ -175,7 +175,7 @@
   },
   {
    "want": "Sweep parameters into a labelled grid",
-   "detail": "`scripts/sweep.py` (any flow's knobs) · `scripts/sweep_outpaint.py` (outpaint seam and fill)",
+   "detail": "scripts/sweep_workflow.py (any shipped flow, any widget, 1-2 axes - image-conditioned flows included) · scripts/sweep.py (plain text-to-image, sampler axes) · scripts/sweep_outpaint.py (the outpaint seam specifically, with a boundary-step metric)",
    "story": "S13",
    "category": "workflow"
   },
@@ -310,6 +310,9 @@
   },
   "pose_probe.py": {
    "story": "S9"
+  },
+  "sweep_workflow.py": {
+   "story": "S13"
   }
  },
  "categories": [
