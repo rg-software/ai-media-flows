@@ -165,6 +165,8 @@ def main() -> int:
     ap.add_argument("--base", default=os.environ.get("COMFY_BASE", "http://127.0.0.1:8188"))
     ap.add_argument("--token", default=os.environ.get("COMFY_TOKEN"))
     ap.add_argument("--timeout", type=int, default=900)
+    ap.add_argument("--dry-run", action="store_true",
+                    help="resolve the axes and print the grid, run nothing")
     args = ap.parse_args()
 
     if not args.token:
@@ -209,6 +211,11 @@ def main() -> int:
                                            (grid[1][0], grid[1][1], b_v)]))
 
     print("\nrunning %d cell(s) of %s" % (len(cells), os.path.basename(path)))
+    if args.dry_run:
+        print("\ndry run: %d cell(s) of %s" % (len(cells), os.path.basename(path)))
+        for idx, assignment in cells:
+            print("  cell %-3d %s" % (idx, ", ".join("%s.%s=%s" % a for a in assignment)))
+        return 0
     manifest = []
     for idx, assignment in cells:
         overrides = {}
