@@ -18,8 +18,8 @@ Usage:
     python comfy_io.py fetch latest --dest output/fetched
     python comfy_io.py get 2D/pbr_set/tex_stone/material/normal.png --dest from-box
 
-    # from anywhere the server is reachable:
-    python comfy_io.py fetch latest --base https://comfy.example.ddns.me --token "$COMFY_TOKEN"
+    # from anywhere the server is reachable (--base/--token are global: before the subcommand):
+    python comfy_io.py --base https://comfy.example.ddns.me --token "$COMFY_TOKEN" fetch latest
 
 Why 'fetch <prompt_id>' instead of syncing the output dir: the run tells you exactly which files
 it made, so you get a precise, replayable set + manifest rather than a mirror of everything
