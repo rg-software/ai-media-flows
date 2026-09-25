@@ -329,7 +329,9 @@ CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
                      "gen_assets.py", "publish_assets.sh", "fix_workflow_links.py", "pose_probe.py",
                      "build_workflow.py", "check_workflows.py",
                      # the job/story/flow registry and its renderer+gate (see workflows/jobs.json)
-                     "gen_job_docs.py", "check_job_docs.py"}
+                     "gen_job_docs.py", "check_job_docs.py",
+                     # engine-import contract: check a GLB offline, and add the normals Hy3D drops
+                     "check_gltf_contract.py", "fix_gltf_normals.py"}
 
 
 def iter_flows():
