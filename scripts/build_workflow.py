@@ -49,14 +49,31 @@ def load_spec(path):
 def build(mod) -> dict:
     order = 0
     nodes = []
+    # keys a node dict may carry; anything else is almost certainly a typo, and a silently-ignored key
+    # here writes an EMPTY widgets_values - the node then runs on schema defaults, which is how a whole
+    # workflow passed every gate (lint, check_job_docs, fix_workflow_links, check_workflows) while having
+    # no model names, no prompt and no size at all. `widgets` is honoured because the docstring documents
+    # it; the canonical field is `widgets_values`.
+    ALLOWED = {"id", "type", "pos", "size", "flags", "mode", "inputs", "outputs",
+               "widgets", "widgets_values", "title", "color", "bgcolor"}
     for raw in mod.NODES:
         n = {k: v for k, v in raw.items()}
+        unknown = sorted(set(n) - ALLOWED)
+        if unknown:
+            raise SystemExit(
+                f"spec node {n.get('id')} ({n.get('type')}): unrecognised key(s) {unknown}. "
+                f"Refusing to guess: an ignored key would write an empty widgets_values, and the node "
+                f"would then silently run on schema defaults. Use `widgets` (or `widgets_values`).")
         if "title" in n:
             raise SystemExit(
                 f"spec sets a title on node {raw.get('id')} ({raw.get('type')}): a UI title without the "
                 f"frontend's widget state makes the UI->API conversion emit an entry with no class_type, "
                 f"and the server rejects the whole workflow as missing_node_type. Use "
                 f"properties['Node name for S&R'] (set automatically) or a MarkdownNote to label things.")
+        if "widgets" in n:
+            if "widgets_values" in n:
+                raise SystemExit(f"spec node {n.get('id')}: give either 'widgets' or 'widgets_values', not both")
+            n["widgets_values"] = n.pop("widgets")
         n.setdefault("flags", {})
         n.setdefault("mode", 0)
         n.setdefault("size", [270, 100])

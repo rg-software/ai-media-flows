@@ -9,9 +9,6 @@
     -980,
     -520
    ],
-   "widgets": [
-    "wan_animate_2-Q5_K_M.gguf"
-   ],
    "outputs": [
     {
      "name": "MODEL",
@@ -21,6 +18,9 @@
      ]
     }
    ],
+   "widgets_values": [
+    "wan_animate_2-Q5_K_M.gguf"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
@@ -28,7 +28,6 @@
     100
    ],
    "inputs": [],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "UnetLoaderGGUF"
    },
@@ -40,10 +39,6 @@
    "pos": [
     -980,
     -380
-   ],
-   "widgets": [
-    "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
-    1.0
    ],
    "inputs": [
     {
@@ -61,13 +56,16 @@
      ]
     }
    ],
+   "widgets_values": [
+    "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
+    1.0
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "LoraLoaderModelOnly"
    },
@@ -79,9 +77,6 @@
    "pos": [
     -700,
     -470
-   ],
-   "widgets": [
-    5.0
    ],
    "inputs": [
     {
@@ -100,13 +95,15 @@
      ]
     }
    ],
+   "widgets_values": [
+    5.0
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "ModelSamplingSD3"
    },
@@ -119,11 +116,6 @@
     -980,
     -240
    ],
-   "widgets": [
-    "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-    "wan",
-    "default"
-   ],
    "outputs": [
     {
      "name": "CLIP",
@@ -135,6 +127,11 @@
      ]
     }
    ],
+   "widgets_values": [
+    "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+    "wan",
+    "default"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
@@ -142,7 +139,6 @@
     100
    ],
    "inputs": [],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "CLIPLoader"
    },
@@ -155,9 +151,6 @@
     -980,
     -100
    ],
-   "widgets": [
-    "Wan2_1_VAE_bf16.safetensors"
-   ],
    "outputs": [
     {
      "name": "VAE",
@@ -168,6 +161,9 @@
      ]
     }
    ],
+   "widgets_values": [
+    "Wan2_1_VAE_bf16.safetensors"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
@@ -175,7 +171,6 @@
     100
    ],
    "inputs": [],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "VAELoader"
    },
@@ -188,9 +183,6 @@
     -980,
     40
    ],
-   "widgets": [
-    "clip_vision_h.safetensors"
-   ],
    "outputs": [
     {
      "name": "CLIP_VISION",
@@ -201,6 +193,9 @@
      ]
     }
    ],
+   "widgets_values": [
+    "clip_vision_h.safetensors"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
@@ -208,7 +203,6 @@
     100
    ],
    "inputs": [],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "CLIPVisionLoader"
    },
@@ -220,10 +214,6 @@
    "pos": [
     -1500,
     200
-   ],
-   "widgets": [
-    "pink_hair_mech_arms_ref.png",
-    "image"
    ],
    "outputs": [
     {
@@ -239,6 +229,10 @@
      "links": []
     }
    ],
+   "widgets_values": [
+    "pink_hair_mech_arms_ref.png",
+    "image"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
@@ -246,7 +240,6 @@
     100
    ],
    "inputs": [],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "LoadImage"
    },
@@ -259,9 +252,6 @@
     -1500,
     420
    ],
-   "widgets": [
-    "street_dance_drive.mp4"
-   ],
    "outputs": [
     {
      "name": "VIDEO",
@@ -271,6 +261,9 @@
      ]
     }
    ],
+   "widgets_values": [
+    "street_dance_drive.mp4"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
@@ -278,7 +271,6 @@
     100
    ],
    "inputs": [],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "LoadVideo"
    },
@@ -346,9 +338,6 @@
     -700,
     -320
    ],
-   "widgets": [
-    "Character Description: the character in the reference image\nBackground description: a plain empty room"
-   ],
    "inputs": [
     {
      "name": "clip",
@@ -366,13 +355,15 @@
      ]
     }
    ],
+   "widgets_values": [
+    "Character Description: the character in the reference image\nBackground description: a plain empty room"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "CLIPTextEncode"
    },
@@ -384,9 +375,6 @@
    "pos": [
     -700,
     -180
-   ],
-   "widgets": [
-    "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
    ],
    "inputs": [
     {
@@ -405,13 +393,15 @@
      ]
     }
    ],
+   "widgets_values": [
+    "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "CLIPTextEncode"
    },
@@ -423,9 +413,6 @@
    "pos": [
     -700,
     -20
-   ],
-   "widgets": [
-    "the reference video of the character performing the motion"
    ],
    "inputs": [
     {
@@ -443,13 +430,15 @@
      ]
     }
    ],
+   "widgets_values": [
+    "the reference video of the character performing the motion"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "CLIPTextEncode"
    },
@@ -461,12 +450,6 @@
    "pos": [
     -940,
     200
-   ],
-   "widgets": [
-    "area",
-    480,
-    848,
-    "center"
    ],
    "inputs": [
     {
@@ -485,13 +468,18 @@
      ]
     }
    ],
+   "widgets_values": [
+    "area",
+    480,
+    848,
+    "center"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "ImageScale"
    },
@@ -503,12 +491,6 @@
    "pos": [
     -940,
     620
-   ],
-   "widgets": [
-    "area",
-    480,
-    848,
-    "center"
    ],
    "inputs": [
     {
@@ -527,13 +509,18 @@
      ]
     }
    ],
+   "widgets_values": [
+    "area",
+    480,
+    848,
+    "center"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "ImageScale"
    },
@@ -545,9 +532,6 @@
    "pos": [
     -620,
     200
-   ],
-   "widgets": [
-    "none"
    ],
    "inputs": [
     {
@@ -570,13 +554,15 @@
      ]
     }
    ],
+   "widgets_values": [
+    "none"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "CLIPVisionEncode"
    },
@@ -588,10 +574,6 @@
    "pos": [
     -940,
     820
-   ],
-   "widgets": [
-    0,
-    1
    ],
    "inputs": [
     {
@@ -609,13 +591,16 @@
      ]
     }
    ],
+   "widgets_values": [
+    0,
+    1
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "ImageFromBatch"
    },
@@ -627,9 +612,6 @@
    "pos": [
     -620,
     820
-   ],
-   "widgets": [
-    "none"
    ],
    "inputs": [
     {
@@ -652,13 +634,15 @@
      ]
     }
    ],
+   "widgets_values": [
+    "none"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "CLIPVisionEncode"
    },
@@ -670,17 +654,6 @@
    "pos": [
     -240,
     140
-   ],
-   "widgets": [
-    480,
-    848,
-    33,
-    1,
-    0,
-    1.0,
-    0.0,
-    1.0,
-    1.0
    ],
    "inputs": [
     {
@@ -764,13 +737,23 @@
      "links": []
     }
    ],
+   "widgets_values": [
+    480,
+    848,
+    33,
+    1,
+    0,
+    1.0,
+    0.0,
+    1.0,
+    1.0
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "WanAnimate2ToVideo"
    },
@@ -782,11 +765,6 @@
    "pos": [
     200,
     -320
-   ],
-   "widgets": [
-    "simple",
-    6,
-    1.0
    ],
    "inputs": [
     {
@@ -804,13 +782,17 @@
      ]
     }
    ],
+   "widgets_values": [
+    "simple",
+    6,
+    1.0
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "BasicScheduler"
    },
@@ -823,9 +805,6 @@
     200,
     -180
    ],
-   "widgets": [
-    "lcm"
-   ],
    "outputs": [
     {
      "name": "SAMPLER",
@@ -835,6 +814,9 @@
      ]
     }
    ],
+   "widgets_values": [
+    "lcm"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
@@ -842,7 +824,6 @@
     100
    ],
    "inputs": [],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "KSamplerSelect"
    },
@@ -854,11 +835,6 @@
    "pos": [
     480,
     60
-   ],
-   "widgets": [
-    true,
-    2,
-    1.0
    ],
    "inputs": [
     {
@@ -906,13 +882,17 @@
      "links": []
     }
    ],
+   "widgets_values": [
+    true,
+    2,
+    1.0
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "SamplerCustom"
    },
@@ -1005,9 +985,6 @@
     1240,
     120
    ],
-   "widgets": [
-    24.0
-   ],
    "inputs": [
     {
      "name": "images",
@@ -1024,13 +1001,15 @@
      ]
     }
    ],
+   "widgets_values": [
+    24.0
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "CreateVideo"
    },
@@ -1042,11 +1021,6 @@
    "pos": [
     1460,
     120
-   ],
-   "widgets": [
-    "animation/wan_animate_motion",
-    "auto",
-    "auto"
    ],
    "inputs": [
     {
@@ -1062,13 +1036,17 @@
      "links": []
     }
    ],
+   "widgets_values": [
+    "animation/wan_animate_motion",
+    "auto",
+    "auto"
+   ],
    "flags": {},
    "mode": 0,
    "size": [
     270,
     100
    ],
-   "widgets_values": [],
    "properties": {
     "Node name for S&R": "SaveVideo"
    },
@@ -1085,16 +1063,13 @@
     420,
     320
    ],
-   "widgets": [
-    ""
+   "widgets_values": [
+    "# Wan Animate 2 - motion transfer (video reference)\n\nAnimates a **still character** by transferring the motion of a **driving video**. No pose extraction and no\nskeleton: the model consumes the video directly, so the motion source is just footage you supply.\n\n* **Reference image** (`LoadImage`, node 10) - the character to animate. Its identity is what is preserved.\n* **Driving video** (`LoadVideo`, node 11) - the motion source. Only the first `length` frames are used.\n* **Output size** follows the *driving video*, not the node's defaults: the video is scaled to a multiple of\n  16 in both axes (a requested height of 854 comes back as 848) and that size is what is generated.\n\nKnobs worth turning: `length` (frames; 4n+1 - the default 33 is ~1.4 s at 24 fps), `pose_strength`\n(how literally the driving motion is copied), `reference_image_strength` (identity vs motion trade),\nand the prompt (describes scene/background/camera, not the motion).\n\nTraps measured on this box (RTX 3090, 24 GB):\n* **export as GGUF, not fp8.** The 3090 rejects `fp8e4nv`; a GGUF quant of the same model sidesteps it.\n  The official repo's `int8_convrot` is the format the template ships with; Q5_K_M GGUF is what runs here.\n* **peak VRAM was 20.8 GB at 480x848, 33 frames** - so there is only ~3 GB of headroom. Cost grows\n  quadratically with frame count in the temporal-attention phase, so long clips need the template's\n  `ContextWindowsManual` chunking rather than a bigger `length`.\n* **there are two CLIP-vision encodes** - the reference image *and* the pose video's first frame. Dropping\n  the second one silently degrades the result rather than erroring.\n\n*How to run it: story **S15** in `HOWTO.md` for the steps and knobs  ·  Why it is this way: the upstream template ships as subgraphs, which cannot be scripted, so it is reproduced flat here.*\n\nOutput is a video file - a viewer, not an engine asset. Turning this motion into skeletal clips is a\nseparate, still-open problem."
    ],
    "flags": {},
    "mode": 0,
    "inputs": [],
    "outputs": [],
-   "widgets_values": [
-    "# Wan Animate 2 - motion transfer (video reference)\n\nAnimates a **still character** by transferring the motion of a **driving video**. No pose extraction and no\nskeleton: the model consumes the video directly, so the motion source is just footage you supply.\n\n* **Reference image** (`LoadImage`, node 10) - the character to animate. Its identity is what is preserved.\n* **Driving video** (`LoadVideo`, node 11) - the motion source. Only the first `length` frames are used.\n* **Output size** follows the *driving video*, not the node's defaults: the video is scaled to a multiple of\n  16 in both axes (a requested height of 854 comes back as 848) and that size is what is generated.\n\nKnobs worth turning: `length` (frames; 4n+1 - the default 33 is ~1.4 s at 24 fps), `pose_strength`\n(how literally the driving motion is copied), `reference_image_strength` (identity vs motion trade),\nand the prompt (describes scene/background/camera, not the motion).\n\nTraps measured on this box (RTX 3090, 24 GB):\n* **export as GGUF, not fp8.** The 3090 rejects `fp8e4nv`; a GGUF quant of the same model sidesteps it.\n  The official repo's `int8_convrot` is the format the template ships with; Q5_K_M GGUF is what runs here.\n* **peak VRAM was 20.8 GB at 480x848, 33 frames** - so there is only ~3 GB of headroom. Cost grows\n  quadratically with frame count in the temporal-attention phase, so long clips need the template's\n  `ContextWindowsManual` chunking rather than a bigger `length`.\n* **there are two CLIP-vision encodes** - the reference image *and* the pose video's first frame. Dropping\n  the second one silently degrades the result rather than erroring.\n\n*How to run it: story **S15** in `HOWTO.md` for the steps and knobs  ·  Why it is this way: the upstream template ships as subgraphs, which cannot be scripted, so it is reproduced flat here.*\n\nOutput is a video file - a viewer, not an engine asset. Turning this motion into skeletal clips is a\nseparate, still-open problem."
-   ],
    "properties": {},
    "order": 0
   }

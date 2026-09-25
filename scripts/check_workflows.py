@@ -178,6 +178,19 @@ def main() -> int:
                 continue
             slots = widget_slots(spec)
             values = n.get("widgets_values") or []
+            # An EMPTY array on a node that has widgets is never legitimate: the UI always writes the
+            # values, so this means the file was generated (or hand-edited) without them, and every
+            # setting below silently falls back to a schema default. This is not the tolerated "trailing
+            # values absent because the node grew a widget" case - that one keeps a prefix. It is worth
+            # its own check because the loop below has nothing to contradict, so a workflow with no model
+            # names, no prompt and no size passes every other gate. (build_workflow.py's spec-key typo
+            # produced exactly that across 25 nodes.)
+            if slots and not values:
+                problems += 1
+                named = ", ".join(s for s, _ in slots if s)[:70]
+                print(f"  {rel}: node {n.get('id')} {t}: widgets_values is EMPTY but the node has "
+                      f"{len(slots)} widget(s) ({named}); every setting would fall back to a default")
+                continue
             bad = []
             for i, v in enumerate(values):
                 if i >= len(slots):
