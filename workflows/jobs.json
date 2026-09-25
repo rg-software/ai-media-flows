@@ -64,7 +64,7 @@
   },
   {
    "want": "Relight / change the lighting",
-   "detail": "`2d/workflows/qwen-edit-gguf.json` (faithful) · `2d/workflows/kontext-edit.json` (bolder, superseded)",
+   "detail": "`2d/workflows/qwen-edit-gguf.json` (faithful)",
    "story": "S5"
   },
   {
@@ -79,7 +79,7 @@
   },
   {
    "want": "Keep a character consistent across images",
-   "detail": "`2d/workflows/qwen-edit-gguf.json` (design) · `2d/workflows/instantid-character.json` (tight face) · `2d/workflows/pulid-identity.json` (face + free composition) · `2d/workflows/kontext-character.json` (superseded)",
+   "detail": "`2d/workflows/qwen-edit-gguf.json` (design) · `2d/workflows/instantid-character.json` (tight face) · `2d/workflows/pulid-identity.json` (face + free composition)",
    "story": "S7"
   },
   {
@@ -186,12 +186,6 @@
   },
   "ipadapter-style.json": {
    "story": "S8"
-  },
-  "kontext-character.json": {
-   "story": "S7"
-  },
-  "kontext-edit.json": {
-   "story": "S5"
   },
   "make_gltf_material.py": {
    "story": "S11"

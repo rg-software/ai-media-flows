@@ -41,13 +41,13 @@ MAPPING = {
     "depth-normal.json":              ("Depth map",                     "E12"),
     "inpaint.json":                   ("Inpaint",                       "E8"),
     "outpaint.json":                  ("Outpaint",                      "E9, E17"),
-    "kontext-edit.json":              ("Relight (Kontext, superseded)", "E13 -> see U2"),
+
     "qwen-edit-gguf.json":            ("Instruction edit + consistency","U2/E14c"),
     "pose-skeleton.json":             ("Pose from a skeleton",           "E21"),
     "compose-harmonize.json":         ("Compose + harmonize",           "E10"),
     "instantid-character.json":       ("Face identity (InstantID)",     "E14b"),
     "pulid-identity.json":            ("Identity + free composition",   "U5"),
-    "kontext-character.json":         ("Character ref (superseded)",    "E14a -> see E14c"),
+
     "ipadapter-style.json":           ("Style reference (superseded)",  "E11"),
     "seamless-texture.json":          ("Seamless tiling",               "E7c"),
     "pbr-from-texture.json":          ("PBR set (metallic inverted)",   "E12b -> see U4"),
