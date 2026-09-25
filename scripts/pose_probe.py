@@ -71,6 +71,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 import urllib.error
@@ -547,13 +548,45 @@ def cmd_template(a):
     return 0
 
 
+
+def resolve_token(arg: str, base: str) -> str:
+    """Same resolution order as scripts/comfy_io.py, so the two tools behave alike.
+
+    --token, then $COMFY_TOKEN, then the box's ComfyUI login/PASSWORD, then nothing for a local instance.
+    """
+    if arg:
+        return arg
+    import os
+    if os.environ.get("COMFY_TOKEN"):
+        return os.environ["COMFY_TOKEN"]
+    pw = COMFY / "login" / "PASSWORD"
+    if pw.is_file():
+        with pw.open(encoding="utf-8") as fh:
+            first = fh.readline().strip()
+            if first:
+                return first
+    if base.startswith(("http://127.0.0.1", "http://localhost")):
+        return ""
+    raise SystemExit("no token: pass --token, set COMFY_TOKEN, or run where "
+                     "~/Projects-Git/ComfyUI/login/PASSWORD exists")
+
+
+
+def _api_parent() -> argparse.ArgumentParser:
+    """A parent carrying the API options, so they work BEFORE and AFTER the subcommand."""
+    p = argparse.ArgumentParser(add_help=False)
+    p.add_argument("--base", default=os.environ.get("COMFY_BASE", "http://127.0.0.1:8188"))
+    p.add_argument("--token", default="")
+    return p
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="E21: pose change + adherence measurement.")
-    ap.add_argument("--base", default="http://127.0.0.1:8188")
+    ap.add_argument("--base", default=os.environ.get("COMFY_BASE", "http://127.0.0.1:8188"))
     ap.add_argument("--token", default="")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    e = sub.add_parser("extract")
+    e = sub.add_parser("extract", parents=[_api_parent()])
     e.add_argument("image")
     e.add_argument("--prefix", default="2D/E21/pose")
     e.add_argument("--resolution", type=int, default=1024)
@@ -578,7 +611,7 @@ def main() -> int:
     t.add_argument("--height", type=int, default=1024)
     t.set_defaults(fn=cmd_template)
 
-    r = sub.add_parser("run-cn")
+    r = sub.add_parser("run-cn", parents=[_api_parent()])
     r.add_argument("skeleton")
     r.add_argument("--strength", type=float, default=0.9)
     r.add_argument("--cn-type", default="openpose")
@@ -612,7 +645,7 @@ def main() -> int:
     r.add_argument("--out", default="2D/E21/pose_cn")
     r.set_defaults(fn=cmd_run_cn)
 
-    q = sub.add_parser("run-qwen")
+    q = sub.add_parser("run-qwen", parents=[_api_parent()])
     q.add_argument("image")
     q.add_argument("--instruction", required=True)
     q.add_argument("--lora-strength", type=float, default=0.0)
@@ -620,12 +653,13 @@ def main() -> int:
     q.add_argument("--out", default="2D/E21/pose_qwen")
     q.set_defaults(fn=cmd_run_qwen)
 
-    m = sub.add_parser("measure")
+    m = sub.add_parser("measure", parents=[_api_parent()])
     m.add_argument("image")
     m.add_argument("target")
     m.set_defaults(fn=cmd_measure)
 
     a = ap.parse_args()
+    a.token = resolve_token(a.token, a.base)      # see resolve_token: same order as comfy_io.py
     return a.fn(a)
 
 
