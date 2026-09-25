@@ -20,142 +20,170 @@
   {
    "want": "Generate concept art from a prompt",
    "detail": "`2d/workflows/z-image-turbo.json` (modern, Apache-2.0) or `2d/workflows/sdxl-base-art.json` (SDXL, painted look)",
-   "story": "S1"
+   "story": "S1",
+   "category": "2d"
   },
   {
    "want": "Control composition from an existing image",
    "detail": "`2d/workflows/controlnet-union.json` (one model, many modes) · `2d/workflows/sdxl-controlnet-canny.json` (canny only)",
-   "story": "S2"
+   "story": "S2",
+   "category": "2d"
   },
   {
    "want": "Cut an object out (transparent PNG)",
    "detail": "`2d/workflows/remove-bg.json` (BiRefNet)",
-   "story": "S3"
+   "story": "S3",
+   "category": "2d"
   },
   {
    "want": "Mask by description (\"the knight\", \"the roof\")",
    "detail": "`2d/workflows/sam3-segment.json` (SAM 3, text-prompted)",
-   "story": "S3"
+   "story": "S3",
+   "category": "2d"
   },
   {
    "want": "Get a depth map",
    "detail": "`2d/workflows/depth-normal.json` (DepthAnythingV2)",
-   "story": "S4"
+   "story": "S4",
+   "category": "2d"
   },
   {
    "want": "Inpaint / remove / add an object",
    "detail": "`2d/workflows/inpaint.json`",
-   "story": "S5"
+   "story": "S5",
+   "category": "2d"
   },
   {
    "want": "Make the picture bigger (outpaint)",
    "detail": "`2d/workflows/outpaint.json` (invents the new area; the original stays pixel-exact)",
-   "story": "S5"
+   "story": "S5",
+   "category": "2d"
   },
   {
    "want": "Extend a frame with its own content (not invented)",
    "detail": "`scripts/pad_image.py` (mirror band + mask) → `2d/workflows/inpaint.json`",
-   "story": "S5"
+   "story": "S5",
+   "category": "2d"
   },
   {
    "want": "Fix a colour or tone cast across a result",
    "detail": "`scripts/color_match.py` (palette match; global cast only - see E20)",
-   "story": "S5"
+   "story": "S5",
+   "category": "2d"
   },
   {
    "want": "Relight / change the lighting",
    "detail": "`2d/workflows/qwen-edit-gguf.json` (faithful)",
-   "story": "S5"
+   "story": "S5",
+   "category": "2d"
   },
   {
    "want": "Compose a scene from parts (bg + character + prop)",
    "detail": "`scripts/compose_scene.py` → `2d/workflows/compose-harmonize.json`",
-   "story": "S6"
+   "story": "S6",
+   "category": "2d"
   },
   {
    "want": "Keep two subjects from merging",
    "detail": "`2d/workflows/regional-prompting.json` (a single prompt *drops* one)",
-   "story": "S6"
+   "story": "S6",
+   "category": "2d"
   },
   {
    "want": "Keep a character consistent across images",
    "detail": "`2d/workflows/qwen-edit-gguf.json` (design) · `2d/workflows/instantid-character.json` (tight face) · `2d/workflows/pulid-identity.json` (face + free composition)",
-   "story": "S7"
+   "story": "S7",
+   "category": "2d"
   },
   {
    "want": "Put a character in a specific pose",
    "detail": "`2d/workflows/qwen-edit-gguf.json` (instruction - best for a specific pose) · `2d/workflows/pose-skeleton.json` (skeleton cue - holds a **coarse stance** at `strength 1.5` + `end_percent 0.5`, but not limb angles)",
-   "story": "S7"
+   "story": "S7",
+   "category": "2d"
   },
   {
    "want": "Transfer a style or reference look",
    "detail": "`2d/workflows/qwen-edit-gguf.json` (multi-image reference) · `2d/workflows/ipadapter-style.json` (superseded)",
-   "story": "S8"
+   "story": "S8",
+   "category": "2d"
   },
   {
    "want": "Turn one image into a multi-view turnaround",
    "detail": "`2d/workflows/sv3d-turnaround.json` (SV3D_p; a 21-frame 360° orbit, no mesh needed — take frames 0/5/10/15 for 0/90/180/270)",
-   "story": "S8"
+   "story": "S8",
+   "category": "2d"
   },
   {
    "want": "Pixel art",
    "detail": "`2d/workflows/pixel-art.json` (from a prompt) · `pixel-art-convert.json` (existing image, faithful) · `pixel-art-restyle.json` (existing image, redrawn) · `scripts/atlas.py` (pack a sheet / slice one - local)",
-   "story": "S9"
+   "story": "S9",
+   "category": "2d"
   },
   {
    "want": "Build a sprite sheet / atlas",
    "detail": "`scripts/atlas.py` (pack images into a sheet / slice one back - local, `--verify` checks the round-trip)",
-   "story": "S9"
-  },
-  {
-   "want": "Animate a sprite across a few poses",
-   "detail": "`scripts/pose_probe.py` (script the poses) -> `2d/workflows/pose-skeleton.json` (render them, design held by IPAdapter) -> `scripts/atlas.py` (pack the frames)",
-   "story": "S9"
+   "story": "S9",
+   "category": "2d"
   },
   {
    "want": "Upscale / restore (incl. faces)",
    "detail": "`2d/workflows/upscale-seedvr2.json` (Apache-2.0; `resolution` = image size for *restore*)",
-   "story": "S10"
+   "story": "S10",
+   "category": "2d"
   },
   {
    "want": "Upscale faithfully (GAN, invents nothing)",
    "detail": "`2d/workflows/upscale.json` — non-commercial `4x-UltraSharp`; prefer SeedVR2 above",
-   "story": "S10"
+   "story": "S10",
+   "category": "2d"
   },
   {
    "want": "Make a texture tile seamlessly",
    "detail": "`2d/workflows/seamless-texture.json` (`method=\"offset\"`)",
-   "story": "S11"
+   "story": "S11",
+   "category": "material"
   },
   {
    "want": "Turn a texture into PBR maps",
    "detail": "`2d/workflows/pbr-material.json` (maps) -> `scripts/pack_pbr_material.py` (the packed map Unity needs) or `scripts/make_gltf_material.py` (glTF packing, optional GLB)",
-   "story": "S11"
+   "story": "S11",
+   "category": "material"
   },
   {
    "want": "Push a 2D material into 3D",
    "detail": "`scripts/make_gltf_material.py` (glTF-valid material + optional GLB)",
-   "story": "S11"
+   "story": "S11",
+   "category": "material"
   },
   {
    "want": "Make a 3D model from an image/description",
    "detail": "`3d/workflows/hy3d-full-workflow.json` · multi-view: `3d/workflows/hy3d-multiview-workflow.json`",
-   "story": "S12"
+   "story": "S12",
+   "category": "3d"
   },
   {
    "want": "Rig a character",
    "detail": "`3d/workflows/unirig-humanoid-workflow.json` (bpy via pixi — Linux only)",
-   "story": "S12"
+   "story": "S12",
+   "category": "3d"
+  },
+  {
+   "want": "Animate a sprite across a few poses",
+   "detail": "`scripts/pose_probe.py` (script the poses) -> `2d/workflows/pose-skeleton.json` (render them, design held by IPAdapter) -> `scripts/atlas.py` (pack the frames)",
+   "story": "S9",
+   "category": "animation"
   },
   {
    "want": "Sweep parameters into a labelled grid",
    "detail": "`scripts/sweep.py` (any flow's knobs) · `scripts/sweep_outpaint.py` (outpaint seam and fill)",
-   "story": "S13"
+   "story": "S13",
+   "category": "workflow"
   },
   {
    "want": "Move files to and from the box",
    "detail": "`scripts/comfy_io.py` (HTTP-based)",
-   "story": "S14"
+   "story": "S14",
+   "category": "workflow"
   }
  ],
  "flows": {
@@ -283,5 +311,27 @@
   "pose_probe.py": {
    "story": "S9"
   }
- }
+ },
+ "categories": [
+  {
+   "id": "2d",
+   "title": "2D images"
+  },
+  {
+   "id": "material",
+   "title": "Materials and the 3D bridge"
+  },
+  {
+   "id": "3d",
+   "title": "3D models"
+  },
+  {
+   "id": "animation",
+   "title": "Animation"
+  },
+  {
+   "id": "workflow",
+   "title": "Cross-cutting tooling"
+  }
+ ]
 }

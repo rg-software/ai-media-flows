@@ -401,14 +401,12 @@ def check_story_mapping() -> list[str]:
     howto = open(os.path.join(REPO, "HOWTO.md"), encoding="utf-8").read()
     defined = set(re.findall(r"^###\s+(S\d+)\.", howto, re.M))
     readme = open(os.path.join(REPO, "README.md"), encoding="utf-8").read()
-    t = mdtable.find(readme, "I want to make")
-    if t is None:
-        return ["README.md: 'I want to make' table not found"]
-    if "story" not in t.header:
-        return ["README.md: 'I want to make' table has no 'story' column"]
-    col = t.header.index("story")
+    tables = check_job_docs.readme_tables(readme)
+    if not tables:
+        return ["README.md: no generated job table found (expected grouped tables from jobs.json)"]
     used = set()
-    for r in t.rows:
+    for r in (row for tbl in tables for row in tbl):
+        col = 2      # want | flow | story, per jobs.json's header
         if col >= len(r):
             problems.append(f"README.md: row too short for the story column: {r[0][:40]}")
             continue

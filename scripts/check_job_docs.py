@@ -23,7 +23,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mdtable  # noqa: E402
-from gen_job_docs import REGISTRY, REPO, load_registry, render_note_story, story_link  # noqa: E402
+from gen_job_docs import (REGISTRY, REPO, JOBS_ANCHOR, grouped_jobs, load_registry,
+                          readme_tables, render_note_story, story_link)  # noqa: E402
 
 
 def check() -> list[str]:
@@ -41,20 +42,22 @@ def check() -> list[str]:
 
     # 1. README job rows
     readme = io.open(os.path.join(REPO, "README.md"), encoding="utf-8").read()
-    t = mdtable.find(readme, "I want to make")
-    if t is None:
-        problems.append("README.md: job table not found")
+    want = [[j["want"], j["detail"], story_link(reg, j["story"])] for _t, jobs in grouped_jobs(reg)
+            for j in jobs]
+    tables = readme_tables(readme)
+    if tables is None:
+        problems.append("README.md: the generated jobs block is missing (anchor %s)" % JOBS_ANCHOR)
     else:
-        want = [[j["want"], j["detail"], story_link(reg, j["story"])] for j in reg["jobs"]]
-        have = [list(r) for r in t.rows]
+        have = [r for tbl in tables for r in tbl]
+        if len(tables) != len([1 for _t, jobs in grouped_jobs(reg) if jobs]):
+            problems.append("README.md: expected %d category table(s), found %d"
+                            % (len(grouped_jobs(reg)), len(tables)))
         if want != have:
-            problems.append("README.md: job table does not match jobs.json (%d vs %d rows)"
+            problems.append("README.md: job rows do not match jobs.json (%d vs %d rows)"
                             % (len(want), len(have)))
             for i, (a, b) in enumerate(zip(want, have)):
                 if a != b:
                     problems.append("  row %d: %r != %r" % (i, a[0][:40], b[0][:40]))
-        if "story" not in t.header:
-            problems.append("README.md: job table has no 'story' column")
 
     # 2. PIPELINES story cells
     pipes = io.open(os.path.join(REPO, "PIPELINES.md"), encoding="utf-8").read()

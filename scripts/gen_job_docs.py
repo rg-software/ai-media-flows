@@ -58,17 +58,71 @@ def story_link(reg, sid):
     return "[%s](HOWTO.md#%s-%s)" % (sid, sid.lower(), slug)
 
 
+JOBS_HEADER = ["I want to make / do", "flow", "story"]
+JOBS_ANCHOR = "<!-- jobs: generated from workflows/jobs.json by scripts/gen_job_docs.py -->"
+
+
+def grouped_jobs(reg):
+    """[(category_title, [job, ...]), ...] in the registry's category order."""
+    titles = {c["id"]: c["title"] for c in reg.get("categories", [])}
+    order = [c["id"] for c in reg.get("categories", [])]
+    out = []
+    for cid in order:
+        jobs = [j for j in reg["jobs"] if j.get("category") == cid]
+        if jobs:
+            out.append((titles[cid], jobs))
+    return out
+
+
+def jobs_block(reg):
+    """The whole generated block: one heading + table per category."""
+    parts = [JOBS_ANCHOR]
+    for title, jobs in grouped_jobs(reg):
+        parts.append("")
+        parts.append("### %s" % title)
+        parts.append("")
+        rows = [[j["want"], j["detail"], story_link(reg, j["story"])] for j in jobs]
+        parts.extend(mdtable.render(JOBS_HEADER, rows))
+    return "\n".join(parts) + "\n"
+
+
+def _block_bounds(text):
+    """[start, end) of the generated jobs block, delimited by the anchor and the next '## ' heading."""
+    a = text.find(JOBS_ANCHOR)
+    if a < 0:
+        return None
+    b = text.find("\n## ", a)
+    return (a, len(text) if b < 0 else b + 1)
+
+
 def render_readme(readme_text, reg):
-    t = mdtable.find(readme_text, "I want to make")
-    if t is None:
-        raise SystemExit("README.md: job table not found")
-    rows = [[j["want"], j["detail"], story_link(reg, j["story"])] for j in reg["jobs"]]
-    return mdtable.replace(readme_text, t, t.header, rows)
+    bounds = _block_bounds(readme_text)
+    if bounds is None:
+        raise SystemExit("README.md: jobs anchor not found (%s)" % JOBS_ANCHOR)
+    a, b = bounds
+    return readme_text[:a] + jobs_block(reg) + readme_text[b:]
+
+
+def readme_tables(readme_text):
+    """Every job table in the generated block, as data (rows of 3 cells), in file order."""
+    bounds = _block_bounds(readme_text)
+    if bounds is None:
+        return None
+    a, b = bounds
+    seg = readme_text[a:b]
+    out = []
+    for t in mdtable.parse(seg):
+        if t.header == JOBS_HEADER:
+            out.append([list(r) for r in t.rows])
+    return out
 
 
 def readme_cells(readme_text, reg):
-    """The (want, detail, story-link) cells the registry expects, for cell-level comparison."""
-    return [[j["want"], j["detail"], story_link(reg, j["story"])] for j in reg["jobs"]]
+    """The rows the registry expects, concatenated per category in order (for comparison)."""
+    want = []
+    for _title, jobs in grouped_jobs(reg):
+        want += [[j["want"], j["detail"], story_link(reg, j["story"])] for j in jobs]
+    return want
 
 
 def pipelines_cells(text):
