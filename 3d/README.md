@@ -70,11 +70,8 @@ Only the **valuable** pipelines live in `workflows/`. Scaffolding/one-off experi
 - Paint/delight models auto-download on first use (HuggingFace).
 - Tripo requires an API key on the server for the paid workflows.
 
-## Next candidates (from pipeline-design.md)
+## Next candidates
 
-
-- **E2d** — multiview (`workflows/hy3d-multiview-workflow.json`) — needs the mv checkpoint downloaded.
-- **E3** Tripo bridge on a free Hy3D GLB (paid texture/rig comparison). See `hy3d-tripo-swap.md`.
-- **E4** UniRig on a free GLB → FBX.
-- **E5** Import the textured GLB into Unity (glTF importer) — the "strive for Unity-compatible artifacts" goal.
-
+- **UniRig alternatives we have never opened** (from the vendor audit): `mia_humanoid` uses `MIAAutoRig`/`MIALoadModel` - a *different* rigging model, so the open question is whether it beats UniRig on humanoids; `unirig_bird` rigs **non-humanoids**, a capability our `unirig-humanoid` flow does not have. Both are quality/coverage questions, not gaps in what we ship.
+- **Unity import** (`glTF` route): verified in Blender, not in Unity - deliberately out of scope, see the boundary note in `PIPELINES.md`. The Unity `_MetallicGlossMap` route (`scripts/pack_pbr_material.py`) is verified arithmetic, never imported.
+- **Tripo bridge** (paid texture/rig comparison on the same geometry): see `hy3d-tripo-swap.md`.
