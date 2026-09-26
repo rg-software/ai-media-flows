@@ -57,6 +57,12 @@ Two things follow. **The template's smoothing setting is the worst tested**, and
 
 **Recipe:** set `rotation_threshold_degrees` to **0**, and run `scripts/motion_quality.py` on the exported GLB before using it. Clean (no breaks) means the motion is ready for the engine's retarget; breaks mean re-shoot, slow the clip, or drive that character differently. Note also `camera_translation` is `off` in the template - the root stays at its bind position, so the render does not sit on the performer; `centered`/`absolute` bake the camera translation in, which matters if root motion has to travel.
 
+## Slowing the source, and repairing what is left (E7)
+
+Slowing the source is the obvious mitigation and it is **partly** effective, measured: duplicating every frame of the dance clip halved the breaks (4 -> 2) and trimmed bandwidth slightly (1.03 -> 0.98 Hz) - the reason being that repeated poses give the temporal smoother more consistent samples to average against, so an isolated pop is more readily absorbed. But **duplication cannot repair a wrong pose**: the largest flip survived at 162 degrees, now merely lasting twice as long. And duplication is not the same as a higher-frame-rate capture, which would supply genuinely new intermediate poses rather than repeats.
+
+For what survives, the tool we would reach for is **post-processing the exported GLB**, and it is aimed at the right thing: the breaks are isolated outliers, so a **median filter** over the quaternion channels removes them, where both of the node's methods (gaussian, savgol) are low-pass and neither rejects an outlier. That is not built yet. A jittery *source* stays the user's problem - we can smooth noise we introduced, not noise they shot.
+
 ## What we are choosing
 
 Not implementing it now. The point of this page is that the cost is small enough to make it a **one-experiment question rather than a project**: one ~3 GB download and one template run would say whether the output is usable. Spending that is a separate decision, and the free path above stands on its own without it.
