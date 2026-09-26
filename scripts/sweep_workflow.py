@@ -67,8 +67,15 @@ def post(base, token, path, payload):
     url = base.rstrip("/") + path + ("?" + urllib.parse.urlencode({"token": token}) if token else "")
     req = urllib.request.Request(url, data=json.dumps(payload).encode(),
                                  headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=600) as r:
-        return json.load(r)
+    try:
+        with urllib.request.urlopen(req, timeout=600) as r:
+            return json.load(r)
+    except urllib.error.HTTPError as e:
+        # The body is the whole point: ComfyUI answers a rejected prompt with node-by-node reasons
+        # ("Value not in list: unet_name: None not in [...]"). Raising the bare HTTPError hides exactly
+        # the actionable part, so print it and stop.
+        body = e.read().decode("utf-8", "replace")
+        raise SystemExit("ComfyUI rejected the prompt (HTTP %s):\n%s" % (e.code, body[:4000])) from None
 
 
 def parse_axis(spec):
