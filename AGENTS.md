@@ -119,7 +119,7 @@ ai-gamedev-tasks/
 - **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux).
 - **Inventory:** 38 2D assets · 5 3D assets · **29 workflows** (25 in `2d/`, 3 in `3d/`, 1 in `animation/`; plus scaffolding   in `workflows/scratch/`) · 46 evidence sheets · 25 scripts · 26 docs.
 - **Working rules** (full version in `2d/PROTOCOL.md` and `HOWTO.md` Part 1): prefer **scripts over GUI clicks** so every run is replayable; change **one knob at a time**; and remember **a metric is a hint, the image is the truth** (it has misled us three times — E7, E15, U6b).
-- **Next candidates, in order:** (1) the **engine import contract** — assets are Unity-*compatible* but not drop-in (no `.meta`/`.mat`, wrong importer defaults for pixel art and PBR maps, no PPU/pivot convention, and glTF-vs-Unity channel packing differs); (2) **animation** as a new scenario folder, partly gated on more RAM; (3) hardware — the box is **RAM-bound, not VRAM-bound** (`comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md`).
+- **Next candidates, in order:** (1) the **parametric (3D) animation** cell — turning motion into skeletal clips. Costed but not built: generic motion is free (a clip library + the engine's retarget), and recovering rare motion from video is ~3 GB and mostly already installed (`animation/motion-sourcing.md`); (2) **hardware** — the box is **RAM-bound, not VRAM-bound** (`comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md`). The **engine import contract** is done (E12: `scripts/check_gltf_contract.py`, `scripts/fix_gltf_normals.py`); the engine's own side is a stated boundary, not a backlog item.
 
 URL/password live with the user. Runtime facts that matter for reproducibility:
 
