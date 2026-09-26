@@ -38,6 +38,21 @@ The shape is one pass over the frames: `LoadVideo` → `GetVideoComponents` → 
 - **It answers a narrower question than it looks like.** It recovers the motion of a *person in footage*. It does not invent motion, and it does not animate a non-humanoid.
 - **The licence of the upstream model has not been checked** for this use — `facebook/sam-3d-body-dinov3` is sourced from `Comfy-Org/sam-3d-body`, and no licence decision has been recorded.
 
+## Is the recovered motion sensible? (E6)
+
+Sensible is a requirement, not a hope, so it is measured: `scripts/motion_quality.py` reads the animation out of the exported GLB and reports per-joint angular steps, their frame-to-frame change, a scale-free **jitter** score, and **breaks** (single-frame steps far beyond what a joint does in 1/24 s - the thing a low-pass filter cannot remove).
+
+| content | jitter (jerk median) | joints with breaks |
+|---|---|---|
+| moderate motion (E4 clip) | **2.1** | none |
+| fast dance, `rotation_threshold_degrees` 15 (**the template's**) | 16.60 | **8** (up to 174 deg) |
+| fast dance, threshold 89 | 6.84 | 5 |
+| fast dance, threshold 0 (always smooth) | **2.75** | 4 |
+
+Two things follow. **The template's smoothing setting is the worst tested**, and the reason is in the knob's own tooltip: `rotation_threshold_degrees` *disables* smoothing above a root rotation rate "to preserve fast spins" - set to 15, below the schema's own default of 30, it switches smoothing off exactly when the motion gets fast. **And no setting fixes everything**: a fast or spinning clip still carries a few ~173 deg pops, which is why the gate exists rather than a promise.
+
+**Recipe:** set `rotation_threshold_degrees` to **0**, and run `scripts/motion_quality.py` on the exported GLB before using it. Clean (no breaks) means the motion is ready for the engine's retarget; breaks mean re-shoot, slow the clip, or drive that character differently. Note also `camera_translation` is `off` in the template - the root stays at its bind position, so the render does not sit on the performer; `centered`/`absolute` bake the camera translation in, which matters if root motion has to travel.
+
 ## What we are choosing
 
 Not implementing it now. The point of this page is that the cost is small enough to make it a **one-experiment question rather than a project**: one ~3 GB download and one template run would say whether the output is usable. Spending that is a separate decision, and the free path above stands on its own without it.
