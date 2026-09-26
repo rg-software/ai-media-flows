@@ -49,6 +49,10 @@ Sensible is a requirement, not a hope, so it is measured: `scripts/motion_qualit
 | fast dance, threshold 89 | 6.84 | 5 |
 | fast dance, threshold 0 (always smooth) | **2.75** | 4 |
 
+Sensible is measured two ways, because **they fail independently**. *Jitter* is read as a **bandwidth** (jerk's p99 ratio is unreliable - its denominator collapses on a slow clip): 1.43 Hz on the moderate clip, 3.36 Hz at the template's smoothing setting, 1.03 Hz at threshold 0, all against a 12 Hz Nyquist. *Breaks* are counted separately and matter more: threshold 0 has the lowest bandwidth of the three and **still carries 4 breaks**, so smoothing cannot buy a clean clip by itself.
+
+That gives the honest thresholds. **Zero breaks is the gate** - absolute, speed-independent, and the one thing that must hold. **There is no portable jitter number**, because bandwidth rises with genuine fast motion as well as with noise; what is valid is comparing settings on the same clip (lower bandwidth at the same median step is better), or comparing against the source's own motion, which is the rigorous version and is not implemented yet.
+
 Two things follow. **The template's smoothing setting is the worst tested**, and the reason is in the knob's own tooltip: `rotation_threshold_degrees` *disables* smoothing above a root rotation rate "to preserve fast spins" - set to 15, below the schema's own default of 30, it switches smoothing off exactly when the motion gets fast. **And no setting fixes everything**: a fast or spinning clip still carries a few ~173 deg pops, which is why the gate exists rather than a promise.
 
 **Recipe:** set `rotation_threshold_degrees` to **0**, and run `scripts/motion_quality.py` on the exported GLB before using it. Clean (no breaks) means the motion is ready for the engine's retarget; breaks mean re-shoot, slow the clip, or drive that character differently. Note also `camera_translation` is `off` in the template - the root stays at its bind position, so the render does not sit on the performer; `centered`/`absolute` bake the camera translation in, which matters if root motion has to travel.

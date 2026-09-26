@@ -11,30 +11,37 @@ are named `openpose_limb_*`. For each such channel it takes the per-frame angula
 consecutive quaternions, sign-invariant so a quaternion `q` vs `-q` is not mistaken for a flip) and the
 frame-to-frame *change* in that step.
 
-  * **jitter** is high-frequency noise on a smooth signal: a large change relative to the step. `jerk` is
-    `p99(change) / median(step)` - scale-free, so it compares across clips and settings.
-  * **a break** is a single-frame step above `--break-deg`. Far beyond what a human joint does in 1/fps of a
-    second, and - unlike jitter - a low-pass filter cannot remove it. This is the check that matters.
+  * **jitter** is best read as a BANDWIDTH. For locally sinusoidal motion `rms(accel)/rms(velocity) = 2*pi*f`,
+    so that ratio times fps/2pi gives the dominant frequency in Hz. Real limb motion sits low; noise piles up
+    toward Nyquist (fps/2). This is more reliable than a p99 ratio, whose denominator collapses on a slow clip
+    (a near-static joint has a median step of ~0.1 deg/frame, so anything reads as "jittery"), and more
+    reliable than raw acceleration, which just says "moves a lot".
+  * **a break** is a single-frame step above `--break-deg` - far beyond what a human joint does in 1/fps of a
+    second, and unlike jitter a low-pass filter cannot remove it. This is the hard gate: **zero breaks**.
 
-Exit code 1 when a break or a non-finite value is found, so it can gate a run.
+MEASURED ANCHORS (E6, 2026-09-27, RTX 3090, 24 fps so Nyquist is 12 Hz)
 
-MEASURED FINDINGS (E6, 2026-09-27, RTX 3090)
+    clip                                     bandwidth (median)   joints with breaks
+    moderate motion (E4 clip)                        1.43 Hz        none
+    fast dance, rotation_threshold_degrees 0         1.03 Hz        4
+    fast dance, rotation_threshold_degrees 89        2.22 Hz        5
+    fast dance, rotation_threshold_degrees 15 *      3.36 Hz        8     <- the stock template
+    fast dance, strength 0 (raw prediction)          3.40 Hz        8
+    * the value the stock template ships
 
-  * Moderate motion is clean: the E4 clip showed no breaks, jerk median 2.1.
-  * A fast dance clip **breaks**: 8 joints with single-frame steps over 45 deg, up to 174, visible as the
-    mesh's orientation snapping between frames.
-  * **Neither smoothing method removes them**, because `SAM3DBody_Smooth.rotation_threshold_degrees`
-    *disables* smoothing above a root rotation rate ("to preserve fast spins") and the stock template ships
-    **15** - below the schema's own default of 30 - so smoothing switches itself off exactly when the motion
-    gets fast. Raising it is the lever:
-
-        rotation_threshold_degrees   jerk median   jerk p90   joints with breaks
-        15  (template)                   16.60       35.15        8
-        89                                6.84       14.43        5
-        0   (always smooth)               2.75        6.44        4
-
-    So the template's value is the worst of the three. Setting 0 cuts jitter ~6x and halves the breaks, but a
-    genuinely fast or spinning clip can still flip: two ~173 deg pops remained.
+  * **The two metrics answer different questions, and both are needed.** Threshold 0 has the *lowest*
+    bandwidth (1.03 Hz) and still carries 4 breaks, so smoothing cannot buy a clean clip on its own - it
+    removes jitter, not wrong poses.
+  * **Jitter does not remove it either, and the knob explains why:** `rotation_threshold_degrees` *disables*
+    smoothing above a root rotation rate "to preserve fast spins". The template ships **15**, below the
+    schema's own default of 30, so smoothing switches itself off exactly when the motion gets fast - which is
+    why `method` (gaussian vs savgol) and `strength` changed nothing. Setting it to 0 is worth ~2.3 Hz of
+    noise on a fast clip.
+  * **There is no portable absolute threshold, and that is the honest answer.** Bandwidth rises both with
+    genuine fast motion *and* with noise, so a number alone cannot tell them apart. What IS portable: (a)
+    zero breaks, always; (b) comparing settings **on the same clip** - a lower bandwidth at the same
+    `median step` is strictly better; (c) comparing against the *source's own* motion, which is the rigorous
+    version and is not implemented here.
   * Separately, `BuildPoseFile.camera_translation` = `off` keeps the root at its bind position, so the render
     does not sit on the performer; `centered`/`absolute` bake the camera translation in instead.
 
@@ -120,8 +127,17 @@ def analyse(path, break_deg, top):
             name = nodes[ch["target"]["node"]].get("name") or f"node{ch['target']['node']}"
             med_step = float(np.median(steps))
             p99_change = float(np.percentile(change, 99)) if len(change) else 0.0
+            # BANDWIDTH is the metric that actually means "jitter": for motion that is locally sinusoidal,
+            # rms(accel)/rms(velocity) = 2*pi*f, so this reads out the dominant frequency in Hz. Real limb
+            # motion sits low; noise piles up toward Nyquist (fps/2). Unlike a p99 ratio this does not
+            # collapse on a slow clip, and unlike raw acceleration it does not just measure "moves a lot".
+            fps = (len(t) - 1) / (t[-1] - t[0]) if len(t) > 1 and t[-1] > t[0] else 24.0
+            v_rms = float(np.sqrt(np.mean(steps ** 2))) if len(steps) else 0.0
+            a_rms = float(np.sqrt(np.mean(change ** 2))) if len(change) else 0.0
+            band_hz = (a_rms / v_rms) * fps / (2 * math.pi) if v_rms > 1e-6 else 0.0
             rows.append((name, med_step, float(np.percentile(steps, 99)), p99_change,
-                         p99_change / med_step if med_step > 1e-6 else float("inf"), float(steps.max())))
+                         p99_change / med_step if med_step > 1e-6 else float("inf"), float(steps.max()),
+                         band_hz))
             if steps.max() > break_deg:
                 breaks.append((name, float(steps.max()), int(np.argmax(steps)) + 1))
 
@@ -131,14 +147,25 @@ def analyse(path, break_deg, top):
           f"fps: {(n - 1) / dur if dur > 0 else 0:.1f}")
     print(f"non-finite channel(s): {nonfinite}")
 
-    print(f"\n{'joint':<30}{'step_med':>9}{'step_p99':>9}{'chg_p99':>9}{'jerk':>8}{'step_max':>9}")
-    for name, ms, ps, pc, j, mx in sorted(rows, key=lambda r: -r[4])[:top]:
-        print(f"{name:<30}{ms:9.2f}{ps:9.2f}{pc:9.2f}{j:8.2f}{mx:9.1f}")
+    print(f"\n{'joint':<30}{'step_med':>9}{'step_p99':>9}{'accel_p99':>10}{'jerk':>8}{'band_hz':>9}{'step_max':>9}")
+    for name, ms, ps, pc, j, mx, bh in sorted(rows, key=lambda r: -r[6])[:top]:
+        print(f"{name:<30}{ms:9.2f}{ps:9.2f}{pc:10.2f}{j:8.2f}{bh:9.2f}{mx:9.1f}")
 
     if rows:
+        # Report ABSOLUTE acceleration as well as the ratio, because the ratio's denominator collapses on a
+        # slow clip (a near-static joint has median step ~0.1 deg/frame, so jerk explodes on noise that is
+        # visually irrelevant). Absolute deg/frame^2 is comparable across clips; the ratio is only meaningful
+        # when two clips move about the same amount.
+        med_step = np.array([r[1] for r in rows])
+        accel_p99 = np.array([r[3] for r in rows])
         jerks = np.array([r[4] for r in rows if np.isfinite(r[4])])
-        print(f"\nwhole clip: median step {np.median([r[1] for r in rows]):.2f} deg/frame; "
-              f"jerk median {np.median(jerks):.2f}, p90 {np.percentile(jerks, 90):.2f}")
+        bands = np.array([r[6] for r in rows])
+        print(f"\nwhole clip: median step {np.median(med_step):.2f} deg/frame; "
+              f"accel p99 per joint: median {np.median(accel_p99):.2f}, worst {accel_p99.max():.2f} deg/frame^2")
+        print(f"            bandwidth per joint: median {np.median(bands):.2f} Hz, worst {bands.max():.2f} Hz "
+              f"(Nyquist {((len(t_all) - 1) / (t_all[-1] - t_all[0]) / 2 if t_all is not None and len(t_all) > 1 and t_all[-1] > t_all[0] else 12):.1f} Hz)")
+        print(f"            jerk (accel/step) median {np.median(jerks):.2f}, p90 {np.percentile(jerks, 90):.2f}"
+              f"  [ratio is scale-free but degenerate on slow clips]")
     if breaks:
         print(f"\nBREAKS (single-frame step > {break_deg} deg) in {len(breaks)} joint(s):")
         for name, mx, fr in sorted(breaks, key=lambda b: -b[1])[:5]:
