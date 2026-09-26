@@ -120,8 +120,8 @@ def build_prompt(workflow, info, overrides, image=None):
         if n["type"] in ("Note", "MarkdownNote"):
             continue
         inputs = {}
-        slots = cw.widget_slots(info[n["type"]])
         values = list(n.get("widgets_values") or [])
+        slots = cw.widget_slots(info[n["type"]], values)
         ov = overrides.get(nid, {})
         for idx, ref in ov.items():
             # `idx` is the widget KEY from `--set NODE.WIDGET:...` - a name, or a digit string meaning

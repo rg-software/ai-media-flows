@@ -84,20 +84,56 @@ def is_widget(decl):
             and decl[1].get("socketless") is True)
 
 
-def widget_slots(spec):
-    """[(name, decl)] for each widget in declaration order, with a None slot for control_after_generate.
+def _dynamic_options(decl):
+    """{option_key: [(subname, subdecl), ...]} for a DYNAMICCOMBO declaration.
+
+    A v3 dynamic combo expands into its selected option's sub-inputs, and those occupy widget slots of
+    their own - so the stored `widgets_values` is [combo_value, sub1, sub2, ...], and a nested dynamic
+    combo expands again in place. Skipping this made every value after the combo land one field early:
+    `BuildPoseFile` received `camera_translation: 0.022` (a mesh-style float) and `fps: 'scail'` (a string
+    where a number belongs), which is how impossible-looking errors come out of an otherwise fine file.
+    """
+    out = {}
+    for o in ((decl[1] or {}).get("options") or []):
+        req = (o.get("inputs") or {}).get("required") or {}
+        out[o.get("key")] = list(req.items())
+    return out
+
+
+def widget_slots(spec, values=()):
+    """[(name, decl)] for each widget in stored order, with a None slot for control_after_generate.
 
     An INT named `seed` gets a following control slot, which stores a string like 'fixed' - the UI writes
     it and the schema has no field for it, so it must be skipped when mapping values to slots.
+
+    `values` is the node's own `widgets_values`, because a dynamic combo's sub-fields depend on *which
+    option is selected*; without them the expansion cannot be known. Names for expanded sub-fields are
+    dotted (`format.mesh_style.shader`), matching the names ComfyUI itself uses in its error messages.
     """
-    slots = []
+    slots: list[tuple[str, object]] = []
+    pos = 0
+
+    def walk(fields, prefix=""):
+        nonlocal pos
+        for name, decl in fields:
+            if not is_widget(decl):
+                continue                       # a socket is not a widget, so it consumes no stored value
+            path = prefix + name
+            slots.append((path, decl))
+            val = values[pos] if pos < len(values) else None
+            pos += 1
+            if name == "seed":
+                slots.append((None, None))
+                pos += 1
+            t = decl[0] if isinstance(decl, list) and decl else decl
+            if t == "COMFY_DYNAMICCOMBO_V3":
+                subs = _dynamic_options(decl).get(val) or []
+                if subs:
+                    walk(subs, path + ".")
+        return pos
+
     inp = spec.get("input", {})
-    for group in ("required", "optional"):
-        for name, decl in (inp.get(group) or {}).items():
-            if is_widget(decl):
-                slots.append((name, decl))
-                if name == "seed":
-                    slots.append((None, None))
+    walk(list((inp.get("required") or {}).items()) + list((inp.get("optional") or {}).items()))
     return slots
 
 
@@ -181,8 +217,8 @@ def main() -> int:
                 print(f"  {rel}: node {n.get('id')} {t}: NOT REGISTERED on this server")
                 problems += 1
                 continue
-            slots = widget_slots(spec)
             values = n.get("widgets_values") or []
+            slots = widget_slots(spec, values)
             # An EMPTY widgets_values is worth flagging when - and only when - a setting would be genuinely
             # UNSPECIFIED. The UI always writes the values, so an empty array means the file was generated
             # or hand-edited without them, and the loop below has nothing to contradict: a workflow with no
