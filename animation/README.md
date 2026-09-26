@@ -8,7 +8,7 @@ Two questions, and they are independent: **what the artefact is** (form) and **w
 
 | form | output | consumer | status |
 |---|---|---|---|
-| **sprite (2D)** | frame-indexed sheet / flipbook | engine | **works** - `scripts/pose_probe.py` scripts the poses and `2d/workflows/pose-skeleton.json` renders them (E4/E5 below) |
+| **sprite (2D)** | frame-indexed sheet / flipbook | engine | **works** - `2d/workflows/pose-extract.json` gets a skeleton per pose, `2d/workflows/pose-skeleton.json` renders it, `scripts/atlas.py` packs the frames (E13/E13b/E13c in `../2d/EXPERIMENTS-2D.md`) |
 | **video** (reference) | a video file | a viewer, not an engine | **works, and runs on the box** - `workflows/wan-animate-motion.json` (E1) |
 | **parametric (3D)** | rig + skeletal clips | engine | **open** - needs a motion source; the rigger half already exists (`3d/workflows/unirig-humanoid-workflow.json`) |
 
