@@ -10,7 +10,7 @@ Two questions, and they are independent: **what the artefact is** (form) and **w
 |---|---|---|---|
 | **sprite (2D)** | frame-indexed sheet / flipbook | engine | **works** - `2d/workflows/pose-extract.json` gets a skeleton per pose, `2d/workflows/pose-skeleton.json` renders it, `scripts/atlas.py` packs the frames (E13/E13b/E13c in `../2d/EXPERIMENTS-2D.md`) |
 | **video** (reference) | a video file | a viewer, not an engine | **works, and runs on the box** - `workflows/wan-animate-motion.json` (E1) |
-| **parametric (3D)** | rig + skeletal clips | engine | **open** - costed in [`motion-sourcing.md`](motion-sourcing.md); the rigger half already exists (`3d/workflows/unirig-humanoid-workflow.json`) |
+| **parametric (3D)** | rig + skeletal clips | engine | **partly works** (E4) - SAM 3D Body recovers motion from video and exports an animated skeletal GLB headlessly, but the skin is Meta's MHR, so retargeting onto our rig stays engine-side; the rigger half exists (`3d/workflows/unirig-humanoid-workflow.json`). Cost and caveats: [`motion-sourcing.md`](motion-sourcing.md) |
 
 | motion source | tool | cost | status |
 |---|---|---|---|

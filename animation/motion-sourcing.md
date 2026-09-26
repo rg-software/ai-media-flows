@@ -25,7 +25,7 @@ A specific gesture, a particular dance, a real-world action nobody has a clip of
 | `models/detection/sam_3d_body_dinov3_bf16.safetensors` | **missing — 2.64 GB** (or the int8 variant, 1.86 GB) |
 | `models/diffusion_models/rt_detr_v4-x-hgnet_fp32.safetensors` (person detector) | **missing** — a third, small file |
 
-So the whole capability is **roughly 3 GB of download** on a box that already holds two of the four files, and the model keeps **~3.4 GB resident on the GPU** with activations under 100 MB. On a 24 GB card it is not a VRAM question at all.
+So the whole capability was **3.08 GB of download** (26 s) on a box that already held two of the four files. Measured end to end (**E4**): **135 s** for 150 frames - 5 s of footage, ~0.9 s/frame - at a **peak of 20 347 MiB** VRAM, so the pipeline does fit beside 24 GB with little to spare.
 
 **What it produces:** the node `BuildPoseFile` (its aliases include "3D animation", "mocap", "glb", "bvh") writes either an **animated GLB** — mesh + bones, or a keypoint overlay — or a **BVH mocap clip**. Both are engine-consumable: Unity takes the GLB through its glTF importer, and BVH is the classic mocap interchange format.
 
