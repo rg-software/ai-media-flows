@@ -117,15 +117,28 @@ def build_prompt(workflow, info, overrides, image=None):
         values = list(n.get("widgets_values") or [])
         ov = overrides.get(nid, {})
         for idx, ref in ov.items():
-            if isinstance(ref, int):
-                if idx < len(values):
-                    values[idx] = ref
-            else:                                     # by name -> find its slot index
+            # `idx` is the widget KEY from `--set NODE.WIDGET:...` - a name, or a digit string meaning
+            # "by slot". The test has to be on the KEY, not on the value: testing the value made
+            # `--set 2.resolution:1024` compare the string "resolution" with an int and raise
+            # `TypeError: '<' not supported between instances of 'str' and 'int'`, i.e. a numeric value
+            # on a named widget - the most ordinary thing you can type - could never work.
+            if isinstance(idx, str) and idx.isdigit():
+                pos = int(idx)
+            else:
                 names = [nm for nm, _ in slots]
                 if idx not in names:
                     raise SystemExit("node %s (%s) has no widget %r; it has %s"
                                      % (nid, n["type"], idx, names))
-                values[names.index(idx)] = ref
+                pos = names.index(idx)
+            if pos >= len(values):
+                raise SystemExit(
+                    "node %s (%s): widget %r lands at slot %d but widgets_values has only %d entr%s - "
+                    "the file is missing values (an EMPTY widgets_values means the node has no settings "
+                    "at all and would run on schema defaults)."
+                    % (nid, n["type"], idx, pos, len(values), "y" if len(values) == 1 else "ies"))
+            if pos < len(slots) and slots[pos][1] is not None and isinstance(ref, str):
+                ref = coerce(ref, slots[pos][1])       # a by-slot axis arrives un-coerced
+            values[pos] = ref
         for i, v in enumerate(values):
             if i >= len(slots):
                 break

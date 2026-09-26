@@ -1,0 +1,208 @@
+{
+ "last_node_id": 5,
+ "last_link_id": 3,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "LoadImage",
+   "pos": [
+    -620,
+    40
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "2d/char_heroine.png",
+    "image"
+   ],
+   "flags": {},
+   "mode": 0,
+   "size": [
+    270,
+    100
+   ],
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "OpenposePreprocessor",
+   "pos": [
+    -260,
+    40
+   ],
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      2
+     ]
+    },
+    {
+     "name": "POSE_KEYPOINT",
+     "type": "POSE_KEYPOINT",
+     "links": [
+      3
+     ]
+    }
+   ],
+   "widgets_values": [
+    "enable",
+    "enable",
+    "enable",
+    1024,
+    "disable"
+   ],
+   "flags": {},
+   "mode": 0,
+   "size": [
+    270,
+    100
+   ],
+   "properties": {
+    "Node name for S&R": "OpenposePreprocessor"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "SaveImage",
+   "pos": [
+    150,
+    -120
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 2
+    }
+   ],
+   "widgets_values": [
+    "2D/pose_extract"
+   ],
+   "flags": {},
+   "mode": 0,
+   "size": [
+    270,
+    100
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "SavePoseKpsAsJsonFile",
+   "pos": [
+    150,
+    110
+   ],
+   "inputs": [
+    {
+     "name": "pose_kps",
+     "type": "POSE_KEYPOINT",
+     "link": 3
+    }
+   ],
+   "widgets_values": [
+    "2D/pose_keypoints"
+   ],
+   "flags": {},
+   "mode": 0,
+   "size": [
+    270,
+    100
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SavePoseKpsAsJsonFile"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "MarkdownNote",
+   "pos": [
+    -620,
+    -420
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "widgets_values": [
+    "# Pose from a photo\n\nExtracts a body pose from a photo and writes **two** things:\n\n* the skeleton **image** (`2D/pose_extract_*.png`) - what a ControlNet reads;\n* the **keypoints JSON** (`2D/pose_keypoints_*.json`) - 18 joints of `x, y, confidence`, editable and\n  measurable (`0 nose, 1 neck, 2/3/4 R shoulder/elbow/wrist, 5/6/7 L, 8/9/10 R hip/knee/ankle, 11/12/13 L,\n  14-17 eyes and ears`; R is the subject's right = image left).\n\n**How to use it:** take the skeleton image, put it in `input/` (or pick it straight out of `output/` with a\n`LoadImageOutput` node), and point `2d/workflows/pose-skeleton.json` at it. One photo per pose - S9's sprite\nframes are just several photos in, several skeletons out.\n\n**Trap - the detector needs a photoreal-enough person.** Measured on our own assets: `char_heroine` (the\nshipped default) yields all 18 joints, while the armoured `char_knight` yields **none** (`people: []`). So on\nstylised art this flow silently produces nothing - that is a limit of the detector, not a setting.\n`DensePosePreprocessor` reads `char_knight` perfectly, but its output cannot drive the union ControlNet\n(there is no densepose mode in its type list), so it is an inspection aid rather than a cue.\n\n**Knobs:** `resolution` (1024 keeps joints crisp on a 1024-square input), and `detect_hand`/`detect_face`\n(they add keypoints to the JSON; body joints are what a pose ControlNet uses).\n\n*How to run it: story **S16** in `HOWTO.md`  ·  Why it is this way: extraction is its own operation (`image -> keypoints`), so S7 and S9 consume it rather than each carrying a private copy of the detector.*\n\nOutput is a cue, not a picture - it exists to drive `pose-skeleton.json`."
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   2,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   2,
+   0,
+   3,
+   0,
+   "IMAGE"
+  ],
+  [
+   3,
+   2,
+   1,
+   4,
+   0,
+   "POSE_KEYPOINT"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}

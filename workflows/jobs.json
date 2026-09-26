@@ -15,7 +15,8 @@
   "S12": "3D from images",
   "S13": "Explore parameters with a sweep",
   "S14": "Move files to and from the box",
-  "S15": "Animate a character from a driving video"
+  "S15": "Animate a character from a driving video",
+  "S16": "Get a pose from a photo"
  },
  "jobs": [
   {
@@ -97,8 +98,14 @@
    "category": "2d"
   },
   {
+   "want": "Get a pose from a photo",
+   "detail": "`2d/workflows/pose-extract.json` (a photo of a person -> the skeleton image a ControlNet reads, plus the keypoints JSON)",
+   "story": "S16",
+   "category": "2d"
+  },
+  {
    "want": "Put a character in a specific pose",
-   "detail": "`2d/workflows/qwen-edit-gguf.json` (instruction - best for a specific pose) · `2d/workflows/pose-skeleton.json` (skeleton cue - holds a **coarse stance** at `strength 1.5` + `end_percent 0.5`, but not limb angles)",
+   "detail": "`2d/workflows/pose-extract.json` (get the pose from a photo) · `2d/workflows/qwen-edit-gguf.json` (instruction - best for a specific pose) · `2d/workflows/pose-skeleton.json` (skeleton cue - holds a **coarse stance** at `strength 1.5` + `end_percent 0.5`, but not limb angles)",
    "story": "S7",
    "category": "2d"
   },
@@ -170,7 +177,7 @@
   },
   {
    "want": "Animate a sprite across a few poses",
-   "detail": "`scripts/pose_probe.py` (script the poses) -> `2d/workflows/pose-skeleton.json` (render them, design held by IPAdapter) -> `scripts/atlas.py` (pack the frames)",
+   "detail": "`2d/workflows/pose-extract.json` (one pose per photo) -> `2d/workflows/pose-skeleton.json` (render each; keep the contrasts ~40 deg apart) -> `scripts/atlas.py` (pack the frames)",
    "story": "S9",
    "category": "animation"
   },
@@ -315,14 +322,14 @@
   "sv3d-turnaround.json": {
    "story": "S8"
   },
-  "pose_probe.py": {
-   "story": "S9"
-  },
   "sweep_workflow.py": {
    "story": "S13"
   },
   "wan-animate-motion.json": {
    "story": "S15"
+  },
+  "pose-extract.json": {
+   "story": "S16"
   }
  },
  "categories": [

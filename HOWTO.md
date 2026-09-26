@@ -195,6 +195,19 @@
 - *Trap:* the output size comes from the **driving video**, snapped to a multiple of 16 — not from the node's defaults. Use the **GGUF** model: the 3090 rejects `fp8e4nv`, so the fp8/int8 formats the upstream template ships with are not the path on this box. It runs at ~20.8 GB peak VRAM for a 33-frame clip, so there is little room to raise `length` without the upstream chunking.
 - *More:* [`animation/README.md`](animation/README.md), and E1 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).
 
+### S16. Get a pose from a photo
+
+- *When:* you have a photo of a person in the pose you want and need that pose as a skeleton — to put a character into it (S7), or to render sprite frames (S9).
+- *Steps:*
+	- open `2d/workflows/pose-extract.json` and set `LoadImage` to your photo (it ships a working example, `2d/char_heroine.png`);
+	- run it. It writes **two** things: the skeleton **image** (`2D/pose_extract_*.png`) and the **keypoints JSON** (`2D/pose_keypoints_*.json`);
+	- put the skeleton image in `input/` — or pick it straight from `output/` with a `LoadImageOutput` node — and point `pose-skeleton.json`'s node 1 at it. One photo per pose.
+- *Knobs:*
+	- `resolution` — 1024 keeps the joints crisp on a 1024-square photo;
+	- `detect_hand`/`detect_face` — they add keypoints to the JSON; the body joints are what a pose ControlNet uses.
+- *Trap:* the detector needs a photoreal-enough person. Measured on our own assets, `char_heroine` yields all 18 joints while the armoured `char_knight` yields **none** (`people: []`) — so on stylised art this flow silently produces nothing, and the skeleton has to be authored by hand instead. `DensePosePreprocessor` reads `char_knight` perfectly, but its output cannot drive the union ControlNet (there is no densepose mode in its type list), so it is an inspection aid rather than a cue.
+- *More:* the note inside [`2d/workflows/pose-extract.json`](2d/workflows/pose-extract.json), and E21 in [`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md).
+
 ---
 
 ## If your job isn't here

@@ -61,8 +61,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      2,
-      20
+      2
      ],
      "slot_index": 0
     },
@@ -79,52 +78,6 @@
    "widgets_values": [
     "2d/char_knight.png",
     "image"
-   ]
-  },
-  {
-   "id": 4,
-   "type": "OpenposePreprocessor",
-   "pos": [
-    -880,
-    760
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "image",
-     "type": "IMAGE",
-     "link": 20
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "links": [],
-     "slot_index": 0
-    },
-    {
-     "name": "POSE_KEYPOINT",
-     "type": "POSE_KEYPOINT",
-     "links": [],
-     "slot_index": 1
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "OpenposePreprocessor"
-   },
-   "widgets_values": [
-    "enable",
-    "enable",
-    "enable",
-    1024,
-    "enable"
    ]
   },
   {
@@ -698,7 +651,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## pose-skeleton.json\n\nPose from a skeleton\n\n**Does:** puts the character in a POSE you supply as a skeleton - ControlNet-Union's `openpose`\nmode drives the SILHOUETTE while IPAdapter carries the design. It is a coarse-stance tool rather\nthan a pose editor; the measurement below says exactly how far it goes.\n**WHAT THE CUE ACTUALLY BUYS (E22).** The shipped `strength 1.5` + `end_percent 0.5` is the point.\nWith the CN applied for ALL steps it is ignored at 0.9-1.2 and destroys the image at 1.5 (E21c),\nbut ending the window early lets `1.5` impose the cue over a prompt that explicitly says the\nopposite: a 'T-pose, arms outstretched' cue beat 'both arms lowered, hanging straight down at his\nsides' and still rendered clean. It works at the level of the SILHOUETTE only - a 45-deg cue still\nrenders arms at the sides, an asymmetric cue (one arm up) is ignored, and a 'both arms up' cue\ncomes back as shoulder horns rather than arms. Use this flow for a coarse stance (arms out / wide /\ntall) and an instruction (`qwen-edit-gguf.json`) for a specific pose. CFG is NOT a lever (4.0 = 7.0).\n**Skeleton in:** the ControlNet reads node 1. It ships a working example -\n`2d/pose_arms_spread.png` (published from `assets/2d/`, source `assets/2d/pose_arms_spread.json`,\none named joint per line) - so the flow runs as-is; point node 1 elsewhere for your own pose.\nMake one with `scripts/pose_probe.py`:\n`template /tmp/pose.json --preset standing|arms_spread|t_pose` (`--arm 30` for any arm angle,\n`--rotate -10` to lean the figure), or `extract <photo.png>` to lift a pose off a real photo, then\n`draw /tmp/pose.json <out.png> --labels` to render it with every joint's index printed on the\npicture. The JSON is 18 joints of `x, y, confidence` in pixels - `0 nose, 1 neck, 2/3/4 R shoulder/\nelbow/wrist, 5/6/7 L shoulder/elbow/wrist, 8/9/10 R hip/knee/ankle, 11/12/13 L hip/knee/ankle,\n14-17 eyes and ears` (R = the subject's right = image left). Upload the PNG to `input/_pose/`.\n`OpenposePreprocessor` is wired to a reference image but left **DISCONNECTED**: connect its\nIMAGE output to `ControlNetApplyAdvanced.image` to take a pose from a photo instead - it finds\nno person in stylised art, so photos only (E21).\n**Knobs:** the CN **window** is the one that matters - `strength 1.5` with `end_percent 0.5` (loud\nenough to override the prompt, ended early enough that the sampler renders the last half freely).\nIPAdapter `weight` **0.15**: it fights the cue (0.35 erased a 45-deg spread; >=0.6 freezes the\nreference's own stance, E21/E11). Say the stance you want in the prompt and forbid the one you\ndon't in the negative (`arms at sides, hands on hips`).\n**Limits:** a 2D COCO skeleton has no yaw, so a **camera angle** change is not this flow's job -\nuse an instruction edit, or the 3D path (`Hy3DCameraConfig` + `Hy3DRenderMultiview`).\n\n---\n*How to run it: story **S7** in `HOWTO.md`  ·  Why it is this way: **E21** in the scenarios' `EXPERIMENTS` logs.*"
+    "## pose-skeleton.json\n\nPose from a skeleton\n\n**Does:** puts the character in a POSE you supply as a skeleton - ControlNet-Union's `openpose`\nmode drives the SILHOUETTE while IPAdapter carries the design. It is a coarse-stance tool rather\nthan a pose editor; the measurement below says exactly how far it goes.\n**WHAT THE CUE ACTUALLY BUYS (E22).** The shipped `strength 1.5` + `end_percent 0.5` is the point.\nWith the CN applied for ALL steps it is ignored at 0.9-1.2 and destroys the image at 1.5 (E21c),\nbut ending the window early lets `1.5` impose the cue over a prompt that explicitly says the\nopposite: a 'T-pose, arms outstretched' cue beat 'both arms lowered, hanging straight down at his\nsides' and still rendered clean. It works at the level of the SILHOUETTE only - a 45-deg cue still\nrenders arms at the sides, an asymmetric cue (one arm up) is ignored, and a 'both arms up' cue\ncomes back as shoulder horns rather than arms. Use this flow for a coarse stance (arms out / wide /\ntall) and an instruction (`qwen-edit-gguf.json`) for a specific pose. CFG is NOT a lever (4.0 = 7.0).\n**Skeleton in:** the ControlNet reads node 1. It ships a working example -\n`2d/pose_arms_spread.png` (published from `assets/2d/`) - so the flow runs as-is; point node 1\nelsewhere for your own pose.\n**Getting a pose from a photo:** `2d/workflows/pose-extract.json` (S16) lifts one off a photo and\nwrites both the skeleton image and the keypoints JSON - put that image in `input/` and point node 1\nat it, one photo per pose. The joints are 18 of `x, y, confidence` in pixels:\n`0 nose, 1 neck, 2/3/4 R shoulder/elbow/wrist, 5/6/7 L shoulder/elbow/wrist, 8/9/10 R hip/knee/\nankle, 11/12/13 L hip/knee/ankle, 14-17 eyes and ears` (R = the subject's right = image left).\nThe detector needs a photoreal-enough person (`char_heroine` reads, the armoured `char_knight`\nreturns `people: []`), so on stylised art the skeleton has to be authored instead -\n`scripts/pose_probe.py` is the contributor tool for that (it draws joints with `--labels`).\n**Knobs:** the CN **window** is the one that matters - `strength 1.5` with `end_percent 0.5` (loud\nenough to override the prompt, ended early enough that the sampler renders the last half freely).\nIPAdapter `weight` **0.15**: it fights the cue (0.35 erased a 45-deg spread; >=0.6 freezes the\nreference's own stance, E21/E11). Say the stance you want in the prompt and forbid the one you\ndon't in the negative (`arms at sides, hands on hips`).\n**Limits:** a 2D COCO skeleton has no yaw, so a **camera angle** change is not this flow's job -\nuse an instruction edit, or the 3D path (`Hy3DCameraConfig` + `Hy3DRenderMultiview`).\n\n---\n*How to run it: story **S7** in `HOWTO.md`  ·  Why it is this way: **E21** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
@@ -846,14 +799,6 @@
    16,
    0,
    17,
-   0,
-   "IMAGE"
-  ],
-  [
-   20,
-   2,
-   0,
-   4,
    0,
    "IMAGE"
   ]
