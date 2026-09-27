@@ -196,7 +196,7 @@
   },
   {
    "want": "Animate a character from a driving video",
-   "detail": "`animation/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly - no pose extraction or skeleton step)",
+   "detail": "`animation/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly - no pose extraction or skeleton step) · `scripts/wan_segment.py` (clips longer than one pass - it segments the footage and joins the pieces)",
    "story": "S15",
    "category": "animation"
   },
@@ -343,6 +343,9 @@
   },
   "motion_quality.py": {
    "story": "S17"
+  },
+  "wan_segment.py": {
+   "story": "S15"
   }
  },
  "categories": [

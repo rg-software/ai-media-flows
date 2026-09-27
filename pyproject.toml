@@ -11,6 +11,9 @@ dependencies = [
     "numpy>=1.26",
     "pillow>=10",
     "trimesh>=4",
+    # video I/O for scripts/wan_segment.py: it decodes the source clip and writes the stitched result.
+    # headless because it never opens a window.
+    "opencv-python-headless>=4.9",
 ]
 
 [tool.uv]
