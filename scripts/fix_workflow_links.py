@@ -71,6 +71,20 @@ def _nodes(d: dict) -> dict:
     return {n["id"]: n for n in (d.get("nodes") or [])}
 
 
+def _type_ok(declared, ltype) -> bool:
+    """Can a link of type `ltype` land on a slot declared as `declared`?
+
+    A slot may declare a UNION - `MHR_POSE_DATA,KIMODO_POSE_DATA`, `FILE_3D_GLB,FILE_3D_GLTF,...` - and a link
+    carrying any one member is valid. Comparing the strings literally reports every union as a problem, which
+    is what the SAM3D-Body workflow did on three perfectly good edges.
+    """
+    if declared == ltype:
+        return True
+    if isinstance(declared, str) and "," in declared:
+        return ltype in [t.strip() for t in declared.split(",")]
+    return False
+
+
 def check_data(d: dict, rel: str) -> list[str]:
     """Inconsistencies between a workflow's node link references and its `links` array."""
     problems: list[str] = []
@@ -94,13 +108,13 @@ def check_data(d: dict, rel: str) -> list[str]:
         if oslot >= len(outs):
             problems.append(f"{rel}: link {lid} origin slot {oslot} does not exist on node {onode} "
                             f"({origin.get('type')})")
-        elif outs[oslot].get("type") != ltype:
+        elif not _type_ok(outs[oslot].get("type"), ltype):
             problems.append(f"{rel}: link {lid} type {ltype} != origin output type "
                             f"{outs[oslot].get('type')} on node {onode}")
         if tslot >= len(ins):
             problems.append(f"{rel}: link {lid} target slot {tslot} does not exist on node {tnode} "
                             f"({target.get('type')})")
-        elif ins[tslot].get("type") != ltype:
+        elif not _type_ok(ins[tslot].get("type"), ltype):
             problems.append(f"{rel}: link {lid} type {ltype} != target input type "
                             f"{ins[tslot].get('type')} on node {tnode}")
         if (tnode, tslot) in want_input:
@@ -117,7 +131,7 @@ def check_data(d: dict, rel: str) -> list[str]:
             if want is None:
                 # declared but nothing in the array targets it: stale, or load-bearing intent?
                 claim = next((l for l in links if l[0] == inp.get("link")), None)
-                if claim is not None and claim[5] == inp.get("type"):
+                if claim is not None and _type_ok(inp.get("type"), claim[5]):
                     problems.append(f"{rel}: node {nid} ({n.get('type')}) input {inp.get('name')!r} "
                                     f"routed to link {claim[0]} by declaration, but the array sends it "
                                     f"to node {claim[3]} - the array alone leaves this input "

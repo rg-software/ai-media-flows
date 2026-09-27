@@ -26,6 +26,7 @@ Two questions, and they are independent: **what the artefact is** (form) and **w
 | Workflow (`workflows/`) | What it does | Cost | Status |
 |---|---|---|---|
 | `wan-animate-motion.json` | still character + **driving video** → animated video. Motion is transferred directly, with no pose extraction or skeleton step; the video is the motion source. | free + ~20 GB weights | **PASS (E1)** |
+| `sam3d-motion.json` | **footage → a 3D body animation**, exported as an animated skeletal GLB (plus a render preview). Motion comes from the clip; the skin is Meta's MHR, so the engine retargets it onto your character. Ships the two settings upstream gets wrong (E6/E8). | free + ~3 GB weights | **PASS (E4/E8; E6: fast clips keep one residual pop)** |
 
 **A flat rebuild, deliberately.** The official upstream template is built from *subgraphs*, which are a frontend construct: they cannot be POSTed to `/prompt`, so an upstream flow cannot be scripted or swept as shipped. This file is the same graph flattened, which is what makes it runnable from a script (and by `scripts/sweep_workflow.py`).
 

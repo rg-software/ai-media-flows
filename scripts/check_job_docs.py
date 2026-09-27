@@ -101,7 +101,10 @@ def check() -> list[str]:
             problems.append("jobs.json: claims %s but no such workflow file exists" % name)
             continue
         w = json.load(io.open(hits[0], encoding="utf-8"))
-        note = [n for n in w["nodes"] if n.get("type") in ("Note", "MarkdownNote")]
+        # The DOCUMENTATION note is the `MarkdownNote`; a plain `Note` is a canvas label, and some upstream
+        # workflows ship several. Keying on note[0] picked a label instead and then reported the real note as
+        # having no story line.
+        note = [n for n in w["nodes"] if n.get("type") == "MarkdownNote"]
         if not note:
             continue
         text = note[0]["widgets_values"][0]

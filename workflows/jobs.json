@@ -16,7 +16,8 @@
   "S13": "Explore parameters with a sweep",
   "S14": "Move files to and from the box",
   "S15": "Animate a character from a driving video",
-  "S16": "Get a pose from a photo"
+  "S16": "Get a pose from a photo",
+  "S17": "Recover a 3D motion clip from a video"
  },
  "jobs": [
   {
@@ -198,6 +199,12 @@
    "detail": "`animation/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly - no pose extraction or skeleton step)",
    "story": "S15",
    "category": "animation"
+  },
+  {
+   "want": "Recover a 3D motion clip from a video",
+   "detail": "`animation/workflows/sam3d-motion.json` (footage -> an animated skeletal GLB, for the engine to retarget) · `scripts/motion_quality.py` (gate the result: jitter and single-frame breaks)",
+   "story": "S17",
+   "category": "animation"
   }
  ],
  "flows": {
@@ -330,6 +337,12 @@
   },
   "pose-extract.json": {
    "story": "S16"
+  },
+  "sam3d-motion.json": {
+   "story": "S17"
+  },
+  "motion_quality.py": {
+   "story": "S17"
   }
  },
  "categories": [

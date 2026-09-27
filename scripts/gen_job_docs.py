@@ -221,8 +221,8 @@ def main():
         w = json.load(io.open(p, encoding="utf-8"))
         touched = False
         for n in w["nodes"]:
-            if n.get("type") not in ("MarkdownNote", "Note"):
-                continue
+            if n.get("type") != "MarkdownNote":
+                continue          # only the documentation note carries a story line; a `Note` is a canvas label
             text = n["widgets_values"][0]
             new, count = render_note_story(text, ids)
             if count and new != text:

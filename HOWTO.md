@@ -209,6 +209,21 @@
 - _Note:_ if you have a 3D model, it is possible to export COCO pose keypoints and labels directly or with simple tools.
 - *More:* the note inside [`2d/workflows/pose-extract.json`](2d/workflows/pose-extract.json), and E21 in [`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md).
 
+### S17. Recover a 3D motion clip from a video
+
+- *When:* the motion you want exists only as footage — a specific gesture or dance that no clip library has. This recovers it as a 3D animation for the engine to retarget onto your own character.
+- *Steps:*
+	- put the clip in `input/` (the flow ships pointing at the upstream example, `woman_holding_water_glass.mp4`);
+	- open `animation/workflows/sam3d-motion.json` and check the two settings it ships: `SAM3DBody_Smooth` → `rotation_threshold_degrees` **0**, and `BuildPoseFile` → `format.bone_smooth_window` **9**. Both differ from upstream and both matter;
+	- run it. You get an animated **skeletal GLB** (in `3d/`) and a render preview of the recovered motion (in `video/`);
+	- gate the result: `uv run python scripts/motion_quality.py <the .glb>`. **Zero breaks** is the bar.
+- *Knobs:*
+	- `bone_smooth_window` (9) — the export-stage smoother, and **bigger is not better**: the one residual spike grew 58, 93, 126 degrees at windows 9, 15, 21;
+	- `rotation_threshold_degrees` (0) — at its upstream value of 15 it *disables* smoothing whenever the motion gets fast;
+	- `camera_translation` (`off`) — `centered`/`absolute` bake the camera translation into the root, which matters if the motion has to travel.
+- *Traps:* the **render preview is not smoothed** — only the exported file is — so judge the GLB, not the overlay. The skin is Meta's **MHR**, not your rig, so the retarget is your engine's job. And **fast or spinning footage can still break**: no smoothing setting cleared every clip tested, which is why the gate exists rather than a promise.
+- *More:* [`animation/motion-sourcing.md`](animation/motion-sourcing.md) for what the free path already covers and what this costs, and E4/E6/E8 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).
+
 ---
 
 ## If your job isn't here

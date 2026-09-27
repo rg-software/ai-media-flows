@@ -38,6 +38,12 @@ WIDGET_TYPES = ("INT", "FLOAT", "STRING", "BOOLEAN")
 # validator and `sweep_workflow`'s prompt builder, which then dropped the value and the run died with
 # `SaveVideo.execute() missing 1 required positional argument: 'format'`.
 DYNAMIC_WIDGET_TYPES = ("COMFY_DYNAMICCOMBO_V3",)
+# The frontend writes a value for a 3D viewport-state socket too (an empty string in the saved file), so it
+# occupies a widget slot even though it is not a scalar the UI edits inline. Skipping it shifts everything
+# after it by one: `Save3DAdvanced` stores ['3d/ComfyUI', '', 1024, 1024] for
+# [filename_prefix, viewport_state, width, height], and without this the 1024s land as width/height one
+# position early - which is exactly how a headless run "succeeded" while writing no file at all.
+VIEWER_STATE_TYPES = ("LOAD_3D",)
 COMFY_INPUT = os.path.expanduser("~/Projects-Git/ComfyUI/input")
 CONTROL_AFTER_GENERATE = ("fixed", "randomize", "increment", "decrement")
 
@@ -76,7 +82,8 @@ def choices_of(decl):
 
 def is_widget(decl):
     t = decl[0] if isinstance(decl, list) and decl else decl
-    if isinstance(t, list) or t == "COMBO" or t in WIDGET_TYPES or t in DYNAMIC_WIDGET_TYPES:
+    if (isinstance(t, list) or t == "COMBO" or t in WIDGET_TYPES or t in DYNAMIC_WIDGET_TYPES
+            or t in VIEWER_STATE_TYPES):
         return True
     # "socketless" inputs are frontend widgets that are not wired between nodes (ImageCompare's
     # compare_view is one) - they still occupy a slot in the stored value list.
