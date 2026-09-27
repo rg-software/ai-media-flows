@@ -4,7 +4,7 @@
  "nodes": [
   {
    "id": 1,
-   "type": "UnetLoaderGGUF",
+   "type": "UNETLoader",
    "pos": [
     -980,
     -520
@@ -19,7 +19,8 @@
     }
    ],
    "widgets_values": [
-    "wan_animate_2-Q5_K_M.gguf"
+    "wan_animate_2_int8_convrot.safetensors",
+    "default"
    ],
    "flags": {},
    "mode": 0,
@@ -29,7 +30,7 @@
    ],
    "inputs": [],
    "properties": {
-    "Node name for S&R": "UnetLoaderGGUF"
+    "Node name for S&R": "UNETLoader"
    },
    "order": 0
   },
@@ -1067,7 +1068,7 @@
     320
    ],
    "widgets_values": [
-    "# Wan Animate 2 - motion transfer (video reference)\n\nAnimates a **still character** by transferring the motion of a **driving video**. No pose extraction and no\nskeleton: the model consumes the video directly, so the motion source is just footage you supply.\n\n* **Reference image** (`LoadImage`, node 10) - the character to animate. Its identity is what is preserved.\n* **Driving video** (`LoadVideo`, node 11) - the motion source. Only the first `length` frames are used.\n* **Output size** follows the *driving video*, not the node's defaults: the video is scaled to a multiple of\n  16 in both axes (a requested height of 854 comes back as 848) and that size is what is generated.\n\nKnobs worth turning: `length` (frames; 4n+1 - the default 33 is ~1.4 s at 24 fps), `pose_strength`\n(how literally the driving motion is copied), `reference_image_strength` (identity vs motion trade),\nand the prompt (describes scene/background/camera, not the motion).\n\nTraps measured on this box (RTX 3090, 24 GB):\n* **export as GGUF, not fp8.** The 3090 rejects `fp8e4nv`; a GGUF quant of the same model sidesteps it.\n  The official repo's `int8_convrot` is the format the template ships with; Q5_K_M GGUF is what runs here.\n* **peak VRAM was 20.8 GB at 480x848, 33 frames** - so there is only ~3 GB of headroom. Cost grows\n  quadratically with frame count in the temporal-attention phase, so long clips need the template's\n  `ContextWindowsManual` chunking rather than a bigger `length`.\n* **there are two CLIP-vision encodes** - the reference image *and* the pose video's first frame. Dropping\n  the second one silently degrades the result rather than erroring.\n\n*How to run it: story **S15** in `HOWTO.md` for the steps and knobs  ·  Why it is this way: the upstream template ships as subgraphs, which cannot be scripted, so it is reproduced flat here.*\n\nOutput is a video file - a viewer, not an engine asset. Turning this motion into skeletal clips is a\nseparate, still-open problem."
+    "# Wan Animate 2 - motion transfer (video reference)\n\nAnimates a **still character** by transferring the motion of a **driving video**. No pose extraction and no\nskeleton: the model consumes the video directly, so the motion source is just footage you supply.\n\n* **Reference image** (`LoadImage`, node 10) - the character to animate. Its identity is what is preserved.\n* **Driving video** (`LoadVideo`, node 11) - the motion source. Only the first `length` frames are used.\n* **Output size** follows the *driving video*, not the node's defaults: the video is scaled to a multiple of\n  16 in both axes (a requested height of 854 comes back as 848) and that size is what is generated.\n\nKnobs worth turning: `length` (frames; 4n+1 - the default 33 is ~1.4 s at 24 fps), `pose_strength`\n(how literally the driving motion is copied), `reference_image_strength` (identity vs motion trade),\nand the prompt (describes scene/background/camera, not the motion).\n\nTraps measured on this box (RTX 3090, 24 GB):\n* **Load the OFFICIAL model, never a GGUF quant of it.** Wan-Animate-2's *identity is in the file's\n  metadata*: `__metadata__ = {\"config\": {\"transformer\": {\"model_type\": \"animate2\"}}}`, and ComfyUI's\n  detector lets that override its own key heuristic. A GGUF carries no such config, so the very same\n  weights are detected as plain `i2v` - the graph still runs, and it still follows the reference image\n  (that path is generic to Wan I2V), but the **pose branch does nothing at all**, because only the\n  animate2 class implements it. Measured: with the GGUF, swapping the driving video changed the output\n  by **0.00** - the character was locked to the reference and never moved. When that happens, check the\n  log: ComfyUI prints `Requested to load WAN21` (the generic class) instead of the animate2 one.\n  Use `wan_animate_2_int8_convrot.safetensors`. int8, not fp8 - the 3090's `fp8e4nv` objection does not\n  apply to int8.\n* **peak VRAM was 20.8 GB at 480x848, 33 frames** - so there is only ~3 GB of headroom. Cost grows\n  quadratically with frame count in the temporal-attention phase, so long clips need the template's\n  `ContextWindowsManual` chunking rather than a bigger `length`.\n* **there are two CLIP-vision encodes** - the reference image *and* the pose video's first frame. Dropping\n  the second one silently degrades the result rather than erroring.\n\n*How to run it: story **S15** in `HOWTO.md` for the steps and knobs  ·  Why it is this way: the upstream template ships as subgraphs, which cannot be scripted, so it is reproduced flat here.*\n\nOutput is a video file - a viewer, not an engine asset. Turning this motion into skeletal clips is a\nseparate, still-open problem."
    ],
    "flags": {},
    "mode": 0,

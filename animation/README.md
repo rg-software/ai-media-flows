@@ -14,7 +14,7 @@ Two questions, and they are independent: **what the artefact is** (form) and **w
 
 | motion source | tool | cost | status |
 |---|---|---|---|
-| **video reference** | `workflows/wan-animate-motion.json` | Wan Animate 2 GGUF, ~20 GB one-time | **PASS** (E1) |
+| **video reference** | `workflows/wan-animate-motion.json` | Wan Animate 2 int8, ~24 GB one-time | **PASS** (E1/E2) |
 | **an existing clip library** (Mixamo etc.) | retargeting in the engine | free | **not ours** - Unity's Humanoid avatar maps an FBX clip onto any humanoid rig, and `unirig-humanoid` already emits a Mixamo-compatible skeleton (`fbx_preset = "mixamo"`). A ComfyUI retarget flow would be a slower, non-interactive copy of an engine feature. |
 | **keyframes / pose sequence** | skeletal keyframing, pose-to-motion | tooling we do not have | open |
 | **text prompt** | video model, then retarget | large weights, two-stage | open |
@@ -41,7 +41,7 @@ Two questions, and they are independent: **what the artefact is** (form) and **w
 
 ## Traps (all measured on the box, RTX 3090 24 GB)
 
-- **Export as GGUF, not fp8.** The 3090 rejects `fp8e4nv` (`type fp8e4nv not supported in this architecture`). This is the same Ampere limitation `../comfyui/hardware.md` records for Qwen. The official repo's `int8_convrot` is what the template ships with; `wan_animate_2-Q5_K_M.gguf` (11.4 GB) is what runs here.
+- **Never quantise this model to GGUF.** Wan-Animate-2's *identity is in the file's metadata* (`{"config": {"transformer": {"model_type": "animate2"}}}`), and ComfyUI lets it override its own key-based detection. A GGUF has no such config, so the same weights load as a plain **image-to-video** model - and then the reference image still works while **the driving video is ignored completely** (measured: swapping the clip changed the output by **0.00**). The log is the tell: `Requested to load WAN21` instead of `WAN_Animate2`. int8 is fine on this card; it is the *metadata*, not the precision, that decides this.
 - **Peak VRAM was 20.8 GB at 480x848, 33 frames**, i.e. ~3 GB of headroom. Cost grows with frame count in the temporal-attention phase, so a longer clip needs the upstream template's `ContextWindowsManual` chunking rather than a bigger `length`.
 - **There are two CLIP-vision encodes** - the reference image *and* the pose video's first frame. Dropping the second does not error, it just quietly degrades the result.
 - **Output size comes from the driving video**, snapped to a multiple of 16 in both axes: a requested height of 854 comes back as 848.
@@ -50,13 +50,13 @@ Two questions, and they are independent: **what the artefact is** (form) and **w
 
 | file | where | size |
 |---|---|---|
-| `wan_animate_2-Q5_K_M.gguf` | `models/unet/` | 11.4 GB |
+| `wan_animate_2_int8_convrot.safetensors` | `models/diffusion_models/` | 16.7 GB |
 | `umt5_xxl_fp8_e4m3fn_scaled.safetensors` | `models/text_encoders/` | 6.3 GB |
 | `clip_vision_h.safetensors` | `models/clip_vision/` | 1.2 GB |
 | `lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors` | `models/loras/` | 0.7 GB |
 | `Wan2_1_VAE_bf16.safetensors` | `models/vae/` | 0.24 GB |
 
-The diffusion model is [Wan Animate 2](https://huggingface.co/Comfy-Org/Wan-Animate-2) (Apache-2.0). The GGUF quant is the one deviation from the official repo, for the Ampere reason above.
+The diffusion model is [Wan Animate 2](https://huggingface.co/Comfy-Org/Wan-Animate-2) (Apache-2.0). It is taken as the official int8 safetensors rather than a quant - see the metadata trap above.
 
 ## Docs
 

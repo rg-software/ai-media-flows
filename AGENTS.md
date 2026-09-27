@@ -48,7 +48,7 @@ ai-gamedev-tasks/
 │   ├── README.md                ← scenario index + workflow map + server model inventory
 │   └── EXPERIMENTS-2D.md        ← run log (E1 ... En)
 ├── animation/                   ← animation scenario: form (sprite / video / parametric) × motion source.
-│   ├── README.md                ← scenario index + the form/source map + the Ampere/GGUF trap
+│   ├── README.md                ← scenario index + the form/source map + the metadata trap (a GGUF loses the model type)
 │   ├── EXPERIMENTS.md           ← run log (E1 ... En)
 │   └── workflows/               ← `wan-animate-motion.json` (video reference; the flat rebuild of an
 │                                   upstream *subgraph* template, which cannot be scripted as shipped)

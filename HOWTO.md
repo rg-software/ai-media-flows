@@ -192,7 +192,7 @@
 	- `pose_strength` — how literally the driving motion is copied;
 	- `reference_image_strength` — identity vs motion trade;
 	- the prompt's camera wording *is* the viewpoint control: the output camera is decoupled from the driving video.
-- *Trap:* the output size comes from the **driving video**, snapped to a multiple of 16 — not from the node's defaults. Use the **GGUF** model: the 3090 rejects `fp8e4nv`, so the fp8/int8 formats the upstream template ships with are not the path on this box. It runs at ~20.8 GB peak VRAM for a 33-frame clip, so there is little room to raise `length` without the upstream chunking.
+- *Trap:* the output size comes from the **driving video**, snapped to a multiple of 16 — not from the node's defaults. **Use the official `wan_animate_2_int8_convrot.safetensors`, never a GGUF quant of it.** A GGUF carries no `config` metadata, so ComfyUI detects the identical weights as a plain image-to-video model - and then the flow silently **ignores the driving video entirely** while the reference image still works, which is what makes it confusing. If the character never moves, check the log: it should say `Requested to load WAN_Animate2`, not `WAN21`. It runs at ~20.8 GB peak VRAM for a 33-frame clip, so there is little room to raise `length` without the upstream chunking.
 - *More:* [`animation/README.md`](animation/README.md), and E1 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).
 
 ### S16. Get a pose from a photo
