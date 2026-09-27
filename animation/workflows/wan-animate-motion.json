@@ -885,6 +885,7 @@
    "widgets_values": [
     true,
     2,
+    "fixed",
     1.0
    ],
    "flags": {},

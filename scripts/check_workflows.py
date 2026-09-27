@@ -129,7 +129,13 @@ def widget_slots(spec, values=()):
             slots.append((path, decl))
             val = values[pos] if pos < len(values) else None
             pos += 1
-            if name == "seed":
+            if name == "seed" or name.endswith("seed"):
+                # The frontend inserts a `control_after_generate` string after ANY seed widget, `noise_seed`
+                # included. Omitting it shifts every later value one slot early - and because the shifted-out
+                # widget then takes its schema default, the result looks like a broken model rather than a
+                # broken file: `SamplerCustom.cfg` silently became 8.0 in the UI, which burnt a whole sample
+                # white, while the API path was fine (our slot model omitted the control slot too, so the two
+                # mistakes cancelled out).
                 slots.append((None, None))
                 pos += 1
             t = decl[0] if isinstance(decl, list) and decl else decl
@@ -260,7 +266,14 @@ def main() -> int:
                     break                      # extra trailing value (e.g. LoadImage's upload) - harmless
                 name, decl = slots[i]
                 if name is None:
-                    continue                   # control_after_generate slot
+                    # This slot holds the control_after_generate string. A non-string here means the file is
+                    # missing that entry, so every later widget is one slot early.
+                    if v not in CONTROL_AFTER_GENERATE:
+                        problems += 1
+                        print(f"  {rel}: node {n.get('id')} {t}: value {v!r} landed in the "
+                              f"control_after_generate slot - the file omits that entry, so every widget "
+                              f"after the seed is one slot early and silently takes a schema default")
+                    continue
                 why = violation(name, decl, v)
                 if why:
                     bad.append(f"{name}: {why}")
