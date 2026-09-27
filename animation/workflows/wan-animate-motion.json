@@ -350,8 +350,7 @@
      "name": "CONDITIONING",
      "type": "CONDITIONING",
      "links": [
-      14,
-      24
+      14
      ]
     }
    ],
@@ -388,8 +387,7 @@
      "name": "CONDITIONING",
      "type": "CONDITIONING",
      "links": [
-      15,
-      25
+      15
      ]
     }
    ],
@@ -705,12 +703,16 @@
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "links": []
+     "links": [
+      24
+     ]
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "links": []
+     "links": [
+      25
+     ]
     },
     {
      "name": "latent",
@@ -1262,7 +1264,7 @@
   ],
   [
    24,
-   5,
+   18,
    0,
    21,
    1,
@@ -1270,8 +1272,8 @@
   ],
   [
    25,
-   6,
-   0,
+   18,
+   1,
    21,
    2,
    "CONDITIONING"
