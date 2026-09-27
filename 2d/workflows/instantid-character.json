@@ -250,8 +250,7 @@
      "name": "CONDITIONING",
      "type": "CONDITIONING",
      "links": [
-      9,
-      16
+      9
      ],
      "slot_index": 0
     }
@@ -346,7 +345,9 @@
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "links": [],
+     "links": [
+      16
+     ],
      "slot_index": 2
     }
    ],
@@ -669,8 +670,8 @@
   ],
   [
    16,
-   7,
-   0,
+   8,
+   2,
    10,
    2,
    "CONDITIONING"

@@ -32,6 +32,15 @@ The `links` array is authoritative for *connections*; the node fields are author
     uv run python scripts/fix_workflow_links.py --write 2d/workflows/inpaint.json
 
 `workflows/scratch/` is deliberately excluded: it is archive, not maintained.
+
+ONE CHECK IS NOT ABOUT CONSISTENCY AT ALL. A file can be perfectly self-consistent and still be
+semantically wrong, so `check_data` also reports a **CONDITIONING output that nothing consumes**. A node
+that modifies conditioning - attaching a reference frame, a pose, a control hint, a face embedding - does
+its work through its *return value*, so leaving that value unconnected silently drops everything it
+attached, and no type check can notice because CONDITIONING -> CONDITIONING is always valid. Two shipped
+flows had exactly this: the Wan flow ignored both its reference image and its driving video
+(`animation/EXPERIMENTS.md` E2), and `instantid-character.json` ran its negative pass without the ID
+embedding. Both were internally consistent, so every other check passed.
 """
 from __future__ import annotations
 
@@ -149,6 +158,17 @@ def check_data(d: dict, rel: str) -> list[str]:
             if sorted(_as_list(out.get("links"))) != want_ids:
                 problems.append(f"{rel}: node {nid} ({n.get('type')}) output {out.get('name')!r} "
                                 f"lists links {out.get('links')}, expected {want_ids}")
+            # A CONDITIONING output that nothing consumes is almost never a style choice. A node that MODIFIES
+            # conditioning - attaching a reference image, a pose, a control hint - does its work through its
+            # return value, so leaving that value unconnected silently drops everything it attached while every
+            # type check still passes: CONDITIONING -> CONDITIONING is always valid. That is exactly how the
+            # Wan flow came to ignore both its reference image and its driving video (animation/EXPERIMENTS.md
+            # E2), and the file was internally consistent throughout, so nothing else could have caught it.
+            if out.get("type") == "CONDITIONING" and not want_ids:
+                problems.append(
+                    f"{rel}: node {nid} ({n.get('type')}) output {out.get('name')!r} is CONDITIONING and "
+                    f"nothing consumes it - if this node modifies conditioning, whatever it attached is "
+                    f"dropped (a sampler usually wants it)")
     return problems
 
 
