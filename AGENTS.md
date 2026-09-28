@@ -58,7 +58,11 @@ ai-gamedev-tasks/
 │   ├── EXPERIMENTS.md           ← run log (E1 ... En) + the deferred video-model backlog
 │   └── workflows/               ← `wan-animate-motion.json` (video reference; the flat rebuild of an
 │                                   upstream *subgraph* template, which cannot be scripted as shipped)
-└── <future scenario folders>    ← audio, text, ... as we get there
+├── audio/                       ← audio scenario: audio as *content* (a listener's file). ACE-Step 1.5 (MIT).
+│   ├── README.md                ← scenario index + knobs + the "we have no ears" traps
+│   ├── EXPERIMENTS.md           ← run log (E1 ... En) + the short-form/loop backlog
+│   └── evidence/                ← spectrograms (the audio analogue of an evidence sheet)
+└── <future scenario folders>    ← text, ... as we get there
 ```
 
 ## Conventions

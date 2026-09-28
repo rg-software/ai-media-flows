@@ -34,7 +34,7 @@ Read the family as the answer to "what does this flow *do to* an asset?". A harn
 
 These are *attributes*, not folders — one flow can serve several. Record them per flow in the index.
 
-**Extending to new modalities** (`video` and `animation` are scenario folders; `audio` is planned). Operation families are deliberately **modality-agnostic**: `generate` means *prompt → brand-new artefact*, whether that artefact is an image, a clip or a sound. So a new modality should arrive as **new `domain` values** (`animation`, `audio`) on the *existing* families — not as new families. Text-to-music would be `generate / scene / audio`, not a family called "compose".
+**Extending to new modalities** (`film` is not the split here: `video`, `animation` and `audio` are all scenario folders now, and `audio` arrived first as *new domain values on the existing families* - `generate / scene / audio` - which is exactly what this paragraph asked for). Operation families are deliberately **modality-agnostic**: `generate` means *prompt → brand-new artefact*, whether that artefact is an image, a clip or a sound. So a new modality should arrive as **new `domain` values** (`animation`, `audio`) on the *existing* families — not as new families. Text-to-music would be `generate / scene / audio`, not a family called "compose".
 
 One honest caveat: the `subject` vocabulary (`object | scene | material`) is image-flavoured. Video, audio and animation may want companions (`clip`, `cue`) — that is an **open question**, recorded here so it stays a decision rather than an accident.
 
