@@ -201,7 +201,9 @@ def main() -> int:
 
     axes = [parse_axis(s) for s in args.set]
     if not axes:
-        ap.error("give at least one --set axis")
+        # No axes is a legitimate use: run the shipped flow once, exactly as it ships. That is how a
+        # curated workflow is verified, so it should not force a no-op `--set` to be invented.
+        print("  no axes: running the workflow once as shipped")
     if len(axes) > 2:
         ap.error("at most two axes (a grid)")
 
@@ -221,7 +223,9 @@ def main() -> int:
         print("  axis: node %s (%s).%s = %s" % (nid, cls, ref, grid[-1][2]))
 
     cells = []
-    if len(grid) == 1:
+    if not grid:
+        cells = [(0, [])]                     # the flow as shipped
+    elif len(grid) == 1:
         cells = [(i, [g]) for i, g in enumerate(
             [(grid[0][0], grid[0][1], v) for v in grid[0][2]])]
     else:
