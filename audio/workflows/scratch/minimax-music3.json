@@ -1,0 +1,533 @@
+{
+ "last_node_id": 11,
+ "last_link_id": 12,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    -1300,
+    0
+   ],
+   "size": [
+    380,
+    90
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      3
+     ]
+    }
+   ],
+   "widgets_values": [
+    "minimax_music3_dit_int8_convrot.safetensors",
+    "default"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "CLIPLoader",
+   "pos": [
+    -1300,
+    160
+   ],
+   "size": [
+    420,
+    110
+   ],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "widgets_values": [
+    "minimax_music3_text_encoder_pruned_int8_convrot.safetensors",
+    "minimax",
+    "default"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "VAELoader",
+   "pos": [
+    -1300,
+    340
+   ],
+   "size": [
+    360,
+    70
+   ],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      11
+     ]
+    }
+   ],
+   "widgets_values": [
+    "minimax_music3_dav.safetensors"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "INTConstant",
+   "pos": [
+    -1300,
+    470
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      2,
+      9
+     ]
+    }
+   ],
+   "widgets_values": [
+    0
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "INTConstant"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "MiniMaxMusic3TextEncode",
+   "pos": [
+    -820,
+    120
+   ],
+   "size": [
+    360,
+    300
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 1
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      4,
+      5
+     ]
+    },
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "widgets_values": [
+    "Upbeat indie pop with warm female vocals, bright electric guitars, punchy drums, melodic bass, and subtle synth layers. Catchy and energetic, with an uplifting summer atmosphere, a memorable chorus, and polished modern production.",
+    "[Verse]\nMorning light across the window\nCity waking down below\nI can hear the streets are calling\nFeels like somewhere we should go\n\n[Chorus]\nRun with me into the sunlight\nLeave the shadows far behind\nWe don't need to know tomorrow\nTonight the whole world feels alive\n\n[Verse]\nRadio playing through the open door\nLaughing like we did before\nEvery mile becomes a memory\nAnd I just want a little more\n\n[Chorus]\nRun with me into the sunlight\nLeave the shadows far behind\nWe don't need to know tomorrow\nTonight the whole world feels alive",
+    0,
+    "fixed",
+    120.0,
+    1.7,
+    50
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "MiniMaxMusic3TextEncode"
+   },
+   "order": 4
+  },
+  {
+   "id": 6,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    -400,
+    0
+   ],
+   "size": [
+    240,
+    50
+   ],
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "order": 5
+  },
+  {
+   "id": 7,
+   "type": "EmptyMiniMaxMusic3LatentAudio",
+   "pos": [
+    -400,
+    140
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "inputs": [
+    {
+     "name": "seconds",
+     "type": "FLOAT",
+     "link": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "widgets_values": [
+    120.0,
+    1
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "EmptyMiniMaxMusic3LatentAudio"
+   },
+   "order": 6
+  },
+  {
+   "id": 8,
+   "type": "KSampler",
+   "pos": [
+    -40,
+    0
+   ],
+   "size": [
+    290,
+    260
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 3
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 5
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 9
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "widgets_values": [
+    0,
+    "fixed",
+    30,
+    1.7,
+    "euler",
+    "simple",
+    1.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "order": 7
+  },
+  {
+   "id": 9,
+   "type": "VAEDecodeAudio",
+   "pos": [
+    340,
+    0
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 10
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 11
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      12
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEDecodeAudio"
+   },
+   "order": 8
+  },
+  {
+   "id": 10,
+   "type": "SaveAudioAdvanced",
+   "pos": [
+    660,
+    0
+   ],
+   "size": [
+    310,
+    100
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 12
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "audio/MiniMax3",
+    "flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
+   "order": 9
+  },
+  {
+   "id": 11,
+   "type": "MarkdownNote",
+   "pos": [
+    -1300,
+    600
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "widgets_values": [
+    "## MiniMax Music 3 (dev copy) - the first 'other music model' quality test\n\n**Why it exists:** the user's ears say the shipped ACE-Step flow's audio is *not fantastic*, and ACE-Step 1.5\nturbo is an **8-step distilled** model - so the question is whether a full-step model of a different family\ndoes better. This is the cheapest way to ask: MiniMax Music 3's int8 DIT (2.4 GB) and its pruned int8 text\nencoder (9.2 GB) were already on this box from the earlier scoping, so the run costs nothing but GPU time.\n\n**The comparison input is identical to the YuE arms** - the *same* 'Iron heart' industrial lyric and style\ntext are read straight from `../scratch/yue2-text2music.json`, so the take is comparable with the YuE ones and\n(with the same text) with ACE-Step XL when it lands. `max_duration` 120 s, seed 0, 30 steps / cfg 1.7 /\n`euler` / `simple` as the shipped template runs it.\n\n**Substitutions against the shipped template:** the template defaults to\n`minimax_music3_dit_fp16.safetensors` (4.7 GB, not downloaded) - this uses the **int8** quantisation that is\nhere; and the seed is a fixed constant rather than the template's randomising `SeedNode`. The template's\ntiled-decode branch and its switch are left out (a 120 s take decodes normally); `VAEDecodeAudioTiled` is the\none to reach for if a longer take OOMs.\n\n**Licence:** MiniMax-Music3 Community License - **commercial use allowed with the \"MiniMax-Music3\" display\nrequirement** (read from the weights' own LICENSE), the same posture as Stable Audio's attribution term.\n\n**Knobs:** `caption` (the template's own example is a structured `Global Metadata: ... / Vocal Details: ...`\nparagraph, where this run uses our plain descriptor prose), `lyrics`, `top_k`, `cfg_scale` (on the text-encode\nnode), `max_duration` (the model returns the seconds it chooses, bounded by it), and the sampler.\n"
+   ],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   2,
+   0,
+   5,
+   0,
+   "CLIP"
+  ],
+  [
+   2,
+   4,
+   0,
+   5,
+   1,
+   "INT"
+  ],
+  [
+   3,
+   1,
+   0,
+   8,
+   0,
+   "MODEL"
+  ],
+  [
+   4,
+   5,
+   0,
+   6,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   5,
+   5,
+   0,
+   8,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   6,
+   6,
+   0,
+   8,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   5,
+   1,
+   7,
+   0,
+   "FLOAT"
+  ],
+  [
+   8,
+   7,
+   0,
+   8,
+   3,
+   "LATENT"
+  ],
+  [
+   9,
+   4,
+   0,
+   8,
+   4,
+   "INT"
+  ],
+  [
+   10,
+   8,
+   0,
+   9,
+   0,
+   "LATENT"
+  ],
+  [
+   11,
+   3,
+   0,
+   9,
+   1,
+   "VAE"
+  ],
+  [
+   12,
+   9,
+   0,
+   10,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
