@@ -14,7 +14,7 @@ This is the third scenario born from a modality with the node surface already in
 
 ## PENDING
 
-- [ ] **Ship the flow.** Copy the official template into `audio/workflows/ace-step.json`, add the `MarkdownNote`, and register a job + story (S19) so `README.md`/`HOWTO.md`/`PIPELINES.md` carry it. The `PrimitiveNode`s can stay (the converter now handles them) or be folded into widget values.
+- [ ] **Ship the flow.** Copy the official template into the audio scenario as a curated flow (`ace-step.json` in its workflows folder), add the `MarkdownNote`, and register a job + story (S19) so `README.md`/`HOWTO.md`/`PIPELINES.md` carry it. The `PrimitiveNode`s can stay (the converter now handles them) or be folded into widget values.
 - [ ] **A song, not an instrumental.** E1 cleared the lyrics; the template ships a full demo (sections + lyrics) - run it as-is to test `lyrics`/`bpm`/`keyscale`/`language` together, and check whether the *sung* content is verifiable in a spectrogram at all (formants, vibrato - or whether this scenario needs a transcription tool to say anything honest).
 - [ ] **Short form.** Games want **3-10 s stingers and seamless loops**, not 120 s tracks. The knobs are `duration` and the latent; the loop seam is the thing to measure (a discontinuity at the wrap shows as a vertical line in the spectrogram of the joined file).
 - [ ] **The other two routes.** MiniMax Music 3 (`MiniMaxMusic3TextEncode`) and Stable Audio (`ConditioningStableAudio` + `AudioEncoderLoader`) - licence first, then cost. And the SFX question: neither is an *effects* model, so a game's footstep/impact palette may need a fourth answer.
