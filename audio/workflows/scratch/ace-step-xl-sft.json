@@ -1,0 +1,625 @@
+{
+ "last_node_id": 13,
+ "last_link_id": 14,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    -1400,
+    0
+   ],
+   "size": [
+    400,
+    90
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      4
+     ]
+    }
+   ],
+   "widgets_values": [
+    "acestep_v1.5_xl_sft_bf16.safetensors",
+    "default"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "DualCLIPLoader",
+   "pos": [
+    -1400,
+    160
+   ],
+   "size": [
+    440,
+    130
+   ],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "widgets_values": [
+    "qwen_0.6b_ace15.safetensors",
+    "qwen_4b_ace15.safetensors",
+    "ace",
+    "default"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "DualCLIPLoader"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "VAELoader",
+   "pos": [
+    -1400,
+    360
+   ],
+   "size": [
+    360,
+    70
+   ],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "widgets_values": [
+    "ace_1.5_vae.safetensors"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "INTConstant",
+   "pos": [
+    -1400,
+    490
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      2,
+      12
+     ]
+    }
+   ],
+   "widgets_values": [
+    31
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "INTConstant"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "FloatConstant",
+   "pos": [
+    -1400,
+    590
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      3,
+      10
+     ]
+    }
+   ],
+   "widgets_values": [
+    120.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "FloatConstant"
+   },
+   "order": 4
+  },
+  {
+   "id": 6,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    -900,
+    0
+   ],
+   "size": [
+    280,
+    70
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      5
+     ]
+    }
+   ],
+   "widgets_values": [
+    3.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow"
+   },
+   "order": 5
+  },
+  {
+   "id": 7,
+   "type": "TextEncodeAceStepAudio1.5",
+   "pos": [
+    -900,
+    120
+   ],
+   "size": [
+    360,
+    430
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 1
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 2
+    },
+    {
+     "name": "duration",
+     "type": "FLOAT",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      7,
+      8
+     ]
+    }
+   ],
+   "widgets_values": [
+    "Industrial rock, hammering machine percussion with metallic clangs, distorted bass, cold analog synth, shouted male lead with a gang chorus, gritty lo-fi production, relentless and mechanical",
+    "[Verse]\nSteel is breathing in the dark\nPistons counting out the hour\nEvery window blind with sparks\nEvery hand a kind of power\nHammers fall like steady rain\nOn the anvil of the day\nWe are forging something nameless\nFrom the rust and from the clay\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Verse]\nFurnace glow along the floor\nShadows walk the factory wall\nWe have heard the engines roar\nAnd we never once will fall\nOil and smoke and borrowed light\nEvery rivet set in time\nWe will work into the night\nTill the morning bells will chime\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Bridge]\nAnd when the metal sings\nAnd when the silence breaks\nWe will know the shape of things\nBy everything it makes\n\n[Final Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Outro]\nTurn the wheel, turn the wheel\nHold the line",
+    0,
+    "fixed",
+    120,
+    120,
+    "4",
+    "en",
+    "E minor",
+    true,
+    2,
+    0.85,
+    1,
+    0,
+    0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "TextEncodeAceStepAudio1.5"
+   },
+   "order": 6
+  },
+  {
+   "id": 8,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    -460,
+    0
+   ],
+   "size": [
+    240,
+    50
+   ],
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "order": 7
+  },
+  {
+   "id": 9,
+   "type": "EmptyAceStep1.5LatentAudio",
+   "pos": [
+    -460,
+    140
+   ],
+   "size": [
+    300,
+    90
+   ],
+   "inputs": [
+    {
+     "name": "seconds",
+     "type": "FLOAT",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      11
+     ]
+    }
+   ],
+   "widgets_values": [
+    120.0,
+    1
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "EmptyAceStep1.5LatentAudio"
+   },
+   "order": 8
+  },
+  {
+   "id": 10,
+   "type": "KSampler",
+   "pos": [
+    -120,
+    0
+   ],
+   "size": [
+    290,
+    260
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 8
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 9
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 11
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 12
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "widgets_values": [
+    31,
+    "fixed",
+    50,
+    7,
+    "euler",
+    "simple",
+    1
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "order": 9
+  },
+  {
+   "id": 11,
+   "type": "VAEDecodeAudio",
+   "pos": [
+    260,
+    0
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 13
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEDecodeAudio"
+   },
+   "order": 10
+  },
+  {
+   "id": 12,
+   "type": "SaveAudioAdvanced",
+   "pos": [
+    580,
+    0
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 14
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "audio/ACE_XL_SFT",
+    "flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
+   "order": 11
+  },
+  {
+   "id": 13,
+   "type": "MarkdownNote",
+   "pos": [
+    -1400,
+    720
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "widgets_values": [
+    "## ACE-Step 1.5 XL SFT (dev copy) - the licence-clean quality upgrade\n\n**Why it exists:** the user's ears call the shipped flow's audio not fantastic, and that flow is ACE-Step 1.5\n**turbo** - **8 steps, cfg 1**. XL is the same family at 4B with a **50-step, cfg 7** recipe, and **MIT**\nlicence, so it is the one candidate that could raise quality without a licence regression.\n\n**Built flat from the shipped `audio_ace_step1_5_xl_sft.json`**, mirroring its wiring exactly: `UNETLoader` ->\n`ModelSamplingAuraFlow` (shift 3) -> `KSampler`; the text encoder's whole widget list is **read verbatim from\nthe template** so its `cfg_scale`/temperature/top_p are upstream's own; the seed feeds the encoder *and* the\nsampler; the duration feeds the latent *and* the encoder; negative is the positive through\n`ConditioningZeroOut`. The template's frontend-only `PrimitiveNode`/`PrimitiveInt` become\n`FloatConstant`/`INTConstant` (a hand-built graph cannot carry frontend primitives).\n\n**Inputs:** the shared comparison input - the industrial style + 'Iron heart' lyric read from the shipped cover\nflow - seed 31, 120 s. So this take is directly comparable with `ace_iron` (the turbo baseline on the same\ntext and seed) and with the MiniMax take.\n\n**Files:** `acestep_v1.5_xl_sft_bf16.safetensors` (9.97 GB) in `models/diffusion_models/`,\n`qwen_0.6b_ace15.safetensors` + `qwen_4b_ace15.safetensors` in `models/text_encoders/`, `ace_1.5_vae.safetensors`\nin `models/vae/` - all MIT (`Comfy-Org/ace_step_1.5_ComfyUI_files`).\n\n**Knobs:** steps/cfg (the quality lever against the turbo), `ModelSamplingAuraFlow` shift, the text encoder's\n`cfg_scale`, and the shared style/lyric/seed/duration.\n"
+   ],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   2,
+   0,
+   7,
+   0,
+   "CLIP"
+  ],
+  [
+   2,
+   4,
+   0,
+   7,
+   1,
+   "INT"
+  ],
+  [
+   3,
+   5,
+   0,
+   7,
+   2,
+   "FLOAT"
+  ],
+  [
+   4,
+   1,
+   0,
+   6,
+   0,
+   "MODEL"
+  ],
+  [
+   5,
+   6,
+   0,
+   10,
+   0,
+   "MODEL"
+  ],
+  [
+   6,
+   3,
+   0,
+   11,
+   1,
+   "VAE"
+  ],
+  [
+   7,
+   7,
+   0,
+   8,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   8,
+   7,
+   0,
+   10,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   9,
+   8,
+   0,
+   10,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   10,
+   5,
+   0,
+   9,
+   0,
+   "FLOAT"
+  ],
+  [
+   11,
+   9,
+   0,
+   10,
+   3,
+   "LATENT"
+  ],
+  [
+   12,
+   4,
+   0,
+   10,
+   4,
+   "INT"
+  ],
+  [
+   13,
+   10,
+   0,
+   11,
+   0,
+   "LATENT"
+  ],
+  [
+   14,
+   11,
+   0,
+   12,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
