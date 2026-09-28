@@ -8,7 +8,13 @@ Checks, in the order of what has actually bitten us:
   1. **No NUL bytes.** A stray NUL makes git treat a file as *binary*, so its diff silently
      becomes invisible (`git diff --numstat` shows `-  -` instead of line counts). This really
      happened, and cost a review pass.
-  2. **Tables parse, and nothing is silently lost.** Tables are parsed with markdown-it
+  2. **No other control bytes** (tab/LF/CR excepted). These arrive from an *escape that ate a
+     character*, not from a stray keystroke: a PowerShell double-quoted here-string treats a
+     backtick as an escape, so `` `a `` becomes `\x07` and `` `v `` becomes `\x0b` - i.e. every
+     markdown code span starting with `a` or `v` silently loses its first letter. Two real
+     occurrences (`` `animation `` and `` `video ``) survived a review pass because the text
+     still *looked* right.
+  3. **Tables parse, and nothing is silently lost.** Tables are parsed with markdown-it
      (`scripts/mdtable.py`), not by splitting strings. Two failure modes are caught:
        - a row-looking line that is *not* inside a parseable table -> a malformed table
          (usually a separator with the wrong column count, which makes strict renderers drop the
@@ -232,6 +238,15 @@ def lint_file(path: str, rel: str) -> list[str]:
             f"invisible. Something wrote a placeholder instead of real text."
         )
         return problems  # everything else is meaningless on a corrupt file
+
+    ctrl = sorted({b for b in raw if b < 0x20 and b not in (0x09, 0x0a, 0x0d)})
+    if ctrl:
+        shown = ", ".join("\\x%02x" % b for b in ctrl)
+        problems.append(
+            f"{rel} contains control byte(s) {shown} -> an escape ate a character. A PowerShell "
+            f"double-quoted here-string turns a backtick-a into \\x07 and backtick-v into \\x0b, "
+            f"so a markdown code span loses its first letter. Replace them with real text."
+        )
 
     text = raw.decode("utf-8", "replace")
     lines = text.split("\n")
