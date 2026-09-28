@@ -18,7 +18,8 @@
   "S15": "Animate a character from a driving video",
   "S16": "Get a pose from a photo",
   "S17": "Recover a 3D motion clip from a video",
-  "S18": "Change a clip's frame rate"
+  "S18": "Change a clip's frame rate",
+  "S19": "Generate music from a text prompt"
  },
  "jobs": [
   {
@@ -212,6 +213,12 @@
    "detail": "`video/workflows/frame-interpolate.json` (in-between frames are synthesised, so a clip smoothly gains frames instead of being re-tagged - one factor knob)",
    "story": "S18",
    "category": "video"
+  },
+  {
+   "want": "Generate music or a song from a text prompt",
+   "detail": "`audio/workflows/ace-step.json` (tags + optional lyrics -> a 2-minute track; ACE-Step 1.5, MIT, 9.3 GB all-in-one)",
+   "story": "S19",
+   "category": "audio"
   }
  ],
  "flows": {
@@ -353,6 +360,9 @@
   },
   "frame-interpolate.json": {
    "story": "S18"
+  },
+  "ace-step.json": {
+   "story": "S19"
   }
  },
  "categories": [
@@ -375,6 +385,10 @@
   {
    "id": "video",
    "title": "Video (motion as content)"
+  },
+  {
+   "id": "audio",
+   "title": "Audio"
   },
   {
    "id": "workflow",

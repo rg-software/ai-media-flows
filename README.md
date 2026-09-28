@@ -68,6 +68,12 @@ A working, reproducible pipeline for **generating game assets with open models o
 | Animate a character from a driving video | `video/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly) · use `scripts/wan_segment.py` to process longer clips in segments | [S15](HOWTO.md#s15-animate-a-character-from-a-driving-video) |
 | Change a clip's frame rate               | `video/workflows/frame-interpolate.json` (in-between frames are synthesised, so a clip smoothly gains frames instead of being re-tagged - one factor knob)                                        | [S18](HOWTO.md#s18-change-a-clips-frame-rate)                |
 
+### Audio
+
+| I want to make / do                         | flow                                                                                                               | story                                                 |
+|---------------------------------------------|--------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| Generate music or a song from a text prompt | `audio/workflows/ace-step.json` (tags + optional lyrics -> a 2-minute track; ACE-Step 1.5, MIT, 9.3 GB all-in-one) | [S19](HOWTO.md#s19-generate-music-from-a-text-prompt) |
+
 ### Cross-cutting tooling
 
 | I want to make / do                   | flow                                                                                                                                                                                                                                                   | story                                               |

@@ -198,6 +198,19 @@
 - *Doing it by hand:* generate a segment, then add a `LoadImage` of its **last frame** wired to `continue_motion` and set `video_frame_offset` to **last pose + 1**. The node pins the frame you pass at pose `offset - 1` and generates `length` frames from there, so for 33-frame segments the offsets are 0, 33, **65**, 97; join the pieces with `A + B[trim_image:]` (that node output says how many frames overlap). It closes the join **and holds the camera** across the cut.
 - *More:* [`video/README.md`](video/README.md), and E1/E2/E3/E10/E12/E14 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
+### S19. Generate music from a text prompt
+
+- *When:* you want a track - a bed, a boss theme, a menu loop - from a description, with no source audio.
+- *Steps:*
+	- open `audio/workflows/ace-step.json`. The checkpoint `ace_step_1.5_turbo_aio.safetensors` must be in `models/checkpoints/` (9.3 GB);
+	- describe the music in **`tags`** (genre, mood, instrumentation, production). For an instrumental leave **`lyrics`** empty; to write a song, put the words in with `[Verse]` / `[Chorus]` markers;
+	- set **`duration`** (seconds) and, if you care, `bpm`, `keyscale`, `language`;
+	- run. A 2-minute track takes about **25 s**, including loading the model.
+- *Knobs:* the two constants at the left are wired to **both** of their consumers on purpose - **seed** goes to the text encoder *and* the sampler, and **duration** goes to the encoder *and* the latent's `seconds`. Change them there, not on the nodes, or the condition and the sample will disagree about what is being made.
+- *Trap:* you cannot listen to the result from here. Judge it by the level numbers (`peak`/`RMS` should sit near -1/-14 dBFS, i.e. mastered rather than raw), by duration and sample rate, and - as we do - by a **spectrogram**: harmonic lines mean pitch, regular vertical transients mean a beat, a flat wash means noise. See `audio/README.md`.
+- *More:* [`audio/README.md`](audio/README.md), and E1 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
+
 ### S16. Get a pose from a photo
 
 - *When:* you have a photo of a person in the pose you want and need that pose as a skeleton — to put a character into it (S7), or to render sprite frames (S9).

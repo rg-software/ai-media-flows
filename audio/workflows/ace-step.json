@@ -1,0 +1,554 @@
+{
+ "last_node_id": 11,
+ "last_link_id": 13,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "CheckpointLoaderSimple",
+   "pos": [
+    -1180,
+    0
+   ],
+   "size": [
+    330,
+    100
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      3
+     ]
+    },
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      12
+     ]
+    }
+   ],
+   "widgets_values": [
+    "ace_step_1.5_turbo_aio.safetensors"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
+   "order": 0
+  },
+  {
+   "id": 9,
+   "type": "FloatConstant",
+   "pos": [
+    -1180,
+    320
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      5,
+      10
+     ]
+    }
+   ],
+   "widgets_values": [
+    120.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "FloatConstant"
+   },
+   "order": 1
+  },
+  {
+   "id": 10,
+   "type": "INTConstant",
+   "pos": [
+    -1180,
+    420
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      4,
+      7
+     ]
+    }
+   ],
+   "widgets_values": [
+    31
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "INTConstant"
+   },
+   "order": 2
+  },
+  {
+   "id": 2,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    -800,
+    200
+   ],
+   "size": [
+    280,
+    70
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      2
+     ]
+    }
+   ],
+   "widgets_values": [
+    3.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow"
+   },
+   "order": 3
+  },
+  {
+   "id": 3,
+   "type": "TextEncodeAceStepAudio1.5",
+   "pos": [
+    -430,
+    -120
+   ],
+   "size": [
+    330,
+    430
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 4
+    },
+    {
+     "name": "duration",
+     "type": "FLOAT",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "widgets_values": [
+    "epic orchestral battle music with drums and brass",
+    "",
+    31,
+    120,
+    120,
+    "4",
+    "en",
+    "E minor",
+    true,
+    2.0,
+    0.85,
+    0.9,
+    0,
+    0.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "TextEncodeAceStepAudio1.5"
+   },
+   "order": 4
+  },
+  {
+   "id": 4,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    -60,
+    320
+   ],
+   "size": [
+    240,
+    50
+   ],
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "order": 5
+  },
+  {
+   "id": 5,
+   "type": "EmptyAceStep1.5LatentAudio",
+   "pos": [
+    -430,
+    470
+   ],
+   "size": [
+    300,
+    90
+   ],
+   "inputs": [
+    {
+     "name": "seconds",
+     "type": "FLOAT",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "widgets_values": [
+    120,
+    1
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "EmptyAceStep1.5LatentAudio"
+   },
+   "order": 6
+  },
+  {
+   "id": 6,
+   "type": "KSampler",
+   "pos": [
+    320,
+    60
+   ],
+   "size": [
+    290,
+    260
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING"
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 8
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 9
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 7
+    }
+   ],
+   "widgets_values": [
+    8,
+    1.0,
+    "euler",
+    "simple",
+    1.0
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      11
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "order": 7
+  },
+  {
+   "id": 7,
+   "type": "VAEDecodeAudio",
+   "pos": [
+    690,
+    200
+   ],
+   "size": [
+    240,
+    70
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 11
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 12
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEDecodeAudio"
+   },
+   "order": 8
+  },
+  {
+   "id": 8,
+   "type": "SaveAudioAdvanced",
+   "pos": [
+    990,
+    200
+   ],
+   "size": [
+    300,
+    110
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 13
+    }
+   ],
+   "outputs": [],
+   "widgets_values": [
+    "audio/ace_step",
+    "flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
+   "order": 9
+  },
+  {
+   "id": 11,
+   "type": "MarkdownNote",
+   "pos": [
+    -1180,
+    520
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "widgets_values": [
+    "## Music from a text prompt (ACE-Step 1.5)\n\n**One prompt, one 2-minute track.** [ACE-Step 1.5](https://huggingface.co/ACE-Step/Ace-Step1.5) is MIT and\nexplicitly **commercial-ready** (trained on licensed, royalty-free and synthetic data), which makes it the\nlicence-cleanest flow in this repo. It needs the all-in-one checkpoint\n`ace_step_1.5_turbo_aio.safetensors` (9.3 GB) in `models/checkpoints/`.\n\n**The prompt is `tags`** - genre, mood, instrumentation and production as prose, e.g. *\"epic orchestral battle\nmusic with drums and brass\"*. **`lyrics` empty means instrumental**; with lyrics, use `[Verse]` / `[Chorus]` /\n`[Intro - ...]` section markers. `language` covers 50+ languages.\n\n**Two values are wired to both of their consumers on purpose**, because the nodes must agree or the track comes\nout wrong:\n\n- `INTConstant` **seed** -> the text encoder *and* the sampler (a song is reproducible from one number);\n- `FloatConstant` **120** -> the encoder's `duration` *and* the latent's `seconds` (otherwise the condition\n  describes a track of a different length than the one being sampled).\n\n**Measured (E1)**: 120.00 s, stereo 48 kHz, in **25 s** wall including the checkpoint load, at peak -1.3 dBFS /\nRMS -14.7 / crest 13.4. See `../EXPERIMENTS.md` and the spectrogram in `../evidence/`.\n\n**Caveat, stated because it bounds every verdict here: we cannot listen.** A spectrogram is the readable\nartefact - harmonic lines mean pitch, regular vertical transients mean a beat, a featureless wash means noise -\nand the level numbers say whether it is mastered. Musical taste is out of scope, so judge the output yourself.\n\n*How to run it: story **S19** in `HOWTO.md`  ·  Why it is this way: **E1** in `audio/EXPERIMENTS.md`.*\n"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   2,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   2,
+   0,
+   6,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   1,
+   1,
+   3,
+   0,
+   "CLIP"
+  ],
+  [
+   4,
+   10,
+   0,
+   3,
+   1,
+   "INT"
+  ],
+  [
+   5,
+   9,
+   0,
+   3,
+   2,
+   "FLOAT"
+  ],
+  [
+   6,
+   3,
+   0,
+   4,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   10,
+   0,
+   6,
+   4,
+   "INT"
+  ],
+  [
+   8,
+   4,
+   0,
+   6,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   9,
+   5,
+   0,
+   6,
+   3,
+   "LATENT"
+  ],
+  [
+   10,
+   9,
+   0,
+   5,
+   0,
+   "FLOAT"
+  ],
+  [
+   11,
+   6,
+   0,
+   7,
+   0,
+   "LATENT"
+  ],
+  [
+   12,
+   1,
+   2,
+   7,
+   1,
+   "VAE"
+  ],
+  [
+   13,
+   7,
+   0,
+   8,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
