@@ -1,0 +1,1215 @@
+{
+ "last_node_id": 23,
+ "last_link_id": 29,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "LoadImage",
+   "pos": [
+    -1600,
+    200
+   ],
+   "size": [
+    315,
+    300
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      1,
+      4
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null,
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "char_knight.png",
+    "image"
+   ]
+  },
+  {
+   "id": 2,
+   "type": "Hy3D_2_1SimpleMeshGen",
+   "pos": [
+    -1250,
+    200
+   ],
+   "size": [
+    318,
+    190
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "links": [
+      2
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3D_2_1SimpleMeshGen"
+   },
+   "widgets_values": [
+    "hy3dgen/model.fp16.ckpt",
+    50,
+    5.5,
+    384
+   ]
+  },
+  {
+   "id": 3,
+   "type": "Hy3DPostprocessMesh",
+   "pos": [
+    -900,
+    200
+   ],
+   "size": [
+    315,
+    174
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "links": [
+      17
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DPostprocessMesh"
+   },
+   "widgets_values": [
+    true,
+    true,
+    true,
+    50000
+   ]
+  },
+  {
+   "id": 4,
+   "type": "Hy3DRenderMultiView",
+   "pos": [
+    -550,
+    200
+   ],
+   "size": [
+    342,
+    170
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 15
+    },
+    {
+     "name": "camera_config",
+     "type": "HY3DCAMERA"
+    }
+   ],
+   "outputs": [
+    {
+     "name": "normal_maps",
+     "type": "IMAGE",
+     "links": [
+      6
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "position_maps",
+     "type": "IMAGE",
+     "links": [
+      7
+     ],
+     "slot_index": 1
+    },
+    {
+     "name": "renderer",
+     "type": "MESHRENDER",
+     "links": [
+      10
+     ],
+     "slot_index": 2
+    },
+    {
+     "name": "masks",
+     "type": "MASK",
+     "links": null,
+     "slot_index": 3
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DRenderMultiView"
+   },
+   "widgets_values": [
+    1024,
+    2048,
+    "world"
+   ]
+  },
+  {
+   "id": 5,
+   "type": "DownloadAndLoadHy3DPaintModel",
+   "pos": [
+    -550,
+    430
+   ],
+   "size": [
+    327,
+    58
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "multiview_pipe",
+     "type": "HY3DDIFFUSERSPIPE",
+     "links": [
+      5
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "DownloadAndLoadHy3DPaintModel"
+   },
+   "widgets_values": [
+    "hunyuan3d-paint-v2-0"
+   ]
+  },
+  {
+   "id": 6,
+   "type": "Hy3DSampleMultiView",
+   "pos": [
+    -100,
+    260
+   ],
+   "size": [
+    311,
+    270
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pipeline",
+     "type": "HY3DDIFFUSERSPIPE",
+     "link": 5
+    },
+    {
+     "name": "ref_image",
+     "type": "IMAGE",
+     "link": 4
+    },
+    {
+     "name": "normal_maps",
+     "type": "IMAGE",
+     "link": 6
+    },
+    {
+     "name": "position_maps",
+     "type": "IMAGE",
+     "link": 7
+    },
+    {
+     "name": "camera_config",
+     "type": "HY3DCAMERA"
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      8
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DSampleMultiView"
+   },
+   "widgets_values": [
+    512,
+    30,
+    123,
+    "fixed"
+   ]
+  },
+  {
+   "id": 7,
+   "type": "DownloadAndLoadHy3DDelightModel",
+   "pos": [
+    220,
+    430
+   ],
+   "size": [
+    307,
+    58
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "delight_pipe",
+     "type": "HY3DDIFFUSERSPIPE",
+     "links": [
+      9
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "DownloadAndLoadHy3DDelightModel"
+   },
+   "widgets_values": [
+    "hunyuan3d-delight-v2-0"
+   ]
+  },
+  {
+   "id": 8,
+   "type": "Hy3DDelightImage",
+   "pos": [
+    220,
+    260
+   ],
+   "size": [
+    278,
+    222
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "delight_pipe",
+     "type": "HY3DDIFFUSERSPIPE",
+     "link": 9
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 8
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      11
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DDelightImage"
+   },
+   "widgets_values": [
+    50,
+    512,
+    512,
+    1.0,
+    42
+   ]
+  },
+  {
+   "id": 9,
+   "type": "Hy3DBakeFromMultiview",
+   "pos": [
+    520,
+    260
+   ],
+   "size": [
+    302,
+    66
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 11
+    },
+    {
+     "name": "renderer",
+     "type": "MESHRENDER",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "texture",
+     "type": "IMAGE",
+     "links": [
+      18
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": [
+      19
+     ],
+     "slot_index": 1
+    },
+    {
+     "name": "renderer",
+     "type": "MESHRENDER",
+     "links": [
+      20
+     ],
+     "slot_index": 2
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DBakeFromMultiview"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 10,
+   "type": "Hy3DApplyTexture",
+   "pos": [
+    830,
+    200
+   ],
+   "size": [
+    226,
+    46
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "texture",
+     "type": "IMAGE",
+     "link": 12
+    },
+    {
+     "name": "renderer",
+     "type": "MESHRENDER",
+     "link": 23
+    }
+   ],
+   "outputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "links": [
+      14,
+      26
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DApplyTexture"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 11,
+   "type": "Hy3DExportMesh",
+   "pos": [
+    1060,
+    200
+   ],
+   "size": [
+    315,
+    106
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 14
+    }
+   ],
+   "outputs": [
+    {
+     "name": "glb_path",
+     "type": "STRING",
+     "links": [
+      24
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DExportMesh"
+   },
+   "widgets_values": [
+    "3D/Hy3D_textured",
+    "glb",
+    true
+   ]
+  },
+  {
+   "id": 12,
+   "type": "Hy3DMeshUVWrap",
+   "pos": [
+    -550,
+    400
+   ],
+   "size": [
+    214,
+    46
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "links": [
+      15
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DMeshUVWrap"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 13,
+   "type": "Hy3DExportMesh",
+   "pos": [
+    -300,
+    400
+   ],
+   "size": [
+    315,
+    106
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 16
+    }
+   ],
+   "outputs": [
+    {
+     "name": "glb_path",
+     "type": "STRING",
+     "links": [
+      25
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DExportMesh"
+   },
+   "widgets_values": [
+    "3D/Hy3D_untextured",
+    "glb",
+    true
+   ]
+  },
+  {
+   "id": 14,
+   "type": "Hy3DIMRemesh",
+   "pos": [
+    -550,
+    60
+   ],
+   "size": [
+    300,
+    230
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 17
+    }
+   ],
+   "outputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "links": [
+      3,
+      16
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DIMRemesh"
+   },
+   "widgets_values": [
+    true,
+    10000,
+    8,
+    true,
+    true,
+    40000
+   ]
+  },
+  {
+   "id": 15,
+   "type": "Hy3DMeshVerticeInpaintTexture",
+   "pos": [
+    630,
+    260
+   ],
+   "size": [
+    277,
+    66
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "texture",
+     "type": "IMAGE",
+     "link": 18
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 19
+    },
+    {
+     "name": "renderer",
+     "type": "MESHRENDER",
+     "link": 20
+    }
+   ],
+   "outputs": [
+    {
+     "name": "texture",
+     "type": "IMAGE",
+     "links": [
+      21
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": [
+      22
+     ],
+     "slot_index": 1
+    },
+    {
+     "name": "renderer",
+     "type": "MESHRENDER",
+     "links": [
+      23
+     ],
+     "slot_index": 2
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Hy3DMeshVerticeInpaintTexture"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 16,
+   "type": "CV2InpaintTexture",
+   "pos": [
+    730,
+    260
+   ],
+   "size": [
+    239,
+    120
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "texture",
+     "type": "IMAGE",
+     "link": 21
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 22
+    }
+   ],
+   "outputs": [
+    {
+     "name": "texture",
+     "type": "IMAGE",
+     "links": [
+      12,
+      29
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CV2InpaintTexture"
+   },
+   "widgets_values": [
+    3,
+    "ns"
+   ]
+  },
+  {
+   "id": 17,
+   "type": "MarkdownNote",
+   "pos": [
+    -1600,
+    -160
+   ],
+   "size": [
+    720,
+    200
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## hy3d-full-workflow.json\n\nHy3D shape -> texture\n\n**Does:** image -> 3D mesh -> texture -> bake, with Hunyuan3D 2.x.\n**View:** both exports end in a `Preview3D` node — orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) — plus a **Textured turntable (12 frames)**:\n`Hy3DNvdiffrastRenderer` renders the textured mesh through a full 360° as an image batch, which is the\nreliable way to see the texture.\n**Note:** the untextured export is the **retopologised** shape (`Hy3DIMRemesh`) and the textured GLB\nis the final — so the shape checkpoint is the one to rig or bring into an engine.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3D_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` to get\nBaseColor/Normal/Roughness/Metallic/ORM for an engine.\n**See:** `3d/README.md`, `3d/pipeline-design.md`, and the widget reference in `3d/hy3d-knobs.md`.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  ·  Why it is this way: **E2a-e** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "color": "#332922",
+   "bgcolor": "#593930"
+  },
+  {
+   "id": 18,
+   "type": "Preview3D",
+   "pos": [
+    1455,
+    200
+   ],
+   "size": [
+    860,
+    900
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model_file",
+     "type": "STRING",
+     "widget": {
+      "name": "model_file"
+     },
+     "link": 24
+    }
+   ],
+   "outputs": [],
+   "title": "Preview textured GLB",
+   "properties": {
+    "Node name for S&R": "Preview3D"
+   },
+   "widgets_values": [
+    "",
+    "original",
+    "original",
+    ""
+   ]
+  },
+  {
+   "id": 19,
+   "type": "Preview3D",
+   "pos": [
+    -300,
+    586
+   ],
+   "size": [
+    860,
+    900
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model_file",
+     "type": "STRING",
+     "widget": {
+      "name": "model_file"
+     },
+     "link": 25
+    }
+   ],
+   "outputs": [],
+   "title": "Preview untextured GLB",
+   "properties": {
+    "Node name for S&R": "Preview3D"
+   },
+   "widgets_values": [
+    "",
+    "original",
+    "original",
+    ""
+   ]
+  },
+  {
+   "id": 20,
+   "type": "Hy3DNvdiffrastRenderer",
+   "pos": [
+    1400,
+    1180
+   ],
+   "size": [
+    300,
+    380
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "trimesh",
+     "type": "TRIMESH",
+     "link": 26
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      27
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": null,
+     "slot_index": 1
+    }
+   ],
+   "title": "Textured turntable (12 frames)",
+   "properties": {
+    "Node name for S&R": "Hy3DNvdiffrastRenderer"
+   },
+   "widgets_values": [
+    "textured",
+    768,
+    768,
+    2,
+    12,
+    2.0,
+    0.0,
+    0.0,
+    60.0,
+    0.1,
+    1000.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "id": 21,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    1180
+   ],
+   "size": [
+    420,
+    420
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 27
+    }
+   ],
+   "outputs": [],
+   "title": "Textured turntable (save)",
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "3d/e24_turnaround"
+   ]
+  },
+  {
+   "id": 23,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    1620
+   ],
+   "size": [
+    420,
+    420
+   ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 29
+    }
+   ],
+   "outputs": [],
+   "title": "Base-colour atlas (save)",
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "3D/Hy3D_texture_atlas"
+   ]
+  },
+  {
+   "id": 24,
+   "type": "Hy3DCameraConfig",
+   "pos": [
+    -1500,
+    900
+   ],
+   "size": [
+    330,
+    140
+   ],
+   "outputs": [
+    {
+     "name": "HY3DCAMERA",
+     "type": "HY3DCAMERA",
+     "links": [
+      30,
+      31
+     ]
+    }
+   ],
+   "widgets_values": [
+    "0, 45, 90, 135, 180, 225, 270, 315",
+    "0, 0, 0, 0, 0, 0, 0, 0",
+    "1, 1, 1, 1, 1, 1, 1, 1",
+    1.45,
+    1.2
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "Hy3DCameraConfig"
+   }
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   2,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   2,
+   0,
+   3,
+   0,
+   "TRIMESH"
+  ],
+  [
+   3,
+   14,
+   0,
+   12,
+   0,
+   "TRIMESH"
+  ],
+  [
+   4,
+   1,
+   0,
+   6,
+   1,
+   "IMAGE"
+  ],
+  [
+   5,
+   5,
+   0,
+   6,
+   0,
+   "HY3DDIFFUSERSPIPE"
+  ],
+  [
+   6,
+   4,
+   0,
+   6,
+   2,
+   "IMAGE"
+  ],
+  [
+   7,
+   4,
+   1,
+   6,
+   3,
+   "IMAGE"
+  ],
+  [
+   8,
+   6,
+   0,
+   8,
+   1,
+   "IMAGE"
+  ],
+  [
+   9,
+   7,
+   0,
+   8,
+   0,
+   "HY3DDIFFUSERSPIPE"
+  ],
+  [
+   10,
+   4,
+   2,
+   9,
+   1,
+   "MESHRENDER"
+  ],
+  [
+   11,
+   8,
+   0,
+   9,
+   0,
+   "IMAGE"
+  ],
+  [
+   12,
+   16,
+   0,
+   10,
+   0,
+   "IMAGE"
+  ],
+  [
+   14,
+   10,
+   0,
+   11,
+   0,
+   "TRIMESH"
+  ],
+  [
+   15,
+   12,
+   0,
+   4,
+   0,
+   "TRIMESH"
+  ],
+  [
+   16,
+   14,
+   0,
+   13,
+   0,
+   "TRIMESH"
+  ],
+  [
+   17,
+   3,
+   0,
+   14,
+   0,
+   "TRIMESH"
+  ],
+  [
+   18,
+   9,
+   0,
+   15,
+   0,
+   "IMAGE"
+  ],
+  [
+   19,
+   9,
+   1,
+   15,
+   1,
+   "MASK"
+  ],
+  [
+   20,
+   9,
+   2,
+   15,
+   2,
+   "MESHRENDER"
+  ],
+  [
+   21,
+   15,
+   0,
+   16,
+   0,
+   "IMAGE"
+  ],
+  [
+   22,
+   15,
+   1,
+   16,
+   1,
+   "MASK"
+  ],
+  [
+   23,
+   15,
+   2,
+   10,
+   1,
+   "MESHRENDER"
+  ],
+  [
+   24,
+   11,
+   0,
+   18,
+   0,
+   "STRING"
+  ],
+  [
+   25,
+   13,
+   0,
+   19,
+   0,
+   "STRING"
+  ],
+  [
+   26,
+   10,
+   0,
+   20,
+   0,
+   "TRIMESH"
+  ],
+  [
+   27,
+   20,
+   0,
+   21,
+   0,
+   "IMAGE"
+  ],
+  [
+   29,
+   16,
+   0,
+   23,
+   0,
+   "IMAGE"
+  ],
+  [
+   30,
+   24,
+   0,
+   4,
+   1,
+   "HY3DCAMERA"
+  ],
+  [
+   31,
+   24,
+   0,
+   6,
+   4,
+   "HY3DCAMERA"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}
