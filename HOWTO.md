@@ -223,7 +223,7 @@
 - *Knobs:*
 	- `bone_smooth_window` (9) — the export-stage smoother, and **bigger is not better**;
 	- `rotation_threshold_degrees` (0) — at its upstream value of 15 it *disables* smoothing whenever the motion gets fast;
-	- `camera_translation` (`off`) — whether the **root travels at all**. From the exporter: `off` holds the root at its **bind position** every frame, so the clip is articulation only (right when the engine drives locomotion itself, and what the render shows); `centered` animates the root with `pred_cam_t - pred_cam_t[0]`, a **delta from frame 0**, so the travel inside the footage survives but starts at the origin; `absolute` is the **raw** solve, whose Z is camera depth in metres, so it drops the character metres away in the solver's own camera frame. The one question: does the deliverable need the body to move through the world? No -> `off`; yes -> `centered`; matching a known camera -> `absolute`. It changes the **root translation channel only** - our quality numbers are rotation-based and unaffected;
+	- `camera_translation` (`off`) — whether the **root travels at all**. Here `off` holds the root at its **bind position** every frame, so the clip is articulation only (right when the engine drives locomotion itself); `centered` animates the root with `pred_cam_t - pred_cam_t[0]`, a **delta from frame 0**, so the travel inside the footage survives but starts at the origin; `absolute` is the **raw** solve. If the deliverable does not need the body to move through the world, use `off`; otherwise use`centered`; to match a known camera, use `absolute`. It changes the **root translation channel only**.
 	- `Video Slice` — **how much footage is processed**.
 - *How much footage fits:* `Video Slice` (5 s as shipped) is the knob. Roughly **27 s at the 480x848 the flow now caps its input to**, or **12 s at the 720x1280 source**. The cap is an `ImageResizeKJ` with `keep_proportion` on, so it fits within the box and keeps the aspect; raise its `width`/`height` for full-size joints and a full-size preview. Exceeding the budget is a hard CUDA out-of-memory.
 - *Traps:* the **render preview is not smoothed** — only the exported file is — so judge the GLB, not the overlay. The skin is Meta's **MHR**, not your rig, so the retarget is your engine's job. And **fast or spinning footage can still break**, so watch the render for a limb that snaps.
@@ -240,7 +240,7 @@
 - *Knobs:*
 	- the **factor** - `multiplier` is the *total* factor, not the number inserted: 121 frames at x2 gives 241, at x4 gives 481;
 	- the **model** - RIFE (21.6 MB, MIT) is the default; FILM (65.7 MB, Apache-2.0) measured a **tie on quality for ~1.8x the time**;
-	- **smooth slow motion instead of same speed:** edit node 6's expression from `a * b` to `a`, which writes the source frame rate against the extra frames.
+	- **smooth slow motion instead of same speed (added frames slow down playback):** edit node 6's expression from `a * b` to `a`, which writes the source frame rate against the extra frames.
 - *Traps:* the inserted frame averages the motion blur of its two neighbours, so a fast limb goes slightly soft - inherent, since neither input holds that exposure. Interpolation cannot invent detail the source never had, and it will not fix a choppy *performance* - only the sampling of one.
 - *More:* [`video/README.md`](video/README.md), and E17/E17b in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
