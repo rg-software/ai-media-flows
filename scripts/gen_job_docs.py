@@ -54,7 +54,10 @@ def load_registry():
 def story_link(reg, sid):
     """The README/PIPELINES style link for a story: [S5](HOWTO.md#s5-edit-a-picture-remove-replace-extend)."""
     title = reg["stories"][sid]
-    slug = re.sub(r"[^a-z0-9 ]", "", title.lower()).strip().replace(" ", "-")
+    # Keep `-` and `_`: GitHub keeps them, and the lint models GitHub exactly. Dropping them (the
+    # original bug) produced a link fragment the anchor check cannot resolve for any title with a
+    # hyphen - latent until S23, whose title contains "ACE-Step".
+    slug = re.sub(r"[^a-z0-9 _-]", "", title.lower()).strip().replace(" ", "-")
     return "[%s](HOWTO.md#%s-%s)" % (sid, sid.lower(), slug)
 
 

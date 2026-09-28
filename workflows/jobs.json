@@ -22,7 +22,8 @@
   "S19": "Generate music from a text prompt",
   "S20": "Match the style of a reference track",
   "S21": "Generate sound effects from a text prompt",
-  "S22": "Restyle a track (cover its melody)"
+  "S22": "Restyle a track (cover its melody)",
+  "S23": "Generate a song with ACE-Step XL"
  },
  "jobs": [
   {
@@ -240,6 +241,12 @@
    "detail": "`audio/workflows/yue2-cover.json` (YuE 2 melody transplant - **non-commercial** weights; the shippable route is ACE-Step's MIT Cover mode)",
    "story": "S22",
    "category": "audio"
+  },
+  {
+   "want": "Generate a song that actually sings",
+   "detail": "`audio/workflows/ace-step-xl-sft.json` (ACE-Step 1.5 XL, 4B, **MIT** - 50 steps, ~50 s per 120 s song; the 8-step turbo is faster but prompt-fragile)",
+   "story": "S23",
+   "category": "audio"
   }
  ],
  "flows": {
@@ -393,6 +400,9 @@
   },
   "yue2-cover.json": {
    "story": "S22"
+  },
+  "ace-step-xl-sft.json": {
+   "story": "S23"
   }
  },
  "categories": [
