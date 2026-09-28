@@ -112,6 +112,8 @@ $b64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($script))
 # then: ssh ... "ssh -i ~/.ssh/beelink rg_software@192.168.1.46 'echo $b64 | base64 -d | bash'"
 ```
 
+**Two traps in that command, both of which look like the box being down.** Write it exactly as above: `-J rt247a.ddns.me:5022` silently uses the *local* username for the jump host (so it authenticates as your Windows user, not `rg_software`, and falls back to a password prompt that hangs a non-interactive shell), and `AllowTcpForwarding no` means ProxyJump could never work there anyway — the nested `ssh` is the mechanism, not a convenience. And a non-interactive ssh does not source the profile, so `uv` is not on `PATH`: run the tooling as `~/.local/bin/uv run python …` or the repo venv's `.venv/bin/python scripts/…`.
+
 ### API access with ComfyUI-Login
 The login plugin (ComfyUI-Login) blocks `/object_info`, `/prompt`, etc. with 401. It accepts a **token query param**; the token is the first line of `~/Projects-Git/ComfyUI/login/PASSWORD`:
 
