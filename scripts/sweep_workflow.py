@@ -243,9 +243,12 @@ def main() -> int:
             key = int(ref) if isinstance(ref, str) and ref.isdigit() else ref
             overrides.setdefault(nid, {})[key] = val
         prompt = build_prompt(workflow, info, overrides, args.image)
-        # every SaveImage gets a unique prefix so cells cannot overwrite each other
+        # every output node that writes a file gets a unique prefix, so cells cannot overwrite each other.
+        # `SaveVideo` matters as much as `SaveImage`: it counts up across runs (a probe cell landed as
+        # `interp_probe_00003_` while `--out` said `interp_src`), so a sweep of a video flow produced files
+        # that were neither labelled by the cell nor findable from the manifest.
         for nid, n in prompt.items():
-            if n["class_type"] == "SaveImage":
+            if n["class_type"] in ("SaveImage", "SaveVideo"):
                 n["inputs"]["filename_prefix"] = "%s_c%02d" % (args.out, idx)
         t0 = time.time()
         resp = post(args.base, args.token, "/prompt", {"prompt": prompt})
@@ -266,8 +269,11 @@ def main() -> int:
                         print("  cell %d ERROR: %s @ %s" % (idx, m[1].get("exception_message", "")[:120],
                                                             m[1].get("node_type")))
                 for o in (e.get("outputs") or {}).values():
-                    for im in o.get("images", []):
-                        files.append(im.get("filename"))
+                    # a video flow's result is not under `images`: `SaveVideo` returns its file under another
+                    # key, so reading only `images` left the manifest empty for every video cell.
+                    for key in ("images", "videos", "gifs", "audio"):
+                        for im in o.get(key) or []:
+                            files.append(im.get("filename"))
                 print("  cell %-3d %5.1fs  %s  %s" % (
                     idx, time.time() - t0, st, ", ".join(str(a[2]) for a in assignment)))
                 break
