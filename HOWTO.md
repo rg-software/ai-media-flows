@@ -184,7 +184,7 @@
 - *When:* you have a still character and a clip whose motion you want on it. The motion is transferred directly — no pose extraction and no skeleton step.
 - *Steps:*
 	- put your character image and your driving clip in `input/`;
-	- open `animation/workflows/wan-animate-motion.json` and set the **reference image** (`LoadImage`) and the **driving video** (`LoadVideo`);
+	- open `video/workflows/wan-animate-motion.json` and set the **reference image** (`LoadImage`) and the **driving video** (`LoadVideo`);
 	- describe **scene, background and camera** in the positive prompt — *not* the motion, which comes from the video;
 	- run. Shipped sample generates in ~1.5 min.
 - *Knobs:*
@@ -196,7 +196,7 @@
 - *Trap:* the output size comes from the **driving video**, snapped to a multiple of 16 — not from the node's defaults. **Don't swap the model for a GGUF quant.** Those same weights quantised that way make the flow silently ignore your driving video, while the reference image keeps working - so if the character never moves, that is why. The workflow's note has the explanation.
 - *Videos longer than ~1.5 sec:* the flow generates the first `length` frames and stops, so run **`uv run python scripts/wan_segment.py <clip> --ref <image> --out <result.mp4>`** - it probes the clip, works out how many segments it needs, runs each one continuing from the previous segment's last frame, and stitches them into one file at the clip's own fps. It is API-only, so it runs against the remote server from anywhere.
 - *Doing it by hand:* generate a segment, then add a `LoadImage` of its **last frame** wired to `continue_motion` and set `video_frame_offset` to **last pose + 1**. The node pins the frame you pass at pose `offset - 1` and generates `length` frames from there, so for 33-frame segments the offsets are 0, 33, **65**, 97; join the pieces with `A + B[trim_image:]` (that node output says how many frames overlap). It closes the join **and holds the camera** across the cut.
-- *More:* [`animation/README.md`](animation/README.md), and E1/E2/E3/E12/E14 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).
+- *More:* [`video/README.md`](video/README.md), and E1/E2/E3/E10/E12/E14 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
 ### S16. Get a pose from a photo
 

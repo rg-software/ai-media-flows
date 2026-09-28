@@ -196,9 +196,9 @@
   },
   {
    "want": "Animate a character from a driving video",
-   "detail": "`animation/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly) · use `scripts/wan_segment.py` to process longer clips in segments",
+   "detail": "`video/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly) · use `scripts/wan_segment.py` to process longer clips in segments",
    "story": "S15",
-   "category": "animation"
+   "category": "video"
   },
   {
    "want": "Recover a 3D motion clip from a video",
@@ -361,6 +361,10 @@
   {
    "id": "animation",
    "title": "Animation"
+  },
+  {
+   "id": "video",
+   "title": "Video (motion as content)"
   },
   {
    "id": "workflow",

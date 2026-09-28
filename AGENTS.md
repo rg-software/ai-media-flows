@@ -47,12 +47,17 @@ ai-gamedev-tasks/
 ├── 2d/                          ← 2D asset generation scenario (active)
 │   ├── README.md                ← scenario index + workflow map + server model inventory
 │   └── EXPERIMENTS-2D.md        ← run log (E1 ... En)
-├── animation/                   ← animation scenario: form (sprite / video / parametric) × motion source.
-│   ├── README.md                ← scenario index + the form/source map + the metadata trap (a GGUF loses the model type)
+├── animation/                   ← animation scenario: engine assets that move (sprite / parametric) × motion source.
+│   ├── README.md                ← scenario index + the form/source map
 │   ├── EXPERIMENTS.md           ← run log (E1 ... En)
+│   ├── motion-sourcing.md       ← where motion comes from: the free path vs the video route's cost
+│   └── workflows/               ← `sam3d-motion.json` (footage → an animated skeletal GLB; ships two
+│                                   corrected upstream defaults)
+├── video/                       ← video scenario: motion as *content* (the consumer is a viewer, not an engine).
+│   ├── README.md                ← scenario index + the metadata trap (a GGUF loses the model type)
+│   ├── EXPERIMENTS.md           ← run log (E1 ... En) + the deferred video-model backlog
 │   └── workflows/               ← `wan-animate-motion.json` (video reference; the flat rebuild of an
 │                                   upstream *subgraph* template, which cannot be scripted as shipped)
-├── video/                       ← planned, TOP-LEVEL: motion as content, not an engine asset
 └── <future scenario folders>    ← audio, text, ... as we get there
 ```
 
@@ -112,14 +117,15 @@ ai-gamedev-tasks/
 
 ## Status (2026-09-16)
 
-**Both scenarios are complete; the repo is consolidating rather than expanding.** The 2D ladder **E1–E16** is done, the upgrade track **U1–U7** is done, and the 3D scenario is complete including Linux rigging. The live list of open items is **`PIPELINES.md` → "Status — what is actually left"**.
+**The asset scenarios are complete; the repo is consolidating rather than expanding.** The 2D ladder **E1–E16** is done, the upgrade track **U1–U7** is done, the 3D scenario is complete including Linux rigging, and both motion scenarios are built — **`animation/`** (engine assets: sprite sheets, skeletal clips) and **`video/`** (motion as content: a clip a viewer plays). The live list of open items is **`PIPELINES.md` → "Status — what is actually left"**.
 
 - **2d/** — ladder + upgrades complete. Licence posture: clean except `insightface` (InstantID/PuLID, non-commercial research-only) and the Retro Diffusion pixel-art models (non-commercial). Kontext and `4x-UltraSharp` are non-commercial but superseded.
 - **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux). Licence posture is **not** clean: Hy3D is under the Tencent Hunyuan 3D Community License (excludes EU/UK/South Korea; >1M MAU needs a licence); UniRig is MIT.
-- **3d/** — complete (shape, multiview, texture bake, retopo, rigging on Linux).
-- **Inventory:** 38 2D assets · 5 3D assets · **29 workflows** (25 in `2d/`, 3 in `3d/`, 1 in `animation/`; plus scaffolding   in `workflows/scratch/`) · 46 evidence sheets · 25 scripts · 26 docs.
+- **animation/** — complete for engine assets: sprites (`2d/workflows/pose-extract.json` → `pose-skeleton.json` → `scripts/atlas.py`) and skeletal clips (`sam3d-motion.json`, SAM 3D Body). The recovered skin is Meta MHR, so retargeting onto our rig is engine-side by decision.
+- **video/** — new scenario, split out of `animation/` on the repo's own rule (**the consumer decides**: a viewer's file is not an engine's). Holds the driving-video route (`wan-animate-motion.json`, Wan Animate 2) and the deferred video-model backlog.
+- **Inventory:** 38 2D assets · 5 3D assets · **31 workflows** (26 in `2d/`, 3 in `3d/`, 1 in `animation/`, 1 in `video/`; plus scaffolding   in `workflows/scratch/`) · 46 evidence sheets · 25 scripts · 26 docs.
 - **Working rules** (full version in `2d/PROTOCOL.md` and `HOWTO.md` Part 1): prefer **scripts over GUI clicks** so every run is replayable; change **one knob at a time**; and remember **a metric is a hint, the image is the truth** (it has misled us three times — E7, E15, U6b).
-- **Next candidates, in order:** (1) the **parametric (3D) animation** cell — turning motion into skeletal clips. Costed but not built: generic motion is free (a clip library + the engine's retarget), and recovering rare motion from video is ~3 GB and mostly already installed (`animation/motion-sourcing.md`); (2) **hardware** — the box is **RAM-bound, not VRAM-bound** (`comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md`). The **engine import contract** is done (E12: `scripts/check_gltf_contract.py`, `scripts/fix_gltf_normals.py`); the engine's own side is a stated boundary, not a backlog item.
+- **Next candidates, in order:** (1) the **video scenario's own backlog** — it is where most of the unused video-model surface belongs (~100 node types: frame interpolation, camera control, motion tracking, combinations, LTXV/MiniMax/Hunyuan); (2) **hardware** — the box is **RAM-bound, not VRAM-bound** (`comfyui/hardware.md`, `comfyui/UPGRADE-TODO.md`). The animation forms themselves are built (sprite, skeletal clip, driving-video); the **engine import contract** is done (E12: `scripts/check_gltf_contract.py`, `scripts/fix_gltf_normals.py`), and the engine's own side is a stated boundary, not a backlog item.
 
 URL/password live with the user. Runtime facts that matter for reproducibility:
 

@@ -56,11 +56,16 @@ A working, reproducible pipeline for **generating game assets with open models o
 
 ### Animation
 
-| I want to make / do                                | flow                                                                                                                                                                                                  | story                                                        |
-|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
-| Animate a sprite across poses (make sprite sheets) | `2d/workflows/pose-extract.json` (one pose per photo) -> `2d/workflows/pose-skeleton.json` (render each; keep the contrasts ~40 deg apart) -> `scripts/atlas.py` (pack the frames)                    | [S9](HOWTO.md#s9-sprites-and-atlases)                        |
-| Animate a character from a driving video           | `animation/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly) · use `scripts/wan_segment.py` to process longer clips in segments | [S15](HOWTO.md#s15-animate-a-character-from-a-driving-video) |
-| Recover a 3D motion clip from a video              | `animation/workflows/sam3d-motion.json` (footage -> an animated skeletal GLB, for the engine to retarget)                                                                                             | [S17](HOWTO.md#s17-recover-a-3d-motion-clip-from-a-video)    |
+| I want to make / do                                | flow                                                                                                                                                                               | story                                                     |
+|----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| Animate a sprite across poses (make sprite sheets) | `2d/workflows/pose-extract.json` (one pose per photo) -> `2d/workflows/pose-skeleton.json` (render each; keep the contrasts ~40 deg apart) -> `scripts/atlas.py` (pack the frames) | [S9](HOWTO.md#s9-sprites-and-atlases)                     |
+| Recover a 3D motion clip from a video              | `animation/workflows/sam3d-motion.json` (footage -> an animated skeletal GLB, for the engine to retarget)                                                                          | [S17](HOWTO.md#s17-recover-a-3d-motion-clip-from-a-video) |
+
+### Video (motion as content)
+
+| I want to make / do                      | flow                                                                                                                                                                                              | story                                                        |
+|------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
+| Animate a character from a driving video | `video/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly) · use `scripts/wan_segment.py` to process longer clips in segments | [S15](HOWTO.md#s15-animate-a-character-from-a-driving-video) |
 
 ### Cross-cutting tooling
 
@@ -103,7 +108,8 @@ Four places, and you can reach all of them **from the flow itself** — no hunti
 | [`HOWTO.md`](HOWTO.md)                                                                                                                                                                                         | the user stories (this page's "how")                                                                        |
 | 2D scenario:<br>[`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md)<br>[`2d/PROTOCOL.md`](2d/PROTOCOL.md)<br>[`2d/ROADMAP-2D.md`](2d/ROADMAP-2D.md)<br>[`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md) | run log · canonical asset set and rules · roadmap and backlog · tooling audit                               |
 | 3D scenario:<br>[`3d/README.md`](3d/README.md)<br>[`3d/EXPERIMENTS.md`](3d/EXPERIMENTS.md)<br>[`3d/pipeline-design.md`](3d/pipeline-design.md)                                                                 | scenario index · run log · architecture                                                                     |
-| Animation scenario:<br>[nimation/README.md](animation/README.md)<br>[nimation/EXPERIMENTS.md](animation/EXPERIMENTS.md) | scenario index · run log |
+| Animation scenario:<br>[`animation/README.md`](animation/README.md)<br>[`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md)<br>[`animation/motion-sourcing.md`](animation/motion-sourcing.md) | scenario index · run log · where motion comes from |
+| Video scenario:<br>[`video/README.md`](video/README.md)<br>[`video/EXPERIMENTS.md`](video/EXPERIMENTS.md) | scenario index · run log and deferred video backlog |
 | [`comfyui/README.md`](comfyui/README.md)                                                                                                                                                                       | node gotchas (high-density)                                                                                 |
 | [`comfyui/linux-setup.md`](comfyui/linux-setup.md)                                                                                                                                                             | install / restore a machine, remote access, topology                                                        |
 
