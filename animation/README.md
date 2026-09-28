@@ -59,6 +59,7 @@ The nodes are ComfyUI core (Apache-2.0); the upstream **model** licence is unche
 |---|---|
 | [`EXPERIMENTS.md`](EXPERIMENTS.md) | Run log with verdicts and the measurements behind them (E4/E6/E7/E8/E15/E16). |
 | [`motion-sourcing.md`](motion-sourcing.md) | Where motion comes from: what the free path covers, and what rare motion (video only) would cost. |
+| [`face-shapes.md`](face-shapes.md) | What the 72 facial morph targets are, axis by axis - the index map a rig needs. |
 | [`../video/README.md`](../video/README.md) | The video-reference route and its own backlog. |
 | `../HOWTO.md` S17 | How to actually run it. |
 | `../3d/README.md` | The UniRig rigger alternatives and the out-of-scope engine boundary. |
