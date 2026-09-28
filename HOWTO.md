@@ -276,6 +276,19 @@
 - *Trap:* **this is "more of this", not "make this industrial".** It keeps the reference's character, so it is the tool for a consistent soundtrack; for a genuine restyle you need ACE-Step's upstream Cover / "Refer audio" mode, which this ComfyUI build does not expose. And a rhythmic reference needs its `duration` matched, since the conditioning and the encoded latent must agree.
 - *More:* [`audio/README.md`](audio/README.md), and E5 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
+### S21. Generate sound effects from a text prompt
+
+- *When:* you need a footstep, a door, an impact, a weapon, or an ambience - the non-musical half of a game's sound.
+- *Steps:*
+	- the model needs two files: `stable-audio-open-1.0.safetensors` in `models/checkpoints/` (4.5 GB) and `t5-base.safetensors` in `models/text_encoders/` (0.83 GB) - the checkpoint carries no text encoder of its own;
+	- open `audio/workflows/stable-audio.json` and write the effect in the **positive prompt**, concretely: `footsteps on gravel`, `a heavy wooden door creaking`, `a sword drawn from a scabbard`;
+	- set the **length** on the `FloatConstant` (it feeds the conditioning and the latent's seconds together). Four seconds is plenty for an impact;
+	- run. It is the fastest flow here: **4 s of audio in about 5 s**.
+- *Knobs:* the sampler is the reference setting for this model (50 steps, cfg 7, `dpmpp_3m_sde`, `karras`); at short lengths raise `EmptyLatentAudio`'s batch to get a set in one run; the length knob goes up to ~47 s for ambiences.
+- *Traps:* the checkpoint **does not contain a CLIP** - without the t5 the run fails with `clip input is invalid: None`. It generates at **full scale (0.0 dBFS peak)**, like every other audio model here, so normalise before shipping. And by its own card it **cannot sing** and is **weak at music** - for music use `ace-step.json`.
+- *More:* [`audio/README.md`](audio/README.md), and E11 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
+
 
 
 

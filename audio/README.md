@@ -8,11 +8,13 @@ First model: **ACE-Step 1.5** (MIT, commercial-ready by its own card, trained on
 
 | what | how | cost | status |
 |---|---|---|---|
+| **text -> a sound effect or ambience** | `audio/workflows/stable-audio.json` - Stable Audio Open 1.0, core nodes only: a 4.5 GB checkpoint plus a 0.83 GB t5 in `text_encoders/` (the checkpoint carries no CLIP) | 5.4 GB, **Stability AI Community** licence | **PASS** (E11: 4 s effects in ~5 s each; the transients verify in a spectrogram) |
 | **text -> a song or instrumental** | the official ComfyUI template `audio_ace_step_1_5_checkpoint.json`: `CheckpointLoaderSimple` -> `TextEncodeAceStepAudio1.5` -> `EmptyAceStep1.5LatentAudio` -> `KSampler` -> `VAEDecodeAudio` -> `SaveAudioAdvanced` | `ace_step_1.5_turbo_aio.safetensors` **9.3 GB** (one file, all-in-one), MIT | **PASS** (E1: a 120 s instrumental in **25 s**, including the checkpoint load) |
 
 ## Knobs
 
 - **No simultaneous voices (E10).** A duet is sung **traded, not together**: asked for "both voices together in harmony" through both the tags and the section markers, the take still alternates - the listening verdict on the take that asked. It will sound like a duet without ever harmonising, so don't plan a chorus around two voices at once.
+- **Every model here generates at full scale (E11).** Five takes across two unrelated models and two unrelated graphs peaked at **0.0 dBFS**, so normalise before shipping anything - it is not one model's quirk.
 - **`tags`** - what the music *is*: genre, mood, instrumentation, production, as prose (the template ships a paragraph of Neo-Soul tags). This is the prompt.
 - **`lyrics`** - empty means instrumental; **size it to the duration** (E7): the model sings about **60%** of the words it is given, i.e. 1.5-3 words per second, so a 120 s track wants **250-350 words**; markers alone change nothing, but verse/chorus/bridge with a repeated chorus does; the template ships a complete demo song's lyrics, with `[Verse]` / `[Chorus]` / `[Intro - …]` section markers.
 - **`duration`** (seconds, drives the latent) - **and it gates the vocals**: at 30 s the flow is a music-only generator even with a full lyric, while 120 s sings (E6), **`bpm`**, **`keyscale`**, **`timesignature`**, **`language`** (50+), **`seed`**.
