@@ -117,8 +117,17 @@ def build_prompt(workflow, info, overrides, image=None):
     nodes = {n["id"]: n for n in workflow["nodes"]}
     prompt = {}
     for nid, n in nodes.items():
-        if n["type"] in ("Note", "MarkdownNote"):
+        # Frontend-only node types: they exist in a UI workflow but not in /object_info, and never in the API
+        # prompt. `PrimitiveNode` is the one that matters here - official templates use it to feed widget
+        # inputs, and the UI->API conversion substitutes its value into the consumer, so it collapses away.
+        if n["type"] in ("Note", "MarkdownNote", "PrimitiveNode", "Reroute"):
             continue
+        if n["type"] not in info:
+            # A genuinely missing custom node must stay loud: skipping it would let its consumer run on a
+            # schema default instead of the value the workflow intended.
+            raise SystemExit("node %s is type %r, which the server does not know - either a custom node that "
+                             "is not installed, or a frontend-only type to add to the skip list above"
+                             % (nid, n["type"]))
         inputs = {}
         values = list(n.get("widgets_values") or [])
         slots = cw.widget_slots(info[n["type"]], values)
