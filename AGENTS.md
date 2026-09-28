@@ -117,6 +117,14 @@ ai-gamedev-tasks/
 
 ## Status (2026-09-16)
 
+**Agenda (2026-09-28).** The asset scenarios are built, and the last three gaps are closed: 2d track I by **E34** (text/UI), the 3D-to-facing-set question by **E24/E24b/E24c**, and the facial half of the parametric cell by **E20/E20b**. What is left, in the order we intend to take it:
+
+1. **`audio/` - the next modality, in progress.** ACE-Step 1.5 (**MIT**, commercial-ready by its own card, ~10 s per song on this card, <4 GB VRAM) is the first model; the nodes are installed and **only the weights are missing**. Plan: the official ComfyUI template -> the all-in-one checkpoint -> the `audio/` scenario -> one measured flow. Taxonomy entry: `generate / scene / audio`, with the `subject` vocabulary question (`clip`, `cue`) already recorded in `PIPELINES.md`.
+2. **E24 Phase 2 - posed facings.** Phase 1 (yaw) and the stylisation arms are done and the recipe is fixed (Hy3D turnaround -> pick facings -> `pixel-art-restyle` -> one shared palette). Poses need char_knight rigged with UniRig (`3d/workflows/unirig-humanoid-workflow.json`).
+3. **The `video/` backlog** - deliberately deferred. Interpolation shipped (E17/E17b/S18); the rest (~100 unused node types: LTXV, MiniMax, camera control, motion tracking, combinations, audio-driven talking heads) needs weights and licence reads.
+4. **Small open items**, each in its scenario log's PENDING: **E9** (does the SAM 3D Body recipe hold on other fast clips), **E20c** (how much skeleton has to be visible for a partial-source clip), **E20b's residue** (arm/bone quality on more content), and **E34's tool follow-up** (`svg_trace.py`, so raster to vector is a pipeline rather than a recipe). One item is a **trigger**, not work: the Load3D/Preview3D texture re-check fires when `comfyui-frontend-package` is bumped.
+5. **Hardware** - RAM and swap are done; the only meaningful upgrade left is VRAM, and it is optional.
+
 **The asset scenarios are complete; the repo is consolidating rather than expanding.** The 2D ladder **E1–E16** is done, the upgrade track **U1–U7** is done, the 3D scenario is complete including Linux rigging, and both motion scenarios are built — **`animation/`** (engine assets: sprite sheets, skeletal clips) and **`video/`** (motion as content: a clip a viewer plays). The live list of open items is **`PIPELINES.md` → "Status — what is actually left"**.
 
 - **2d/** — ladder + upgrades complete. Licence posture: clean except `insightface` (InstantID/PuLID, non-commercial research-only) and the Retro Diffusion pixel-art models (non-commercial). Kontext and `4x-UltraSharp` are non-commercial but superseded.
