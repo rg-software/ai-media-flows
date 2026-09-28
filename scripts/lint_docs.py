@@ -382,7 +382,13 @@ def check_flow_docs() -> list[str]:
     """Every workflow carries a MarkdownNote; every cited story exists."""
     problems = []
     howto = open(os.path.join(REPO, "HOWTO.md"), encoding="utf-8").read()
-    stories = set(re.findall(r"^###\s+(S\d+)\.", howto, re.M))
+    ordered = re.findall(r"^###\s+(S\d+)\.", howto, re.M)
+    nums = [int(s[1:]) for s in ordered]
+    if nums != sorted(nums):
+        # a story appended next to the one it was modelled on, instead of at the end, is the easy mistake -
+        # the ids were only ever collected into a set here, so nothing noticed the document drifting.
+        problems.append("HOWTO.md: story headings are out of numeric order: %s" % ", ".join(ordered))
+    stories = set(ordered)
     for f in sorted(glob.glob(os.path.join(REPO, "*", "workflows", "*.json"))):
         rel = os.path.relpath(f, REPO).replace(os.sep, "/")
         try:
