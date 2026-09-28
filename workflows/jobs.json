@@ -17,7 +17,8 @@
   "S14": "Move files to and from the box",
   "S15": "Animate a character from a driving video",
   "S16": "Get a pose from a photo",
-  "S17": "Recover a 3D motion clip from a video"
+  "S17": "Recover a 3D motion clip from a video",
+  "S18": "Change a clip's frame rate"
  },
  "jobs": [
   {
@@ -205,6 +206,12 @@
    "detail": "`animation/workflows/sam3d-motion.json` (footage -> an animated skeletal GLB, for the engine to retarget)",
    "story": "S17",
    "category": "animation"
+  },
+  {
+   "want": "Change a clip's frame rate",
+   "detail": "`video/workflows/frame-interpolate.json` (in-between frames are synthesised, so a clip smoothly gains frames instead of being re-tagged - one factor knob)",
+   "story": "S18",
+   "category": "video"
   }
  ],
  "flows": {
@@ -343,6 +350,9 @@
   },
   "wan_segment.py": {
    "story": "S15"
+  },
+  "frame-interpolate.json": {
+   "story": "S18"
   }
  },
  "categories": [

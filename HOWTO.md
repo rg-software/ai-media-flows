@@ -217,7 +217,7 @@
 - *When:* the motion you want exists only as footage. This flow recovers it as a 3D animation for the engine to retarget onto your own character.
 - *Steps:*
 	- put the clip in `input/` (the flow ships pointing at the upstream example, `woman_holding_water_glass.mp4`);
-	- open `animation/workflows/sam3d-motion.json`. It already ships two settings that differ from upstream's defaults, `SAM3DBody_Smooth` → `rotation_threshold_degrees` **0** and `BuildPoseFile` → `format.bone_smooth_window` **9** - nothing to set, just don't reset them;
+	- open `animation/workflows/sam3d-motion.json`;
 	- run it. You get an animated **skeletal GLB** (in `3d/`) and a render preview of the recovered motion (in `video/`);
 	- check the GLB by opening it (Blender, an engine, any glTF viewer).
 - *Knobs:*
@@ -225,9 +225,25 @@
 	- `rotation_threshold_degrees` (0) — at its upstream value of 15 it *disables* smoothing whenever the motion gets fast;
 	- `camera_translation` (`off`) — `centered`/`absolute` bake the camera translation into the root, which matters if the motion has to travel;
 	- `Video Slice` — **how much footage is processed**.
-- *How much footage fits:* `Video Slice` (5 s as shipped) is the knob. Roughly **27 s at the 480x848 the flow now caps its input to**, or **12 s if you raise that cap to the source size** (measured, both at 720x1280 source). The cap is an `ImageResizeKJ` with `keep_proportion` on, so it fits within the box and keeps the aspect; raise its `width`/`height` for full-size joints and a full-size preview. Exceeding the budget is a hard CUDA out-of-memory, not a slow run.
+- *How much footage fits:* `Video Slice` (5 s as shipped) is the knob. Roughly **27 s at the 480x848 the flow now caps its input to**, or **12 s at the 720x1280 source**. The cap is an `ImageResizeKJ` with `keep_proportion` on, so it fits within the box and keeps the aspect; raise its `width`/`height` for full-size joints and a full-size preview. Exceeding the budget is a hard CUDA out-of-memory.
 - *Traps:* the **render preview is not smoothed** — only the exported file is — so judge the GLB, not the overlay. The skin is Meta's **MHR**, not your rig, so the retarget is your engine's job. And **fast or spinning footage can still break**, so watch the render for a limb that snaps.
 - *More:* [`animation/motion-sourcing.md`](animation/motion-sourcing.md) for what the free path already covers and what this costs, and E4/E6/E8/E15/E16 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).
+
+### S18. Change a clip's frame rate
+
+- *When:* a clip is choppy to watch, or you want smooth slow motion. In-between frames are **synthesised**, so the clip gains real frames instead of being re-tagged.
+- *Steps:*
+	- put your clip in `input/`;
+	- open `video/workflows/frame-interpolate.json` and set the **clip** (`LoadVideo`);
+	- set the **factor** on the `INT` constant (node 5, 2-16). It is wired to both the interpolator and the output frame rate, so the clip keeps its speed;
+	- run. It is the cheapest flow here: doubling a 5 s 720x1280 clip takes **15-25 s**.
+- *Knobs:*
+	- the **factor** - `multiplier` is the *total* factor, not the number inserted: 121 frames at x2 gives 241, at x4 gives 481;
+	- the **model** - RIFE (21.6 MB, MIT) is the default; FILM (65.7 MB, Apache-2.0) measured a **tie on quality for ~1.8x the time**;
+	- **smooth slow motion instead of same speed:** edit node 6's expression from `a * b` to `a`, which writes the source frame rate against the extra frames.
+- *Traps:* the inserted frame averages the motion blur of its two neighbours, so a fast limb goes slightly soft - inherent, since neither input holds that exposure. Interpolation cannot invent detail the source never had, and it will not fix a choppy *performance* - only the sampling of one.
+- *More:* [`video/README.md`](video/README.md), and E17/E17b in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
 
 ---
 
