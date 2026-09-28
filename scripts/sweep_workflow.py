@@ -115,12 +115,33 @@ def build_prompt(workflow, info, overrides, image=None):
     """API prompt from a shipped UI workflow; `overrides` is {node_id: {widget_name_or_index: value}}."""
     cw = _load_check_workflows()
     nodes = {n["id"]: n for n in workflow["nodes"]}
+    prim_value, reroute_in = {}, {}
+    by_link = {l[0]: l for l in workflow["links"]}
+
+    def real_source(nid, depth=0):
+        """Follow Reroute chains back to the node that really feeds the consumer."""
+        while nid in reroute_in and depth < 16:
+            link = by_link.get(reroute_in[nid])
+            if link is None:
+                return nid
+            nid, depth = link[1], depth + 1
+        return nid
+
     prompt = {}
     for nid, n in nodes.items():
         # Frontend-only node types: they exist in a UI workflow but not in /object_info, and never in the API
         # prompt. `PrimitiveNode` is the one that matters here - official templates use it to feed widget
         # inputs, and the UI->API conversion substitutes its value into the consumer, so it collapses away.
-        if n["type"] in ("Note", "MarkdownNote", "PrimitiveNode", "Reroute"):
+        if n["type"] in ("Note", "MarkdownNote"):
+            continue
+        if n["type"] == "PrimitiveNode":
+            # Its value is what the UI substitutes into the consumer's widget, so keep the value and drop
+            # the node: a link to a node that is not in the prompt is a hard validation error server-side.
+            prim_value[nid] = (n.get("widgets_values") or [None])[0]
+            continue
+        if n["type"] == "Reroute":
+            reroute_in[nid] = next((i.get("link") for i in (n.get("inputs") or [])
+                                    if i.get("link") is not None), None)
             continue
         if n["type"] not in info:
             # A genuinely missing custom node must stay loud: skipping it would let its consumer run on a
@@ -167,7 +188,12 @@ def build_prompt(workflow, info, overrides, image=None):
                 continue
             dst = n["inputs"][l[4]] if l[4] < len(n.get("inputs") or []) else None
             if dst:
-                inputs[dst["name"]] = [str(l[1]), l[2]]
+                src = real_source(l[1])
+                if src in prim_value:
+                    # the frontend turns this link into the literal it carries
+                    inputs[dst["name"]] = prim_value[src]
+                else:
+                    inputs[dst["name"]] = [str(src), l[2]]
         # defaults the saved flow does not carry (the UI fills these silently; the API will not)
         for grp in ("required", "optional"):
             for name, decl in (info[n["type"]]["input"].get(grp) or {}).items():
