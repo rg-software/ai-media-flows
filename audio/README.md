@@ -17,6 +17,24 @@ First model: **ACE-Step 1.5** (MIT, commercial-ready by its own card, trained on
 - **`duration`** (seconds, drives the latent) - **and it gates the vocals**: at 30 s the flow is a music-only generator even with a full lyric, while 120 s sings (E6), **`bpm`**, **`keyscale`**, **`timesignature`**, **`language`** (50+), **`seed`**.
 - The sampler side: the template uses `cfg_scale` **2**, `temperature` **0.85**, `top_p` **0.9**, `min_p` 0, 8 steps (`KSampler` with `ModelSamplingAuraFlow`), and `generate_audio_codes` on.
 
+## Lyric section markup - what `[Verse]` and `[Chorus]` actually are
+
+**A convention the model learned, not a keyword list, and nothing in the pipeline parses it.** The node hands the
+lyric straight to the tokenizer (`clip.tokenize(tags, lyrics=lyrics, ...)` in `comfy_extras/nodes_ace.py`) - no
+vocabulary, no validation, and no error for an unknown name. The evidence is what the ten shipped ACE-Step templates
+actually write: **21 distinct bracketed tokens**, in two kinds.
+
+| kind | examples from the shipped templates |
+|---|---|
+| **structural** - what shapes the arrangement | `[Intro]` `[Verse]` `[Verse 1]` `[Verse 2]` `[Pre-Chorus]` `[Chorus]` `[Post-Chorus]` `[Final Chorus]` `[Bridge]` `[Outro]` |
+| **free-form** - a hint, never validated | `[Intro - Rhodes piano and brushed drums]`, `[Chorus - Pop Explosion]`, `[Verse 1 - Trap Rap]`, `[instrumental]`, `[break down]`, `[drum fill]`, `[chopped samples]` |
+
+Use the standard names for structure and a dash plus a phrase for arrangement hints. An invented name is not an
+error - it may simply mean nothing - and **we cannot measure which**, because a section label changes the
+arrangement rather than the words, so neither the transcript nor the spectrogram settles it. That is what ears are
+for. (The v1 node exposes `lyrics_strength`, a weight on how hard the lyric is followed; v1.5 has no such knob and
+carries the structured parameters - `bpm`, `keyscale`, `timesignature`, `duration` - instead.)
+
 ## Traps (measured, not read)
 
 - **The official template uses `PrimitiveNode`s** (frontend-only nodes that feed widget inputs). A UI->API converter must substitute their *value* into the consumer **and must collect them in a pre-pass** - a consumer can be visited before its primitive (nodes 98 and 99 here), and the resulting prompt otherwise links to a node that is not in it, which the server rejects outright. Fixed in `scripts/sweep_workflow.py` (E1).
