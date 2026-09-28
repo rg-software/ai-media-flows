@@ -89,7 +89,8 @@ A working, reproducible pipeline for **generating game assets with open models o
 | --------------------------------------------------------------------- | ------------------------------------------------------------ |
 | Know what will and won't run here (read before pulling a large model) | [`comfyui/hardware.md`](comfyui/hardware.md)                 |
 | Use the server / fix a crash                                          | [`comfyui/README.md`](comfyui/README.md)                     |
-| Set up a machine                                                      | [`comfyui/linux-setup.md`](comfyui/linux-setup.md)           |
+| Set up a machine                                                      | [`comfyui/linux-setup.md`](comfyui/linux-setup.md) |
+| Roll back a ComfyUI upgrade                                           | [`comfyui/pinned-config.md`](comfyui/pinned-config.md) |
 | Upgrade the hardware                                                  | [`comfyui/UPGRADE-TODO.md`](comfyui/UPGRADE-TODO.md)         |
 | Decide whether a tool is still the right one                          | [`2d/AUDIT-tooling-2026-09.md`](2d/AUDIT-tooling-2026-09.md) |
 

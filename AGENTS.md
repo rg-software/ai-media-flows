@@ -114,6 +114,7 @@ ai-gamedev-tasks/
 | `2d/PROTOCOL.md`                                  | the canonical asset set and the run/sweep/promotion contract     |
 | `2d/AUDIT-tooling-2026-09.md`                     | are we using the best tool? (quality + licence + cost to switch) |
 | `2d/ROADMAP-2D.md`                                | tracks A–J and the E/U backlog                                   |
+| `comfyui/pinned-config.md`                        | the pre-upgrade rollback point: state pinned, and how to restore |
 | `comfyui/README.md`                               | **node gotchas** — the highest-density page in the repo          |
 | `comfyui/hardware.md` · `comfyui/UPGRADE-TODO.md` | what fits / what to buy                                          |
 | `comfyui/workflow-file-format.md`                 | how to hand-edit a workflow `.json` safely                       |
