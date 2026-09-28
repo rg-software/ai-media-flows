@@ -27,7 +27,7 @@
 | **F** | Regional / multi-ref | core `ConditioningSetAreaPercentage` + `ConditioningCombine` | **E15 PASS** |
 | **G** | Masking / utility | BiRefNet, **SAM 3 (text-prompted)**, DepthAnythingV2, DSINE | **E3, E12, U6a PASS** |
 | **H** | Finishing | Flux Kontext relight, **SeedVR2** (upscale + restore/face restore) | **E13 PASS** |
-| **I** | Text / UI | — (Flux text encoders now present, no generation model yet) | **open** |
+| **I** | Text / UI | **Z-Image Turbo** (legible text, 20 s) + `vtracer`/`cairosvg` for vector | **PASS, split** (E34: text solved; vector via trace, or authored exactly) |
 | **J** | Batch / consistency system | scripts/sweep.py (scripted XY + sheet) | **E16 PASS** |
 
 ## Backlog: experiments
