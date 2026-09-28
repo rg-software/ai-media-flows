@@ -27,6 +27,16 @@ ComfyUI-TextureAlchemy           0afda45      ComfyUI-UniRig                   6
 PuLID_ComfyUI                    93e0c4c      seedvr2_videoupscaler           4490bd1
 ```
 
+## After the update (2026-09-28)
+
+**The update was clean.** ComfyUI went `a7b1d39d` -> **`8d534945`** (2026-09-27) and **torch did not move** - it was pinned on the install command line precisely so it could not, since `requirements.txt` lists torch unpinned and the freeze alone cannot restore `custom_rasterizer`. Eight packages changed: `comfyui_frontend_package` 1.52.6 -> **1.53.6**, `comfy-kitchen` 0.2.33 -> 0.2.35, `comfy-aimdo` 0.5.3 -> 0.5.5, `comfyui-embedded-docs` 0.5.11 -> 0.5.12, `comfyui_workflow_templates` 0.11.57 -> 0.11.70 and the workflow-templates core/json/media packages. The raw list is `pinned-config-freeze-after-2026-09-28.txt` (338 packages).
+
+Verified afterwards: `torch 2.11.0+cu128`; **`custom_rasterizer_kernel` imports** - but import **torch first**, since the extension needs torch's `libc10.so` already loaded, which is exactly what a one-line test of mine got wrong and briefly reported as a failure; a real generation runs; the node types went 1247 -> **1264**; and **all 35 of our workflows still validate** with 0 contradictions.
+
+**What arrived:** the YuE 2 nodes (`YuE2GenerateMusic`, `SheetSage2AudioToABC`) - music *and* the cover/restyle route ACE-Step does not expose. The Mel-Band RoFormer and Chatterbox TTS nodes are **still absent**, and their templates carry no pack id, so those two are a *node-pack install* rather than something the update brings.
+
+**The frontend bump fired the Load3D texture re-check.** Verdict unchanged, and the recorded diagnosis did not survive reading the source - see the open items.
+
 ## The real risk, named
 
 **`custom_rasterizer` was built from source against exactly this torch and CUDA.** It is the one component the freeze alone cannot restore: it needs nvcc **12.8** (not 13.2, which hard-errors on the major mismatch), gcc-13, `TORCH_CUDA_ARCH_LIST=8.6`, and the header patch recorded in `HANDOFF.md` and `3d/EXPERIMENTS.md`. So an upgrade that **moves torch off 2.11.0+cu128** means rebuilding it, and an upgrade that leaves torch alone does not. Everything Hy3D does depends on it, so check that first after any update.
@@ -48,7 +58,7 @@ venv/bin/pip install -r ~/Projects-Git/ai-gamedev-tasks/comfyui/pinned-config-fr
 systemctl --user restart comfyui
 ```
 
-Then confirm: `venv/bin/python -c "import torch; print(torch.__version__)"` says `2.11.0+cu128`, and Hy3D loads (`import custom_rasterizer_kernel` works). The custom nodes are separate repos - restore any one of them the same way if the update moves it and something breaks.
+Then confirm: `venv/bin/python -c "import torch; print(torch.__version__)"` says `2.11.0+cu128`, and Hy3D loads (and it must be imported **after** torch: `import torch, custom_rasterizer_kernel`). The custom nodes are separate repos - restore any one of them the same way if the update moves it and something breaks.
 
 ## Notes left in the checkout at pin time
 
