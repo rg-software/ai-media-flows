@@ -127,6 +127,15 @@ def build_prompt(workflow, info, overrides, image=None):
             nid, depth = link[1], depth + 1
         return nid
 
+    # Pre-pass, and it has to be one: a consumer can be visited before the PrimitiveNode that feeds it
+    # (nodes 98 and 99 in the ACE-Step template are exactly that), so the values must all be known first.
+    for nid, n in nodes.items():
+        if n["type"] == "PrimitiveNode":
+            prim_value[nid] = (n.get("widgets_values") or [None])[0]
+        elif n["type"] == "Reroute":
+            reroute_in[nid] = next((i.get("link") for i in (n.get("inputs") or [])
+                                    if i.get("link") is not None), None)
+
     prompt = {}
     for nid, n in nodes.items():
         # Frontend-only node types: they exist in a UI workflow but not in /object_info, and never in the API
@@ -134,14 +143,10 @@ def build_prompt(workflow, info, overrides, image=None):
         # inputs, and the UI->API conversion substitutes its value into the consumer, so it collapses away.
         if n["type"] in ("Note", "MarkdownNote"):
             continue
-        if n["type"] == "PrimitiveNode":
-            # Its value is what the UI substitutes into the consumer's widget, so keep the value and drop
-            # the node: a link to a node that is not in the prompt is a hard validation error server-side.
-            prim_value[nid] = (n.get("widgets_values") or [None])[0]
-            continue
-        if n["type"] == "Reroute":
-            reroute_in[nid] = next((i.get("link") for i in (n.get("inputs") or [])
-                                    if i.get("link") is not None), None)
+        if n["type"] in ("PrimitiveNode", "Reroute"):
+            # Recorded in the pre-pass; here they only need to not become prompt nodes. A link to a node
+            # that is not in the prompt is a hard validation error server-side, so their consumers take the
+            # value (primitive) or the resolved source (reroute) instead - see the link loop below.
             continue
         if n["type"] not in info:
             # A genuinely missing custom node must stay loud: skipping it would let its consumer run on a
