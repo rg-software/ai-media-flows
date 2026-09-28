@@ -1,0 +1,668 @@
+{
+ "last_node_id": 13,
+ "last_link_id": 17,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "CheckpointLoaderSimple",
+   "pos": [
+    -1240,
+    0
+   ],
+   "size": [
+    330,
+    100
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      4
+     ]
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      9,
+      16
+     ]
+    }
+   ],
+   "widgets_values": [
+    "ace_step_1.5_turbo_aio.safetensors"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "LoadAudio",
+   "pos": [
+    -1240,
+    220
+   ],
+   "size": [
+    330,
+    110
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "widgets_values": [
+    "e5_reference.flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadAudio"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "FloatConstant",
+   "pos": [
+    -1240,
+    400
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      3,
+      7
+     ]
+    }
+   ],
+   "widgets_values": [
+    15.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "FloatConstant"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "INTConstant",
+   "pos": [
+    -1240,
+    490
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      2,
+      14
+     ]
+    }
+   ],
+   "widgets_values": [
+    31
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "INTConstant"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "TrimAudioDuration",
+   "pos": [
+    -880,
+    240
+   ],
+   "size": [
+    280,
+    100
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 6
+    },
+    {
+     "name": "duration",
+     "type": "FLOAT",
+     "link": 7
+    }
+   ],
+   "widgets_values": [
+    0.0,
+    15.0
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "TrimAudioDuration"
+   },
+   "order": 4
+  },
+  {
+   "id": 6,
+   "type": "VAEEncodeAudio",
+   "pos": [
+    -560,
+    240
+   ],
+   "size": [
+    250,
+    80
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 8
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 9
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEEncodeAudio"
+   },
+   "order": 5
+  },
+  {
+   "id": 7,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    -880,
+    420
+   ],
+   "size": [
+    280,
+    70
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      5
+     ]
+    }
+   ],
+   "widgets_values": [
+    3.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow"
+   },
+   "order": 6
+  },
+  {
+   "id": 8,
+   "type": "TextEncodeAceStepAudio1.5",
+   "pos": [
+    -560,
+    -180
+   ],
+   "size": [
+    330,
+    430
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 1
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 2
+    },
+    {
+     "name": "duration",
+     "type": "FLOAT",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      10,
+      11
+     ]
+    }
+   ],
+   "widgets_values": [
+    "aggressive industrial techno with distorted drums and metallic percussion",
+    "",
+    31,
+    "fixed",
+    15,
+    120,
+    "4",
+    "en",
+    "E minor",
+    true,
+    2.0,
+    0.85,
+    0.9,
+    0,
+    0.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "TextEncodeAceStepAudio1.5"
+   },
+   "order": 7
+  },
+  {
+   "id": 9,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    -180,
+    240
+   ],
+   "size": [
+    240,
+    50
+   ],
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      12
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "order": 8
+  },
+  {
+   "id": 10,
+   "type": "KSampler",
+   "pos": [
+    160,
+    40
+   ],
+   "size": [
+    290,
+    260
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 11
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 12
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 13
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 14
+    }
+   ],
+   "widgets_values": [
+    31,
+    "fixed",
+    8,
+    1.0,
+    "euler",
+    "simple",
+    0.6
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      15
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "order": 9
+  },
+  {
+   "id": 11,
+   "type": "VAEDecodeAudio",
+   "pos": [
+    520,
+    200
+   ],
+   "size": [
+    240,
+    70
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 15
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 16
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      17
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEDecodeAudio"
+   },
+   "order": 10
+  },
+  {
+   "id": 12,
+   "type": "SaveAudioAdvanced",
+   "pos": [
+    810,
+    200
+   ],
+   "size": [
+    300,
+    110
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 17
+    }
+   ],
+   "outputs": [],
+   "widgets_values": [
+    "audio/style",
+    "flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
+   "order": 11
+  },
+  {
+   "id": 13,
+   "type": "MarkdownNote",
+   "pos": [
+    -1240,
+    600
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "widgets_values": [
+    "## Style from a reference track (ACE-Step 1.5)\n\n**A reference track in, a new track out in its style** - the audio counterpart of img2img. The reference is\nencoded into ACE-Step's own latent space (`VAEEncodeAudio`) and re-sampled with **`denoise` below 1** while\n`tags` describe the style you want instead. This is the same mechanism, and the same trade-off, as\n`pixel-art-restyle` at denoise 0.6 keeping the 3D render's design.\n\n- **`denoise` is the style dial.** Low (0.3-0.5) keeps the reference's structure and instrumentation; high\n  (0.8-1.0) follows the tags. What survives in between is what E5 measures.\n- **the target length is one knob**: `FloatConstant` feeds both the trim and the encoder's `duration`, because\n  the conditioning and the latent have to describe the same length.\n- **the reference must be a real audio file** in ComfyUI's `input/` (flac/wav/mp3). Set `tags` to the style you\n  want it *changed into*, not the style it already is.\n\n**What this flow does *not* do, and why it matters.** Three different things get called \"style transfer\" in\naudio, and only two are reachable here:\n\n| flavour | reachable | how |\n|---|---|---|\n| same **timbre / instrumentation**, new arrangement | **yes** | this flow: `VAEEncodeAudio` + partial denoise |\n| same **structure**, new style | **yes** | the same flow at *lower* denoise (more of the reference survives) |\n| **continue or repair a section** (\"Repaint\") | **no** | it needs an audio **mask**, and the only candidate, `CreateAudioMask`, is deprecated *and* outputs an IMAGE - a waveform picture - so `SetLatentNoiseMask` cannot take it |\n\nACE-Step's model card also lists a **\"Refer audio\"** mode (and Cover/Repaint) as ✅ for this turbo checkpoint.\nThose are upstream features that **this ComfyUI build does not expose** - the four installed ACE-Step nodes are\ntext-only - so reaching them means upstream's own app or newer core nodes, not this graph.\n\n*How to run it: story S20 in `HOWTO.md`  ·  Why it is this way: E5 in `audio/EXPERIMENTS.md`.*\n"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   1,
+   8,
+   0,
+   "CLIP"
+  ],
+  [
+   2,
+   4,
+   0,
+   8,
+   1,
+   "INT"
+  ],
+  [
+   3,
+   3,
+   0,
+   8,
+   2,
+   "FLOAT"
+  ],
+  [
+   4,
+   1,
+   0,
+   7,
+   0,
+   "MODEL"
+  ],
+  [
+   5,
+   7,
+   0,
+   10,
+   0,
+   "MODEL"
+  ],
+  [
+   6,
+   2,
+   0,
+   5,
+   0,
+   "AUDIO"
+  ],
+  [
+   7,
+   3,
+   0,
+   5,
+   1,
+   "FLOAT"
+  ],
+  [
+   8,
+   5,
+   0,
+   6,
+   0,
+   "AUDIO"
+  ],
+  [
+   9,
+   1,
+   2,
+   6,
+   1,
+   "VAE"
+  ],
+  [
+   10,
+   8,
+   0,
+   9,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   11,
+   8,
+   0,
+   10,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   12,
+   9,
+   0,
+   10,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   13,
+   6,
+   0,
+   10,
+   3,
+   "LATENT"
+  ],
+  [
+   14,
+   4,
+   0,
+   10,
+   4,
+   "INT"
+  ],
+  [
+   15,
+   10,
+   0,
+   11,
+   0,
+   "LATENT"
+  ],
+  [
+   16,
+   1,
+   2,
+   11,
+   1,
+   "VAE"
+  ],
+  [
+   17,
+   11,
+   0,
+   12,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
