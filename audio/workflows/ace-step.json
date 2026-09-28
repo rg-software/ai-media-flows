@@ -1,6 +1,6 @@
 {
  "last_node_id": 11,
- "last_link_id": 13,
+ "last_link_id": 14,
  "nodes": [
   {
    "id": 1,
@@ -181,7 +181,8 @@
      "name": "CONDITIONING",
      "type": "CONDITIONING",
      "links": [
-      6
+      6,
+      14
      ]
     }
    ],
@@ -189,6 +190,7 @@
     "epic orchestral battle music with drums and brass",
     "",
     31,
+    "fixed",
     120,
     120,
     "4",
@@ -300,7 +302,8 @@
     },
     {
      "name": "positive",
-     "type": "CONDITIONING"
+     "type": "CONDITIONING",
+     "link": 14
     },
     {
      "name": "negative",
@@ -319,6 +322,8 @@
     }
    ],
    "widgets_values": [
+    31,
+    "fixed",
     8,
     1.0,
     "euler",
@@ -480,6 +485,14 @@
    0,
    4,
    0,
+   "CONDITIONING"
+  ],
+  [
+   14,
+   3,
+   0,
+   6,
+   1,
    "CONDITIONING"
   ],
   [
