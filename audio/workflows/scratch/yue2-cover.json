@@ -1,0 +1,656 @@
+{
+ "last_node_id": 13,
+ "last_link_id": 16,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "CheckpointLoaderSimple",
+   "pos": [
+    -1400,
+    0
+   ],
+   "size": [
+    340,
+    100
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      2
+     ]
+    },
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      3
+     ]
+    }
+   ],
+   "widgets_values": [
+    "yue2_3b_int8_convrot.safetensors"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "INTConstant",
+   "pos": [
+    -1400,
+    180
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      4,
+      5
+     ]
+    }
+   ],
+   "widgets_values": [
+    0
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "INTConstant"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "LoadAudio",
+   "pos": [
+    -1400,
+    300
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "widgets_values": [
+    "e5_reference.flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadAudio"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "AudioEncoderLoader",
+   "pos": [
+    -1400,
+    430
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO_ENCODER",
+     "type": "AUDIO_ENCODER",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "widgets_values": [
+    "sheetsage2_bf16.safetensors"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "AudioEncoderLoader"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "SheetSage2AudioToABC",
+   "pos": [
+    -1000,
+    300
+   ],
+   "size": [
+    320,
+    130
+   ],
+   "inputs": [
+    {
+     "name": "audio_encoder",
+     "type": "AUDIO_ENCODER",
+     "link": 7
+    },
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "STRING",
+     "type": "STRING",
+     "links": [
+      8,
+      9
+     ]
+    }
+   ],
+   "widgets_values": [
+    "melody"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SheetSage2AudioToABC"
+   },
+   "order": 4
+  },
+  {
+   "id": 6,
+   "type": "PreviewAny",
+   "pos": [
+    -1000,
+    500
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "inputs": [
+    {
+     "name": "source",
+     "type": "STRING",
+     "link": 9
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "outputs": [],
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "PreviewAny"
+   },
+   "order": 5
+  },
+  {
+   "id": 7,
+   "type": "YuE2GenerateMusic",
+   "pos": [
+    -560,
+    120
+   ],
+   "size": [
+    340,
+    360
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 2
+    },
+    {
+     "name": "abc",
+     "type": "STRING",
+     "link": 8
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      10,
+      11
+     ]
+    },
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "widgets_values": [
+    "Industrial rock, hammering machine percussion with metallic clangs, distorted bass, cold analog synth, shouted male lead with a gang chorus, gritty lo-fi production, relentless and mechanical",
+    "[Verse]\nSteel is breathing in the dark\nPistons counting out the hour\nEvery window blind with sparks\nEvery hand a kind of power\nHammers fall like steady rain\nOn the anvil of the day\nWe are forging something nameless\nFrom the rust and from the clay\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Verse]\nFurnace glow along the floor\nShadows walk the factory wall\nWe have heard the engines roar\nAnd we never once will fall\nOil and smoke and borrowed light\nEvery rivet set in time\nWe will work into the night\nTill the morning bells will chime\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Bridge]\nAnd when the metal sings\nAnd when the silence breaks\nWe will know the shape of things\nBy everything it makes\n\n[Final Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Outro]\nTurn the wheel, turn the wheel\nHold the line",
+    "",
+    0,
+    "fixed",
+    "melody",
+    30.0,
+    1.0,
+    0.95,
+    100,
+    1.2,
+    1.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "YuE2GenerateMusic"
+   },
+   "order": 6
+  },
+  {
+   "id": 8,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    -160,
+    0
+   ],
+   "size": [
+    240,
+    50
+   ],
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      12
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "order": 7
+  },
+  {
+   "id": 9,
+   "type": "EmptyYuE2LatentAudio",
+   "pos": [
+    -160,
+    140
+   ],
+   "size": [
+    300,
+    90
+   ],
+   "inputs": [
+    {
+     "name": "seconds",
+     "type": "FLOAT",
+     "link": 13
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "widgets_values": [
+    30.0,
+    1
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "EmptyYuE2LatentAudio"
+   },
+   "order": 8
+  },
+  {
+   "id": 10,
+   "type": "KSampler",
+   "pos": [
+    160,
+    0
+   ],
+   "size": [
+    290,
+    260
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 11
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 12
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 14
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      15
+     ]
+    }
+   ],
+   "widgets_values": [
+    0,
+    "fixed",
+    32,
+    1.0,
+    "dpm_2",
+    "sgm_uniform",
+    1.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "order": 9
+  },
+  {
+   "id": 11,
+   "type": "VAEDecodeAudio",
+   "pos": [
+    560,
+    0
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 15
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      16
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEDecodeAudio"
+   },
+   "order": 10
+  },
+  {
+   "id": 12,
+   "type": "SaveAudioAdvanced",
+   "pos": [
+    880,
+    0
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 16
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "audio/YuE2_cover",
+    "flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
+   "order": 11
+  },
+  {
+   "id": 13,
+   "type": "MarkdownNote",
+   "pos": [
+    -1400,
+    640
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "widgets_values": [
+    "## yue2-cover (dev copy)\n\n**The restyle route E5 could not have** - ACE-Step keeps a reference but cannot restyle it; YuE's cover\n*melody-transplants*: `SheetSage2AudioToABC` transcribes the reference's melody into ABC notation (previewed\nhere, exactly as the shipped cover template does), and `YuE2GenerateMusic(mode='melody')` re-renders from\nthat ABC with a **new style and new lyrics supplied as text** (the shipped cover template does the same - its\ninstance carries its own lyric).\n\n**Inputs:** reference `input/e5_reference.flac` (the E5 reference: 30.00 s, instrumental - no words to keep,\nhence fresh lyrics), style *industrial rock*, lyrics our own \"Iron heart\" (song form, repeated chorus), seed\n`0`, `max_duration` 30 s so the cover is length-comparable with the reference, sampler as shipped.\n\n**Licence:** weights are `cc-by-nc-4.0` (`Comfy-Org/YuE2`) - **research only**, nothing here can ship.\n\n**What to measure:** the ABC actually transcribed (is the melody legible?), levels + spectrogram against the\nreference, and the user's ears for \"same tune, industrial\". **Dev copy** - the shippable route for this\ncapability stays ACE-Step's MIT Cover mode (upstream's app).\n"
+   ],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   10,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   1,
+   1,
+   7,
+   0,
+   "CLIP"
+  ],
+  [
+   3,
+   1,
+   2,
+   11,
+   1,
+   "VAE"
+  ],
+  [
+   4,
+   2,
+   0,
+   7,
+   2,
+   "INT"
+  ],
+  [
+   5,
+   2,
+   0,
+   10,
+   4,
+   "INT"
+  ],
+  [
+   6,
+   3,
+   0,
+   5,
+   1,
+   "AUDIO"
+  ],
+  [
+   7,
+   4,
+   0,
+   5,
+   0,
+   "AUDIO_ENCODER"
+  ],
+  [
+   8,
+   5,
+   0,
+   7,
+   1,
+   "STRING"
+  ],
+  [
+   9,
+   5,
+   0,
+   6,
+   0,
+   "STRING"
+  ],
+  [
+   10,
+   7,
+   0,
+   8,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   11,
+   7,
+   0,
+   10,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   12,
+   8,
+   0,
+   10,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   13,
+   7,
+   1,
+   9,
+   0,
+   "FLOAT"
+  ],
+  [
+   14,
+   9,
+   0,
+   10,
+   3,
+   "LATENT"
+  ],
+  [
+   15,
+   10,
+   0,
+   11,
+   0,
+   "LATENT"
+  ],
+  [
+   16,
+   11,
+   0,
+   12,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
