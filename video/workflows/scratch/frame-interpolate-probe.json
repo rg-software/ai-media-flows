@@ -1,0 +1,331 @@
+{
+ "last_node_id": 7,
+ "last_link_id": 6,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "LoadVideo",
+   "pos": [
+    -900,
+    0
+   ],
+   "size": [
+    280,
+    100
+   ],
+   "outputs": [
+    {
+     "name": "VIDEO",
+     "type": "VIDEO",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "widgets_values": [
+    "dance_2x.mp4"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadVideo"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "GetVideoComponents",
+   "pos": [
+    -580,
+    0
+   ],
+   "size": [
+    280,
+    130
+   ],
+   "inputs": [
+    {
+     "name": "video",
+     "type": "VIDEO",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": [
+      2
+     ]
+    },
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "links": [
+      5
+     ]
+    },
+    {
+     "name": "fps",
+     "type": "FLOAT",
+     "links": []
+    },
+    {
+     "name": "bit_depth",
+     "type": "COMBO",
+     "links": []
+    },
+    {
+     "name": "color_space",
+     "type": "COMBO",
+     "links": []
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "GetVideoComponents"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "FrameInterpolationModelLoader",
+   "pos": [
+    -580,
+    300
+   ],
+   "size": [
+    340,
+    80
+   ],
+   "outputs": [
+    {
+     "name": "INTERP_MODEL",
+     "type": "INTERP_MODEL",
+     "links": [
+      3
+     ]
+    }
+   ],
+   "widgets_values": [
+    "rife_v4.25.safetensors"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "FrameInterpolationModelLoader"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "FrameInterpolate",
+   "pos": [
+    -220,
+    100
+   ],
+   "size": [
+    280,
+    100
+   ],
+   "inputs": [
+    {
+     "name": "interp_model",
+     "type": "INTERP_MODEL",
+     "link": 3
+    },
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      4
+     ]
+    }
+   ],
+   "widgets_values": [
+    2
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "FrameInterpolate"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "CreateVideo",
+   "pos": [
+    140,
+    0
+   ],
+   "size": [
+    290,
+    130
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 4
+    },
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "VIDEO",
+     "type": "VIDEO",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "widgets_values": [
+    48.24,
+    "auto",
+    "sRGB"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CreateVideo"
+   },
+   "order": 4
+  },
+  {
+   "id": 6,
+   "type": "SaveVideo",
+   "pos": [
+    480,
+    0
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "inputs": [
+    {
+     "name": "video",
+     "type": "VIDEO",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "VIDEO",
+     "type": "VIDEO",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "video/interp_probe",
+    "auto",
+    "auto"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveVideo"
+   },
+   "order": 5
+  },
+  {
+   "id": 7,
+   "type": "MarkdownNote",
+   "pos": [
+    -900,
+    300
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "widgets_values": [
+    "## Probe: frame interpolation (E17)\n\n**Video in, video out with synthesised in-between frames.** RIFE (`rife_v4.25.safetensors`, 21.6 MB,\nMIT) or FILM (`film_net_fp16.safetensors`, 65.7 MB, Apache-2.0) - both in `models/frame_interpolation/`.\nPick the model on node 3, the factor on node 4.\n\n**The input is deliberately `dance_2x.mp4`** - our frame-duplicated slow-motion build, 242 frames where\nevery second frame is a copy of the one before. If the model interpolates, the frames between those\nduplicates are new; if it merely re-times, they are copies again. That is the measurement.\n\n**`fps` on the last node is the meaning**, because the chain is 1:1 in time and only frame *count* changes:\n\n- `fps` = the clip's own (**24.12** here) -> **slow motion**: 484 frames over ~20 s, now with real\n  in-betweens instead of duplicates;\n- `fps` = **2x** the clip's (**48.24** here) -> **same duration, twice the frames**: the smoother-clip\n  case, ~10 s like the source.\n\nThis is scaffolding for the E17 measurement in `video/EXPERIMENTS.md`, not a curated flow: it is\nunmaintained by design (`workflows/scratch/`), and once E17 has a verdict the useful half should be\nfolded into a shipped flow with a story.\n"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   2,
+   0,
+   "VIDEO"
+  ],
+  [
+   2,
+   2,
+   0,
+   4,
+   1,
+   "IMAGE"
+  ],
+  [
+   3,
+   3,
+   0,
+   4,
+   0,
+   "INTERP_MODEL"
+  ],
+  [
+   4,
+   4,
+   0,
+   5,
+   0,
+   "IMAGE"
+  ],
+  [
+   5,
+   2,
+   1,
+   5,
+   1,
+   "AUDIO"
+  ],
+  [
+   6,
+   5,
+   0,
+   6,
+   0,
+   "VIDEO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
