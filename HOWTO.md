@@ -176,7 +176,7 @@
 	- `--token`/`COMFY_TOKEN` — **ask the operator**. It lives on the server as the first line of `~/Projects-Git/ComfyUI/login/PASSWORD`.
 	- `--subfolder refs` keeps uploads tidy;
 	- `--dest` chooses where downloads land.
-- *Trap:* image nodes read **only** from `input/` - a file sitting in `output/` cannot be loaded, so upload it before running a flow that needs it. With many inputs, upload the folder once and read it with the `LoadImagesFromFolderKJ` node rather than one file at a time. And only those three dirs are served: a file anywhere else on the box (e.g. a result written into the repo) cannot be fetched at all, by any route short of SSH.
+- *Trap:* image nodes read **only** from `input/` - a file sitting in `output/` cannot be loaded, so upload it before running a flow that needs it. With many inputs, upload the folder once and read it with the `LoadImagesFromFolderKJ` node rather than one file at a time. And only those three dirs are served: a file anywhere else on the box (e.g. a result written into the repo) cannot be fetched at all, by any route short of SSH. That SSH route is worth having when you have no token or the file is large: `comfyui/linux-setup.md` records the two hops (box -> NAS -> Windows) and the `-O` flag the second one needs, since the Synology's sshd runs no SFTP subsystem.
 - *More:* `scripts/comfy_io.py --help`.
 
 ### S15. Animate a character from a driving video

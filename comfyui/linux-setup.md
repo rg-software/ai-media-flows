@@ -114,6 +114,22 @@ $b64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($script))
 
 **Two traps in that command, both of which look like the box being down.** Write it exactly as above: `-J rt247a.ddns.me:5022` silently uses the *local* username for the jump host (so it authenticates as your Windows user, not `rg_software`, and falls back to a password prompt that hangs a non-interactive shell), and `AllowTcpForwarding no` means ProxyJump could never work there anyway — the nested `ssh` is the mechanism, not a convenience. And a non-interactive ssh does not source the profile, so `uv` is not on `PATH`: run the tooling as `~/.local/bin/uv run python …` or the repo venv's `.venv/bin/python scripts/…`.
 
+### File transfer, the same way round
+
+A single file comes back over the same two hops - **box -> NAS -> Windows** - because the file has to land on the NAS before Windows can see it. From Windows (the inner command runs on the NAS):
+
+```bash
+# 1. NAS pulls it off the Beelink into its own home
+ssh -i ~/.ssh/id_rsa -p 5022 rg_software@rt247a.ddns.me \
+  "scp -i ~/.ssh/beelink rg_software@192.168.1.46:/path/on/beelink ~/x.flac"
+# 2. Windows pulls it off the NAS
+scp -O -i $env:USERPROFILE\.ssh\id_rsa -P 5022 rg_software@rt247a.ddns.me:~/x.flac ./x.flac
+```
+
+**`-O` is not optional.** The Synology's sshd does not run the SFTP **subsystem**, and a modern `scp` asks for it by default, so the plain form fails with `subsystem request failed on channel 0`. `-O` selects the legacy protocol, which needs no subsystem. That is the third thing on this page that looks like a broken box and is a flag.
+
+**Verify the copy**, because a truncated transfer is otherwise silent: `md5sum` on the far side against `Get-FileHash -Algorithm MD5` on this one. The ComfyUI `/view` route (`scripts/comfy_io.py`, see S14 in `HOWTO.md`) is usually simpler - it needs the token but no SSH - so this route is for when you have no token, or the file is large, or it sits somewhere `/view` does not serve.
+
 ### API access with ComfyUI-Login
 The login plugin (ComfyUI-Login) blocks `/object_info`, `/prompt`, etc. with 401. It accepts a **token query param**; the token is the first line of `~/Projects-Git/ComfyUI/login/PASSWORD`:
 
