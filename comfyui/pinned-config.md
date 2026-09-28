@@ -35,7 +35,7 @@ Verified afterwards: `torch 2.11.0+cu128`; **`custom_rasterizer_kernel` imports*
 
 **What arrived:** the YuE 2 nodes (`YuE2GenerateMusic`, `SheetSage2AudioToABC`) - music *and* the cover/restyle route ACE-Step does not expose. The Mel-Band RoFormer and Chatterbox TTS nodes are **still absent**, and their templates carry no pack id, so those two are a *node-pack install* rather than something the update brings.
 
-**The frontend bump fired the Load3D texture re-check.** Verdict unchanged, and the recorded diagnosis did not survive reading the source - see the open items.
+**The frontend bump fired the Load3D texture re-check, and it is answered.** User visual check on 1.53.6 (2026-09-28): the `Load3D` viewport renders the mesh but not its texture (grey, material mode `original`) - so the verdict is unchanged and the `Textured turntable` workaround stays - and the recorded diagnosis did not survive reading the source. See the open items.
 
 ## The real risk, named
 
