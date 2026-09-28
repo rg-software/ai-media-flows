@@ -75,6 +75,7 @@ A working, reproducible pipeline for **generating game assets with open models o
 | Generate music or a song from a text prompt               | `audio/workflows/ace-step.json` (tags + optional lyrics -> a 2-minute track; ACE-Step 1.5, MIT, 9.3 GB all-in-one)                                                     | [S19](HOWTO.md#s19-generate-music-from-a-text-prompt)         |
 | Keep a soundtrack in the same style as a reference        | `audio/workflows/ace-step-style.json` (a reference track is encoded and re-sampled at a chosen `denoise` - it retains the reference strongly rather than restyling it) | [S20](HOWTO.md#s20-match-the-style-of-a-reference-track)      |
 | Generate a sound effect or an ambience from a text prompt | `audio/workflows/stable-audio.json` (footsteps, doors, impacts and field recordings - Stable Audio Open 1.0, core nodes only)                                          | [S21](HOWTO.md#s21-generate-sound-effects-from-a-text-prompt) |
+| Restyle a track in a new style (cover)                    | `audio/workflows/yue2-cover.json` (YuE 2 melody transplant - **non-commercial** weights; the shippable route is ACE-Step's MIT Cover mode)                             | [S22](HOWTO.md#s22-restyle-a-track-cover-its-melody)          |
 
 ### Cross-cutting tooling
 

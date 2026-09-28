@@ -21,7 +21,8 @@
   "S18": "Change a clip's frame rate",
   "S19": "Generate music from a text prompt",
   "S20": "Match the style of a reference track",
-  "S21": "Generate sound effects from a text prompt"
+  "S21": "Generate sound effects from a text prompt",
+  "S22": "Restyle a track (cover its melody)"
  },
  "jobs": [
   {
@@ -233,6 +234,12 @@
    "detail": "`audio/workflows/stable-audio.json` (footsteps, doors, impacts and field recordings - Stable Audio Open 1.0, core nodes only)",
    "story": "S21",
    "category": "audio"
+  },
+  {
+   "want": "Restyle a track in a new style (cover)",
+   "detail": "`audio/workflows/yue2-cover.json` (YuE 2 melody transplant - **non-commercial** weights; the shippable route is ACE-Step's MIT Cover mode)",
+   "story": "S22",
+   "category": "audio"
   }
  ],
  "flows": {
@@ -383,6 +390,9 @@
   },
   "stable-audio.json": {
    "story": "S21"
+  },
+  "yue2-cover.json": {
+   "story": "S22"
   }
  },
  "categories": [

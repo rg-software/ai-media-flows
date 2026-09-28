@@ -292,6 +292,19 @@
 
 
 
+### S22. Restyle a track (cover its melody)
+
+- *When:* you have a track - or a loop, or a hook you like - and you want **the same tune in a different idiom** ("make this industrial"). This is the one restyle route in the repo: `ace-step-style.json` only *keeps* a reference, it cannot restyle it (E5).
+- *Steps:*
+	- the models: `yue2_3b_int8_convrot.safetensors` in `models/checkpoints/` (3.9 GB) and `sheetsage2_bf16.safetensors` in `models/audio_encoders/` (1.3 GB) - SheetSage2 transcribes the melody, YuE re-renders it;
+	- put your reference in ComfyUI's `input/` and pick it on the **`LoadAudio`** node;
+	- write the **style** you want it changed into (the shipped `STYLE` is industrial rock) and the **lyrics** you want - the reference's *melody* is kept, its *words* are not;
+	- run. A 30 s reference covers in **65 s**.
+- *Knobs:* `max_duration` must be at least the reference's length - the model chooses the duration itself and this only bounds it; `mode` is `melody` for a cover (`full` writes a new song instead); the `PreviewAny` node shows the ABC that SheetSage2 actually transcribed, which is how you see whether the melody was read.
+- *Traps:* **the licence** - YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so the output is research-only; the shippable form of this capability is ACE-Step's own Cover mode (MIT, upstream's app). **A transcript is not a presence test**: Whisper read 0-19 words on takes whose vocal the ears plainly hear (E12c), so never call a take instrumental from a transcript. And like every model here it lands at **0.0 dBFS**, so normalise.
+- *More:* [`audio/README.md`](audio/README.md), and E12/E12d in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
+
 ---
 
 ## If your job isn't here
