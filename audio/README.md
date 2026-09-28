@@ -14,7 +14,7 @@ First model: **ACE-Step 1.5** (MIT, commercial-ready by its own card, trained on
 
 - **`tags`** - what the music *is*: genre, mood, instrumentation, production, as prose (the template ships a paragraph of Neo-Soul tags). This is the prompt.
 - **`lyrics`** - empty means instrumental; the template ships a complete demo song's lyrics, with `[Verse]` / `[Chorus]` / `[Intro - …]` section markers.
-- **`duration`** (seconds, drives the latent), **`bpm`**, **`keyscale`**, **`timesignature`**, **`language`** (50+), **`seed`**.
+- **`duration`** (seconds, drives the latent) - **and it gates the vocals**: at 30 s the flow is a music-only generator even with a full lyric, while 120 s sings (E6), **`bpm`**, **`keyscale`**, **`timesignature`**, **`language`** (50+), **`seed`**.
 - The sampler side: the template uses `cfg_scale` **2**, `temperature` **0.85**, `top_p` **0.9**, `min_p` 0, 8 steps (`KSampler` with `ModelSamplingAuraFlow`), and `generate_audio_codes` on.
 
 ## Traps (measured, not read)

@@ -254,8 +254,11 @@
 	- open `audio/workflows/ace-step.json`. The checkpoint `ace_step_1.5_turbo_aio.safetensors` must be in `models/checkpoints/` (9.3 GB);
 	- describe the music in **`tags`** (genre, mood, instrumentation, production). For an instrumental leave **`lyrics`** empty; to write a song, put the words in with `[Verse]` / `[Chorus]` markers;
 	- set **`duration`** (seconds) and, if you care, `bpm`, `keyscale`, `language`;
+	- **for a song, write full sections and budget 2+ minutes** - measured, the vocals need room (see the trap);
 	- run. A 2-minute track takes about **25 s**, including loading the model.
 - *Knobs:* the two constants at the left are wired to **both** of their consumers on purpose - **seed** goes to the text encoder *and* the sampler, and **duration** goes to the encoder *and* the latent's `seconds`. Change them there, not on the nodes, or the condition and the sample will disagree about what is being made.
+- *Trap:* **a short track will not sing.** Measured: at 30 s the flow produced **no vocal at all**, even with a full song's lyric, and at 120 s the same lyric sang (85% of the sung words came from the input). The planner builds a whole-song blueprint and the duration truncates it, so what survives short is the *instrumental intro*; a 3-line lyric also under-fills a long track. Write sections, and give it 2+ minutes.
+- *Note:* `KSampler`'s **negative input looks like a mistake and is not** - it is the positive through `ConditioningZeroOut` (an empty negative), because ACE-Step's prompt has no "undesired" concept and the sampler needs a negative slot; at cfg 1.0 it is unused anyway.
 - *Trap:* you cannot listen to the result from here. Judge it by the level numbers (`peak`/`RMS` should sit near -1/-14 dBFS, i.e. mastered rather than raw), by duration and sample rate, and - as we do - by a **spectrogram**: harmonic lines mean pitch, regular vertical transients mean a beat, a flat wash means noise. See `audio/README.md`.
 - *More:* [`audio/README.md`](audio/README.md), and E1 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
