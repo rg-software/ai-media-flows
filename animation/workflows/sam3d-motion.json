@@ -1,8 +1,8 @@
 {
  "id": "76915793-04af-4b60-a2a2-9fd3ebbdc944",
  "revision": 0,
- "last_node_id": 143,
- "last_link_id": 310,
+ "last_node_id": 144,
+ "last_link_id": 311,
  "nodes": [
   {
    "id": 15,
@@ -893,12 +893,7 @@
      "name": "images",
      "type": "IMAGE",
      "links": [
-      304,
-      305,
-      306,
-      307,
-      308,
-      309
+      311
      ]
     },
     {
@@ -1168,7 +1163,7 @@
    "title": "Note: Model Link and Input Asset",
    "properties": {},
    "widgets_values": [
-    "# SAM 3D Body: motion from footage\n\nRecovers a **3D body animation** from a video and exports it as a **skeletal GLB**, plus a render preview of the\nsame motion. The clip *is* the motion source - there is no rigging or retargeting here, and the skin is Meta's\nMHR, so putting this motion on *your* character is the engine's retarget step.\n\n**The two settings that matter - the upstream template gets both wrong** (E6/E8):\n\n* `SAM3DBody_Smooth.rotation_threshold_degrees` = **0** (upstream ships 15). This knob *disables* smoothing\n  above a given root rotation rate \"to preserve fast spins\", and at 15 - below the schema's own default of 30 -\n  it switches smoothing off exactly when the motion gets fast.\n* `BuildPoseFile.format.bone_smooth_window` = **9** (upstream ships 0 = off). The export stage has its own\n  smoother, and its tooltip says it exists to calm \"spins/jitter where upstream Smooth misses spikes\".\n\nMeasured on a fast dance clip, going from the upstream defaults to these: single-frame pops **8 -> 2**, worst\npop **174 -> 60 deg**, motion bandwidth **3.36 -> 0.68 Hz**. Bigger is not better - the one residual spike\n*grows* with the window (57.7 / 92.5 / 126.3 deg at 9 / 15 / 21), so 9 is the sweet spot.\n\n**Length:** `Video Slice` decides how much footage is processed - it ships at 5 s. Measured at 720x1280 (E15): 121 frames 111 s / 19.6 GB, 242 frames 210 s / 22.1 GB, **290 frames (12 s) completes at 21.6 GB, and 363 frames (15 s) OOMs** - so ~12 s is the practical ceiling there, and roughly 2.2x that frame count at 480x848, since memory follows pixels. Time is linear (~0.9 s/frame), so it is the slice that runs out, not patience; the failure is a hard CUDA OOM mid-run. Beyond it, process the clip in slices.\n\n**Resolution: 480x848 is fine, and buys length.** The artefact is a skeleton, and pixels-per-person is what matters rather than the frame's nominal size - measured, processing the same clip at 480x848 instead of 720x1280 changes the recovered joints by a **mean of 1.5 deg** (worst 4.4 deg, the wrists) and is visually indistinguishable (E16). Since per-frame memory follows pixels, that roughly doubles how much footage fits in one run: ~12 s at 720x1280 becomes ~**27 s** at 480x848. Add an `ImageScale` (area, 480x848) after `GetVideoComponents` and repoint its consumers to get that. Not shipped by default because it also shrinks the render preview.\n\n**Traps:**\n\n* The smoother applies to the **exported file**, not the preview. `SAM3DBody_Render` reads the pose data\n  directly, so the render stays as jittery as the raw prediction - judge the GLB, not the overlay.\n* `Save3DAdvanced` needs the 3D viewport, so a headless run must pass `viewport_state: {}` and explicit\n  width/height (the frontend writes a widget slot for that socket, which shifts them by one).\n* **Gate the result:** `scripts/motion_quality.py <file.glb>` reports jitter and single-frame breaks. Zero\n  breaks is the bar, and no smoothing setting cleared every clip we tested.\n* `camera_translation` is `off` here, so the root stays at its bind position and the render does not sit on\n  the performer; `centered`/`absolute` bake the camera translation into the root instead.\n\n**Input:** this ships pointing at the upstream example clip, `input/woman_holding_water_glass.mp4` (from the\nComfy-Org `workflow_templates` repo) - upload it, or point `LoadVideo` at your own footage.\n\n*How to run it: story **S17** in `HOWTO.md`  ·  Why it is this way: **E4/E6/E8/E15/E16** in `animation/EXPERIMENTS.md`.*\n\nDerived from the upstream ComfyUI template `utility_sam3d_body.json`, with the two values above changed and\nthis note replaced; the graph is otherwise upstream's."
+    "# SAM 3D Body: motion from footage\n\nRecovers a **3D body animation** from a video and exports it as a **skeletal GLB**, plus a render preview of the\nsame motion. The clip *is* the motion source - there is no rigging or retargeting here, and the skin is Meta's\nMHR, so putting this motion on *your* character is the engine's retarget step.\n\n**The two settings that matter - the upstream template gets both wrong** (E6/E8):\n\n* `SAM3DBody_Smooth.rotation_threshold_degrees` = **0** (upstream ships 15). This knob *disables* smoothing\n  above a given root rotation rate \"to preserve fast spins\", and at 15 - below the schema's own default of 30 -\n  it switches smoothing off exactly when the motion gets fast.\n* `BuildPoseFile.format.bone_smooth_window` = **9** (upstream ships 0 = off). The export stage has its own\n  smoother, and its tooltip says it exists to calm \"spins/jitter where upstream Smooth misses spikes\".\n\nMeasured on a fast dance clip, going from the upstream defaults to these: single-frame pops **8 -> 2**, worst\npop **174 -> 60 deg**, motion bandwidth **3.36 -> 0.68 Hz**. Bigger is not better - the one residual spike\n*grows* with the window (57.7 / 92.5 / 126.3 deg at 9 / 15 / 21), so 9 is the sweet spot.\n\n**Length:** `Video Slice` decides how much footage is processed - it ships at 5 s. Measured at 720x1280 (E15): 121 frames 111 s / 19.6 GB, 242 frames 210 s / 22.1 GB, **290 frames (12 s) completes at 21.6 GB, and 363 frames (15 s) OOMs** - so ~12 s is the practical ceiling there, and roughly 2.2x that frame count at 480x848, since memory follows pixels. Time is linear (~0.9 s/frame), so it is the slice that runs out, not patience; the failure is a hard CUDA OOM mid-run. Beyond it, process the clip in slices.\n\n**Resolution: the flow caps the input at 480x848, and that buys length.** The artefact is a skeleton, and pixels-per-person is what matters rather than the frame's nominal size - measured, processing the same clip at 480x848 instead of 720x1280 changes the recovered joints by a **mean of 1.5 deg** (worst 4.4 deg, the wrists) and is visually indistinguishable (E16). Since per-frame memory follows pixels, the cap roughly doubles how much footage fits: ~12 s uncapped becomes ~**27 s** capped. It is an `ImageResizeKJ` with `keep_proportion` on, so it fits **within** the box and keeps the aspect - 1528x2736 -> 474x848, 2048x1024 -> 480x240, so landscape footage is not cropped. Raise `width`/`height` (or turn `keep_proportion` off, or remove the node) for full-size joints and a full-size render preview.\n\n**Traps:**\n\n* The smoother applies to the **exported file**, not the preview. `SAM3DBody_Render` reads the pose data\n  directly, so the render stays as jittery as the raw prediction - judge the GLB, not the overlay.\n* `Save3DAdvanced` needs the 3D viewport, so a headless run must pass `viewport_state: {}` and explicit\n  width/height (the frontend writes a widget slot for that socket, which shifts them by one).\n* **Gate the result:** `scripts/motion_quality.py <file.glb>` reports jitter and single-frame breaks. Zero\n  breaks is the bar, and no smoothing setting cleared every clip we tested.\n* `camera_translation` is `off` here, so the root stays at its bind position and the render does not sit on\n  the performer; `centered`/`absolute` bake the camera translation into the root instead.\n\n**Input:** this ships pointing at the upstream example clip, `input/woman_holding_water_glass.mp4` (from the\nComfy-Org `workflow_templates` repo) - upload it, or point `LoadVideo` at your own footage.\n\n*How to run it: story **S17** in `HOWTO.md`  ·  Why it is this way: **E4/E6/E8/E15/E16** in `animation/EXPERIMENTS.md`.*\n\nDerived from the upstream ComfyUI template `utility_sam3d_body.json`, with the two values above changed and\nthis note replaced; the graph is otherwise upstream's."
    ],
    "widgets_values_named": {
     "text": "**Input Asset**\n\n- [woman_holding_water_glass.mp4](https://raw.githubusercontent.com/Comfy-Org/workflow_templates/refs/heads/main/input/woman_holding_water_glass.mp4) — required workflow input (`input/woman_holding_water_glass.mp4`)\n\n\n## Model Links\n\n**checkpoints**\n\n- [sam3.1_multiplex_fp16.safetensors](https://huggingface.co/Comfy-Org/sam3.1/resolve/main/checkpoints/sam3.1_multiplex_fp16.safetensors)\n\n**detection**\n\n- [sam_3d_body_dinov3_bf16.safetensors](https://huggingface.co/Comfy-Org/sam-3d-body/resolve/main/detection/sam_3d_body_dinov3_bf16.safetensors)\n\n**geometry_estimation**\n\n- [moge_2_vitl_normal_fp16.safetensors](https://huggingface.co/Comfy-Org/MoGe/resolve/main/geometry_estimation/moge_2_vitl_normal_fp16.safetensors)\n\n**diffusion_models**\n\n- [rt_detr_v4-x-hgnet_fp32.safetensors](https://huggingface.co/Comfy-Org/SDPose/resolve/main/diffusion_models/rt_detr_v4-x-hgnet_fp32.safetensors)\n\n\n## Model Storage Location\n\n```\n📂 ComfyUI/\n├── 📂 models/\n│   ├── 📂 checkpoints/\n│   │   └── sam3.1_multiplex_fp16.safetensors\n│   ├── 📂 detection/\n│   │   └── sam_3d_body_dinov3_bf16.safetensors\n│   ├── 📂 geometry_estimation/\n│   │   └── moge_2_vitl_normal_fp16.safetensors\n│   └── 📂 diffusion_models/\n│       └── rt_detr_v4-x-hgnet_fp32.safetensors\n```\n\n## Report Issue\n\nNote: Please update ComfyUI first ([guide](https://docs.comfy.org/installation/update_comfyui)) and prepare required models. Desktop/Cloud updates follow stable releases, so some nightly-supported models may not be available yet.\n\n- Cannot run / runtime errors: [ComfyUI/issues](https://github.com/comfyanonymous/ComfyUI/issues)\n- UI / frontend issues: [ComfyUI_frontend/issues](https://github.com/Comfy-Org/ComfyUI_frontend/issues)\n- Workflow issues: [workflow_templates/issues](https://github.com/Comfy-Org/workflow_templates/issues)\n"
@@ -1249,6 +1244,65 @@
     "width": 1024,
     "height": 1024
    }
+  },
+  {
+   "id": 144,
+   "type": "ImageResizeKJ",
+   "pos": [
+    -2220,
+    5880
+   ],
+   "size": [
+    280,
+    180
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 311
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      304,
+      305,
+      306,
+      307,
+      308,
+      309
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "links": [],
+     "slot_index": 1
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "links": [],
+     "slot_index": 2
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageResizeKJ"
+   },
+   "widgets_values": [
+    480,
+    848,
+    "area",
+    true,
+    2
+   ]
   }
  ],
  "links": [
@@ -1422,7 +1476,7 @@
   ],
   [
    304,
-   86,
+   144,
    0,
    18,
    0,
@@ -1430,7 +1484,7 @@
   ],
   [
    305,
-   86,
+   144,
    0,
    109,
    1,
@@ -1438,7 +1492,7 @@
   ],
   [
    306,
-   86,
+   144,
    0,
    114,
    1,
@@ -1446,7 +1500,7 @@
   ],
   [
    307,
-   86,
+   144,
    0,
    128,
    2,
@@ -1454,7 +1508,7 @@
   ],
   [
    308,
-   86,
+   144,
    0,
    129,
    1,
@@ -1462,7 +1516,7 @@
   ],
   [
    309,
-   86,
+   144,
    0,
    131,
    1,
@@ -1475,6 +1529,14 @@
    143,
    0,
    "FILE_3D"
+  ],
+  [
+   311,
+   86,
+   0,
+   144,
+   0,
+   "IMAGE"
   ]
  ],
  "groups": [

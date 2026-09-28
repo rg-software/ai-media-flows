@@ -331,7 +331,10 @@ CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
                      # the job/story/flow registry and its renderer+gate (see workflows/jobs.json)
                      "gen_job_docs.py", "check_job_docs.py",
                      # engine-import contract: check a GLB offline, and add the normals Hy3D drops
-                     "check_gltf_contract.py", "fix_gltf_normals.py"}
+                     "check_gltf_contract.py", "fix_gltf_normals.py",
+                     # animation: is a recovered motion sensible? A CHECKER, like check_gltf_contract.py -
+                     # it measures an asset rather than producing one, so it is not a user path
+                     "motion_quality.py"}
 
 
 def iter_flows():

@@ -177,7 +177,7 @@
    "category": "3d"
   },
   {
-   "want": "Animate a sprite across a few poses",
+   "want": "Animate a sprite across poses (make sprite sheets)",
    "detail": "`2d/workflows/pose-extract.json` (one pose per photo) -> `2d/workflows/pose-skeleton.json` (render each; keep the contrasts ~40 deg apart) -> `scripts/atlas.py` (pack the frames)",
    "story": "S9",
    "category": "animation"
@@ -196,13 +196,13 @@
   },
   {
    "want": "Animate a character from a driving video",
-   "detail": "`animation/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly - no pose extraction or skeleton step) · `scripts/wan_segment.py` (clips longer than one pass - it segments the footage and joins the pieces)",
+   "detail": "`animation/workflows/wan-animate-motion.json` (a still character + a driving video you supply; the motion is transferred directly) · use `scripts/wan_segment.py` to process longer clips in segments",
    "story": "S15",
    "category": "animation"
   },
   {
    "want": "Recover a 3D motion clip from a video",
-   "detail": "`animation/workflows/sam3d-motion.json` (footage -> an animated skeletal GLB, for the engine to retarget) · `scripts/motion_quality.py` (gate the result: jitter and single-frame breaks)",
+   "detail": "`animation/workflows/sam3d-motion.json` (footage -> an animated skeletal GLB, for the engine to retarget)",
    "story": "S17",
    "category": "animation"
   }
@@ -339,9 +339,6 @@
    "story": "S16"
   },
   "sam3d-motion.json": {
-   "story": "S17"
-  },
-  "motion_quality.py": {
    "story": "S17"
   },
   "wan_segment.py": {

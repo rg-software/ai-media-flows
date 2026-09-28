@@ -183,20 +183,19 @@
 
 - *When:* you have a still character and a clip whose motion you want on it. The motion is transferred directly — no pose extraction and no skeleton step.
 - *Steps:*
-	- put your character image and your driving clip in `input/` (the flow ships pointing at the upstream example pair: `pink_hair_mech_arms_ref.png` + `street_dance_drive.mp4`);
+	- put your character image and your driving clip in `input/`;
 	- open `animation/workflows/wan-animate-motion.json` and set the **reference image** (`LoadImage`) and the **driving video** (`LoadVideo`);
 	- describe **scene, background and camera** in the positive prompt — *not* the motion, which comes from the video;
-	- run. One clip takes about a minute and a half at the shipped size.
+	- run. Shipped sample generates in ~1.5 min.
 - *Knobs:*
-	- `length` — frames (4n+1). **It is the FIRST N frames of the clip, not a resampling of it**: a longer clip is cut off at N, a shorter one repeats its last frame. The default 33 is about 1.4 s of the footage, and this is the main cost knob;
-	- the output plays at **the clip's own frame rate** (`CreateVideo.fps` is wired from the video), so a 30 fps clip writes a 30 fps file. The motion is frame-indexed, so a different value is a slow-motion or speed-up rather than a re-timing;
-	- the prompts ship in English: Wan's text encoder (umT5) is trained on English and Chinese;
+	- `length` — frames (4n+1). **It is the FIRST N frames of the clip**: a longer clip is cut off at N, a shorter one repeats its last frame. In the shipped sample, the default 33 is about 1.4 s of the footage;
+	- the output plays at **the clip's own frame rate** (`CreateVideo.fps` is wired from the video), so a 30 fps clip writes a 30 fps file. The motion is frame-indexed, so a different value is a slow-motion or speed-up;
 	- `pose_strength` — how literally the driving motion is copied;
 	- `reference_image_strength` — identity vs motion trade;
 	- the prompt's camera wording *is* the viewpoint control: the output camera is decoupled from the driving video.
-- *Trap:* the output size comes from the **driving video**, snapped to a multiple of 16 — not from the node's defaults. **Use the official `wan_animate_2_int8_convrot.safetensors`, never a GGUF quant of it.** A GGUF carries no `config` metadata, so ComfyUI detects the identical weights as a plain image-to-video model - and then the flow silently **ignores the driving video entirely** while the reference image still works, which is what makes it confusing. If the character never moves, check the log: it should say `Requested to load WAN_Animate2`, not `WAN21`. It runs at ~20.8 GB peak VRAM for a 33-frame clip, and raising `length` gets expensive quickly (81 frames measured 1000 s / 23.7 GB), which is why a longer clip is *segmented* below rather than lengthened.
-- *Longer than about 1.4 s:* the flow generates the first `length` frames and stops, so run **`uv run python scripts/wan_segment.py <clip> --ref <image> --out <result.mp4>`** - it probes the clip, works out how many segments it needs, runs each one continuing from the previous segment's last frame, and stitches them into one file at the clip's own fps. It is API-only, so it runs against the remote server from anywhere. By hand the recipe is:
-- *Doing it by hand:* generate a segment, then add a `LoadImage` of its **last frame** wired to `continue_motion` and set `video_frame_offset` to **last pose + 1**. The node pins the frame you pass at pose `offset - 1` and generates `length` frames from there, so for 33-frame segments the offsets are 0, 33, **65**, 97 - *not* previous offset + previous length, which drifts a pose from the third segment on; join the pieces with `A + B[trim_image:]` (that node output says how many frames overlap). It closes the join **and holds the camera** - 40.76 difference down to 3.58 - and it is faster than one long pass as well as smaller (2 x ~90 s at 20.8 GB, against 1000 s at 23.7 GB for 81 frames in one go).
+- *Trap:* the output size comes from the **driving video**, snapped to a multiple of 16 — not from the node's defaults. **Don't swap the model for a GGUF quant.** Those same weights quantised that way make the flow silently ignore your driving video, while the reference image keeps working - so if the character never moves, that is why. The workflow's note has the explanation.
+- *Videos longer than ~1.5 sec:* the flow generates the first `length` frames and stops, so run **`uv run python scripts/wan_segment.py <clip> --ref <image> --out <result.mp4>`** - it probes the clip, works out how many segments it needs, runs each one continuing from the previous segment's last frame, and stitches them into one file at the clip's own fps. It is API-only, so it runs against the remote server from anywhere.
+- *Doing it by hand:* generate a segment, then add a `LoadImage` of its **last frame** wired to `continue_motion` and set `video_frame_offset` to **last pose + 1**. The node pins the frame you pass at pose `offset - 1` and generates `length` frames from there, so for 33-frame segments the offsets are 0, 33, **65**, 97; join the pieces with `A + B[trim_image:]` (that node output says how many frames overlap). It closes the join **and holds the camera** across the cut.
 - *More:* [`animation/README.md`](animation/README.md), and E1/E2/E3/E12/E14 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).
 
 ### S16. Get a pose from a photo
@@ -215,19 +214,19 @@
 
 ### S17. Recover a 3D motion clip from a video
 
-- *When:* the motion you want exists only as footage — a specific gesture or dance that no clip library has. This recovers it as a 3D animation for the engine to retarget onto your own character.
+- *When:* the motion you want exists only as footage. This flow recovers it as a 3D animation for the engine to retarget onto your own character.
 - *Steps:*
 	- put the clip in `input/` (the flow ships pointing at the upstream example, `woman_holding_water_glass.mp4`);
-	- open `animation/workflows/sam3d-motion.json` and check the two settings it ships: `SAM3DBody_Smooth` → `rotation_threshold_degrees` **0**, and `BuildPoseFile` → `format.bone_smooth_window` **9**. Both differ from upstream and both matter;
+	- open `animation/workflows/sam3d-motion.json`. It already ships two settings that differ from upstream's defaults, `SAM3DBody_Smooth` → `rotation_threshold_degrees` **0** and `BuildPoseFile` → `format.bone_smooth_window` **9** - nothing to set, just don't reset them;
 	- run it. You get an animated **skeletal GLB** (in `3d/`) and a render preview of the recovered motion (in `video/`);
-	- gate the result: `uv run python scripts/motion_quality.py <the .glb>`. **Zero breaks** is the bar.
+	- check the GLB by opening it (Blender, an engine, any glTF viewer).
 - *Knobs:*
-	- `bone_smooth_window` (9) — the export-stage smoother, and **bigger is not better**: the one residual spike grew 58, 93, 126 degrees at windows 9, 15, 21;
+	- `bone_smooth_window` (9) — the export-stage smoother, and **bigger is not better**;
 	- `rotation_threshold_degrees` (0) — at its upstream value of 15 it *disables* smoothing whenever the motion gets fast;
 	- `camera_translation` (`off`) — `centered`/`absolute` bake the camera translation into the root, which matters if the motion has to travel;
-	- `Video Slice` — **how much footage is processed**, and it ships at **5 s**. See the length note below.
-- *How much footage fits:* `Video Slice` (5 s as shipped) is the knob. Measured at 720x1280: 121 frames 111 s / 19.6 GB, 242 frames 210 s / 22.1 GB, **290 frames (12 s) still fits at 21.6 GB, and 363 frames (15 s) dies with a CUDA out-of-memory** — so ~12 s is the ceiling there, and overshooting gives a hard error rather than a slow run. Time stays linear at ~0.9 s/frame, so it is the slice that runs out, never patience. **Memory follows pixels, not frames**, so pre-scaling the input to **480x848** barely costs accuracy (the recovered joints move by a mean of **1.5 deg**, worst 4.4 at the wrists, E16) while roughly **doubling** the budget to ~**27 s**: add an `ImageScale` (area, 480x848) right after `GetVideoComponents` and point its consumers at it. Beyond that, process the clip in slices.
-- *Traps:* the **render preview is not smoothed** — only the exported file is — so judge the GLB, not the overlay. The skin is Meta's **MHR**, not your rig, so the retarget is your engine's job. And **fast or spinning footage can still break**: no smoothing setting cleared every clip tested, which is why the gate exists rather than a promise.
+	- `Video Slice` — **how much footage is processed**.
+- *How much footage fits:* `Video Slice` (5 s as shipped) is the knob. Roughly **27 s at the 480x848 the flow now caps its input to**, or **12 s if you raise that cap to the source size** (measured, both at 720x1280 source). The cap is an `ImageResizeKJ` with `keep_proportion` on, so it fits within the box and keeps the aspect; raise its `width`/`height` for full-size joints and a full-size preview. Exceeding the budget is a hard CUDA out-of-memory, not a slow run.
+- *Traps:* the **render preview is not smoothed** — only the exported file is — so judge the GLB, not the overlay. The skin is Meta's **MHR**, not your rig, so the retarget is your engine's job. And **fast or spinning footage can still break**, so watch the render for a limb that snaps.
 - *More:* [`animation/motion-sourcing.md`](animation/motion-sourcing.md) for what the free path already covers and what this costs, and E4/E6/E8/E15/E16 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).
 
 ---
