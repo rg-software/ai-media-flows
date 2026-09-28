@@ -179,6 +179,12 @@ def render_note_story(text, ids):
     if n:
         return new, n
 
+    # a story named WITHOUT the bold marker ("story S20") -> bold it. Inserting a clause instead leaves the
+    # note saying it twice, once bold and once plain, which is what happened to S20's note.
+    new, n = re.subn(r"(story )(S\d+)(?!\*\*)", lambda m: "%s**%s**" % (m.group(1), m.group(2)), text, count=1)
+    if n:
+        return new, n
+
     # a `*How to run it:* …*` that mentions no story -> name it
     new, n = re.subn(r"(\*How to run it: )", lambda m: "%sstory **%s** in `HOWTO.md`; " % (m.group(1), link), text, count=1)
     return new, n

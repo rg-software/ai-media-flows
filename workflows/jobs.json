@@ -19,7 +19,8 @@
   "S16": "Get a pose from a photo",
   "S17": "Recover a 3D motion clip from a video",
   "S18": "Change a clip's frame rate",
-  "S19": "Generate music from a text prompt"
+  "S19": "Generate music from a text prompt",
+  "S20": "Match the style of a reference track"
  },
  "jobs": [
   {
@@ -219,6 +220,12 @@
    "detail": "`audio/workflows/ace-step.json` (tags + optional lyrics -> a 2-minute track; ACE-Step 1.5, MIT, 9.3 GB all-in-one)",
    "story": "S19",
    "category": "audio"
+  },
+  {
+   "want": "Keep a soundtrack in the same style as a reference",
+   "detail": "`audio/workflows/ace-step-style.json` (a reference track is encoded and re-sampled at a chosen `denoise` - it retains the reference strongly rather than restyling it)",
+   "story": "S20",
+   "category": "audio"
   }
  ],
  "flows": {
@@ -363,6 +370,9 @@
   },
   "ace-step.json": {
    "story": "S19"
+  },
+  "ace-step-style.json": {
+   "story": "S20"
   }
  },
  "categories": [

@@ -249,7 +249,7 @@
 
 ### S19. Generate music from a text prompt
 
-- *When:* you want a track - a bed, a boss theme, a menu loop - from a description, with no source audio.
+- *When:* you want a music track from a description, with no source audio.
 - *Steps:*
 	- open `audio/workflows/ace-step.json`. The checkpoint `ace_step_1.5_turbo_aio.safetensors` must be in `models/checkpoints/` (9.3 GB);
 	- describe the music in **`tags`** (genre, mood, instrumentation, production). For an instrumental leave **`lyrics`** empty; to write a song, put the words in with `[Verse]` / `[Chorus]` markers;
@@ -258,6 +258,19 @@
 - *Knobs:* the two constants at the left are wired to **both** of their consumers on purpose - **seed** goes to the text encoder *and* the sampler, and **duration** goes to the encoder *and* the latent's `seconds`. Change them there, not on the nodes, or the condition and the sample will disagree about what is being made.
 - *Trap:* you cannot listen to the result from here. Judge it by the level numbers (`peak`/`RMS` should sit near -1/-14 dBFS, i.e. mastered rather than raw), by duration and sample rate, and - as we do - by a **spectrogram**: harmonic lines mean pitch, regular vertical transients mean a beat, a flat wash means noise. See `audio/README.md`.
 - *More:* [`audio/README.md`](audio/README.md), and E1 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
+### S20. Match the style of a reference track
+
+- *When:* you have a track whose feel you want more of - a bed, a theme, more of the same palette - rather than something new.
+- *Steps:*
+	- put your reference in ComfyUI's `input/` (flac/wav/mp3) and set `LoadAudio` to it;
+	- open `audio/workflows/ace-step-style.json`; set the **target length** on the `FloatConstant` (it feeds the trim and the conditioning, so they agree);
+	- put the style you *want* in **`tags`** - although see the trap;
+	- set **`denoise`** and run. A take costs about 5 s.
+- *Knobs:* **`denoise`** - measured, this is a *retention* dial: 0.3-0.5 gives the same piece re-rendered (spectral similarity to the reference 0.99), and even 0.9 stays closer to the reference than to a text-only take of the same tags. The curve is not monotone (0.7 came out least like the reference), and with the turbo's 8 steps `denoise` is quantised to eighths.
+- *Trap:* **this is "more of this", not "make this industrial".** It keeps the reference's character, so it is the tool for a consistent soundtrack; for a genuine restyle you need ACE-Step's upstream Cover / "Refer audio" mode, which this ComfyUI build does not expose. And a rhythmic reference needs its `duration` matched, since the conditioning and the encoded latent must agree.
+- *More:* [`audio/README.md`](audio/README.md), and E5 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
 
 
 

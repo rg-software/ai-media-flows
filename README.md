@@ -70,9 +70,10 @@ A working, reproducible pipeline for **generating game assets with open models o
 
 ### Audio
 
-| I want to make / do                         | flow                                                                                                               | story                                                 |
-|---------------------------------------------|--------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| Generate music or a song from a text prompt | `audio/workflows/ace-step.json` (tags + optional lyrics -> a 2-minute track; ACE-Step 1.5, MIT, 9.3 GB all-in-one) | [S19](HOWTO.md#s19-generate-music-from-a-text-prompt) |
+| I want to make / do                                | flow                                                                                                                                                                   | story                                                    |
+|----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| Generate music or a song from a text prompt        | `audio/workflows/ace-step.json` (tags + optional lyrics -> a 2-minute track; ACE-Step 1.5, MIT, 9.3 GB all-in-one)                                                     | [S19](HOWTO.md#s19-generate-music-from-a-text-prompt)    |
+| Keep a soundtrack in the same style as a reference | `audio/workflows/ace-step-style.json` (a reference track is encoded and re-sampled at a chosen `denoise` - it retains the reference strongly rather than restyling it) | [S20](HOWTO.md#s20-match-the-style-of-a-reference-track) |
 
 ### Cross-cutting tooling
 
