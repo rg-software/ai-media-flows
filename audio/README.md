@@ -19,21 +19,14 @@ First model: **ACE-Step 1.5** (MIT, commercial-ready by its own card, trained on
 
 ## Lyric section markup - what `[Verse]` and `[Chorus]` actually are
 
-**A convention the model learned, not a keyword list, and nothing in the pipeline parses it.** The node hands the
-lyric straight to the tokenizer (`clip.tokenize(tags, lyrics=lyrics, ...)` in `comfy_extras/nodes_ace.py`) - no
-vocabulary, no validation, and no error for an unknown name. The evidence is what the ten shipped ACE-Step templates
-actually write: **21 distinct bracketed tokens**, in two kinds.
+**A convention the model learned, not a keyword list, and nothing in the pipeline parses it.** The node hands the lyric straight to the tokenizer (`clip.tokenize(tags, lyrics=lyrics, ...)` in the ACE-Step node module, `nodes_ace.py`, inside ComfyUI's core `comfy_extras`) - no vocabulary, no validation, and no error for an unknown name. The evidence is what the ten shipped ACE-Step templates actually write: **21 distinct bracketed tokens**, in two kinds.
 
 | kind | examples from the shipped templates |
 |---|---|
 | **structural** - what shapes the arrangement | `[Intro]` `[Verse]` `[Verse 1]` `[Verse 2]` `[Pre-Chorus]` `[Chorus]` `[Post-Chorus]` `[Final Chorus]` `[Bridge]` `[Outro]` |
 | **free-form** - a hint, never validated | `[Intro - Rhodes piano and brushed drums]`, `[Chorus - Pop Explosion]`, `[Verse 1 - Trap Rap]`, `[instrumental]`, `[break down]`, `[drum fill]`, `[chopped samples]` |
 
-Use the standard names for structure and a dash plus a phrase for arrangement hints. An invented name is not an
-error - it may simply mean nothing - and **we cannot measure which**, because a section label changes the
-arrangement rather than the words, so neither the transcript nor the spectrogram settles it. That is what ears are
-for. (The v1 node exposes `lyrics_strength`, a weight on how hard the lyric is followed; v1.5 has no such knob and
-carries the structured parameters - `bpm`, `keyscale`, `timesignature`, `duration` - instead.)
+Use the standard names for structure and a dash plus a phrase for arrangement hints. An invented name is not an error - it may simply mean nothing - and **we cannot measure which**, because a section label changes the arrangement rather than the words, so neither the transcript nor the spectrogram settles it. That is what ears are for. (The v1 node exposes `lyrics_strength`, a weight on how hard the lyric is followed; v1.5 has no such knob and carries the structured parameters - `bpm`, `keyscale`, `timesignature`, `duration` - instead.)
 
 ## Traps (measured, not read)
 
