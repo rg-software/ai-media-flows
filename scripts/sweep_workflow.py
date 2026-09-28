@@ -292,7 +292,7 @@ def main() -> int:
         # `interp_probe_00003_` while `--out` said `interp_src`), so a sweep of a video flow produced files
         # that were neither labelled by the cell nor findable from the manifest.
         for nid, n in prompt.items():
-            if n["class_type"] in ("SaveImage", "SaveVideo"):
+            if n["class_type"] in ("SaveImage", "SaveVideo", "SaveAudio", "SaveAudioAdvanced"):
                 n["inputs"]["filename_prefix"] = "%s_c%02d" % (args.out, idx)
         t0 = time.time()
         resp = post(args.base, args.token, "/prompt", {"prompt": prompt})
