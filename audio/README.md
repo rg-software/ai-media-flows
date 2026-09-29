@@ -46,6 +46,16 @@ The 2D scenario composes rather than hoping one prompt carries three characters:
 | **repair a region** (a mispronounced word, a deliberately deleted piece) | `VAEEncodeAudio` -> `CreateAudioMask` -> `SetLatentNoiseMask` -> `KSampler` at partial denoise -> `VAEDecodeAudio` - the inpainting analogue, on an audio latent |
 | **a target timbre** | `ReferenceTimbreAudio`; for new *words* on an existing tune, YuE's cover (S22) |
 
+**Match the route to the job - what this pipeline is actually for.** Source separation is an ill-posed inverse problem, so "generate a song, split it, recombine" will never be clean. Pick the route by goal:
+
+| the goal | the route, in order of preference |
+|---|---|
+| **an instrumental bed** | ask for an instrumental directly (`lyrics` empty) - guaranteed clean. Only separate when the mix already exists, and then MDX (`UVR-MDX-NET-Voc_FT`) is the best of the three measured (BS-Roformer and Mel-Band Roformer both leave audible vocal), optionally followed by a **debleed/denoise** pass |
+| **a reusable voice track** | generate the voice *as a part* (a cappella prompt, or YuE's cover for a melody plus new words); separation is a *salvage* tool, not a source |
+| **restyle / keep only the melody** | a **symbolic** reference - YuE's cover (S22) turns the reference into ABC, so the original's vocals cannot survive it (ACE-Step's m2m is latent/denoise-based and *retains* instead) |
+| **repair a word or a region** | the mask/inpaint route (`CreateAudioMask` + `SetLatentNoiseMask`), not separation - E18 |
+| **two genuine voices** | **deprioritised** - what the models deliver is a *unison choir*, which is a legitimate sound but not two leads (E14/E15), so it is only worth pushing if harmony itself is the goal |
+
 **Planned order, revised after E15's ears:** **E15** stems (done - the vocal stem is clean) -> **E16** **separation quality first**: the user's ears say the *instrumental* stems still carry vocals (and a 0-word transcript does not contradict that), so the ladder of stronger models (BS-Roformer, Mel-Band Roformer, MDX23-class) plus a **second pass** comes before any mixing, and the measure to trust is the ear, with ASR only as a hint -> **E17** mixing and voice blending, including a *controlled* two-voice blend (the thing E14 could only ask for in a prompt - and the ears say prompting gives *one voice or a unison backing*, not two leads) -> **E18** region repair, with splice-plus-crossfade comping as the fallback.
 
 **Discipline carried over:** every model here lands at **0.0 dBFS**, so a mix needs explicit normalisation; E4's join rule *inverts* for edits (a hard join was right for a *loop*, a crossfade is the tool for music edits); and a transcript is a **lower bound** on vocal presence, never a presence test.
