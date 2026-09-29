@@ -1,0 +1,452 @@
+{
+ "last_node_id": 10,
+ "last_link_id": 10,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "VAELoader",
+   "pos": [
+    -1200,
+    0
+   ],
+   "size": [
+    340,
+    70
+   ],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      2,
+      5,
+      9
+     ]
+    }
+   ],
+   "widgets_values": [
+    "ace_1.5_vae.safetensors"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "LoadAudio",
+   "pos": [
+    -1200,
+    140
+   ],
+   "size": [
+    340,
+    80
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "widgets_values": [
+    "ace_iron_gap.flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadAudio"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "LoadAudio",
+   "pos": [
+    -1200,
+    260
+   ],
+   "size": [
+    340,
+    80
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      3
+     ]
+    }
+   ],
+   "widgets_values": [
+    "ace_iron_b.flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadAudio"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "TrimAudioDuration",
+   "pos": [
+    -800,
+    260
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      4
+     ]
+    }
+   ],
+   "widgets_values": [
+    55.0,
+    6.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "TrimAudioDuration"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "VAEEncodeAudio",
+   "pos": [
+    -440,
+    140
+   ],
+   "size": [
+    260,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 1
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEEncodeAudio"
+   },
+   "order": 4
+  },
+  {
+   "id": 6,
+   "type": "VAEEncodeAudio",
+   "pos": [
+    -440,
+    260
+   ],
+   "size": [
+    260,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 4
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEEncodeAudio"
+   },
+   "order": 5
+  },
+  {
+   "id": 7,
+   "type": "ReplaceVideoLatentFrames",
+   "pos": [
+    -100,
+    200
+   ],
+   "size": [
+    330,
+    130
+   ],
+   "inputs": [
+    {
+     "name": "destination",
+     "type": "LATENT",
+     "link": 6
+    },
+    {
+     "name": "source",
+     "type": "LATENT",
+     "link": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "widgets_values": [
+    1375
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "ReplaceVideoLatentFrames"
+   },
+   "order": 6
+  },
+  {
+   "id": 8,
+   "type": "VAEDecodeAudio",
+   "pos": [
+    280,
+    200
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 9
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEDecodeAudio"
+   },
+   "order": 7
+  },
+  {
+   "id": 9,
+   "type": "SaveAudioAdvanced",
+   "pos": [
+    580,
+    200
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "audio/ACE_comp",
+    "flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
+   "order": 8
+  },
+  {
+   "id": 10,
+   "type": "MarkdownNote",
+   "pos": [
+    -1200,
+    400
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "widgets_values": [
+    "## E18b: repair by latent comp (`ReplaceVideoLatentFrames`)\n\n**There is no repaint node** - `SetLatentNoiseMask` fails on an audio latent (the sampler's mask path is\nhard-wired for `[B,1,H,W]` images, E18) and `LatentInpaintTTM` is a video-method model patch that still needs\na mask. **This is the official, mask-free equivalent:** `ReplaceVideoLatentFrames` splices a range of *frames*\nfrom one latent into another - and an audio latent's frames are its time axis (25 per second, E18).\n\n**The repair:** take **A** = the industrial take with **55-61 s silenced** (`input/ace_iron_gap.flac`), take\n**B** = a *second render of the same song* (same model, style, lyric; different seed - the studio \"comp\"), trim\nB to the damaged span (`TrimAudioDuration`, 55 s + 6 s), encode both latents, splice B's 150 frames into A at\nindex **1375**, decode, save.\n\n**What to check:** is the deleted span restored (words back), does the join hold, and is the rest of A intact?\nCaveat to measure: A's untouched frames are VAE round-tripped here (there is no mask to protect them), which is\nexactly why the waveform comp - decoding B and crossfading it into A's audio - remains the higher-fidelity\nalternative.\n"
+   ],
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   2,
+   0,
+   5,
+   0,
+   "AUDIO"
+  ],
+  [
+   2,
+   1,
+   0,
+   5,
+   1,
+   "VAE"
+  ],
+  [
+   3,
+   3,
+   0,
+   4,
+   0,
+   "AUDIO"
+  ],
+  [
+   4,
+   4,
+   0,
+   6,
+   0,
+   "AUDIO"
+  ],
+  [
+   5,
+   1,
+   0,
+   6,
+   1,
+   "VAE"
+  ],
+  [
+   6,
+   5,
+   0,
+   7,
+   0,
+   "LATENT"
+  ],
+  [
+   7,
+   6,
+   0,
+   7,
+   1,
+   "LATENT"
+  ],
+  [
+   8,
+   7,
+   0,
+   8,
+   0,
+   "LATENT"
+  ],
+  [
+   9,
+   1,
+   0,
+   8,
+   1,
+   "VAE"
+  ],
+  [
+   10,
+   8,
+   0,
+   9,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
