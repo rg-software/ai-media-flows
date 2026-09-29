@@ -46,7 +46,7 @@ The 2D scenario composes rather than hoping one prompt carries three characters:
 | **repair a region** (a mispronounced word, a deliberately deleted piece) | `VAEEncodeAudio` -> `CreateAudioMask` -> `SetLatentNoiseMask` -> `KSampler` at partial denoise -> `VAEDecodeAudio` - the inpainting analogue, on an audio latent |
 | **a target timbre** | `ReferenceTimbreAudio`; for new *words* on an existing tune, YuE's cover (S22) |
 
-**Planned order:** **E15** stems, because the other two depend on them -> **E16** mixing and voice blending, including a *controlled* two-voice blend (the thing E14 could only ask for in a prompt) -> **E17** region repair, with splice-plus-crossfade comping as the fallback.
+**Planned order, revised after E15's ears:** **E15** stems (done - the vocal stem is clean) -> **E16** **separation quality first**: the user's ears say the *instrumental* stems still carry vocals (and a 0-word transcript does not contradict that), so the ladder of stronger models (BS-Roformer, Mel-Band Roformer, MDX23-class) plus a **second pass** comes before any mixing, and the measure to trust is the ear, with ASR only as a hint -> **E17** mixing and voice blending, including a *controlled* two-voice blend (the thing E14 could only ask for in a prompt - and the ears say prompting gives *one voice or a unison backing*, not two leads) -> **E18** region repair, with splice-plus-crossfade comping as the fallback.
 
 **Discipline carried over:** every model here lands at **0.0 dBFS**, so a mix needs explicit normalisation; E4's join rule *inverts* for edits (a hard join was right for a *loop*, a crossfade is the tool for music edits); and a transcript is a **lower bound** on vocal presence, never a presence test.
 
