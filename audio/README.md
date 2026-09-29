@@ -35,6 +35,21 @@ First model: **ACE-Step 1.5** (MIT, commercial-ready by its own card, trained on
 
 Use the standard names for structure and a dash plus a phrase for arrangement hints. An invented name is not an error - it may simply mean nothing - and **we cannot measure which**, because a section label changes the arrangement rather than the words, so neither the transcript nor the spectrogram settles it. That is what ears are for. (The v1 node exposes `lyrics_strength`, a weight on how hard the lyric is followed; v1.5 has no such knob and carries the structured parameters - `bpm`, `keyscale`, `timesignature`, `duration` - instead.)
 
+## Composition, mixing and repair - the next topic (protocol)
+
+The 2D scenario composes rather than hoping one prompt carries three characters: mask, move, paste, inpaint. Audio has the same machinery, and most of it is already in core - checked on this build:
+
+| job | nodes / tools |
+|---|---|
+| **separate a take into stems** | `audio-separator[cpu]` (E10's recipe; ephemeral through `uv run --with`) - the first thing to ship as a `scripts` tool |
+| **mix and blend** | `AudioMerge`, `AudioAdjustVolume`, `AudioEqualizer3Band`, `SplitAudioChannels` / `JoinAudioChannels`, `TrimAudioDuration` - an in-graph mixer |
+| **repair a region** (a mispronounced word, a deliberately deleted piece) | `VAEEncodeAudio` -> `CreateAudioMask` -> `SetLatentNoiseMask` -> `KSampler` at partial denoise -> `VAEDecodeAudio` - the inpainting analogue, on an audio latent |
+| **a target timbre** | `ReferenceTimbreAudio`; for new *words* on an existing tune, YuE's cover (S22) |
+
+**Planned order:** **E15** stems, because the other two depend on them -> **E16** mixing and voice blending, including a *controlled* two-voice blend (the thing E14 could only ask for in a prompt) -> **E17** region repair, with splice-plus-crossfade comping as the fallback.
+
+**Discipline carried over:** every model here lands at **0.0 dBFS**, so a mix needs explicit normalisation; E4's join rule *inverts* for edits (a hard join was right for a *loop*, a crossfade is the tool for music edits); and a transcript is a **lower bound** on vocal presence, never a presence test.
+
 ## Traps (measured, not read)
 
 - **The official template uses `PrimitiveNode`s** (frontend-only nodes that feed widget inputs). A UI->API converter must substitute their *value* into the consumer **and must collect them in a pre-pass** - a consumer can be visited before its primitive (nodes 98 and 99 here), and the resulting prompt otherwise links to a node that is not in it, which the server rejects outright. Fixed in `scripts/sweep_workflow.py` (E1).
