@@ -23,7 +23,7 @@
     }
    ],
    "widgets_values": [
-    "ace_iron.flac"
+    "ace_iron_b.flac"
    ],
    "flags": {},
    "mode": 0,
@@ -78,7 +78,6 @@
     "acestep-v15-turbo",
     "acestep-v15-turbo",
     31,
-    8,
     "auto",
     false,
     "None",
