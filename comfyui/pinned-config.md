@@ -60,6 +60,26 @@ systemctl --user restart comfyui
 
 Then confirm: `venv/bin/python -c "import torch; print(torch.__version__)"` says `2.11.0+cu128`, and Hy3D loads (and it must be imported **after** torch: `import torch, custom_rasterizer_kernel`). The custom nodes are separate repos - restore any one of them the same way if the update moves it and something breaks.
 
+## Local components on the box (2026-10-05, E19) - not in any pin
+
+**`custom_nodes/audio_latent_mask/`** - `SetAudioLatentNoiseMask`, a ~10-line node that is a required component, not a convenience. **Regenerating an audio region (masked-latent repaint) does not run without it**, because the core `SetLatentNoiseMask` reshapes every mask to 4-D, which is right for image latents and wrong for a 3-D audio latent (its `reshape_mask` path then needs a 3-D mask and errors). The node stores the mask unchanged so the 1-D path works. Source is mirrored in this repo at `audio/custom_nodes/audio_latent_mask/__init__.py` - **if the node directory is lost from the box, restore it from there** (a custom node has no `pip freeze` entry, so nothing else records it). Measured: E19.
+
+## Local patches on the box (2026-10-05, E18d) - not in any pin
+
+`ComfyUI-kaola-ace-step` (ACE-Step's own nodes: text2music, **cover**, **repaint**, understand) is installed on the box and **carries four hand-applied patches plus two installed packages**, none of them upstream. They are the difference between the pack working and the node existing without an engine. Record them here because a `git pull` on that pack, a `pip install -U`, or a venv rebuild silently undoes them.
+
+| what | where | why |
+|---|---|---|
+| `acestep_repo` re-cloned from **`ace-step/ACE-Step-1.5`** at the pinned commit `45d9783b` | `custom_nodes/ComfyUI-kaola-ace-step/acestep_repo` | **`.gitmodules` says `ACE-Step-1.5` but it had been cloned from `ACE-Step`** - a different repository, so the pin did not exist and the checkout fell back to that repo's `main`, which has no `handler.py` / `inference.py` / `llm_inference.py`. The tell is `checkpoint_dir` reading `[[""]]` in `/object_info`: the node registered, but `ACESTEP_AVAILABLE` was False. |
+| `pip install loguru vector_quantize_pytorch` | venv | both are hard imports of the vendored engine |
+| `levels_tensor` / `_levels` / `_basis` / `implicit_codebook` forced to `device='cpu'` | `residual_fsq.py` + `finite_scalar_quantization.py`, in the `vector_quantize_pytorch` package (`.orig`, `.orig2` kept) | **transformers 5.17 builds `trust_remote_code` models under a meta device**, so these *non-persistent* buffers - never restored from the checkpoint, so they must be real at init - landed on meta (`Tensor.item() cannot be called on meta tensors`). This is the pattern transformers itself documents in `initialization.py::meta_device_safe_creation_ops`. |
+| `_get_attention_implementation()` returns `eager` | `acestep_wrapper.py`, in the pack (`.orig` kept) | transformers 5.x now **rejects** rather than warns about `flash_attention_2` on a model declaring no `_supports_flash_attn`, and the wrapper's own fallback only covered `sdpa -> eager`. |
+| `ACESTEP_DTYPE` env override on `self.dtype` | same file | a knob, not a fix: fp32 does **not** cure the NaNs below |
+
+**Known open defect (E18d):** the **first** generation after a `systemctl --user restart comfyui` succeeds and **every later one in the same process returns all-NaN latents** - 1 success in 10, bf16 and fp32 alike. Not diagnosed; it is handler state, not dtype.
+
+**Also in this pack, unmeasured:** `ACE_STEP_Cover` (`audio_cover_strength`, "use LOWER 0.1-0.3 for more style change") and `ACE_STEP_Understand`. The first bears on E5/E5b, which concluded ACE-Step's restyle was out of reach in-graph.
+
 ## Notes left in the checkout at pin time
 
 - `login/` is untracked by design (it holds `PASSWORD`) and `object_info.json` was a scratch dump from an earlier session. Neither blocks a fast-forward, but per this repo's own rule a scratch file inside a checkout is a liability; the dump was moved to the home directory before the update.

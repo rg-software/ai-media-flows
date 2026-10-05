@@ -317,6 +317,20 @@
 - *More:* [`audio/README.md`](audio/README.md), and E13/E13b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 
+### S24. Repair a region of a track (repaint)
+
+- *When:* a take is right except for **one span** - a mispronounced word, a weak section, a deliberately deleted passage - and you want that span regenerated **without touching the rest**. This is the audio analogue of inpainting.
+- *Prerequisite:* the **`SetAudioLatentNoiseMask` custom node** must be installed. Copy `audio/custom_nodes/audio_latent_mask/` to the box's `custom_nodes/` and restart ComfyUI. **The flow does not run without it** - the core `SetLatentNoiseMask` reshapes every mask to 4-D, which is right for image latents and breaks the 1-D (audio) mask path.
+- *Steps:*
+	- open `audio/workflows/ace-step-latent-repaint.json`, and put the **take** on `LoadAudio` (any audio file in ComfyUI's `input/`);
+	- the band is `SolidMask` (zeros, width = latent frames) + `SolidMask` (ones) -> `MaskComposite`. **The latent runs at 25 frames/s**, so 55-61 s is `x=1375, width=150`;
+	- set `tags` and `lyrics` to **the take's own style and words** - this is the step that decides whether it sounds right;
+	- run; a 120 s take costs about **15 s**.
+- *Knobs:* **`tags` + `lyrics`** (the big one - see traps), the band's `x`/width, `seed`, and `denoise` (**leave at 1.0**; lower values changed the band *more*, not less).
+- *Traps:* **match the conditioning before touching the mask or the sampler.** The first run came back with an audible seam and a style change - and both were the *prompt*: the flow had inherited a generic `tags` line with empty lyrics, so the band was regenerated as different music. The boundary is **not** a waveform discontinuity (the worst step at 55 s measured 16.5x the track's median either way, against the *original's own* 17.6x), so a feathered mask changes nothing audible. **And a repaint is a different performance of that span** (E18c), so it is the right tool when the span *should* change - not a way to nudge one that is nearly right.
+- *More:* [`audio/README.md`](audio/README.md), and E19/E19b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
+
 ---
 
 ## If your job isn't here

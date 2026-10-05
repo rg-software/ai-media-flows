@@ -76,8 +76,10 @@
     61.0,
     "Ace-Step1.5",
     "acestep-v15-turbo",
-    "acestep-v15-turbo",
+    "acestep-5Hz-lm-1.7B",
     31,
+    "fixed",
+    8,
     "auto",
     false,
     "None",
@@ -135,15 +137,15 @@
     520
    ],
    "size": [
-    420,
-    320
+    560,
+    700
    ],
    "flags": {},
    "mode": 0,
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## ACE-Step Repaint (E18d dev copy) - re-sing a span of an existing take\n\n**The capability the whole repair topic was looking for.** `ACE_STEP_Repaint` (the\nkaola pack, same MIT family as the model) encodes the source audio, regenerates **only\nthe marked span** under a caption, and stitches it back - so a mispronounced word or a\ndropped line is fixed by re-rendering that region, not the song.\n\n- **region:** `repainting_start` / `repainting_end` in **seconds** - here **55-61 s** of\n  `input/ace_iron.flac` (the industrial 'Iron heart' take).\n- **caption:** the take's own style text, so the re-sung span matches the performance.\n- **model:** `checkpoint_dir` = `models/Ace-Step1.5` (the original multi-file layout,\n  9.4 GB, MIT), `config_path` / `lm_model_path` = `acestep-v15-turbo`, seed 31,\n  8 steps, `quantization` None, `compile_model` off.\n\n**What to check:** is the span re-sung (words back, in the take's voice), and is the\njoin clean? The node stitches internally, so there is no waveform join to manage - but\nthe re-sung span is a *different performance* of the same line, so a timbre/energy shift\nat the boundaries is the thing to listen for. Compare against `output/fetched/parts17b/`\n(the comp route) - same goal, different mechanism.\n"
+    "## ACE-Step Repaint (E18d) - re-render a span of an existing take\n\n**ACE-Step's own region repaint, and the fourth route the repair topic tried** (after E18's blocked\nmask, E18b's latent comp and E18c's one-word test). MIT, and the **fastest music route measured in\nthis repo: 15.6 s for a 120 s take** - but the measurement says it **is not region-limited**.\n\n- **region:** `repainting_start` / `repainting_end` in **seconds** (`-1` = to the end).\n- **`checkpoint_dir` = `models/Ace-Step1.5`** - this node wants ACE-Step's *original multi-file*\n  layout, not our all-in-one `ace_step_1.5_turbo_aio.safetensors`, and it resolves the rest itself.\n- **`lm_model_path` must be the language model** (`acestep-5Hz-lm-1.7B`), not the DiT config - the\n  dropdown accepts both, so a DiT name here loads silently and is wrong.\n- **`seed` carries a `control_after_generate` slot**, so `widgets_values` has `\"fixed\"` between the\n  seed and `inference_steps`. Take the order from the pack's own `examples/audio_repaint.json`.\n\n**What E18d measured (both arms repainted 55-61 s of the 'Iron heart' take, seed 31, 8 steps):**\n\n| arm | source | result |\n|---|---|---|\n| **2** | the **uncut** take | outside the span `max|diff|` **1.235**, mean 0.059, diverging from **0-2 s** - the same shape as E18c |\n| **1** | the E18 probe, 55-61 s deleted | the span returns at **-32.8 dB** against the original's -13.1 dB, and **0 transcribed words** (a hint, not a verdict - E12c) |\n\nSo the region argument selects **what is regenerated, not what is preserved**. That is the fourth\nindependent route to agree that this model conditions the whole generation, so the repair topic\ncloses with: **re-render and take the new master, or a comped seam you can hear.**\n\n**Two operational traps, both cost real time:**\n\n1. **The first generation after a ComfyUI restart succeeds; every later one in the same process\n   returns all-NaN latents** (1 success in 10, bf16 and fp32 alike). Restart the service per arm.\n2. **The pack had never worked on this box.** Its `.gitmodules` points at `ace-step/ACE-Step-1.5`\n   but `acestep_repo` was cloned from `ace-step/ACE-Step` - a different repository - so the pinned\n   commit was absent and the checkout silently fell back to a `main` with no `handler.py`. The tell\n   is `checkpoint_dir` reading `[[\"\"]]` in `/object_info`: the node registered but its engine did\n   not import. Re-clone from `ACE-Step-1.5` at the pin, then `pip install loguru\n   vector_quantize_pytorch`, then apply the four documented patches (see `audio/EXPERIMENTS.md`\n   E18d and `comfyui/pinned-config.md`).\n\n---\n*Measured: **E18d** in `audio/EXPERIMENTS.md`. Why it closes the topic: **E18/E18b/E18c/E18d**.*\n"
    ],
    "properties": {},
    "order": 0
