@@ -1,5 +1,27 @@
 # HANDOFF: AI Gamedev Tasks (ComfyUI Linux Migration)
 
+> ## ⚠️ 2026-10-06: the box is showing **memory corruption** — do not trust its output
+>
+> ComfyUI stopped starting. The fault is **hardware**, and the evidence is conclusive:
+>
+> - **`md5sum` of the same 451 MB file (`libcusparseLt.so.0`), read three times, returned three different hashes.** A file cannot do that, and btrfs checksums data (no btrfs errors appear) — so the bytes are being corrupted **in memory**.
+> - `import torch` dies with `general protection fault ... in libcusparse.so.12`, and Python raises `ValueError: bad marshal data (invalid reference)` on stdlib/pycs.
+> - `find /` **segfaults**, and the *set of failures changes between runs* — the signature of bit flips, not a misconfiguration.
+> - The box has **64 GB of non-ECC RAM**, so `edac` `ce_count`/`ue_count` are necessarily `0` and cannot report bit flips. **Do not read those zeros as health.**
+>
+> **State:** `comfyui` was **stopped** to reduce load. Uptime was 12 days at the time.
+> **First failing timestamp seen:** 2026-10-06 23:29 (last good ComfyUI prompt: 2026-10-05 18:46), so the work logged on 2026-10-05 (E19/E19b) *probably* predates it — but that is not certain, and **its artefacts should be re-verified once the box is healthy**.
+>
+> **What to do (in order):**
+> 1. **Run `memtest86+` overnight** (GRUB menu). Any error means the fault is RAM.
+> 2. If errors: **reseat, then replace the DIMMs** — one at a time to identify the bad one. `lsmem` shows two blocks (~2 GB and ~62 GB online); `sudo dmidecode -t memory` gives per-slot mapping.
+> 3. Only after RAM is clean: **re-verify the venv** (`pip install -r comfyui/pinned-config-freeze-2026-09-28.txt`) and re-check anything produced since 2026-10-05 — bits written through bad RAM are permanently wrong on disk.
+> 4. A 24/7 inference box wants **ECC RAM**; this is the argument for it.
+>
+> **A red herring, recorded so it is not repeated:** a *root-owned* `dataclasses.cpython-311.pyc` under `/usr/lib/python3.11/__pycache__` looked like disk corruption, and setting `PYTHONPYCACHEPREFIX` (systemd drop-in `~/.config/systemd/user/comfyui.service.d/pycache-prefix.conf`) made imports work once. **That was a misdiagnosis** — the `.pyc` on disk is fine; the RAM corrupts it while it is read, so bypassing the cache merely changed which bytes got mangled. The drop-in is harmless and left in place; it is **not** a fix.
+>
+> Failure modes seen while diagnosing (all consistent with bad RAM, none with a config error): `bad marshal data (unknown type code)` / `(invalid reference)`, `undefined symbol` in `libcusparseLt.so.0`, `general protection fault ... in libcusparse.so.12`, `pip freeze` crashing mid-traceback, and `find` segfaulting.
+
 > **UPDATE 2026-09-11 (second agent pass):** The rasterizer blocker is **resolved** and the full smoke checklist **PASSES on Linux** — shape, multiview, full single-image texture, MoGe, and SDXL 2D all verified (see `3d/EXPERIMENTS.md` L1/L2 + PENDING). Head to **"After the build"** below for the current state; the original blocker notes follow for the record.
 
 Author: Maxim's AI agent (this is a handoff for a coding agent running on the new Linux box). Date: 2026-09-11. Read this first; then `AGENTS.md`, `comfyui/linux-setup.md`.
