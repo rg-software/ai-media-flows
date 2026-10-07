@@ -273,7 +273,7 @@
 	- put the style you *want* in **`tags`** - although see the trap;
 	- set **`denoise`** and run. A take costs about 5 s.
 - *Knobs:* **`denoise`** - measured, this is a *retention* dial: 0.3-0.5 gives the same piece re-rendered (spectral similarity to the reference 0.99), and even 0.9 stays closer to the reference than to a text-only take of the same tags. The curve is not monotone (0.7 came out least like the reference), and with the turbo's 8 steps `denoise` is quantised to eighths.
-- *Trap:* **this is "more of this", not "make this industrial".** It keeps the reference's character, so it is the tool for a consistent soundtrack; for a genuine restyle you need ACE-Step's upstream Cover / "Refer audio" mode, which this ComfyUI build does not expose. And a rhythmic reference needs its `duration` matched, since the conditioning and the encoded latent must agree.
+- *Trap:* **this is "more of this", not "make this industrial".** It keeps the reference's character, so it is the tool for a consistent soundtrack; for a genuine restyle you need ACE-Step's *cover* task. The kaola pack exposes it now as `ACE_STEP_Cover`, but that pack's engine produced noise here (E18e), so it is not a route yet - until it is, restyle means **S22** (YuE, non-commercial). And a rhythmic reference needs its `duration` matched, since the conditioning and the encoded latent must agree.
 - *More:* [`audio/README.md`](audio/README.md), and E5 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 ### S21. Generate sound effects from a text prompt
@@ -301,7 +301,7 @@
 	- write the **style** you want it changed into (the shipped `STYLE` is industrial rock) and the **lyrics** you want - the reference's *melody* is kept, its *words* are not;
 	- run. A 30 s reference covers in **65 s**.
 - *Knobs:* `max_duration` must be at least the reference's length - the model chooses the duration itself and this only bounds it; `mode` is `melody` for a cover (`full` writes a new song instead); the `PreviewAny` node shows the ABC that SheetSage2 actually transcribed, which is how you see whether the melody was read.
-- *Traps:* **the licence** - YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so the output is research-only; the shippable form of this capability is ACE-Step's own Cover mode (MIT, upstream's app). **A transcript is not a presence test**: Whisper read 0-19 words on takes whose vocal the ears plainly hear (E12c), so never call a take instrumental from a transcript. And like every model here it lands at **0.0 dBFS**, so normalise.
+- *Traps:* **the licence** - YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so the output is research-only; the shippable form of this capability is ACE-Step's own *cover* task (MIT), exposed now as `ACE_STEP_Cover` in the kaola pack - but that engine produced noise here (E18e), so there is no shippable restyle yet. **A transcript is not a presence test**: Whisper read 0-19 words on takes whose vocal the ears plainly hear (E12c), so never call a take instrumental from a transcript. And like every model here it lands at **0.0 dBFS**, so normalise.
 - *More:* [`audio/README.md`](audio/README.md), and E12/E12d in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 
