@@ -293,8 +293,8 @@
 	- open `audio/workflows/yue2-cover.json` and put your reference in ComfyUI's `input/`, picked on the **`LoadAudio`** node;
 	- write the **style** to change it into (the shipped `STYLE` is industrial rock) and the **lyrics** you want - the reference's *melody* is kept, its *words* are not;
 	- run. A 30 s reference covers in about **65 s**.
-- *Knobs:* `max_duration` must be at least the reference's length (the model chooses the duration and this only bounds it); `mode` is `melody` for a cover (`full` writes a new song instead); and the **`PreviewAny`** node shows the ABC that SheetSage2 actually transcribed - which is how you see whether the melody was read at all.
-- *Traps:* **the licence** - YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so everything it makes is research-only. And **a transcript is not a presence test** - never call a take instrumental because a transcript reads nothing.
+- *Knobs:* `max_duration` is a **ceiling, not a requested length**; the model can stop earlier when its generated song/ABC phrase ends. Raising it alone may not make a short cover longer - use a longer, more developed melody source (the source's *musical content*, not just padded silence) and inspect the ABC. `mode` is `melody` for a cover (`full` writes a new song instead); `PreviewAny` shows what SheetSage2 transcribed.
+- *Traps:* **an instrumental reference may not become a sung cover just because you add lyrics.** The lyrics field is passed to YuE2, but SheetSage2 may have transcribed the ABC's `Vocal` line as all rests, leaving no vocal melody for the new words to follow; inspect the ABC and judge the result by ear. **The licence:** YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so the output is research-only. And **a transcript is not a presence test** - never call a take instrumental because a transcript reads nothing.
 
 
 ### S23. Generate a song with ACE-Step XL
