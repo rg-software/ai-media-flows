@@ -240,7 +240,7 @@
   },
   {
    "want": "Restyle a track in a new style (cover)",
-   "detail": "`audio/workflows/yue2-cover.json` (YuE 2 melody transplant - the only restyle route; **non-commercial** weights, so research use only)",
+   "detail": "`audio/workflows/yue2-cover.json` (YuE 2 melody transplant - the only restyle route; **non-commercial** weights, so research use only; the model picks the length, and new lyrics need a sung source - E22)",
    "story": "S22",
    "category": "audio"
   },

@@ -293,9 +293,8 @@
 	- open `audio/workflows/yue2-cover.json` and put your reference in ComfyUI's `input/`, picked on the **`LoadAudio`** node;
 	- write the **style** to change it into (the shipped `STYLE` is industrial rock) and the **lyrics** you want - the reference's *melody* is kept, its *words* are not;
 	- run. A 30 s reference covers in about **65 s**.
-- *Knobs:* `max_duration` is a **ceiling, not a requested length**; the model can stop earlier when its generated song/ABC phrase ends. Raising it alone may not make a short cover longer - use a longer, more developed melody source (the source's *musical content*, not just padded silence) and inspect the ABC. `mode` is `melody` for a cover (`full` writes a new song instead); `PreviewAny` shows what SheetSage2 transcribed.
-- *Traps:* **an instrumental reference may not become a sung cover just because you add lyrics.** The lyrics field is passed to YuE2, but SheetSage2 may have transcribed the ABC's `Vocal` line as all rests, leaving no vocal melody for the new words to follow; inspect the ABC and judge the result by ear. **The licence:** YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so the output is research-only. And **a transcript is not a presence test** - never call a take instrumental because a transcript reads nothing.
-
+- *Knobs:* `max_duration` is a **ceiling, not a requested length** - you cannot pick the cover's size. The model stops when its generated song ends, so the length follows the ABC's music: E22 measured a 30 s instrumental at cap 30 coming out 27.7 s with a 188-word lyric and 29.5 s with none. A longer source helps only by giving SheetSage2 more melody to transcribe. `mode` is `melody` for a cover (`full` writes a new song instead).
+- *Traps:* **you cannot add lyrics to an instrumental melody.** The lyrics do reach the model, but an instrumental's transcribed ABC has an all-rests `Vocal` line, so the words have nothing to follow - E22's added 188-word lyric was not sung. For new words on a tune, pick a source that is already sung. **The licence:** YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so the output is research-only.
 
 ### S23. Generate a song with ACE-Step XL
 
