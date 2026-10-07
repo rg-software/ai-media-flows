@@ -246,7 +246,7 @@
   },
   {
    "want": "Generate a song that actually sings",
-   "detail": "`audio/workflows/ace-step-xl-sft.json` (ACE-Step 1.5 XL, 4B, **MIT**)",
+   "detail": "`audio/workflows/ace-step-xl-sft.json` (ACE-Step 1.5 XL, 4B, **MIT**) - the 4B arm; it sings the most of a lyric on a clear-lead style (E23)",
    "story": "S23",
    "category": "audio"
   },
@@ -257,8 +257,8 @@
    "category": "audio"
   },
   {
-   "want": "Generate a song with the cheapest MIT model",
-   "detail": "`audio/workflows/ace-step-v1-35b.json` (ACE-Step v1 3.5B, **MIT**, 7.7 GB, ~20 s per 120 s song; sings 180 of 188 words at 97% precision - **`lyrics_strength` is the knob**, and it only works in a window)",
+   "want": "Generate a song fast, and on shouty styles",
+   "detail": "`audio/workflows/ace-step-v1-35b.json` (ACE-Step v1 3.5B, **MIT**, 7.7 GB) - about **2x faster** and 2.5x lighter than the 4B arm, and it sings the shouty styles that arm whispers on; **`lyrics_strength` is the knob** and it only works in a window (E23)",
    "story": "S25",
    "category": "audio"
   }
