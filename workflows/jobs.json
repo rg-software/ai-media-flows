@@ -268,6 +268,12 @@
    "detail": "`audio/workflows/chatterbox-dialogue.json` (Chatterbox TTS, **MIT** - a `SPEAKER A:`/`SPEAKER B:` script with two **required** 5-10 s voice references, mixed scene **plus per-speaker tracks**; a separated vocal stem works as a reference, E26b)",
    "story": "S27",
    "category": "audio"
+  },
+  {
+   "want": "Make a posed facing set from a rigged model",
+   "detail": "`scripts/render_glb_poses.py` (render a rigged GLB's clips as pose x facing PNGs - bpy, one fixed camera, a gear knob) -> `2d/workflows/pixel-art-convert.json` (faithful pixelation, one shared palette) -> `scripts/atlas.py` (pack)",
+   "story": "S9",
+   "category": "animation"
   }
  ],
  "flows": {
@@ -439,6 +445,9 @@
   },
   "chatterbox-narration-turbo.json": {
    "story": "S26"
+  },
+  "render_glb_poses.py": {
+   "story": "S9"
   }
  },
  "categories": [

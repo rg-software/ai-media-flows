@@ -70,3 +70,15 @@ python_embeded\python.exe <node>\install.py
 # check envs on boot (comfy-env prints status)
 [comfy-env] <pack>: 1 isolation env(s) ... [OK|MISSING -- run install.py]
 ```
+
+## A repo tool's own env: the bpy pose renderer
+
+`scripts/render_glb_poses.py` needs `bpy` (Blender as a Python module) - ~1.6 GB, and nothing else wants it, so it gets **its own env rather than the ComfyUI venv**:
+
+```bash
+python3.11 -m venv ~/bpyenv && ~/bpyenv/bin/pip install bpy==4.2.0   # verified: bpy 4.2.0
+~/bpyenv/bin/python scripts/render_glb_poses.py --glb ~/Projects-Git/ComfyUI/input/Knight.glb \
+    --out ~/Projects-Git/ComfyUI/output/3d/poses --clip Idle_Rig:0.5 --yaws 0,90,180 --gear 1H_Sword,Round_Shield
+```
+
+It lives in **`~/bpyenv`, not the repo** (it is big and rebuildable), and it is *not* in the ComfyUI venv's freeze. Renders are headless (no `--background` needed with the bpy module) on **Cycles + CUDA**, and a GPU-context failure falls back to CPU by itself. The same pattern applies to any future repo tool with a heavy module: its own env, and the rebuild line written down here.
