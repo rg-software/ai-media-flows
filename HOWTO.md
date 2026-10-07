@@ -338,6 +338,18 @@
 - *More:* [`audio/README.md`](audio/README.md), and E13c in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 
+### S26. Generate sound effects with Stable Audio 3
+
+- *When:* you want a **sound effect** - a footstep, a door, an impact, a short ambience - and you want the best SFX this repo produces. Stable Audio 3 **small-SFX** is a dedicated sound-effects model; on isolated one-shots it comes back **cleaner and better-shaped than S21's Stable Audio Open**, for a *smaller* download (2.27 GB + a 1.19 GB encoder, versus SAO's ~5.7 GB).
+- *Steps:*
+	- weights, both from `Comfy-Org/stable-audio-3` under the **Stability AI Community** licence (the same family as SAO): `stable_audio_3_small_sfx.safetensors` into `models/checkpoints/`, `t5gemma_b_b_ul2.safetensors` into `models/text_encoders/`;
+	- open `audio/workflows/stable-audio-3-sfx.json`, write the **prompt**, set **`seconds`** on `EmptyLatentAudio`, run - about **5 s per take**;
+	- **generate at least ~10 s, then trim.** A 4 s request comes back with the content stopping around 2.8 s and a tiling artefact after it, so for a short effect ask for 10 s and cut what you want.
+- *Knobs:* `seconds` (>= 10, then trim), the **prompt** (terse is fine - adding detail did *not* improve SFX, E21), `seed`, and the sampler, which **must match the checkpoint** (see traps).
+- *Traps:* **the sampler recipe is per-checkpoint, not per-family.** Upstream ships two SA3 templates and they disagree: `medium_base` (the **pre-trained** checkpoint, for fine-tuning) runs **50 steps / cfg 7**, while `medium` (the **post-trained** one, for generation) runs **8 steps / cfg 1**. `small_sfx` is post-trained, so it wants **8 / 1** - run at 50/7 it returns *dirty audio with fragments of instruments and other garbage* (E21). And the correct recipe's takes come back **much quieter** (footsteps rms -42 dB against -15), so **level-match before judging** - otherwise a fix that only changed loudness reads as a regression.
+- *More:* [`audio/README.md`](audio/README.md), and E21 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
+
 ---
 
 ## If your job isn't here

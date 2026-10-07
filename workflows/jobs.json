@@ -25,7 +25,8 @@
   "S22": "Restyle a track (cover its melody)",
   "S23": "Generate a song with ACE-Step XL",
   "S24": "Repair a region of a track (repaint)",
-  "S25": "Generate a song with ACE-Step v1"
+  "S25": "Generate a song with ACE-Step v1",
+  "S26": "Generate sound effects with Stable Audio 3"
  },
  "jobs": [
   {
@@ -261,6 +262,12 @@
    "detail": "`audio/workflows/ace-step-v1-35b.json` (ACE-Step v1 3.5B, **MIT**, 7.7 GB, ~20 s per 120 s song; sings 180 of 188 words at 97% precision - **`lyrics_strength` is the knob**, and it only works in a window)",
    "story": "S25",
    "category": "audio"
+  },
+  {
+   "want": "Generate sound effects with a dedicated SFX model",
+   "detail": "`audio/workflows/stable-audio-3-sfx.json` (Stable Audio 3 **small-SFX**, 2.27 GB + a 1.19 GB t5gemma encoder, **Stability AI Community** - denser and cleaner than Stable Audio Open on one-shots; **generate >=10 s and trim**, and the sampler recipe is per-checkpoint: **8 steps / cfg 1** for this post-trained model)",
+   "story": "S26",
+   "category": "audio"
   }
  ],
  "flows": {
@@ -423,6 +430,9 @@
   },
   "ace-step-v1-35b.json": {
    "story": "S25"
+  },
+  "stable-audio-3-sfx.json": {
+   "story": "S26"
   }
  },
  "categories": [
