@@ -230,8 +230,8 @@
    "widgets_values": [
     31,
     "fixed",
-    50,
-    7.0,
+    8,
+    1.0,
     "lcm",
     "simple",
     1.0
@@ -333,7 +333,7 @@
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## Stable Audio 3 small-SFX (dev copy)\n\n**Flat rebuild** of the shipped `audio_stable_audio_3_medium_base` template's inner subgraph (a subgraph cannot be submitted as an API prompt, so it is flattened here). Model: **`stable_audio_3_small_sfx`** - the family member built for *sound effects and short ambience, up to 2:00*, 2.27 GB, plus the `t5gemma_b_b_ul2` text encoder (1.19 GB). **Licence: Stability AI Community** (the same family as Stable Audio Open).\n\nKnobs: `seconds` on `EmptyLatentAudio` (variable length is the point - do not leave it at 60 for a 4 s effect), the prompt, `seed`, and the shipped sampler recipe **`lcm` / `simple` / 50 steps / cfg 7** - that recipe is upstream's, not ours.\n\nNo reprompt here: the Qwen category-expander is deliberately omitted because a hand-written detailed prompt on SAO did not improve the effect (E21).\n"
+    "## Stable Audio 3 small-SFX (dev copy)\n\n**Flat rebuild** of the shipped `audio_stable_audio_3_medium_base` template's inner subgraph (a subgraph cannot be submitted as an API prompt, so it is flattened here). Model: **`stable_audio_3_small_sfx`** - the family member built for *sound effects and short ambience, up to 2:00*, 2.27 GB, plus the `t5gemma_b_b_ul2` text encoder (1.19 GB). **Licence: Stability AI Community** (the same family as Stable Audio Open).\n\nKnobs: `seconds` on `EmptyLatentAudio` (variable length is the point - do not leave it at 60 for a 4 s effect), the prompt, `seed`, and the sampler recipe, which **depends on which checkpoint you load**. Upstream ships two templates and they differ: `medium_base` (pre-trained, for fine-tuning) runs **50 steps / cfg 7**, while `medium` (**post-trained**, for generation) runs **8 steps / cfg 1** - both `lcm` / `simple`. **`small_sfx` is post-trained, so it wants 8 / 1**; running it at 50 / 7 (borrowed from the base template) produced the 'dirty, instrument fragments' the ears reported (E21).\n\nNo reprompt here: the Qwen category-expander is deliberately omitted because a hand-written detailed prompt on SAO did not improve the effect (E21).\n"
    ],
    "flags": {},
    "mode": 0,
