@@ -278,15 +278,16 @@
 
 ### S21. Generate sound effects from a text prompt
 
-- *When:* you need a footstep, a door, an impact, a weapon, or an ambience - the non-musical half of a game's sound.
+- *When:* you need a footstep, a door, an impact, a weapon, or a short ambience - the non-musical half of a game's sound.
 - *Steps:*
-	- the model needs two files: `stable-audio-open-1.0.safetensors` in `models/checkpoints/` (4.5 GB) and `t5-base.safetensors` in `models/text_encoders/` (0.83 GB) - the checkpoint carries no text encoder of its own;
-	- open `audio/workflows/stable-audio.json` and write the effect in the **positive prompt**, concretely: `footsteps on gravel`, `a heavy wooden door creaking`, `a sword drawn from a scabbard`;
-	- set the **length** on the `FloatConstant` (it feeds the conditioning and the latent's seconds together). Four seconds is plenty for an impact;
-	- run. It is the fastest flow here: **4 s of audio in about 5 s**.
-- *Knobs:* the sampler is the reference setting for this model (50 steps, cfg 7, `dpmpp_3m_sde`, `karras`); at short lengths raise `EmptyLatentAudio`'s batch to get a set in one run; the length knob goes up to ~47 s for ambiences.
-- *Traps:* the checkpoint **does not contain a CLIP** - without the t5 the run fails with `clip input is invalid: None`. It generates at **full scale (0.0 dBFS peak)**, like every other audio model here, so normalise before shipping. And by its own card it **cannot sing** and is **weak at music** - for music use `ace-step.json`.
-- *More:* [`audio/README.md`](audio/README.md), and E11 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+	- the model needs two files, both from `Comfy-Org/stable-audio-3` under the **Stability AI Community** licence: `stable_audio_3_small_sfx.safetensors` into `models/checkpoints/` (2.27 GB) and `t5gemma_b_b_ul2.safetensors` into `models/text_encoders/` (1.19 GB);
+	- open `audio/workflows/stable-audio-3-sfx.json` and write the effect in the **positive prompt**, concretely: `footsteps on gravel`, `a heavy wooden door creaking`, `a sword drawn from a scabbard`;
+	- set **`seconds`** on `EmptyLatentAudio` - **at least ~10, then trim**: a 4 s request comes back with the content stopping around 2.8 s and a tiling artefact after it;
+	- run - about **5 s per take**.
+- *Knobs:* the prompt (**terse is fine** - adding detail did not improve SFX, E21); `seconds` (>= 10, up to 2 minutes for ambiences); `seed`; and the sampler, which **must match the checkpoint** (see traps).
+- *Traps:* **the sampler recipe is per-checkpoint, not per-family.** Upstream ships two SA3 templates and they disagree: `medium_base` (the **pre-trained** checkpoint, for fine-tuning) runs **50 steps / cfg 7**, while `medium` (the **post-trained** one, for generation) runs **8 steps / cfg 1**. `small_sfx` is post-trained, so it wants **8 / 1** - run at 50/7 it returns *dirty audio with fragments of instruments* (E21). And the correct recipe's takes come back **much quieter** (footsteps rms -42 dB against -15), so **level-match before judging** - a fix that only changed loudness reads as a regression.
+- *More:* [`audio/README.md`](audio/README.md), and E11 + E21 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md). **Stable Audio Open 1.0 is superseded for this job** - its flow is kept in `audio/workflows/scratch/` and E11 records what it measured.
+
 
 ### S22. Restyle a track (cover its melody)
 
@@ -336,18 +337,6 @@
 - *Knobs:* **`lyrics_strength` is the one that decides whether the lyric is sung, and it only works in a window** - **1.0-2.0** sings it (180 of 188 words at 97% precision at 1.0), **0.5** and the model sings its own words instead, **4.0** and adherence collapses. Plus `tags`, `seed`, `steps`/`cfg` (50 / 5 as shipped) and the `ModelSamplingSD3` shift (5) - v1 kept the SD3-shift + Reinhard-tonemap recipe the 1.5 line dropped.
 - *Traps:* the window is **non-monotone** - turning `lyrics_strength` *up* is not "obey the lyric harder", it breaks the vocal. And a lyric that looks ignored is usually a **low** `lyrics_strength`, not a weak model (E13c). Like every model here it lands near full scale, so normalise.
 - *More:* [`audio/README.md`](audio/README.md), and E13c in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
-
-
-### S26. Generate sound effects with Stable Audio 3
-
-- *When:* you want a **sound effect** - a footstep, a door, an impact, a short ambience - and you want the best SFX this repo produces. Stable Audio 3 **small-SFX** is a dedicated sound-effects model; on isolated one-shots it comes back **cleaner and better-shaped than S21's Stable Audio Open**, for a *smaller* download (2.27 GB + a 1.19 GB encoder, versus SAO's ~5.7 GB).
-- *Steps:*
-	- weights, both from `Comfy-Org/stable-audio-3` under the **Stability AI Community** licence (the same family as SAO): `stable_audio_3_small_sfx.safetensors` into `models/checkpoints/`, `t5gemma_b_b_ul2.safetensors` into `models/text_encoders/`;
-	- open `audio/workflows/stable-audio-3-sfx.json`, write the **prompt**, set **`seconds`** on `EmptyLatentAudio`, run - about **5 s per take**;
-	- **generate at least ~10 s, then trim.** A 4 s request comes back with the content stopping around 2.8 s and a tiling artefact after it, so for a short effect ask for 10 s and cut what you want.
-- *Knobs:* `seconds` (>= 10, then trim), the **prompt** (terse is fine - adding detail did *not* improve SFX, E21), `seed`, and the sampler, which **must match the checkpoint** (see traps).
-- *Traps:* **the sampler recipe is per-checkpoint, not per-family.** Upstream ships two SA3 templates and they disagree: `medium_base` (the **pre-trained** checkpoint, for fine-tuning) runs **50 steps / cfg 7**, while `medium` (the **post-trained** one, for generation) runs **8 steps / cfg 1**. `small_sfx` is post-trained, so it wants **8 / 1** - run at 50/7 it returns *dirty audio with fragments of instruments and other garbage* (E21). And the correct recipe's takes come back **much quieter** (footsteps rms -42 dB against -15), so **level-match before judging** - otherwise a fix that only changed loudness reads as a regression.
-- *More:* [`audio/README.md`](audio/README.md), and E21 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 
 ---
