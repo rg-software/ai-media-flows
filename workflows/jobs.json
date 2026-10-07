@@ -24,7 +24,8 @@
   "S21": "Generate sound effects from a text prompt",
   "S22": "Restyle a track (cover its melody)",
   "S23": "Generate a song that actually sings",
-  "S24": "Repair a region of a track (repaint)"
+  "S24": "Repair a region of a track (repaint)",
+  "S26": "Generate narration or a voice-over from text"
  },
  "jobs": [
   {
@@ -254,6 +255,12 @@
    "detail": "`audio/workflows/ace-step-latent-repaint.json` (ACE-Step core + a custom node `SetAudioLatentNoiseMask` which masks a time band of the audio latent and resamples only it)",
    "story": "S24",
    "category": "audio"
+  },
+  {
+   "want": "Generate narration or a voice-over from text",
+   "detail": "`audio/workflows/chatterbox-narration.json` (Chatterbox TTS, **MIT** - a script to speech, with a 5-10 s `audio_prompt` to **clone** a voice; 24 kHz mono, so normalise before mixing)",
+   "story": "S26",
+   "category": "audio"
   }
  ],
  "flows": {
@@ -416,6 +423,9 @@
   },
   "stable-audio-3-sfx.json": {
    "story": "S21"
+  },
+  "chatterbox-narration.json": {
+   "story": "S26"
   }
  },
  "categories": [

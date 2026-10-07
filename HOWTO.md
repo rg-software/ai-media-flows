@@ -319,6 +319,17 @@
 - *Traps:* **match the conditioning before touching the mask or the sampler.** The first run came back with an audible seam and a style change - and both were the *prompt*: the flow had inherited a generic `tags` line with empty lyrics, so the band was regenerated as different music. **Give it the take's whole prompt**. E19b's working run used the take's own style and its full 188-word lyric.
 - *More:* [`audio/README.md`](audio/README.md), and E19/E19b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
+### S26. Generate narration or a voice-over from text
+
+- *When:* you want a **spoken line** - narration, a character's voice-over, a radio bark - rather than music, and you want to choose (or clone) the voice.
+- *Steps:*
+	- open `audio/workflows/chatterbox-narration.json` and put the script in **`text`** - punctuation and paragraph breaks are the pacing controls, because there is no SSML;
+	- optionally wire a `LoadAudio` holding **5-10 s of a voice** to **`audio_prompt`** to clone it; left unconnected, you get the model's own narrator;
+	- run. A line takes seconds once the model is loaded - the first run downloads ~1 GB to `models/chatterbox/`.
+- *Knobs:* **`exaggeration`** (0.25-2.0) and **`cfg_weight`** (0.2-1.0) are the expressiveness pair - they are what makes a line read as a delivery rather than a read-out; `temperature` is variation and `seed` is the take.
+- *Traps:* the output is **24 kHz mono** where every other flow here is 48 kHz stereo, so treat it as a **VO element to place in a mix**, not a bed - and it lands near full scale, so normalise. Unlike singing, **the words are worth checking with a transcript**: for speech, ASR is a real presence test (E25).
+- *More:* [`audio/README.md`](audio/README.md), and E25 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
 
 
 ---
