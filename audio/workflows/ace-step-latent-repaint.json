@@ -1,6 +1,6 @@
 {
- "last_node_id": 26,
- "last_link_id": 33,
+ "last_node_id": 31,
+ "last_link_id": 40,
  "nodes": [
   {
    "id": 1,
@@ -64,7 +64,8 @@
      "name": "FLOAT",
      "type": "FLOAT",
      "links": [
-      5
+      5,
+      37
      ]
     }
    ],
@@ -77,7 +78,8 @@
    "properties": {
     "Node name for S&R": "FloatConstant"
    },
-   "order": 1
+   "order": 1,
+   "title": "clip length (s)"
   },
   {
    "id": 10,
@@ -390,7 +392,7 @@
     620
    ],
    "widgets_values": [
-    "## ACE-Step latent repaint (E19) - regenerate a time span, keep the rest\n\n**The masked-latent route, and it works.** ACE-Step core (MIT) encodes the take, masks a band of the\naudio latent, and re-samples **only that band** - the rest of the take comes back at the VAE round-trip\nlevel, i.e. untouched. **15.4 s per 120 s take.**\n\n- **the band** = `SolidMask` (zeros, width = the whole clip in latent frames) + `SolidMask` (ones, the\n  band) -> `MaskComposite` at `x`. The **span is a beginning and an end**, both in latent frames at\n  **25 per second** (= seconds x 25): `MaskComposite.x` is the start, the one-mask's `width` is its\n  length, so 55-61 s of a 120 s take is `x=1375, width=150, zero-mask 3000`. The `FloatConstant` must\n  carry the take's own length (the flow sizes its latent from it).\n- **`tags` + `lyrics` describe the take** and condition the sampling that repaints the band - the mask\n  confines *which* part changes, not what the text describes. Only the band is regenerated as that\n  text; the rest comes back untouched. E19b used the take's own style and its full lyric (trimming it\n  to just the span's words is untested).\n- **`SetAudioLatentNoiseMask`** - a **10-line custom node** (`custom_nodes/audio_latent_mask/`, mirrored\n  to `audio/custom_nodes/`), and the flow **does not run without it**. The core `SetLatentNoiseMask`\n  reshapes every mask to 4-D, which is right for image latents and wrong for a 3-D audio latent: its\n  `reshape_mask` path then wants a 3-D mask and raises *\"input with spatial dimensions of [1, 3000]\"*.\n  This node stores the mask unchanged. Drop-in, same inputs/output.\n- **`denoise` 1.0** on `KSampler` is right here: the noise mask already confines the sampling, so 1.0\n  means \"regenerate the band\", not \"regenerate everything\".\n\n**What E19 measured (control = the same flow with an all-zero mask, i.e. the VAE round-trip alone):**\n\n| | `mean|diff|` outside 55-61 s | inside |\n|---|---|---|\n| repaint vs round-trip | **0.0015** | **0.198** (127.7x) |\n| original vs round-trip | 0.02061 | - |\n| original vs repaint | 0.02077 | - |\n\nThe last two agree to four decimals: **the surrounding audio is preserved exactly** and the only outside\ndifference is the encode/decode round-trip. Refilling a *deleted* span works too - it returns at\n**-14.77 dB** against the original's -13.07 dB.\n\n**Two things to know before trusting a repaint.** (1) It is a **different performance** of that span\n(E18c), so the join is still a listening question - this route proves the *surroundings* are untouched,\nwhich is what every other route failed. (2) The mask edges are **hard** (`MaskComposite` does not feather),\nso a click at 55 s / 61 s is the thing to listen for - put `GrowMaskWithBlur` on the band if so.\n\n**Dead ends this replaces:** the kaola pack's `ACE_STEP_Repaint` (`scratch/ace-step-repaint.json`,\nkept for the record) and the `ReplaceVideoLatentFrames` comp (E18b) both rewrote the whole take\n(outside `mean|diff|` ~0.06-0.075, flat).\n\n---\n*How to run it: story **S24** in `HOWTO.md`  ·  Why it is this way: **E19/E19b** in `audio/EXPERIMENTS.md`.*\n"
+    "## ACE-Step latent repaint (E19) - regenerate a time span, keep the rest\n\n**The masked-latent route, and it works.** ACE-Step core (MIT) encodes the take, masks a band of the\naudio latent, and re-samples **only that band** - the rest of the take comes back at the VAE round-trip\nlevel, i.e. untouched. **15.4 s per 120 s take.**\n\n- **the span** is typed as **`repair from (s)` / `repair to (s)`** - two `FloatConstant`s. Three\n  `ComfyMathExpression` nodes turn them into the latent frames the mask works in (**25 per second**):\n  `from` x25 -> `MaskComposite.x`, `(to-from)` x25 -> the ones-mask `width`, and the clip length x25 ->\n  the zeros-mask `width` (so `clip length (s)` must be the take's own length). Repairing 55-61 s of a\n  120 s take is just `55` and `61` - no arithmetic, and the span is `[from, to)`.\n- **`tags` + `lyrics` are the take's whole prompt** - the same deal as an image inpaint, where the\n  prompt describes the whole picture and the mask picks the region. The mask confines *where* the\n  sampling changes; the text says what the piece is. Give it the take's own style and its full lyric\n  (E19b; trimming the lyric to just the span's words is untested).\n- **`SetAudioLatentNoiseMask`** - a **10-line custom node** (`custom_nodes/audio_latent_mask/`, mirrored\n  to `audio/custom_nodes/`), and the flow **does not run without it**. The core `SetLatentNoiseMask`\n  reshapes every mask to 4-D, which is right for image latents and wrong for a 3-D audio latent: its\n  `reshape_mask` path then wants a 3-D mask and raises *\"input with spatial dimensions of [1, 3000]\"*.\n  This node stores the mask unchanged. Drop-in, same inputs/output.\n- **`denoise` 1.0** on `KSampler` is right here: the noise mask already confines the sampling, so 1.0\n  means \"regenerate the band\", not \"regenerate everything\".\n\n**What E19 measured (control = the same flow with an all-zero mask, i.e. the VAE round-trip alone):**\n\n| | `mean|diff|` outside 55-61 s | inside |\n|---|---|---|\n| repaint vs round-trip | **0.0015** | **0.198** (127.7x) |\n| original vs round-trip | 0.02061 | - |\n| original vs repaint | 0.02077 | - |\n\nThe last two agree to four decimals: **the surrounding audio is preserved exactly** and the only outside\ndifference is the encode/decode round-trip. Refilling a *deleted* span works too - it returns at\n**-14.77 dB** against the original's -13.07 dB.\n\n**Two things to know before trusting a repaint.** (1) It is a **different performance** of that span\n(E18c), so the join is still a listening question - this route proves the *surroundings* are untouched,\nwhich is what every other route failed. (2) The mask edges are **hard** - the `GrowMaskWithBlur` on the band is a no-op at\n`expand` 0 / `blur_radius` 0.0, so raise it only if a click at the span's ends shows up.\n\n\n**Dead ends this replaces:** the kaola pack's `ACE_STEP_Repaint` (`scratch/ace-step-repaint.json`,\nkept for the record) and the `ReplaceVideoLatentFrames` comp (E18b) both rewrote the whole take\n(outside `mean|diff|` ~0.06-0.075, flat).\n\n---\n*How to run it: story **S24** in `HOWTO.md`  ·  Why it is this way: **E19/E19b** in `audio/EXPERIMENTS.md`.*\n"
    ],
    "flags": {},
    "mode": 0,
@@ -482,7 +484,16 @@
     240,
     90
    ],
-   "inputs": [],
+   "inputs": [
+    {
+     "name": "width",
+     "type": "INT",
+     "widget": {
+      "name": "width"
+     },
+     "link": 40
+    }
+   ],
    "outputs": [
     {
      "name": "MASK",
@@ -515,7 +526,16 @@
     240,
     90
    ],
-   "inputs": [],
+   "inputs": [
+    {
+     "name": "width",
+     "type": "INT",
+     "widget": {
+      "name": "width"
+     },
+     "link": 39
+    }
+   ],
    "outputs": [
     {
      "name": "MASK",
@@ -558,6 +578,14 @@
      "name": "source",
      "type": "MASK",
      "link": 29
+    },
+    {
+     "name": "x",
+     "type": "INT",
+     "widget": {
+      "name": "x"
+     },
+     "link": 38
     }
    ],
    "outputs": [
@@ -668,6 +696,229 @@
     "Node name for S&R": "GrowMaskWithBlur"
    },
    "order": 26
+  },
+  {
+   "id": 27,
+   "type": "FloatConstant",
+   "title": "repair from (s)",
+   "pos": [
+    -980,
+    620
+   ],
+   "size": [
+    210,
+    60
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      34,
+      35
+     ]
+    }
+   ],
+   "widgets_values": [
+    55.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 1,
+   "properties": {
+    "Node name for S&R": "FloatConstant"
+   }
+  },
+  {
+   "id": 28,
+   "type": "FloatConstant",
+   "title": "repair to (s)",
+   "pos": [
+    -980,
+    720
+   ],
+   "size": [
+    210,
+    60
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      36
+     ]
+    }
+   ],
+   "widgets_values": [
+    61.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 1,
+   "properties": {
+    "Node name for S&R": "FloatConstant"
+   }
+  },
+  {
+   "id": 29,
+   "type": "ComfyMathExpression",
+   "title": "start -> frames",
+   "pos": [
+    -700,
+    620
+   ],
+   "size": [
+    250,
+    100
+   ],
+   "inputs": [
+    {
+     "label": "a",
+     "localized_name": "values.a",
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 34
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": []
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      38
+     ]
+    },
+    {
+     "name": "BOOLEAN",
+     "type": "BOOLEAN",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "a*25"
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 2,
+   "properties": {
+    "Node name for S&R": "ComfyMathExpression"
+   }
+  },
+  {
+   "id": 30,
+   "type": "ComfyMathExpression",
+   "title": "span -> frames",
+   "pos": [
+    -700,
+    720
+   ],
+   "size": [
+    250,
+    100
+   ],
+   "inputs": [
+    {
+     "label": "a",
+     "localized_name": "values.a",
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 35
+    },
+    {
+     "label": "b",
+     "localized_name": "values.b",
+     "name": "values.b",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 36,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": []
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      39
+     ]
+    },
+    {
+     "name": "BOOLEAN",
+     "type": "BOOLEAN",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "(b-a)*25"
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 2,
+   "properties": {
+    "Node name for S&R": "ComfyMathExpression"
+   }
+  },
+  {
+   "id": 31,
+   "type": "ComfyMathExpression",
+   "title": "clip -> frames",
+   "pos": [
+    -700,
+    820
+   ],
+   "size": [
+    250,
+    100
+   ],
+   "inputs": [
+    {
+     "label": "a",
+     "localized_name": "values.a",
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 37
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": []
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      40
+     ]
+    },
+    {
+     "name": "BOOLEAN",
+     "type": "BOOLEAN",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "a*25"
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 2,
+   "properties": {
+    "Node name for S&R": "ComfyMathExpression"
+   }
   }
  ],
  "links": [
@@ -830,6 +1081,62 @@
    25,
    1,
    "MASK"
+  ],
+  [
+   34,
+   27,
+   0,
+   29,
+   0,
+   "FLOAT"
+  ],
+  [
+   35,
+   27,
+   0,
+   30,
+   0,
+   "FLOAT"
+  ],
+  [
+   36,
+   28,
+   0,
+   30,
+   1,
+   "FLOAT"
+  ],
+  [
+   37,
+   9,
+   0,
+   31,
+   0,
+   "FLOAT"
+  ],
+  [
+   38,
+   29,
+   1,
+   24,
+   2,
+   "INT"
+  ],
+  [
+   39,
+   30,
+   1,
+   23,
+   0,
+   "INT"
+  ],
+  [
+   40,
+   31,
+   1,
+   22,
+   0,
+   "INT"
   ]
  ],
  "groups": [],
