@@ -331,6 +331,17 @@
 - *More:* [`audio/README.md`](audio/README.md), and E19/E19b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 
+### S25. Generate a song with ACE-Step v1
+
+- *When:* you want a **song** - lyrics actually sung - and you want the **cheapest, fastest MIT route**. ACE-Step v1 3.5B matches XL SFT on sound (the ears: *"perhaps better, but comparable"*) at 7.7 GB and about **20 s per 120 s song**, with no Qwen text encoders.
+- *Steps:*
+	- weight: `ace_step_v1_3.5b.safetensors` (7.7 GB, **MIT**) into `models/checkpoints/`;
+	- open `audio/workflows/ace-step-v1-35b.json`, write the **style** (`tags`) and the **lyrics**, run.
+- *Knobs:* **`lyrics_strength` is the one that decides whether the lyric is sung, and it only works in a window** - **1.0-2.0** sings it (180 of 188 words at 97% precision at 1.0), **0.5** and the model sings its own words instead, **4.0** and adherence collapses. Plus `tags`, `seed`, `steps`/`cfg` (50 / 5 as shipped) and the `ModelSamplingSD3` shift (5) - v1 kept the SD3-shift + Reinhard-tonemap recipe the 1.5 line dropped.
+- *Traps:* the window is **non-monotone** - turning `lyrics_strength` *up* is not "obey the lyric harder", it breaks the vocal. And a lyric that looks ignored is usually a **low** `lyrics_strength`, not a weak model (E13c). Like every model here it lands near full scale, so normalise.
+- *More:* [`audio/README.md`](audio/README.md), and E13c in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
+
 ---
 
 ## If your job isn't here
