@@ -246,7 +246,7 @@
   },
   {
    "want": "Generate a song that actually sings",
-   "detail": "`audio/workflows/ace-step-xl-sft.json` (ACE-Step 1.5 XL, 4B, **MIT** - 50 steps, ~50 s per 120 s song; the 8-step turbo is faster but prompt-fragile)",
+   "detail": "`audio/workflows/ace-step-xl-sft.json` (ACE-Step 1.5 XL, 4B, **MIT**)",
    "story": "S23",
    "category": "audio"
   },

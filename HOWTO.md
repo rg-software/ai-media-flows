@@ -300,13 +300,12 @@
 
 - *When:* you want a **song** - lyrics actually sung, clearly - and the 8-step turbo is not delivering. XL is the same family at 4B and it is still **MIT**.
 - *Steps:*
-	- weights (~19 GB, all MIT, from `Comfy-Org/ace_step_1.5_ComfyUI_files`): `acestep_v1.5_xl_sft_bf16.safetensors` (~10 GB) into `models/diffusion_models/`; `qwen_0.6b_ace15.safetensors` and `qwen_4b_ace15.safetensors` into `models/text_encoders/`; `ace_1.5_vae.safetensors` into `models/vae/`;
+	- weights (~19 GB, all MIT, from `Comfy-Org/ace_step_1.5_ComfyUI_files`);
 	- open `audio/workflows/ace-step-xl-sft.json`, write the **style** (`tags`) and the **lyrics**, run;
 	- 120 s of audio takes about **50 s** of sampling once the model is loaded - a cold first run is minutes.
 - *Knobs:* `steps` / `cfg` (50 / 7 as shipped), the text encoder's `cfg_scale`, `ModelSamplingAuraFlow` shift 3, and seed + duration (each is wired to two consumers so the graph cannot disagree with itself).
 - *Traps:* **the style is the vocal's on/off switch, so name the voice and keep it consistent.** A style asking for a *clear, strong, close-mic lead* returned 124 of 188 lyric words sung cleanly, while the same model on a style asking for a *shouted male lead* came back **whispered** - and the turbo, on that clear-lead style, produced **no vocal at all** (E13/E13b). Like every model here it lands at **0.0 dBFS**, so normalise.
 - *More:* [`audio/README.md`](audio/README.md), and E13/E13b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
-
 
 ### S24. Repair a region of a track (repaint)
 
