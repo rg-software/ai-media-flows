@@ -1,0 +1,432 @@
+{
+ "last_node_id": 9,
+ "last_link_id": 9,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "CheckpointLoaderSimple",
+   "pos": [
+    -1200,
+    0
+   ],
+   "size": [
+    340,
+    100
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": []
+    },
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      4
+     ]
+    }
+   ],
+   "widgets_values": [
+    "stable_audio_3_small_sfx.safetensors"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
+   "order": 1
+  },
+  {
+   "id": 2,
+   "type": "CLIPLoader",
+   "pos": [
+    -1200,
+    180
+   ],
+   "size": [
+    340,
+    90
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      2,
+      3
+     ]
+    }
+   ],
+   "widgets_values": [
+    "t5gemma_b_b_ul2.safetensors",
+    "stable_audio",
+    "default"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "order": 2
+  },
+  {
+   "id": 3,
+   "type": "CLIPTextEncode",
+   "pos": [
+    -800,
+    0
+   ],
+   "size": [
+    330,
+    200
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      5
+     ]
+    }
+   ],
+   "widgets_values": [
+    "footsteps on gravel"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "order": 3
+  },
+  {
+   "id": 4,
+   "type": "CLIPTextEncode",
+   "pos": [
+    -800,
+    240
+   ],
+   "size": [
+    330,
+    140
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "widgets_values": [
+    ""
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "order": 4
+  },
+  {
+   "id": 5,
+   "type": "EmptyLatentAudio",
+   "pos": [
+    -1200,
+    320
+   ],
+   "size": [
+    330,
+    90
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "widgets_values": [
+    4,
+    1
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "EmptyLatentAudio"
+   },
+   "order": 5
+  },
+  {
+   "id": 6,
+   "type": "KSampler",
+   "pos": [
+    -430,
+    0
+   ],
+   "size": [
+    300,
+    260
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 5
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "widgets_values": [
+    31,
+    "fixed",
+    50,
+    7.0,
+    "lcm",
+    "simple",
+    1.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "order": 6
+  },
+  {
+   "id": 7,
+   "type": "VAEDecodeAudio",
+   "pos": [
+    -100,
+    0
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "widgets_values": [],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "VAEDecodeAudio"
+   },
+   "order": 7
+  },
+  {
+   "id": 8,
+   "type": "SaveAudioAdvanced",
+   "pos": [
+    200,
+    0
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 9
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "audio/sa3_sfx",
+    "flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
+   "order": 8
+  },
+  {
+   "id": 9,
+   "type": "MarkdownNote",
+   "pos": [
+    -1200,
+    480
+   ],
+   "size": [
+    560,
+    420
+   ],
+   "inputs": [],
+   "outputs": [],
+   "widgets_values": [
+    "## Stable Audio 3 small-SFX (dev copy)\n\n**Flat rebuild** of the shipped `audio_stable_audio_3_medium_base` template's inner subgraph (a subgraph cannot be submitted as an API prompt, so it is flattened here). Model: **`stable_audio_3_small_sfx`** - the family member built for *sound effects and short ambience, up to 2:00*, 2.27 GB, plus the `t5gemma_b_b_ul2` text encoder (1.19 GB). **Licence: Stability AI Community** (the same family as Stable Audio Open).\n\nKnobs: `seconds` on `EmptyLatentAudio` (variable length is the point - do not leave it at 60 for a 4 s effect), the prompt, `seed`, and the shipped sampler recipe **`lcm` / `simple` / 50 steps / cfg 7** - that recipe is upstream's, not ours.\n\nNo reprompt here: the Qwen category-expander is deliberately omitted because a hand-written detailed prompt on SAO did not improve the effect (E21).\n"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "order": 9
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   6,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   2,
+   0,
+   3,
+   0,
+   "CLIP"
+  ],
+  [
+   3,
+   2,
+   0,
+   4,
+   0,
+   "CLIP"
+  ],
+  [
+   4,
+   1,
+   2,
+   7,
+   1,
+   "VAE"
+  ],
+  [
+   5,
+   3,
+   0,
+   6,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   6,
+   4,
+   0,
+   6,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   5,
+   0,
+   6,
+   3,
+   "LATENT"
+  ],
+  [
+   8,
+   6,
+   0,
+   7,
+   0,
+   "LATENT"
+  ],
+  [
+   9,
+   7,
+   0,
+   8,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
