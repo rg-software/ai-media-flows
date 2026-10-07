@@ -23,9 +23,8 @@
   "S20": "Match the style of a reference track",
   "S21": "Generate sound effects from a text prompt",
   "S22": "Restyle a track (cover its melody)",
-  "S23": "Generate a song with ACE-Step XL",
-  "S24": "Repair a region of a track (repaint)",
-  "S25": "Generate a song with ACE-Step v1"
+  "S23": "Generate a song that actually sings",
+  "S24": "Repair a region of a track (repaint)"
  },
  "jobs": [
   {
@@ -246,7 +245,7 @@
   },
   {
    "want": "Generate a song that actually sings",
-   "detail": "`audio/workflows/ace-step-xl-sft.json` (ACE-Step 1.5 XL, 4B, **MIT**) - the 4B arm; it sings the most of a lyric on a clear-lead style (E23)",
+   "detail": "`audio/workflows/ace-step-xl-sft.json` (4B, **MIT**, ~19 GB - lyric-full on clear-lead styles) or `audio/workflows/ace-step-v1-35b.json` (3.5B, **MIT**, 7.7 GB - ~2x faster/lighter and it sings shouty styles); E23 kept both: they split by style, not by rank",
    "story": "S23",
    "category": "audio"
   },
@@ -254,12 +253,6 @@
    "want": "Repair a region of a track (re-sing a span, refill a deleted passage)",
    "detail": "`audio/workflows/ace-step-latent-repaint.json` (ACE-Step core + a 10-line custom node `SetAudioLatentNoiseMask` - **required**; masks a time band of the audio latent and resamples only it, leaving the rest at the VAE round-trip level)",
    "story": "S24",
-   "category": "audio"
-  },
-  {
-   "want": "Generate a song fast, and on shouty styles",
-   "detail": "`audio/workflows/ace-step-v1-35b.json` (ACE-Step v1 3.5B, **MIT**, 7.7 GB) - about **2x faster** and 2.5x lighter than the 4B arm, and it sings the shouty styles that arm whispers on; **`lyrics_strength` is the knob** and it only works in a window (E23)",
-   "story": "S25",
    "category": "audio"
   }
  ],
@@ -419,7 +412,7 @@
    "story": "S24"
   },
   "ace-step-v1-35b.json": {
-   "story": "S25"
+   "story": "S23"
   },
   "stable-audio-3-sfx.json": {
    "story": "S21"

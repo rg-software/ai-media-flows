@@ -296,16 +296,16 @@
 - *Knobs:* `max_duration` is a **ceiling, not a requested length** - you cannot pick the cover's size. The model stops when its generated song ends, so the length follows the ABC's music: E22 measured a 30 s instrumental at cap 30 coming out 27.7 s with a 188-word lyric and 29.5 s with none. A longer source helps only by giving SheetSage2 more melody to transcribe. `mode` is `melody` for a cover (`full` writes a new song instead).
 - *Traps:* **you cannot add lyrics to an instrumental melody.** The lyrics do reach the model, but an instrumental's transcribed ABC has an all-rests `Vocal` line, so the words have nothing to follow - E22's added 188-word lyric was not sung. For new words on a tune, pick a source that is already sung. **The licence:** YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so the output is research-only.
 
-### S23. Generate a song with ACE-Step XL
+### S23. Generate a song that actually sings
 
-- *When:* you want a **song** - lyrics actually sung, clearly - and the 8-step turbo is not delivering. XL is the same family at 4B and it is still **MIT**. (Want it ~2x faster and lighter, or on a shouty style? That is **S25** - E23.)
+- *When:* you want a **song** - lyrics actually sung, clearly - and the 8-step turbo is not delivering. There are **two MIT arms**, and E23 kept both because they split by *style*, not by rank - pick the one whose property matches.
 - *Steps:*
-	- weights (~19 GB, all MIT, from `Comfy-Org/ace_step_1.5_ComfyUI_files`);
-	- open `audio/workflows/ace-step-xl-sft.json`, write the **style** (`tags`) and the **lyrics**, run;
-	- 120 s of audio takes about **50 s** of sampling once the model is loaded - a cold first run is minutes.
-- *Knobs:* `steps` / `cfg` (50 / 7 as shipped), the text encoder's `cfg_scale`, `ModelSamplingAuraFlow` shift 3, and seed + duration (each is wired to two consumers so the graph cannot disagree with itself).
-- *Traps:* **the style is the vocal's on/off switch, so name the voice and keep it consistent.** A style asking for a *clear, strong, close-mic lead* returned 124 of 188 lyric words sung cleanly, while the same model on a style asking for a *shouted male lead* came back **whispered** - and the turbo, on that clear-lead style, produced **no vocal at all** (E13/E13b). **E23:** held to one clear-lead style, XL sang 173 of 188 (92% coverage) against v1's 149 (79%) - the 4B arm is the lyric-full one on this kind of style. Like every model here it lands at **0.0 dBFS**, so normalise.
-- *More:* [`audio/README.md`](audio/README.md), and E13/E13b/E23 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+	- **lyric-full on clear-lead styles**: `audio/workflows/ace-step-xl-sft.json` (ACE-Step 1.5 XL, 4B, ~19 GB, all MIT from `Comfy-Org/ace_step_1.5_ComfyUI_files`) - 50 steps / cfg 7, ~50 s per 120 s song (a cold first run is minutes);
+	- **fast and light, and on shouty styles**: `audio/workflows/ace-step-v1-35b.json` (ACE-Step v1 3.5B, 7.7 GB, MIT from `Comfy-Org/ACE-Step_ComfyUI_repackaged`) - `lyrics_strength` 1.0, ~20 s per 120 s song;
+	- open the arm's JSON, write the **style** (`tags`) and the **lyrics**, run.
+- *Knobs:* the **style** names the voice (see traps). XL adds `steps`/`cfg` (50 / 7 as shipped), the text encoder's `cfg_scale`, `ModelSamplingAuraFlow` shift 3, and seed + duration (each wired to two consumers). v1 adds **`lyrics_strength`** - the knob that decides whether the lyric is sung, and it only works in a window (**1.0-2.0** sings it, **0.5** sings its own words, **4.0** collapses) - plus `steps`/`cfg` 50 / 5 and the `ModelSamplingSD3` shift 5 + Reinhard-tonemap recipe the 1.5 line dropped.
+- *Traps:* **the style is the vocal's on/off switch, so name the voice and keep it consistent.** A style asking for a *clear, strong, close-mic lead* returned 124 of 188 lyric words sung cleanly, while the same model on a style asking for a *shouted male lead* came back **whispered** - and the turbo, on that clear-lead style, produced **no vocal at all** (E13/E13b). **Why two arms (E23):** held to one clear-lead style, XL sang 173 of 188 (92% coverage) against v1's 149 (79%), so XL is the lyric-full arm there - but v1 sang 180 words on the *industrial* style, where XL whispers. And **`lyrics_strength` is non-monotone**: turning it *up* is not "obey the lyric harder", it breaks the vocal. Like every model here the takes land near full scale, so normalise.
+- *More:* [`audio/README.md`](audio/README.md), and E13/E13b/E13c/E23 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 ### S24. Repair a region of a track (repaint)
 
@@ -320,16 +320,6 @@
 - *Traps:* **match the conditioning before touching the mask or the sampler.** The first run came back with an audible seam and a style change - and both were the *prompt*: the flow had inherited a generic `tags` line with empty lyrics, so the band was regenerated as different music. The boundary is **not** a waveform discontinuity (the worst step at 55 s measured 16.5x the track's median either way, against the *original's own* 17.6x), so a feathered mask changes nothing audible. **And a repaint is a different performance of that span** (E18c), so it is the right tool when the span *should* change - not a way to nudge one that is nearly right.
 - *More:* [`audio/README.md`](audio/README.md), and E19/E19b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
-
-### S25. Generate a song with ACE-Step v1
-
-- *When:* you want a **song**, lyrics actually sung, **fast and light** - or on a **shouty/aggressive style** that **S23** whispers on. ACE-Step v1 3.5B runs about **2x faster** and is 2.5x smaller than the 4B arm (~**20 s per 120 s song**, 7.7 GB, no Qwen text encoders); on a clear-lead style the 4B arm sings a little more of the lyric (E23).
-- *Steps:*
-	- weight: `ace_step_v1_3.5b.safetensors` (7.7 GB, **MIT**, from `Comfy-Org/ACE-Step_ComfyUI_repackaged`) into `models/checkpoints/`;
-	- open `audio/workflows/ace-step-v1-35b.json`, write the **style** (`tags`) and the **lyrics**, run.
-- *Knobs:* **`lyrics_strength` is the one that decides whether the lyric is sung, and it only works in a window** - **1.0-2.0** sings it (180 of 188 words at 97% precision on the style E13c used, 79% coverage on E23's clear-lead style, at 1.0), **0.5** and the model sings its own words instead, **4.0** and adherence collapses. Plus `tags`, `seed`, `steps`/`cfg` (50 / 5 as shipped) and the `ModelSamplingSD3` shift (5) - v1 kept the SD3-shift + Reinhard-tonemap recipe the 1.5 line dropped.
-- *Traps:* the window is **non-monotone** - turning `lyrics_strength` *up* is not "obey the lyric harder", it breaks the vocal. And a lyric that looks ignored is usually a **low** `lyrics_strength`, not a weak model (E13c). **S23 vs S25 (E23):** held to one style, the 4B arm sang more of the lyric (92% vs 79%); v1's edge is speed, size, and the shouty styles XL whispers on - so the two are kept as **different tools, not ranked**. Like every model here it lands near full scale, so normalise.
-- *More:* [`audio/README.md`](audio/README.md), and E13c/E23 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 
 ---
