@@ -288,10 +288,6 @@
 - *Traps:* the checkpoint **does not contain a CLIP** - without the t5 the run fails with `clip input is invalid: None`. It generates at **full scale (0.0 dBFS peak)**, like every other audio model here, so normalise before shipping. And by its own card it **cannot sing** and is **weak at music** - for music use `ace-step.json`.
 - *More:* [`audio/README.md`](audio/README.md), and E11 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
-
-
-
-
 ### S22. Restyle a track (cover its melody)
 
 - *When:* you have a track - or a loop, or a hook you like - and you want **the same tune in a different idiom** ("make this industrial"). This is the one restyle route in the repo: `ace-step-style.json` only *keeps* a reference, it cannot restyle it (E5).
