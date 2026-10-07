@@ -240,7 +240,7 @@
   },
   {
    "want": "Restyle a track in a new style (cover)",
-   "detail": "`audio/workflows/yue2-cover.json` (YuE 2 melody transplant - **non-commercial** weights; ACE-Step's MIT `ACE_STEP_Cover` exists in the kaola pack but **does not currently produce usable audio here** (E18f), so there is no shippable restyle route yet)",
+   "detail": "`audio/workflows/yue2-cover.json` (YuE 2 melody transplant - the only restyle route; **non-commercial** weights, so research use only)",
    "story": "S22",
    "category": "audio"
   },

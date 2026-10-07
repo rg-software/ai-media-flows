@@ -273,7 +273,7 @@
 	- put the style you *want* in **`tags`** - although see the trap;
 	- set **`denoise`** and run. A take costs about 5 s.
 - *Knobs:* **`denoise`** - measured, this is a *retention* dial: 0.3-0.5 gives the same piece re-rendered (spectral similarity to the reference 0.99), and even 0.9 stays closer to the reference than to a text-only take of the same tags. The curve is not monotone (0.7 came out least like the reference), and with the turbo's 8 steps `denoise` is quantised to eighths.
-- *Trap:* **this is "more of this", not "make this industrial".** It keeps the reference's character, so it is the tool for a consistent soundtrack; for a genuine restyle you need ACE-Step's *cover* task. The kaola pack exposes it now as `ACE_STEP_Cover`, but that pack's engine produced noise here (E18e), so it is not a route yet - until it is, restyle means **S22** (YuE, non-commercial). And a rhythmic reference needs its `duration` matched, since the conditioning and the encoded latent must agree.
+- *Trap:* **this is "more of this", not "make this industrial".** It keeps the reference's character, so it is the tool for a consistent soundtrack; for a genuine restyle use **S22** (YuE, non-commercial). And a rhythmic reference needs its `duration` matched, since the conditioning and the encoded latent must agree.
 - *More:* [`audio/README.md`](audio/README.md), and E5 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 ### S21. Generate sound effects from a text prompt
@@ -294,7 +294,7 @@
 	- write the **style** to change it into (the shipped `STYLE` is industrial rock) and the **lyrics** you want - the reference's *melody* is kept, its *words* are not;
 	- run. A 30 s reference covers in about **65 s**.
 - *Knobs:* `max_duration` must be at least the reference's length (the model chooses the duration and this only bounds it); `mode` is `melody` for a cover (`full` writes a new song instead); and the **`PreviewAny`** node shows the ABC that SheetSage2 actually transcribed - which is how you see whether the melody was read at all.
-- *Traps:* **the licence** - YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so everything it makes is research-only; ACE-Step's own `ACE_STEP_Cover` task is **MIT-licensed**, but the kaola pack's engine fails to produce usable audio on this box (E18f), so **there is currently no working/shippable restyle route**. And **a transcript is not a presence test** - never call a take instrumental because a transcript reads nothing.
+- *Traps:* **the licence** - YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so everything it makes is research-only. And **a transcript is not a presence test** - never call a take instrumental because a transcript reads nothing.
 
 
 ### S23. Generate a song with ACE-Step XL
