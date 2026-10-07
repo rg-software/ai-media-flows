@@ -259,7 +259,7 @@
   },
   {
    "want": "Generate narration or a voice-over from text",
-   "detail": "`audio/workflows/chatterbox-narration.json` (Chatterbox TTS, **MIT** - a script to speech, with a 5-10 s `audio_prompt` to **clone** a voice; 24 kHz mono, so normalise before mixing)",
+   "detail": "`audio/workflows/chatterbox-narration.json` (Chatterbox TTS, **MIT**) - a script to speech, with a 5-10 s `audio_prompt` to clone a voice - or `audio/workflows/chatterbox-narration-turbo.json` (**Turbo**, ~1 GB) when you want **paralinguistic tags** like `[laugh]` (E28); 24 kHz mono, so normalise before mixing",
    "story": "S26",
    "category": "audio"
   },
@@ -436,6 +436,9 @@
   },
   "chatterbox-dialogue.json": {
    "story": "S27"
+  },
+  "chatterbox-narration-turbo.json": {
+   "story": "S26"
   }
  },
  "categories": [
