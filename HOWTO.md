@@ -298,10 +298,10 @@
 
 ### S23. Generate a song that actually sings
 
-- *When:* you want a **song** - lyrics actually sung, clearly - and the 8-step turbo is not delivering. There are **two MIT arms**, and E23 kept both because they split by *style*, not by rank - pick the one whose property matches.
+- *When:* you want a **song** - lyrics actually sung, clearly - and the 8-step turbo is not delivering. There are **two MIT arms**, and E23 kept both because they split by *style*.
 - *Steps:*
-	- **lyric-full on clear-lead styles**: `audio/workflows/ace-step-xl-sft.json` (ACE-Step 1.5 XL, 4B, ~19 GB, all MIT from `Comfy-Org/ace_step_1.5_ComfyUI_files`) - 50 steps / cfg 7, ~50 s per 120 s song (a cold first run is minutes);
-	- **fast and light, and on shouty styles**: `audio/workflows/ace-step-v1-35b.json` (ACE-Step v1 3.5B, 7.7 GB, MIT from `Comfy-Org/ACE-Step_ComfyUI_repackaged`) - `lyrics_strength` 1.0, ~20 s per 120 s song;
+	- **lyric-full on clear-lead styles**: `audio/workflows/ace-step-xl-sft.json` (ACE-Step 1.5 XL, MIT) - 50 steps / cfg 7;
+	- **fast and light, and on shouty styles**: `audio/workflows/ace-step-v1-35b.json` (ACE-Step v1 3.5B, MIT) - `lyrics_strength` 1.0;
 	- open the arm's JSON, write the **style** (`tags`) and the **lyrics**, run.
 - *Knobs:* the **style** names the voice (see traps). XL adds `steps`/`cfg` (50 / 7 as shipped), the text encoder's `cfg_scale`, `ModelSamplingAuraFlow` shift 3, and seed + duration (each wired to two consumers). v1 adds **`lyrics_strength`** - the knob that decides whether the lyric is sung, and it only works in a window (**1.0-2.0** sings it, **0.5** sings its own words, **4.0** collapses) - plus `steps`/`cfg` 50 / 5 and the `ModelSamplingSD3` shift 5 + Reinhard-tonemap recipe the 1.5 line dropped.
 - *Traps:* **the style is the vocal's on/off switch, so name the voice and keep it consistent.** A style asking for a *clear, strong, close-mic lead* returned 124 of 188 lyric words sung cleanly, while the same model on a style asking for a *shouted male lead* came back **whispered** - and the turbo, on that clear-lead style, produced **no vocal at all** (E13/E13b). **Why two arms (E23):** held to one clear-lead style, XL sang 173 of 188 (92% coverage) against v1's 149 (79%), so XL is the lyric-full arm there - but v1 sang 180 words on the *industrial* style, where XL whispers. And **`lyrics_strength` is non-monotone**: turning it *up* is not "obey the lyric harder", it breaks the vocal. Like every model here the takes land near full scale, so normalise.
@@ -310,7 +310,6 @@
 ### S24. Repair a region of a track (repaint)
 
 - *When:* a take is right except for **one span** - a mispronounced word, a weak section, a deliberately deleted passage - and you want that span regenerated **without touching the rest**. This is the audio analogue of inpainting.
-- *Prerequisite:* the **`SetAudioLatentNoiseMask` custom node** must be installed. Copy `audio/custom_nodes/audio_latent_mask/` to the box's `custom_nodes/` and restart ComfyUI. **The flow does not run without it** - the core `SetLatentNoiseMask` reshapes every mask to 4-D, which is right for image latents and breaks the 1-D (audio) mask path.
 - *Steps:*
 	- open `audio/workflows/ace-step-latent-repaint.json`, and put the **take** on `LoadAudio` (any audio file in ComfyUI's `input/`);
 	- the band is `SolidMask` (zeros, width = latent frames) + `SolidMask` (ones) -> `MaskComposite`. **The latent runs at 25 frames/s**, so 55-61 s is `x=1375, width=150`;
