@@ -312,11 +312,11 @@
 - *When:* a take is right except for **one span** - a mispronounced word, a weak section, a deliberately deleted passage - and you want that span regenerated **without touching the rest**. This is the audio analogue of inpainting.
 - *Steps:*
 	- open `audio/workflows/ace-step-latent-repaint.json`, and put the source audio on `LoadAudio` with its **length in seconds** on the `FloatConstant` (the flow sizes the latent from it, so the two must agree);
-	- set the **span to repair** - just two numbers, `repair from (s)` and `repair to (s)`. The flow converts them to the latent frames the mask works in (25 per second), so there is no arithmetic to do: repairing 55-61 s of a 120 s take is simply `55` and `61`;
-	- set `tags` and `lyrics` to the **take's own whole prompt** - its style and its full lyric, the way an image inpaint prompts the whole picture and masks the region (see traps);
+	- set the **span to repair** - just two numbers, `repair from (s)` and `repair to (s)`. The flow converts them to the latent frames the mask works: repairing 55-61 s of a 120 s take is simply `55` and `61`;
+	- set `tags` and `lyrics` to the **take's own whole prompt** - its style and its full lyric (like an image inpaint prompts the whole picture and masks the region);
 	- run; a 120 s take costs about **15 s**.
 - *Knobs:* **`repair from` / `repair to`** (seconds - the span), **`tags` + `lyrics`** (the big one - see traps), `seed`, and `denoise` (**leave at 1.0**; lower values changed the band *more*, not less).
-- *Traps:* **match the conditioning before touching the mask or the sampler.** The first run came back with an audible seam and a style change - and both were the *prompt*: the flow had inherited a generic `tags` line with empty lyrics, so the band was regenerated as different music. **Give it the take's whole prompt**, exactly as an image inpaint takes the whole picture's prompt and a mask: the mask decides *where* the change lands, the prompt decides *what* the piece is, and only the span is regenerated. E19b's working run used the take's own style and its full 188-word lyric, where a generic style with empty lyrics made the span come back as a different genre (whether trimming the lyric to just the span's words is better is untested).
+- *Traps:* **match the conditioning before touching the mask or the sampler.** The first run came back with an audible seam and a style change - and both were the *prompt*: the flow had inherited a generic `tags` line with empty lyrics, so the band was regenerated as different music. **Give it the take's whole prompt**. E19b's working run used the take's own style and its full 188-word lyric.
 - *More:* [`audio/README.md`](audio/README.md), and E19/E19b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 
