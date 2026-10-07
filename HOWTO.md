@@ -280,26 +280,21 @@
 
 - *When:* you need a footstep, a door, an impact, a weapon, or a short ambience - the non-musical half of a game's sound.
 - *Steps:*
-	- the model needs two files, both from `Comfy-Org/stable-audio-3` under the **Stability AI Community** licence: `stable_audio_3_small_sfx.safetensors` into `models/checkpoints/` (2.27 GB) and `t5gemma_b_b_ul2.safetensors` into `models/text_encoders/` (1.19 GB);
 	- open `audio/workflows/stable-audio-3-sfx.json` and write the effect in the **positive prompt**, concretely: `footsteps on gravel`, `a heavy wooden door creaking`, `a sword drawn from a scabbard`;
 	- set **`seconds`** on `EmptyLatentAudio` - **at least ~10, then trim**: a 4 s request comes back with the content stopping around 2.8 s and a tiling artefact after it;
 	- run - about **5 s per take**.
-- *Knobs:* the prompt (**terse is fine** - adding detail did not improve SFX, E21); `seconds` (>= 10, up to 2 minutes for ambiences); `seed`; and the sampler, which **must match the checkpoint** (see traps).
-- *Traps:* **the sampler recipe is per-checkpoint, not per-family.** Upstream ships two SA3 templates and they disagree: `medium_base` (the **pre-trained** checkpoint, for fine-tuning) runs **50 steps / cfg 7**, while `medium` (the **post-trained** one, for generation) runs **8 steps / cfg 1**. `small_sfx` is post-trained, so it wants **8 / 1** - run at 50/7 it returns *dirty audio with fragments of instruments* (E21). And the correct recipe's takes come back **much quieter** (footsteps rms -42 dB against -15), so **level-match before judging** - a fix that only changed loudness reads as a regression.
-- *More:* [`audio/README.md`](audio/README.md), and E11 + E21 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md). **Stable Audio Open 1.0 is superseded for this job** - its flow is kept in `audio/workflows/scratch/` and E11 records what it measured.
-
+- *Knobs:* the prompt (**terse is fine**); `seconds` (>= 10, up to 2 minutes for ambiences); `seed`; and the sampler, which **must match the checkpoint** (see traps).
+- *Traps:* **the sampler recipe is per-checkpoint, not per-family.** Upstream ships two SA3 templates and they disagree: `medium_base` (the **pre-trained** checkpoint, for fine-tuning) runs **50 steps / cfg 7**, while `medium` (the **post-trained** one, for generation) runs **8 steps / cfg 1**. `small_sfx` is post-trained, so it wants **8 / 1**. And the correct recipe's takes come back **much quieter** (footsteps rms -42 dB against -15), so **level-match before judging**.
 
 ### S22. Restyle a track (cover its melody)
 
-- *When:* you have a track - or a loop, or a hook you like - and you want **the same tune in a different idiom** ("make this industrial"). This is the one restyle route in the repo: `ace-step-style.json` only *keeps* a reference, it cannot restyle it (E5).
+- *When:* you have a track, a loop, or a hook you like, and you want **the same tune in a different idiom** ("make this industrial"). This is the only *restyle* route in the repo - **S20** can hold a reference's character, but it cannot change it.
 - *Steps:*
-	- the models: `yue2_3b_int8_convrot.safetensors` in `models/checkpoints/` (3.9 GB) and `sheetsage2_bf16.safetensors` in `models/audio_encoders/` (1.3 GB) - SheetSage2 transcribes the melody, YuE re-renders it;
-	- put your reference in ComfyUI's `input/` and pick it on the **`LoadAudio`** node;
-	- write the **style** you want it changed into (the shipped `STYLE` is industrial rock) and the **lyrics** you want - the reference's *melody* is kept, its *words* are not;
-	- run. A 30 s reference covers in **65 s**.
-- *Knobs:* `max_duration` must be at least the reference's length - the model chooses the duration itself and this only bounds it; `mode` is `melody` for a cover (`full` writes a new song instead); the `PreviewAny` node shows the ABC that SheetSage2 actually transcribed, which is how you see whether the melody was read.
-- *Traps:* **the licence** - YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so the output is research-only; the shippable form of this capability is ACE-Step's own *cover* task (MIT), exposed now as `ACE_STEP_Cover` in the kaola pack - but that engine produced noise here (E18e), so there is no shippable restyle yet. **A transcript is not a presence test**: Whisper read 0-19 words on takes whose vocal the ears plainly hear (E12c), so never call a take instrumental from a transcript. And like every model here it lands at **0.0 dBFS**, so normalise.
-- *More:* [`audio/README.md`](audio/README.md), and E12/E12d in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+	- open `audio/workflows/yue2-cover.json` and put your reference in ComfyUI's `input/`, picked on the **`LoadAudio`** node;
+	- write the **style** to change it into (the shipped `STYLE` is industrial rock) and the **lyrics** you want - the reference's *melody* is kept, its *words* are not;
+	- run. A 30 s reference covers in about **65 s**.
+- *Knobs:* `max_duration` must be at least the reference's length (the model chooses the duration and this only bounds it); `mode` is `melody` for a cover (`full` writes a new song instead); and the **`PreviewAny`** node shows the ABC that SheetSage2 actually transcribed - which is how you see whether the melody was read at all.
+- *Traps:* **the licence** - YuE 2's weights are `cc-by-nc-4.0` (**non-commercial**), so everything it makes is research-only; the shippable form of this capability is ACE-Step's own *cover* task, which we could not get working here. And **a transcript is not a presence test** - never call a take instrumental because a transcript reads nothing.
 
 
 ### S23. Generate a song with ACE-Step XL

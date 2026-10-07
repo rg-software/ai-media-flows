@@ -222,7 +222,7 @@
   },
   {
    "want": "Generate music or a song from a text prompt",
-   "detail": "`audio/workflows/ace-step.json` (tags + optional lyrics -> a 2-minute track; ACE-Step 1.5, MIT, 9.3 GB all-in-one)",
+   "detail": "`audio/workflows/ace-step.json` (tags + optional lyrics; ACE-Step 1.5, MIT, 9.3 GB all-in-one)",
    "story": "S19",
    "category": "audio"
   },
@@ -234,7 +234,7 @@
   },
   {
    "want": "Generate a sound effect or an ambience from a text prompt",
-   "detail": "`audio/workflows/stable-audio-3-sfx.json` (footsteps, doors, impacts and short ambience - Stable Audio 3 **small-SFX** 2.27 GB + a 1.19 GB t5gemma encoder, **Stability AI Community**; **generate >=10 s and trim**, and its sampler is checkpoint-matched at **8 steps / cfg 1**)",
+   "detail": "`audio/workflows/stable-audio-3-sfx.json` (footsteps, doors, impacts and short ambience - Stable Audio 3)",
    "story": "S21",
    "category": "audio"
   },
