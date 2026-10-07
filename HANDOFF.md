@@ -2,6 +2,27 @@
 
 > ## ⚠️ 2026-10-06: the box is showing **memory corruption** — do not trust its output
 >
+> ### ✅ RESOLVED 2026-10-07: **it is one faulty SO-DIMM.**
+>
+> The fault is **stick B** (of the two 32 GB DDR5-5600 white-label SO-DIMMs). Evidence:
+>
+> | configuration | test | result |
+> |---|---|---|
+> | both sticks (62 GiB) | 48 GiB × 3 passes | **20 corrupt chunks, reproducible** in the same chunks every pass (~11.25–13 GiB of the allocation, plus a spot near 19 GiB) |
+> | **stick A alone** | 24 GiB × **10** passes (~480 GiB verified) | **CLEAN** |
+> | **stick B alone** | 24 GiB × 10 passes | **wedged the machine** within minutes — the original failure mode |
+>
+> **The dock and RTX 3090 are exonerated**: the corruption reproduced with the GPU **disconnected** (`cuda False`), so no PCIe traffic was involved. **BIOS `T108`** (the memory-compatibility update) was installed and **did not fix it** — which is itself informative: the fault is not training/compatibility, it is the module. The earlier `memtest86+ 8.0` run (10,000+ errors instantly) is consistent; the live test just localised it and made it reproducible.
+>
+> **Current state: stick A only.** 30 GiB, single-channel, **proven good**. The memory guard was lowered from the 64 GB-era 48G/56G to **`MemoryHigh=20G` / `MemoryMax=24G` / `MemorySwapMax=4G`** (`~/.config/systemd/user/comfyui.service.d/memory-32gb.conf`): with 32 GB, a guard *above* physical does not protect anything — it lets ComfyUI balloon into swap and thrash the kernel, which is the documented 32 GB-era "hard freeze". Below physical, an oversized model is **OOM-killed** (ComfyUI crashes, box survives). **Restore 48G/56G when the second DIMM is back.** The big-quant flows (Qwen-Image-Edit fp8 ~27.5 GB, FLUX.2 INT4) do **not** fit at 30 GiB.
+>
+> **The modules are white-label**: SPD shows Manufacturer `0x0000`, Part `SIX DDR5`, Asset Tag `9876543210` (a dummy), Module IDs Unknown — i.e. **not on any QVL**, which is the likely reason one failed. **Replace with validated brand-name parts** (ask Beelink for the part numbers they validate for the GTi14), and consider replacing **both** — they are the same batch, so the survivor is on borrowed time.
+>
+> **The regression test is `/tmp/ramlive.py <GiB> <passes>`** (crash-resilient: flushes to `/tmp/ramlive.log` per pass, so a freeze still leaves evidence). Size it to ~80% of RAM: small allocations *miss* the bad region — a 2 GiB and an 8 GiB run both passed before the 48 GiB one found it. **This script should be committed to the repo** and used to verify the replacement modules.
+>
+> Below is the original (now superseded) diagnosis trail, kept because the method is reusable.
+
+>
 > ComfyUI stopped starting. The fault is **hardware**, and the evidence is conclusive:
 >
 > - **`md5sum` of the same 451 MB file (`libcusparseLt.so.0`), read three times, returned three different hashes.** A file cannot do that, and btrfs checksums data (no btrfs errors appear) — so the bytes are being corrupted **in memory**.
