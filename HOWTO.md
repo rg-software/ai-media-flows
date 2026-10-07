@@ -330,6 +330,18 @@
 - *Traps:* the output is **24 kHz mono** where every other flow here is 48 kHz stereo, so treat it as a **VO element to place in a mix**, not a bed - and it lands near full scale, so normalise. Unlike singing, **the words are worth checking with a transcript**: for speech, ASR is a real presence test (E25).
 - *More:* [`audio/README.md`](audio/README.md), and E25 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
+### S27. Generate a dialogue scene
+
+- *When:* you want a **conversation** - two voices (up to four) trading lines - not a single voice-over, and you want each line as its own file.
+- *Steps:*
+	- open `audio/workflows/chatterbox-dialogue.json`;
+	- put the **two voices** on the `LoadAudio` nodes - `speaker_A_Audio` / `speaker_B_Audio` are **required**, 5-10 s each: your own clips, or a window of a separated vocal stem (a **sung** reference works and gives a distinct voice - E26b);
+	- write the script in `dialog_text`, one line per `SPEAKER A:` / `SPEAKER B:` label;
+	- run: you get the **mixed scene plus each speaker's track**, all on the same timeline (silent where the other talks) - they drop straight onto a game timeline.
+- *Knobs:* `exaggeration` / `cfg_weight` / `temperature` / `seed` behave as in S26; optional `speaker_C_Audio` / `speaker_D_Audio` extend the cast to four.
+- *Traps:* **the references ARE the voices** - two close clips give two close voices (E26), a sung stem or your own clips give distinct ones (E26b). And this node needed a one-line pack patch on this box (torchaudio 2.11 routes `save()` to torchcodec); it is recorded in `comfyui/pinned-config.md`. Output is 24 kHz mono VO stems, near full scale - normalise.
+- *More:* [`audio/README.md`](audio/README.md), and E26/E26b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
+
 
 
 ---

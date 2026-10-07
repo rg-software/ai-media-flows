@@ -25,7 +25,8 @@
   "S22": "Restyle a track (cover its melody)",
   "S23": "Generate a song that actually sings",
   "S24": "Repair a region of a track (repaint)",
-  "S26": "Generate narration or a voice-over from text"
+  "S26": "Generate narration or a voice-over from text",
+  "S27": "Generate a dialogue scene"
  },
  "jobs": [
   {
@@ -261,6 +262,12 @@
    "detail": "`audio/workflows/chatterbox-narration.json` (Chatterbox TTS, **MIT** - a script to speech, with a 5-10 s `audio_prompt` to **clone** a voice; 24 kHz mono, so normalise before mixing)",
    "story": "S26",
    "category": "audio"
+  },
+  {
+   "want": "Generate a dialogue scene",
+   "detail": "`audio/workflows/chatterbox-dialogue.json` (Chatterbox TTS, **MIT** - a `SPEAKER A:`/`SPEAKER B:` script with two **required** 5-10 s voice references, mixed scene **plus per-speaker tracks**; a separated vocal stem works as a reference, E26b)",
+   "story": "S27",
+   "category": "audio"
   }
  ],
  "flows": {
@@ -426,6 +433,9 @@
   },
   "chatterbox-narration.json": {
    "story": "S26"
+  },
+  "chatterbox-dialogue.json": {
+   "story": "S27"
   }
  },
  "categories": [
