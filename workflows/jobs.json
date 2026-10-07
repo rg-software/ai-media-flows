@@ -245,13 +245,13 @@
   },
   {
    "want": "Generate a song that actually sings",
-   "detail": "`audio/workflows/ace-step-xl-sft.json` (4B, **MIT**, ~19 GB - lyric-full on clear-lead styles) or `audio/workflows/ace-step-v1-35b.json` (3.5B, **MIT**, 7.7 GB - ~2x faster/lighter and it sings shouty styles); E23 kept both: they split by style, not by rank",
+   "detail": "`audio/workflows/ace-step-xl-sft.json` (**MIT** - lyric-full on clear-lead styles) or `audio/workflows/ace-step-v1-35b.json` (**MIT** - ~2x faster/lighter and it sings shouty styles); E23 kept both: they split by style, not by rank",
    "story": "S23",
    "category": "audio"
   },
   {
    "want": "Repair a region of a track (re-sing a span, refill a deleted passage)",
-   "detail": "`audio/workflows/ace-step-latent-repaint.json` (ACE-Step core + a 10-line custom node `SetAudioLatentNoiseMask` - **required**; masks a time band of the audio latent and resamples only it, leaving the rest at the VAE round-trip level)",
+   "detail": "`audio/workflows/ace-step-latent-repaint.json` (ACE-Step core + a custom node `SetAudioLatentNoiseMask` which masks a time band of the audio latent and resamples only it)",
    "story": "S24",
    "category": "audio"
   }
