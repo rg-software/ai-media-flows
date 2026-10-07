@@ -84,3 +84,11 @@ Then confirm: `venv/bin/python -c "import torch; print(torch.__version__)"` says
 
 - `login/` is untracked by design (it holds `PASSWORD`) and `object_info.json` was a scratch dump from an earlier session. Neither blocks a fast-forward, but per this repo's own rule a scratch file inside a checkout is a liability; the dump was moved to the home directory before the update.
 - Two custom-node repos are dirty, one file each (`ComfyUI-seamless-tiling`, `ComfyUI-TextureAlchemy`) - their state is whatever `pip freeze` and the revisions above describe, and they are not part of the ComfyUI update.
+
+## Added 2026-10-07: the voice cell (Chatterbox TTS)
+
+- `custom_nodes/ComfyUI_Fill-ChatterBox` @ **f7d7a16** (`git clone --depth 1`, github.com/filliptm). Nodes: `FL_ChatterboxTTS`, `FL_ChatterboxTurboTTS`, `FL_ChatterboxMultilingualTTS`, `FL_ChatterboxVC`, `FL_ChatterboxDialogTTS`.
+- Deps added to the venv: `resampy`, `s3tokenizer`, `conformer` (the rest of its `requirements.txt` was already satisfied). **Verified unmoved:** numpy 2.4.6, torch 2.11.0+cu128, transformers 5.17.0 - so `custom_rasterizer` is untouched.
+- Weights download on first use to `models/chatterbox/` (not committed, as usual).
+- Service restarted clean; the pack imports in 0.2 s, and the first take checked out (**E25**).
+- **Declined the same day:** Mel-Band RoFormer - in-graph separation was never needed, and our own separation was never clean enough to build on (E15/E16).
