@@ -80,6 +80,6 @@ The 2D scenario composes rather than hoping one prompt carries three characters:
 | Doc | What it answers |
 |---|---|
 | [`EXPERIMENTS.md`](EXPERIMENTS.md) | Run log with verdicts and the measurements behind them. |
-| [`../HOWTO.md`](../HOWTO.md) | User stories S19-S22 (music, style reference, sound effects, restyle/cover). |
+| [`../HOWTO.md`](../HOWTO.md) | The user stories - for audio, **S19 onward**: music, style reference, sound effects, restyle/cover, region repair, and the song routes. |
 | `../comfyui/README.md` | Node gotchas. |
 | `../comfyui/hardware.md` | What fits on this card, measured. |
