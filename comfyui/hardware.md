@@ -67,6 +67,8 @@ Note: the `comfyui` unit caps *its own* swap at `MemorySwapMax=8G`, so this swap
 - makes **FLUX.2 dev INT4** and video models plausible;
 - is required before any 20B+ model is worth attempting.
 
+**RMA episode 2026-10-06 → 08:** one SO-DIMM failed and went back for RMA, dropping the box to 32 GB physical; a `memory-32gb.conf` drop-in temporarily lowered the guard to the 32 GB-era values (20G/24G/4G) so an oversized model is OOM-killed cleanly instead of freeze-thrashing - the drop-in's own comment carried its restore instruction ("48G/56G when the second DIMM is back"). The replacement went in on 2026-10-08 (62 Gi usable re-verified); the drop-in is deleted and the 48G/56G/8G guards verified live. The standing rule this exercised: the guard must sit below physical memory, or it protects nothing.
+
 ### 3. GPU: only once RAM is sorted
 The GTi14 has a **PCIe 5.0 x8** interface into the EX dock (600 W PSU). x8 at gen 5 ≈ x16 at gen 4, so bandwidth is not the problem; power/budget are.
 
