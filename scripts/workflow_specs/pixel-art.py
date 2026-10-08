@@ -3,7 +3,7 @@
 Single arm (SDXL + pixel-art-xl LoRA, OpenRAIL) with TWO outputs at the SAME size: the plain nearest-/16
 downscale, and the same 64 px sprite palettised to a chosen palette.
 
-It used to have a second arm that differed only in the base checkpoint (Retro Diffusion, non-commercial) -
+It used to have a second arm that differed only in the base checkpoint (Retro Diffusion, purchased) -
 that choice now lives in the story and the note. Its palette pass was `PixelArtDetectorToImage`, which
 auto-detects the pixel grid: measured on a 1024 px generation it returned **128 px**, not the 64 px sprite,
 and it is not idempotent. The palette pass is now `PixelArtDetectorConverter` with a FIXED 64x64 resize, the
@@ -36,8 +36,8 @@ NOTE = (
     "128 px from a 1024\u00b2 image) and is not idempotent - which is why the palette pass here uses a FIXED "
     "size and never an already-downscaled input.\n"
     "**Flat retro instead?** `RetroDiffusion24x-64xModel` at 512\u00b2, 20 steps, cfg 9.5, with **its** "
-    "measured factor /8 -> 64 px. That model is **non-commercial**; `pixel-art-xl` is OpenRAIL, which is why "
-    "this is the shipped arm.\n"
+    "measured factor /8 -> 64 px. That model is **purchased**, and RD's terms give its **outputs to the "
+    "user** (commercial use fine; no training on RD outputs) [retrodiffusion.ai/terms, checked 2026-10-08].\n"
     "**Converting an existing picture?** `pixel-art-convert.json` keeps the source exactly (resize + palette); "
     "`pixel-art-restyle.json` redraws it with the LoRA first.\n\n"
     "---\n*How to run it: story **S10** in `HOWTO.md`  \u00b7  Why it is this way: **E5/E5b/E5f** in the "
