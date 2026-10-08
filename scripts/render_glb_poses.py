@@ -22,8 +22,11 @@ does that in one pass, and carries the four things that actually went wrong the 
 
 Output: `output/3d/<...>/<clip>_f<i>_yaw<deg>.png`, transparent RGBA at `--res`.
 
-Env: needs `bpy` as a Python module, and it belongs in its own env (bpy is ~1.6 GB):
-    python3.11 -m venv ~/bpyenv && ~/bpyenv/bin/pip install bpy==4.2.0
+Not box-bound: this is plain `bpy` with no ComfyUI in it, so it runs anywhere with a bpy env -
+the box (`~/bpyenv`, already built) or a local one (`bpy==4.2.0` ships Linux and Windows wheels;
+~1.6 GB installed). Only the *next* step is ComfyUI, so if you render away from the box, upload the
+PNGs to its `input/` before pixelating them.
+Env:  python3.11 -m venv ~/bpyenv && ~/bpyenv/bin/pip install bpy==4.2.0
 Run:  ~/bpyenv/bin/python scripts/render_glb_poses.py --glb input/Knight.glb \
           --out output/3d/poses --clip Idle_Rig:0.5 --clip 1H_Melee_Attack_Chop_Rig:0.15,0.35,0.55,0.75
 """
@@ -40,8 +43,8 @@ import mathutils
 
 def parse_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(description="Render a rigged GLB's clips as pose x facing PNGs.")
-    ap.add_argument("--glb", required=True, help="path to the .glb (as bpy sees it on this box)")
-    ap.add_argument("--out", required=True, help="output directory")
+    ap.add_argument("--glb", required=True, help="path to the .glb, as the machine running this script sees it")
+    ap.add_argument("--out", required=True, help="output directory (on the box, point it into ComfyUI's input/ so the pixelation step can read it)")
     ap.add_argument("--clip", action="append", required=True,
                     help="ActionName:frac[,frac...] - one stance is ActionName:0.5; repeatable")
     ap.add_argument("--yaws", default="0,45,90,135,180", help="comma-separated camera yaws in degrees")
