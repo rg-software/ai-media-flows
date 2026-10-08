@@ -16,6 +16,11 @@ dependencies = [
     "opencv-python-headless>=4.9",
 ]
 
+[project.optional-dependencies]
+# bpy 4.2 wheels only target CPython 3.11; keep its ~1.6 GB installed footprint
+# out of the normal repo tooling env and opt into it only for the GLB pose renderer.
+pose-render = ["bpy==4.2.0; python_version == '3.11'"]
+
 [tool.uv]
 # Usage:  uv sync            -> create/refresh .venv with the locked deps
 #         uv run python scripts/lint_docs.py

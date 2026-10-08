@@ -73,12 +73,12 @@ python_embeded\python.exe <node>\install.py
 
 ## A repo tool's own env: the bpy pose renderer
 
-`scripts/render_glb_poses.py` needs `bpy` (Blender as a Python module) - ~1.6 GB, and nothing else wants it, so it gets **its own env rather than the ComfyUI venv**:
+`scripts/render_glb_poses.py` needs `bpy` (Blender as a Python module) - ~1.6 GB installed. It is an **opt-in repo dependency**, so it does not burden the normal tooling environment or ComfyUI's torch environment. `bpy==4.2.0` only publishes Python 3.11 wheels, so select Python 3.11 and give the pose renderer a separate uv environment (do not replace the repo's default `.venv`):
 
 ```bash
-python3.11 -m venv ~/bpyenv && ~/bpyenv/bin/pip install bpy==4.2.0   # verified: bpy 4.2.0
-~/bpyenv/bin/python scripts/render_glb_poses.py --glb ~/Projects-Git/ComfyUI/input/Knight.glb \
-    --out ~/Projects-Git/ComfyUI/output/3d/poses --clip Idle_Rig:0.5 --yaws 0,90,180 --gear 1H_Sword,Round_Shield
+UV_PROJECT_ENVIRONMENT="$HOME/.cache/ai-gamedev-tasks/pose-render" uv run --extra pose-render --python 3.11 \
+    scripts/render_glb_poses.py --glb ~/Projects-Git/ComfyUI/input/Knight.glb \
+    --out ~/Projects-Git/ComfyUI/input/poses --clip Idle_Rig:0.5 --yaws 0,90,180 --gear 1H_Sword,Round_Shield
 ```
 
-It lives in **`~/bpyenv`, not the repo** (it is big and rebuildable), and it is *not* in the ComfyUI venv's freeze. **The env is the only requirement, not the box:** bpy publishes Linux *and* Windows wheels for Python 3.11 (`bpy-4.2.0-cp311-cp311-win_amd64.whl` verified, 315 MB), so the renderer runs locally too - the box is simply where the env is already built and where the GPU is. Renders are headless (no `--background` needed with the bpy module) on **Cycles + CUDA**, and a GPU-context failure falls back to CPU by itself. The same pattern applies to any future repo tool with a heavy module: its own env, and the rebuild line written down here.
+On Windows PowerShell, set `$env:UV_PROJECT_ENVIRONMENT` to a separate path (for example `$env:LOCALAPPDATA\ai-gamedev-tasks\pose-render`) before the same `uv run --extra pose-render --python 3.11 ...` command. The wheel exists for Linux, Windows, and macOS; the renderer is not tied to the box, but only its renders saved under ComfyUI's `input/` can be used by the next ComfyUI pixelation step without uploading them first. Renders are headless (no `--background` needed with the bpy module) on **Cycles + CUDA**, and a GPU-context failure falls back to CPU by itself. The same pattern applies to any future repo tool with a heavy module: its own env, and the rebuild line written down here.
