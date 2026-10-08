@@ -84,7 +84,6 @@ Full reasoning and sources: **`AUDIT-tooling-2026-09.md`**. Ordered by "unlocks 
 
 - **3D** — E7 tileable + E12 depth/normal maps feed 3D texturing and 2.5D.
 - **Animation (future)** — E14 consistency is the prerequisite for frame-to-frame characters; SeedVR2 (U1) also serves video.
-- **Vault** — `C:\Vault\Notes\Generative AI solutions.md` stays the high-level map; this file is operational.
 
 ## Open questions
 
