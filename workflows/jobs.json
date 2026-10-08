@@ -271,7 +271,7 @@
   },
   {
    "want": "Make a posed facing set from a rigged model",
-   "detail": "`scripts/render_glb_poses.py` (render a rigged GLB's clips as pose x facing PNGs - bpy, one fixed camera, a gear knob) -> `2d/workflows/pixel-art-convert.json` (faithful pixelation, one shared palette) -> `scripts/atlas.py` (pack)",
+   "detail": "`scripts/render_glb_poses.py` (render a rigged GLB's clips as pose x facing PNGs - bpy, one fixed camera, adjustable gear) -> `2d/workflows/pixel-art-convert.json` (faithful pixelation, one shared palette) -> `scripts/restore_alpha.py` (put the render's transparency back) -> `scripts/atlas.py` (pack)",
    "story": "S9",
    "category": "animation"
   }
