@@ -291,8 +291,12 @@ def main() -> int:
         # `SaveVideo` matters as much as `SaveImage`: it counts up across runs (a probe cell landed as
         # `interp_probe_00003_` while `--out` said `interp_src`), so a sweep of a video flow produced files
         # that were neither labelled by the cell nor findable from the manifest.
+        # `SaveAnimatedWEBP`/`SaveWEBM` are the save nodes ComfyUI's own Wan templates use (the VACE and
+        # camera-control examples ship only these), and without them here a sweep's cells all wrote the
+        # template's own `ComfyUI` prefix into the output root, colliding cell over cell.
         for nid, n in prompt.items():
-            if n["class_type"] in ("SaveImage", "SaveVideo", "SaveAudio", "SaveAudioAdvanced"):
+            if n["class_type"] in ("SaveImage", "SaveVideo", "SaveAudio", "SaveAudioAdvanced",
+                                   "SaveAnimatedWEBP", "SaveWEBM"):
                 n["inputs"]["filename_prefix"] = "%s_c%02d" % (args.out, idx)
         t0 = time.time()
         resp = post(args.base, args.token, "/prompt", {"prompt": prompt})
