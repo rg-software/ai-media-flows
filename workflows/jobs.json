@@ -26,7 +26,8 @@
   "S23": "Generate a song that actually sings",
   "S24": "Repair a region of a track (repaint)",
   "S26": "Generate narration or a voice-over from text",
-  "S27": "Generate a dialogue scene"
+  "S27": "Generate a dialogue scene",
+  "S28": "Animate my own character from a prompt"
  },
  "jobs": [
   {
@@ -274,6 +275,12 @@
    "detail": "`scripts/render_glb_poses.py` (render a rigged GLB's clips as pose x facing PNGs - bpy, one fixed camera, adjustable gear) -> `2d/workflows/pixel-art-convert.json` (faithful pixelation, one shared palette) -> `scripts/restore_alpha.py` (put the render's transparency back) -> `scripts/atlas.py` (pack)",
    "story": "S9",
    "category": "animation"
+  },
+  {
+   "want": "Animate my own character from a prompt",
+   "detail": "`video/workflows/wan-vace-reference.json` (VACE **reference-to-video**: your own character image + a text prompt -> a clip that keeps her identity and acts out the prompt, **no driving clip**; `wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB, Apache-2.0; 81 frames at 768² measured **45.5 min** on this box - identity holds, but the last third drifts, E13b). To copy motion from a clip instead, use `wan-animate-motion.json` (S18)",
+   "story": "S28",
+   "category": "video"
   }
  ],
  "flows": {
@@ -448,6 +455,9 @@
   },
   "render_glb_poses.py": {
    "story": "S9"
+  },
+  "wan-vace-reference.json": {
+   "story": "S28"
   }
  },
  "categories": [

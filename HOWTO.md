@@ -354,3 +354,20 @@
 ## If your job isn't here
 
 Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family × subject/domain, with cost, licence, status and key knob). If a flow exists but has no story above, that's a documentation gap worth reporting; if no flow exists, it belongs in `PIPELINES.md` → "Status — what is actually left".
+
+### S28. Animate my own character from a prompt
+
+- *When:* you have a character image you made (a hero, a mascot, a knight) and want a short clip of her *doing something* - but you have no driving clip of a person doing that motion. The prompt says what should happen; the flow keeps **her**. This is the counterpart to S15: S15 copies motion from a clip, this one writes it from words.
+- *Steps:*
+	- put your character image in `input/` - a **full-body, plain-background** picture (the background travels with her, so a busy photo gives a busy clip);
+	- open `video/workflows/wan-vace-reference.json`, set the **image** on the `LoadImage` (node 52) and the **prompt** on the upper `CLIPTextEncode` (node 6). Write the action as one sentence, the way the shipped example does ("*a red-haired sorceress in a blue and gold gown spinning gracefully and casting a fire spell, full body, plain background*"); word-soup prompt engineering ("masterpiece, best quality, ...") makes it worse, not better;
+	- run. It is the slowest flow in the repo: 81 frames at 768x768 took **45.5 min** on this box. Start with `length` 81 and steps 20 before you sweep anything.
+- *Knobs:*
+	- **`length`** (node 55) - frames, in steps of 4 (81 = 3.4 s at 24 fps). This is the cost knob: 480x848 roughly halves it;
+	- **steps / cfg** (node 3) - 20 / 6.0 ship. The 6-step distil LoRA that S15 uses is named for image-to-video at 480p and is untested here;
+	- **the reference image** - the most important choice of all: identity, costume and background all come from it;
+	- **shift** (node 54) - 8.0 ships.
+- *Measured:* identity holds across the clip on our own `char_heroine.png`, and the prompted fire spell actually appears and grows in her hand ([`video/evidence/E13b-vace-single-strip.png`](video/evidence/E13b-vace-single-strip.png), E13b). **Two defects to plan around:** the hem smears into a painterly swirl in the early frames, and **the last third drifts** - the action takes over and the figure softens - so keep the first ~two thirds if the character is the point.
+- *Traps:* never quantise this model to GGUF (the model type lives in its metadata, the same trap as S15's). The weights are a third-party fp8 reupload of the Apache-2.0 model (`wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB); Comfy-Org's own file is the 34.7 GB fp16 - both licence-clean, see [`comfyui/pinned-config.md`](comfyui/pinned-config.md).
+- *Not here yet:* several subjects at once, and putting an object in a chosen spot - both are being measured (E13b's pair and control+mask arms).
+- *More:* [`video/README.md`](video/README.md), and E13/E13b in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
