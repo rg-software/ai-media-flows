@@ -41,7 +41,7 @@ The diffusion model is [Wan Animate 2](https://huggingface.co/Comfy-Org/Wan-Anim
 
 ## What is deferred
 
-The backlog is in [`EXPERIMENTS.md`](EXPERIMENTS.md) → PENDING, and deliberately long because this scenario is the destination for most of the unused video-model surface on the box (~100 node types): frame interpolation (E17), camera control (E18), motion tracking as an explicit trajectory input (E19), combinations of subjects/objects/background (E13, needing a new model), our own character rather than the upstream example (E11), and the rest - LTXV, MiniMax H3, Hunyuan video super-resolution, Mochi, Cosmos, audio-driven talking heads. One route is explicitly **not** planned: video → sprite sheet, because a sheet wants a few carefully chosen frames rather than a whole clip, and the character-preservation that matters there is already targeted directly by the sprite path in `2d/` (S9).
+The backlog is in [`EXPERIMENTS.md`](EXPERIMENTS.md) → PENDING, and deliberately long because this scenario is the destination for most of the unused video-model surface on the box (~100 node types): frame interpolation (E17), camera control (E18), motion tracking as an explicit trajectory input (E19), combinations of subjects/objects/background (E13, needing a new model), and the rest - LTXV, MiniMax H3, Hunyuan video super-resolution, Mochi, Cosmos, audio-driven talking heads. One route is explicitly **not** planned: video → sprite sheet, because a sheet wants a few carefully chosen frames rather than a whole clip, and the character-preservation that matters there is already targeted directly by the sprite path in `2d/` (S9).
 
 ## Docs
 
