@@ -288,6 +288,12 @@
    "detail": "`video/workflows/wan-camera-control.json` - a still plus a **preset camera trajectory** (Static / Pan / Zoom / orbit) instead of the model inventing its own camera, which drifts; `wan2.1_fun_camera_v1.1_1.3B_bf16` (3.23 GB, Apache-2.0) and **115 s per 81-frame cell** - the cheapest motion route here (E18). Note the canvas knobs live on the `WanCameraEmbedding`, which overrides the target node's own",
    "story": "S29",
    "category": "video"
+  },
+  {
+   "want": "Pad a portrait image to 16:9 for a landscape video run",
+   "detail": "`scripts/letterbox_16x9.py` - one command that pads the image to the target aspect instead of letting the video flow crop it (measured: our `char_heroine.png` loses her head in an 832x480 frame); then set the camera/motion flow's width/height to match. Pairs with S29",
+   "story": "S29",
+   "category": "video"
   }
  ],
  "flows": {
@@ -467,6 +473,9 @@
    "story": "S28"
   },
   "wan-camera-control.json": {
+   "story": "S29"
+  },
+  "letterbox_16x9.py": {
    "story": "S29"
   }
  },
