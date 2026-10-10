@@ -371,3 +371,20 @@ Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family
 - *Traps:* never quantise this model to GGUF (the model type lives in its metadata, the same trap as S15's). The weights are a third-party fp8 reupload of the Apache-2.0 model (`wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB); Comfy-Org's own file is the 34.7 GB fp16 - both licence-clean, see [`comfyui/pinned-config.md`](comfyui/pinned-config.md).
 - *Not here yet:* several subjects at once, and putting an object in a chosen spot - both are being measured (E13b's pair and control+mask arms).
 - *More:* [`video/README.md`](video/README.md), and E13/E13b in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
+### S29. Give a clip a camera you chose
+
+- *When:* you have a good still and want a clip that moves **the way you decide** - a slow push-in, a pan across the scene, an orbit. In the other motion routes the camera is text-driven and **drifts** (the thing E18 set out to fix); here the camera is an input.
+- *Steps:*
+	- put your still in `input/` - clean, well-lit, and composed for the move you want (the still *is* the clip's first frame, so its framing is what the camera departs from);
+	- open `video/workflows/wan-camera-control.json` and set the **image** on the `LoadImage` (node 52);
+	- set the **trajectory** on the `WanCameraEmbedding` (node 57): `Static`, `Pan Up` / `Pan Down` / `Pan Left` / `Pan Right`, `Zoom In` / `Zoom Out`, `Anti Clockwise (ACW)` / `ClockWise (CW)`;
+	- run. This is the **cheapest motion flow in the repo**: 81 frames take **115 s**.
+- *Knobs:*
+	- **`camera_pose`** - the whole point of the flow. `Static` is the safe default (it holds the framing *still*, which is how you notice the drift is gone); `Pan Left` and `Zoom In` are the demonstrative ones;
+	- **width / height / length live on the `WanCameraEmbedding` (node 57), not on the target node** - the embedding *outputs* them and they are linked in, so the node's own canvas widgets are overridden. This is the one real trap in the flow (upstream's example hides it: its embedding says 512x512 while the node says 832x480, and the *embedding* wins);
+	- **steps / cfg** (node 3) - 20 / 6.0 ship;
+	- the **start image** - a portrait still into a landscape canvas crops at the edges, and what must survive the pan is the subject.
+- *Measured:* all three tested presets do what they say, identity holds, 115 s per cell ([`video/evidence/E18-camera-sheet.png`](video/evidence/E18-camera-sheet.png), E18). Weights: `wan2.1_fun_camera_v1.1_1.3B_bf16` (3.23 GB, Apache-2.0, official Comfy-Org repack).
+- *Traps:* the trajectory is a **preset** - a bespoke camera path needs the node's JSON pose input, which this flow does not expose. `Static` looks "broken" on a first glance because almost nothing moves; that is the point (compare S15/S28, where the camera wanders on its own).
+- *More:* [`video/README.md`](video/README.md), and E18 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).

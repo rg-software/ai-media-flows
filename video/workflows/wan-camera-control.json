@@ -1,0 +1,874 @@
+{
+ "last_node_id": 60,
+ "last_link_id": 22,
+ "nodes": [
+  {
+   "id": 37,
+   "type": "UNETLoader",
+   "pos": [
+    -1500,
+    460
+   ],
+   "size": [
+    340,
+    100
+   ],
+   "widgets_values": [
+    "wan2.1_fun_camera_v1.1_1.3B_bf16.safetensors",
+    "default"
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      1
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "order": 0
+  },
+  {
+   "id": 54,
+   "type": "ModelSamplingSD3",
+   "pos": [
+    -1100,
+    460
+   ],
+   "size": [
+    220,
+    80
+   ],
+   "widgets_values": [
+    8.0
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      2
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "ModelSamplingSD3"
+   },
+   "order": 1
+  },
+  {
+   "id": 38,
+   "type": "CLIPLoader",
+   "pos": [
+    -1500,
+    240
+   ],
+   "size": [
+    340,
+    100
+   ],
+   "widgets_values": [
+    "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+    "wan",
+    "default"
+   ],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "slot_index": 0,
+     "links": [
+      3,
+      4
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "order": 2
+  },
+  {
+   "id": 39,
+   "type": "VAELoader",
+   "pos": [
+    -1500,
+    20
+   ],
+   "size": [
+    340,
+    80
+   ],
+   "widgets_values": [
+    "Wan2_1_VAE_bf16.safetensors"
+   ],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "slot_index": 0,
+     "links": [
+      5,
+      6
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "order": 3
+  },
+  {
+   "id": 49,
+   "type": "CLIPVisionLoader",
+   "pos": [
+    -1500,
+    700
+   ],
+   "size": [
+    340,
+    80
+   ],
+   "widgets_values": [
+    "clip_vision_h.safetensors"
+   ],
+   "outputs": [
+    {
+     "name": "CLIP_VISION",
+     "type": "CLIP_VISION",
+     "slot_index": 0,
+     "links": [
+      7
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "CLIPVisionLoader"
+   },
+   "order": 4
+  },
+  {
+   "id": 52,
+   "type": "LoadImage",
+   "pos": [
+    -1500,
+    900
+   ],
+   "size": [
+    340,
+    314
+   ],
+   "widgets_values": [
+    "2d/char_heroine.png",
+    "image"
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      8,
+      9
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": []
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "order": 5
+  },
+  {
+   "id": 51,
+   "type": "CLIPVisionEncode",
+   "pos": [
+    -1100,
+    700
+   ],
+   "size": [
+    240,
+    120
+   ],
+   "widgets_values": [
+    "none"
+   ],
+   "inputs": [
+    {
+     "name": "clip_vision",
+     "type": "CLIP_VISION",
+     "link": 7
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 8
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CLIP_VISION_OUTPUT",
+     "type": "CLIP_VISION_OUTPUT",
+     "slot_index": 0,
+     "links": [
+      10
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPVisionEncode"
+   },
+   "order": 6
+  },
+  {
+   "id": 6,
+   "type": "CLIPTextEncode",
+   "pos": [
+    -1100,
+    240
+   ],
+   "size": [
+    440,
+    160
+   ],
+   "widgets_values": [
+    "a red-haired sorceress in a blue and gold gown standing calmly, full body, plain background"
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      11
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "order": 7
+  },
+  {
+   "id": 7,
+   "type": "CLIPTextEncode",
+   "pos": [
+    -1100,
+    20
+   ],
+   "size": [
+    440,
+    200
+   ],
+   "widgets_values": [
+    "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      12
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "order": 8
+  },
+  {
+   "id": 57,
+   "type": "WanCameraEmbedding",
+   "pos": [
+    -1100,
+    1020
+   ],
+   "size": [
+    300,
+    220
+   ],
+   "widgets_values": [
+    "Static",
+    832,
+    480,
+    81,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "camera_embedding",
+     "type": "WAN_CAMERA_EMBEDDING",
+     "slot_index": 0,
+     "links": [
+      13
+     ]
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "slot_index": 1,
+     "links": [
+      14
+     ]
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "slot_index": 2,
+     "links": [
+      15
+     ]
+    },
+    {
+     "name": "length",
+     "type": "INT",
+     "slot_index": 3,
+     "links": [
+      16
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "WanCameraEmbedding"
+   },
+   "order": 9
+  },
+  {
+   "id": 56,
+   "type": "WanCameraImageToVideo",
+   "pos": [
+    -600,
+    400
+   ],
+   "size": [
+    340,
+    220
+   ],
+   "widgets_values": [
+    832,
+    480,
+    81,
+    1
+   ],
+   "inputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 11
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 12
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 5
+    },
+    {
+     "name": "clip_vision_output",
+     "type": "CLIP_VISION_OUTPUT",
+     "link": 10
+    },
+    {
+     "name": "start_image",
+     "type": "IMAGE",
+     "link": 9
+    },
+    {
+     "name": "camera_conditions",
+     "type": "WAN_CAMERA_EMBEDDING",
+     "link": 13
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "link": 14
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "link": 15
+    },
+    {
+     "name": "length",
+     "type": "INT",
+     "link": 16
+    }
+   ],
+   "outputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      17
+     ]
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "slot_index": 1,
+     "links": [
+      18
+     ]
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "slot_index": 2,
+     "links": [
+      19
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "WanCameraImageToVideo"
+   },
+   "order": 10
+  },
+  {
+   "id": 3,
+   "type": "KSampler",
+   "pos": [
+    -200,
+    400
+   ],
+   "size": [
+    340,
+    260
+   ],
+   "widgets_values": [
+    42,
+    "fixed",
+    20,
+    6.0,
+    "uni_pc",
+    "simple",
+    1.0
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 17
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 18
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 19
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      20
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "order": 11
+  },
+  {
+   "id": 8,
+   "type": "VAEDecode",
+   "pos": [
+    200,
+    400
+   ],
+   "size": [
+    220,
+    80
+   ],
+   "widgets_values": [],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 20
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      21,
+      22
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "order": 12
+  },
+  {
+   "id": 28,
+   "type": "SaveAnimatedWEBP",
+   "pos": [
+    480,
+    320
+   ],
+   "size": [
+    340,
+    200
+   ],
+   "widgets_values": [
+    "wan-camera-control",
+    16,
+    false,
+    90,
+    "default"
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 21
+    }
+   ],
+   "outputs": [],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveAnimatedWEBP"
+   },
+   "order": 13
+  },
+  {
+   "id": 47,
+   "type": "SaveWEBM",
+   "pos": [
+    480,
+    560
+   ],
+   "size": [
+    340,
+    220
+   ],
+   "widgets_values": [
+    "wan-camera-control",
+    "vp9",
+    16.0,
+    0
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 22
+    }
+   ],
+   "outputs": [],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveWEBM"
+   },
+   "order": 14
+  },
+  {
+   "id": 60,
+   "type": "MarkdownNote",
+   "pos": [
+    -1500,
+    1300
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "widgets_values": [
+    "## wan-camera-control.json\n\nA clip with a camera you chose, not one the model invents\n\n**Does:** takes a **still** as the first frame and animates it along a **preset camera trajectory** - `Static`, `Pan Up/Down/Left/Right`, `Zoom In/Out`, `Anti Clockwise` / `ClockWise` (`WanCameraEmbedding`). The reason this flow exists: in the other Wan routes the camera is **text-driven and drifts** (E18's own finding), and here it is an input instead. Host: `wan2.1_fun_camera_v1.1_1.3B_bf16` (3.23 GB, **Apache-2.0**, official Comfy-Org repack) + the umt5 encoder, `clip_vision_h` and the Wan VAE we ship.\n**Measured (E18, 2026-10-10):** 81 frames per cell in **115 s** - about 1/20th of the VACE 14B route - with **identity holding** in all three cells tested (Static / Pan Left / Zoom In). The evidence sheet (`video/evidence/E18-camera-sheet.png`) shows exactly what each preset does: Static keeps the framing dead-still (drift gone), Pan Left walks the subject across frame, Zoom In goes full body -> chest close-up.\n**Knobs:** `camera_pose` (the preset) is the point of the flow; **width/height/length live on the `WanCameraEmbedding`, not on the target node** - the embedding *outputs* them and they are linked in, so its 512x512 in the upstream example silently overrides the node's own 832x480. Also `steps`/`cfg` (20 / 6.0) and the **start image**: give it a clean, well-lit still - the first frame is the clip's first frame, so its composition is what the camera departs from.\n**Traps:** a portrait still into a landscape canvas crops at the edges (the subject is what must survive the pan), and the trajectory is a **fixed preset** - a bespoke camera path needs the node's JSON pose input, which this flow does not expose.\n**Siblings:** `wan-animate-motion.json` (S15) copies motion from a driving clip; `wan-vace-reference.json` (S28) writes motion from a prompt. This one is the cheap one.\n\n---\n*How to run it: story **S29** in `HOWTO.md`  ·  Why it is this way: **E18** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "flags": {},
+   "mode": 0,
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   37,
+   0,
+   54,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   54,
+   0,
+   3,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   38,
+   0,
+   6,
+   0,
+   "CLIP"
+  ],
+  [
+   4,
+   38,
+   0,
+   7,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   39,
+   0,
+   56,
+   2,
+   "VAE"
+  ],
+  [
+   6,
+   39,
+   0,
+   8,
+   1,
+   "VAE"
+  ],
+  [
+   7,
+   49,
+   0,
+   51,
+   0,
+   "CLIP_VISION"
+  ],
+  [
+   8,
+   52,
+   0,
+   51,
+   1,
+   "IMAGE"
+  ],
+  [
+   9,
+   52,
+   0,
+   56,
+   4,
+   "IMAGE"
+  ],
+  [
+   10,
+   51,
+   0,
+   56,
+   3,
+   "CLIP_VISION_OUTPUT"
+  ],
+  [
+   11,
+   6,
+   0,
+   56,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   12,
+   7,
+   0,
+   56,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   13,
+   57,
+   0,
+   56,
+   5,
+   "WAN_CAMERA_EMBEDDING"
+  ],
+  [
+   14,
+   57,
+   1,
+   56,
+   6,
+   "INT"
+  ],
+  [
+   15,
+   57,
+   2,
+   56,
+   7,
+   "INT"
+  ],
+  [
+   16,
+   57,
+   3,
+   56,
+   8,
+   "INT"
+  ],
+  [
+   17,
+   56,
+   0,
+   3,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   18,
+   56,
+   1,
+   3,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   19,
+   56,
+   2,
+   3,
+   3,
+   "LATENT"
+  ],
+  [
+   20,
+   3,
+   0,
+   8,
+   0,
+   "LATENT"
+  ],
+  [
+   21,
+   8,
+   0,
+   28,
+   0,
+   "IMAGE"
+  ],
+  [
+   22,
+   8,
+   0,
+   47,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}

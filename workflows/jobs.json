@@ -27,7 +27,8 @@
   "S24": "Repair a region of a track (repaint)",
   "S26": "Generate narration or a voice-over from text",
   "S27": "Generate a dialogue scene",
-  "S28": "Animate my own character from a prompt"
+  "S28": "Animate my own character from a prompt",
+  "S29": "Give a clip a camera you chose"
  },
  "jobs": [
   {
@@ -281,6 +282,12 @@
    "detail": "`video/workflows/wan-vace-reference.json` (VACE **reference-to-video**: your own character image + a text prompt -> a clip that keeps her identity and acts out the prompt, **no driving clip**; `wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB, Apache-2.0; 81 frames at 768² measured **45.5 min** on this box - identity holds, but the last third drifts, E13b). To copy motion from a clip instead, use `wan-animate-motion.json` (S18)",
    "story": "S28",
    "category": "video"
+  },
+  {
+   "want": "Give a clip a camera you chose",
+   "detail": "`video/workflows/wan-camera-control.json` - a still plus a **preset camera trajectory** (Static / Pan / Zoom / orbit) instead of the model inventing its own camera, which drifts; `wan2.1_fun_camera_v1.1_1.3B_bf16` (3.23 GB, Apache-2.0) and **115 s per 81-frame cell** - the cheapest motion route here (E18). Note the canvas knobs live on the `WanCameraEmbedding`, which overrides the target node's own",
+   "story": "S29",
+   "category": "video"
   }
  ],
  "flows": {
@@ -458,6 +465,9 @@
   },
   "wan-vace-reference.json": {
    "story": "S28"
+  },
+  "wan-camera-control.json": {
+   "story": "S29"
   }
  },
  "categories": [
