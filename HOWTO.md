@@ -382,7 +382,8 @@ Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family
 	- run. This is the **cheapest motion flow in the repo**: 81 frames take **115 s**.
 - *Knobs:*
 	- **`camera_pose`** - the whole point of the flow. `Static` is the safe default (it holds the framing *still*, which is how you notice the drift is gone); `Pan Left` and `Zoom In` are the demonstrative ones;
-	- **width / height / length live on the `WanCameraEmbedding` (node 57), not on the target node** - the embedding *outputs* them and they are linked in, so the node's own canvas widgets are overridden. This is the one real trap in the flow (upstream's example hides it: its embedding says 512x512 while the node says 832x480, and the *embedding* wins);
+	- **width / height / length live on the `WanCameraEmbedding` (node 57), not on the target node** - the embedding *outputs* them and they are linked in, so the node's own canvas widgets are overridden (upstream's example hides this: its embedding says 512x512 while the node says 832x480, and the *embedding* wins). It ships **512x512**, which is what keeps a portrait start image whole;
+	- **want 16:9?** letterbox the start image first - `uv run python scripts/letterbox_16x9.py assets/2d/char_heroine.png --out input/2d/hero_16x9.png` - then set the embedding's width/height to **832**/**480**. Measured: a portrait still into 16:9 loses its **head**;
 	- **steps / cfg** (node 3) - 20 / 6.0 ship;
 	- the **start image** - a portrait still into a landscape canvas crops at the edges, and what must survive the pan is the subject.
 - *Measured:* all three tested presets do what they say, identity holds, 115 s per cell ([`video/evidence/E18-camera-sheet.png`](video/evidence/E18-camera-sheet.png), E18). Weights: `wan2.1_fun_camera_v1.1_1.3B_bf16` (3.23 GB, Apache-2.0, official Comfy-Org repack).

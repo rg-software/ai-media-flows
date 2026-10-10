@@ -32,10 +32,10 @@ NOTE = (
     "dead-still (drift gone), Pan Left walks the subject across frame, Zoom In goes full body -> chest close-up.\n"
     "**Knobs:** `camera_pose` (the preset) is the point of the flow; **width/height/length live on the "
     "`WanCameraEmbedding`, not on the target node** - the embedding *outputs* them and they are linked in, so its "
-    "512x512 in the upstream example silently overrides the node's own 832x480. Also `steps`/`cfg` (20 / 6.0) and "
+    "512x512 in the upstream example silently overrides the node's own 832x480. It ships **512x512** because a portrait start image is *cropped* in 16:9 (measured: our own `char_heroine.png` loses her head at 832x480) - for 16:9, letterbox the start image first (`scripts/letterbox_16x9.py`, one command) and set the embedding's width/height to **832**/**480**. Also `steps`/`cfg` (20 / 6.0) and "
     "the **start image**: give it a clean, well-lit still - the first frame is the clip's first frame, so its "
     "composition is what the camera departs from.\n"
-    "**Traps:** a portrait still into a landscape canvas crops at the edges (the subject is what must survive the "
+    "**Traps:** a portrait still into a landscape canvas crops - measured, the head goes first, which is what the letterbox step is for - and the subject is what must survive the "
     "pan), and the trajectory is a **fixed preset** - a bespoke camera path needs the node's JSON pose input, which "
     "this flow does not expose.\n"
     "**Siblings:** `wan-animate-motion.json` (S15) copies motion from a driving clip; "
@@ -78,14 +78,14 @@ NODES = [
      "inputs": [{"name": "clip", "type": "CLIP"}],
      "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "slot_index": 0}]},
     {"id": 57, "type": "WanCameraEmbedding", "pos": [-1100, 1020], "size": [300, 220],
-     "widgets_values": ["Static", 832, 480, 81, 1.0, 0.5, 0.5, 0.5, 0.5],
+     "widgets_values": ["Static", 512, 512, 81, 1.0, 0.5, 0.5, 0.5, 0.5],
      "inputs": [],
      "outputs": [{"name": "camera_embedding", "type": "WAN_CAMERA_EMBEDDING", "slot_index": 0},
                  {"name": "width", "type": "INT", "slot_index": 1},
                  {"name": "height", "type": "INT", "slot_index": 2},
                  {"name": "length", "type": "INT", "slot_index": 3}]},
     {"id": 56, "type": "WanCameraImageToVideo", "pos": [-600, 400], "size": [340, 220],
-     "widgets_values": [832, 480, 81, 1],
+     "widgets_values": [512, 512, 81, 1],
      "inputs": [{"name": "positive", "type": "CONDITIONING"},
                 {"name": "negative", "type": "CONDITIONING"},
                 {"name": "vae", "type": "VAE"},
