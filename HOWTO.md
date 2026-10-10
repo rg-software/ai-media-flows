@@ -406,3 +406,19 @@ Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family
 - *Measured:* a 33-frame flame clip at 8 source frames reads as one coherent effect; the backdrop stays dead black (corner luma 14.4-16.0, peak cell-to-cell delta 0.60/255), so both the additive and the luma-keyed arms are clean. Cost: 2x45 s of generation. Evidence: `animation/evidence/E21-flipbook.png`. A shipped example lives in `assets/2d/vfx/` (`fire_column.png` + its manifest, 128 px cells, 14 frames at 12 fps, additive).
 - *Traps:* the playback rate is a **delivery** decision, not the clip's - the manifest's `fps` is independent of the source's, and `scripts/atlas.py` cannot make that call because it has no notion of time. And a flipbook is an engine asset, so it belongs in `animation/`, not `video/`.
 - *More:* [`animation/README.md`](animation/README.md), and E21 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).
+
+### S31. Put our character into footage
+
+- *When:* you have footage of a person in a real scene and want **your character** to play their part - the background, lighting and camera of the footage kept, the person replaced. This is placement: the character lands *inside* real footage, not on a generated backdrop.
+- *Steps:*
+	- open `video/workflows/wan-animate-mix.json`; set the **driving clip** on the `LoadVideo` and the **reference image** on the `LoadImage` (node 9);
+	- the reference should be a **portrait** (face fills the frame) - this is the identity knob, measured in E13c: a full-body reference loses the face on close-up-driven footage (same outfit, a different woman), a portrait holds it;
+	- run. The mask is generated in-graph (SAM3 finds the person on the first frame, `GrowMask` 10, `BlockifyMask` 32) and `background_video` is the video **with the character painted black** - the hole the model fills. 77 frames at 640x640 take **375 s**.
+- *Knobs:*
+	- the **reference image** - portrait, well-lit, face clear (E13c probe B vs C is the whole measurement);
+	- the **mask prompt** (`person` on `SAM3_Detect`) and `GrowMask` / `BlockifyMask` (10 / 32) if the driver's person is unusual;
+	- **`length`** (77 ships) and the canvas - width/height must be **multiples of 16**;
+	- the **prompt** describes the scene action ("The character is dancing in the room"), not the character - the reference carries identity.
+- *Measured:* replacement + motion + background preservation at 375 s per 77-frame cell ([`video/evidence/E13c-mix-probes.png`](video/evidence/E13c-mix-probes.png), E13c). Weights: `wan2.2_animate_14B_int8_convrot` (18.4 GB, Apache-2.0, already on the box) + the lightx2v distill lora.
+- *Traps:* the output **prepends the reference as frame 0** (81 frames out for `length` 77) - trim one second in the engine or with a slice; the mask and the video must share the canvas (a mismatch shows up as black 32-px blocks - measured); DWPose auto-downloads its detectors on first run into `custom_nodes/comfyui_controlnet_aux/ckpts/`. For tighter light integration there is an optional relight lora (1.34 GB, Kijai `WanVideo_comfy` `LoRAs/Wan22_relight`) not yet on the box.
+- *More:* [`video/README.md`](video/README.md), and E13c in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
