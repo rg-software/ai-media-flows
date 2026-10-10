@@ -389,3 +389,20 @@ Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family
 - *Measured:* all three tested presets do what they say, identity holds, 115 s per cell ([`video/evidence/E18-camera-sheet.png`](video/evidence/E18-camera-sheet.png), E18). Weights: `wan2.1_fun_camera_v1.1_1.3B_bf16` (3.23 GB, Apache-2.0, official Comfy-Org repack).
 - *Traps:* the trajectory is a **preset** - a bespoke camera path needs the node's JSON pose input, which this flow does not expose. `Static` looks "broken" on a first glance because almost nothing moves; that is the point (compare S15/S28, where the camera wanders on its own).
 - *More:* [`video/README.md`](video/README.md), and E18 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
+### S30. Turn a generated clip into a VFX flipbook
+
+- *When:* you have a clip of an effect (fire, sparks, an impact, a magic aura) and want it as a **game sprite sheet** the engine can play - not a video file. The clip is the renderer here: there is no skeleton and no retargeting step, which is what makes this route cheap next to the character routes.
+- *Steps:*
+	- make the clip: an effect still (`2d/workflows/sdxl-base-art.json`, prompt it *isolated on pure black background*) animated with `video/workflows/wan-camera-control.json` at a short `length` (33 frames is plenty) - about 45 s on the 1.3B;
+	- pack it: `uv run python scripts/flipbook.py <clip>.webp --frames 8 --cell 128 --out assets/2d/vfx/fire`;
+	- read the sheet and the manifest (`<out>_manifest.json`) - the manifest carries the frame rate, cell size, grid and loop mode, which is what an engine importer needs.
+- *Knobs:*
+	- **`--frames`** - how many source frames to sample. 4 / 8 / 12 all read as the same effect on a flame, so this is a delivery choice, not a quality cliff;
+	- **`--window START END`** - the fraction of the clip to sample. A one-shot event spends its first and last second barely moving, so sampling the whole clip gives you a sheet where half the cells look identical;
+	- **`--loop`** - `pingpong` (default) is the only ordering that is seamless for *any* source: measured **0.3 px** seam. `cycle` measured a **10.8 px** wrap jump on a drifting clip, so it is only right when the source really is cyclic. `none` is a one-shot;
+	- **`--key`** - `none` (additive blending: fire, sparks, energy on black need no alpha at all), `luma` (a black backdrop to real transparency) or `chroma` (any flat colour). **Chroma is not available yet**: an SDXL prompt for a green backdrop was ignored and rendered a knight instead, so there was nothing to key (E21);
+	- **`--cell`** - one dimension keeps the source aspect; giving both squashes the effect.
+- *Measured:* a 33-frame flame clip at 8 source frames reads as one coherent effect; the backdrop stays dead black (corner luma 14.4-16.0, peak cell-to-cell delta 0.60/255), so both the additive and the luma-keyed arms are clean. Cost: 2x45 s of generation. Evidence: `animation/evidence/E21-flipbook.png`. A shipped example lives in `assets/2d/vfx/` (`fire_column.png` + its manifest, 128 px cells, 14 frames at 12 fps, additive).
+- *Traps:* the playback rate is a **delivery** decision, not the clip's - the manifest's `fps` is independent of the source's, and `scripts/atlas.py` cannot make that call because it has no notion of time. And a flipbook is an engine asset, so it belongs in `animation/`, not `video/`.
+- *More:* [`animation/README.md`](animation/README.md), and E21 in [`animation/EXPERIMENTS.md`](animation/EXPERIMENTS.md).

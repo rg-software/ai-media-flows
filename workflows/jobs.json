@@ -28,7 +28,8 @@
   "S26": "Generate narration or a voice-over from text",
   "S27": "Generate a dialogue scene",
   "S28": "Animate my own character from a prompt",
-  "S29": "Give a clip a camera you chose"
+  "S29": "Give a clip a camera you chose",
+  "S30": "Turn a generated clip into a VFX flipbook"
  },
  "jobs": [
   {
@@ -294,6 +295,12 @@
    "detail": "`scripts/letterbox_16x9.py` - one command that pads the image to the target aspect instead of letting the video flow crop it (measured: our `char_heroine.png` loses her head in an 832x480 frame); then set the camera/motion flow's width/height to match. Pairs with S29",
    "story": "S29",
    "category": "video"
+  },
+  {
+   "want": "Turn a generated clip into a VFX flipbook",
+   "detail": "`scripts/flipbook.py` - a clip (webp/gif/webm/mp4) or a frame sequence -> an engine sheet plus a manifest carrying the frame rate, cell size, grid and loop mode. Samples `--frames` frames over a `--window` of the clip, orders them (`--loop pingpong` is the only seamless one for any source), keys the backdrop to alpha (`--key luma` / `chroma`) or leaves it additive, and packs the cells. Measured: a 33-frame flame clip at 8 source frames reads as one coherent effect, the ping-pong seam is 0.3 px, and a chroma-green source fails at the image stage (E21)",
+   "story": "S30",
+   "category": "animation"
   }
  ],
  "flows": {
@@ -477,6 +484,9 @@
   },
   "letterbox_16x9.py": {
    "story": "S29"
+  },
+  "flipbook.py": {
+   "story": "S30"
   }
  },
  "categories": [

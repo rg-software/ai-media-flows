@@ -1,0 +1,38 @@
+{
+ "source": "fx_black_anim_c00_00001_.webp",
+ "source_frames": 33,
+ "source_fps": null,
+ "read_via": "PIL .webp",
+ "window": [
+  0.0,
+  1.0
+ ],
+ "sampled_indices": [
+  0,
+  5,
+  9,
+  14,
+  18,
+  23,
+  27,
+  32
+ ],
+ "sampled_frames": 8,
+ "loop": "pingpong",
+ "cells": 14,
+ "cell_order": "row-major, left-to-right, top-to-bottom",
+ "fps": 12.0,
+ "duration_s": 1.167,
+ "cell_size": [
+  128,
+  128
+ ],
+ "grid": [
+  7,
+  2
+ ],
+ "alpha": false,
+ "key": null,
+ "blend_hint": "additive",
+ "sheet": "fire_column.png"
+}

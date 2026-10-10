@@ -28,7 +28,7 @@ A third form, a **video file**, is *not* here: its consumer is a viewer rather t
 |---|---|---|---|
 | `sam3d-motion.json` | **footage → a 3D body animation**, exported as an animated skeletal GLB (plus a render preview). Motion comes from the clip; the skin is Meta's MHR, so the engine retargets it onto your character. Ships the two settings upstream gets wrong (E6/E8), and is bounded to ~12 s of 720x1280 (~27 s at 480x848) per run (E15/E16). | free + ~3 GB weights | **PASS** (E4/E8; E6: fast clips keep one residual pop) |
 
-The sprite route lives in `2d/` (S9) rather than here, because its frames *are* 2D images: `pose-extract.json` → `pose-skeleton.json` → `scripts/atlas.py`.
+The character sprite route lives in `2d/` (S9) rather than here, because its frames *are* 2D images: `pose-extract.json` → `pose-skeleton.json` → `scripts/atlas.py`. The **VFX** route is the reverse - its source is a clip (`video/workflows/wan-camera-control.json`) and its artefact is an engine sheet, so it lives here: `scripts/flipbook.py` (S30).
 
 ## Knobs
 
