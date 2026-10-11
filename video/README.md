@@ -9,6 +9,12 @@ The two scenarios share a border and cross-reference: the driving-video route he
 | Workflow (`workflows/`) | What it does | Cost | Status |
 |---|---|---|---|
 | `wan-animate-motion.json` | still character + **driving video** → animated video. Motion is transferred directly, with no pose extraction or skeleton step; the video is the motion source. | free + ~24 GB weights (16.7 GB model) | **PASS** (E1/E2; length and segmenting E3/E10/E12/E14) |
+| `wan-vace-reference.json` | still character + a **prompt** → a clip (VACE reference-to-video; the prompt drives the motion) | free + ~17.6 GB weights | **PASS** (E13b; ~680 s per 81-frame cell) |
+| `wan-camera-control.json` | still + a **preset camera trajectory** (Static / Pan / Zoom / orbit) → the camera you chose instead of a drifting one | free + 3.23 GB weights | **PASS** (E18; 115 s per 81-frame cell) |
+| `wan-animate-mix.json` | a person in real footage + our **portrait** reference → our character plays their part, footage's background kept (Mix mode = placement) | free + 18.4 GB weights | **PASS** (E13c/E13d; 375 s per 77-frame cell) |
+| `wan-infinitetalk.json` | still **portrait** + an **audio file** → the character speaks it, audio embedded in the output (InfiniteTalk single-speaker) | free + ~5.3 GB new weights (patch + wav2vec2; the base I2V is shared) | **PASS** (E15/E15b; 210 s per 3.24-s segment; lipsync human-confirmed) |
+
+Parked without a flow: the Wan-Move trajectory nodes (**E19b-E19e**: the vendor host + config work on their own example, but on our assets the track field only expresses scene-wide (camera-like) motion - six designs tested, subject-local translation never happened); and `WanDancerVideo` (music-driven dance, two 18.34 GB experts - named in `EXPERIMENTS.md`, not probed).
 
 **Why this flow is a flat rebuild.** Its upstream template is built from *subgraphs*, a frontend construct that cannot be POSTed to `/prompt`, so it cannot be scripted or swept as shipped - this file is the same graph flattened. (`../animation/workflows/sam3d-motion.json` needed no such treatment: upstream's is already flat.)
 
