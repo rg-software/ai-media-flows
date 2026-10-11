@@ -439,3 +439,19 @@ Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family
 - *Measured:* identity holds through speech - lip-band motion 1.9x forehead with the highest-motion rows exactly at the mouth ([E15](video/EXPERIMENTS.md)); the route's new weights are only **~5.3 GB** because the InfiniteTalk patch applies to our on-box 720p I2V base (`video/evidence/` strip). Weights: patch 5.1 GB + wav2vec2 190 MB, Apache-2.0.
 - *Traps:* lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 - the audio is embedded. Longer audio = **chain segments**: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s `previous_frames` - each segment covers 3.24 s. `single_speaker` needs no masks (masks are the two-speaker mode). No `ModelSamplingSD3` in this route (the template has none).
 - *More:* [`video/README.md`](video/README.md), and E15 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
+### S33. Make our character perform an audio file
+
+- *When:* you have dialogue, a song or a voice line and want **your character performing it** - head movement, expression and articulation, not just lip-sync (Wan2.2-S2V, "Audio-Driven Cinematic Video Generation"). This is the broader sibling of S32.
+- *Steps:*
+	- put your **audio** in `input/` (the template's singing audio ships as the placeholder);
+	- open `video/workflows/wan-s2v.json` and set the **reference** on the `LoadImage` (node 11) - a **portrait**; the shipped canvas is **640x640**, which a square portrait fits exactly;
+	- run. A 5-s clip (80 frames at 16 fps) takes about **140 s**, and the output mp4 **carries the audio**.
+- *Knobs:*
+	- the **audio** - it drives the whole performance;
+	- the **reference** - portrait, face clear;
+	- **`length`** - 77 is the chunk default from the official code (the model needs at least 73; higher risks OOM);
+	- **`audio_scale`**-style per-route encoders: this flow uses **`wav2vec2_large_english`** - S32's chinese-base is a different encoder, do not mix them.
+- *Measured:* identity holds through the performance (head tilts, blinks, mouth) - [`E16`](video/EXPERIMENTS.md). Weights: `Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ` (16.65 GB) + encoder (631 MB) + the **Wan2.2 4-step lightning lora** (1.23 GB), Apache-2.0.
+- *Traps:* the checkpoint keeps its **as-downloaded name** (the template's Kijai-original name is a different string - a mismatch costs a failed submission); the template's first-frame VAE hack (double frame 0 via `LatentCut`/`LatentConcat`, drop the first decode via `ImageFromBatch` 1) is wired in - do not remove it; longer audio chains chunks (each +77 frames, batch sizes = chunk count).
+- *More:* [`video/README.md`](video/README.md), and E16 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).

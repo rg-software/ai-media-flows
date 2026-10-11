@@ -31,7 +31,8 @@
   "S29": "Give a clip a camera you chose",
   "S30": "Turn a generated clip into a VFX flipbook",
   "S31": "Put our character into footage",
-  "S32": "Make our character speak an audio file"
+  "S32": "Make our character speak an audio file",
+  "S33": "Make our character perform an audio file"
  },
  "jobs": [
   {
@@ -315,6 +316,12 @@
    "detail": "`video/workflows/wan-infinitetalk.json` - InfiniteTalk single-speaker: a **still portrait** + an audio file -> a clip of the character speaking it, **with the audio embedded** in the output. Measured: 81 frames (3.24 s of speech at 25 fps) in **210 s**, identity holds through speech (lip-band motion 1.9x forehead). The route's new weights are only ~5.3 GB - the patch applies to our on-box 720p I2V base. Longer audio chains segments through `previous_frames` (3.24 s each)",
    "story": "S32",
    "category": "video"
+  },
+  {
+   "want": "Make our character perform an audio file",
+   "detail": "`video/workflows/wan-s2v.json` - Wan2.2-S2V (audio-driven performance): a **still portrait** + an audio file -> the character *performs* it (head movement, expression, articulation - broader than S32's lip-sync), with the audio embedded. Measured: a 5-s clip in **140 s** with the Wan2.2 4-step lightning lora (E16). Note the per-route audio encoder: this flow uses `wav2vec2_large_english`, S32 uses chinese-base",
+   "story": "S33",
+   "category": "video"
   }
  ],
  "flows": {
@@ -507,6 +514,9 @@
   },
   "wan-infinitetalk.json": {
    "story": "S32"
+  },
+  "wan-s2v.json": {
+   "story": "S33"
   }
  },
  "categories": [
