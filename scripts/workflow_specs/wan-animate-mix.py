@@ -44,9 +44,11 @@ NOTE = (
     "`clip_vision_output`. The mask and the video must share the canvas (a mismatched mask shows up "
     "as black 32-px blocks - measured). The output prepends the reference as frame 0 (81 frames out "
     "for `length` 77) - trim one second in the engine or with a slice. DWPose auto-downloads its "
-    "detectors on first run (`custom_nodes/comfyui_controlnet_aux/ckpts/`). For better light "
-    "integration there is an optional relight lora (1.34 GB, Kijai `WanVideo_comfy` "
-    "`LoRAs/Wan22_relight`) not yet on the box.\n"
+    "detectors on first run (`custom_nodes/comfyui_controlnet_aux/ckpts/`). The "
+    "relight lora ships in the chain (lightx2v -> relight - the official template includes it): "
+    "measured on a\n    neutral-lit room the integration difference is subtle (subject-vs-background palette "
+    "mismatch 27.6 -> 25.5\n    across matched frames, E13d) - on strongly-lit scenes it should matter "
+    "more; re-measure if a composite\n    reads pasted.\n"
     "**Siblings:** `wan-animate-motion.json` (S15) is the Move mode - motion transfer onto a "
     "generated backdrop; this flow keeps the *footage's* background instead.\n\n"
     "---\n*How to run it: story **S31** in `HOWTO.md`  ·  Why it is this way: **E13c** in "
@@ -59,6 +61,10 @@ NODES = [
      "outputs": [{"name": "MODEL", "type": "MODEL", "slot_index": 0}]},
     {"id": 2, "type": "LoraLoaderModelOnly", "pos": [-1330, 100], "size": [300, 80],
      "widgets_values": ["lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors", 1.0],
+     "inputs": [{"name": "model", "type": "MODEL"}],
+     "outputs": [{"name": "MODEL", "type": "MODEL", "slot_index": 0}]},
+    {"id": 38, "type": "LoraLoaderModelOnly", "pos": [-1330, 190], "size": [300, 80],
+     "widgets_values": ["WanAnimate_relight_lora_fp16.safetensors", 1.0],
      "inputs": [{"name": "model", "type": "MODEL"}],
      "outputs": [{"name": "MODEL", "type": "MODEL", "slot_index": 0}]},
     {"id": 3, "type": "ModelSamplingSD3", "pos": [-1000, 100], "size": [220, 60],
@@ -188,7 +194,8 @@ NODES = [
 # [link_id, src_node, src_slot, dst_node, dst_slot, type]
 LINKS = [
     [1, 1, 0, 2, 0, "MODEL"],
-    [2, 2, 0, 3, 0, "MODEL"],
+    [2, 2, 0, 38, 0, "MODEL"],
+    [39, 38, 0, 3, 0, "MODEL"],
     [3, 3, 0, 24, 0, "MODEL"],
     [4, 4, 0, 5, 0, "CLIP"],
     [5, 4, 0, 6, 0, "CLIP"],
