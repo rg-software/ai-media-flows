@@ -422,3 +422,20 @@ Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family
 - *Measured:* replacement + motion + background preservation at 375 s per 77-frame cell ([`video/evidence/E13c-mix-probes.png`](video/evidence/E13c-mix-probes.png), E13c). Weights: `wan2.2_animate_14B_int8_convrot` (18.4 GB, Apache-2.0, already on the box) + the lightx2v distill lora.
 - *Traps:* the output **prepends the reference as frame 0** (81 frames out for `length` 77) - trim one second in the engine or with a slice; the mask and the video must share the canvas (a mismatch shows up as black 32-px blocks - measured); DWPose auto-downloads its detectors on first run into `custom_nodes/comfyui_controlnet_aux/ckpts/`. The **relight lora** ships in the chain (the official template includes it); measured on a neutral-lit room its integration difference is subtle (subject-vs-background palette mismatch 27.6 -> 25.5 across matched frames, E13d) - on strongly-lit scenes it should matter more, so re-measure if a composite reads pasted.
 - *More:* [`video/README.md`](video/README.md), and E13c in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
+### S32. Make our character speak an audio file
+
+- *When:* you have dialogue or a voice line and want **your character saying it** - a talking-head clip with the audio embedded, for cutscenes, dialogue previews or pitches. The audio drives the mouth; the face is ours.
+- *Steps:*
+	- put your **audio** in `input/` (speech from TTS or a recording; the template's `audio_speaker1_woman.mp3` ships as the placeholder);
+	- open `video/workflows/wan-infinitetalk.json` and set the **reference** on the `LoadImage` (node 12) - a **portrait**, face clear (the E13c identity-knob lesson);
+	- set the **audio** on the `LoadAudio` (node 9) and run. 81 frames = **3.24 s** of speech at 25 fps, in about **210 s**. The output mp4 **carries the audio**.
+- *Knobs:*
+	- the **audio** - it drives the mouth; the words are its business;
+	- the **reference** - portrait, well-lit;
+	- **`length`** (81 ships) and the canvas (480x832; multiples of 16);
+	- **`audio_scale`** (1.0) - lip-sync strength;
+	- **`motion_frame_count`** (9).
+- *Measured:* identity holds through speech - lip-band motion 1.9x forehead with the highest-motion rows exactly at the mouth ([E15](video/EXPERIMENTS.md)); the route's new weights are only **~5.3 GB** because the InfiniteTalk patch applies to our on-box 720p I2V base (`video/evidence/` strip). Weights: patch 5.1 GB + wav2vec2 190 MB, Apache-2.0.
+- *Traps:* judging lip-sync needs **ears and eyes together** - play the mp4 (the audio is embedded; `output/2D/e15/probe_c00_00001_.mp4` is the probe). Longer audio = **chain segments**: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s `previous_frames` - each segment covers 3.24 s. `single_speaker` needs no masks (masks are the two-speaker mode). No `ModelSamplingSD3` in this route (the template has none).
+- *More:* [`video/README.md`](video/README.md), and E15 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).

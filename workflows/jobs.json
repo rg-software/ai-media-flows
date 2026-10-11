@@ -30,7 +30,8 @@
   "S28": "Animate my own character from a prompt",
   "S29": "Give a clip a camera you chose",
   "S30": "Turn a generated clip into a VFX flipbook",
-  "S31": "Put our character into footage"
+  "S31": "Put our character into footage",
+  "S32": "Make our character speak an audio file"
  },
  "jobs": [
   {
@@ -308,6 +309,12 @@
    "detail": "`video/workflows/wan-animate-mix.json` - WanAnimateToVideo **Mix mode** (character replacement): a driving clip of a person in a scene + a **portrait** reference -> our character plays their part, background and lighting kept. The 14B host is *cheap* here: the 6-step / cfg 1.0 lightx2v recipe runs 77 frames at 640x640 in **375 s** (E13c). The mask is generated in-graph (SAM3 person -> GrowMask -> BlockifyMask) and `background_video` is the video with the character painted black. The identity knob is the reference's face size: a full-body reference loses the face on close-up-driven footage, a portrait holds it",
    "story": "S31",
    "category": "video"
+  },
+  {
+   "want": "Make our character speak an audio file",
+   "detail": "`video/workflows/wan-infinitetalk.json` - InfiniteTalk single-speaker: a **still portrait** + an audio file -> a clip of the character speaking it, **with the audio embedded** in the output. Measured: 81 frames (3.24 s of speech at 25 fps) in **210 s**, identity holds through speech (lip-band motion 1.9x forehead). The route's new weights are only ~5.3 GB - the patch applies to our on-box 720p I2V base. Longer audio chains segments through `previous_frames` (3.24 s each)",
+   "story": "S32",
+   "category": "video"
   }
  ],
  "flows": {
@@ -497,6 +504,9 @@
   },
   "wan-animate-mix.json": {
    "story": "S31"
+  },
+  "wan-infinitetalk.json": {
+   "story": "S32"
   }
  },
  "categories": [
