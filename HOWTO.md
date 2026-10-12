@@ -82,18 +82,17 @@
 
 ### S6. Compose a scene from parts
 
-- *When:* you want **more than one thing in a picture** - a background, one or more characters, props - instead of the isolated assets the other stories produce. The isolated form is deliberate (clean alpha, engine-usable); this is the recombination stage, and it also continues into motion.
+- *When:* you want **more than one thing in a still picture** - a background, one or more characters, props - instead of the isolated assets the other stories produce. The isolated form is deliberate (clean alpha, engine-usable); this is the image-recombination stage.
 - *Steps:*
 	- **isolate each element**: cut a character or prop out of a picture (`2d/workflows/sam3-segment.json` for a text-prompted mask, `2d/workflows/remove-bg.json` BiRefNet for a clean cutout - S3); identity comes from the element you cut, so use the character asset you like (S7);
 	- **place them** with `scripts/compose_scene.py` - pixel-exact scale, feet position and overlap, so depth ordering is a decision rather than a prompt lottery. It handles **several items** (two characters, a prop, a plate) and drops `<name>_base/_mask` pairs for the next step;
 	- **blend the light** with `2d/workflows/compose-harmonize.json` - this is where pasted parts become one picture;
-	- run it, then (optional) give it motion - see *Into motion* below.
+	- run the harmonize pass to produce the composed still.
 - *Knobs:*
 	- **`denoise` in the harmonize pass** - **0.45 = integrate** (keeps the placed identity) / **0.75 = replace** (more coherent, less "them"). The same identity rule as S5;
 	- **the plate** - any background asset or photo; the character's own background comes along if you do not cut her out;
 	- **the cast variant**: when you want the *model* to draw several subjects together rather than placing cutouts, `2d/workflows/regional-prompting.json` gives each subject its own region (`ConditioningSetAreaPercentage` + `ConditioningCombine`). Measured: **a single prompt containing two subjects drops one entirely** - regions fix it with no cross-bleed.
 - *Measured:* the scripted placement and the harmonize pass are E10 (PASS); regional prompting is E15; the two-subject example is `assets/2d/scene_two_subjects_regional.png` and a placed prop is `assets/2d/prop_chest_cutout.png`.
-- *Into motion:* a composed still becomes a clip with **S28** (the background travels with her) or, for a real background, **S31** (character into footage - the footage keeps its own background and gets relit). Two characters in one clip is measured as recipes, not shipped flows: E13b arm 2 (VACE with two reference images) and E15b (two speakers, each audio-driven).
 - *The honest gap - a prop **held**.* Placement of an object *in a scene* is solved above; an object *in a hand* was measured on VACE and came back **MEH** (it does not place). The workable routes today are a local edit at the hand (`2d/workflows/inpaint.json`, S5) or an instruction edit that moves a subject into a scene (`2d/workflows/qwen-edit-gguf.json`, multi-image, E14c).
 - *More:* [`2d/README.md`](2d/README.md), E10 in [`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md), and E13b/E13c in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
