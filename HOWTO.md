@@ -366,7 +366,7 @@
 	- open `video/workflows/wan-vace-reference.json`, set the **image** on the `LoadImage` (node 52) and the **prompt** on the upper `CLIPTextEncode` (node 6). Write the action as one sentence, the way the shipped example does ("*a red-haired sorceress in a blue and gold gown spinning gracefully and casting a fire spell, full body, plain background*"); word-soup prompt engineering ("masterpiece, best quality, ...") makes it worse, not better;
 	- run. It is the slowest flow in the repo: 81 frames at 768x768 took **45.5 min** on this box (17.25 GB VRAM). **Quick test?** Swap the UNET (node 37) to the 1.3B VACE (`wan2.1_vace_1.3B_fp16`, on the box) - the same job measured **11.3 min** on it (E13b). Start with `length` 81 and steps 20 before you sweep anything.
 - *Knobs:*
-	- **`length`** (node 55) - frames, in steps of 4 (81 = 3.4 s at 24 fps). This is the cost knob: 480x848 roughly halves it;
+	- **`length`** (node 55) - frames, in steps of 4 (81 = **5.1 s** at the shipped **16 fps**). This is both a time and a VRAM knob: more frames need more GPU memory as well as more compute, so extra wall time alone cannot rescue an out-of-memory run. Only 81 frames at 768x768 has been measured on the 14B (17.25 GB VRAM); longer settings are unmeasured. Lower resolution reduces the memory load; for a quick test, use the measured 1.3B VACE route above;
 	- **steps / cfg** (node 3) - 20 / 6.0 ship. The 6-step distil LoRA that S15 uses is named for image-to-video at 480p and is untested here;
 	- **the reference image** - the most important choice of all: identity, costume and background all come from it;
 	- **shift** (node 54) - 8.0 ships.
