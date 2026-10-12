@@ -351,10 +351,6 @@
 
 ---
 
-## If your job isn't here
-
-Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family × subject/domain, with cost, licence, status and key knob). If a flow exists but has no story above, that's a documentation gap worth reporting; if no flow exists, it belongs in `PIPELINES.md` → "Status — what is actually left".
-
 ### S28. Animate my own character from a prompt
 
 - *When:* you have a character image you made (a hero, a mascot, a knight) and want a short clip of her *doing something* - but you have no driving clip of a person doing that motion. The prompt says what should happen; the flow keeps **her**. This is the counterpart to S15: S15 copies motion from a clip, this one writes it from words.
@@ -455,3 +451,7 @@ Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family
 - *Measured:* identity holds through the performance (head tilts, blinks, mouth) - [`E16`](video/EXPERIMENTS.md). Weights: `Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ` (16.65 GB) + encoder (631 MB) + the **Wan2.2 4-step lightning lora** (1.23 GB), Apache-2.0.
 - *Traps:* the checkpoint keeps its **as-downloaded name** (the template's Kijai-original name is a different string - a mismatch costs a failed submission); the template's first-frame VAE hack (double frame 0 via `LatentCut`/`LatentConcat`, drop the first decode via `ImageFromBatch` 1) is wired in - do not remove it; longer audio chains chunks (each +77 frames, batch sizes = chunk count).
 - *More:* [`video/README.md`](video/README.md), and E16 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
+## If your job isn't here
+
+Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family × subject/domain, with cost, licence, status and key knob). If a flow exists but has no story above, that's a documentation gap worth reporting; if no flow exists, it belongs in `PIPELINES.md` → "Status — what is actually left".

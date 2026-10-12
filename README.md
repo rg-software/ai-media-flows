@@ -7,6 +7,8 @@ A working, reproducible pipeline for **generating game assets with open models o
 
 **This page is the cookbook.** Find the job you have, follow the link, and the story in [`HOWTO.md`](HOWTO.md) tells you what to actually do.
 
+A note on names: the category headings below group the **jobs**, while the folders follow the **artefact** - a sprite sheet's frames are 2D images (flow in `2d/workflows/`), a flipbook packer is a script (`scripts/`), and only the skeletal-clip flow lives in `animation/workflows/`. The [`animation/README.md`](animation/README.md) form/source table is the map.
+
 ---
 
 ## I want to…
