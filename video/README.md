@@ -16,6 +16,20 @@ The two scenarios share a border and cross-reference: the driving-video route he
 
 Parked without a flow: the Wan-Move trajectory nodes (**E19b-E19e**: the vendor host + config work on their own example, but on our assets the track field only expresses scene-wide (camera-like) motion - six designs tested, subject-local translation never happened); and `WanDancerVideo` (music-driven dance, two 18.34 GB experts - named in `EXPERIMENTS.md`, not probed).
 
+## Combining: what this scenario can and cannot compose
+
+Every shipped flow is built around **one subject**, because the isolated asset is what you animate. Recombining at the video stage is only partly solved:
+
+| what you want | route | boundary |
+|---|---|---|
+| a composed still, animated as a whole | S28 (`wan-vace-reference.json`) | the background travels with the reference image - the picture moves **together**; elements do not move independently |
+| our character inside real footage | S31 (`wan-animate-mix.json`) | replaces **one** person; the footage's own background and motion are kept |
+| two subjects present in one generated clip | E13b arm 2 - `ImageBatch` into `reference_image` on the **1.3B VACE** (recipe, not a shipped flow) | co-presence PASS at 680 s / 81 frames; the same graph on the 14B killed the service twice (memory pressure) |
+| two characters, each speaking its own audio | E15b - InfiniteTalk `two_speakers` (recipe, not a shipped flow) | PASS once the scene is **balanced**; an unbalanced composite drifts (the smaller character vanished) |
+| an object **held**, or placed in a chosen region | - | **the gap.** VACE `control_video` + `control_masks` is video *inpainting*, not placement (E13b arm 3, MEH). Build the composition as a still first (S6) and animate it whole, or edit the hand locally (S5) |
+
+The measurements live in the experiment rows: E13b (arms 2-3), E13c/E13d (Mix + relight), E15b (two-speaker).
+
 **Why this flow is a flat rebuild.** Its upstream template is built from *subgraphs*, a frontend construct that cannot be POSTed to `/prompt`, so it cannot be scripted or swept as shipped - this file is the same graph flattened. (`../animation/workflows/sam3d-motion.json` needed no such treatment: upstream's is already flat.)
 
 ## Knobs
@@ -47,7 +61,7 @@ The diffusion model is [Wan Animate 2](https://huggingface.co/Comfy-Org/Wan-Anim
 
 ## What is deferred
 
-The backlog is in [`EXPERIMENTS.md`](EXPERIMENTS.md) → PENDING, and deliberately long because this scenario is the destination for most of the unused video-model surface on the box (~100 node types): frame interpolation (E17), camera control (E18), motion tracking as an explicit trajectory input (E19), combinations of subjects/objects/background (E13, needing a new model), and the rest - LTXV, MiniMax H3, Hunyuan video super-resolution, Mochi, Cosmos, audio-driven talking heads. One route is explicitly **not** planned: video → sprite sheet, because a sheet wants a few carefully chosen frames rather than a whole clip, and the character-preservation that matters there is already targeted directly by the sprite path in `2d/` (S9).
+The live backlog is [`EXPERIMENTS.md`](EXPERIMENTS.md) → PENDING, and what is left is small: **the rest of the video-model surface** (~100 unused node types - LTXV, MiniMax H3, Hunyuan video super-resolution, Mochi, Cosmos, Kandinsky5, SVD, ARVideo - each needing weights plus a licence read), **`WanDancerVideo`** (music-driven dance, two 18.34 GB experts, parked), and the **combining gap** in the section above. Shipped since this list was written: frame interpolation (E17 → S18), camera control (E18 → S29), combinations (E13b/E13c → S28 and S31), talking heads and audio-driven performance (E15/E15b/E16 → S32 and S33). Motion tracking (E19) is **parked as a boundary**, not deferred - see the combining section. One route is explicitly **not** planned: video → sprite sheet, because a sheet wants a few carefully chosen frames rather than a whole clip, and the character-preservation that matters there is already targeted directly by the sprite path in `2d/` (S9).
 
 ## Docs
 
