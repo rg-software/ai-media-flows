@@ -82,10 +82,20 @@
 
 ### S6. Compose a scene from parts
 
-- *When:* you have a background, a character cutout and props, and need one coherent picture.
-- *Steps:* `scripts/compose_scene.py` places them (pixel-exact scale/feet/overlap), then `2d/workflows/compose-harmonize.json` blends the lighting.
-- *Knobs:* the same denoise rule as S5 - this is the *identity* knob.
-- *Two subjects that keep merging?* Put each in its own region with `2d/workflows/regional-prompting.json` - a single prompt containing both subjects **drops one of them entirely** (the model rendered only the sorceress and never the knight). Regional area conditioning fixed it with zero cross-bleed.
+- *When:* you want **more than one thing in a picture** - a background, one or more characters, props - instead of the isolated assets the other stories produce. The isolated form is deliberate (clean alpha, engine-usable); this is the recombination stage, and it also continues into motion.
+- *Steps:*
+	- **isolate each element**: cut a character or prop out of a picture (`2d/workflows/sam3-segment.json` for a text-prompted mask, `2d/workflows/remove-bg.json` BiRefNet for a clean cutout - S3); identity comes from the element you cut, so use the character asset you like (S7);
+	- **place them** with `scripts/compose_scene.py` - pixel-exact scale, feet position and overlap, so depth ordering is a decision rather than a prompt lottery. It handles **several items** (two characters, a prop, a plate) and drops `<name>_base/_mask` pairs for the next step;
+	- **blend the light** with `2d/workflows/compose-harmonize.json` - this is where pasted parts become one picture;
+	- run it, then (optional) give it motion - see *Into motion* below.
+- *Knobs:*
+	- **`denoise` in the harmonize pass** - **0.45 = integrate** (keeps the placed identity) / **0.75 = replace** (more coherent, less "them"). The same identity rule as S5;
+	- **the plate** - any background asset or photo; the character's own background comes along if you do not cut her out;
+	- **the cast variant**: when you want the *model* to draw several subjects together rather than placing cutouts, `2d/workflows/regional-prompting.json` gives each subject its own region (`ConditioningSetAreaPercentage` + `ConditioningCombine`). Measured: **a single prompt containing two subjects drops one entirely** - regions fix it with no cross-bleed.
+- *Measured:* the scripted placement and the harmonize pass are E10 (PASS); regional prompting is E15; the two-subject example is `assets/2d/scene_two_subjects_regional.png` and a placed prop is `assets/2d/prop_chest_cutout.png`.
+- *Into motion:* a composed still becomes a clip with **S28** (the background travels with her) or, for a real background, **S31** (character into footage - the footage keeps its own background and gets relit). Two characters in one clip is measured as recipes, not shipped flows: E13b arm 2 (VACE with two reference images) and E15b (two speakers, each audio-driven).
+- *The honest gap - a prop **held**.* Placement of an object *in a scene* is solved above; an object *in a hand* was measured on VACE and came back **MEH** (it does not place). The workable routes today are a local edit at the hand (`2d/workflows/inpaint.json`, S5) or an instruction edit that moves a subject into a scene (`2d/workflows/qwen-edit-gguf.json`, multi-image, E14c).
+- *More:* [`2d/README.md`](2d/README.md), E10 in [`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md), and E13b/E13c in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
 ### S7. Keep a character consistent across images
 
@@ -348,10 +358,6 @@
 - *Traps:* **the references ARE the voices** - two close clips give two close voices (E26), a sung stem or your own clips give distinct ones (E26b). And this node needed a one-line pack patch on this box (torchaudio 2.11 routes `save()` to torchcodec); it is recorded in `comfyui/pinned-config.md`. Output is 24 kHz mono VO stems, near full scale - normalise.
 - *More:* [`audio/README.md`](audio/README.md), and E26/E26b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
-
-
----
-
 ### S28. Animate my own character from a prompt
 
 - *When:* you have a character image you made (a hero, a mascot, a knight) and want a short clip of her *doing something* - but you have no driving clip of a person doing that motion. The prompt says what should happen; the flow keeps **her**. This is the counterpart to S15: S15 copies motion from a clip, this one writes it from words.
@@ -452,6 +458,8 @@
 - *Measured:* identity holds through the performance (head tilts, blinks, mouth) - [`E16`](video/EXPERIMENTS.md). Weights: `Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ` (16.65 GB) + encoder (631 MB) + the **Wan2.2 4-step lightning lora** (1.23 GB), Apache-2.0.
 - *Traps:* the checkpoint keeps its **as-downloaded name** (the template's Kijai-original name is a different string - a mismatch costs a failed submission); the template's first-frame VAE hack (double frame 0 via `LatentCut`/`LatentConcat`, drop the first decode via `ImageFromBatch` 1) is wired in - do not remove it; longer audio chains chunks (each +77 frames, batch sizes = chunk count).
 - *More:* [`video/README.md`](video/README.md), and E16 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
+---
 
 ## If your job isn't here
 
