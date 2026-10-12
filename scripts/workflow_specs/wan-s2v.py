@@ -86,7 +86,7 @@ NODES = [
                 {"name": "audio", "type": "AUDIO"}],
      "outputs": [{"name": "AUDIO_ENCODER_OUTPUT", "type": "AUDIO_ENCODER_OUTPUT", "slot_index": 0}]},
     {"id": 11, "type": "LoadImage", "pos": [-1700, 900], "size": [440, 500],
-     "widgets_values": ["2d/portrait_heroine.png", "image"],
+     "widgets_values": ["portrait_heroine.png", "image"],
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0},
                  {"name": "MASK", "type": "MASK", "slot_index": 1}]},
     {"id": 12, "type": "WanSoundImageToVideo", "pos": [-700, 300], "size": [360, 300],

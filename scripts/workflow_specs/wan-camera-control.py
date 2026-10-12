@@ -62,7 +62,7 @@ NODES = [
      "widgets_values": ["clip_vision_h.safetensors"],
      "outputs": [{"name": "CLIP_VISION", "type": "CLIP_VISION", "slot_index": 0}]},
     {"id": 52, "type": "LoadImage", "pos": [-1500, 900], "size": [340, 314],
-     "widgets_values": ["2d/char_heroine.png", "image"],
+     "widgets_values": ["char_heroine.png", "image"],
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0},
                  {"name": "MASK", "type": "MASK", "slot_index": 1}]},
     {"id": 51, "type": "CLIPVisionEncode", "pos": [-1100, 700], "size": [240, 120],

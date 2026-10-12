@@ -7,8 +7,9 @@
 ## How to run flows
 
 - **Server:** ComfyUI at [comfy.rt247a.ddns.me](https://comfy.rt247a.ddns.me) - ask the operator for the token.
-- **Flows:** the `.json` graphs in `2d/workflows/` and `3d/workflows/`.
-- **Inputs:** any file a flow should read goes in the box's `input/` dir.
+- **Flows:** the `.json` graphs in `2d/workflows/`, `3d/workflows/`, `video/workflows/` and `animation/workflows/` - the folder follows the artefact (see the note in `README.md`).
+- **Inputs:** any file a flow should read goes in the box's `input/` dir - root files are what the `LoadImage` dropdown lists, so keep UI-tested references there.
+- **The Chinese negative prompt is standard.** Every Wan flow ships the same Chinese quality-negative block, verbatim from the official templates - the model was trained against it, and it works. Leave it as-is and edit only the **positive** (English); translating the negative is not recommended.
 - **Outputs:** everything a run produces lands in `output/`.
 
 **Two ways to run a flow:**
@@ -239,14 +240,13 @@
 
 - *When:* a clip is choppy to watch, or you want smooth slow motion. In-between frames are **synthesised**, so the clip gains real frames instead of being re-tagged.
 - *Steps:*
-	- put your clip in `input/`;
 	- open `video/workflows/frame-interpolate.json` and set the **clip** (`LoadVideo`);
-	- set the **factor** on the `INT` constant (node 5, 2-16). It is wired to both the interpolator and the output frame rate, so the clip keeps its speed;
+	- set the **factor** on the `INT` constant node. It is wired to both the interpolator and the output frame rate, so the clip keeps its speed;
 	- run. It is the cheapest flow here: doubling a 5 s 720x1280 clip takes **15-25 s**.
 - *Knobs:*
 	- the **factor** - `multiplier` is the *total* factor, not the number inserted: 121 frames at x2 gives 241, at x4 gives 481;
 	- the **model** - RIFE (21.6 MB, MIT) is the default; FILM (65.7 MB, Apache-2.0) measured a **tie on quality for ~1.8x the time**;
-	- **smooth slow motion instead of same speed (added frames slow down playback):** edit node 6's expression from `a * b` to `a`, which writes the source frame rate against the extra frames.
+	- **smooth slow motion instead of same speed (added frames slow down playback):** edit Math Expression node's content from `a * b` to `a`, which writes the source frame rate against the extra frames.
 - *Traps:* the inserted frame averages the motion blur of its two neighbours, so a fast limb goes slightly soft - inherent, since neither input holds that exposure. Interpolation cannot invent detail the source never had, and it will not fix a choppy *performance* - only the sampling of one.
 - *More:* [`video/README.md`](video/README.md), and E17/E17b in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
@@ -357,7 +357,7 @@
 - *Steps:*
 	- put your character image in `input/` - a **full-body, plain-background** picture (the background travels with her, so a busy photo gives a busy clip);
 	- open `video/workflows/wan-vace-reference.json`, set the **image** on the `LoadImage` (node 52) and the **prompt** on the upper `CLIPTextEncode` (node 6). Write the action as one sentence, the way the shipped example does ("*a red-haired sorceress in a blue and gold gown spinning gracefully and casting a fire spell, full body, plain background*"); word-soup prompt engineering ("masterpiece, best quality, ...") makes it worse, not better;
-	- run. It is the slowest flow in the repo: 81 frames at 768x768 took **45.5 min** on this box. Start with `length` 81 and steps 20 before you sweep anything.
+	- run. It is the slowest flow in the repo: 81 frames at 768x768 took **45.5 min** on this box (17.25 GB VRAM). **Quick test?** Swap the UNET (node 37) to the 1.3B VACE (`wan2.1_vace_1.3B_fp16`, on the box) - the same job measured **11.3 min** on it (E13b). Start with `length` 81 and steps 20 before you sweep anything.
 - *Knobs:*
 	- **`length`** (node 55) - frames, in steps of 4 (81 = 3.4 s at 24 fps). This is the cost knob: 480x848 roughly halves it;
 	- **steps / cfg** (node 3) - 20 / 6.0 ship. The 6-step distil LoRA that S15 uses is named for image-to-video at 480p and is untested here;
@@ -365,7 +365,7 @@
 	- **shift** (node 54) - 8.0 ships.
 - *Measured:* identity holds across the clip on our own `char_heroine.png`, and the prompted fire spell actually appears and grows in her hand ([`video/evidence/E13b-vace-single-strip.png`](video/evidence/E13b-vace-single-strip.png), E13b). **Two defects to plan around:** the hem smears into a painterly swirl in the early frames, and **the last third drifts** - the action takes over and the figure softens - so keep the first ~two thirds if the character is the point.
 - *Traps:* never quantise this model to GGUF (the model type lives in its metadata, the same trap as S15's). The weights are a third-party fp8 reupload of the Apache-2.0 model (`wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB); Comfy-Org's own file is the 34.7 GB fp16 - both licence-clean, see [`comfyui/pinned-config.md`](comfyui/pinned-config.md).
-- *Not here yet:* several subjects at once, and putting an object in a chosen spot - both are being measured (E13b's pair and control+mask arms).
+- *Also measured in E13b:* co-presence (two reference images, the 1.3B) **PASS** - a recipe in the E13b row rather than a shipped flow; and placing an object in a chosen spot came back MEH on VACE and is answered by S31's Mix mode instead.
 - *More:* [`video/README.md`](video/README.md), and E13/E13b in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
 ### S29. Give a clip a camera you chose

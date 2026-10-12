@@ -9,7 +9,7 @@ distill recipe makes the 14B route cheap instead of the E19-class 25 minutes.
 The three findings that shaped this flow:
 - **The reference's face size is the identity knob.** A full-body reference LOSES the face on
   close-up-driven footage (probe B: same outfit and hair, a different woman); a **portrait**
-  reference holds it (probe C). Ships `2d/portrait_heroine.png`.
+  reference holds it (probe C). Ships `portrait_heroine.png`.
 - The character mask is generated **in-graph** (SAM3 text-prompted person on the first frame,
   GrowMask 10, BlockifyMask 32) - no staged mask PNG, no absent SAM2.
 - `background_video` is NOT the raw frames: it is the video **with the character region painted
@@ -89,7 +89,7 @@ NODES = [
      "widgets_values": ["clip_vision_h.safetensors"],
      "outputs": [{"name": "CLIP_VISION", "type": "CLIP_VISION", "slot_index": 0}]},
     {"id": 9, "type": "LoadImage", "pos": [-1700, 760], "size": [340, 314],
-     "widgets_values": ["2d/portrait_heroine.png", "image"],
+     "widgets_values": ["portrait_heroine.png", "image"],
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0},
                  {"name": "MASK", "type": "MASK", "slot_index": 1}]},
     {"id": 10, "type": "LoadVideo", "pos": [-1700, 1120], "size": [340, 300],

@@ -55,7 +55,7 @@ NODES = [
      "widgets_values": ["Wan2_1_VAE_bf16.safetensors"],
      "outputs": [{"name": "VAE", "type": "VAE", "slot_index": 0}]},
     {"id": 52, "type": "LoadImage", "pos": [-1500, 760], "size": [340, 314],
-     "widgets_values": ["2d/char_heroine.png", "image"],
+     "widgets_values": ["char_heroine.png", "image"],
      "outputs": [{"name": "IMAGE", "type": "IMAGE", "slot_index": 0},
                  {"name": "MASK", "type": "MASK", "slot_index": 1}]},
     {"id": 6, "type": "CLIPTextEncode", "pos": [-1100, 240], "size": [440, 160],
