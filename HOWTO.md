@@ -460,6 +460,22 @@
 
 ---
 
+### S34. Upscale a video while keeping its timebase and audio
+
+- *When:* you already have a clip and want more resolved detail, but need its **duration, frame count, frame rate and sound** to stay put. This is restoration/upscaling, not interpolation or generating new motion.
+- *Steps:*
+	- put the video in the ComfyUI box's `input/` root (the `LoadVideo` picker lists root files in this build);
+	- open `video/workflows/video-upscale-seedvr2.json` and choose the video on `LoadVideo`;
+	- run. `GetVideoComponents` passes the decoded frame batch to SeedVR2 and feeds the original FPS + audio into `CreateVideo`.
+- *Knobs:*
+	- **`resolution`** on `SeedVR2VideoUpscaler` is the target **short edge**, not a multiplier: **960** makes a 640x640 clip 960x960 and a 720x1280 clip 960x1706;
+	- **`batch_size`** must be **4n+1** (5 ships). Larger batches give more temporal context but use more VRAM; if it OOMs, 1 is a valid lower-memory batch, with less context (not measured here);
+	- **`temporal_overlap`** (2 ships) blends across batch joins; `color_correction=lab` ships;
+	- the flow uses **3B fp16 + CPU offload** on the 24-GB card.
+- *Measured:* two clips, both audio-retained: 80 frames of 640x640 S2V at 16 fps -> 960x960 in **150 s**; 121 frames of 720x1280 dance at 24.12 fps -> 960x1706 in **375 s**. Frame count/FPS held. On the talking-head sample the background temporal-luma delta was 0.14 input vs 0.144 output, and there was no extra batch-seam flicker signal ([`video/evidence/E20-seedvr2-video.png`](video/evidence/E20-seedvr2-video.png), E20).
+- *Traps:* SeedVR2 **reconstructs** detail; it is not a pixel-exact enlarger - the still-image test (2D U1) found more detail *and* more drift than UltraSharp. Inspect the clip, not just its dimensions. On the dance sample the output audio was 5.016 s vs 5.088 s source (less than one frame, but not byte-perfect duration).
+- *More:* [`video/README.md`](video/README.md), and E20 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md). For stills, use [`2d/workflows/upscale-seedvr2.json`](2d/workflows/upscale-seedvr2.json) (S10).
+
 ## If your job isn't here
 
 Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family × subject/domain, with cost, licence, status and key knob). If a flow exists but has no story above, that's a documentation gap worth reporting; if no flow exists, it belongs in `PIPELINES.md` → "Status — what is actually left".

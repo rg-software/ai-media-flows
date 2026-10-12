@@ -32,7 +32,8 @@
   "S30": "Turn a generated clip into a VFX flipbook",
   "S31": "Put our character into footage",
   "S32": "Make our character speak an audio file",
-  "S33": "Make our character perform an audio file"
+  "S33": "Make our character perform an audio file",
+  "S34": "Upscale a video while keeping its timebase and audio"
  },
  "jobs": [
   {
@@ -322,6 +323,12 @@
    "detail": "`video/workflows/wan-s2v.json` - Wan2.2-S2V (audio-driven performance): a **still portrait** + an audio file -> the character *performs* it (head movement, expression, articulation - broader than S32's lip-sync), with the audio embedded. Measured: a 5-s clip in **140 s** with the Wan2.2 4-step lightning lora (E16). Note the per-route audio encoder: this flow uses `wav2vec2_large_english`, S32 uses chinese-base",
    "story": "S33",
    "category": "video"
+  },
+  {
+   "want": "Upscale a video while keeping its timebase and audio",
+   "detail": "`video/workflows/video-upscale-seedvr2.json` - SeedVR2 processes temporal IMAGE batches, then `CreateVideo` reattaches source FPS + audio. Measured on two clips: an 80-frame 640x640 talking head -> 960x960 in **150 s**, and a 121-frame 720x1280 dance -> 960x1706 in **375 s**; frame count/FPS held, with no extra temporal seam flicker measured on the talking-head sample (E20). Uses SeedVR2 3B fp16, batch 5, overlap 2, CPU offload. SeedVR2 reconstructs detail rather than pixel-exactly enlarging, so inspect drift.",
+   "story": "S34",
+   "category": "video"
   }
  ],
  "flows": {
@@ -517,6 +524,9 @@
   },
   "wan-s2v.json": {
    "story": "S33"
+  },
+  "video-upscale-seedvr2.json": {
+   "story": "S34"
   }
  },
  "categories": [
