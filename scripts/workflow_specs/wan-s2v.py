@@ -34,15 +34,24 @@ NOTE = (
     "**Measured (E16, 2026-10-11):** a 5-s clip (80 frames at 16 fps) in **140 s** - the 4-step "
     "lora recipe. Identity holds through the performance (head tilts, blinks, mouth). Canvas "
     "**640x640** - a square portrait fits exactly.\n"
-    "**Knobs:** the **audio** (drives the performance); the **reference** (portrait, face clear); "
-    "**`length`** - 77 is the chunk default from the official code (the model needs at least 73; "
-    "higher risks OOM); longer audio chains chunks via the template's "
-    "`LatentCut`/`LatentConcat` extend plumbing (batch sizes = chunk count). Sampling: **4 steps / "
-    "cfg 1.0 / uni_pc / simple** with the Wan2.2 4-step lora.\n"
+    "**Knobs:** the **audio** (drives the performance - trim it to `seconds`, see Traps); the "
+    "**reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (5.0 ships) - a "
+    "`ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 "
+    "(`max(73,floor((a*16-4)/4+0.5)*4+1)`; the -4 compensates the first-frame hack's +3 output "
+    "frames, and 73 is the model's floor, so the shortest clip this flow makes is 4.75 s). "
+    "Sampling: **4 steps / cfg 1.0 / uni_pc / simple** with the Wan2.2 4-step lora. **fps is pinned "
+    "at 16** on `CreateVideo` - the audio bucket is built for 16-fps video in the node code, so any "
+    "other fps would desync the performance; it is deliberately not a knob.\n"
     "**Traps:** the checkpoint keeps its **as-downloaded name** (`Wan2_2-S2V-14B_fp8_e4m3fn_scaled_"
     "KJ.safetensors` - the template's Kijai-original name is a different string). The audio encoder "
-    "is per-route: S32 uses chinese-base, this flow uses large-english. The template's first-frame "
-    "VAE hack (double frame 0, drop the first decode) is wired in - do not remove it.\n"
+    "is per-route: S32 uses chinese-base, this flow uses large-english. Only the FIRST `length` "
+    "frames' worth of audio conditions the motion (out-of-range frames read as silence) while "
+    "`CreateVideo` muxes the whole audio file - **trim your audio to `seconds`** or the tail plays "
+    "over motionless frames. The `LatentCut`/`LatentConcat` pair is the template's **first-frame "
+    "duplication hack** (double latent frame 0, drop the first decode - that is where the +3 output "
+    "frames come from), not extend plumbing: longer audio chains through "
+    "**`WanSoundImageToVideoExtend`**, which this flow does not wire yet, so one run covers one "
+    "`seconds`-long chunk.\n"
     "**Siblings:** `wan-infinitetalk.json` (S32) is the lip-sync route; this one performs.\n\n"
     "---\n*How to run it: story **S33** in `HOWTO.md`  ·  Why it is this way: **E16** in "
     "`video/EXPERIMENTS.md`.*"
@@ -95,7 +104,8 @@ NODES = [
                 {"name": "negative", "type": "CONDITIONING"},
                 {"name": "vae", "type": "VAE"},
                 {"name": "audio_encoder_output", "type": "AUDIO_ENCODER_OUTPUT"},
-                {"name": "ref_image", "type": "IMAGE"}],
+                {"name": "ref_image", "type": "IMAGE"},
+                {"name": "length", "type": "INT"}],
      "outputs": [{"name": "positive", "type": "CONDITIONING", "slot_index": 0},
                  {"name": "negative", "type": "CONDITIONING", "slot_index": 1},
                  {"name": "latent", "type": "LATENT", "slot_index": 2}]},
@@ -130,6 +140,16 @@ NODES = [
      "widgets_values": ["wan-s2v", "auto", "auto"],
      "inputs": [{"name": "video", "type": "VIDEO"}],
      "outputs": []},
+    {"id": 21, "type": "PrimitiveFloat", "pos": [-1100, -60], "size": [300, 80],
+     "widgets_values": [5.0],
+     "inputs": [],
+     "outputs": [{"name": "FLOAT", "type": "FLOAT", "slot_index": 0}]},
+    {"id": 22, "type": "ComfyMathExpression", "pos": [-700, -60], "size": [360, 140],
+     "widgets_values": ["max(73,floor((a*16-4)/4+0.5)*4+1)"],
+     "inputs": [{"name": "values.a", "type": "FLOAT"}],
+     "outputs": [{"name": "FLOAT", "type": "FLOAT", "slot_index": 0},
+                 {"name": "INT", "type": "INT", "slot_index": 1},
+                 {"name": "BOOL", "type": "BOOLEAN", "slot_index": 2}]},
     {"id": 20, "type": "MarkdownNote", "pos": [-1700, 1200], "size": [420, 340],
      "widgets_values": [""],
      "inputs": [], "outputs": []},
@@ -160,4 +180,6 @@ LINKS = [
     (22, 17, 0, 18, 0, "IMAGE"),
     (23, 9, 0, 18, 1, "AUDIO"),
     (24, 18, 0, 19, 0, "VIDEO"),
+    (25, 21, 0, 22, 0, "FLOAT"),
+    (26, 22, 1, 12, 5, "INT"),
 ]

@@ -429,33 +429,36 @@
 
 - *When:* you have dialogue or a voice line and want **your character saying it** - a talking-head clip with the audio embedded, for cutscenes, dialogue previews or pitches. The audio drives the mouth; the face is ours.
 - *Steps:*
-	- put your **audio** in `input/` (speech from TTS or a recording; the template's `audio_speaker1_woman.mp3` ships as the placeholder);
-	- open `video/workflows/wan-infinitetalk.json` and set the **reference** on the `LoadImage` (node 12) - a **portrait**, face clear (the E13c identity-knob lesson);
-	- set the **audio** on the `LoadAudio` (node 9) and run. 81 frames = **3.24 s** of speech at 25 fps, in about **210 s**. The output mp4 **carries the audio**.
+	- open `video/workflows/wan-infinitetalk.json` and set the **reference** on the `LoadImage` (node 12) - a **portrait**, face clear;
+	- set the **audio** on the `LoadAudio` (node 9), and set **`seconds`** on the `PrimitiveFloat` (node 18) to the audio's length - **trim the audio to match**;
+	- run. 3.24 s of speech (81 frames at 25 fps) takes about **210 s**. The output mp4 **carries the audio**.
 - *Knobs:*
 	- the **audio** - it drives the mouth; the words are its business;
 	- the **reference** - portrait, well-lit;
-	- **`length`** (81 ships) and the canvas (480x832; multiples of 16);
+	- **`seconds`** (3.24 ships) - a `ComfyMathExpression` turns it into **`length`**, rounded to the model's required 4n+1, so there is no hand arithmetic; raising it raises VRAM;
+	- the canvas (480x832 ships; any multiple of 16, independent of the reference's pixels);
 	- **`audio_scale`** (1.0) - lip-sync strength;
 	- **`motion_frame_count`** (9).
+	- fps is **pinned at 25** - the audio conditioning is resampled for 25-fps video inside the node, so any other fps would desync the mouth; it is deliberately not a knob.
 - *Measured:* identity holds through speech - lip-band motion 1.9x forehead with the highest-motion rows exactly at the mouth ([E15](video/EXPERIMENTS.md)); the route's new weights are only **~5.3 GB** because the InfiniteTalk patch applies to our on-box 720p I2V base (`video/evidence/` strip). Weights: patch 5.1 GB + wav2vec2 190 MB, Apache-2.0.
-- *Traps:* lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 - the audio is embedded. Longer audio = **chain segments**: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s `previous_frames` - each segment covers 3.24 s. `single_speaker` needs no masks (masks are the two-speaker mode). No `ModelSamplingSD3` in this route (the template has none).
+- *Traps:* lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 - the audio is embedded. Only the FIRST `length` frames' worth of audio is spoken (audio past that is never read; shorter audio pads idle) - trim to `seconds` (the mux cuts the track to the clip, so over-long audio is dropped rather than appended). Longer audio = **chain segments**: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s `previous_frames` - each continuation advances 72 frames (**2.88 s** at defaults; drop the `trim_image` leading frames when stitching). `single_speaker` needs no masks (masks are the two-speaker mode). No `ModelSamplingSD3` in this route (the template has none).
 - *More:* [`video/README.md`](video/README.md), and E15 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
 ### S33. Make our character perform an audio file
 
 - *When:* you have dialogue, a song or a voice line and want **your character performing it** - head movement, expression and articulation, not just lip-sync (Wan2.2-S2V, "Audio-Driven Cinematic Video Generation"). This is the broader sibling of S32.
 - *Steps:*
-	- put your **audio** in `input/` (the template's singing audio ships as the placeholder);
+	- put your **audio** in `input/` (the template's singing audio ships as the placeholder) - **trimmed to the seconds you want**;
 	- open `video/workflows/wan-s2v.json` and set the **reference** on the `LoadImage` (node 11) - a **portrait**; the shipped canvas is **640x640**, which a square portrait fits exactly;
-	- run. A 5-s clip (80 frames at 16 fps) takes about **140 s**, and the output mp4 **carries the audio**.
+	- set **`seconds`** on the `PrimitiveFloat` (node 21, 5.0 ships) to the audio's length and run. A 5-s clip (80 frames at 16 fps) takes about **140 s**, and the output mp4 **carries the audio**.
 - *Knobs:*
 	- the **audio** - it drives the whole performance;
 	- the **reference** - portrait, face clear;
-	- **`length`** - 77 is the chunk default from the official code (the model needs at least 73; higher risks OOM);
-	- **`audio_scale`**-style per-route encoders: this flow uses **`wav2vec2_large_english`** - S32's chinese-base is a different encoder, do not mix them.
+	- **`seconds`** - a `ComfyMathExpression` turns it into **`length`**, rounded to 4n+1 (77 at defaults; the model needs at least 73, so the shortest clip this flow makes is 4.75 s); raising it raises VRAM;
+	- per-route encoders: this flow uses **`wav2vec2_large_english`** - S32's chinese-base is a different encoder, do not mix them.
+	- fps is **pinned at 16** - the audio bucket is built for 16-fps video inside the node, so any other fps would desync the performance; it is deliberately not a knob.
 - *Measured:* identity holds through the performance (head tilts, blinks, mouth) - [`E16`](video/EXPERIMENTS.md). Weights: `Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ` (16.65 GB) + encoder (631 MB) + the **Wan2.2 4-step lightning lora** (1.23 GB), Apache-2.0.
-- *Traps:* the checkpoint keeps its **as-downloaded name** (the template's Kijai-original name is a different string - a mismatch costs a failed submission); the template's first-frame VAE hack (double frame 0 via `LatentCut`/`LatentConcat`, drop the first decode via `ImageFromBatch` 1) is wired in - do not remove it; longer audio chains chunks (each +77 frames, batch sizes = chunk count).
+- *Traps:* the checkpoint keeps its **as-downloaded name** (the template's Kijai-original name is a different string - a mismatch costs a failed submission); the template's first-frame VAE hack (double frame 0 via `LatentCut`/`LatentConcat`, drop the first decode via `ImageFromBatch` 1) is wired in - do not remove it. Only the FIRST `length` frames' worth of audio drives the motion while the whole file is muxed - trim to `seconds` (the mux cuts the track to the clip, so over-long audio is dropped rather than appended). The `LatentCut`/`LatentConcat` pair is that first-frame hack, not chaining: longer audio chains through `WanSoundImageToVideoExtend`, which this flow does not wire yet, so one run covers one `seconds`-long chunk.
 - *More:* [`video/README.md`](video/README.md), and E16 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
 ---

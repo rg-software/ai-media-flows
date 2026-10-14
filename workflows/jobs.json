@@ -314,13 +314,13 @@
   },
   {
    "want": "Make our character speak an audio file",
-   "detail": "`video/workflows/wan-infinitetalk.json` - InfiniteTalk single-speaker: a **still portrait** + an audio file -> a clip of the character speaking it, **with the audio embedded** in the output. Measured: 81 frames (3.24 s of speech at 25 fps) in **210 s**, identity holds through speech (lip-band motion 1.9x forehead). The route's new weights are only ~5.3 GB - the patch applies to our on-box 720p I2V base. Longer audio chains segments through `previous_frames` (3.24 s each)",
+   "detail": "`video/workflows/wan-infinitetalk.json` - InfiniteTalk single-speaker: a **still portrait** + an audio file -> a clip of the character speaking it, **with the audio embedded** in the output. A `seconds` knob sizes the clip (`length` is derived 4n+1 in-graph, fps pinned at 25 - the audio conditioning is sampled for 25 fps, so fps is deliberately not a knob); trim the audio to match, since only the first `length` frames' worth of audio is spoken. Longer audio chains segments through `previous_frames` (first 3.24 s at defaults; continuations advance 2.88 s)",
    "story": "S32",
    "category": "video"
   },
   {
    "want": "Make our character perform an audio file",
-   "detail": "`video/workflows/wan-s2v.json` - Wan2.2-S2V (audio-driven performance): a **still portrait** + an audio file -> the character *performs* it (head movement, expression, articulation - broader than S32's lip-sync), with the audio embedded. Measured: a 5-s clip in **140 s** with the Wan2.2 4-step lightning lora (E16). Note the per-route audio encoder: this flow uses `wav2vec2_large_english`, S32 uses chinese-base",
+   "detail": "`video/workflows/wan-s2v.json` - Wan2.2-S2V (audio-driven performance): a **still portrait** + an audio file -> the character *performs* it (head movement, expression, articulation - broader than S32's lip-sync), with the audio embedded. A `seconds` knob sizes the chunk (`length` derived 4n+1, fps pinned at 16, shortest clip 4.75 s); trim the audio to match. Note the per-route audio encoder: this flow uses `wav2vec2_large_english`, S32 uses chinese-base. `LatentCut`/`LatentConcat` is the first-frame hack, not chaining - longer audio needs `WanSoundImageToVideoExtend` (not wired here yet)",
    "story": "S33",
    "category": "video"
   },

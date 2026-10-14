@@ -32,15 +32,24 @@ NOTE = (
     "(the E13c identity-knob lesson).\n"
     "**Knobs:** the **audio** on `LoadAudio` (replace `audio_speaker1_woman.mp3` - speech from TTS "
     "or recording; the audio is what drives the mouth); the **reference** (portrait, face clear); "
-    "**`length`** - 81 frames = 3.24 s per segment at 25 fps; **`audio_scale`** (1.0) for lip-sync "
-    "strength; **`motion_frame_count`** (9). Sampling: 6 steps / euler / normal, **no "
-    "`ModelSamplingSD3`** (the template has none).\n"
+    "**`seconds`** on `PrimitiveFloat` (3.24 ships) - how much audio to speak. A "
+    "`ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 "
+    "(`floor((a*25-1)/4+0.5)*4+1`), so there is no hand arithmetic; raising it raises VRAM. "
+    "**`audio_scale`** (1.0) for lip-sync strength; **`motion_frame_count`** (9). Sampling: 6 steps / "
+    "euler / normal, **no `ModelSamplingSD3`** (the template has none). **fps is pinned at 25** on "
+    "`CreateVideo` - InfiniteTalk's audio conditioning is resampled for 25-fps video in the node code, "
+    "so any other fps would desync the mouth; it is deliberately not a knob.\n"
     "**Traps:** lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own "
     "audio, play the output mp4 (the audio is "
-    "embedded). Longer audio = chain segments: feed this flow's output IMAGE batch into a second "
-    "`WanInfiniteTalkToVideo`'s **`previous_frames`** (the official extend pattern; each segment "
-    "covers 3.24 s). `single_speaker` needs no masks (masks are the two-speaker mode's region "
-    "control). The patch loads through `ModelPatchLoader` from `models/model_patches/`.\n"
+    "embedded). The clip speaks the FIRST `length` frames' worth of audio (`audio_start=0, "
+    "`audio_end=length`): audio past that is never read, and audio shorter than the window is padded "
+    "with the first audio frame (idle mouth) - so **trim your audio to `seconds`**. Longer audio = "
+    "chain segments: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s "
+    "**`previous_frames`** (the official extend pattern); each continuation advances `length - "
+    "motion_frame_count` frames (72 = 2.88 s at defaults - drop the node's `trim_image` leading "
+    "frames when stitching), not a full segment. `single_speaker` needs no masks (masks are the "
+    "two-speaker mode's region control). The patch loads through `ModelPatchLoader` from "
+    "`models/model_patches/`.\n"
     "**Siblings:** `wan-animate-motion.json` (S15) drives motion from a *video*; this flow drives "
     "it from *audio*.\n\n"
     "---\n*How to run it: story **S32** in `HOWTO.md`  ·  Why it is this way: **E15** in "
@@ -95,7 +104,8 @@ NODES = [
                 {"name": "negative", "type": "CONDITIONING"},
                 {"name": "vae", "type": "VAE"},
                 {"name": "audio_encoder_output_1", "type": "AUDIO_ENCODER_OUTPUT"},
-                {"name": "start_image", "type": "IMAGE"}],
+                {"name": "start_image", "type": "IMAGE"},
+                {"name": "length", "type": "INT"}],
      "outputs": [{"name": "model", "type": "MODEL", "slot_index": 0},
                  {"name": "positive", "type": "CONDITIONING", "slot_index": 1},
                  {"name": "negative", "type": "CONDITIONING", "slot_index": 2},
@@ -119,6 +129,16 @@ NODES = [
      "widgets_values": ["wan-infinitetalk", "auto", "auto"],
      "inputs": [{"name": "video", "type": "VIDEO"}],
      "outputs": []},
+    {"id": 18, "type": "PrimitiveFloat", "pos": [-1100, -60], "size": [300, 80],
+     "widgets_values": [3.24],
+     "inputs": [],
+     "outputs": [{"name": "FLOAT", "type": "FLOAT", "slot_index": 0}]},
+    {"id": 19, "type": "ComfyMathExpression", "pos": [-700, -60], "size": [360, 140],
+     "widgets_values": ["floor((a*25-1)/4+0.5)*4+1"],
+     "inputs": [{"name": "values.a", "type": "FLOAT"}],
+     "outputs": [{"name": "FLOAT", "type": "FLOAT", "slot_index": 0},
+                 {"name": "INT", "type": "INT", "slot_index": 1},
+                 {"name": "BOOL", "type": "BOOLEAN", "slot_index": 2}]},
     {"id": 17, "type": "MarkdownNote", "pos": [-1700, 1200], "size": [420, 340],
      "widgets_values": [""],
      "inputs": [], "outputs": []},
@@ -146,4 +166,6 @@ LINKS = [
     (19, 14, 0, 15, 0, "IMAGE"),
     (20, 9, 0, 15, 1, "AUDIO"),
     (21, 15, 0, 16, 0, "VIDEO"),
+    (22, 18, 0, 19, 0, "FLOAT"),
+    (23, 19, 1, 11, 7, "INT"),
 ]
