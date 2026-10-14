@@ -33,7 +33,8 @@
   "S31": "Put our character into footage",
   "S32": "Make our character speak an audio file",
   "S33": "Make our character perform an audio file",
-  "S34": "Upscale a video while keeping its timebase and audio"
+  "S34": "Upscale a video while keeping its timebase and audio",
+  "S35": "Animate our character from a prompt, fast"
  },
  "jobs": [
   {
@@ -329,6 +330,12 @@
    "detail": "`video/workflows/video-upscale-seedvr2.json` - SeedVR2 processes temporal IMAGE batches, then `CreateVideo` reattaches source FPS + audio. Measured on two clips: an 80-frame 640x640 talking head -> 960x960 in **150 s**, and a 121-frame 720x1280 dance -> 960x1706 in **375 s**; frame count/FPS held, with no extra temporal seam flicker measured on the talking-head sample (E20). Uses SeedVR2 3B fp16, batch 5, overlap 2, CPU offload. SeedVR2 reconstructs detail rather than pixel-exactly enlarging, so inspect drift.",
    "story": "S34",
    "category": "video"
+  },
+  {
+   "want": "Animate our character from a prompt, fast",
+   "detail": "`video/workflows/ltxv-i2v.json` - LTX-Video v1 I2V (prompt-driven, no driving clip): our still + an elaborate prompt -> the character performs it. Measured: 13B-distilled-fp8, 97 frames at 768x768 in **35 s** (17.3 GB) with identity holding; the 2B arm is a 15-s quick test with softer identity. 8 steps, no STG, fps 25; canvas multiples of 32, frames 8n+1",
+   "story": "S35",
+   "category": "video"
   }
  ],
  "flows": {
@@ -527,6 +534,9 @@
   },
   "video-upscale-seedvr2.json": {
    "story": "S34"
+  },
+  "ltxv-i2v.json": {
+   "story": "S35"
   }
  },
  "categories": [

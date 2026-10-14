@@ -478,6 +478,22 @@
 - *Traps:* SeedVR2 **reconstructs** detail; it is not a pixel-exact enlarger - the still-image test (2D U1) found more detail *and* more drift than UltraSharp. Inspect the clip, not just its dimensions.
 - *More:* [`video/README.md`](video/README.md), and E20 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md). For stills, use [`2d/workflows/upscale-seedvr2.json`](2d/workflows/upscale-seedvr2.json) (S10).
 
+### S35. Animate our character from a prompt, fast
+
+- *When:* you want a clip of our character doing something and have no driving footage - the motion comes from **words**, and you want it in under a minute rather than S28's 45. This is the fast prompt-driven arm (LTX-Video v1, distilled).
+- *Steps:*
+	- put your still in the ComfyUI box's `input/` root;
+	- open `video/workflows/ltxv-i2v.json`, set the still on the `LoadImage` and write the motion as an **elaborate prompt** on the positive `CLIPTextEncode` (LTX degrades visibly on short prompts - describe the action, the look, the light);
+	- run. 97 frames at 768x768 take about **35 s**, and 5 s warm on a loaded card.
+- *Knobs:*
+	- the **prompt** - motion-first and elaborate; the negative ships sensible;
+	- the **checkpoint** - 13B-distilled-fp8 ships (identity holds); 2B-distilled-fp8 is the 15-s quick-test arm with softer identity, same graph via `--set 1.ckpt_name:...`;
+	- **steps** (8 ships for distilled), no STG, cfg 1;
+	- canvas (multiples of 32) and frames (8n+1, 97 ships = ~3.9 s at 25 fps).
+- *Measured:* 13B holds identity through a fire-spell performance while 2B drifts and lets the spell overgrow ([`video/evidence/E22-ltxv-arms.png`](video/evidence/E22-ltxv-arms.png), E22). Weights: 13B-distilled-fp8 (15.7 GB) + t5xxl_fp8, LTX Open-Weights 0.X (commercial free under $10M revenue; the output is ours).
+- *Traps:* this is v1, not v2 - LTX-2 is 19B under a separate community licence and does not fit this card. The guide/keyframe nodes and the audio-VAE route are still deferred.
+- *More:* [`video/README.md`](video/README.md), and E22 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md). For the slow quality arm see S28 (`wan-vace-reference.json`).
+
 ## If your job isn't here
 
 Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family × subject/domain, with cost, licence, status and key knob). If a flow exists but has no story above, that's a documentation gap worth reporting; if no flow exists, it belongs in `PIPELINES.md` → "Status — what is actually left".

@@ -1,0 +1,755 @@
+{
+ "last_node_id": 14,
+ "last_link_id": 18,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "CheckpointLoaderSimple",
+   "pos": [
+    -1400,
+    100
+   ],
+   "size": [
+    380,
+    90
+   ],
+   "widgets_values": [
+    "ltxv-13b-0.9.8-distilled-fp8.safetensors"
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "slot_index": 1,
+     "links": []
+    },
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "slot_index": 2,
+     "links": [
+      2,
+      8
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
+   "order": 0
+  },
+  {
+   "id": 2,
+   "type": "CLIPLoader",
+   "pos": [
+    -1400,
+    240
+   ],
+   "size": [
+    380,
+    90
+   ],
+   "widgets_values": [
+    "t5xxl_fp8_e4m3fn_scaled.safetensors",
+    "ltxv",
+    "default"
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "slot_index": 0,
+     "links": [
+      3,
+      4
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "order": 1
+  },
+  {
+   "id": 3,
+   "type": "CLIPTextEncode",
+   "pos": [
+    -980,
+    100
+   ],
+   "size": [
+    400,
+    140
+   ],
+   "widgets_values": [
+    "best quality, 4k, HDR, a red-haired sorceress in ornate blue and gold robes standing in a stone courtyard, she raises her right hand slowly and a bright fire spell ignites above her palm, embers drifting upward, her long hair and cloak stirring in the wind, cinematic lighting, smooth natural motion"
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      5
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "order": 2
+  },
+  {
+   "id": 4,
+   "type": "CLIPTextEncode",
+   "pos": [
+    -980,
+    280
+   ],
+   "size": [
+    400,
+    140
+   ],
+   "widgets_values": [
+    "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion artifacts, fused fingers, bad anatomy, weird hand, ugly"
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      6
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "order": 3
+  },
+  {
+   "id": 5,
+   "type": "LoadImage",
+   "pos": [
+    -1400,
+    420
+   ],
+   "size": [
+    380,
+    420
+   ],
+   "widgets_values": [
+    "char_heroine.png",
+    "image"
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      7
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": []
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "order": 4
+  },
+  {
+   "id": 6,
+   "type": "LTXVImgToVideo",
+   "pos": [
+    -540,
+    100
+   ],
+   "size": [
+    340,
+    220
+   ],
+   "widgets_values": [
+    768,
+    768,
+    97,
+    1
+   ],
+   "inputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 5
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 8
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      9
+     ]
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "slot_index": 1,
+     "links": [
+      10
+     ]
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "slot_index": 2,
+     "links": [
+      15
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "LTXVImgToVideo"
+   },
+   "order": 5
+  },
+  {
+   "id": 7,
+   "type": "LTXVConditioning",
+   "pos": [
+    -540,
+    360
+   ],
+   "size": [
+    340,
+    80
+   ],
+   "widgets_values": [
+    25.0
+   ],
+   "inputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 9
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      11
+     ]
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "slot_index": 1,
+     "links": [
+      12
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "LTXVConditioning"
+   },
+   "order": 6
+  },
+  {
+   "id": 8,
+   "type": "LTXVScheduler",
+   "pos": [
+    -540,
+    480
+   ],
+   "size": [
+    340,
+    160
+   ],
+   "widgets_values": [
+    8,
+    2.05,
+    0.95,
+    true,
+    0.1
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "SIGMAS",
+     "type": "SIGMAS",
+     "slot_index": 0,
+     "links": [
+      14
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "LTXVScheduler"
+   },
+   "order": 7
+  },
+  {
+   "id": 9,
+   "type": "KSamplerSelect",
+   "pos": [
+    -1400,
+    880
+   ],
+   "size": [
+    340,
+    60
+   ],
+   "widgets_values": [
+    "euler"
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "SAMPLER",
+     "type": "SAMPLER",
+     "slot_index": 0,
+     "links": [
+      13
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSamplerSelect"
+   },
+   "order": 8
+  },
+  {
+   "id": 10,
+   "type": "SamplerCustom",
+   "pos": [
+    -160,
+    100
+   ],
+   "size": [
+    360,
+    260
+   ],
+   "widgets_values": [
+    true,
+    42,
+    "fixed",
+    1.0
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 11
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 12
+    },
+    {
+     "name": "sampler",
+     "type": "SAMPLER",
+     "link": 13
+    },
+    {
+     "name": "sigmas",
+     "type": "SIGMAS",
+     "link": 14
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 15
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      16
+     ]
+    },
+    {
+     "name": "denoised_output",
+     "type": "LATENT",
+     "slot_index": 1,
+     "links": []
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SamplerCustom"
+   },
+   "order": 9
+  },
+  {
+   "id": 11,
+   "type": "VAEDecode",
+   "pos": [
+    240,
+    100
+   ],
+   "size": [
+    220,
+    80
+   ],
+   "widgets_values": [],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 16
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      17
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "order": 10
+  },
+  {
+   "id": 12,
+   "type": "CreateVideo",
+   "pos": [
+    500,
+    100
+   ],
+   "size": [
+    260,
+    100
+   ],
+   "widgets_values": [
+    25
+   ],
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 17
+    }
+   ],
+   "outputs": [
+    {
+     "name": "VIDEO",
+     "type": "VIDEO",
+     "slot_index": 0,
+     "links": [
+      18
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "CreateVideo"
+   },
+   "order": 11
+  },
+  {
+   "id": 13,
+   "type": "SaveVideo",
+   "pos": [
+    800,
+    100
+   ],
+   "size": [
+    340,
+    300
+   ],
+   "widgets_values": [
+    "ltxv-i2v",
+    "auto",
+    "auto"
+   ],
+   "inputs": [
+    {
+     "name": "video",
+     "type": "VIDEO",
+     "link": 18
+    }
+   ],
+   "outputs": [],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveVideo"
+   },
+   "order": 12
+  },
+  {
+   "id": 14,
+   "type": "MarkdownNote",
+   "pos": [
+    -1400,
+    1000
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "widgets_values": [
+    "## ltxv-i2v.json\n\nPrompt-driven animation of our character (no driving clip)\n\n**Does:** a still + a **descriptive prompt** -> a clip of the character performing it (`LTXVImgToVideo`, Lightricks LTX-Video v1). The VAE rides inside the checkpoint (`CheckpointLoaderSimple`); text comes from `t5xxl_fp8` with CLIP type `ltxv`. LTX wants **long descriptive prompts** (upstream's own warning - a short prompt visibly degrades it) and canvases in multiples of 32 with 8n+1 frames.\n**Measured (E22, 2026-10-15):** 13B-distilled-fp8 (ships): 97 frames at 768x768 in **35 s** cold / 5 s warm, **17.3 GB** peak; identity holds and the spell stays palm-scale. 2B-distilled-fp8: 15 s but identity slips and the spell overgrows (the quick-test arm). Shared config: bundled VAE, t5xxl_fp8 with CLIP type `ltxv`, 8 steps, no STG, cfg 1.\n**Knobs:** the **prompt** (elaborate, motion-first); the **checkpoint** (13B-distilled-fp8 ships - 35 s cold; 2B-distilled-fp8 is the 15-s quick-test arm, same graph via `--set`); **steps** on `LTXVScheduler` (8 ships for distilled); canvas/frames (32 / 8n+1).\n**Traps:** distilled runs with NO STG and cfg 1 (vendor multi-scale recipe); fps is 25 (`LTXVConditioning.frame_rate` + `CreateVideo`). This is v1, not v2 - v2 is 19B and does not fit this card.\n**Siblings:** `wan-vace-reference.json` (S28) is the other prompt-driven route (14B, 45 min); this one is the fast arm.\n\n---\n*How to run it: story **S35** in `HOWTO.md`  ·  Why it is this way: **E22** in `video/EXPERIMENTS.md`.*"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "flags": {},
+   "mode": 0,
+   "properties": {},
+   "order": 0
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   10,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   1,
+   2,
+   11,
+   1,
+   "VAE"
+  ],
+  [
+   3,
+   2,
+   0,
+   3,
+   0,
+   "CLIP"
+  ],
+  [
+   4,
+   2,
+   0,
+   4,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   3,
+   0,
+   6,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   6,
+   4,
+   0,
+   6,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   5,
+   0,
+   6,
+   3,
+   "IMAGE"
+  ],
+  [
+   8,
+   1,
+   2,
+   6,
+   2,
+   "VAE"
+  ],
+  [
+   9,
+   6,
+   0,
+   7,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   10,
+   6,
+   1,
+   7,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   11,
+   7,
+   0,
+   10,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   12,
+   7,
+   1,
+   10,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   13,
+   9,
+   0,
+   10,
+   3,
+   "SAMPLER"
+  ],
+  [
+   14,
+   8,
+   0,
+   10,
+   4,
+   "SIGMAS"
+  ],
+  [
+   15,
+   6,
+   2,
+   10,
+   5,
+   "LATENT"
+  ],
+  [
+   16,
+   10,
+   0,
+   11,
+   0,
+   "LATENT"
+  ],
+  [
+   17,
+   11,
+   0,
+   12,
+   0,
+   "IMAGE"
+  ],
+  [
+   18,
+   12,
+   0,
+   13,
+   0,
+   "VIDEO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}
