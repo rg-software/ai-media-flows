@@ -314,7 +314,7 @@
   },
   {
    "want": "Make our character speak an audio file",
-   "detail": "`video/workflows/wan-infinitetalk.json` - InfiniteTalk single-speaker: a **still portrait** + an audio file -> a clip of the character speaking it, **with the audio embedded** in the output. A `seconds` knob sizes the clip (`length` is derived 4n+1 in-graph, fps pinned at 25 - the audio conditioning is sampled for 25 fps, so fps is deliberately not a knob); trim the audio to match, since only the first `length` frames' worth of audio is spoken. Longer audio chains segments through `previous_frames` (first 3.24 s at defaults; continuations advance 2.88 s)",
+   "detail": "`video/workflows/wan-infinitetalk.json` - InfiniteTalk single-speaker: a **still portrait** + an audio file -> a clip of the character speaking it, **with the audio embedded** in the output. A `seconds` knob sizes the clip (`length` is derived 4n+1 in-graph, fps pinned at 25 - the audio conditioning is sampled for 25 fps, so fps is deliberately not a knob); trim the audio to match, since only the first `length` frames' worth of audio is spoken. Longer audio chains segments through `previous_frames` (first 3.24 s at defaults; continuations advance 2.88 s); longer audio via scripts/talk_chain.py (E21: 8.8 s -> 221 frames exact)",
    "story": "S32",
    "category": "video"
   },
