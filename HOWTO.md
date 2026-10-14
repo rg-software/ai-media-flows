@@ -376,15 +376,15 @@
 
 ### S29. Give a clip a camera you chose
 
-- *When:* you have a good still and want a clip that moves **the way you decide** - a slow push-in, a pan across the scene, an orbit. In the other motion routes the camera is text-driven and **drifts** (the thing E18 set out to fix); here the camera is an input.
+- *When:* you have a good still and want a clip that moves **the way you decide** - a slow push-in, a pan across the scene, an orbit. In the other motion routes the camera is text-driven and **drifts** (E18 is to fix); here the camera is an input.
 - *Steps:*
-	- put your still in `input/` - clean, well-lit, and composed for the move you want (the still *is* the clip's first frame, so its framing is what the camera departs from);
-	- open `video/workflows/wan-camera-control.json` and set the **image** on the `LoadImage` (node 52);
+	- put your still in `input/` - clean, well-lit, and composed for the move you want (the still *is* the clip's first frame, the camera departs from it);
+	- open `video/workflows/wan-camera-control.json` and set the **image** on the `LoadImage`;
 	- set the **trajectory** on the `WanCameraEmbedding` (node 57): `Static`, `Pan Up` / `Pan Down` / `Pan Left` / `Pan Right`, `Zoom In` / `Zoom Out`, `Anti Clockwise (ACW)` / `ClockWise (CW)`;
 	- run. This is the **cheapest motion flow in the repo**: 81 frames take **115 s**.
 - *Knobs:*
 	- **`camera_pose`** - the whole point of the flow. `Static` is the safe default (it holds the framing *still*, which is how you notice the drift is gone); `Pan Left` and `Zoom In` are the demonstrative ones;
-	- **width / height / length live on the `WanCameraEmbedding` (node 57), not on the target node** - the embedding *outputs* them and they are linked in, so the node's own canvas widgets are overridden (upstream's example hides this: its embedding says 512x512 while the node says 832x480, and the *embedding* wins). It ships **512x512**, which is what keeps a portrait start image whole;
+	- **width / height / length live on the `WanCameraEmbedding` (node 57), not on the target node** - the embedding *outputs* them and they are linked in, so the node's own canvas widgets are overridden. It ships **512x512**, which is what keeps a portrait start image whole;
 	- **want 16:9?** letterbox the start image first - `uv run python scripts/letterbox_16x9.py assets/2d/char_heroine.png` with `--out` pointed at a file under `input/` - then set the embedding's width/height to **832**/**480**. Measured: a portrait still into 16:9 loses its **head**;
 	- **steps / cfg** (node 3) - 20 / 6.0 ship;
 	- the **start image** - a portrait still into a landscape canvas crops at the edges, and what must survive the pan is the subject.
@@ -421,7 +421,7 @@
 	- the **mask prompt** (`person` on `SAM3_Detect`) and `GrowMask` / `BlockifyMask` (10 / 32) if the driver's person is unusual;
 	- **`length`** (77 ships) and the canvas - width/height must be **multiples of 16**;
 	- the **prompt** describes the scene action ("The character is dancing in the room"), not the character - the reference carries identity.
-- *Measured:* replacement + motion + background preservation at 375 s per 77-frame cell ([`video/evidence/E13c-mix-probes.png`](video/evidence/E13c-mix-probes.png), E13c). Weights: `wan2.2_animate_14B_int8_convrot` (18.4 GB, Apache-2.0, already on the box) + the lightx2v distill lora.
+- *Measured:* replacement + motion + background preservation at 375 s per 77-frame cell ([`video/evidence/E13c-mix-probes.png`](video/evidence/E13c-mix-probes.png), E13c). Weights: `wan2.2_animate_14B_int8_convrot` (18.4 GB, Apache-2.0) + the lightx2v distill lora.
 - *Traps:* the output **prepends the reference as frame 0** (81 frames out for `length` 77) - trim one second in the engine or with a slice; the mask and the video must share the canvas (a mismatch shows up as black 32-px blocks - measured); DWPose auto-downloads its detectors on first run into `custom_nodes/comfyui_controlnet_aux/ckpts/`. The **relight lora** ships in the chain (the official template includes it); measured on a neutral-lit room its integration difference is subtle (subject-vs-background palette mismatch 27.6 -> 25.5 across matched frames, E13d) - on strongly-lit scenes it should matter more, so re-measure if a composite reads pasted.
 - *More:* [`video/README.md`](video/README.md), and E13c in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
@@ -439,24 +439,24 @@
 	- the canvas (480x832 ships; any multiple of 16, independent of the reference's pixels);
 	- **`audio_scale`** (1.0) - lip-sync strength;
 	- **`motion_frame_count`** (9).
-	- fps is **pinned at 25** - the audio conditioning is resampled for 25-fps video inside the node, so any other fps would desync the mouth; it is deliberately not a knob.
-- *Measured:* identity holds through speech - lip-band motion 1.9x forehead with the highest-motion rows exactly at the mouth ([E15](video/EXPERIMENTS.md)); the route's new weights are only **~5.3 GB** because the InfiniteTalk patch applies to our on-box 720p I2V base (`video/evidence/` strip). Weights: patch 5.1 GB + wav2vec2 190 MB, Apache-2.0.
-- *Traps:* lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 - the audio is embedded. Only the FIRST `length` frames' worth of audio is spoken (audio past that is never read; shorter audio pads idle) - trim to `seconds` (the mux cuts the track to the clip, so over-long audio is dropped rather than appended). Longer audio = **chain segments**: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s `previous_frames` - each continuation advances 72 frames (**2.88 s** at defaults; drop the `trim_image` leading frames when stitching). `single_speaker` needs no masks (masks are the two-speaker mode). No `ModelSamplingSD3` in this route (the template has none).
+	- fps is **pinned at 25** - the audio conditioning is resampled for 25-fps video inside the node, so any other fps would desync the mouth.
+- *Measured:* identity holds through speech - lip-band motion 1.9x forehead with the highest-motion rows exactly at the mouth ([E15](video/EXPERIMENTS.md)). Weights: patch 5.1 GB + wav2vec2 190 MB, Apache-2.0.
+- *Traps:* lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 - the audio is embedded. Only the FIRST `length` frames' worth of audio is spoken (audio past that is never read; shorter audio pads idle) - trim to `seconds` (the mux cuts the track to the clip, so over-long audio is dropped rather than appended). Longer audio = **chain segments**: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s `previous_frames` - each continuation advances 72 frames (**2.88 s** at defaults; drop the `trim_image` leading frames when stitching). `single_speaker` needs no masks (masks are the two-speaker mode).
 - *More:* [`video/README.md`](video/README.md), and E15 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
 ### S33. Make our character perform an audio file
 
-- *When:* you have dialogue, a song or a voice line and want **your character performing it** - head movement, expression and articulation, not just lip-sync (Wan2.2-S2V, "Audio-Driven Cinematic Video Generation"). This is the broader sibling of S32.
+- *When:* you have dialogue, a song or a voice line and want **your character performing it** - head movement, expression and articulation, not just lip-sync. This is the broader sibling of S32.
 - *Steps:*
-	- put your **audio** in `input/` (the template's singing audio ships as the placeholder) - **trimmed to the seconds you want**;
+	- set the **audio** on the `LoadAudio`, and set **`seconds`** on the `PrimitiveFloat` to the audio's length - **trim the audio to match**;
 	- open `video/workflows/wan-s2v.json` and set the **reference** on the `LoadImage` (node 11) - a **portrait**; the shipped canvas is **640x640**, which a square portrait fits exactly;
-	- set **`seconds`** on the `PrimitiveFloat` (node 21, 5.0 ships) to the audio's length and run. A 5-s clip (80 frames at 16 fps) takes about **140 s**, and the output mp4 **carries the audio**.
+	- A 5-s clip (80 frames at 16 fps) takes about **140 s**, and the output mp4 **carries the audio**.
 - *Knobs:*
 	- the **audio** - it drives the whole performance;
 	- the **reference** - portrait, face clear;
 	- **`seconds`** - a `ComfyMathExpression` turns it into **`length`**, rounded to 4n+1 (77 at defaults; the model needs at least 73, so the shortest clip this flow makes is 4.75 s); raising it raises VRAM;
 	- per-route encoders: this flow uses **`wav2vec2_large_english`** - S32's chinese-base is a different encoder, do not mix them.
-	- fps is **pinned at 16** - the audio bucket is built for 16-fps video inside the node, so any other fps would desync the performance; it is deliberately not a knob.
+	- fps is **pinned at 16** - the audio bucket is built for 16-fps video inside the node, so any other fps would desync the performance.
 - *Measured:* identity holds through the performance (head tilts, blinks, mouth) - [`E16`](video/EXPERIMENTS.md). Weights: `Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ` (16.65 GB) + encoder (631 MB) + the **Wan2.2 4-step lightning lora** (1.23 GB), Apache-2.0.
 - *Traps:* the checkpoint keeps its **as-downloaded name** (the template's Kijai-original name is a different string - a mismatch costs a failed submission); the template's first-frame VAE hack (double frame 0 via `LatentCut`/`LatentConcat`, drop the first decode via `ImageFromBatch` 1) is wired in - do not remove it. Only the FIRST `length` frames' worth of audio drives the motion while the whole file is muxed - trim to `seconds` (the mux cuts the track to the clip, so over-long audio is dropped rather than appended). The `LatentCut`/`LatentConcat` pair is that first-frame hack, not chaining: longer audio chains through `WanSoundImageToVideoExtend`, which this flow does not wire yet, so one run covers one `seconds`-long chunk.
 - *More:* [`video/README.md`](video/README.md), and E16 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
@@ -467,7 +467,6 @@
 
 - *When:* you already have a clip and want more resolved detail, but need its **duration, frame count, frame rate and sound** to stay put. This is restoration/upscaling, not interpolation or generating new motion.
 - *Steps:*
-	- put the video in the ComfyUI box's `input/` root (the `LoadVideo` picker lists root files in this build);
 	- open `video/workflows/video-upscale-seedvr2.json` and choose the video on `LoadVideo`;
 	- run. `GetVideoComponents` passes the decoded frame batch to SeedVR2 and feeds the original FPS + audio into `CreateVideo`.
 - *Knobs:*
@@ -475,8 +474,8 @@
 	- **`batch_size`** must be **4n+1** (5 ships). Larger batches give more temporal context but use more VRAM; if it OOMs, 1 is a valid lower-memory batch, with less context (not measured here);
 	- **`temporal_overlap`** (2 ships) blends across batch joins; `color_correction=lab` ships;
 	- the flow uses **3B fp16 + CPU offload** on the 24-GB card.
-- *Measured:* two clips, both audio-retained: 80 frames of 640x640 S2V at 16 fps -> 960x960 in **150 s**; 121 frames of 720x1280 dance at 24.12 fps -> 960x1706 in **375 s**. Frame count/FPS held. On the talking-head sample the background temporal-luma delta was 0.14 input vs 0.144 output, and there was no extra batch-seam flicker signal ([`video/evidence/E20-seedvr2-video.png`](video/evidence/E20-seedvr2-video.png), E20).
-- *Traps:* SeedVR2 **reconstructs** detail; it is not a pixel-exact enlarger - the still-image test (2D U1) found more detail *and* more drift than UltraSharp. Inspect the clip, not just its dimensions. On the dance sample the output audio was 5.016 s vs 5.088 s source (less than one frame, but not byte-perfect duration).
+- *Measured:* two clips, both audio-retained: 80 frames of 640x640 S2V at 16 fps -> 960x960 in **150 s**; 121 frames of 720x1280 dance at 24.12 fps -> 960x1706 in **375 s**. Frame count/FPS held.
+- *Traps:* SeedVR2 **reconstructs** detail; it is not a pixel-exact enlarger - the still-image test (2D U1) found more detail *and* more drift than UltraSharp. Inspect the clip, not just its dimensions.
 - *More:* [`video/README.md`](video/README.md), and E20 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md). For stills, use [`2d/workflows/upscale-seedvr2.json`](2d/workflows/upscale-seedvr2.json) (S10).
 
 ## If your job isn't here
