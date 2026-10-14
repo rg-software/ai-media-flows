@@ -34,7 +34,8 @@
   "S32": "Make our character speak an audio file",
   "S33": "Make our character perform an audio file",
   "S34": "Upscale a video while keeping its timebase and audio",
-  "S35": "Animate our character from a prompt, fast"
+  "S35": "Animate our character from a prompt, fast",
+  "S36": "Animate between our own keyframe stills"
  },
  "jobs": [
   {
@@ -336,6 +337,12 @@
    "detail": "`video/workflows/ltxv-i2v.json` - LTX-Video v1 I2V (prompt-driven, no driving clip): our still + an elaborate prompt -> the character performs it. Measured: 13B-distilled-fp8, 97 frames at 768x768 in **35 s** (17.3 GB) with identity holding; the 2B arm is a 15-s quick test with softer identity. 8 steps, no STG, fps 25; canvas multiples of 32, frames 8n+1",
    "story": "S35",
    "category": "video"
+  },
+  {
+   "want": "Animate between our own keyframe stills",
+   "detail": "`video/workflows/ltxv-guides.json` - LTX-Video v1 keyframe guides: stills pinned at chosen frame indices + a prompt -> the clip travels between them. Measured: full-body to portrait in **45 s** (97 f at 768x768) with identity holding; trim the output to the plan (a 16-frame wobble tail past the last guide). Build the guide clip offline with exact-black padding; 8 steps, no STG, fps 25",
+   "story": "S36",
+   "category": "video"
   }
  ],
  "flows": {
@@ -537,6 +544,9 @@
   },
   "ltxv-i2v.json": {
    "story": "S35"
+  },
+  "ltxv-guides.json": {
+   "story": "S36"
   }
  },
  "categories": [

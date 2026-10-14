@@ -494,6 +494,22 @@
 - *Traps:* this is v1, not v2 - LTX-2 is 19B under a separate community licence and does not fit this card. The guide/keyframe nodes and the audio-VAE route are still deferred.
 - *More:* [`video/README.md`](video/README.md), and E22 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md). For the slow quality arm see S28 (`wan-vace-reference.json`).
 
+### S36. Animate between our own keyframe stills
+
+- *When:* you know the start and end of a shot - a pose here, a framing there - and want the model to travel between them. Two stills pin the endpoints; the prompt describes the travel. This is the keyframed-motion source (LTX-Video v1 guides).
+- *Steps:*
+	- build the **guide clip**: 97 frames at the canvas size - your still at frame 0, your still at frame 96, exact black everywhere else (black = no guide; anything non-black pins). Encode lossless (`ffmpeg -framerate 25 -i f%03d.png -c:v libx264 -crf 0`) and put it in the box's `input/` root;
+	- open `video/workflows/ltxv-guides.json`, set the guide clip on the `LoadVideo`, write the travel on the positive `CLIPTextEncode`, and run - about **45 s**;
+	- **trim the output to the plan** (first 97 frames): the model overshoots with a 16-frame wobble tail past the last guide.
+- *Knobs:*
+	- the **guide stills** - identity lives here; batch position IS the frame index;
+	- **strength** (1.0 ships = hard pin, shared across all guides);
+	- the **prompt** - must describe the travel (push-in, rise, turn), not a pose;
+	- steps 8 / euler / no STG / cfg 1 (distilled recipe; 30 steps costs 3x and keeps the same wobble, so it buys nothing).
+- *Measured:* same-still guides pin near-static (40 s); full-body to portrait travels smoothly with identity holding ([`video/evidence/E23-ltxv-guides.png`](video/evidence/E23-ltxv-guides.png), E23). Defects: 113 frames out for 97 planned, ghost wobble f96-104 before re-settling, end guide lands slightly early. Weights shared with S35.
+- *Traps:* the padding must decode **byte-exact black** - verify with a decode check, or every noisy frame becomes a guide. Per-guide strengths (`LTXVAddGuideMulti`) do not submit through `sweep_workflow` (DynamicCombo must nest; measured rejection) - shared strength only. Guide stills center-upscale to the canvas, so mismatched aspects crop.
+- *More:* [`video/README.md`](video/README.md), and E23 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
 ## If your job isn't here
 
 Browse [`PIPELINES.md`](PIPELINES.md) — the capability index (operation family × subject/domain, with cost, licence, status and key knob). If a flow exists but has no story above, that's a documentation gap worth reporting; if no flow exists, it belongs in `PIPELINES.md` → "Status — what is actually left".
