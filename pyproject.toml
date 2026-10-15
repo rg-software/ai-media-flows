@@ -14,6 +14,11 @@ dependencies = [
     # video I/O for scripts/wan_segment.py: it decodes the source clip and writes the stitched result.
     # headless because it never opens a window.
     "opencv-python-headless>=4.9",
+    # audio checker (scripts/audio_check.py): level/clip stats + spectrograms.
+    # soundfile reads the wav/flac takes the box saves; anything else arrives
+    # already decoded. faster-whisper (ASR arm) stays opt-in via --with: ctranslate2
+    # is heavy for a checker most runs do not need.
+    "soundfile>=0.12",
 ]
 
 [project.optional-dependencies]

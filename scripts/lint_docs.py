@@ -349,7 +349,10 @@ CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
                      "check_gltf_contract.py", "fix_gltf_normals.py",
                      # animation: is a recovered motion sensible? A CHECKER, like check_gltf_contract.py -
                      # it measures an asset rather than producing one, so it is not a user path
-                     "motion_quality.py"}
+                     "motion_quality.py",
+                     # audio: is a generated take shippable? A CHECKER - levels, clipping runs,
+                     # spectrogram, words. Same standing as motion_quality.py.
+                     "audio_check.py"}
 
 
 def iter_flows():
