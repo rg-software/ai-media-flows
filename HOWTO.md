@@ -508,7 +508,7 @@
 	- the **prompt** - must describe the travel (push-in, rise, turn), not a pose;
 	- steps 8 / euler / no STG / cfg 1 (distilled recipe; 30 steps costs 3x and keeps the same wobble, so it buys nothing).
 - *Measured:* same-still guides pin near-static (40 s); full-body to portrait travels smoothly with identity holding ([`video/evidence/E23-ltxv-guides.png`](video/evidence/E23-ltxv-guides.png), E23). Defects: 113 frames out for 97 planned, ghost wobble f96-104 before re-settling, end guide lands slightly early. Weights shared with S35.
-- *Traps:* the padding must decode **byte-exact black** - verify with a decode check, or every noisy frame becomes a guide. Per-guide strengths (`LTXVAddGuideMulti`) do not submit through `sweep_workflow` (DynamicCombo must nest; measured rejection) - shared strength only. Guide stills center-upscale to the canvas, so mismatched aspects crop.
+- *Traps:* the padding must decode **byte-exact black** - verify with a decode check, or every noisy frame becomes a guide. Per-guide strengths (`LTXVAddGuideMulti`) do not submit through `sweep_workflow` (DynamicCombo must nest; measured rejection) - shared strength only. Guide stills center-upscale to the canvas, so mismatched aspects crop. Guides steer composed wholes, not independent elements - the model interpolates whole frames between pins, so an object crossing the frame needs a pin per beat; output overshoots ~8 frames per extra guide, trim to plan.
 - *More:* [`video/README.md`](video/README.md), and E23 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
 
 ## If your job isn't here
