@@ -482,7 +482,6 @@
 
 - *When:* you want a clip of our character doing something and have no driving footage - the motion comes from **words**, and you want it in under a minute rather than S28's 45. This is the fast prompt-driven arm (LTX-Video v1, distilled).
 - *Steps:*
-	- put your still in the ComfyUI box's `input/` root;
 	- open `video/workflows/ltxv-i2v.json`, set the still on the `LoadImage` and write the motion as an **elaborate prompt** on the positive `CLIPTextEncode` (LTX degrades visibly on short prompts - describe the action, the look, the light);
 	- run. 97 frames at 768x768 take about **35 s**, and 5 s warm on a loaded card.
 - *Knobs:*
@@ -498,9 +497,10 @@
 
 - *When:* you know the start and end of a shot - a pose here, a framing there - and want the model to travel between them. Two stills pin the endpoints; the prompt describes the travel. This is the keyframed-motion source (LTX-Video v1 guides).
 - *Steps:*
-	- Pose-to-pose: make the second still with `2d/workflows/qwen-edit-gguf.json` instructing ONLY the pose change (vague wording does not move her; explicit wording works but may mirror left-for-right - E23), then run this flow: her arm rises smoothly with identity holding. Sweep note: `--set` splits values on commas, so keep override prompts comma-free or each chunk becomes its own grid cell.
-	- build the **guide clip**: 97 frames at the canvas size - your still at frame 0, your still at frame 96, exact black everywhere else (black = no guide; anything non-black pins). Encode lossless (`ffmpeg -framerate 25 -i f%03d.png -c:v libx264 -crf 0`) and put it in the box's `input/` root;
-	- open `video/workflows/ltxv-guides.json`, set the guide clip on the `LoadVideo`, write the travel on the positive `CLIPTextEncode`, and run - about **45 s**;
+	- Pose-to-pose: make the second still with `2d/workflows/qwen-edit-gguf.json` instructing ONLY the pose change (vague wording does not move her; explicit wording works), then run this flow. Sweep note: `--set` splits values on commas, so keep override prompts comma-free or each chunk becomes its own grid cell.
+	- build the **guide clip**: e.g., 97 frames at the canvas size - your still at frame 0, your still at frame 96, exact black everywhere else (black = no guide; anything non-black pins). Encode lossless (`ffmpeg -framerate 25 -i f%03d.png -c:v libx264 -crf 0`);
+	- open `video/workflows/ltxv-guides.json`, set the guide clip on the `LoadVideo`, write the travel on the positive `CLIPTextEncode`, and run;
+	- more than two guides? Add non-black frames anywhere in the 97 (batch position IS the frame) - a chest-left/chest-right/chest-left triple steers the object over and back with background holding (E23 arm E). One guide per beat; the output overshoots by ~8 frames per extra guide, so trim to plan;
 	- **trim the output to the plan** (first 97 frames): the model overshoots with a 16-frame wobble tail past the last guide.
 - *Knobs:*
 	- the **guide stills** - identity lives here; batch position IS the frame index;
