@@ -274,7 +274,7 @@
   },
   {
    "want": "Generate a dialogue scene",
-   "detail": "`audio/workflows/chatterbox-dialogue.json` (Chatterbox TTS, **MIT** - a `SPEAKER A:`/`SPEAKER B:` script with two **required** 5-10 s voice references, mixed scene **plus per-speaker tracks**; a separated vocal stem works as a reference, E26b)",
+   "detail": "`audio/workflows/chatterbox-dialogue.json` (Chatterbox TTS, **MIT** - a `SPEAKER A:`/`SPEAKER B:` script with two **required** 5-10 s voice references, mixed scene **plus per-speaker tracks**; a separated vocal stem works as a reference (separate one with scripts/stems.py, E26b))",
    "story": "S27",
    "category": "audio"
   },
