@@ -498,6 +498,7 @@
 
 - *When:* you know the start and end of a shot - a pose here, a framing there - and want the model to travel between them. Two stills pin the endpoints; the prompt describes the travel. This is the keyframed-motion source (LTX-Video v1 guides).
 - *Steps:*
+	- Pose-to-pose: make the second still with `2d/workflows/qwen-edit-gguf.json` instructing ONLY the pose change (vague wording does not move her; explicit wording works but may mirror left-for-right - E23), then run this flow: her arm rises smoothly with identity holding. Sweep note: `--set` splits values on commas, so keep override prompts comma-free or each chunk becomes its own grid cell.
 	- build the **guide clip**: 97 frames at the canvas size - your still at frame 0, your still at frame 96, exact black everywhere else (black = no guide; anything non-black pins). Encode lossless (`ffmpeg -framerate 25 -i f%03d.png -c:v libx264 -crf 0`) and put it in the box's `input/` root;
 	- open `video/workflows/ltxv-guides.json`, set the guide clip on the `LoadVideo`, write the travel on the positive `CLIPTextEncode`, and run - about **45 s**;
 	- **trim the output to the plan** (first 97 frames): the model overshoots with a 16-frame wobble tail past the last guide.

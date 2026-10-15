@@ -340,7 +340,7 @@
   },
   {
    "want": "Animate between our own keyframe stills",
-   "detail": "`video/workflows/ltxv-guides.json` - LTX-Video v1 keyframe guides: stills pinned at chosen frame indices + a prompt -> the clip travels between them. Measured: full-body to portrait in **45 s** (97 f at 768x768) with identity holding; trim the output to the plan (a 16-frame wobble tail past the last guide). Build the guide clip offline with exact-black padding; 8 steps, no STG, fps 25",
+   "detail": "`video/workflows/ltxv-guides.json` - LTX-Video v1 keyframe guides: stills pinned at chosen frame indices + a prompt -> the clip travels between them. Measured: full-body to portrait in **45 s** (97 f at 768x768) with identity holding; trim the output to the plan (a 16-frame wobble tail past the last guide). Build the guide clip offline with exact-black padding; 8 steps, no STG, fps 25; pose-to-pose measured (qwen-edit variant + guides = smooth arm raise, E23)",
    "story": "S36",
    "category": "video"
   }
