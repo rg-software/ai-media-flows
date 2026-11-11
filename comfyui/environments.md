@@ -37,33 +37,18 @@ from comfy_env import install; install()
 # prestartup_script.py
 from comfy_env import setup_env; setup_env()
 ```
-Build once: `python_embeded\python.exe <node_dir>\install.py`. Env lands in `%LOCALAPPDATA%\Programs\comfy-env\.pixi\envs\<plugin>-<dir>`, named like `<pack>-<subdir>` (lowercased).
+Build once: run the pack's `install.py` with the server Python. Envs land in comfy-env's pixi dir, named like `<pack>-<subdir>` (lowercased).
 
 ## Critical gotchas (hard-won)
 
 1. **Config must be at the node pack ROOT** (`discover_config` reads `<node_dir>/comfy-env-root.toml` then `<node_dir>/comfy-env.toml`). `nodes/` subdir config only for *sub-node* isolation.
 2. **`python = "3.12"` must be quoted** — unquoted TOML parses as float `3.1`.
-3. **Torch family is pinned workspace-wide to the host** (`==2.13.*` for host 2.13.0) and mirrored into every env; the tool **strips** node torch entries (see `_strip_torch_family`). You cannot independently pick torch version in a single node config.
-4. **CUDA index** derived from host torch (`whl/cu130`). If that index lacks a wheel for your env's python ABI, the whole env fails to solve. Concretely: **torch 2.13.0+cu130 has no cp312 Windows wheels** → any `python="3.12"` env requested with host torch cannot be built on this server. This is an upstream packaging gap, not fixable from config.
-5. **Local wheels / URL deps**: pixi wants `[pypi-dependencies.X]` as a **table with a `url` key**; plain `file://` URLs and `@`-version specs both rejected. Even then `file://` fails ("URL scheme is not allowed") → use `find-links` (`[pypi-options] find-links = [{ path = "<abs dir>" }]`) with a plain `name = "*"` dep — but see gotcha 3 about torch.
-6. Envs are **reproducible via `pixi.lock`** — a future Linux port just re-runs `install.py` there.
-7. `cuda-wheels` (prebuilt repo) can serve CUDA packages *only* if the node declares them in `[cuda] packages` (then comfy-env uses a cuda-only override combo). A custom node like `custom_rasterizer` is not in that index.
+3. **Torch family is pinned workspace-wide to the host** (`==2.11.*` for host 2.11.0+cu128) and mirrored into every env; the tool **strips** node torch entries (see `_strip_torch_family`). You cannot independently pick torch version in a single node config.
+4. **Local wheels / URL deps**: pixi wants `[pypi-dependencies.X]` as a **table with a `url` key**; plain `file://` URLs and `@`-version specs both rejected. Even then `file://` fails ("URL scheme is not allowed") → use `find-links` (`[pypi-options] find-links = [{ path = "<abs dir>" }]`) with a plain `name = "*"` dep — but see gotcha 3 about torch.
+5. Envs are **reproducible via `pixi.lock`** — re-run `install.py` to rebuild.
+6. `cuda-wheels` (prebuilt repo) can serve CUDA packages *only* if the node declares them in `[cuda] packages` (then comfy-env uses a cuda-only override combo). A custom node like `custom_rasterizer` is not in that index.
 
-## Case study: Hy3D texture node (`custom_rasterizer`)
-
-### The problem
-`custom_rasterizer` ships only **cp312** wheels; host is **3.13**. Texture nodes crash `ModuleNotFoundError: No module named 'custom_rasterizer'`.
-
-### The two escape hatches
-1. **Isolate the pack into a 3.12 env** (this file's config). Works only if torch family solves for cp312 — here it does NOT (torch 2.13 has no cp312 Windows wheel) → **blocked**.
-2. **Compile the extension for host (3.13)** — done successfully; see `3d/EXPERIMENTS.md` E2b. Result `custom_rasterizer_kernel.cp313-win_amd64.pyd` shipped into server `python_embeded\Lib\site-packages\` (plus the `custom_rasterizer\` package folder). No comfy-env needed after that.
-
-### Verdict
-comfy-env is the **correct general tool** but cannot fix a missing host-ABI wheel for a *non-cuda-index* package. Use it for packs with coherent wheel availability; compile locally for gaps. Expect Linux to be far easier (prebuilt manylinux wheels exist upstream).
-
-> **Housekeeping:** the Hy3D isolate config (`comfyui-hunyuan3dwrapper/comfy-env.toml`, `python="3.12"`) was **deleted** after the cp313-compile path won — a stale env config in the tree poisons every `comfy-env install` (any failing env aborts the whole workspace install, including UniRig's deferred cuda-wheels). Keep only *live* comfy-env configs on the server.
-
-## Reference commands
+## Reference commands **[Windows-era paths; Linux uses `venv/bin/python`]**
 ```
 # build envs for all packs with config
 python_embeded\python.exe <node>\install.py

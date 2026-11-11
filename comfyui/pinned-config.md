@@ -39,7 +39,7 @@ Verified afterwards: `torch 2.11.0+cu128`; **`custom_rasterizer_kernel` imports*
 
 ## The real risk, named
 
-**`custom_rasterizer` was built from source against exactly this torch and CUDA.** It is the one component the freeze alone cannot restore: it needs nvcc **12.8** (not 13.2, which hard-errors on the major mismatch), gcc-13, `TORCH_CUDA_ARCH_LIST=8.6`, and the header patch recorded in `HANDOFF.md` and `3d/EXPERIMENTS.md`. So an upgrade that **moves torch off 2.11.0+cu128** means rebuilding it, and an upgrade that leaves torch alone does not. Everything Hy3D does depends on it, so check that first after any update.
+**`custom_rasterizer` was built from source against exactly this torch and CUDA.** It is the one component the freeze alone cannot restore: it needs nvcc **12.8** (not 13.2, which hard-errors on the major mismatch), gcc-13, `TORCH_CUDA_ARCH_LIST=8.6`, and the header patch recorded in `comfyui/linux-setup.md` §8 and `3d/EXPERIMENTS.md`. So an upgrade that **moves torch off 2.11.0+cu128** means rebuilding it, and an upgrade that leaves torch alone does not. Everything Hy3D does depends on it, so check that first after any update.
 
 The **UniRig** rigger runs in its own pixi environment (bpy 4.2 LTS) and is unaffected by the venv.
 

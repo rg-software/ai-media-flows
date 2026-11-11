@@ -2,7 +2,7 @@
 
 Target box: `rg_software@Beelink`, Ubuntu 26.04.1 LTS, RTX 3090, driver 595.91.07 / CUDA 13.2, 850 GB free. Python 3.14.4 is default (too new); we install **Python 3.11** (best-compatible for torch + ComfyUI nodes).
 
-Status: **installed and running** (2026-09-15). This file started as the plan; where it disagrees with reality, trust the working notes below (and `HANDOFF.md`). Actual deviations: torch is **2.11.0+cu128** (not cu130) because comfy-kitchen 0.2.33 needs it; `custom_rasterizer` was **built from source** (nvcc 12.8 header-patch), not installed from a wheel.
+Status: **installed and running** (2026-09-15). This file started as the plan; where it disagrees with reality, trust the working notes below. Actual deviations: torch is **2.11.0+cu128** (not cu130) because comfy-kitchen 0.2.33 needs it; `custom_rasterizer` was **built from source** (nvcc 12.8 header-patch, §9), not installed from a wheel.
 
 ## 1. Python 3.11
 
@@ -28,22 +28,15 @@ python3.11 -m venv venv
 source venv/bin/activate
 git clone https://github.com/comfyanonymous/ComfyUI.git .
 pip install --upgrade pip
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 ```
-> `cu130` matches the driver; torch 2.10.0+cu130 has cp311 manylinux wheels (verified).
+> `cu128` because comfy-kitchen 0.2.33 needs torch 2.11.0+cu128 (not cu130).
 > ComfyUI also ships default custom-node manager; install `ComfyUI-Manager` per its repo if not bundled.
 
-## 4. custom_rasterizer (the one-time Windows pain: now a wheel on Linux)
+## 4. custom_rasterizer (built from source)
 
-Needed by Hy3D texture bake. Pull from the wrapper's manylinux wheel:
-```bash
-cd ~/Projects-Git/ComfyUI/custom_nodes
-git clone https://github.com/kijai/ComfyUI-Hunyuan3DWrapper.git
-cd ComfyUI-Hunyuan3DWrapper
-pip install -r requirements.txt
-pip install wheels/custom_rasterizer-0.1-*.whl   # manylinux wheel
-```
+Needed by Hy3D texture bake. There is no usable wheel for this torch/CUDA combo, so it is compiled on the box — full recipe in §9. (An early plan to pull a manylinux wheel from the wrapper repo did not survive contact with torch 2.11+cu128.)
 
 ## 5. Repeat the rest of the node list (via ComfyUI-Manager on first GUI boot)
 
@@ -53,31 +46,16 @@ pip install wheels/custom_rasterizer-0.1-*.whl   # manylinux wheel
 - comfyui-marigold, comfyui-controlnet-aux, was-node-suite, KJNodes, Impact-Pack
 - ComfyUI-Login (restores the password login screen)
 
-## 6. Restore bits from the Windows backup
-
-```bash
-# your workflows + settings + API keys
-cp -r <backup>/user/* ~/Projects-Git/ComfyUI/user/
-# test/input images
-cp -r <backup>/input/* ~/Projects-Git/ComfyUI/input/
-# weights (optional — else re-download, identical files)
-cp -r <backup>/models/* ~/Projects-Git/ComfyUI/models/
-```
-Rest of the repo (workflows, docs) is already on GitHub:
-```bash
-git clone https://github.com/rg-software/ai-gamedev-tasks.git
-```
-
-## 7. Verify (smoke checklist)
+## 6. Verify (smoke checklist)
 
 1. ComfyUI boots; `/object_info` shows Hy3D + MoGe.
 2. `hy3d-shape` (scratch) → GLB.
 3. `hy3d-full` → textured GLB (custom_rasterizer wheel OK).
 4. `hy3d-multiview`.
-5. UniRig rigging — re-attempt (was Windows-bpy-blocked).
+5. UniRig rigging — installed and passing (E4-L).
 6. SDXL 2D base art.
 
-## 8. Service and remote access
+## 7. Service and remote access
 
 ### ComfyUI runs as a systemd *user* service
 Deployed unit: `~/.config/systemd/user/comfyui.service` (versioned copy: `comfyui/comfyui.service`). It is `enabled` and `active`; the process is `venv/bin/python main.py --listen --disable-api-nodes` on `0.0.0.0:8188`.
@@ -145,6 +123,34 @@ urllib.request.Request(f"{BASE}/prompt?token={quote(TOKEN)}", data=json.dumps({'
 `POST /login` expects **form data** (`username`, `password`) — sending JSON yields a 500. Prefer the token. The `workflows/*.json` files are the GUI format; API submissions need the node->inputs form (generate it with `GET /object_info` for signatures).
 
 ## Repo docs to consult
-- `HANDOFF.md` (the box handoff: environment, blockers, next steps)
 - `3d/setup-hy3d.md` (weights + Hy3D node specifics)
 - `3d/hy3d-knobs.md`, `3d/EXPERIMENTS.md`
+
+## 8. Rebuild notes (migrated from retired HANDOFF.md)
+
+Rebuild `custom_rasterizer` (nvcc 12.8 header patch — glibc 2.41 redeclares `cospi/cospif/rsqrt/rsqrtf/sinpi/sinpif` `noexcept(true)` in `bits/mathcalls.h`, and nvcc 12.8 emits "exception specification is incompatible" unless its own header matches; add `noexcept` to those decls in `<conda128>/targets/x86_64-linux/include/crt/math_functions.h`):
+```
+cd ~/Projects-Git/ComfyUI/custom_nodes/ComfyUI-Hunyuan3DWrapper/hy3dgen/texgen/custom_rasterizer
+pip uninstall -y custom_rasterizer; rm -rf build dist
+export CC=/usr/bin/gcc-13 CXX=/usr/bin/g++-13
+export CUDA_HOME=$HOME/miniconda3/envs/cuda128
+export PATH=$HOME/miniconda3/envs/cuda128/bin:$PATH
+export TORCH_CUDA_ARCH_LIST='8.6'
+pip install . --no-build-isolation
+```
+Do NOT use nvcc 13.2 (torch 2.11+cu128 hard-errors on the major mismatch). Result: `custom_rasterizer-0.1.0+torch2110.cuda128` wheel, `import custom_rasterizer_kernel` OK.
+
+Runtime deps the wrapper needs beyond its requirements.txt (install before running):
+```
+pip install omegaconf pyrootutils timm rembg onnxruntime pynanoinstantmeshes
+```
+(`rembg` without `onnxruntime` first hangs silently downloading `bria-rmbg-2.0.onnx` — install onnxruntime first.) For the textured render check (`Hy3DNvdiffrastRenderer`, E7):
+```
+pip install ninja nvdiffrast
+pip install "utils3d @ git+https://github.com/EasternJournalist/utils3d.git@580474822b0a72098f687dbe820c38f1214edfec"
+```
+Pin `utils3d`: upstream master renamed `intrinsics_from_fov_xy` → `intrinsics_from_fov`; commit `5804748` (2025-08-31) still defines it. Restart `comfyui` after installing (stale `sys.modules` otherwise).
+
+API-only submissions need current node signatures (Linux wrapper is newer than some saved workflows): `Hy3DModelLoader.attention_mode` is now a combo; `Hy3DGenerateMeshMultiView.scheduler` is named; `Hy3DSampleMultiView.scheduler` is link-only (drop stale `'fixed'` widget values); keep model paths forward-slash.
+
+Weights (on disk; re-download sources if ever needed): `tencent/Hunyuan3D-2.1` → `hy3dgen/model.fp16.ckpt`; `tencent/Hunyuan3D-2mv` → `hy3dgen/hunyuan3d-dit-v2-mv-fast/model.fp16.safetensors`; `Comfy-Org/MoGe` → `moge_2_vitl_normal_fp16.safetensors`. Paint/delight diffusers auto-download on first texture run (~14 GB).

@@ -23,7 +23,6 @@ ai-gamedev-tasks/
 ├── README.md                    ← FRONT DOOR (cookbook): mission + "I want to make…" index
 ├── HOWTO.md                     ← USER STORIES: how to actually run each job (prereqs, steps, knobs, traps)
 ├── AGENTS.md                    ← this file
-├── HANDOFF.md                   ← Linux box handoff: env, blockers, next steps
 ├── PIPELINES.md                 ← CAPABILITY MAP: every flow by operation × subject × status
 ├── assets/                      ← curated, tracked artefacts (2d/, 3d/); location decides, not file type
 ├── scripts/                     ← helper scripts + the repo-local tooling env (uv; see pyproject.toml)
@@ -117,7 +116,7 @@ ai-gamedev-tasks/
 | `comfyui/README.md`                               | **node gotchas** — the highest-density page in the repo          |
 | `comfyui/hardware.md` · `comfyui/UPGRADE-TODO.md` | what fits / what to buy                                          |
 | `comfyui/workflow-file-format.md`                 | how to hand-edit a workflow `.json` safely                       |
-| `HANDOFF.md`                                      | the Linux box: environment, remote access, blockers              |
+| `comfyui/linux-setup.md`                        | install / restore the box, remote access, rebuild notes          |
 
 ## Status (2026-09-16)
 
@@ -143,7 +142,7 @@ URL/password live with the user. Runtime facts that matter for reproducibility:
 
 - Host: **Linux** — Ubuntu 26.04.1 LTS, `rg_software@Beelink`, RTX 3090 (24 GB), driver 595.91.07 / CUDA 13.2.
 - ComfyUI: `~/Projects-Git/ComfyUI`; venv `./venv/bin/python` (**Python 3.11.16**), torch **2.11.0+cu128**, comfy-kitchen 0.2.33.
-- Launch: `./venv/bin/python main.py --listen --disable-api-nodes`; systemd unit `comfyui.service` (see `HANDOFF.md`).
+- Launch: `./venv/bin/python main.py --listen --disable-api-nodes`; systemd unit `comfyui.service` (see `comfyui/linux-setup.md` §7).
 - Custom nodes live under `custom_nodes/`; installed: Hy3D wrapper, MoGe, UniRig (own pixi env, bpy 4.2 LTS), KJNodes, ComfyUI-Manager v3.41.
-- `custom_rasterizer` is built **from source on this box** (nvcc 12.8 header-patch in conda env `cuda128`, gcc-13, `TORCH_CUDA_ARCH_LIST=8.6`); recipe in `HANDOFF.md` + `3d/EXPERIMENTS.md`. Do NOT use nvcc 13.2 (torch 2.11+cu128 hard-errors on the major mismatch).
-- Old Windows host (retired): embedded Python 3.13.12, torch 2.13.0+cu130, MSVC-compiled `.pyd`. Kept only as history; see `comfyui/environments.md` + E2b. The Windows-era docs (setup.md, linux-migration.md, both under `comfyui/`) were **deleted** once the migration completed — recover them from git history if the Windows path is ever revived.
+- `custom_rasterizer` is built **from source on this box** (nvcc 12.8 header-patch in conda env `cuda128`, gcc-13, `TORCH_CUDA_ARCH_LIST=8.6`); recipe in `comfyui/linux-setup.md` §8 + `3d/EXPERIMENTS.md`. Do NOT use nvcc 13.2 (torch 2.11+cu128 hard-errors on the major mismatch).
+- Old Windows host (retired 2026-09): see git history. Windows-era content has been removed from the living docs; experiment logs keep their original context.

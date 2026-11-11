@@ -48,7 +48,7 @@
     "Node name for S&R": "CheckpointLoaderSimple"
    },
    "widgets_values": [
-    "sd_xl_base_1.0.safetensors"
+    "RealVisXL_V5.0_fp16.safetensors"
    ]
   },
   {

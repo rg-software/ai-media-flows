@@ -4,28 +4,28 @@ Goal: produce game-ready 2D assets (base art, sprites, textures, UI, pixel art, 
 
 > Comes after the `3d/` scenario, which banked all the transferable ComfyUI infra (workflows, `/object_info` habit, environments).
 
-## What the server has (verified 2026-09-09)
+## What the server has (verified 2026-11-10, from disk)
 
-**Base models available** (`models/checkpoints`):
+**Base models available** (`models/checkpoints`, 129 GB total):
 
 | Model | Use |
 |---|---|
-| sd_xl_base_1.0 + refiner | general SDXL |
-| RealVisXL_V5.0 / realvisxlV50_v40Lightning | realistic humans |
-| AnythingXL / PonyV6 / protogen anime | anime/stylized |
-| juggernautXL / dreamshaper / f222 | general high-quality |
-| **RetroDiffusion** (128/16/24×) | **pixel-art generation** |
-| v1.5 / chilloutmix / Deliberate | SD1.5 ecosystem (LoRA-rich) |
+| RealVisXL_V5.0 (+ Lightning baked-VAE variant) | realistic humans; flow default |
+| sd_xl_base_1.0 + refiner | general SDXL baseline |
+| juggernautXL / dreamshaper / architecturerealmix / realisticVision / AnythingXL | general high-quality |
+| protogen anime / ponyDiffusionV6 / chilloutmix | anime/stylized |
+| chilloutmix / Deliberate_v2 / v1.5-pruned | SD1.5 ecosystem (LoRA-rich) |
+| **RetroDiffusion** (16x / 24-64x / 128x) | **pixel-art generation** (purchased; outputs are the user's) |
 | 512-inpainting-ema | inpainting |
+| sv3d_p | turnarounds (multi-view orbit) |
+| ltxv 13B + 2B (distilled fp8) | video (not 2D canvas) |
+| ace_step 1.5 + v1 3.5b / stable_audio_3 / yue2 int8 | audio (not 2D canvas) |
+
+**LoRAs present** (`models/loras`): `pixel-art-xl`, Qwen relight, WanAnimate relight, lightx2v I2V, wan2.2 cover, z-image-turbo patch. Vendor-recommended settings live on each model's own page (CivitAI etc.) — the repo records measured knobs per flow instead of duplicating them.
 
 **Node packs present:** Flux CLIP/es, ControlNet (ACN, SD1.5/3/Flux), IPAdapter, LoRA hooks, KSampler family, SUPIR/RealESRGAN upscalers, rembg, seamless-tiling, ColorMatch, WAS (resize, masks, etc.).
 
-**Not present (note for future):** no Flux *checkpoint* (only Flux CLIP/controlnet tooling), no LoRAs downloaded yet.
-
-> **Linux box — actual inventory (2026-09-15):** the table above is the *old Windows* server. On
-> Linux we have only `sd_xl_base_1.0` (checkpoints) and node packs: `comfyui_controlnet_aux` (ACN),
-> KJNodes, Hy3D wrapper, UniRig, ComfyUI-Login, ComfyUI-Manager, CameraPack (1034 nodes total).
-> ControlNet weights: `models/controlnet/xinsir-canny-sdxl-v2.safetensors` (2.4 GB). Re-pull others on demand.
+**Not present (note for future):** no Flux *checkpoint* (only Flux CLIP/controlnet tooling).
 
 ## Design: first experiments
 

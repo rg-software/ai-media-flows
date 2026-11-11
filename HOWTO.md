@@ -42,9 +42,20 @@
 
 - *When:* you need a character, prop, environment or texture from scratch.
 - *Prereqs:* none — the base checkpoints are on the box.
-- *Steps:* run `2d/workflows/z-image-turbo.json` (modern, Apache-2.0, fits; 8 steps, ~25 s) or `2d/workflows/sdxl-base-art.json` (SDXL; more "painted").
-- *Knobs:* `cfg` and `steps` — **cfg 7 / 20 steps** is SDXL's value point (cfg 3 washes out, cfg 9 over-burns, 30 steps buys nothing). Z-Image leans **photoreal**; add style words or a LoRA for a painted look.
-- *Expect:* 1024². For a **solo full-body** character, say so explicitly — baseline SDXL otherwise renders a two-view sheet or a bust.
+- *Prereqs:* none — the base checkpoints are on the box.
+
+| If you need | Run | Value point | Notes |
+|---|---|---|---|
+| Photoreal humans, portraits | `sdxl-base-art.json` (RealVisXL) | cfg 7 / 20 steps | Measured default; chilloutmix for portrait specialty |
+| General high-quality illustration | `sdxl-base-art.json` (juggernautXL, dreamshaper) | Vendor presets | Vendor pages carry sampler/steps/CFG presets |
+| Anime, stylized | `sdxl-base-art.json` (ponyV6, AnythingXL, protogen) | Per-model presets | Pick by look on vendor preview grids |
+| Modern photographic, clean licence | `z-image-turbo.json` | 8 steps, ~25 s | Apache-2.0; photoreal lean, add style words for painted |
+| Fast iteration, clean licence | `flux-schnell.json` | 4 steps Euler/simple, no guidance | Apache-2.0; ~15 s; bust-leaning framing, prompt harder |
+| Legible rendered text | `qwen-image-base.json` | 20 steps, cfg 2.5, shift 3.1 | Posters, signs, UI; full multi-line text verified (E36) |
+| Small output (icons, props) | Any of the above, then downscale | — | Never generate small — detail comes from the large canvas |
+| Large output (past ~2 MP) | Generate ~1 MP, upscale (S10) or outpaint in tiles (S5) | — | 1024² SDXL/schnell, 1328² Qwen; past 2 MP the priors smear |
+- *Knobs:* value points live in the table; two rules travel — change one knob at a time (sweep into labeled grids), and guidance is not a quality dial on distilled models.
+- *Expect:* 1024² SDXL/schnell, 1328² Qwen. For a **solo full-body** character, say so explicitly — all base models lean bust or sheet without it.
 
 ### S2. Control composition from an existing image
 

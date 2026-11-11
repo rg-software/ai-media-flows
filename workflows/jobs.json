@@ -40,7 +40,7 @@
  "jobs": [
   {
    "want": "Generate concept art from a prompt",
-   "detail": "`2d/workflows/z-image-turbo.json` (modern, Apache-2.0) or `2d/workflows/sdxl-base-art.json` (SDXL, painted look)",
+   "detail": "`2d/workflows/z-image-turbo.json` (modern, Apache-2.0) or `2d/workflows/sdxl-base-art.json` (SDXL, painted look) or `2d/workflows/flux-schnell.json` (Apache-2.0 few-step base) or `2d/workflows/qwen-image-base.json` (legible rendered text)",
    "story": "S1",
    "category": "2d"
   },
@@ -547,6 +547,12 @@
   },
   "ltxv-guides.json": {
    "story": "S36"
+  },
+  "flux-schnell.json": {
+   "story": "S1"
+  },
+  "qwen-image-base.json": {
+   "story": "S1"
   }
  },
  "categories": [
