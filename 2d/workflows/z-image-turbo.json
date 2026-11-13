@@ -1,4 +1,6 @@
 {
+ "id": "78873a09-e5a5-41cd-9916-004a6de0b7f7",
+ "revision": 0,
  "last_node_id": 11,
  "last_link_id": 10,
  "nodes": [
@@ -6,12 +8,12 @@
    "id": 1,
    "type": "UNETLoader",
    "pos": [
-    40,
-    120
+    -143.7504073772272,
+    202.038909055825
    ],
    "size": [
     380,
-    80
+    82
    ],
    "flags": {},
    "order": 0,
@@ -21,26 +23,58 @@
     {
      "name": "MODEL",
      "type": "MODEL",
+     "slot_index": 0,
      "links": [
       1
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "UNETLoader"
    },
    "widgets_values": [
     "z_image_turbo_bf16.safetensors",
     "default"
-   ]
+   ],
+   "widgets_values_named": {
+    "unet_name": "z_image_turbo_bf16.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  {
+   "id": 11,
+   "type": "MarkdownNote",
+   "pos": [
+    -101.06416980203062,
+    -325.6034611658402
+   ],
+   "size": [
+    720,
+    200
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## z-image-turbo.json\n\nZ-Image Turbo base art\n\nU3 - Z-Image Turbo (6B, Apache 2.0) - the licence-clean base model that FITS this box. 11.46 GB bf16 + 5.25 GB Qwen3-4B fp8 encoder + Flux ae.safetensors VAE. 8 steps, cfg 1.0, res_multistep/simple, ModelSamplingAuraFlow shift 3. CLIPLoader type is 'lumina2' (NOT qwen_image) - Z-Image is Lumina-derived. Negative is ConditioningZeroOut (turbo: no negative prompt). Measured: 25 s at 1024x1024, cgroup peak 19.3 GB, zero OOM events, no throttling. STYLE CAVEAT: far more photoreal than RealVisXL/SDXL at the same prompt+seed - better materials and fine detail, but NOT the painted concept-art look. Needs a style prompt/LoRA for stylised game art; it is a different tool, not a drop-in upgrade.\n\n---\n*How to run it: story **S1** in `HOWTO.md`  \u00b7  Why it is this way: **U3** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "widgets_values_named": {
+    "text": "## z-image-turbo.json\n\nZ-Image Turbo base art\n\nU3 - Z-Image Turbo (6B, Apache 2.0) - the licence-clean base model that FITS this box. 11.46 GB bf16 + 5.25 GB Qwen3-4B fp8 encoder + Flux ae.safetensors VAE. 8 steps, cfg 1.0, res_multistep/simple, ModelSamplingAuraFlow shift 3. CLIPLoader type is 'lumina2' (NOT qwen_image) - Z-Image is Lumina-derived. Negative is ConditioningZeroOut (turbo: no negative prompt). Measured: 25 s at 1024x1024, cgroup peak 19.3 GB, zero OOM events, no throttling. STYLE CAVEAT: far more photoreal than RealVisXL/SDXL at the same prompt+seed - better materials and fine detail, but NOT the painted concept-art look. Needs a style prompt/LoRA for stylised game art; it is a different tool, not a drop-in upgrade.\n\n---\n*How to run it: story **S1** in `HOWTO.md`  \u00b7  Why it is this way: **U3** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#332922",
+   "bgcolor": "#593930"
   },
   {
    "id": 2,
    "type": "CLIPLoader",
    "pos": [
-    40,
-    380
+    -128.4925682128846,
+    -26.216101669493952
    ],
    "size": [
     380,
@@ -54,27 +88,34 @@
     {
      "name": "CLIP",
      "type": "CLIP",
+     "slot_index": 0,
      "links": [
       2
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPLoader"
    },
    "widgets_values": [
     "qwen_3_4b_fp8_mixed.safetensors",
     "lumina2",
     "default"
-   ]
+   ],
+   "widgets_values_named": {
+    "clip_name": "qwen_3_4b_fp8_mixed.safetensors",
+    "type": "lumina2",
+    "device": "default"
+   }
   },
   {
    "id": 3,
    "type": "VAELoader",
    "pos": [
-    40,
-    640
+    1222.492565124135,
+    407.86092304669546
    ],
    "size": [
     380,
@@ -88,104 +129,77 @@
     {
      "name": "VAE",
      "type": "VAE",
+     "slot_index": 0,
      "links": [
       3
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAELoader"
    },
    "widgets_values": [
     "ae.safetensors"
-   ]
+   ],
+   "widgets_values_named": {
+    "vae_name": "ae.safetensors"
+   }
   },
   {
-   "id": 4,
-   "type": "CLIPTextEncode",
+   "id": 7,
+   "type": "EmptySD3LatentImage",
    "pos": [
-    480,
-    120
+    332.08105270142516,
+    193.77401719182927
    ],
    "size": [
-    460,
-    160
+    280,
+    106
    ],
    "flags": {},
    "order": 3,
    "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 2
-    }
-   ],
+   "inputs": [],
    "outputs": [
     {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
      "links": [
-      4,
-      5
-     ],
-     "slot_index": 0
+      8
+     ]
     }
    ],
    "properties": {
-    "Node name for S&R": "CLIPTextEncode"
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "EmptySD3LatentImage"
    },
    "widgets_values": [
-    "medieval fantasy cottage exterior, stone masonry, thatched roof, warm lit windows, mossy garden, overcast sky, environment concept art, highly detailed digital painting"
-   ]
-  },
-  {
-   "id": 5,
-   "type": "ConditioningZeroOut",
-   "pos": [
-    920,
-    120
+    1024,
+    1024,
+    1
    ],
-   "size": [
-    280,
-    60
-   ],
-   "flags": {},
-   "order": 4,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "conditioning",
-     "type": "CONDITIONING",
-     "link": 4
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "links": [
-      6
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ConditioningZeroOut"
+   "widgets_values_named": {
+    "width": 1024,
+    "height": 1024,
+    "batch_size": 1
    },
-   "widgets_values": []
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 6,
    "type": "ModelSamplingAuraFlow",
    "pos": [
-    480,
-    380
+    908.9811879432729,
+    222.00174106127832
    ],
    "size": [
     280,
-    60
+    82
    ],
    "flags": {},
    "order": 5,
@@ -201,66 +215,122 @@
     {
      "name": "MODEL",
      "type": "MODEL",
+     "slot_index": 0,
      "links": [
       7
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ModelSamplingAuraFlow"
    },
    "widgets_values": [
-    3.0
-   ]
+    3,
+    "flow"
+   ],
+   "widgets_values_named": {
+    "shift": 3,
+    "sampling": "flow"
+   }
   },
   {
-   "id": 7,
-   "type": "EmptySD3LatentImage",
+   "id": 4,
+   "type": "CLIPTextEncode",
    "pos": [
-    40,
-    900
+    333.9596399479416,
+    -20.59131441063657
    ],
    "size": [
-    280,
-    100
+    460,
+    160
    ],
    "flags": {},
    "order": 6,
    "mode": 0,
-   "inputs": [],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 2
+    }
+   ],
    "outputs": [
     {
-     "name": "LATENT",
-     "type": "LATENT",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
-      8
-     ],
-     "slot_index": 0
+      4,
+      5
+     ]
     }
    ],
    "properties": {
-    "Node name for S&R": "EmptySD3LatentImage"
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
-    1024,
-    1024,
-    1
-   ]
+    "medieval fantasy cottage exterior, stone masonry, thatched roof, warm lit windows, mossy garden, overcast sky, environment concept art, highly detailed digital painting"
+   ],
+   "widgets_values_named": {
+    "text": "medieval fantasy cottage exterior, stone masonry, thatched roof, warm lit windows, mossy garden, overcast sky, environment concept art, highly detailed digital painting"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 5,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    841.5306496085585,
+    86.21455753168698
+   ],
+   "size": [
+    280,
+    60
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      6
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ConditioningZeroOut"
+   }
   },
   {
    "id": 8,
    "type": "KSampler",
    "pos": [
-    1360,
-    120
+    1277.1710472383818,
+    37.17113038770884
    ],
    "size": [
     320,
     300
    ],
    "flags": {},
-   "order": 7,
+   "order": 8,
    "mode": 0,
    "inputs": [
     {
@@ -288,38 +358,49 @@
     {
      "name": "LATENT",
      "type": "LATENT",
+     "slot_index": 0,
      "links": [
       9
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "KSampler"
    },
    "widgets_values": [
     1103,
     "randomize",
     8,
-    1.0,
+    1,
     "res_multistep",
     "simple",
-    1.0
-   ]
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 1103,
+    "control_after_generate": "randomize",
+    "steps": 8,
+    "cfg": 1,
+    "sampler_name": "res_multistep",
+    "scheduler": "simple",
+    "denoise": 1
+   }
   },
   {
    "id": 9,
    "type": "VAEDecode",
    "pos": [
-    1800,
-    120
+    1723.7100766216745,
+    85.1247193011381
    ],
    "size": [
     220,
     60
    ],
    "flags": {},
-   "order": 8,
+   "order": 9,
    "mode": 0,
    "inputs": [
     {
@@ -337,30 +418,31 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       10
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 10,
    "type": "SaveImage",
    "pos": [
-    2240,
-    120
+    2022.0291110664753,
+    79.67544499906683
    ],
    "size": [
     400,
     300
    ],
    "flags": {},
-   "order": 9,
+   "order": 10,
    "mode": 0,
    "inputs": [
     {
@@ -369,36 +451,24 @@
      "link": 10
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveImage"
    },
    "widgets_values": [
     "2D/U3/z_image_turbo"
-   ]
-  },
-  {
-   "id": 11,
-   "type": "MarkdownNote",
-   "pos": [
-    -1160,
-    -220
    ],
-   "size": [
-    720,
-    200
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "properties": {},
-   "widgets_values": [
-    "## z-image-turbo.json\n\nZ-Image Turbo base art\n\nU3 - Z-Image Turbo (6B, Apache 2.0) - the licence-clean base model that FITS this box. 11.46 GB bf16 + 5.25 GB Qwen3-4B fp8 encoder + Flux ae.safetensors VAE. 8 steps, cfg 1.0, res_multistep/simple, ModelSamplingAuraFlow shift 3. CLIPLoader type is 'lumina2' (NOT qwen_image) - Z-Image is Lumina-derived. Negative is ConditioningZeroOut (turbo: no negative prompt). Measured: 25 s at 1024x1024, cgroup peak 19.3 GB, zero OOM events, no throttling. STYLE CAVEAT: far more photoreal than RealVisXL/SDXL at the same prompt+seed - better materials and fine detail, but NOT the painted concept-art look. Needs a style prompt/LoRA for stylised game art; it is a different tool, not a drop-in upgrade.\n\n---\n*How to run it: story **S1** in `HOWTO.md`  \u00b7  Why it is this way: **U3** in the scenarios' `EXPERIMENTS` logs.*"
-   ],
-   "color": "#332922",
-   "bgcolor": "#593930"
+   "widgets_values_named": {
+    "filename_prefix": "2D/U3/z_image_turbo"
+   }
   }
  ],
  "links": [
@@ -483,21 +553,17 @@
    "IMAGE"
   ]
  ],
- "groups": [
-  {
-   "title": "Z-Image Turbo base art",
-   "bounding": [
-    -1220,
-    -80,
-    1900,
-    560
-   ],
-   "color": "#3f9e6b",
-   "font_size": 22,
-   "flags": {}
-  }
- ],
+ "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7340426960117571,
+   "offset": [
+    -107.03418079999201,
+    403.4245428655389
+   ]
+  },
+  "frontendVersion": "1.53.6"
+ },
  "version": 0.4
 }

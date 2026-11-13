@@ -42,20 +42,20 @@
 
 - *When:* you need a character, prop, environment or texture from scratch.
 - *Prereqs:* none — the base checkpoints are on the box.
-- *Prereqs:* none — the base checkpoints are on the box.
 
-| If you need | Run | Value point | Notes |
-|---|---|---|---|
-| Photoreal humans, portraits | `sdxl-base-art.json` (RealVisXL) | cfg 7 / 20 steps | Measured default; chilloutmix for portrait specialty |
-| General high-quality illustration | `sdxl-base-art.json` (juggernautXL, dreamshaper) | Vendor presets | Vendor pages carry sampler/steps/CFG presets |
-| Anime, stylized | `sdxl-base-art.json` (ponyV6, AnythingXL, protogen) | Per-model presets | Pick by look on vendor preview grids |
-| Modern photographic, clean licence | `z-image-turbo.json` | 8 steps, ~25 s | Apache-2.0; photoreal lean, add style words for painted |
-| Fast iteration, clean licence | `flux-schnell.json` | 4 steps Euler/simple, no guidance | Apache-2.0; ~15 s; bust-leaning framing, prompt harder |
-| Legible rendered text | `qwen-image-base.json` | 20 steps, cfg 2.5, shift 3.1 | Posters, signs, UI; full multi-line text verified (E36) |
-| Small output (icons, props) | Any of the above, then downscale | — | Never generate small — detail comes from the large canvas |
-| Large output (past ~2 MP) | Generate ~1 MP, upscale (S10) or outpaint in tiles (S5) | — | 1024² SDXL/schnell, 1328² Qwen; past 2 MP the priors smear |
+| If you need                         | Run                                                        | Value point                       | Notes                                                                                                                                                           |
+| ----------------------------------- | ---------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Photoreal humans, portraits         | `sdxl-base-art.json` (RealVisXL, 1024²)                    | cfg 7 / 20 steps                  | Measured default; realisticVisionV60B1 as photoreal alt (both SDXL; chilloutmix is SD1.5-only with no base flow here); tolerable to ~1.5 MP, mushy at 2.1 (E19) |
+| General high-quality illustration   | `sdxl-base-art.json` (juggernautXL, dreamshaper; 1024²)    | Vendor presets                    | Vendor pages carry sampler/steps/CFG presets                                                                                                                    |
+| Anime, stylized                     | `sdxl-base-art.json` (ponyV6, AnythingXL, protogen; 1024²) | Per-model presets                 | Pick by look on vendor preview grids                                                                                                                            |
+| Modern photographic, clean licence  | `z-image-turbo.json` (1024² *)                             | 8 steps, ~25 s                    | Apache-2.0; photoreal lean, add style words for painted; treat canvas limits as SDXL until swept                                                                |
+| Modern photographic, fast iteration | `flux-schnell.json` (1024²)                                | 4 steps Euler/simple, no guidance | Apache-2.0; ~15 s; bust-leaning framing, prompt harder; off-canvas unmeasured                                                                                   |
+| Legible rendered text               | `qwen-image-base.json` (1328²)                             | 20 steps, cfg 2.5, shift 3.1      | Posters, signs, UI; full multi-line text verified (E36); higher canvases unmeasured here                                                                        |
+| Small output (icons, props)         | Any of the above, then downscale                           | —                                 | Never generate small — detail comes from the large canvas                                                                                                       |
+| Large output (past ~2 MP)           | Generate ~1 MP, upscale (S10) or outpaint in tiles (S5)    | —                                 | 1024² SDXL/schnell, 1328² Qwen; past 2 MP the priors smear                                                                                                      |
+*Canvas legend: plain size = measured or native; `*` = unmeasured — treat limits as SDXL until swept.*
 - *Knobs:* value points live in the table; two rules travel — change one knob at a time (sweep into labeled grids), and guidance is not a quality dial on distilled models.
-- *Expect:* 1024² SDXL/schnell, 1328² Qwen. For a **solo full-body** character, say so explicitly — all base models lean bust or sheet without it.
+- *Expect:* 1024² SDXL/schnell, 1328² Qwen. Never generate base art below ~0.75 MP — small latents make mush no upscaler honestly restores. For a **solo full-body** character, say so explicitly — all base models lean bust or sheet without it.
 
 ### S2. Control composition from an existing image
 

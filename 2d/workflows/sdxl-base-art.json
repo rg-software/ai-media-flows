@@ -1,4 +1,6 @@
 {
+ "id": "50ff19f0-0fae-4cf9-9cd2-392d9c50521c",
+ "revision": 0,
  "last_node_id": 8,
  "last_link_id": 6,
  "nodes": [
@@ -21,49 +23,125 @@
     {
      "name": "MODEL",
      "type": "MODEL",
+     "slot_index": 0,
      "links": [
       1
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "CLIP",
      "type": "CLIP",
+     "slot_index": 1,
      "links": [
       2,
       3
-     ],
-     "slot_index": 1
+     ]
     },
     {
      "name": "VAE",
      "type": "VAE",
+     "slot_index": 2,
      "links": [
       6
-     ],
-     "slot_index": 2
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
    "widgets_values": [
     "RealVisXL_V5.0_fp16.safetensors"
-   ]
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 8,
+   "type": "MarkdownNote",
+   "pos": [
+    38.611537917685666,
+    -175.9427187701648
+   ],
+   "size": [
+    720,
+    221
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## sdxl-base-art.json\n\nSDXL base art\n\n**Does:** prompt -> still image with SDXL (RealVisXL_V5.0_fp16 is the default checkpoint).\n**Knobs:** `cfg` and `steps` \u2014 **cfg 7 / 20 steps** is the value point; cfg 3 washes out, cfg 9\nover-burns, 30 steps buys nothing over 20.\n**Trap:** SDXL will not reliably give a full-body **solo** figure at 1024\u00b2 \u2014 say \"solo, single\nfigure, full body\" or you get a two-view sheet or a bust.\n**Note:** SDXL is now a **niche pick** \u2014 `z-image-turbo.json` is the modern, licence-clean\nbase model. Kept because the canonical asset set (E1d) came from here.\n\n---\n*How to run it: story **S1** in `HOWTO.md`  \u00b7  Why it is this way: **E1/E1c/E1d** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "widgets_values_named": {
+    "text": "## sdxl-base-art.json\n\nSDXL base art\n\n**Does:** prompt -> still image with SDXL (RealVisXL_V5.0_fp16 is the default checkpoint).\n**Knobs:** `cfg` and `steps` \u2014 **cfg 7 / 20 steps** is the value point; cfg 3 washes out, cfg 9\nover-burns, 30 steps buys nothing over 20.\n**Trap:** SDXL will not reliably give a full-body **solo** figure at 1024\u00b2 \u2014 say \"solo, single\nfigure, full body\" or you get a two-view sheet or a bust.\n**Note:** SDXL is now a **niche pick** \u2014 `z-image-turbo.json` is the modern, licence-clean\nbase model. Kept because the canonical asset set (E1d) came from here.\n\n---\n*How to run it: story **S1** in `HOWTO.md`  \u00b7  Why it is this way: **E1/E1c/E1d** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#332922",
+   "bgcolor": "#593930"
+  },
+  {
+   "id": 4,
+   "type": "EmptyLatentImage",
+   "pos": [
+    92.72386863993592,
+    288.61208169946957
+   ],
+   "size": [
+    242.4963284442756,
+    122.63616018261294
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      7
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "EmptyLatentImage"
+   },
+   "widgets_values": [
+    1024,
+    1024,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 1024,
+    "height": 1024,
+    "batch_size": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    120
+    419.36753765570046,
+    143.72574759215772
    ],
    "size": [
     420,
     100
    ],
    "flags": {},
-   "order": 1,
+   "order": 3,
    "mode": 0,
    "inputs": [
     {
@@ -76,32 +154,39 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       4
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
     "heroic fantasy knight, intricate armor, cinematic lighting, highly detailed digital painting"
-   ]
+   ],
+   "widgets_values_named": {
+    "text": "heroic fantasy knight, intricate armor, cinematic lighting, highly detailed digital painting"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    380
+    433.42728959317617,
+    329.91231808787427
    ],
    "size": [
     420,
     100
    ],
    "flags": {},
-   "order": 2,
+   "order": 4,
    "mode": 0,
    "inputs": [
     {
@@ -114,52 +199,25 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       5
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
     "blurry, lowres, text, watermark, jpeg artifacts"
-   ]
-  },
-  {
-   "id": 4,
-   "type": "EmptyLatentImage",
-   "pos": [
-    40,
-    380
    ],
-   "size": [
-    420,
-    120
-   ],
-   "flags": {},
-   "order": 3,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "links": [
-      7
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "EmptyLatentImage"
+   "widgets_values_named": {
+    "text": "blurry, lowres, text, watermark, jpeg artifacts"
    },
-   "widgets_values": [
-    1024,
-    1024,
-    1
-   ]
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
@@ -170,10 +228,10 @@
    ],
    "size": [
     320,
-    260
+    262
    ],
    "flags": {},
-   "order": 4,
+   "order": 5,
    "mode": 0,
    "inputs": [
     {
@@ -201,24 +259,35 @@
     {
      "name": "LATENT",
      "type": "LATENT",
+     "slot_index": 0,
      "links": [
       8
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "KSampler"
    },
    "widgets_values": [
     12345,
     "fixed",
     25,
-    7.0,
+    7,
     "euler",
     "normal",
-    1.0
-   ]
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 12345,
+    "control_after_generate": "fixed",
+    "steps": 25,
+    "cfg": 7,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 1
+   }
   },
   {
    "id": 6,
@@ -228,11 +297,11 @@
     120
    ],
    "size": [
-    240,
-    120
+    225,
+    95.39550812701923
    ],
    "flags": {},
-   "order": 5,
+   "order": 6,
    "mode": 0,
    "inputs": [
     {
@@ -250,30 +319,31 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       9
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 7,
    "type": "SaveImage",
    "pos": [
-    1800,
-    120
+    1660.2817346957968,
+    117.36381327218982
    ],
    "size": [
     360,
     260
    ],
    "flags": {},
-   "order": 6,
+   "order": 7,
    "mode": 0,
    "inputs": [
     {
@@ -282,36 +352,24 @@
      "link": 9
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveImage"
    },
    "widgets_values": [
     "2D/sdxl"
-   ]
-  },
-  {
-   "id": 8,
-   "type": "MarkdownNote",
-   "pos": [
-    -900,
-    -434
    ],
-   "size": [
-    720,
-    221
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "properties": {},
-   "widgets_values": [
-    "## sdxl-base-art.json\n\nSDXL base art\n\n**Does:** prompt -> still image with SDXL (RealVisXL_V5.0_fp16 is the default checkpoint).\n**Knobs:** `cfg` and `steps` \u2014 **cfg 7 / 20 steps** is the value point; cfg 3 washes out, cfg 9\nover-burns, 30 steps buys nothing over 20.\n**Trap:** SDXL will not reliably give a full-body **solo** figure at 1024\u00b2 \u2014 say \"solo, single\nfigure, full body\" or you get a two-view sheet or a bust.\n**Note:** SDXL is now a **niche pick** \u2014 `z-image-turbo.json` is the modern, licence-clean\nbase model. Kept because the canonical asset set (E1d) came from here.\n\n---\n*How to run it: story **S1** in `HOWTO.md`  \u00b7  Why it is this way: **E1/E1c/E1d** in the scenarios' `EXPERIMENTS` logs.*"
-   ],
-   "color": "#332922",
-   "bgcolor": "#593930"
+   "widgets_values_named": {
+    "filename_prefix": "2D/sdxl"
+   }
   }
  ],
  "links": [
@@ -390,6 +448,15 @@
  ],
  "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.9104036034951007,
+   "offset": [
+    49.06204280207757,
+    207.4999069589091
+   ]
+  },
+  "frontendVersion": "1.53.6"
+ },
  "version": 0.4
 }
