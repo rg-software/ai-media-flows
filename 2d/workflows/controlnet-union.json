@@ -1,13 +1,15 @@
 {
- "last_node_id": 14,
- "last_link_id": 19,
+ "id": "6911d242-836f-4b49-bb9d-8e0829100192",
+ "revision": 0,
+ "last_node_id": 20,
+ "last_link_id": 23,
  "nodes": [
   {
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    40,
-    120
+    -1110.9230944473684,
+    195.0790755695738
    ],
    "size": [
     320,
@@ -21,33 +23,67 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       1,
       2
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "MASK",
      "type": "MASK",
-     "links": [],
-     "slot_index": 1
+     "slot_index": 1,
+     "links": []
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/env_cottage.png",
+    "env_cottage.png",
     "image"
-   ]
+   ],
+   "widgets_values_named": {
+    "image": "env_cottage.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 14,
+   "type": "MarkdownNote",
+   "pos": [
+    -1200,
+    -220
+   ],
+   "size": [
+    720,
+    200
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## controlnet-union.json\n\nControlNet-Union SDXL\n\nU6b - ControlNet-Union SDXL (xinsir, Apache-2.0 repack, 2.34 GB): ONE model for many modes via SetUnionControlNetType. GOTCHA (cost real debugging time): the `type` strings are GROUPED, not per-model - 'canny' is INVALID and the error is only in the server log: valid values are ['auto','openpose','depth','hed/pidi/scribble/ted','canny/lineart/anime_lineart/mlsd','normal','segment','tile','repaint']. Worse, ComfyUI reported status='success' while printing 'Output will be ignored' ONLY to the journal - a 3 s 'successful' run that produced no image. When a run succeeds suspiciously fast and saves nothing, check `journalctl --user -u comfyui`, not the API status. VERDICT: union/canny matched the specialist xinsir-canny-sdxl-v2 visually on the same seed (both restyled the cottage to a gothic mansion preserving roofline/dormers/chimney/door), and the same 2.34 GB file also did depth - replacing three specialist SD1.5 CNs plus the SDXL canny. NOTE: a raw edge-IoU metric said specialist 16% vs union 1.5%, but that was confounded by brightness (the union output is far darker, so a fixed gradient threshold finds fewer edges) - the images agree, the metric lied. To run depth instead, point SetUnionControlNetType at 'depth' and feed DepthAnythingV2Preprocessor.\n\n---\n*How to run it: story **S2** in `HOWTO.md`  \u00b7  Why it is this way: **U6b** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "widgets_values_named": {
+    "text": "## controlnet-union.json\n\nControlNet-Union SDXL\n\nU6b - ControlNet-Union SDXL (xinsir, Apache-2.0 repack, 2.34 GB): ONE model for many modes via SetUnionControlNetType. GOTCHA (cost real debugging time): the `type` strings are GROUPED, not per-model - 'canny' is INVALID and the error is only in the server log: valid values are ['auto','openpose','depth','hed/pidi/scribble/ted','canny/lineart/anime_lineart/mlsd','normal','segment','tile','repaint']. Worse, ComfyUI reported status='success' while printing 'Output will be ignored' ONLY to the journal - a 3 s 'successful' run that produced no image. When a run succeeds suspiciously fast and saves nothing, check `journalctl --user -u comfyui`, not the API status. VERDICT: union/canny matched the specialist xinsir-canny-sdxl-v2 visually on the same seed (both restyled the cottage to a gothic mansion preserving roofline/dormers/chimney/door), and the same 2.34 GB file also did depth - replacing three specialist SD1.5 CNs plus the SDXL canny. NOTE: a raw edge-IoU metric said specialist 16% vs union 1.5%, but that was confounded by brightness (the union output is far darker, so a fixed gradient threshold finds fewer edges) - the images agree, the metric lied. To run depth instead, point SetUnionControlNetType at 'depth' and feed DepthAnythingV2Preprocessor.\n\n---\n*How to run it: story **S2** in `HOWTO.md`  \u00b7  Why it is this way: **U6b** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#332922",
+   "bgcolor": "#593930"
   },
   {
    "id": 2,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    40,
-    380
+    -206.2061352256939,
+    431.12362813663583
    ],
    "size": [
     360,
@@ -61,125 +97,134 @@
     {
      "name": "MODEL",
      "type": "MODEL",
+     "slot_index": 0,
      "links": [
       9
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "CLIP",
      "type": "CLIP",
+     "slot_index": 1,
      "links": [
       5,
       6
-     ],
-     "slot_index": 1
+     ]
     },
     {
      "name": "VAE",
      "type": "VAE",
+     "slot_index": 2,
      "links": [
       12
-     ],
-     "slot_index": 2
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
    "widgets_values": [
     "RealVisXL_V5.0_fp16.safetensors"
-   ]
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+   }
   },
   {
-   "id": 3,
-   "type": "CLIPTextEncode",
+   "id": 7,
+   "type": "ControlNetLoader",
    "pos": [
-    480,
-    120
+    -694.2037569090942,
+    545.5688353015752
    ],
    "size": [
-    460,
-    140
+    420,
+    60
    ],
    "flags": {},
    "order": 2,
    "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 5
-    }
-   ],
+   "inputs": [],
    "outputs": [
     {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
+     "name": "CONTROL_NET",
+     "type": "CONTROL_NET",
+     "slot_index": 0,
      "links": [
-      7
-     ],
-     "slot_index": 0
+      14
+     ]
     }
    ],
    "properties": {
-    "Node name for S&R": "CLIPTextEncode"
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ControlNetLoader"
    },
    "widgets_values": [
-    "gothic mansion, stone spires, dark ivy, moody overcast sky, environment concept art, highly detailed digital painting"
-   ]
+    "controlnet-union-sdxl.safetensors"
+   ],
+   "widgets_values_named": {
+    "control_net_name": "controlnet-union-sdxl.safetensors"
+   }
   },
   {
-   "id": 4,
-   "type": "CLIPTextEncode",
+   "id": 10,
+   "type": "EmptyLatentImage",
    "pos": [
-    480,
-    380
+    395.4088737271775,
+    530.5751009714936
    ],
    "size": [
-    460,
-    120
+    300,
+    106
    ],
    "flags": {},
    "order": 3,
    "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 6
-    }
-   ],
+   "inputs": [],
    "outputs": [
     {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
      "links": [
-      8
-     ],
-     "slot_index": 0
+      17
+     ]
     }
    ],
    "properties": {
-    "Node name for S&R": "CLIPTextEncode"
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "EmptyLatentImage"
    },
    "widgets_values": [
-    "blurry, lowres, text, watermark, jpeg artifacts, deformed"
-   ]
+    1024,
+    1024,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 1024,
+    "height": 1024,
+    "batch_size": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
    "type": "CannyEdgePreprocessor",
    "pos": [
-    480,
-    640
+    -663.8462888947618,
+    139.1008475754051
    ],
    "size": [
     300,
     160
    ],
    "flags": {},
-   "order": 4,
+   "order": 5,
    "mode": 0,
    "inputs": [
     {
@@ -192,34 +237,41 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
-      3
-     ],
-     "slot_index": 0
+      21
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui_controlnet_aux",
+    "ver": "59b1fc411ede8623b2997855b8018f0b3b6cf49f",
     "Node name for S&R": "CannyEdgePreprocessor"
    },
    "widgets_values": [
     100,
     200,
     1024
-   ]
+   ],
+   "widgets_values_named": {
+    "low_threshold": 100,
+    "high_threshold": 200,
+    "resolution": 1024
+   }
   },
   {
    "id": 6,
    "type": "DepthAnythingV2Preprocessor",
    "pos": [
-    480,
-    900
+    -660.6482432714567,
+    370.9843933841245
    ],
    "size": [
     300,
-    80
+    82
    ],
    "flags": {},
-   "order": 5,
+   "order": 6,
    "mode": 0,
    "inputs": [
     {
@@ -232,60 +284,129 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
-     "links": [],
-     "slot_index": 0
+     "slot_index": 0,
+     "links": [
+      22
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui_controlnet_aux",
+    "ver": "59b1fc411ede8623b2997855b8018f0b3b6cf49f",
     "Node name for S&R": "DepthAnythingV2Preprocessor"
    },
-   "widgets_values": []
+   "widgets_values": [
+    "depth_anything_v2_vitl.pth",
+    512
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "depth_anything_v2_vitl.pth",
+    "resolution": 512
+   }
   },
   {
-   "id": 7,
-   "type": "ControlNetLoader",
+   "id": 3,
+   "type": "CLIPTextEncode",
    "pos": [
-    40,
-    640
+    271.78857265152055,
+    123.2805934469306
    ],
    "size": [
-    420,
-    60
+    460,
+    140
    ],
    "flags": {},
-   "order": 6,
+   "order": 7,
    "mode": 0,
-   "inputs": [],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 5
+    }
+   ],
    "outputs": [
     {
-     "name": "CONTROL_NET",
-     "type": "CONTROL_NET",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
-      14
-     ],
-     "slot_index": 0
+      7
+     ]
     }
    ],
    "properties": {
-    "Node name for S&R": "ControlNetLoader"
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
-    "controlnet-union-sdxl.safetensors"
-   ]
+    "gothic mansion, stone spires, dark ivy, moody overcast sky, environment concept art, highly detailed digital painting"
+   ],
+   "widgets_values_named": {
+    "text": "gothic mansion, stone spires, dark ivy, moody overcast sky, environment concept art, highly detailed digital painting"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 4,
+   "type": "CLIPTextEncode",
+   "pos": [
+    251.76542293923524,
+    334.2241038877379
+   ],
+   "size": [
+    460,
+    120
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "blurry, lowres, text, watermark, jpeg artifacts, deformed"
+   ],
+   "widgets_values_named": {
+    "text": "blurry, lowres, text, watermark, jpeg artifacts, deformed"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 8,
    "type": "SetUnionControlNetType",
    "pos": [
-    480,
-    1160
+    -212.7969852760247,
+    260.9657680628781
    ],
    "size": [
     400,
     60
    ],
    "flags": {},
-   "order": 7,
+   "order": 9,
    "mode": 0,
    "inputs": [
     {
@@ -298,32 +419,91 @@
     {
      "name": "CONTROL_NET",
      "type": "CONTROL_NET",
+     "slot_index": 0,
      "links": [
       13
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SetUnionControlNetType"
    },
    "widgets_values": [
     "canny/lineart/anime_lineart/mlsd"
-   ]
+   ],
+   "widgets_values_named": {
+    "type": "canny/lineart/anime_lineart/mlsd"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 20,
+   "type": "ComfySwitchNode",
+   "pos": [
+    -186.73896259711415,
+    78.4590966830608
+   ],
+   "size": [
+    360,
+    120
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "on_false",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 21
+    },
+    {
+     "name": "on_true",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 22
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      23
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "If/Else Switch"
+   },
+   "widgets_values": [
+    false
+   ],
+   "widgets_values_named": {
+    "switch": false
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 9,
    "type": "ControlNetApplyAdvanced",
    "pos": [
-    920,
-    120
+    823.9175006894168,
+    117.27364089506321
    ],
    "size": [
     320,
-    180
+    186
    ],
    "flags": {},
-   "order": 8,
+   "order": 11,
    "mode": 0,
    "inputs": [
     {
@@ -344,83 +524,62 @@
     {
      "name": "image",
      "type": "IMAGE",
-     "link": 3
+     "link": 23
+    },
+    {
+     "name": "vae",
+     "shape": 7,
+     "type": "VAE",
+     "link": null
     }
    ],
    "outputs": [
     {
      "name": "positive",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       15
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
+     "slot_index": 1,
      "links": [
       16
-     ],
-     "slot_index": 1
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ControlNetApplyAdvanced"
    },
    "widgets_values": [
     0.8,
-    0.0,
-    1.0
-   ]
-  },
-  {
-   "id": 10,
-   "type": "EmptyLatentImage",
-   "pos": [
-    40,
-    900
-   ],
-   "size": [
-    300,
-    100
-   ],
-   "flags": {},
-   "order": 9,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "links": [
-      17
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "EmptyLatentImage"
-   },
-   "widgets_values": [
-    1024,
-    1024,
+    0,
     1
-   ]
+   ],
+   "widgets_values_named": {
+    "strength": 0.8,
+    "start_percent": 0,
+    "end_percent": 1
+   }
   },
   {
    "id": 11,
    "type": "KSampler",
    "pos": [
-    1360,
-    120
+    1286.9440216526364,
+    208.37843550369453
    ],
    "size": [
     320,
     300
    ],
    "flags": {},
-   "order": 10,
+   "order": 12,
    "mode": 0,
    "inputs": [
     {
@@ -448,38 +607,49 @@
     {
      "name": "LATENT",
      "type": "LATENT",
+     "slot_index": 0,
      "links": [
       18
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "KSampler"
    },
    "widgets_values": [
     2202,
     "randomize",
     25,
-    7.0,
+    7,
     "euler",
     "normal",
-    1.0
-   ]
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 2202,
+    "control_after_generate": "randomize",
+    "steps": 25,
+    "cfg": 7,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 1
+   }
   },
   {
    "id": 12,
    "type": "VAEDecode",
    "pos": [
-    1800,
-    120
+    1687.871033771195,
+    233.13025547305435
    ],
    "size": [
     220,
     60
    ],
    "flags": {},
-   "order": 11,
+   "order": 13,
    "mode": 0,
    "inputs": [
     {
@@ -497,30 +667,31 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       19
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 13,
    "type": "SaveImage",
    "pos": [
-    2240,
-    120
+    2006.7316100714072,
+    242.14052198949344
    ],
    "size": [
     400,
     300
    ],
    "flags": {},
-   "order": 12,
+   "order": 14,
    "mode": 0,
    "inputs": [
     {
@@ -529,36 +700,24 @@
      "link": 19
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveImage"
    },
    "widgets_values": [
     "2D/U6b/union_canny"
-   ]
-  },
-  {
-   "id": 14,
-   "type": "MarkdownNote",
-   "pos": [
-    -1200,
-    -220
    ],
-   "size": [
-    720,
-    200
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "properties": {},
-   "widgets_values": [
-    "## controlnet-union.json\n\nControlNet-Union SDXL\n\nU6b - ControlNet-Union SDXL (xinsir, Apache-2.0 repack, 2.34 GB): ONE model for many modes via SetUnionControlNetType. GOTCHA (cost real debugging time): the `type` strings are GROUPED, not per-model - 'canny' is INVALID and the error is only in the server log: valid values are ['auto','openpose','depth','hed/pidi/scribble/ted','canny/lineart/anime_lineart/mlsd','normal','segment','tile','repaint']. Worse, ComfyUI reported status='success' while printing 'Output will be ignored' ONLY to the journal - a 3 s 'successful' run that produced no image. When a run succeeds suspiciously fast and saves nothing, check `journalctl --user -u comfyui`, not the API status. VERDICT: union/canny matched the specialist xinsir-canny-sdxl-v2 visually on the same seed (both restyled the cottage to a gothic mansion preserving roofline/dormers/chimney/door), and the same 2.34 GB file also did depth - replacing three specialist SD1.5 CNs plus the SDXL canny. NOTE: a raw edge-IoU metric said specialist 16% vs union 1.5%, but that was confounded by brightness (the union output is far darker, so a fixed gradient threshold finds fewer edges) - the images agree, the metric lied. To run depth instead, point SetUnionControlNetType at 'depth' and feed DepthAnythingV2Preprocessor.\n\n---\n*How to run it: story **S2** in `HOWTO.md`  \u00b7  Why it is this way: **U6b** in the scenarios' `EXPERIMENTS` logs.*"
-   ],
-   "color": "#332922",
-   "bgcolor": "#593930"
+   "widgets_values_named": {
+    "filename_prefix": "2D/U6b/union_canny"
+   }
   }
  ],
  "links": [
@@ -576,14 +735,6 @@
    0,
    6,
    0,
-   "IMAGE"
-  ],
-  [
-   3,
-   5,
-   0,
-   9,
-   3,
    "IMAGE"
   ],
   [
@@ -689,23 +840,43 @@
    13,
    0,
    "IMAGE"
+  ],
+  [
+   23,
+   20,
+   0,
+   9,
+   3,
+   "IMAGE"
+  ],
+  [
+   21,
+   5,
+   0,
+   20,
+   0,
+   "IMAGE"
+  ],
+  [
+   22,
+   6,
+   0,
+   20,
+   1,
+   "IMAGE"
   ]
  ],
- "groups": [
-  {
-   "title": "ControlNet-Union SDXL",
-   "bounding": [
-    -1260,
-    -80,
-    2960,
-    900
-   ],
-   "color": "#3f9e6b",
-   "font_size": 22,
-   "flags": {}
-  }
- ],
+ "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.5457821558855677,
+   "offset": [
+    1216.7166459939208,
+    492.9947477168431
+   ]
+  },
+  "frontendVersion": "1.59.1"
+ },
  "version": 0.4
 }

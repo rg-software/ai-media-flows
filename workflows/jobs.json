@@ -46,7 +46,7 @@
   },
   {
    "want": "Control composition from an existing image",
-   "detail": "`2d/workflows/controlnet-union.json` (one model, many modes) · `2d/workflows/sdxl-controlnet-canny.json` (canny only)",
+   "detail": "`2d/workflows/controlnet-union.json` (canny = edges, depth = volume; one constraint per run)",
    "story": "S2",
    "category": "2d"
   },
@@ -439,9 +439,6 @@
   },
   "sdxl-base-art.json": {
    "story": "S1"
-  },
-  "sdxl-controlnet-canny.json": {
-   "story": "S2"
   },
   "seamless-texture.json": {
    "story": "S11"

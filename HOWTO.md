@@ -53,20 +53,26 @@
 | Legible rendered text               | `qwen-image-base.json` (1328²)                             | 20 steps, cfg 2.5, shift 3.1      | Posters, signs, UI; full multi-line text verified (E36); higher canvases unmeasured here                                                                        |
 | Small output (icons, props)         | Any of the above, then downscale                           | —                                 | Never generate small — detail comes from the large canvas                                                                                                       |
 | Large output (past ~2 MP)           | Generate ~1 MP, upscale (S10) or outpaint in tiles (S5)    | —                                 | 1024² SDXL/schnell, 1328² Qwen; past 2 MP the priors smear                                                                                                      |
-*Canvas legend: plain size = measured or native; `*` = unmeasured — treat limits as SDXL until swept.*
+
 - *Knobs:* value points live in the table; two rules travel — change one knob at a time (sweep into labeled grids), and guidance is not a quality dial on distilled models.
 - *Expect:* 1024² SDXL/schnell, 1328² Qwen. Never generate base art below ~0.75 MP — small latents make mush no upscaler honestly restores. For a **solo full-body** character, say so explicitly — all base models lean bust or sheet without it.
 
 ### S2. Control composition from an existing image
 
-- *When:* you have a sketch, a screenshot, or an asset whose *layout* you want to keep but whose content/style you want to replace.
-- *Steps:* `2d/workflows/controlnet-union.json` — one 2.34 GB model covering many modes; pick the mode with `SetUnionControlNetType` and feed the matching preprocessed image (`CannyEdgePreprocessor`, `DepthAnythingV2Preprocessor`, …). Canny-only: `2d/workflows/sdxl-controlnet-canny.json`.
-- *Knobs:* `strength` ≈ 0.8 holds structure while freeing style.
-- *Trap:* the union `type` strings are **grouped** — `"canny"` is invalid, use `"canny/lineart/anime_lineart/mlsd"`. A bad value **fails silently**.
+- *When:* you have a reference whose **geometry** you must keep, but whose content/style should become something else - theme re-skins of a fixed layout, art-direction reroutes, style transfer with geometry held, game-screenshot ideation. *Wrong tool for:* adding or removing a detail in an otherwise-fine image (S5), tiling textures (S9), fresh content with no reference (S1). Pose from a reference pose is its own story (S16).
+- *Steps:* `2d/workflows/controlnet-union.json` - load the reference into the single `LoadImage`; flip the If/Else switch (false = canny, true = depth), and set `SetUnionControlNetType` to the matching mode.
+
+| Constraint          | Type string                                          | Keeps                                                                                                                                                                    |
+| ------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Composition (edges) | `canny/`<br>`lineart/`<br>`anime_lineart/`<br>`mlsd` | Layout of things: rooflines, doorways, horizons, silhouettes                                                                                                             |
+| Shape (volume)      | `depth`                                              | Spatial arrangement: mass, foreground/background, object placement - surfaces re-imagine freely; measured alongside canny in U6b (re-imagines the mass, keeps placement) |
+
+- *One constraint per generation:* the flow applies a single mode (`canny` **or** `depth` - never both; combining them is unmeasured here). The mode is the decision: pick by what must survive. Structure also beats prompt nouns - the "gothic mansion" prompt on the cottage reference produced a cottage-shaped mansion.
+- *Knobs:* `strength` - 0.8 measured as the balance point (holds structure, frees style); 0.9+ slavishly follows edges, 0.7 lets the composition loosen toward the prompt. Lower `denoise`-style integration does not apply here: this flow generates a fresh image guided by the control, it does not edit the original pixels.
 
 ### S3. Cut an object out, or mask it by description
 
-- *When:* you need a transparent PNG, or a mask to feed an edit.
+- *When:* you need a transparent PNG, or a mask to feed an edit. The two flows differ in *who identifies the target*: SAM3 is language-driven - you name the thing ("the roof", "the second knight"), so it works in multi-subject scenes and on scene parts; BiRefNet is salience-driven - no prompt, it cuts the single most salient subject, and in a two-subject scene it is a coin flip. Polarity differs too: SAM3 masks white on the named target (inpaint convention), BiRefNet white on the subject (alpha convention) - invert when the consumer disagrees.
 - *Steps:* **by description** (recommended): `2d/workflows/sam3-segment.json` — type "the knight in silver armor" and get an outline-accurate mask, even in a two-subject scene. **By subject isolation:** `2d/workflows/remove-bg.json` (BiRefNet).
 - *Trap:* MASK is **1 = transparent/selected**, and `RemoveBackground` returns 1 on the *foreground* — insert `InvertMask` or you get a perfectly inverted cutout.
 

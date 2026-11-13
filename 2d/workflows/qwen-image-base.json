@@ -1,578 +1,578 @@
 {
-  "id": "addaf33d-0b4e-46e6-80c6-38ae09cd4712",
-  "revision": 0,
-  "last_node_id": 69,
-  "last_link_id": 128,
-  "nodes": [
+ "id": "addaf33d-0b4e-46e6-80c6-38ae09cd4712",
+ "revision": 0,
+ "last_node_id": 69,
+ "last_link_id": 128,
+ "nodes": [
+  {
+   "id": 39,
+   "type": "VAELoader",
+   "pos": [
+    848.6281892057111,
+    506.87159854279366
+   ],
+   "size": [
+    330,
+    60
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
     {
-      "id": 39,
-      "type": "VAELoader",
-      "pos": [
-        848.6281892057111,
-        506.87159854279366
-      ],
-      "size": [
-        330,
-        60
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "VAE",
-          "type": "VAE",
-          "links": [
-            76
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "VAELoader"
-      },
-      "widgets_values": [
-        "qwen_image_vae.safetensors"
-      ],
-      "widgets_values_named": {
-        "vae_name": "qwen_image_vae.safetensors"
-      },
-      "color": "#223",
-      "bgcolor": "#335"
-    },
-    {
-      "id": 8,
-      "type": "VAEDecode",
-      "pos": [
-        1210,
-        190
-      ],
-      "size": [
-        210,
-        46
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 128
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 76
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            110
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 60,
-      "type": "SaveImage",
-      "pos": [
-        1478.3486328125,
-        190.30274963378906
-      ],
-      "size": [
-        533.9532037968847,
-        454.12282655118673
-      ],
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 110
-        }
-      ],
-      "outputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "links": null
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "SaveImage"
-      },
-      "widgets_values": [
-        "ComfyUI"
-      ],
-      "widgets_values_named": {
-        "filename_prefix": "ComfyUI"
-      }
-    },
-    {
-      "id": 58,
-      "type": "EmptySD3LatentImage",
-      "pos": [
-        429.27828731901275,
-        553.2251846347746
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            107
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "EmptySD3LatentImage"
-      },
-      "widgets_values": [
-        1328,
-        1328,
-        1
-      ],
-      "widgets_values_named": {
-        "width": 1328,
-        "height": 1328,
-        "batch_size": 1
-      },
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 7,
-      "type": "CLIPTextEncode",
-      "pos": [
-        430.90465254380274,
-        406.90467121308643
-      ],
-      "size": [
-        225,
-        102.00000015763337
-      ],
-      "flags": {},
-      "order": 7,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 75
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            52
-          ]
-        }
-      ],
-      "title": "CLIP Text Encode (Negative Prompt)",
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        " "
-      ],
-      "widgets_values_named": {
-        "text": " "
-      },
-      "color": "#322",
-      "bgcolor": "#533"
-    },
-    {
-      "id": 37,
-      "type": "UNETLoader",
-      "pos": [
-        -10.079853102057186,
-        92.2284628242758
-      ],
-      "size": [
-        346.7470703125,
-        82
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            126
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "UNETLoader"
-      },
-      "widgets_values": [
-        "qwen_image_2512_fp8_e4m3fn.safetensors",
-        "default"
-      ],
-      "widgets_values_named": {
-        "unet_name": "qwen_image_2512_fp8_e4m3fn.safetensors",
-        "weight_dtype": "default"
-      },
-      "color": "#223",
-      "bgcolor": "#335"
-    },
-    {
-      "id": 38,
-      "type": "CLIPLoader",
-      "pos": [
-        -19.39024934842999,
-        237.98455163550375
-      ],
-      "size": [
-        380,
-        106
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "links": [
-            74,
-            75
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "CLIPLoader"
-      },
-      "widgets_values": [
-        "qwen_2.5_vl_7b_fp8_scaled.safetensors",
-        "qwen_image",
-        "default"
-      ],
-      "widgets_values_named": {
-        "clip_name": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
-        "type": "qwen_image",
-        "device": "default"
-      },
-      "color": "#223",
-      "bgcolor": "#335"
-    },
-    {
-      "id": 66,
-      "type": "ModelSamplingAuraFlow",
-      "pos": [
-        411.0679593956248,
-        60.23152750013088
-      ],
-      "size": [
-        270,
-        82
-      ],
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 126
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            125
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "ModelSamplingAuraFlow"
-      },
-      "widgets_values": [
-        3.1000000000000005,
-        "flow"
-      ],
-      "widgets_values_named": {
-        "shift": 3.1000000000000005,
-        "sampling": "flow"
-      }
-    },
-    {
-      "id": 6,
-      "type": "CLIPTextEncode",
-      "pos": [
-        409.9867139166239,
-        194.5942476463535
-      ],
-      "size": [
-        422.84503173828125,
-        164.31304931640625
-      ],
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 74
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            46
-          ]
-        }
-      ],
-      "title": "CLIP Text Encode (Positive Prompt)",
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        "cute anime girl with massive fennec ears and a big fluffy fox tail with long wavy blonde hair between eyes and large blue eyes blonde colored eyelashes chubby wearing oversized clothes summer uniform long blue maxi skirt muddy clothes happy sitting on the side of the road in a run down dark gritty cyberpunk city with neon and a crumbling skyscraper in the rain at night while dipping her feet in a river of water she is holding a sign that says \"ComfyUI is the best\" written in cursive"
-      ],
-      "widgets_values_named": {
-        "text": "cute anime girl with massive fennec ears and a big fluffy fox tail with long wavy blonde hair between eyes and large blue eyes blonde colored eyelashes chubby wearing oversized clothes summer uniform long blue maxi skirt muddy clothes happy sitting on the side of the road in a run down dark gritty cyberpunk city with neon and a crumbling skyscraper in the rain at night while dipping her feet in a river of water she is holding a sign that says \"ComfyUI is the best\" written in cursive"
-      },
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 3,
-      "type": "KSampler",
-      "pos": [
-        863,
-        187
-      ],
-      "size": [
-        315,
-        262
-      ],
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 125
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 46
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 52
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 107
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            128
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.37.0",
-        "Node name for S&R": "KSampler"
-      },
-      "widgets_values": [
-        1091359629774730,
-        "randomize",
-        20,
-        2.5,
-        "euler",
-        "simple",
-        1
-      ],
-      "widgets_values_named": {
-        "seed": 1091359629774730,
-        "control_after_generate": "randomize",
-        "steps": 20,
-        "cfg": 2.5,
-        "sampler_name": "euler",
-        "scheduler": "simple",
-        "denoise": 1
-      }
-    },
-    {
-      "id": 69,
-      "type": "MarkdownNote",
-      "pos": [
-        34.98668659626378,
-        -227.6651255670949
-      ],
-      "size": [
-        1200,
-        220
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [],
-      "properties": {
-        "Node name for S&R": "MarkdownNote"
-      },
-      "widgets_values": [
-        "## qwen-image-base.json\n\nQwen-Image base T2I (fp8): UNET + Qwen2.5-VL text encoder + Qwen VAE.\nGraph from the official ComfyUI_examples qwen_image example. 20 steps\ncfg 2.5, AuraFlow shift 3.1, 1328 native, blank-space negative. The draw\nis legible rendered text.\n---\n*How to run it: story **S1** in `HOWTO.md`  ·  Why it is this way: **E35/E36** in the scenarios' `EXPERIMENTS` logs.*"
-      ],
-      "widgets_values_named": {
-        "text": "## qwen-image-base.json\n\nQwen-Image base T2I (fp8): UNET + Qwen2.5-VL text encoder + Qwen VAE.\nGraph from the official ComfyUI_examples qwen_image example. 20 steps\ncfg 2.5, AuraFlow shift 3.1, 1328 native, blank-space negative. The draw\nis legible rendered text.\n---\n*How to run it: story **S1** in `HOWTO.md`  ·  Why it is this way: **E35/E36** in the scenarios' `EXPERIMENTS` logs.*"
-      },
-      "color": "#432",
-      "bgcolor": "#653"
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      76
+     ]
     }
-  ],
-  "links": [
-    [
-      46,
-      6,
-      0,
-      3,
-      1,
-      "CONDITIONING"
-    ],
-    [
-      52,
-      7,
-      0,
-      3,
-      2,
-      "CONDITIONING"
-    ],
-    [
-      74,
-      38,
-      0,
-      6,
-      0,
-      "CLIP"
-    ],
-    [
-      75,
-      38,
-      0,
-      7,
-      0,
-      "CLIP"
-    ],
-    [
-      76,
-      39,
-      0,
-      8,
-      1,
-      "VAE"
-    ],
-    [
-      107,
-      58,
-      0,
-      3,
-      3,
-      "LATENT"
-    ],
-    [
-      110,
-      8,
-      0,
-      60,
-      0,
-      "IMAGE"
-    ],
-    [
-      125,
-      66,
-      0,
-      3,
-      0,
-      "MODEL"
-    ],
-    [
-      126,
-      37,
-      0,
-      66,
-      0,
-      "MODEL"
-    ],
-    [
-      128,
-      3,
-      0,
-      8,
-      0,
-      "LATENT"
-    ]
-  ],
-  "groups": [],
-  "config": {},
-  "extra": {
-    "ds": {
-      "scale": 0.5211013088794012,
-      "offset": [
-        398.0617257093444,
-        585.6576051068399
-      ]
-    },
-    "frontendVersion": "1.53.6"
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ],
+   "widgets_values_named": {
+    "vae_name": "qwen_image_vae.safetensors"
+   },
+   "color": "#223",
+   "bgcolor": "#335"
   },
-  "version": 0.4
+  {
+   "id": 69,
+   "type": "MarkdownNote",
+   "pos": [
+    34.98668659626378,
+    -227.6651255670949
+   ],
+   "size": [
+    1200,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "widgets_values": [
+    "## qwen-image-base.json\n\nQwen-Image base T2I (fp8): UNET + Qwen2.5-VL text encoder + Qwen VAE.\nGraph from the official ComfyUI_examples qwen_image example. 20 steps\ncfg 2.5, AuraFlow shift 3.1, 1328 native, blank-space negative. The draw\nis legible rendered text.\n---\n*How to run it: story **S1** in `HOWTO.md`  \u00b7  Why it is this way: **E35/E36** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "widgets_values_named": {
+    "text": "## qwen-image-base.json\n\nQwen-Image base T2I (fp8): UNET + Qwen2.5-VL text encoder + Qwen VAE.\nGraph from the official ComfyUI_examples qwen_image example. 20 steps\ncfg 2.5, AuraFlow shift 3.1, 1328 native, blank-space negative. The draw\nis legible rendered text.\n---\n*How to run it: story **S1** in `HOWTO.md`  \u00b7  Why it is this way: **E35/E36** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
+  },
+  {
+   "id": 58,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    429.27828731901275,
+    553.2251846347746
+   ],
+   "size": [
+    270,
+    106
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      107
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "EmptySD3LatentImage"
+   },
+   "widgets_values": [
+    1328,
+    1328,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 1328,
+    "height": 1328,
+    "batch_size": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 37,
+   "type": "UNETLoader",
+   "pos": [
+    -10.079853102057186,
+    92.2284628242758
+   ],
+   "size": [
+    346.7470703125,
+    82
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      126
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "qwen_image_2512_fp8_e4m3fn.safetensors",
+    "default"
+   ],
+   "widgets_values_named": {
+    "unet_name": "qwen_image_2512_fp8_e4m3fn.safetensors",
+    "weight_dtype": "default"
+   },
+   "color": "#223",
+   "bgcolor": "#335"
+  },
+  {
+   "id": 38,
+   "type": "CLIPLoader",
+   "pos": [
+    -19.39024934842999,
+    237.98455163550375
+   ],
+   "size": [
+    380,
+    106
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      74,
+      75
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+    "qwen_image",
+    "default"
+   ],
+   "widgets_values_named": {
+    "clip_name": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+    "type": "qwen_image",
+    "device": "default"
+   },
+   "color": "#223",
+   "bgcolor": "#335"
+  },
+  {
+   "id": 66,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    411.0679593956248,
+    60.23152750013088
+   ],
+   "size": [
+    270,
+    82
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 126
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      125
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ModelSamplingAuraFlow"
+   },
+   "widgets_values": [
+    3.1000000000000005,
+    "flow"
+   ],
+   "widgets_values_named": {
+    "shift": 3.1000000000000005,
+    "sampling": "flow"
+   }
+  },
+  {
+   "id": 6,
+   "type": "CLIPTextEncode",
+   "pos": [
+    409.9867139166239,
+    194.5942476463535
+   ],
+   "size": [
+    422.84503173828125,
+    164.31304931640625
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 74
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      46
+     ]
+    }
+   ],
+   "title": "CLIP Text Encode (Positive Prompt)",
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "cute anime girl with massive fennec ears and a big fluffy fox tail with long wavy blonde hair between eyes and large blue eyes blonde colored eyelashes chubby wearing oversized clothes summer uniform long blue maxi skirt muddy clothes happy sitting on the side of the road in a run down dark gritty cyberpunk city with neon and a crumbling skyscraper in the rain at night while dipping her feet in a river of water she is holding a sign that says \"ComfyUI is the best\" written in cursive"
+   ],
+   "widgets_values_named": {
+    "text": "cute anime girl with massive fennec ears and a big fluffy fox tail with long wavy blonde hair between eyes and large blue eyes blonde colored eyelashes chubby wearing oversized clothes summer uniform long blue maxi skirt muddy clothes happy sitting on the side of the road in a run down dark gritty cyberpunk city with neon and a crumbling skyscraper in the rain at night while dipping her feet in a river of water she is holding a sign that says \"ComfyUI is the best\" written in cursive"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 7,
+   "type": "CLIPTextEncode",
+   "pos": [
+    430.90465254380274,
+    406.90467121308643
+   ],
+   "size": [
+    225,
+    102.00000015763337
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 75
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      52
+     ]
+    }
+   ],
+   "title": "CLIP Text Encode (Negative Prompt)",
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    " "
+   ],
+   "widgets_values_named": {
+    "text": " "
+   },
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 3,
+   "type": "KSampler",
+   "pos": [
+    863,
+    187
+   ],
+   "size": [
+    315,
+    262
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 125
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 46
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 52
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 107
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      128
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    1091359629774730,
+    "randomize",
+    20,
+    2.5,
+    "euler",
+    "simple",
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 1091359629774730,
+    "control_after_generate": "randomize",
+    "steps": 20,
+    "cfg": 2.5,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1
+   }
+  },
+  {
+   "id": 8,
+   "type": "VAEDecode",
+   "pos": [
+    1210,
+    190
+   ],
+   "size": [
+    210,
+    46
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 128
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 76
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      110
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "VAEDecode"
+   }
+  },
+  {
+   "id": 60,
+   "type": "SaveImage",
+   "pos": [
+    1478.3486328125,
+    190.30274963378906
+   ],
+   "size": [
+    533.9532037968847,
+    454.12282655118673
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 110
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "ComfyUI"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "ComfyUI"
+   }
+  }
+ ],
+ "links": [
+  [
+   46,
+   6,
+   0,
+   3,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   52,
+   7,
+   0,
+   3,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   74,
+   38,
+   0,
+   6,
+   0,
+   "CLIP"
+  ],
+  [
+   75,
+   38,
+   0,
+   7,
+   0,
+   "CLIP"
+  ],
+  [
+   76,
+   39,
+   0,
+   8,
+   1,
+   "VAE"
+  ],
+  [
+   107,
+   58,
+   0,
+   3,
+   3,
+   "LATENT"
+  ],
+  [
+   110,
+   8,
+   0,
+   60,
+   0,
+   "IMAGE"
+  ],
+  [
+   125,
+   66,
+   0,
+   3,
+   0,
+   "MODEL"
+  ],
+  [
+   126,
+   37,
+   0,
+   66,
+   0,
+   "MODEL"
+  ],
+  [
+   128,
+   3,
+   0,
+   8,
+   0,
+   "LATENT"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.5211013088794012,
+   "offset": [
+    398.0617257093444,
+    585.6576051068399
+   ]
+  },
+  "frontendVersion": "1.53.6"
+ },
+ "version": 0.4
 }
