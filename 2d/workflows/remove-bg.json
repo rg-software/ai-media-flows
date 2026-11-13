@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -1000,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -46,8 +46,8 @@
    "id": 2,
    "type": "LoadBackgroundRemovalModel",
    "pos": [
-    -1000,
-    400
+    40,
+    380
    ],
    "size": [
     340,
@@ -78,8 +78,8 @@
    "id": 3,
    "type": "RemoveBackground",
    "pos": [
-    -600,
-    150
+    480,
+    120
    ],
    "size": [
     300,
@@ -119,8 +119,8 @@
    "id": 7,
    "type": "InvertMask",
    "pos": [
-    -280,
-    160
+    920,
+    120
    ],
    "size": [
     220,
@@ -156,8 +156,8 @@
    "id": 4,
    "type": "SaveImageWithAlpha",
    "pos": [
-    20,
-    -60
+    1360,
+    120
    ],
    "size": [
     380,
@@ -190,8 +190,8 @@
    "id": 5,
    "type": "MaskToImage",
    "pos": [
-    -280,
-    340
+    1360,
+    380
    ],
    "size": [
     300,
@@ -226,8 +226,8 @@
    "id": 6,
    "type": "SaveImage",
    "pos": [
-    80,
-    300
+    1800,
+    120
    ],
    "size": [
     360,
@@ -269,7 +269,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## remove-bg.json\n\nCutout (BiRefNet)\n\n**Does:** subject mask / transparent cutout with BiRefNet.\n**Trap (cost real debugging time):** the MASK convention is **1 = transparent/selected**, and\n`RemoveBackground` returns 1 on the *foreground* — so you must insert **`InvertMask`** before\n`JoinImageWithAlpha`/`SaveImageWithAlpha`, or you get a perfectly inverted cutout.\n**Note:** `RemoveBackground` outputs a MASK, not an image.\n\n---\n*How to run it: story **S3** in `HOWTO.md`  ·  Why it is this way: **E3b** in the scenarios' `EXPERIMENTS` logs.*"
+    "## remove-bg.json\n\nCutout (BiRefNet)\n\n**Does:** subject mask / transparent cutout with BiRefNet.\n**Trap (cost real debugging time):** the MASK convention is **1 = transparent/selected**, and\n`RemoveBackground` returns 1 on the *foreground* \u2014 so you must insert **`InvertMask`** before\n`JoinImageWithAlpha`/`SaveImageWithAlpha`, or you get a perfectly inverted cutout.\n**Note:** `RemoveBackground` outputs a MASK, not an image.\n\n---\n*How to run it: story **S3** in `HOWTO.md`  \u00b7  Why it is this way: **E3b** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

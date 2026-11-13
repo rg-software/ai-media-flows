@@ -6,8 +6,8 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1400,
-    100
+    40,
+    120
    ],
    "size": [
     380,
@@ -53,8 +53,8 @@
    "id": 2,
    "type": "CLIPLoader",
    "pos": [
-    -1400,
-    240
+    40,
+    380
    ],
    "size": [
     380,
@@ -88,8 +88,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    -980,
-    100
+    480,
+    120
    ],
    "size": [
     400,
@@ -126,8 +126,8 @@
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    -980,
-    280
+    480,
+    380
    ],
    "size": [
     400,
@@ -164,8 +164,8 @@
    "id": 5,
    "type": "LoadImage",
    "pos": [
-    -1400,
-    420
+    40,
+    640
    ],
    "size": [
     380,
@@ -203,8 +203,8 @@
    "id": 6,
    "type": "LTXVImgToVideo",
    "pos": [
-    -540,
-    100
+    920,
+    120
    ],
    "size": [
     340,
@@ -275,8 +275,8 @@
    "id": 7,
    "type": "LTXVConditioning",
    "pos": [
-    -540,
-    360
+    1360,
+    120
    ],
    "size": [
     340,
@@ -326,8 +326,8 @@
    "id": 8,
    "type": "LTXVScheduler",
    "pos": [
-    -540,
-    480
+    40,
+    900
    ],
    "size": [
     340,
@@ -362,8 +362,8 @@
    "id": 9,
    "type": "KSamplerSelect",
    "pos": [
-    -1400,
-    880
+    40,
+    1160
    ],
    "size": [
     340,
@@ -394,8 +394,8 @@
    "id": 10,
    "type": "SamplerCustom",
    "pos": [
-    -160,
-    100
+    1800,
+    120
    ],
    "size": [
     360,
@@ -466,8 +466,8 @@
    "id": 11,
    "type": "VAEDecode",
    "pos": [
-    240,
-    100
+    2240,
+    120
    ],
    "size": [
     220,
@@ -507,8 +507,8 @@
    "id": 12,
    "type": "CreateVideo",
    "pos": [
-    500,
-    100
+    2680,
+    120
    ],
    "size": [
     260,
@@ -545,8 +545,8 @@
    "id": 13,
    "type": "SaveVideo",
    "pos": [
-    800,
-    100
+    3120,
+    120
    ],
    "size": [
     340,
@@ -584,7 +584,7 @@
     320
    ],
    "widgets_values": [
-    "## ltxv-i2v.json\n\nPrompt-driven animation of our character (no driving clip)\n\n**Does:** a still + a **descriptive prompt** -> a clip of the character performing it (`LTXVImgToVideo`, Lightricks LTX-Video v1). The VAE rides inside the checkpoint (`CheckpointLoaderSimple`); text comes from `t5xxl_fp8` with CLIP type `ltxv`. LTX wants **long descriptive prompts** (upstream's own warning - a short prompt visibly degrades it) and canvases in multiples of 32 with 8n+1 frames.\n**Measured (E22, 2026-10-15):** 13B-distilled-fp8 (ships): 97 frames at 768x768 in **35 s** cold / 5 s warm, **17.3 GB** peak; identity holds and the spell stays palm-scale. 2B-distilled-fp8: 15 s but identity slips and the spell overgrows (the quick-test arm). Shared config: bundled VAE, t5xxl_fp8 with CLIP type `ltxv`, 8 steps, no STG, cfg 1.\n**Knobs:** the **prompt** (elaborate, motion-first); the **checkpoint** (13B-distilled-fp8 ships - 35 s cold; 2B-distilled-fp8 is the 15-s quick-test arm, same graph via `--set`); **steps** on `LTXVScheduler` (8 ships for distilled); canvas/frames (32 / 8n+1).\n**Traps:** distilled runs with NO STG and cfg 1 (vendor multi-scale recipe); fps is 25 (`LTXVConditioning.frame_rate` + `CreateVideo`). This is v1, not v2 - v2 is 19B and does not fit this card.\n**Siblings:** `wan-vace-reference.json` (S28) is the other prompt-driven route (14B, 45 min); this one is the fast arm.\n\n---\n*How to run it: story **S35** in `HOWTO.md`  ·  Why it is this way: **E22** in `video/EXPERIMENTS.md`.*"
+    "## ltxv-i2v.json\n\nPrompt-driven animation of our character (no driving clip)\n\n**Does:** a still + a **descriptive prompt** -> a clip of the character performing it (`LTXVImgToVideo`, Lightricks LTX-Video v1). The VAE rides inside the checkpoint (`CheckpointLoaderSimple`); text comes from `t5xxl_fp8` with CLIP type `ltxv`. LTX wants **long descriptive prompts** (upstream's own warning - a short prompt visibly degrades it) and canvases in multiples of 32 with 8n+1 frames.\n**Measured (E22, 2026-10-15):** 13B-distilled-fp8 (ships): 97 frames at 768x768 in **35 s** cold / 5 s warm, **17.3 GB** peak; identity holds and the spell stays palm-scale. 2B-distilled-fp8: 15 s but identity slips and the spell overgrows (the quick-test arm). Shared config: bundled VAE, t5xxl_fp8 with CLIP type `ltxv`, 8 steps, no STG, cfg 1.\n**Knobs:** the **prompt** (elaborate, motion-first); the **checkpoint** (13B-distilled-fp8 ships - 35 s cold; 2B-distilled-fp8 is the 15-s quick-test arm, same graph via `--set`); **steps** on `LTXVScheduler` (8 ships for distilled); canvas/frames (32 / 8n+1).\n**Traps:** distilled runs with NO STG and cfg 1 (vendor multi-scale recipe); fps is 25 (`LTXVConditioning.frame_rate` + `CreateVideo`). This is v1, not v2 - v2 is 19B and does not fit this card.\n**Siblings:** `wan-vace-reference.json` (S28) is the other prompt-driven route (14B, 45 min); this one is the fast arm.\n\n---\n*How to run it: story **S35** in `HOWTO.md`  \u00b7  Why it is this way: **E22** in `video/EXPERIMENTS.md`.*"
    ],
    "inputs": [],
    "outputs": [],

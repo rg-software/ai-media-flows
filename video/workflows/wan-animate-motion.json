@@ -6,8 +6,8 @@
    "id": 1,
    "type": "UNETLoader",
    "pos": [
-    -980,
-    -520
+    40,
+    120
    ],
    "outputs": [
     {
@@ -38,8 +38,8 @@
    "id": 2,
    "type": "LoraLoaderModelOnly",
    "pos": [
-    -980,
-    -380
+    480,
+    120
    ],
    "inputs": [
     {
@@ -76,8 +76,8 @@
    "id": 3,
    "type": "ModelSamplingSD3",
    "pos": [
-    -700,
-    -470
+    920,
+    120
    ],
    "inputs": [
     {
@@ -114,8 +114,8 @@
    "id": 4,
    "type": "CLIPLoader",
    "pos": [
-    -980,
-    -240
+    40,
+    380
    ],
    "outputs": [
     {
@@ -149,8 +149,8 @@
    "id": 8,
    "type": "VAELoader",
    "pos": [
-    -980,
-    -100
+    40,
+    640
    ],
    "outputs": [
     {
@@ -181,8 +181,8 @@
    "id": 9,
    "type": "CLIPVisionLoader",
    "pos": [
-    -980,
-    40
+    40,
+    900
    ],
    "outputs": [
     {
@@ -213,8 +213,8 @@
    "id": 10,
    "type": "LoadImage",
    "pos": [
-    -1500,
-    200
+    40,
+    1160
    ],
    "outputs": [
     {
@@ -250,8 +250,8 @@
    "id": 11,
    "type": "LoadVideo",
    "pos": [
-    -1500,
-    420
+    40,
+    1420
    ],
    "outputs": [
     {
@@ -281,8 +281,8 @@
    "id": 12,
    "type": "GetVideoComponents",
    "pos": [
-    -1230,
-    420
+    480,
+    1160
    ],
    "inputs": [
     {
@@ -338,8 +338,8 @@
    "id": 5,
    "type": "CLIPTextEncode",
    "pos": [
-    -700,
-    -320
+    480,
+    380
    ],
    "inputs": [
     {
@@ -375,8 +375,8 @@
    "id": 6,
    "type": "CLIPTextEncode",
    "pos": [
-    -700,
-    -180
+    480,
+    640
    ],
    "inputs": [
     {
@@ -395,7 +395,7 @@
     }
    ],
    "widgets_values": [
-    "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+    "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
    ],
    "flags": {},
    "mode": 0,
@@ -412,8 +412,8 @@
    "id": 7,
    "type": "CLIPTextEncode",
    "pos": [
-    -700,
-    -20
+    480,
+    900
    ],
    "inputs": [
     {
@@ -449,8 +449,8 @@
    "id": 13,
    "type": "ImageScale",
    "pos": [
-    -940,
-    200
+    480,
+    1420
    ],
    "inputs": [
     {
@@ -490,8 +490,8 @@
    "id": 14,
    "type": "ImageScale",
    "pos": [
-    -940,
-    620
+    920,
+    380
    ],
    "inputs": [
     {
@@ -531,8 +531,8 @@
    "id": 15,
    "type": "CLIPVisionEncode",
    "pos": [
-    -620,
-    200
+    920,
+    640
    ],
    "inputs": [
     {
@@ -573,8 +573,8 @@
    "id": 16,
    "type": "ImageFromBatch",
    "pos": [
-    -940,
-    820
+    1360,
+    120
    ],
    "inputs": [
     {
@@ -611,8 +611,8 @@
    "id": 17,
    "type": "CLIPVisionEncode",
    "pos": [
-    -620,
-    820
+    1800,
+    120
    ],
    "inputs": [
     {
@@ -653,8 +653,8 @@
    "id": 18,
    "type": "WanAnimate2ToVideo",
    "pos": [
-    -240,
-    140
+    2240,
+    120
    ],
    "inputs": [
     {
@@ -768,8 +768,8 @@
    "id": 19,
    "type": "BasicScheduler",
    "pos": [
-    200,
-    -320
+    1360,
+    380
    ],
    "inputs": [
     {
@@ -807,8 +807,8 @@
    "id": 20,
    "type": "KSamplerSelect",
    "pos": [
-    200,
-    -180
+    40,
+    1680
    ],
    "outputs": [
     {
@@ -838,8 +838,8 @@
    "id": 21,
    "type": "SamplerCustom",
    "pos": [
-    480,
-    60
+    2680,
+    120
    ],
    "inputs": [
     {
@@ -908,7 +908,7 @@
    "id": 22,
    "type": "TrimVideoLatent",
    "pos": [
-    800,
+    3120,
     120
    ],
    "inputs": [
@@ -948,7 +948,7 @@
    "id": 23,
    "type": "VAEDecode",
    "pos": [
-    1020,
+    3560,
     120
    ],
    "inputs": [
@@ -988,7 +988,7 @@
    "id": 24,
    "type": "CreateVideo",
    "pos": [
-    1240,
+    4000,
     120
    ],
    "inputs": [
@@ -1031,7 +1031,7 @@
    "id": 25,
    "type": "SaveVideo",
    "pos": [
-    1460,
+    4440,
     120
    ],
    "inputs": [
@@ -1076,7 +1076,7 @@
     320
    ],
    "widgets_values": [
-    "# Wan Animate 2 - motion transfer (video reference)\n\nAnimates a **still character** by transferring the motion of a **driving video**. No pose extraction and no\nskeleton: the model consumes the video directly, so the motion source is just footage you supply.\n\n* **The negative prompt** (node 6) is the Wan family's standard Chinese quality block, verbatim from the official templates (it shipped here in upstream's English translation until 2026-10-12; this flow samples at **cfg 1.0**, where the negative branch has zero weight, so the swap is consistency only - no measured output changes).\n* **Reference image** (`LoadImage`, node 10) - the character to animate. Its identity is what is preserved.\n* **Driving video** (`LoadVideo`, node 11) - the motion source. **`length` means the first N frames of\n  it**, starting at `video_frame_offset` - it is *not* a resampling of the whole clip. A longer clip is\n  truncated and a shorter one has its last frame repeated to fill, so `length: 33` animates the first\n  ~1.4 s and nothing after it. To cover more, raise `length` or segment (see the cost trap below).\n* **Output size** follows the *driving video*, not the node's defaults: the video is scaled to a multiple of\n  16 in both axes (a requested height of 854 comes back as 848) and that size is what is generated.\n* **Longer than one pass (`length` frames):** segment it. Generate a segment, then for the next one add a\n  `LoadImage` of the previous segment's **last frame** wired to this node's `continue_motion`, and set\n  `video_frame_offset` to **last pose + 1**. The node pins the frame you pass at pose `offset - 1` and generates `length` frames from there, so for 33-frame segments the offsets are 0, 33, **65**, 97 - *not* previous offset + previous length, which drifts a pose from the third segment on. The node uses only that frame (it is pinned\n  as the segment's first frame, and the offset is decremented to seek it), so the join closes both the pose\n  **and the camera** - measured 40.76 -> 3.58 difference, where segmenting without it jumps the framing\n  instead. Stitch `A + B[trim_image:]` (`trim_image` is an output of this node). Cheaper than one long pass\n  on both axes: 2 x ~90 s at 20.8 GB versus 1000 s at 23.7 GB for 81 frames.\n* **Output fps follows the clip.** `CreateVideo.fps` is wired from `GetVideoComponents.fps`, so a 30 fps clip\n  writes a 30 fps file. The motion is frame-indexed, so fps sets *playback speed only* - a different\n  value is a free slow-motion or speed-up, and true retiming would need interpolation.\n\nKnobs worth turning: `length` (frames; 4n+1 - the default 33 is ~1.4 s at 24 fps), `pose_strength`\n(how literally the driving motion is copied), `reference_image_strength` (identity vs motion trade),\nand the prompt (describes scene/background/camera, not the motion).\n\nTraps measured on this box (RTX 3090, 24 GB):\n* **Load the OFFICIAL model, never a GGUF quant of it.** Wan-Animate-2's *identity is in the file's\n  metadata*: `__metadata__ = {\"config\": {\"transformer\": {\"model_type\": \"animate2\"}}}`, and ComfyUI's\n  detector lets that override its own key heuristic. A GGUF carries no such config, so the very same\n  weights are detected as plain `i2v` - the graph still runs, and it still follows the reference image\n  (that path is generic to Wan I2V), but the **pose branch does nothing at all**, because only the\n  animate2 class implements it. Measured: with the GGUF, swapping the driving video changed the output\n  by **0.00** - the character was locked to the reference and never moved. When that happens, check the\n  log: ComfyUI prints `Requested to load WAN21` (the generic class) instead of the animate2 one.\n  Use `wan_animate_2_int8_convrot.safetensors`. int8, not fp8 - the 3090's `fp8e4nv` objection does not\n  apply to int8.\n* **Cost is super-linear, so the whole clip usually does not fit.** Measured at 480x848: 33 frames = 91 s /\n  **20.8 GB** peak; **81 frames with `ContextWindowsManual` = 1000 s / 23.7 GB** (96% of the card). Our\n  121-frame example would need ~30 GB, so covering a whole clip is a **segmenting** job - generate a\n  window, then continue with `video_frame_offset` + `continue_motion` and stitch - not a bigger `length`.\n  There is only ~3 GB of headroom at 33 frames even before that.\n* **there are two CLIP-vision encodes** - the reference image *and* the pose video's first frame. Dropping\n  the second one silently degrades the result rather than erroring.\n\n*How to run it: story **S15** in `HOWTO.md` for the steps and knobs  ·  Why it is this way: the upstream template ships as subgraphs, which cannot be scripted, so it is reproduced flat here.*\n\nOutput is a video file - a viewer's artefact, not something an engine consumes. If you want a skeleton\ninstead, `animation/workflows/sam3d-motion.json` (S17) recovers one; the retarget onto your own rig is\nthen the engine's step."
+    "# Wan Animate 2 - motion transfer (video reference)\n\nAnimates a **still character** by transferring the motion of a **driving video**. No pose extraction and no\nskeleton: the model consumes the video directly, so the motion source is just footage you supply.\n\n* **The negative prompt** (node 6) is the Wan family's standard Chinese quality block, verbatim from the official templates (it shipped here in upstream's English translation until 2026-10-12; this flow samples at **cfg 1.0**, where the negative branch has zero weight, so the swap is consistency only - no measured output changes).\n* **Reference image** (`LoadImage`, node 10) - the character to animate. Its identity is what is preserved.\n* **Driving video** (`LoadVideo`, node 11) - the motion source. **`length` means the first N frames of\n  it**, starting at `video_frame_offset` - it is *not* a resampling of the whole clip. A longer clip is\n  truncated and a shorter one has its last frame repeated to fill, so `length: 33` animates the first\n  ~1.4 s and nothing after it. To cover more, raise `length` or segment (see the cost trap below).\n* **Output size** follows the *driving video*, not the node's defaults: the video is scaled to a multiple of\n  16 in both axes (a requested height of 854 comes back as 848) and that size is what is generated.\n* **Longer than one pass (`length` frames):** segment it. Generate a segment, then for the next one add a\n  `LoadImage` of the previous segment's **last frame** wired to this node's `continue_motion`, and set\n  `video_frame_offset` to **last pose + 1**. The node pins the frame you pass at pose `offset - 1` and generates `length` frames from there, so for 33-frame segments the offsets are 0, 33, **65**, 97 - *not* previous offset + previous length, which drifts a pose from the third segment on. The node uses only that frame (it is pinned\n  as the segment's first frame, and the offset is decremented to seek it), so the join closes both the pose\n  **and the camera** - measured 40.76 -> 3.58 difference, where segmenting without it jumps the framing\n  instead. Stitch `A + B[trim_image:]` (`trim_image` is an output of this node). Cheaper than one long pass\n  on both axes: 2 x ~90 s at 20.8 GB versus 1000 s at 23.7 GB for 81 frames.\n* **Output fps follows the clip.** `CreateVideo.fps` is wired from `GetVideoComponents.fps`, so a 30 fps clip\n  writes a 30 fps file. The motion is frame-indexed, so fps sets *playback speed only* - a different\n  value is a free slow-motion or speed-up, and true retiming would need interpolation.\n\nKnobs worth turning: `length` (frames; 4n+1 - the default 33 is ~1.4 s at 24 fps), `pose_strength`\n(how literally the driving motion is copied), `reference_image_strength` (identity vs motion trade),\nand the prompt (describes scene/background/camera, not the motion).\n\nTraps measured on this box (RTX 3090, 24 GB):\n* **Load the OFFICIAL model, never a GGUF quant of it.** Wan-Animate-2's *identity is in the file's\n  metadata*: `__metadata__ = {\"config\": {\"transformer\": {\"model_type\": \"animate2\"}}}`, and ComfyUI's\n  detector lets that override its own key heuristic. A GGUF carries no such config, so the very same\n  weights are detected as plain `i2v` - the graph still runs, and it still follows the reference image\n  (that path is generic to Wan I2V), but the **pose branch does nothing at all**, because only the\n  animate2 class implements it. Measured: with the GGUF, swapping the driving video changed the output\n  by **0.00** - the character was locked to the reference and never moved. When that happens, check the\n  log: ComfyUI prints `Requested to load WAN21` (the generic class) instead of the animate2 one.\n  Use `wan_animate_2_int8_convrot.safetensors`. int8, not fp8 - the 3090's `fp8e4nv` objection does not\n  apply to int8.\n* **Cost is super-linear, so the whole clip usually does not fit.** Measured at 480x848: 33 frames = 91 s /\n  **20.8 GB** peak; **81 frames with `ContextWindowsManual` = 1000 s / 23.7 GB** (96% of the card). Our\n  121-frame example would need ~30 GB, so covering a whole clip is a **segmenting** job - generate a\n  window, then continue with `video_frame_offset` + `continue_motion` and stitch - not a bigger `length`.\n  There is only ~3 GB of headroom at 33 frames even before that.\n* **there are two CLIP-vision encodes** - the reference image *and* the pose video's first frame. Dropping\n  the second one silently degrades the result rather than erroring.\n\n*How to run it: story **S15** in `HOWTO.md` for the steps and knobs  \u00b7  Why it is this way: the upstream template ships as subgraphs, which cannot be scripted, so it is reproduced flat here.*\n\nOutput is a video file - a viewer's artefact, not something an engine consumes. If you want a skeleton\ninstead, `animation/workflows/sam3d-motion.json` (S17) recovers one; the retarget onto your own rig is\nthen the engine's step."
    ],
    "flags": {},
    "mode": 0,

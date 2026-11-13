@@ -7,7 +7,7 @@
    "type": "LoadImage",
    "pos": [
     40,
-    200
+    120
    ],
    "widgets_values": [
     "2d/tex_stone_seamless.png",
@@ -47,8 +47,8 @@
    "id": 2,
    "type": "MarigoldModelLoader",
    "pos": [
-    360,
-    120
+    40,
+    380
    ],
    "widgets_values": [
     "prs-eth/marigold-iid-appearance-v1-1"
@@ -79,7 +79,7 @@
    "id": 3,
    "type": "MarigoldDepthEstimation_v2",
    "pos": [
-    700,
+    480,
     120
    ],
    "widgets_values": [
@@ -129,8 +129,8 @@
    "id": 4,
    "type": "MarigoldModelLoader",
    "pos": [
-    360,
-    340
+    40,
+    640
    ],
    "widgets_values": [
     "prs-eth/marigold-iid-lighting-v1-1"
@@ -161,8 +161,8 @@
    "id": 5,
    "type": "MarigoldDepthEstimation_v2",
    "pos": [
-    700,
-    340
+    480,
+    380
    ],
    "widgets_values": [
     1101,
@@ -211,8 +211,8 @@
    "id": 6,
    "type": "QFXPBRGeneratorAdvanced",
    "pos": [
-    1060,
-    220
+    920,
+    120
    ],
    "widgets_values": [
     "tex_stone",
@@ -325,8 +325,8 @@
    "id": 7,
    "type": "SaveImage",
    "pos": [
-    1400,
-    60
+    1360,
+    120
    ],
    "widgets_values": [
     "2D/pbr_material/basecolor"
@@ -354,8 +354,8 @@
    "id": 8,
    "type": "SaveImage",
    "pos": [
-    1400,
-    200
+    1360,
+    380
    ],
    "widgets_values": [
     "2D/pbr_material/normal"
@@ -383,8 +383,8 @@
    "id": 9,
    "type": "SaveImage",
    "pos": [
-    1400,
-    340
+    1360,
+    640
    ],
    "widgets_values": [
     "2D/pbr_material/roughness"
@@ -412,8 +412,8 @@
    "id": 10,
    "type": "SaveImage",
    "pos": [
-    1400,
-    480
+    1360,
+    900
    ],
    "widgets_values": [
     "2D/pbr_material/ao"
@@ -441,8 +441,8 @@
    "id": 11,
    "type": "SaveImage",
    "pos": [
-    1400,
-    620
+    1360,
+    1160
    ],
    "widgets_values": [
     "2D/pbr_material/metallic"
@@ -470,8 +470,8 @@
    "id": 12,
    "type": "SaveImage",
    "pos": [
-    1400,
-    760
+    1360,
+    1420
    ],
    "widgets_values": [
     "2D/pbr_material/metallicRoughness_ORM"

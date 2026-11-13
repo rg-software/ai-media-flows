@@ -6,8 +6,8 @@
    "id": 37,
    "type": "UNETLoader",
    "pos": [
-    -1500,
-    460
+    40,
+    120
    ],
    "size": [
     340,
@@ -39,8 +39,8 @@
    "id": 54,
    "type": "ModelSamplingSD3",
    "pos": [
-    -1100,
-    460
+    480,
+    900
    ],
    "size": [
     220,
@@ -77,8 +77,8 @@
    "id": 38,
    "type": "CLIPLoader",
    "pos": [
-    -1500,
-    240
+    40,
+    380
    ],
    "size": [
     340,
@@ -112,8 +112,8 @@
    "id": 39,
    "type": "VAELoader",
    "pos": [
-    -1500,
-    20
+    40,
+    640
    ],
    "size": [
     340,
@@ -145,8 +145,8 @@
    "id": 49,
    "type": "CLIPVisionLoader",
    "pos": [
-    -1500,
-    700
+    40,
+    900
    ],
    "size": [
     340,
@@ -177,8 +177,8 @@
    "id": 52,
    "type": "LoadImage",
    "pos": [
-    -1500,
-    900
+    40,
+    1160
    ],
    "size": [
     340,
@@ -217,8 +217,8 @@
    "id": 51,
    "type": "CLIPVisionEncode",
    "pos": [
-    -1100,
-    700
+    480,
+    640
    ],
    "size": [
     240,
@@ -260,8 +260,8 @@
    "id": 6,
    "type": "CLIPTextEncode",
    "pos": [
-    -1100,
-    240
+    480,
+    120
    ],
    "size": [
     440,
@@ -298,15 +298,15 @@
    "id": 7,
    "type": "CLIPTextEncode",
    "pos": [
-    -1100,
-    20
+    480,
+    380
    ],
    "size": [
     440,
     200
    ],
    "widgets_values": [
-    "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+    "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
    ],
    "inputs": [
     {
@@ -336,8 +336,8 @@
    "id": 57,
    "type": "WanCameraEmbedding",
    "pos": [
-    -1100,
-    1020
+    40,
+    1420
    ],
    "size": [
     300,
@@ -400,8 +400,8 @@
    "id": 56,
    "type": "WanCameraImageToVideo",
    "pos": [
-    -600,
-    400
+    920,
+    120
    ],
    "size": [
     340,
@@ -497,8 +497,8 @@
    "id": 3,
    "type": "KSampler",
    "pos": [
-    -200,
-    400
+    1360,
+    120
    ],
    "size": [
     340,
@@ -556,8 +556,8 @@
    "id": 8,
    "type": "VAEDecode",
    "pos": [
-    200,
-    400
+    1800,
+    120
    ],
    "size": [
     220,
@@ -598,8 +598,8 @@
    "id": 28,
    "type": "SaveAnimatedWEBP",
    "pos": [
-    480,
-    320
+    2240,
+    120
    ],
    "size": [
     340,
@@ -631,8 +631,8 @@
    "id": 47,
    "type": "SaveWEBM",
    "pos": [
-    480,
-    560
+    2240,
+    380
    ],
    "size": [
     340,
@@ -671,7 +671,7 @@
     320
    ],
    "widgets_values": [
-    "## wan-camera-control.json\n\nA clip with a camera you chose, not one the model invents\n\n**Does:** takes a **still** as the first frame and animates it along a **preset camera trajectory** - `Static`, `Pan Up/Down/Left/Right`, `Zoom In/Out`, `Anti Clockwise` / `ClockWise` (`WanCameraEmbedding`). The reason this flow exists: in the other Wan routes the camera is **text-driven and drifts** (E18's own finding), and here it is an input instead. Host: `wan2.1_fun_camera_v1.1_1.3B_bf16` (3.23 GB, **Apache-2.0**, official Comfy-Org repack) + the umt5 encoder, `clip_vision_h` and the Wan VAE we ship.\n**Measured (E18, 2026-10-10):** 81 frames per cell in **115 s** - about 1/20th of the VACE 14B route - with **identity holding** in all three cells tested (Static / Pan Left / Zoom In). The evidence sheet (`video/evidence/E18-camera-sheet.png`) shows exactly what each preset does: Static keeps the framing dead-still (drift gone), Pan Left walks the subject across frame, Zoom In goes full body -> chest close-up.\n**Knobs:** `camera_pose` (the preset) is the point of the flow; **width/height/length live on the `WanCameraEmbedding`, not on the target node** - the embedding *outputs* them and they are linked in, so its 512x512 in the upstream example silently overrides the node's own 832x480. It ships **512x512** because a portrait start image is *cropped* in 16:9 (measured: our own `char_heroine.png` loses her head at 832x480) - for 16:9, letterbox the start image first (`scripts/letterbox_16x9.py`, one command) and set the embedding's width/height to **832**/**480**. Also `steps`/`cfg` (20 / 6.0) and the **start image**: give it a clean, well-lit still - the first frame is the clip's first frame, so its composition is what the camera departs from.\n**Traps:** a portrait still into a landscape canvas crops - measured, the head goes first, which is what the letterbox step is for - and the subject is what must survive the pan), and the trajectory is a **fixed preset** - a bespoke camera path needs the node's JSON pose input, which this flow does not expose.\n**Siblings:** `wan-animate-motion.json` (S15) copies motion from a driving clip; `wan-vace-reference.json` (S28) writes motion from a prompt. This one is the cheap one.\n\n---\n*How to run it: story **S29** in `HOWTO.md`  ·  Why it is this way: **E18** in the scenarios' `EXPERIMENTS` logs.*"
+    "## wan-camera-control.json\n\nA clip with a camera you chose, not one the model invents\n\n**Does:** takes a **still** as the first frame and animates it along a **preset camera trajectory** - `Static`, `Pan Up/Down/Left/Right`, `Zoom In/Out`, `Anti Clockwise` / `ClockWise` (`WanCameraEmbedding`). The reason this flow exists: in the other Wan routes the camera is **text-driven and drifts** (E18's own finding), and here it is an input instead. Host: `wan2.1_fun_camera_v1.1_1.3B_bf16` (3.23 GB, **Apache-2.0**, official Comfy-Org repack) + the umt5 encoder, `clip_vision_h` and the Wan VAE we ship.\n**Measured (E18, 2026-10-10):** 81 frames per cell in **115 s** - about 1/20th of the VACE 14B route - with **identity holding** in all three cells tested (Static / Pan Left / Zoom In). The evidence sheet (`video/evidence/E18-camera-sheet.png`) shows exactly what each preset does: Static keeps the framing dead-still (drift gone), Pan Left walks the subject across frame, Zoom In goes full body -> chest close-up.\n**Knobs:** `camera_pose` (the preset) is the point of the flow; **width/height/length live on the `WanCameraEmbedding`, not on the target node** - the embedding *outputs* them and they are linked in, so its 512x512 in the upstream example silently overrides the node's own 832x480. It ships **512x512** because a portrait start image is *cropped* in 16:9 (measured: our own `char_heroine.png` loses her head at 832x480) - for 16:9, letterbox the start image first (`scripts/letterbox_16x9.py`, one command) and set the embedding's width/height to **832**/**480**. Also `steps`/`cfg` (20 / 6.0) and the **start image**: give it a clean, well-lit still - the first frame is the clip's first frame, so its composition is what the camera departs from.\n**Traps:** a portrait still into a landscape canvas crops - measured, the head goes first, which is what the letterbox step is for - and the subject is what must survive the pan), and the trajectory is a **fixed preset** - a bespoke camera path needs the node's JSON pose input, which this flow does not expose.\n**Siblings:** `wan-animate-motion.json` (S15) copies motion from a driving clip; `wan-vace-reference.json` (S28) writes motion from a prompt. This one is the cheap one.\n\n---\n*How to run it: story **S29** in `HOWTO.md`  \u00b7  Why it is this way: **E18** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "inputs": [],
    "outputs": [],

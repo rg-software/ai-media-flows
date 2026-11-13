@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadAudio",
    "pos": [
-    -980,
-    60
+    40,
+    120
    ],
    "size": [
     300,
@@ -38,8 +38,8 @@
    "id": 2,
    "type": "LoadAudio",
    "pos": [
-    -980,
-    200
+    40,
+    380
    ],
    "size": [
     300,
@@ -70,8 +70,8 @@
    "id": 3,
    "type": "FL_ChatterboxDialogTTS",
    "pos": [
-    -600,
-    60
+    480,
+    120
    ],
    "size": [
     430,
@@ -148,8 +148,8 @@
    "id": 4,
    "type": "SaveAudioAdvanced",
    "pos": [
-    -100,
-    20
+    920,
+    120
    ],
    "size": [
     340,
@@ -178,8 +178,8 @@
    "id": 5,
    "type": "SaveAudioAdvanced",
    "pos": [
-    -100,
-    150
+    920,
+    380
    ],
    "size": [
     340,
@@ -208,8 +208,8 @@
    "id": 6,
    "type": "SaveAudioAdvanced",
    "pos": [
-    -100,
-    280
+    920,
+    640
    ],
    "size": [
     340,
@@ -252,7 +252,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## Chatterbox dialogue (E26) - a two-speaker scene, and per-speaker stems\n\n**The dialogue cell.** `FL_ChatterboxDialogTTS` writes a scene from a labelled script - `SPEAKER A:` / `SPEAKER B:`\none line each - and gives back the mixed scene **plus each speaker's track separately** (that is the point for a game:\none file per line, for engine playback).\n\n- **`speaker_A_Audio` / `speaker_B_Audio` are REQUIRED**: 5-10 s of each voice, and they **are** the two voices - two close\n  clips give two close voices (E26), and a **sung reference works** (E26b): a window of a separated vocal stem came back as a\n  distinct voice, so a song's singer can narrate. Your own clips give real characters; `C`/`D` extend it to four.\n- **`dialog_text`** is parsed line-by-line, and only lines starting `SPEAKER X:` are spoken.\n- `exaggeration` / `cfg_weight` / `temperature` / `seed` behave as in `chatterbox-narration.json`.\n- Output is 24 kHz mono, near full scale: a set of VO stems to place, not a bed.\n\n*How to run it: story **S27** in `HOWTO.md`  ·  Why it is this way: **E26** in `audio/EXPERIMENTS.md`.*"
+    "## Chatterbox dialogue (E26) - a two-speaker scene, and per-speaker stems\n\n**The dialogue cell.** `FL_ChatterboxDialogTTS` writes a scene from a labelled script - `SPEAKER A:` / `SPEAKER B:`\none line each - and gives back the mixed scene **plus each speaker's track separately** (that is the point for a game:\none file per line, for engine playback).\n\n- **`speaker_A_Audio` / `speaker_B_Audio` are REQUIRED**: 5-10 s of each voice, and they **are** the two voices - two close\n  clips give two close voices (E26), and a **sung reference works** (E26b): a window of a separated vocal stem came back as a\n  distinct voice, so a song's singer can narrate. Your own clips give real characters; `C`/`D` extend it to four.\n- **`dialog_text`** is parsed line-by-line, and only lines starting `SPEAKER X:` are spoken.\n- `exaggeration` / `cfg_weight` / `temperature` / `seed` behave as in `chatterbox-narration.json`.\n- Output is 24 kHz mono, near full scale: a set of VO stems to place, not a bed.\n\n*How to run it: story **S27** in `HOWTO.md`  \u00b7  Why it is this way: **E26** in `audio/EXPERIMENTS.md`.*"
    ]
   }
  ],

@@ -6,8 +6,8 @@
    "id": 1,
    "type": "UNETLoader",
    "pos": [
-    -1400,
-    0
+    40,
+    120
    ],
    "size": [
     400,
@@ -38,8 +38,8 @@
    "id": 2,
    "type": "DualCLIPLoader",
    "pos": [
-    -1400,
-    160
+    40,
+    380
    ],
    "size": [
     440,
@@ -72,8 +72,8 @@
    "id": 3,
    "type": "VAELoader",
    "pos": [
-    -1400,
-    360
+    40,
+    640
    ],
    "size": [
     360,
@@ -103,8 +103,8 @@
    "id": 4,
    "type": "INTConstant",
    "pos": [
-    -1400,
-    490
+    40,
+    900
    ],
    "size": [
     240,
@@ -135,8 +135,8 @@
    "id": 5,
    "type": "FloatConstant",
    "pos": [
-    -1400,
-    590
+    40,
+    1160
    ],
    "size": [
     240,
@@ -167,8 +167,8 @@
    "id": 6,
    "type": "ModelSamplingAuraFlow",
    "pos": [
-    -900,
-    0
+    480,
+    120
    ],
    "size": [
     280,
@@ -204,8 +204,8 @@
    "id": 7,
    "type": "TextEncodeAceStepAudio1.5",
    "pos": [
-    -900,
-    120
+    480,
+    380
    ],
    "size": [
     360,
@@ -266,8 +266,8 @@
    "id": 8,
    "type": "ConditioningZeroOut",
    "pos": [
-    -460,
-    0
+    920,
+    120
    ],
    "size": [
     240,
@@ -301,8 +301,8 @@
    "id": 9,
    "type": "EmptyAceStep1.5LatentAudio",
    "pos": [
-    -460,
-    140
+    480,
+    640
    ],
    "size": [
     300,
@@ -339,8 +339,8 @@
    "id": 10,
    "type": "KSampler",
    "pos": [
-    -120,
-    0
+    1360,
+    120
    ],
    "size": [
     290,
@@ -402,8 +402,8 @@
    "id": 11,
    "type": "VAEDecodeAudio",
    "pos": [
-    260,
-    0
+    1800,
+    120
    ],
    "size": [
     240,
@@ -442,8 +442,8 @@
    "id": 12,
    "type": "SaveAudioAdvanced",
    "pos": [
-    580,
-    0
+    2240,
+    120
    ],
    "size": [
     320,
@@ -490,7 +490,7 @@
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## Song generation with ACE-Step 1.5 XL SFT (4B) - MIT\n\n**The song flow.** ACE-Step 1.5 XL is the same family as the 8-step turbo that ships as S19, at **4B** and\n**50 steps / cfg 7**, and it is the one that reliably *sings*: on a style that names a clear lead it put\n**124 of 188 lyric words** into the mix where the turbo, on the same text, produced no vocal at all (E13b).\n\n- **the style is the vocal's on/off switch.** `tags` (node 7) both describes the music and decides whether a\n  voice appears at all, so name it and keep it consistent with the lyric: a \"clear, strong, close-mic lead\"\n  request was obeyed, while a \"shouted male lead\" style came back **whispered** (E13).\n- **`lyrics`** empty means instrumental; size it to the duration (~1.5-3 words per second, so 120 s wants\n  250-350 words - E7).\n- **the seed and the duration are each wired to two consumers** (the text encoder and the sampler / the\n  latent), so the graph cannot disagree with itself - the same pattern as `ace-step.json`.\n- **`ModelSamplingAuraFlow` shift 3** sits between the UNet and the sampler, as upstream's template ships it.\n\n**Files (~19 GB, all MIT, `Comfy-Org/ace_step_1.5_ComfyUI_files`):**\n`models/diffusion_models/acestep_v1.5_xl_sft_bf16.safetensors` ·\n`models/text_encoders/qwen_0.6b_ace15.safetensors` + `qwen_4b_ace15.safetensors` ·\n`models/vae/ace_1.5_vae.safetensors`.\n\n**Cost:** ~50 s of sampling per 120 s song once the model is loaded (a cold first run is minutes); the ground\ntruth for a take is a spectrogram plus ASR - see `audio/README.md` traps. It lands at **0.0 dBFS**.\n\n---\n*How to run it: story **S23** in `HOWTO.md`  ·  Why it is this way: **E13/E13b** in `audio/EXPERIMENTS.md`.*\n"
+    "## Song generation with ACE-Step 1.5 XL SFT (4B) - MIT\n\n**The song flow.** ACE-Step 1.5 XL is the same family as the 8-step turbo that ships as S19, at **4B** and\n**50 steps / cfg 7**, and it is the one that reliably *sings*: on a style that names a clear lead it put\n**124 of 188 lyric words** into the mix where the turbo, on the same text, produced no vocal at all (E13b).\n\n- **the style is the vocal's on/off switch.** `tags` (node 7) both describes the music and decides whether a\n  voice appears at all, so name it and keep it consistent with the lyric: a \"clear, strong, close-mic lead\"\n  request was obeyed, while a \"shouted male lead\" style came back **whispered** (E13).\n- **`lyrics`** empty means instrumental; size it to the duration (~1.5-3 words per second, so 120 s wants\n  250-350 words - E7).\n- **the seed and the duration are each wired to two consumers** (the text encoder and the sampler / the\n  latent), so the graph cannot disagree with itself - the same pattern as `ace-step.json`.\n- **`ModelSamplingAuraFlow` shift 3** sits between the UNet and the sampler, as upstream's template ships it.\n\n**Files (~19 GB, all MIT, `Comfy-Org/ace_step_1.5_ComfyUI_files`):**\n`models/diffusion_models/acestep_v1.5_xl_sft_bf16.safetensors` \u00b7\n`models/text_encoders/qwen_0.6b_ace15.safetensors` + `qwen_4b_ace15.safetensors` \u00b7\n`models/vae/ace_1.5_vae.safetensors`.\n\n**Cost:** ~50 s of sampling per 120 s song once the model is loaded (a cold first run is minutes); the ground\ntruth for a take is a spectrogram plus ASR - see `audio/README.md` traps. It lands at **0.0 dBFS**.\n\n---\n*How to run it: story **S23** in `HOWTO.md`  \u00b7  Why it is this way: **E13/E13b** in `audio/EXPERIMENTS.md`.*\n"
    ],
    "properties": {},
    "order": 0

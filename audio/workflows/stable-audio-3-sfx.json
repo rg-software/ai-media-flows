@@ -6,8 +6,8 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1200,
-    0
+    40,
+    120
    ],
    "size": [
     340,
@@ -49,8 +49,8 @@
    "id": 2,
    "type": "CLIPLoader",
    "pos": [
-    -1200,
-    180
+    40,
+    380
    ],
    "size": [
     340,
@@ -83,8 +83,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    -800,
-    0
+    480,
+    120
    ],
    "size": [
     330,
@@ -120,8 +120,8 @@
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    -800,
-    240
+    480,
+    380
    ],
    "size": [
     330,
@@ -157,8 +157,8 @@
    "id": 5,
    "type": "EmptyLatentAudio",
    "pos": [
-    -1200,
-    320
+    40,
+    640
    ],
    "size": [
     330,
@@ -189,8 +189,8 @@
    "id": 6,
    "type": "KSampler",
    "pos": [
-    -430,
-    0
+    920,
+    120
    ],
    "size": [
     300,
@@ -247,8 +247,8 @@
    "id": 7,
    "type": "VAEDecodeAudio",
    "pos": [
-    -100,
-    0
+    1360,
+    120
    ],
    "size": [
     240,
@@ -287,8 +287,8 @@
    "id": 8,
    "type": "SaveAudioAdvanced",
    "pos": [
-    200,
-    0
+    1800,
+    120
    ],
    "size": [
     300,
@@ -333,7 +333,7 @@
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## Stable Audio 3 small-SFX (dev copy)\n\n**Flat rebuild** of the shipped `audio_stable_audio_3_medium_base` template's inner subgraph (a subgraph cannot be submitted as an API prompt, so it is flattened here). Model: **`stable_audio_3_small_sfx`** - the family member built for *sound effects and short ambience, up to 2:00*, 2.27 GB, plus the `t5gemma_b_b_ul2` text encoder (1.19 GB). **Licence: Stability AI Community** (the same family as Stable Audio Open).\n\nKnobs: `seconds` on `EmptyLatentAudio` (variable length is the point - do not leave it at 60 for a 4 s effect), the prompt, `seed`, and the sampler recipe, which **depends on which checkpoint you load**. Upstream ships two templates and they differ: `medium_base` (pre-trained, for fine-tuning) runs **50 steps / cfg 7**, while `medium` (**post-trained**, for generation) runs **8 steps / cfg 1** - both `lcm` / `simple`. **`small_sfx` is post-trained, so it wants 8 / 1**; running it at 50 / 7 (borrowed from the base template) produced the 'dirty, instrument fragments' the ears reported (E21).\n\nNo reprompt here: the Qwen category-expander is deliberately omitted because a hand-written detailed prompt on SAO did not improve the effect (E21).\n\n*How to run it: story **S21** in `HOWTO.md`  ·  Why it is this way: **E21** in `audio/EXPERIMENTS.md`.*\n"
+    "## Stable Audio 3 small-SFX (dev copy)\n\n**Flat rebuild** of the shipped `audio_stable_audio_3_medium_base` template's inner subgraph (a subgraph cannot be submitted as an API prompt, so it is flattened here). Model: **`stable_audio_3_small_sfx`** - the family member built for *sound effects and short ambience, up to 2:00*, 2.27 GB, plus the `t5gemma_b_b_ul2` text encoder (1.19 GB). **Licence: Stability AI Community** (the same family as Stable Audio Open).\n\nKnobs: `seconds` on `EmptyLatentAudio` (variable length is the point - do not leave it at 60 for a 4 s effect), the prompt, `seed`, and the sampler recipe, which **depends on which checkpoint you load**. Upstream ships two templates and they differ: `medium_base` (pre-trained, for fine-tuning) runs **50 steps / cfg 7**, while `medium` (**post-trained**, for generation) runs **8 steps / cfg 1** - both `lcm` / `simple`. **`small_sfx` is post-trained, so it wants 8 / 1**; running it at 50 / 7 (borrowed from the base template) produced the 'dirty, instrument fragments' the ears reported (E21).\n\nNo reprompt here: the Qwen category-expander is deliberately omitted because a hand-written detailed prompt on SAO did not improve the effect (E21).\n\n*How to run it: story **S21** in `HOWTO.md`  \u00b7  Why it is this way: **E21** in `audio/EXPERIMENTS.md`.*\n"
    ],
    "flags": {},
    "mode": 0,

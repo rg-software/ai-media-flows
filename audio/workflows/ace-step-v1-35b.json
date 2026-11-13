@@ -6,8 +6,8 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1300,
-    0
+    40,
+    120
    ],
    "size": [
     340,
@@ -51,8 +51,8 @@
    "id": 2,
    "type": "INTConstant",
    "pos": [
-    -1300,
-    180
+    40,
+    380
    ],
    "size": [
     240,
@@ -82,8 +82,8 @@
    "id": 3,
    "type": "ModelSamplingSD3",
    "pos": [
-    -900,
-    0
+    480,
+    120
    ],
    "size": [
     280,
@@ -119,8 +119,8 @@
    "id": 4,
    "type": "LatentOperationTonemapReinhard",
    "pos": [
-    -1300,
-    300
+    40,
+    640
    ],
    "size": [
     300,
@@ -150,8 +150,8 @@
    "id": 5,
    "type": "LatentApplyOperationCFG",
    "pos": [
-    -560,
-    0
+    920,
+    120
    ],
    "size": [
     300,
@@ -190,8 +190,8 @@
    "id": 6,
    "type": "TextEncodeAceStepAudio",
    "pos": [
-    -900,
-    140
+    480,
+    380
    ],
    "size": [
     340,
@@ -230,8 +230,8 @@
    "id": 7,
    "type": "ConditioningZeroOut",
    "pos": [
-    -400,
-    140
+    920,
+    380
    ],
    "size": [
     240,
@@ -265,8 +265,8 @@
    "id": 8,
    "type": "EmptyAceStepLatentAudio",
    "pos": [
-    -400,
-    280
+    40,
+    900
    ],
    "size": [
     300,
@@ -297,8 +297,8 @@
    "id": 9,
    "type": "KSampler",
    "pos": [
-    -80,
-    0
+    1360,
+    120
    ],
    "size": [
     290,
@@ -360,8 +360,8 @@
    "id": 10,
    "type": "VAEDecodeAudio",
    "pos": [
-    340,
-    0
+    1800,
+    120
    ],
    "size": [
     240,
@@ -400,8 +400,8 @@
    "id": 11,
    "type": "SaveAudioAdvanced",
    "pos": [
-    660,
-    0
+    2240,
+    120
    ],
    "size": [
     320,
@@ -448,7 +448,7 @@
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## ACE-Step v1 3.5B - the older song recipe (dev copy)\n\n**Why it exists:** the quality question is open (E13), and ACE-Step's *first* generation is a third MIT\ncandidate with a different recipe - `ace_step_v1_3.5b.safetensors` (7.3 GB, all-in-one, MIT) at **50 steps /\ncfg 5**, with `ModelSamplingSD3` (shift 5) and a **`LatentOperationTonemapReinhard`** operation applied\nthrough `LatentApplyOperationCFG` - none of which the 1.5 line uses. It is also the model the official\n**m2m editing** template edits with.\n\n**Built flat from `audio_ace_step_1_t2a_song.json`**, reading the text encoder's widget list verbatim from the\ntemplate (so `lyrics_strength` - a knob the 1.5 line dropped - is upstream's value); only `tags` and `lyrics`\nare replaced with the shared comparison input, seed 31, 120 s latent. **Unlike 1.5, v1's text encoder takes no\nduration**, so the length lives only on `EmptyAceStepLatentAudio.seconds` (single consumer).\n\n**What the m2m template showed (the restyle cost-out):** that route is `VAEEncodeAudio` -> `KSampler` at\n**denoise 0.3** - a *denoise-based edit*, i.e. the same mechanism E5 measured as **retention, not restyle**,\nso that limitation looks structural rather than a settings accident.\n\n**File:** `models/checkpoints/ace_step_v1_3.5b.safetensors` (MIT, `Comfy-Org/ACE-Step_ComfyUI_repackaged`,\n`all_in_one/`).\n\n*How to run it: story **S23** in `HOWTO.md`  ·  Why it is this way: **E13c** in `audio/EXPERIMENTS.md`.*\n"
+    "## ACE-Step v1 3.5B - the older song recipe (dev copy)\n\n**Why it exists:** the quality question is open (E13), and ACE-Step's *first* generation is a third MIT\ncandidate with a different recipe - `ace_step_v1_3.5b.safetensors` (7.3 GB, all-in-one, MIT) at **50 steps /\ncfg 5**, with `ModelSamplingSD3` (shift 5) and a **`LatentOperationTonemapReinhard`** operation applied\nthrough `LatentApplyOperationCFG` - none of which the 1.5 line uses. It is also the model the official\n**m2m editing** template edits with.\n\n**Built flat from `audio_ace_step_1_t2a_song.json`**, reading the text encoder's widget list verbatim from the\ntemplate (so `lyrics_strength` - a knob the 1.5 line dropped - is upstream's value); only `tags` and `lyrics`\nare replaced with the shared comparison input, seed 31, 120 s latent. **Unlike 1.5, v1's text encoder takes no\nduration**, so the length lives only on `EmptyAceStepLatentAudio.seconds` (single consumer).\n\n**What the m2m template showed (the restyle cost-out):** that route is `VAEEncodeAudio` -> `KSampler` at\n**denoise 0.3** - a *denoise-based edit*, i.e. the same mechanism E5 measured as **retention, not restyle**,\nso that limitation looks structural rather than a settings accident.\n\n**File:** `models/checkpoints/ace_step_v1_3.5b.safetensors` (MIT, `Comfy-Org/ACE-Step_ComfyUI_repackaged`,\n`all_in_one/`).\n\n*How to run it: story **S23** in `HOWTO.md`  \u00b7  Why it is this way: **E13c** in `audio/EXPERIMENTS.md`.*\n"
    ],
    "properties": {},
    "order": 0

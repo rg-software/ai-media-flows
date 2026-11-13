@@ -6,8 +6,8 @@
    "id": 1,
    "type": "UniRigLoadModel",
    "pos": [
-    -900,
-    0
+    40,
+    120
    ],
    "size": [
     300,
@@ -39,8 +39,8 @@
    "id": 2,
    "type": "UniRigLoadMesh",
    "pos": [
-    -900,
-    160
+    40,
+    380
    ],
    "size": [
     300,
@@ -72,8 +72,8 @@
    "id": 3,
    "type": "UniRigAutoRig",
    "pos": [
-    -500,
-    40
+    480,
+    120
    ],
    "size": [
     340,
@@ -119,8 +119,8 @@
    "id": 4,
    "type": "SaveText",
    "pos": [
-    -500,
-    340
+    920,
+    120
    ],
    "size": [
     300,
@@ -163,7 +163,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## unirig-humanoid-workflow.json\n\nUniRig (Linux only)\n\n**Does:** auto-rigs a humanoid mesh and exports a **Mixamo-compatible FBX** (Unity-friendly).\n**View:** `UniRigPreviewRiggedMesh` shows the rigged FBX with its skeleton in the canvas; the path is also written to text by `SaveText`.\n**Platform:** **Linux only** — UniRig needs `bpy` (Blender-as-Python), which the pack provides\nin its own pixi/conda env. It failed on Windows with a native DLL error (E4).\n**See:** `3d/EXPERIMENTS.md` E4-L, `3d/pipeline-design.md`.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  ·  Why it is this way: **E4-L** in the scenarios' `EXPERIMENTS` logs.*"
+    "## unirig-humanoid-workflow.json\n\nUniRig (Linux only)\n\n**Does:** auto-rigs a humanoid mesh and exports a **Mixamo-compatible FBX** (Unity-friendly).\n**View:** `UniRigPreviewRiggedMesh` shows the rigged FBX with its skeleton in the canvas; the path is also written to text by `SaveText`.\n**Platform:** **Linux only** \u2014 UniRig needs `bpy` (Blender-as-Python), which the pack provides\nin its own pixi/conda env. It failed on Windows with a native DLL error (E4).\n**See:** `3d/EXPERIMENTS.md` E4-L, `3d/pipeline-design.md`.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  \u00b7  Why it is this way: **E4-L** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
@@ -172,8 +172,8 @@
    "id": 6,
    "type": "UniRigPreviewRiggedMesh",
    "pos": [
-    -100,
-    40
+    920,
+    380
    ],
    "size": [
     842,

@@ -6,8 +6,8 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1200,
-    0
+    40,
+    120
    ],
    "size": [
     340,
@@ -55,8 +55,8 @@
    "id": 2,
    "type": "CLIPVisionLoader",
    "pos": [
-    -1200,
-    220
+    40,
+    380
    ],
    "size": [
     340,
@@ -87,8 +87,8 @@
    "id": 3,
    "type": "IPAdapterModelLoader",
    "pos": [
-    -1200,
-    320
+    40,
+    640
    ],
    "size": [
     360,
@@ -119,8 +119,8 @@
    "id": 4,
    "type": "LoadImage",
    "pos": [
-    -1200,
-    420
+    40,
+    900
    ],
    "size": [
     320,
@@ -158,7 +158,7 @@
    "id": 5,
    "type": "IPAdapterAdvanced",
    "pos": [
-    -760,
+    480,
     120
    ],
    "size": [
@@ -226,8 +226,8 @@
    "id": 6,
    "type": "CLIPTextEncode",
    "pos": [
-    -360,
-    -200
+    480,
+    380
    ],
    "size": [
     440,
@@ -264,8 +264,8 @@
    "id": 7,
    "type": "CLIPTextEncode",
    "pos": [
-    -360,
-    -40
+    480,
+    640
    ],
    "size": [
     440,
@@ -302,8 +302,8 @@
    "id": 8,
    "type": "EmptyLatentImage",
    "pos": [
-    -360,
-    120
+    40,
+    1160
    ],
    "size": [
     300,
@@ -336,8 +336,8 @@
    "id": 9,
    "type": "KSampler",
    "pos": [
-    140,
-    0
+    920,
+    120
    ],
    "size": [
     320,
@@ -395,8 +395,8 @@
    "id": 10,
    "type": "VAEDecode",
    "pos": [
-    520,
-    0
+    1360,
+    120
    ],
    "size": [
     240,
@@ -436,8 +436,8 @@
    "id": 11,
    "type": "SaveImage",
    "pos": [
-    820,
-    -60
+    1800,
+    120
    ],
    "size": [
     380,
@@ -479,7 +479,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## ipadapter-style.json\n\nStyle reference (superseded)\n\n**Does:** transfers the style/look of a reference image (IPAdapter).\n**Knobs:** `weight` — 0.0-0.2 style hint only; 0.3-0.5 blend; **>=0.6 the reference overrides\nthe prompt** (content takeover).\n**Superseded:** Qwen-Edit's multi-image reference does this without IPAdapter and with an\nApache-2.0 licence (E14c; see `qwen-edit-gguf.json`).\n\n---\n*How to run it: story **S8** in `HOWTO.md`  ·  Why it is this way: **E11** in the scenarios' `EXPERIMENTS` logs.*"
+    "## ipadapter-style.json\n\nStyle reference (superseded)\n\n**Does:** transfers the style/look of a reference image (IPAdapter).\n**Knobs:** `weight` \u2014 0.0-0.2 style hint only; 0.3-0.5 blend; **>=0.6 the reference overrides\nthe prompt** (content takeover).\n**Superseded:** Qwen-Edit's multi-image reference does this without IPAdapter and with an\nApache-2.0 licence (E14c; see `qwen-edit-gguf.json`).\n\n---\n*How to run it: story **S8** in `HOWTO.md`  \u00b7  Why it is this way: **E11** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

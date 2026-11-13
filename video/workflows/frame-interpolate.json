@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadVideo",
    "pos": [
-    -980,
-    0
+    40,
+    120
    ],
    "size": [
     280,
@@ -37,8 +37,8 @@
    "id": 2,
    "type": "GetVideoComponents",
    "pos": [
-    -660,
-    0
+    480,
+    120
    ],
    "size": [
     280,
@@ -96,8 +96,8 @@
    "id": 3,
    "type": "FrameInterpolationModelLoader",
    "pos": [
-    -660,
-    320
+    40,
+    380
    ],
    "size": [
     340,
@@ -127,8 +127,8 @@
    "id": 5,
    "type": "INTConstant",
    "pos": [
-    460,
-    320
+    40,
+    640
    ],
    "size": [
     220,
@@ -159,8 +159,8 @@
    "id": 4,
    "type": "FrameInterpolate",
    "pos": [
-    -300,
-    100
+    920,
+    120
    ],
    "size": [
     290,
@@ -207,8 +207,8 @@
    "id": 6,
    "type": "ComfyMathExpression",
    "pos": [
-    60,
-    100
+    920,
+    380
    ],
    "size": [
     250,
@@ -264,8 +264,8 @@
    "id": 7,
    "type": "CreateVideo",
    "pos": [
-    400,
-    100
+    1360,
+    120
    ],
    "size": [
     290,
@@ -312,8 +312,8 @@
    "id": 8,
    "type": "SaveVideo",
    "pos": [
-    760,
-    100
+    1800,
+    120
    ],
    "size": [
     300,
@@ -357,7 +357,7 @@
     320
    ],
    "widgets_values": [
-    "## Frame interpolation (S18)\n\n**Video in, video out with synthesised in-between frames**, by [RIFE](https://github.com/hzwer/Practical-RIFE)\n(`rife_v4.25.safetensors`, 21.6 MB, **MIT**) or FILM (`film_net_fp16.safetensors`, 65.7 MB,\nApache-2.0) - both in `models/frame_interpolation/`, picked on node 3.\n\n**Node 5 is the only knob**, and it is wired twice on purpose. The clip is frame-indexed 1:1, so a clip\nwith more frames needs a *higher* fps to play at the same speed - and if the two numbers disagree the\nclip silently plays at the wrong speed. So `INTConstant` (node 5) feeds both `FrameInterpolate.multiplier`\nand the `source fps x factor` that `CreateVideo` writes:\n\n- **factor 2, source 24.12 fps** -> 48.24 fps written: **same duration, twice the frames** (smoother);\n- leave `CreateVideo.fps` at the source value instead and you get **smooth slow motion** - same frames,\n  half speed.\n\n**`multiplier` is the total factor, not the number inserted:** `(n-1) x multiplier + 1` frames come out\n(121 frames x2 = 241, x4 = 481 - measured).\n\n**What it costs and how good it is** (measured, 720x1280, RTX 3090; E17/E17b in `../EXPERIMENTS.md`):\nRIFE doubles a 121-frame clip in **15-25 s**; FILM takes ~1.8x longer for a **tie on quality**, so RIFE is\nthe default. Against a frame-duplication baseline at the same length the biggest single-frame jump falls\nby a third (x2) and halves again at x4 - duplication cannot lower it at all, which is what proves the\ninserted frames are synthesised rather than repeated.\n\n**Caveats:** the inserted frame averages the motion blur of its two neighbours, so fast limbs look slightly\nsoft - inherent, since neither input holds that exposure. Interpolation cannot invent detail that is not\nin the source, and it will not fix a choppy *performance* (only the sampling of one).\n\n*How to run it: story **S18** in `HOWTO.md`  ·  Why it is this way: **E17/E17b** in `video/EXPERIMENTS.md`.*\n"
+    "## Frame interpolation (S18)\n\n**Video in, video out with synthesised in-between frames**, by [RIFE](https://github.com/hzwer/Practical-RIFE)\n(`rife_v4.25.safetensors`, 21.6 MB, **MIT**) or FILM (`film_net_fp16.safetensors`, 65.7 MB,\nApache-2.0) - both in `models/frame_interpolation/`, picked on node 3.\n\n**Node 5 is the only knob**, and it is wired twice on purpose. The clip is frame-indexed 1:1, so a clip\nwith more frames needs a *higher* fps to play at the same speed - and if the two numbers disagree the\nclip silently plays at the wrong speed. So `INTConstant` (node 5) feeds both `FrameInterpolate.multiplier`\nand the `source fps x factor` that `CreateVideo` writes:\n\n- **factor 2, source 24.12 fps** -> 48.24 fps written: **same duration, twice the frames** (smoother);\n- leave `CreateVideo.fps` at the source value instead and you get **smooth slow motion** - same frames,\n  half speed.\n\n**`multiplier` is the total factor, not the number inserted:** `(n-1) x multiplier + 1` frames come out\n(121 frames x2 = 241, x4 = 481 - measured).\n\n**What it costs and how good it is** (measured, 720x1280, RTX 3090; E17/E17b in `../EXPERIMENTS.md`):\nRIFE doubles a 121-frame clip in **15-25 s**; FILM takes ~1.8x longer for a **tie on quality**, so RIFE is\nthe default. Against a frame-duplication baseline at the same length the biggest single-frame jump falls\nby a third (x2) and halves again at x4 - duplication cannot lower it at all, which is what proves the\ninserted frames are synthesised rather than repeated.\n\n**Caveats:** the inserted frame averages the motion blur of its two neighbours, so fast limbs look slightly\nsoft - inherent, since neither input holds that exposure. Interpolation cannot invent detail that is not\nin the source, and it will not fix a choppy *performance* (only the sampling of one).\n\n*How to run it: story **S18** in `HOWTO.md`  \u00b7  Why it is this way: **E17/E17b** in `video/EXPERIMENTS.md`.*\n"
    ],
    "flags": {},
    "mode": 0,

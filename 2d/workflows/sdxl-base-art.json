@@ -6,8 +6,8 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -900,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -55,8 +55,8 @@
    "id": 2,
    "type": "CLIPTextEncode",
    "pos": [
-    -600,
-    -200
+    480,
+    120
    ],
    "size": [
     420,
@@ -93,8 +93,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    -600,
-    100
+    480,
+    380
    ],
    "size": [
     420,
@@ -131,8 +131,8 @@
    "id": 4,
    "type": "EmptyLatentImage",
    "pos": [
-    -600,
-    320
+    40,
+    380
    ],
    "size": [
     420,
@@ -165,8 +165,8 @@
    "id": 5,
    "type": "KSampler",
    "pos": [
-    -250,
-    0
+    920,
+    120
    ],
    "size": [
     320,
@@ -224,8 +224,8 @@
    "id": 6,
    "type": "VAEDecode",
    "pos": [
-    100,
-    0
+    1360,
+    120
    ],
    "size": [
     240,
@@ -265,8 +265,8 @@
    "id": 7,
    "type": "SaveImage",
    "pos": [
-    300,
-    -50
+    1800,
+    120
    ],
    "size": [
     360,
@@ -308,7 +308,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## sdxl-base-art.json\n\nSDXL base art\n\n**Does:** prompt -> still image with SDXL (RealVisXL_V5.0_fp16 is the default checkpoint).\n**Knobs:** `cfg` and `steps` — **cfg 7 / 20 steps** is the value point; cfg 3 washes out, cfg 9\nover-burns, 30 steps buys nothing over 20.\n**Trap:** SDXL will not reliably give a full-body **solo** figure at 1024² — say \"solo, single\nfigure, full body\" or you get a two-view sheet or a bust.\n**Note:** SDXL is now a **niche pick** — `z-image-turbo.json` is the modern, licence-clean\nbase model. Kept because the canonical asset set (E1d) came from here.\n\n---\n*How to run it: story **S1** in `HOWTO.md`  ·  Why it is this way: **E1/E1c/E1d** in the scenarios' `EXPERIMENTS` logs.*"
+    "## sdxl-base-art.json\n\nSDXL base art\n\n**Does:** prompt -> still image with SDXL (RealVisXL_V5.0_fp16 is the default checkpoint).\n**Knobs:** `cfg` and `steps` \u2014 **cfg 7 / 20 steps** is the value point; cfg 3 washes out, cfg 9\nover-burns, 30 steps buys nothing over 20.\n**Trap:** SDXL will not reliably give a full-body **solo** figure at 1024\u00b2 \u2014 say \"solo, single\nfigure, full body\" or you get a two-view sheet or a bust.\n**Note:** SDXL is now a **niche pick** \u2014 `z-image-turbo.json` is the modern, licence-clean\nbase model. Kept because the canonical asset set (E1d) came from here.\n\n---\n*How to run it: story **S1** in `HOWTO.md`  \u00b7  Why it is this way: **E1/E1c/E1d** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

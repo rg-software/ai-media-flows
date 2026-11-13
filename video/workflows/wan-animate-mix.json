@@ -6,8 +6,8 @@
    "id": 1,
    "type": "UNETLoader",
    "pos": [
-    -1700,
-    100
+    40,
+    120
    ],
    "size": [
     340,
@@ -39,8 +39,8 @@
    "id": 2,
    "type": "LoraLoaderModelOnly",
    "pos": [
-    -1330,
-    100
+    480,
+    120
    ],
    "size": [
     300,
@@ -78,8 +78,8 @@
    "id": 38,
    "type": "LoraLoaderModelOnly",
    "pos": [
-    -1330,
-    190
+    920,
+    380
    ],
    "size": [
     300,
@@ -117,8 +117,8 @@
    "id": 3,
    "type": "ModelSamplingSD3",
    "pos": [
-    -1000,
-    100
+    1360,
+    120
    ],
    "size": [
     220,
@@ -155,8 +155,8 @@
    "id": 4,
    "type": "CLIPLoader",
    "pos": [
-    -1700,
-    240
+    40,
+    380
    ],
    "size": [
     340,
@@ -190,8 +190,8 @@
    "id": 5,
    "type": "CLIPTextEncode",
    "pos": [
-    -1330,
-    240
+    480,
+    380
    ],
    "size": [
     380,
@@ -228,15 +228,15 @@
    "id": 6,
    "type": "CLIPTextEncode",
    "pos": [
-    -1330,
-    420
+    480,
+    640
    ],
    "size": [
     380,
     200
    ],
    "widgets_values": [
-    "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+    "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
    ],
    "inputs": [
     {
@@ -266,8 +266,8 @@
    "id": 7,
    "type": "VAELoader",
    "pos": [
-    -1700,
-    560
+    40,
+    640
    ],
    "size": [
     340,
@@ -299,8 +299,8 @@
    "id": 8,
    "type": "CLIPVisionLoader",
    "pos": [
-    -1700,
-    660
+    40,
+    900
    ],
    "size": [
     340,
@@ -331,8 +331,8 @@
    "id": 9,
    "type": "LoadImage",
    "pos": [
-    -1700,
-    760
+    40,
+    1160
    ],
    "size": [
     340,
@@ -371,8 +371,8 @@
    "id": 10,
    "type": "LoadVideo",
    "pos": [
-    -1700,
-    1120
+    40,
+    1420
    ],
    "size": [
     340,
@@ -404,8 +404,8 @@
    "id": 11,
    "type": "GetVideoComponents",
    "pos": [
-    -1330,
-    1120
+    480,
+    900
    ],
    "size": [
     220,
@@ -452,8 +452,8 @@
    "id": 12,
    "type": "ImageScale",
    "pos": [
-    -1080,
-    1120
+    920,
+    120
    ],
    "size": [
     260,
@@ -496,8 +496,8 @@
    "id": 13,
    "type": "DWPreprocessor",
    "pos": [
-    -790,
-    1120
+    1360,
+    380
    ],
    "size": [
     300,
@@ -546,8 +546,8 @@
    "id": 14,
    "type": "DWPreprocessor",
    "pos": [
-    -790,
-    1360
+    1360,
+    640
    ],
    "size": [
     300,
@@ -596,8 +596,8 @@
    "id": 15,
    "type": "ImageFromBatch",
    "pos": [
-    -790,
-    1600
+    1360,
+    900
    ],
    "size": [
     240,
@@ -635,8 +635,8 @@
    "id": 16,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -790,
-    1720
+    40,
+    1680
    ],
    "size": [
     300,
@@ -681,8 +681,8 @@
    "id": 17,
    "type": "SAM3_Detect",
    "pos": [
-    -460,
-    1600
+    1800,
+    120
    ],
    "size": [
     300,
@@ -737,8 +737,8 @@
    "id": 18,
    "type": "CLIPTextEncode",
    "pos": [
-    -460,
-    1900
+    480,
+    1160
    ],
    "size": [
     280,
@@ -775,8 +775,8 @@
    "id": 19,
    "type": "GrowMask",
    "pos": [
-    -130,
-    1600
+    2240,
+    120
    ],
    "size": [
     220,
@@ -814,8 +814,8 @@
    "id": 20,
    "type": "BlockifyMask",
    "pos": [
-    -130,
-    1720
+    2680,
+    120
    ],
    "size": [
     220,
@@ -853,8 +853,8 @@
    "id": 21,
    "type": "DrawMaskOnImage",
    "pos": [
-    120,
-    1600
+    3120,
+    120
    ],
    "size": [
     240,
@@ -896,8 +896,8 @@
    "id": 22,
    "type": "CLIPVisionEncode",
    "pos": [
-    -1330,
-    760
+    480,
+    1420
    ],
    "size": [
     240,
@@ -939,8 +939,8 @@
    "id": 23,
    "type": "WanAnimateToVideo",
    "pos": [
-    80,
-    400
+    3560,
+    120
    ],
    "size": [
     360,
@@ -1038,8 +1038,8 @@
    "id": 24,
    "type": "KSampler",
    "pos": [
-    480,
-    400
+    4000,
+    120
    ],
    "size": [
     340,
@@ -1097,8 +1097,8 @@
    "id": 25,
    "type": "VAEDecode",
    "pos": [
-    860,
-    400
+    4440,
+    120
    ],
    "size": [
     220,
@@ -1138,8 +1138,8 @@
    "id": 26,
    "type": "CreateVideo",
    "pos": [
-    1120,
-    400
+    4880,
+    120
    ],
    "size": [
     240,
@@ -1176,8 +1176,8 @@
    "id": 27,
    "type": "SaveVideo",
    "pos": [
-    1400,
-    400
+    5320,
+    120
    ],
    "size": [
     340,
@@ -1215,7 +1215,7 @@
     320
    ],
    "widgets_values": [
-    "## wan-animate-mix.json\n\nPut YOUR character into footage, keeping the footage\n\n**Does:** character replacement (WanAnimateToVideo **Mix mode**) - a driving clip of a person in a scene + a **portrait** reference of our character -> the character plays that person's part, background and lighting kept. This is placement: the character lands *inside* real footage, not on a generated backdrop. Host: `wan2.2_animate_14B_int8_convrot` (18.4 GB, **Apache-2.0**, already on the box) + the lightx2v distill lora + our usual umt5/VAE/clip_vision.\n**Measured (E13c, 2026-10-11):** 77 frames at 640x640 in **375 s**; 33 frames at 848x480 in **240 s** - DWPose preprocessing included, so this is the *cheap* 14B route (the 6-step / cfg 1.0 distill recipe). Identity holds with a **portrait** reference; probe B proved a full-body reference loses the face on close-up-driven footage (same outfit, different woman).\n**Knobs:** the **reference image** (portrait! that is the identity knob); the **mask prompt** (`person` on `SAM3_Detect`) and `GrowMask`/`BlockifyMask` (10 / 32) if the driver's person is unusual; `length` (77 ships); the **prompt** describes the scene action, not the character (the reference already carries identity). Motion comes from `pose_video` (DWPose hand+body) and `face_video` (DWPose face), `reference_image_strength`-style tightening is not exposed on this node.\n**Traps:** the socket order is `positive, negative, vae, clip_vision_output, reference_image, face_video, pose_video, background_video, character_mask` - `reference_image` sits AFTER `clip_vision_output`. The mask and the video must share the canvas (a mismatched mask shows up as black 32-px blocks - measured). The output prepends the reference as frame 0 (81 frames out for `length` 77) - trim one second in the engine or with a slice. DWPose auto-downloads its detectors on first run (`custom_nodes/comfyui_controlnet_aux/ckpts/`). The relight lora ships in the chain (lightx2v -> relight - the official template includes it): measured on a\n    neutral-lit room the integration difference is subtle (subject-vs-background palette mismatch 27.6 -> 25.5\n    across matched frames, E13d) - on strongly-lit scenes it should matter more; re-measure if a composite\n    reads pasted.\n**Siblings:** `wan-animate-motion.json` (S15) is the Move mode - motion transfer onto a generated backdrop; this flow keeps the *footage's* background instead.\n\n---\n*How to run it: story **S31** in `HOWTO.md`  ·  Why it is this way: **E13c** in `video/EXPERIMENTS.md`.*"
+    "## wan-animate-mix.json\n\nPut YOUR character into footage, keeping the footage\n\n**Does:** character replacement (WanAnimateToVideo **Mix mode**) - a driving clip of a person in a scene + a **portrait** reference of our character -> the character plays that person's part, background and lighting kept. This is placement: the character lands *inside* real footage, not on a generated backdrop. Host: `wan2.2_animate_14B_int8_convrot` (18.4 GB, **Apache-2.0**, already on the box) + the lightx2v distill lora + our usual umt5/VAE/clip_vision.\n**Measured (E13c, 2026-10-11):** 77 frames at 640x640 in **375 s**; 33 frames at 848x480 in **240 s** - DWPose preprocessing included, so this is the *cheap* 14B route (the 6-step / cfg 1.0 distill recipe). Identity holds with a **portrait** reference; probe B proved a full-body reference loses the face on close-up-driven footage (same outfit, different woman).\n**Knobs:** the **reference image** (portrait! that is the identity knob); the **mask prompt** (`person` on `SAM3_Detect`) and `GrowMask`/`BlockifyMask` (10 / 32) if the driver's person is unusual; `length` (77 ships); the **prompt** describes the scene action, not the character (the reference already carries identity). Motion comes from `pose_video` (DWPose hand+body) and `face_video` (DWPose face), `reference_image_strength`-style tightening is not exposed on this node.\n**Traps:** the socket order is `positive, negative, vae, clip_vision_output, reference_image, face_video, pose_video, background_video, character_mask` - `reference_image` sits AFTER `clip_vision_output`. The mask and the video must share the canvas (a mismatched mask shows up as black 32-px blocks - measured). The output prepends the reference as frame 0 (81 frames out for `length` 77) - trim one second in the engine or with a slice. DWPose auto-downloads its detectors on first run (`custom_nodes/comfyui_controlnet_aux/ckpts/`). The relight lora ships in the chain (lightx2v -> relight - the official template includes it): measured on a\n    neutral-lit room the integration difference is subtle (subject-vs-background palette mismatch 27.6 -> 25.5\n    across matched frames, E13d) - on strongly-lit scenes it should matter more; re-measure if a composite\n    reads pasted.\n**Siblings:** `wan-animate-motion.json` (S15) is the Move mode - motion transfer onto a generated backdrop; this flow keeps the *footage's* background instead.\n\n---\n*How to run it: story **S31** in `HOWTO.md`  \u00b7  Why it is this way: **E13c** in `video/EXPERIMENTS.md`.*"
    ],
    "inputs": [],
    "outputs": [],

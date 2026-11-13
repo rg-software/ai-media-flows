@@ -6,8 +6,8 @@
    "id": 37,
    "type": "UNETLoader",
    "pos": [
-    -1500,
-    460
+    40,
+    120
    ],
    "size": [
     340,
@@ -39,8 +39,8 @@
    "id": 54,
    "type": "ModelSamplingSD3",
    "pos": [
-    -1100,
-    460
+    480,
+    640
    ],
    "size": [
     220,
@@ -77,8 +77,8 @@
    "id": 38,
    "type": "CLIPLoader",
    "pos": [
-    -1500,
-    240
+    40,
+    380
    ],
    "size": [
     340,
@@ -112,8 +112,8 @@
    "id": 39,
    "type": "VAELoader",
    "pos": [
-    -1500,
-    20
+    40,
+    640
    ],
    "size": [
     340,
@@ -145,8 +145,8 @@
    "id": 52,
    "type": "LoadImage",
    "pos": [
-    -1500,
-    760
+    40,
+    900
    ],
    "size": [
     340,
@@ -184,8 +184,8 @@
    "id": 6,
    "type": "CLIPTextEncode",
    "pos": [
-    -1100,
-    240
+    480,
+    120
    ],
    "size": [
     440,
@@ -222,15 +222,15 @@
    "id": 7,
    "type": "CLIPTextEncode",
    "pos": [
-    -1100,
-    20
+    480,
+    380
    ],
    "size": [
     440,
     200
    ],
    "widgets_values": [
-    "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+    "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
    ],
    "inputs": [
     {
@@ -260,8 +260,8 @@
    "id": 55,
    "type": "WanVaceToVideo",
    "pos": [
-    -600,
-    300
+    920,
+    120
    ],
    "size": [
     340,
@@ -341,8 +341,8 @@
    "id": 3,
    "type": "KSampler",
    "pos": [
-    -200,
-    300
+    1360,
+    120
    ],
    "size": [
     340,
@@ -400,8 +400,8 @@
    "id": 56,
    "type": "TrimVideoLatent",
    "pos": [
-    200,
-    300
+    1800,
+    120
    ],
    "size": [
     240,
@@ -441,8 +441,8 @@
    "id": 8,
    "type": "VAEDecode",
    "pos": [
-    500,
-    300
+    2240,
+    120
    ],
    "size": [
     220,
@@ -483,8 +483,8 @@
    "id": 28,
    "type": "SaveAnimatedWEBP",
    "pos": [
-    780,
-    220
+    2680,
+    120
    ],
    "size": [
     340,
@@ -516,8 +516,8 @@
    "id": 47,
    "type": "SaveWEBM",
    "pos": [
-    780,
-    460
+    2680,
+    380
    ],
    "size": [
     340,
@@ -556,7 +556,7 @@
     320
    ],
    "widgets_values": [
-    "## wan-vace-reference.json\n\nPrompt-driven animation of a character you own (no driving clip)\n\n**Does:** VACE **reference-to-video** - your character image goes in as the **reference** and the prompt says what she should *do*; the model keeps her identity and acts it out, in the reference's own look and its plain background. Wan2.1-VACE 14B fp8_scaled (`wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB, **Apache-2.0**) plus the umt5 text encoder and Wan VAE this box already ships. **This is the counterpart to `wan-animate-motion.json` (S18):** that flow copies motion from a *driving clip*; this one writes the motion from *words* - the one motion source we had no route for.\n**Measured (E13b, 2026-10-10):** 81 frames at 768x768, 20 steps, cfg 6, shift 8 -> **2729 s (45.5 min)** on the 3090 at 17.25 GB VRAM. **Identity holds** on our own `char_heroine.png` across the clip, and the prompt's fire spell appears and grows in her hand (strip: `video/evidence/E13b-vace-single-strip.png`). **Two honest defects:** the gown's hem smears into a painterly swirl early, and the **last third drifts** (the action dominates, the figure softens) - keep the first ~two thirds if identity is what matters.\n**Knobs:** `length` on `WanVaceToVideo` (81 ships = 3.4 s at 24 fps; the value quantises in 4-frame chunks), **steps/cfg** on the sampler (20 / 6.0 - the 6-step distil LoRA the Animate flow uses is named for I2V at 480p and is untested with VACE reference mode), **shift** on `ModelSamplingSD3` (8.0), and the canvas (768x768 ships; 480x848 roughly halves the cost if you accept the crop).\n**Traps:** the reference brings its **background** with it - a busy photo gives a busy clip, so use a plain one. Never GGUF this model (the same metadata trap as Wan-Animate-2). And when you copy an upstream example, **audit every loader filename against what this box holds**: the example loads `wan_2.1_vae.safetensors`, which we do not have - ours is `Wan2_1_VAE_bf16.safetensors` (wired here).\n**Not in this flow yet:** several subjects at once and region placement (the reference pair and the `control_video` + `control_masks` arms) are measured in E13b and tracked there.\n\n---\n*How to run it: story **S28** in `HOWTO.md`  ·  Why it is this way: **E13/E13b** in the scenarios' `EXPERIMENTS` logs.*"
+    "## wan-vace-reference.json\n\nPrompt-driven animation of a character you own (no driving clip)\n\n**Does:** VACE **reference-to-video** - your character image goes in as the **reference** and the prompt says what she should *do*; the model keeps her identity and acts it out, in the reference's own look and its plain background. Wan2.1-VACE 14B fp8_scaled (`wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB, **Apache-2.0**) plus the umt5 text encoder and Wan VAE this box already ships. **This is the counterpart to `wan-animate-motion.json` (S18):** that flow copies motion from a *driving clip*; this one writes the motion from *words* - the one motion source we had no route for.\n**Measured (E13b, 2026-10-10):** 81 frames at 768x768, 20 steps, cfg 6, shift 8 -> **2729 s (45.5 min)** on the 3090 at 17.25 GB VRAM. **Identity holds** on our own `char_heroine.png` across the clip, and the prompt's fire spell appears and grows in her hand (strip: `video/evidence/E13b-vace-single-strip.png`). **Two honest defects:** the gown's hem smears into a painterly swirl early, and the **last third drifts** (the action dominates, the figure softens) - keep the first ~two thirds if identity is what matters.\n**Knobs:** `length` on `WanVaceToVideo` (81 ships = 3.4 s at 24 fps; the value quantises in 4-frame chunks), **steps/cfg** on the sampler (20 / 6.0 - the 6-step distil LoRA the Animate flow uses is named for I2V at 480p and is untested with VACE reference mode), **shift** on `ModelSamplingSD3` (8.0), and the canvas (768x768 ships; 480x848 roughly halves the cost if you accept the crop).\n**Traps:** the reference brings its **background** with it - a busy photo gives a busy clip, so use a plain one. Never GGUF this model (the same metadata trap as Wan-Animate-2). And when you copy an upstream example, **audit every loader filename against what this box holds**: the example loads `wan_2.1_vae.safetensors`, which we do not have - ours is `Wan2_1_VAE_bf16.safetensors` (wired here).\n**Not in this flow yet:** several subjects at once and region placement (the reference pair and the `control_video` + `control_masks` arms) are measured in E13b and tracked there.\n\n---\n*How to run it: story **S28** in `HOWTO.md`  \u00b7  Why it is this way: **E13/E13b** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "inputs": [],
    "outputs": [],

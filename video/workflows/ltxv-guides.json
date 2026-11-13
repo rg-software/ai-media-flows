@@ -6,8 +6,8 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1400,
-    100
+    40,
+    120
    ],
    "size": [
     380,
@@ -53,8 +53,8 @@
    "id": 2,
    "type": "CLIPLoader",
    "pos": [
-    -1400,
-    240
+    40,
+    380
    ],
    "size": [
     380,
@@ -88,8 +88,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    -980,
-    100
+    480,
+    120
    ],
    "size": [
     400,
@@ -126,8 +126,8 @@
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    -980,
-    280
+    480,
+    380
    ],
    "size": [
     400,
@@ -164,8 +164,8 @@
    "id": 5,
    "type": "LoadVideo",
    "pos": [
-    -1400,
-    420
+    40,
+    640
    ],
    "size": [
     380,
@@ -196,8 +196,8 @@
    "id": 6,
    "type": "GetVideoComponents",
    "pos": [
-    -980,
-    420
+    480,
+    640
    ],
    "size": [
     300,
@@ -256,8 +256,8 @@
    "id": 7,
    "type": "EmptyLTXVLatentVideo",
    "pos": [
-    -980,
-    620
+    40,
+    900
    ],
    "size": [
     340,
@@ -291,8 +291,8 @@
    "id": 8,
    "type": "LTXVAddGuidesFromBatch",
    "pos": [
-    -540,
-    100
+    920,
+    120
    ],
    "size": [
     360,
@@ -365,8 +365,8 @@
    "id": 9,
    "type": "LTXVConditioning",
    "pos": [
-    -540,
-    340
+    1360,
+    120
    ],
    "size": [
     340,
@@ -416,8 +416,8 @@
    "id": 10,
    "type": "LTXVScheduler",
    "pos": [
-    -540,
-    460
+    40,
+    1160
    ],
    "size": [
     340,
@@ -452,8 +452,8 @@
    "id": 11,
    "type": "KSamplerSelect",
    "pos": [
-    -1400,
-    820
+    40,
+    1420
    ],
    "size": [
     340,
@@ -484,8 +484,8 @@
    "id": 12,
    "type": "SamplerCustom",
    "pos": [
-    -160,
-    100
+    1800,
+    120
    ],
    "size": [
     360,
@@ -556,8 +556,8 @@
    "id": 13,
    "type": "VAEDecode",
    "pos": [
-    240,
-    100
+    2240,
+    120
    ],
    "size": [
     220,
@@ -597,8 +597,8 @@
    "id": 14,
    "type": "CreateVideo",
    "pos": [
-    500,
-    100
+    2680,
+    120
    ],
    "size": [
     260,
@@ -635,8 +635,8 @@
    "id": 15,
    "type": "SaveVideo",
    "pos": [
-    800,
-    100
+    3120,
+    120
    ],
    "size": [
     340,
@@ -674,7 +674,7 @@
     320
    ],
    "widgets_values": [
-    "## ltxv-guides.json\n\nKeyframe animation: our stills pinned at chosen frames\n\n**Does:** a guide clip (two stills + exact-black padding) + a prompt -> a clip that travels between the stills (`LTXVAddGuidesFromBatch`: batch index == frame index, strength 1.0 shared). The latent is empty (`EmptyLTXVLatentVideo`) - every pixel of direction comes from the guides and the prompt. Build the guide clip offline (see E23) - the padding must decode byte-exact black or every noisy frame becomes a guide. Host: 13B-distilled-fp8 + t5xxl_fp8 (`ltxv`), 768x768 (multiples of 32), 97 frames (8n+1).\n**Measured (E23, 2026-10-15):** PROBE - (A) same-still control, (B) full-body -> portrait.\n**Knobs:** the **guide stills** (identity lives here); **which frames** (batch position); **strength** (1.0 = hard pin, shared across guides); the **prompt** (must describe the TRAVEL, not a pose); steps 8 / euler / no STG / cfg 1 (distilled recipe).\n**Traps:** `LTXVAddGuideMulti` (per-guide strengths) does NOT submit through our sweep_workflow - its DynamicCombo sub-inputs must nest under the combo key and the sweeper flattens them (measured rejection E23). More guides = more non-black frames, no graph change. Guide stills are center-upscaled to the canvas, so mismatched aspects crop.\n**Siblings:** `ltxv-i2v.json` (S35) is prompt-only; this one pins frames.\n\n---\n*How to run it: story **S36** in `HOWTO.md`  ·  Why it is this way: **E23** in `video/EXPERIMENTS.md`.*"
+    "## ltxv-guides.json\n\nKeyframe animation: our stills pinned at chosen frames\n\n**Does:** a guide clip (two stills + exact-black padding) + a prompt -> a clip that travels between the stills (`LTXVAddGuidesFromBatch`: batch index == frame index, strength 1.0 shared). The latent is empty (`EmptyLTXVLatentVideo`) - every pixel of direction comes from the guides and the prompt. Build the guide clip offline (see E23) - the padding must decode byte-exact black or every noisy frame becomes a guide. Host: 13B-distilled-fp8 + t5xxl_fp8 (`ltxv`), 768x768 (multiples of 32), 97 frames (8n+1).\n**Measured (E23, 2026-10-15):** PROBE - (A) same-still control, (B) full-body -> portrait.\n**Knobs:** the **guide stills** (identity lives here); **which frames** (batch position); **strength** (1.0 = hard pin, shared across guides); the **prompt** (must describe the TRAVEL, not a pose); steps 8 / euler / no STG / cfg 1 (distilled recipe).\n**Traps:** `LTXVAddGuideMulti` (per-guide strengths) does NOT submit through our sweep_workflow - its DynamicCombo sub-inputs must nest under the combo key and the sweeper flattens them (measured rejection E23). More guides = more non-black frames, no graph change. Guide stills are center-upscaled to the canvas, so mismatched aspects crop.\n**Siblings:** `ltxv-i2v.json` (S35) is prompt-only; this one pins frames.\n\n---\n*How to run it: story **S36** in `HOWTO.md`  \u00b7  Why it is this way: **E23** in `video/EXPERIMENTS.md`.*"
    ],
    "inputs": [],
    "outputs": [],

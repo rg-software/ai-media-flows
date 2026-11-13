@@ -6,8 +6,8 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1000,
-    0
+    40,
+    120
    ],
    "size": [
     380,
@@ -52,8 +52,8 @@
    "id": 2,
    "type": "LoadImage",
    "pos": [
-    -1000,
-    200
+    40,
+    380
    ],
    "size": [
     320,
@@ -92,8 +92,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    -560,
-    0
+    480,
+    120
    ],
    "size": [
     440,
@@ -130,8 +130,8 @@
    "id": 4,
    "type": "SAM3_Detect",
    "pos": [
-    -60,
-    0
+    920,
+    120
    ],
    "size": [
     320,
@@ -204,8 +204,8 @@
    "id": 5,
    "type": "MaskToImage",
    "pos": [
-    340,
-    0
+    1360,
+    120
    ],
    "size": [
     280,
@@ -240,8 +240,8 @@
    "id": 6,
    "type": "SaveImage",
    "pos": [
-    660,
-    0
+    1800,
+    120
    ],
    "size": [
     400,
@@ -269,8 +269,8 @@
    "id": 7,
    "type": "SaveImage",
    "pos": [
-    660,
-    340
+    480,
+    380
    ],
    "size": [
     400,
@@ -312,7 +312,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## sam3-segment.json\n\nSAM 3 text-prompted mask\n\nU6 - SAM 3 text-prompted segmentation (ComfyUI CORE, no custom pack). Describe the object in CLIPTextEncode -> SAM3_Detect returns the mask. Loaded via CheckpointLoaderSimple('sam3.1_multiplex_fp16.safetensors', 1.63 GB, Apache-2.0 repack by Comfy-Org). Verified on a 2-subject scene: 'the knight in silver armor' -> mask centroid x=0.26 with 0.0% in the right half; 'the woman in blue robes' -> centroid x=0.77 with 0.0% in the left half. ZERO cross-bleed, outline-accurate. This is the auto-masking that E8/E10 had to build by hand, and it is prompt-controllable where BiRefNet is class-agnostic and SAM1 needs manual points. refine_iterations=2 and threshold=0.5 are the knobs; bboxes/positive_coords/negative_coords inputs allow hybrid point+text prompting.\n\n---\n*How to run it: story **S3** in `HOWTO.md`  ·  Why it is this way: **U6a** in the scenarios' `EXPERIMENTS` logs.*"
+    "## sam3-segment.json\n\nSAM 3 text-prompted mask\n\nU6 - SAM 3 text-prompted segmentation (ComfyUI CORE, no custom pack). Describe the object in CLIPTextEncode -> SAM3_Detect returns the mask. Loaded via CheckpointLoaderSimple('sam3.1_multiplex_fp16.safetensors', 1.63 GB, Apache-2.0 repack by Comfy-Org). Verified on a 2-subject scene: 'the knight in silver armor' -> mask centroid x=0.26 with 0.0% in the right half; 'the woman in blue robes' -> centroid x=0.77 with 0.0% in the left half. ZERO cross-bleed, outline-accurate. This is the auto-masking that E8/E10 had to build by hand, and it is prompt-controllable where BiRefNet is class-agnostic and SAM1 needs manual points. refine_iterations=2 and threshold=0.5 are the knobs; bboxes/positive_coords/negative_coords inputs allow hybrid point+text prompting.\n\n---\n*How to run it: story **S3** in `HOWTO.md`  \u00b7  Why it is this way: **U6a** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

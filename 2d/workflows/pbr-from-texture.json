@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -900,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -45,8 +45,8 @@
    "id": 2,
    "type": "QFXPBRGenerator",
    "pos": [
-    -520,
-    0
+    480,
+    120
    ],
    "size": [
     340,
@@ -138,8 +138,8 @@
    "id": 3,
    "type": "SaveImage",
    "pos": [
-    -120,
-    -320
+    920,
+    120
    ],
    "size": [
     380,
@@ -167,8 +167,8 @@
    "id": 4,
    "type": "SaveImage",
    "pos": [
-    -120,
-    -20
+    920,
+    380
    ],
    "size": [
     380,
@@ -196,8 +196,8 @@
    "id": 5,
    "type": "SaveImage",
    "pos": [
-    -120,
-    280
+    920,
+    640
    ],
    "size": [
     380,
@@ -225,8 +225,8 @@
    "id": 6,
    "type": "SaveImage",
    "pos": [
-    -120,
-    580
+    920,
+    900
    ],
    "size": [
     380,
@@ -254,8 +254,8 @@
    "id": 7,
    "type": "SaveImage",
    "pos": [
-    -120,
-    880
+    920,
+    1160
    ],
    "size": [
     380,
@@ -297,7 +297,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## pbr-from-texture.json\n\nPBR set (metallic inverted)\n\nE12b — texture -> full PBR set (qornflex ComfyUI-QFX-PBRGenerator). CAVEAT: the Metallic output measured ~219/255 on stone (should be ~0 / non-metallic) -> treat it as suspect/inverted and verify per material. BaseColor/Normal/Roughness/AO/Displacement/ORM are good.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E12b -> see U4** in the scenarios' `EXPERIMENTS` logs.*"
+    "## pbr-from-texture.json\n\nPBR set (metallic inverted)\n\nE12b \u2014 texture -> full PBR set (qornflex ComfyUI-QFX-PBRGenerator). CAVEAT: the Metallic output measured ~219/255 on stone (should be ~0 / non-metallic) -> treat it as suspect/inverted and verify per material. BaseColor/Normal/Roughness/AO/Displacement/ORM are good.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  \u00b7  Why it is this way: **E12b -> see U4** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

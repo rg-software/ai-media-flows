@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -1620,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -47,7 +47,7 @@
    "id": 2,
    "type": "UnetLoaderGGUF",
    "pos": [
-    -1620,
+    40,
     380
    ],
    "size": [
@@ -79,8 +79,8 @@
    "id": 3,
    "type": "CLIPLoader",
    "pos": [
-    -1620,
-    480
+    40,
+    640
    ],
    "size": [
     420,
@@ -114,8 +114,8 @@
    "id": 4,
    "type": "VAELoader",
    "pos": [
-    -1620,
-    660
+    40,
+    900
    ],
    "size": [
     420,
@@ -149,8 +149,8 @@
    "id": 5,
    "type": "LoraLoaderModelOnly",
    "pos": [
-    -1160,
-    380
+    480,
+    120
    ],
    "size": [
     420,
@@ -188,8 +188,8 @@
    "id": 6,
    "type": "ModelSamplingAuraFlow",
    "pos": [
-    -700,
-    380
+    920,
+    120
    ],
    "size": [
     300,
@@ -226,8 +226,8 @@
    "id": 7,
    "type": "CFGNorm",
    "pos": [
-    -360,
-    380
+    1360,
+    120
    ],
    "size": [
     280,
@@ -265,8 +265,8 @@
    "id": 8,
    "type": "FluxKontextImageScale",
    "pos": [
-    -1160,
-    0
+    480,
+    380
    ],
    "size": [
     260,
@@ -301,8 +301,8 @@
    "id": 9,
    "type": "VAEEncode",
    "pos": [
-    -860,
-    0
+    920,
+    380
    ],
    "size": [
     220,
@@ -342,8 +342,8 @@
    "id": 10,
    "type": "TextEncodeQwenImageEditPlus",
    "pos": [
-    -1160,
-    140
+    480,
+    640
    ],
    "size": [
     520,
@@ -390,8 +390,8 @@
    "id": 11,
    "type": "TextEncodeQwenImageEditPlus",
    "pos": [
-    -1160,
-    300
+    480,
+    900
    ],
    "size": [
     380,
@@ -438,8 +438,8 @@
    "id": 12,
    "type": "FluxKontextMultiReferenceLatentMethod",
    "pos": [
-    -600,
-    140
+    920,
+    640
    ],
    "size": [
     280,
@@ -476,8 +476,8 @@
    "id": 13,
    "type": "FluxKontextMultiReferenceLatentMethod",
    "pos": [
-    -600,
-    240
+    920,
+    900
    ],
    "size": [
     280,
@@ -514,8 +514,8 @@
    "id": 14,
    "type": "KSampler",
    "pos": [
-    -40,
-    0
+    1800,
+    120
    ],
    "size": [
     320,
@@ -573,8 +573,8 @@
    "id": 15,
    "type": "VAEDecode",
    "pos": [
-    320,
-    0
+    2240,
+    120
    ],
    "size": [
     220,
@@ -614,8 +614,8 @@
    "id": 16,
    "type": "SaveImage",
    "pos": [
-    580,
-    0
+    2680,
+    120
    ],
    "size": [
     400,
@@ -657,7 +657,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## qwen-edit-gguf.json\n\nInstruction edit + consistency\n\nU2 - Qwen-Image-Edit-2511 as GGUF Q4_K_M (Apache 2.0). THE fp8 build (19.6 GB + 7.9 GB encoder) hard-freezes this box; the Q4 quant (12.34 GB) FITS and completed in 380 s with cgroup peak 20.0 GB - 467 soft-limit throttles, but 0 hard-limit hits and 0 OOM kills (the memory guard in comfyui.service did its job). VAEEncode feeds the sampler latent AND both text encoders; FluxKontextMultiReferenceLatentMethod 'index_timestep_zero' is required for the Comfy repackaged files. 40 steps / cfg 3 is the non-Lightning recipe - add lightx2v's 4-step Lightning LoRA to make it fast. VERDICT vs Flux Kontext (E13): Qwen is far more FAITHFUL (preserves cottage, knight, framing) where Kontext re-dramatises and shifts composition - but 5.5x slower. Use Qwen when fidelity matters, Kontext when you want a bolder reinterpretation.\n\n---\n*How to run it: story **S5, S7** in `HOWTO.md`  ·  Why it is this way: **U2/E14c** in the scenarios' `EXPERIMENTS` logs.*"
+    "## qwen-edit-gguf.json\n\nInstruction edit + consistency\n\nU2 - Qwen-Image-Edit-2511 as GGUF Q4_K_M (Apache 2.0). THE fp8 build (19.6 GB + 7.9 GB encoder) hard-freezes this box; the Q4 quant (12.34 GB) FITS and completed in 380 s with cgroup peak 20.0 GB - 467 soft-limit throttles, but 0 hard-limit hits and 0 OOM kills (the memory guard in comfyui.service did its job). VAEEncode feeds the sampler latent AND both text encoders; FluxKontextMultiReferenceLatentMethod 'index_timestep_zero' is required for the Comfy repackaged files. 40 steps / cfg 3 is the non-Lightning recipe - add lightx2v's 4-step Lightning LoRA to make it fast. VERDICT vs Flux Kontext (E13): Qwen is far more FAITHFUL (preserves cottage, knight, framing) where Kontext re-dramatises and shifts composition - but 5.5x slower. Use Qwen when fidelity matters, Kontext when you want a bolder reinterpretation.\n\n---\n*How to run it: story **S5, S7** in `HOWTO.md`  \u00b7  Why it is this way: **U2/E14c** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

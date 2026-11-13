@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -900,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -45,8 +45,8 @@
    "id": 2,
    "type": "SeamlessTiling",
    "pos": [
-    -540,
-    40
+    480,
+    120
    ],
    "size": [
     300,
@@ -91,8 +91,8 @@
    "id": 3,
    "type": "SaveImage",
    "pos": [
-    -180,
-    -120
+    920,
+    120
    ],
    "size": [
     360,
@@ -120,8 +120,8 @@
    "id": 4,
    "type": "TextureTiler",
    "pos": [
-    -180,
-    200
+    920,
+    380
    ],
    "size": [
     300,
@@ -160,8 +160,8 @@
    "id": 5,
    "type": "SaveImage",
    "pos": [
-    180,
-    180
+    1360,
+    120
    ],
    "size": [
     360,
@@ -203,7 +203,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## seamless-texture.json\n\nSeamless tiling\n\n**Does:** makes an image tile seamlessly, in image space (TextureAlchemy).\n**Knobs:** `method` — use **`offset`**. `mirror`/`blend_edges` score perfectly on continuity\nmetrics and look visibly awful (symmetric kaleidoscope / blurry cross).\n**Avoid:** `SeamlessTile` (comfyui-seamless-tiling) patches the MODEL and **segfaults** the\nserver in libcuda; the circular-VAE route crashes on a second run in one session.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  ·  Why it is this way: **E7c** in the scenarios' `EXPERIMENTS` logs.*"
+    "## seamless-texture.json\n\nSeamless tiling\n\n**Does:** makes an image tile seamlessly, in image space (TextureAlchemy).\n**Knobs:** `method` \u2014 use **`offset`**. `mirror`/`blend_edges` score perfectly on continuity\nmetrics and look visibly awful (symmetric kaleidoscope / blurry cross).\n**Avoid:** `SeamlessTile` (comfyui-seamless-tiling) patches the MODEL and **segfaults** the\nserver in libcuda; the circular-VAE route crashes on a second run in one session.\n\n---\n*How to run it: story **S11** in `HOWTO.md`  \u00b7  Why it is this way: **E7c** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

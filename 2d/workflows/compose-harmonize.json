@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -1180,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -45,8 +45,8 @@
    "id": 11,
    "type": "LoadImage",
    "pos": [
-    -1180,
-    380
+    40,
+    640
    ],
    "size": [
     320,
@@ -84,8 +84,8 @@
    "id": 12,
    "type": "ImageToMask",
    "pos": [
-    -800,
-    420
+    480,
+    640
    ],
    "size": [
     240,
@@ -122,8 +122,8 @@
    "id": 2,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1180,
-    760
+    40,
+    380
    ],
    "size": [
     320,
@@ -172,8 +172,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    -1180,
-    920
+    480,
+    120
    ],
    "size": [
     400,
@@ -210,8 +210,8 @@
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    -1180,
-    1120
+    480,
+    380
    ],
    "size": [
     400,
@@ -248,8 +248,8 @@
    "id": 5,
    "type": "InpaintCropImproved",
    "pos": [
-    -700,
-    0
+    920,
+    120
    ],
    "size": [
     420,
@@ -336,8 +336,8 @@
    "id": 6,
    "type": "InpaintModelConditioning",
    "pos": [
-    -240,
-    0
+    1360,
+    120
    ],
    "size": [
     300,
@@ -410,8 +410,8 @@
    "id": 7,
    "type": "KSampler",
    "pos": [
-    140,
-    0
+    1800,
+    120
    ],
    "size": [
     320,
@@ -469,8 +469,8 @@
    "id": 8,
    "type": "VAEDecode",
    "pos": [
-    520,
-    0
+    2240,
+    120
    ],
    "size": [
     220,
@@ -510,8 +510,8 @@
    "id": 9,
    "type": "InpaintStitchImproved",
    "pos": [
-    800,
-    0
+    2680,
+    120
    ],
    "size": [
     300,
@@ -551,8 +551,8 @@
    "id": 10,
    "type": "SaveImage",
    "pos": [
-    1140,
-    0
+    3120,
+    120
    ],
    "size": [
     400,
@@ -594,7 +594,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## compose-harmonize.json\n\nCompose + harmonize\n\nE10 - composition: harmonize a scripted paste (see scripts/compose_scene.py). THIS IS THE IDENTITY KNOB: denoise 0.45 integrates lighting + adds a contact shadow while keeping the character; 0.75 REPLACES the subject (fine for scenery, fatal for a character you must keep). Small subjects are the most fragile: at 200 px the same 0.75 nearly erased the knight. Boundary-gradient check: 9.3-9.7 paste -> 7.3-7.6 harmonized.\n\n---\n*How to run it: story **S6** in `HOWTO.md`  ·  Why it is this way: **E10** in the scenarios' `EXPERIMENTS` logs.*"
+    "## compose-harmonize.json\n\nCompose + harmonize\n\nE10 - composition: harmonize a scripted paste (see scripts/compose_scene.py). THIS IS THE IDENTITY KNOB: denoise 0.45 integrates lighting + adds a contact shadow while keeping the character; 0.75 REPLACES the subject (fine for scenery, fatal for a character you must keep). Small subjects are the most fragile: at 200 px the same 0.75 nearly erased the knight. Boundary-gradient check: 9.3-9.7 paste -> 7.3-7.6 harmonized.\n\n---\n*How to run it: story **S6** in `HOWTO.md`  \u00b7  Why it is this way: **E10** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

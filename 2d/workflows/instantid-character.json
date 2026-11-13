@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -1220,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -45,8 +45,8 @@
    "id": 2,
    "type": "InstantIDModelLoader",
    "pos": [
-    -1220,
-    360
+    40,
+    380
    ],
    "size": [
     360,
@@ -77,8 +77,8 @@
    "id": 3,
    "type": "InstantIDFaceAnalysis",
    "pos": [
-    -1220,
-    460
+    40,
+    640
    ],
    "size": [
     360,
@@ -109,8 +109,8 @@
    "id": 4,
    "type": "ControlNetLoader",
    "pos": [
-    -1220,
-    560
+    40,
+    900
    ],
    "size": [
     360,
@@ -141,8 +141,8 @@
    "id": 5,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1220,
-    660
+    40,
+    1160
    ],
    "size": [
     360,
@@ -190,8 +190,8 @@
    "id": 6,
    "type": "CLIPTextEncode",
    "pos": [
-    -820,
-    0
+    480,
+    120
    ],
    "size": [
     440,
@@ -228,8 +228,8 @@
    "id": 7,
    "type": "CLIPTextEncode",
    "pos": [
-    -820,
-    220
+    480,
+    380
    ],
    "size": [
     440,
@@ -266,8 +266,8 @@
    "id": 8,
    "type": "ApplyInstantID",
    "pos": [
-    -340,
-    0
+    920,
+    120
    ],
    "size": [
     340,
@@ -364,8 +364,8 @@
    "id": 9,
    "type": "EmptyLatentImage",
    "pos": [
-    -340,
-    280
+    40,
+    1420
    ],
    "size": [
     300,
@@ -398,8 +398,8 @@
    "id": 10,
    "type": "KSampler",
    "pos": [
-    80,
-    0
+    1360,
+    120
    ],
    "size": [
     320,
@@ -457,8 +457,8 @@
    "id": 11,
    "type": "VAEDecode",
    "pos": [
-    440,
-    0
+    1800,
+    120
    ],
    "size": [
     220,
@@ -498,8 +498,8 @@
    "id": 12,
    "type": "SaveImage",
    "pos": [
-    700,
-    0
+    2240,
+    120
    ],
    "size": [
     400,
@@ -541,7 +541,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## instantid-character.json\n\nFace identity (InstantID)\n\nE14b - InstantID (SDXL). Facial identity measured against the reference portrait with insightface/antelopev2: cosine 0.823 vs Flux Kontext's 0.187. CAVEAT: InstantID transfers the FACE ONLY - clothing/design must come from the prompt. It also BIASES COMPOSITION toward a close-up bust portrait even when the prompt asks for a full scene ('standing on a forest path' produced a bust), because the face embedding wants a large face. Needs a visible face in the reference (>=~112 px); a full-body 1024 image gives only ~60 px, which is why portrait_heroine exists. weight 0.8, 30 steps, cfg 5.0, 30 s.\n\n---\n*How to run it: story **S7** in `HOWTO.md`  ·  Why it is this way: **E14b** in the scenarios' `EXPERIMENTS` logs.*"
+    "## instantid-character.json\n\nFace identity (InstantID)\n\nE14b - InstantID (SDXL). Facial identity measured against the reference portrait with insightface/antelopev2: cosine 0.823 vs Flux Kontext's 0.187. CAVEAT: InstantID transfers the FACE ONLY - clothing/design must come from the prompt. It also BIASES COMPOSITION toward a close-up bust portrait even when the prompt asks for a full scene ('standing on a forest path' produced a bust), because the face embedding wants a large face. Needs a visible face in the reference (>=~112 px); a full-body 1024 image gives only ~60 px, which is why portrait_heroine exists. weight 0.8, 30 steps, cfg 5.0, 30 s.\n\n---\n*How to run it: story **S7** in `HOWTO.md`  \u00b7  Why it is this way: **E14b** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

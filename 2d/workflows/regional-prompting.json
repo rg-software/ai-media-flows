@@ -6,8 +6,8 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1200,
-    0
+    40,
+    120
    ],
    "size": [
     340,
@@ -57,8 +57,8 @@
    "id": 2,
    "type": "CLIPTextEncode",
    "pos": [
-    -800,
-    0
+    480,
+    120
    ],
    "size": [
     440,
@@ -95,8 +95,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    -800,
-    160
+    480,
+    380
    ],
    "size": [
     440,
@@ -133,8 +133,8 @@
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    -800,
-    320
+    480,
+    640
    ],
    "size": [
     440,
@@ -171,8 +171,8 @@
    "id": 5,
    "type": "CLIPTextEncode",
    "pos": [
-    -800,
-    480
+    480,
+    900
    ],
    "size": [
     440,
@@ -209,8 +209,8 @@
    "id": 6,
    "type": "ConditioningSetAreaPercentage",
    "pos": [
-    -300,
-    160
+    920,
+    120
    ],
    "size": [
     320,
@@ -251,8 +251,8 @@
    "id": 7,
    "type": "ConditioningSetAreaPercentage",
    "pos": [
-    -300,
-    360
+    920,
+    380
    ],
    "size": [
     320,
@@ -293,8 +293,8 @@
    "id": 8,
    "type": "ConditioningCombine",
    "pos": [
-    80,
-    100
+    1360,
+    120
    ],
    "size": [
     280,
@@ -334,8 +334,8 @@
    "id": 9,
    "type": "ConditioningCombine",
    "pos": [
-    420,
-    100
+    1800,
+    120
    ],
    "size": [
     280,
@@ -375,8 +375,8 @@
    "id": 10,
    "type": "EmptyLatentImage",
    "pos": [
-    80,
-    320
+    40,
+    380
    ],
    "size": [
     300,
@@ -409,8 +409,8 @@
    "id": 11,
    "type": "KSampler",
    "pos": [
-    760,
-    0
+    2240,
+    120
    ],
    "size": [
     320,
@@ -468,8 +468,8 @@
    "id": 12,
    "type": "VAEDecode",
    "pos": [
-    1140,
-    0
+    2680,
+    120
    ],
    "size": [
     220,
@@ -509,8 +509,8 @@
    "id": 13,
    "type": "SaveImage",
    "pos": [
-    1400,
-    0
+    3120,
+    120
    ],
    "size": [
     400,
@@ -552,7 +552,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## regional-prompting.json\n\nRegional prompting\n\nE15 - regional prompting, core nodes only (no install). Pattern: a GLOBAL style prompt combined with per-region prompts, each wrapped in ConditioningSetAreaPercentage, then ConditioningCombine chains them. RESULT vs a single prompt containing both subjects: the single prompt DROPPED one subject entirely (only the sorceress rendered); regional rendered BOTH in their assigned halves. Objective separation score 9.9 -> 30.0, and the sorceress's blue fell from 9.7% to 0.2% on the left half. CAVEAT: the metric was nearly fooled - the baseline's 'silver on the left' was pale castle masonry, not a knight, so ALWAYS look at the image. For irregular (non-rectangular) regions, swap ConditioningSetAreaPercentage for ConditioningSetMaskAndCombine (also core) with masks from E3/SAM.\n\n---\n*How to run it: story **S6** in `HOWTO.md`  ·  Why it is this way: **E15** in the scenarios' `EXPERIMENTS` logs.*"
+    "## regional-prompting.json\n\nRegional prompting\n\nE15 - regional prompting, core nodes only (no install). Pattern: a GLOBAL style prompt combined with per-region prompts, each wrapped in ConditioningSetAreaPercentage, then ConditioningCombine chains them. RESULT vs a single prompt containing both subjects: the single prompt DROPPED one subject entirely (only the sorceress rendered); regional rendered BOTH in their assigned halves. Objective separation score 9.9 -> 30.0, and the sorceress's blue fell from 9.7% to 0.2% on the left half. CAVEAT: the metric was nearly fooled - the baseline's 'silver on the left' was pale castle masonry, not a knight, so ALWAYS look at the image. For irregular (non-rectangular) regions, swap ConditioningSetAreaPercentage for ConditioningSetMaskAndCombine (also core) with masks from E3/SAM.\n\n---\n*How to run it: story **S6** in `HOWTO.md`  \u00b7  Why it is this way: **E15** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

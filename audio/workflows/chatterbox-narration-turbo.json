@@ -6,8 +6,8 @@
    "id": 1,
    "type": "FL_ChatterboxTurboTTS",
    "pos": [
-    -620,
-    60
+    40,
+    120
    ],
    "size": [
     430,
@@ -50,8 +50,8 @@
    "id": 2,
    "type": "SaveAudioAdvanced",
    "pos": [
-    -100,
-    60
+    480,
+    120
    ],
    "size": [
     320,
@@ -94,7 +94,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## Chatterbox Turbo narration (E28) - the same job, with paralinguistic tags\n\n**The expressive variant of `chatterbox-narration.json`.** Same pack, different model (`ResembleAI/chatterbox-turbo`, ~1 GB,\ndownloaded on first use).\n\n- **Paralinguistic tags are the point:** `[laugh]`, `[sigh]`, `[gasp]`, `[chuckle]`, `[cough]`, `[sniff]`, `[groan]`, `[shush]`,\n  `[clear throat]` - the model *performs* them, where the standard model reads the word aloud (E27/E28).\n- **Its knobs differ:** `temperature`, `top_k`, `top_p`, `repetition_penalty` - there is no `exaggeration`/`cfg_weight` here.\n- **It comes out much quieter** (peak about -8 dBFS against the standard model's -0.1), so raise it rather than normalise it\n  down; still 24 kHz mono.\n- `audio_prompt` clones a voice here too.\n\n*How to run it: story **S26** in `HOWTO.md`  ·  Why it is this way: **E28** in `audio/EXPERIMENTS.md`.*"
+    "## Chatterbox Turbo narration (E28) - the same job, with paralinguistic tags\n\n**The expressive variant of `chatterbox-narration.json`.** Same pack, different model (`ResembleAI/chatterbox-turbo`, ~1 GB,\ndownloaded on first use).\n\n- **Paralinguistic tags are the point:** `[laugh]`, `[sigh]`, `[gasp]`, `[chuckle]`, `[cough]`, `[sniff]`, `[groan]`, `[shush]`,\n  `[clear throat]` - the model *performs* them, where the standard model reads the word aloud (E27/E28).\n- **Its knobs differ:** `temperature`, `top_k`, `top_p`, `repetition_penalty` - there is no `exaggeration`/`cfg_weight` here.\n- **It comes out much quieter** (peak about -8 dBFS against the standard model's -0.1), so raise it rather than normalise it\n  down; still 24 kHz mono.\n- `audio_prompt` clones a voice here too.\n\n*How to run it: story **S26** in `HOWTO.md`  \u00b7  Why it is this way: **E28** in `audio/EXPERIMENTS.md`.*"
    ]
   }
  ],

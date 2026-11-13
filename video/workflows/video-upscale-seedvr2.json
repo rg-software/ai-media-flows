@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadVideo",
    "pos": [
-    -1200,
-    200
+    40,
+    120
    ],
    "size": [
     320,
@@ -38,8 +38,8 @@
    "id": 2,
    "type": "GetVideoComponents",
    "pos": [
-    -840,
-    200
+    480,
+    120
    ],
    "size": [
     280,
@@ -102,8 +102,8 @@
    "id": 3,
    "type": "SeedVR2LoadDiTModel",
    "pos": [
-    -1200,
-    480
+    40,
+    380
    ],
    "size": [
     360,
@@ -140,8 +140,8 @@
    "id": 4,
    "type": "SeedVR2LoadVAEModel",
    "pos": [
-    -1200,
-    760
+    40,
+    640
    ],
    "size": [
     360,
@@ -182,8 +182,8 @@
    "id": 5,
    "type": "SeedVR2VideoUpscaler",
    "pos": [
-    -460,
-    200
+    920,
+    120
    ],
    "size": [
     380,
@@ -242,8 +242,8 @@
    "id": 6,
    "type": "CreateVideo",
    "pos": [
-    0,
-    200
+    1360,
+    120
    ],
    "size": [
     300,
@@ -288,8 +288,8 @@
    "id": 7,
    "type": "SaveVideo",
    "pos": [
-    360,
-    200
+    1800,
+    120
    ],
    "size": [
     380,
@@ -327,7 +327,7 @@
     320
    ],
    "widgets_values": [
-    "## video-upscale-seedvr2.json\n\nUpscale a video while keeping its timebase and audio\n\n**Does:** reads a clip, upscales its frames with temporal context (SeedVR2 receives an IMAGE batch, not a VIDEO socket), then reassembles the clip at the **source fps with its audio**. The bridge is `LoadVideo -> GetVideoComponents -> SeedVR2VideoUpscaler -> CreateVideo`; audio/fps go from the same `GetVideoComponents` to `CreateVideo`. Host: SeedVR2 3B fp16 + its VAE, Apache-2.0, already on the box.\n**Measured (E20, 2026-10-12):** (A) 80 frames / 5 s / 640x640 -> **960x960** in **150 s**; (B) 121 frames / 720x1280 -> **960x1706** in **375 s**. Both keep frame count, fps and audio (B's container duration differs by <1 frame). On A, downscaled mean pixel drift **4.96/255**; static-corner luma delta **0.14** input vs **0.144** output; no batch-seam flicker signal (boundary p95 0.54 vs 0.50 for other transitions). Visual checks show the dance motion/content intact.\n**Knobs:** `resolution` is the **short edge** (960 gives 1.5x on 640-square; 2048 on a 1024-square still gives 2x); `batch_size` must be **4n+1** (5 default here; bigger batches use more VRAM and improve temporal context); `temporal_overlap` 2 blends across batch seams; `color_correction=lab`; 3B fp16 / CPU offload is the measured 24-GB-friendly path.\n**Traps:** SeedVR2 **reconstructs**, it does not simply enlarge pixels - the still route measured extra detail *and* drift vs UltraSharp (2d U1); judge the clip, not just resolution. This probe preserved frame count/fps/audio, but only one 5-s clip is tested. Video-input subfolders must be visible to the LoadVideo picker; put your clip in `input/` root.\n**Sibling:** `2d/workflows/upscale-seedvr2.json` is the single-image route (S10).\n\n---\n*How to run it: story **S34** in `HOWTO.md`  ·  Why it is this way: **E20** in `video/EXPERIMENTS.md`.*"
+    "## video-upscale-seedvr2.json\n\nUpscale a video while keeping its timebase and audio\n\n**Does:** reads a clip, upscales its frames with temporal context (SeedVR2 receives an IMAGE batch, not a VIDEO socket), then reassembles the clip at the **source fps with its audio**. The bridge is `LoadVideo -> GetVideoComponents -> SeedVR2VideoUpscaler -> CreateVideo`; audio/fps go from the same `GetVideoComponents` to `CreateVideo`. Host: SeedVR2 3B fp16 + its VAE, Apache-2.0, already on the box.\n**Measured (E20, 2026-10-12):** (A) 80 frames / 5 s / 640x640 -> **960x960** in **150 s**; (B) 121 frames / 720x1280 -> **960x1706** in **375 s**. Both keep frame count, fps and audio (B's container duration differs by <1 frame). On A, downscaled mean pixel drift **4.96/255**; static-corner luma delta **0.14** input vs **0.144** output; no batch-seam flicker signal (boundary p95 0.54 vs 0.50 for other transitions). Visual checks show the dance motion/content intact.\n**Knobs:** `resolution` is the **short edge** (960 gives 1.5x on 640-square; 2048 on a 1024-square still gives 2x); `batch_size` must be **4n+1** (5 default here; bigger batches use more VRAM and improve temporal context); `temporal_overlap` 2 blends across batch seams; `color_correction=lab`; 3B fp16 / CPU offload is the measured 24-GB-friendly path.\n**Traps:** SeedVR2 **reconstructs**, it does not simply enlarge pixels - the still route measured extra detail *and* drift vs UltraSharp (2d U1); judge the clip, not just resolution. This probe preserved frame count/fps/audio, but only one 5-s clip is tested. Video-input subfolders must be visible to the LoadVideo picker; put your clip in `input/` root.\n**Sibling:** `2d/workflows/upscale-seedvr2.json` is the single-image route (S10).\n\n---\n*How to run it: story **S34** in `HOWTO.md`  \u00b7  Why it is this way: **E20** in `video/EXPERIMENTS.md`.*"
    ],
    "inputs": [],
    "outputs": [],

@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -820,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -45,8 +45,8 @@
    "id": 2,
    "type": "DepthAnythingV2Preprocessor",
    "pos": [
-    -460,
-    -120
+    480,
+    120
    ],
    "size": [
     300,
@@ -81,8 +81,8 @@
    "id": 3,
    "type": "SaveImage",
    "pos": [
-    -100,
-    -220
+    920,
+    120
    ],
    "size": [
     360,
@@ -124,7 +124,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## depth-normal.json\n\nDepth map\n\n**Does:** monocular depth (DepthAnythingV2) from a single image. No extra weights - ACN\ndownloads it on first use.\n**Reads:** depth = light is *near*. Depth is **relative** (no absolute scale), so it is a\nguidance/parallax cue, **not** a height or displacement map.\n**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.\n**Note:** DSINE was removed from this graph - it is non-commercial and camera-space. A\nmaterial normal belongs to the PBR path.\n\n---\n*How to run it: story **S4** in `HOWTO.md`  ·  Why it is this way: **E12** in the scenarios' `EXPERIMENTS` logs.*"
+    "## depth-normal.json\n\nDepth map\n\n**Does:** monocular depth (DepthAnythingV2) from a single image. No extra weights - ACN\ndownloads it on first use.\n**Reads:** depth = light is *near*. Depth is **relative** (no absolute scale), so it is a\nguidance/parallax cue, **not** a height or displacement map.\n**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.\n**Note:** DSINE was removed from this graph - it is non-commercial and camera-space. A\nmaterial normal belongs to the PBR path.\n\n---\n*How to run it: story **S4** in `HOWTO.md`  \u00b7  Why it is this way: **E12** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

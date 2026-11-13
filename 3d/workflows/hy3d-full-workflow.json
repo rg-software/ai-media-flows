@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -1600,
-    200
+    40,
+    120
    ],
    "size": [
     315,
@@ -46,8 +46,8 @@
    "id": 2,
    "type": "Hy3D_2_1SimpleMeshGen",
    "pos": [
-    -1250,
-    200
+    480,
+    120
    ],
    "size": [
     318,
@@ -87,8 +87,8 @@
    "id": 3,
    "type": "Hy3DPostprocessMesh",
    "pos": [
-    -900,
-    200
+    920,
+    120
    ],
    "size": [
     315,
@@ -128,8 +128,8 @@
    "id": 14,
    "type": "Hy3DIMRemesh",
    "pos": [
-    -550,
-    60
+    1360,
+    120
    ],
    "size": [
     300,
@@ -172,8 +172,8 @@
    "id": 13,
    "type": "Hy3DExportMesh",
    "pos": [
-    -300,
-    400
+    1800,
+    380
    ],
    "size": [
     315,
@@ -212,8 +212,8 @@
    "id": 12,
    "type": "Hy3DMeshUVWrap",
    "pos": [
-    -550,
-    400
+    1800,
+    120
    ],
    "size": [
     214,
@@ -248,8 +248,8 @@
    "id": 4,
    "type": "Hy3DRenderMultiView",
    "pos": [
-    -550,
-    200
+    2240,
+    120
    ],
    "size": [
     342,
@@ -310,8 +310,8 @@
    "id": 5,
    "type": "DownloadAndLoadHy3DPaintModel",
    "pos": [
-    -550,
-    430
+    40,
+    380
    ],
    "size": [
     327,
@@ -342,8 +342,8 @@
    "id": 6,
    "type": "Hy3DSampleMultiView",
    "pos": [
-    -100,
-    260
+    2680,
+    120
    ],
    "size": [
     311,
@@ -398,8 +398,8 @@
    "id": 7,
    "type": "DownloadAndLoadHy3DDelightModel",
    "pos": [
-    220,
-    430
+    40,
+    640
    ],
    "size": [
     307,
@@ -430,8 +430,8 @@
    "id": 8,
    "type": "Hy3DDelightImage",
    "pos": [
-    220,
-    260
+    3120,
+    120
    ],
    "size": [
     278,
@@ -477,8 +477,8 @@
    "id": 9,
    "type": "Hy3DBakeFromMultiview",
    "pos": [
-    520,
-    260
+    3560,
+    120
    ],
    "size": [
     302,
@@ -534,8 +534,8 @@
    "id": 15,
    "type": "Hy3DMeshVerticeInpaintTexture",
    "pos": [
-    630,
-    260
+    4000,
+    120
    ],
    "size": [
     277,
@@ -596,8 +596,8 @@
    "id": 16,
    "type": "CV2InpaintTexture",
    "pos": [
-    730,
-    260
+    4440,
+    120
    ],
    "size": [
     239,
@@ -641,8 +641,8 @@
    "id": 10,
    "type": "Hy3DApplyTexture",
    "pos": [
-    830,
-    200
+    4880,
+    120
    ],
    "size": [
     226,
@@ -683,8 +683,8 @@
    "id": 11,
    "type": "Hy3DExportMesh",
    "pos": [
-    1060,
-    200
+    5320,
+    120
    ],
    "size": [
     315,
@@ -737,7 +737,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## hy3d-full-workflow.json\n\nHy3D shape -> texture\n\n**Does:** image -> 3D mesh -> texture -> bake, with Hunyuan3D 2.x.\n**View:** both exports end in a `Preview3D` node — orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) — plus a **Textured turntable (12 frames)**:\n`Hy3DNvdiffrastRenderer` renders the textured mesh through a full 360° as an image batch, which is the\nreliable way to see the texture.\n**Note:** the untextured export is the **retopologised** shape (`Hy3DIMRemesh`) and the textured GLB\nis the final — so the shape checkpoint is the one to rig or bring into an engine.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3D_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` to get\nBaseColor/Normal/Roughness/Metallic/ORM for an engine.\n**See:** `3d/README.md`, `3d/pipeline-design.md`, and the widget reference in `3d/hy3d-knobs.md`.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  ·  Why it is this way: **E2a-e** in the scenarios' `EXPERIMENTS` logs.*"
+    "## hy3d-full-workflow.json\n\nHy3D shape -> texture\n\n**Does:** image -> 3D mesh -> texture -> bake, with Hunyuan3D 2.x.\n**View:** both exports end in a `Preview3D` node \u2014 orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) \u2014 plus a **Textured turntable (12 frames)**:\n`Hy3DNvdiffrastRenderer` renders the textured mesh through a full 360\u00b0 as an image batch, which is the\nreliable way to see the texture.\n**Note:** the untextured export is the **retopologised** shape (`Hy3DIMRemesh`) and the textured GLB\nis the final \u2014 so the shape checkpoint is the one to rig or bring into an engine.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3D_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` to get\nBaseColor/Normal/Roughness/Metallic/ORM for an engine.\n**See:** `3d/README.md`, `3d/pipeline-design.md`, and the widget reference in `3d/hy3d-knobs.md`.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  \u00b7  Why it is this way: **E2a-e** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
@@ -746,8 +746,8 @@
    "id": 18,
    "type": "Preview3D",
    "pos": [
-    1455,
-    200
+    5760,
+    120
    ],
    "size": [
     860,
@@ -782,8 +782,8 @@
    "id": 19,
    "type": "Preview3D",
    "pos": [
-    -300,
-    586
+    2240,
+    380
    ],
    "size": [
     860,
@@ -818,8 +818,8 @@
    "id": 20,
    "type": "Hy3DNvdiffrastRenderer",
    "pos": [
-    1400,
-    1180
+    5320,
+    380
    ],
    "size": [
     300,
@@ -875,8 +875,8 @@
    "id": 21,
    "type": "SaveImage",
    "pos": [
-    1700,
-    1180
+    5760,
+    380
    ],
    "size": [
     420,
@@ -905,8 +905,8 @@
    "id": 23,
    "type": "SaveImage",
    "pos": [
-    1700,
-    1620
+    4880,
+    380
    ],
    "size": [
     420,

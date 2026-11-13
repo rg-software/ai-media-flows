@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -1200,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -46,7 +46,7 @@
    "id": 2,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1200,
+    40,
     380
    ],
    "size": [
@@ -95,8 +95,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    -1200,
-    540
+    480,
+    120
    ],
    "size": [
     460,
@@ -133,8 +133,8 @@
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    -1200,
-    720
+    480,
+    380
    ],
    "size": [
     460,
@@ -171,8 +171,8 @@
    "id": 5,
    "type": "CannyEdgePreprocessor",
    "pos": [
-    -660,
-    0
+    480,
+    640
    ],
    "size": [
     300,
@@ -211,8 +211,8 @@
    "id": 6,
    "type": "DepthAnythingV2Preprocessor",
    "pos": [
-    -660,
-    220
+    480,
+    900
    ],
    "size": [
     300,
@@ -245,8 +245,8 @@
    "id": 7,
    "type": "ControlNetLoader",
    "pos": [
-    -660,
-    360
+    40,
+    640
    ],
    "size": [
     420,
@@ -277,8 +277,8 @@
    "id": 8,
    "type": "SetUnionControlNetType",
    "pos": [
-    -180,
-    360
+    480,
+    1160
    ],
    "size": [
     400,
@@ -315,8 +315,8 @@
    "id": 9,
    "type": "ControlNetApplyAdvanced",
    "pos": [
-    260,
-    0
+    920,
+    120
    ],
    "size": [
     320,
@@ -378,8 +378,8 @@
    "id": 10,
    "type": "EmptyLatentImage",
    "pos": [
-    260,
-    240
+    40,
+    900
    ],
    "size": [
     300,
@@ -412,8 +412,8 @@
    "id": 11,
    "type": "KSampler",
    "pos": [
-    620,
-    0
+    1360,
+    120
    ],
    "size": [
     320,
@@ -471,8 +471,8 @@
    "id": 12,
    "type": "VAEDecode",
    "pos": [
-    980,
-    0
+    1800,
+    120
    ],
    "size": [
     220,
@@ -512,8 +512,8 @@
    "id": 13,
    "type": "SaveImage",
    "pos": [
-    1240,
-    0
+    2240,
+    120
    ],
    "size": [
     400,
@@ -555,7 +555,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## controlnet-union.json\n\nControlNet-Union SDXL\n\nU6b - ControlNet-Union SDXL (xinsir, Apache-2.0 repack, 2.34 GB): ONE model for many modes via SetUnionControlNetType. GOTCHA (cost real debugging time): the `type` strings are GROUPED, not per-model - 'canny' is INVALID and the error is only in the server log: valid values are ['auto','openpose','depth','hed/pidi/scribble/ted','canny/lineart/anime_lineart/mlsd','normal','segment','tile','repaint']. Worse, ComfyUI reported status='success' while printing 'Output will be ignored' ONLY to the journal - a 3 s 'successful' run that produced no image. When a run succeeds suspiciously fast and saves nothing, check `journalctl --user -u comfyui`, not the API status. VERDICT: union/canny matched the specialist xinsir-canny-sdxl-v2 visually on the same seed (both restyled the cottage to a gothic mansion preserving roofline/dormers/chimney/door), and the same 2.34 GB file also did depth - replacing three specialist SD1.5 CNs plus the SDXL canny. NOTE: a raw edge-IoU metric said specialist 16% vs union 1.5%, but that was confounded by brightness (the union output is far darker, so a fixed gradient threshold finds fewer edges) - the images agree, the metric lied. To run depth instead, point SetUnionControlNetType at 'depth' and feed DepthAnythingV2Preprocessor.\n\n---\n*How to run it: story **S2** in `HOWTO.md`  ·  Why it is this way: **U6b** in the scenarios' `EXPERIMENTS` logs.*"
+    "## controlnet-union.json\n\nControlNet-Union SDXL\n\nU6b - ControlNet-Union SDXL (xinsir, Apache-2.0 repack, 2.34 GB): ONE model for many modes via SetUnionControlNetType. GOTCHA (cost real debugging time): the `type` strings are GROUPED, not per-model - 'canny' is INVALID and the error is only in the server log: valid values are ['auto','openpose','depth','hed/pidi/scribble/ted','canny/lineart/anime_lineart/mlsd','normal','segment','tile','repaint']. Worse, ComfyUI reported status='success' while printing 'Output will be ignored' ONLY to the journal - a 3 s 'successful' run that produced no image. When a run succeeds suspiciously fast and saves nothing, check `journalctl --user -u comfyui`, not the API status. VERDICT: union/canny matched the specialist xinsir-canny-sdxl-v2 visually on the same seed (both restyled the cottage to a gothic mansion preserving roofline/dormers/chimney/door), and the same 2.34 GB file also did depth - replacing three specialist SD1.5 CNs plus the SDXL canny. NOTE: a raw edge-IoU metric said specialist 16% vs union 1.5%, but that was confounded by brightness (the union output is far darker, so a fixed gradient threshold finds fewer edges) - the images agree, the metric lied. To run depth instead, point SetUnionControlNetType at 'depth' and feed DepthAnythingV2Preprocessor.\n\n---\n*How to run it: story **S2** in `HOWTO.md`  \u00b7  Why it is this way: **U6b** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

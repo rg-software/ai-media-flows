@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -2200,
-    0
+    40,
+    120
    ],
    "size": [
     315,
@@ -45,8 +45,8 @@
    "id": 21,
    "type": "ImageResizeKJv2",
    "pos": [
-    -1900,
-    0
+    480,
+    120
    ],
    "size": [
     320,
@@ -90,8 +90,8 @@
    "id": 22,
    "type": "ImageResizeKJv2",
    "pos": [
-    -1900,
-    400
+    480,
+    380
    ],
    "size": [
     320,
@@ -134,8 +134,8 @@
    "id": 23,
    "type": "ImageResizeKJv2",
    "pos": [
-    -1900,
-    800
+    480,
+    640
    ],
    "size": [
     320,
@@ -178,8 +178,8 @@
    "id": 24,
    "type": "ImageResizeKJv2",
    "pos": [
-    -1900,
-    1200
+    480,
+    900
    ],
    "size": [
     320,
@@ -222,8 +222,8 @@
    "id": 2,
    "type": "LoadImage",
    "pos": [
-    -2200,
-    400
+    40,
+    380
    ],
    "size": [
     315,
@@ -261,8 +261,8 @@
    "id": 3,
    "type": "LoadImage",
    "pos": [
-    -2200,
-    800
+    40,
+    640
    ],
    "size": [
     315,
@@ -300,8 +300,8 @@
    "id": 4,
    "type": "LoadImage",
    "pos": [
-    -2200,
-    1200
+    40,
+    900
    ],
    "size": [
     315,
@@ -339,8 +339,8 @@
    "id": 5,
    "type": "Hy3DModelLoader",
    "pos": [
-    -1870,
-    -100
+    40,
+    1160
    ],
    "size": [
     300,
@@ -381,8 +381,8 @@
    "id": 6,
    "type": "Hy3DGenerateMeshMultiView",
    "pos": [
-    -1480,
-    100
+    920,
+    120
    ],
    "size": [
     300,
@@ -457,8 +457,8 @@
    "id": 7,
    "type": "Hy3DVAEDecode",
    "pos": [
-    -1150,
-    0
+    1360,
+    120
    ],
    "size": [
     300,
@@ -504,8 +504,8 @@
    "id": 8,
    "type": "Hy3DPostprocessMesh",
    "pos": [
-    -820,
-    0
+    1800,
+    120
    ],
    "size": [
     315,
@@ -546,8 +546,8 @@
    "id": 9,
    "type": "Hy3DIMRemesh",
    "pos": [
-    -480,
-    40
+    2240,
+    120
    ],
    "size": [
     300,
@@ -590,8 +590,8 @@
    "id": 10,
    "type": "Hy3DExportMesh",
    "pos": [
-    -150,
-    200
+    2680,
+    120
    ],
    "size": [
     315,
@@ -630,8 +630,8 @@
    "id": 11,
    "type": "Hy3DMeshUVWrap",
    "pos": [
-    -150,
-    0
+    2680,
+    380
    ],
    "size": [
     214,
@@ -666,8 +666,8 @@
    "id": 12,
    "type": "Hy3DCameraConfig",
    "pos": [
-    150,
-    300
+    40,
+    1420
    ],
    "size": [
     340,
@@ -703,8 +703,8 @@
    "id": 13,
    "type": "Hy3DRenderMultiView",
    "pos": [
-    160,
-    0
+    3120,
+    120
    ],
    "size": [
     342,
@@ -770,8 +770,8 @@
    "id": 14,
    "type": "DownloadAndLoadHy3DPaintModel",
    "pos": [
-    160,
-    480
+    40,
+    1680
    ],
    "size": [
     327,
@@ -802,8 +802,8 @@
    "id": 15,
    "type": "Hy3DSampleMultiView",
    "pos": [
-    520,
-    100
+    3560,
+    120
    ],
    "size": [
     311,
@@ -863,8 +863,8 @@
    "id": 16,
    "type": "DownloadAndLoadHy3DDelightModel",
    "pos": [
-    520,
-    480
+    40,
+    1940
    ],
    "size": [
     307,
@@ -895,8 +895,8 @@
    "id": 17,
    "type": "Hy3DDelightImage",
    "pos": [
-    520,
-    300
+    4000,
+    120
    ],
    "size": [
     278,
@@ -942,8 +942,8 @@
    "id": 18,
    "type": "Hy3DBakeFromMultiview",
    "pos": [
-    820,
-    100
+    4440,
+    120
    ],
    "size": [
     302,
@@ -999,8 +999,8 @@
    "id": 25,
    "type": "Hy3DMeshVerticeInpaintTexture",
    "pos": [
-    930,
-    100
+    4880,
+    120
    ],
    "size": [
     277,
@@ -1061,8 +1061,8 @@
    "id": 26,
    "type": "CV2InpaintTexture",
    "pos": [
-    1020,
-    100
+    5320,
+    120
    ],
    "size": [
     239,
@@ -1106,8 +1106,8 @@
    "id": 19,
    "type": "Hy3DApplyTexture",
    "pos": [
-    1130,
-    100
+    5760,
+    120
    ],
    "size": [
     226,
@@ -1148,8 +1148,8 @@
    "id": 20,
    "type": "Hy3DExportMesh",
    "pos": [
-    1360,
-    100
+    6200,
+    120
    ],
    "size": [
     315,
@@ -1202,7 +1202,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D — several consistent views (uniform 512²) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node — orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) — plus a **Textured turntable (12 frames)** image\nbatch from `Hy3DNvdiffrastRenderer`, the reliable way to see the texture.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3Dmv_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` for a full PBR set.\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  ·  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
+    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D \u2014 several consistent views (uniform 512\u00b2) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node \u2014 orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) \u2014 plus a **Textured turntable (12 frames)** image\nbatch from `Hy3DNvdiffrastRenderer`, the reliable way to see the texture.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3Dmv_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` for a full PBR set.\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  \u00b7  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
@@ -1211,8 +1211,8 @@
    "id": 28,
    "type": "Preview3D",
    "pos": [
-    1755,
-    100
+    6640,
+    120
    ],
    "size": [
     860,
@@ -1247,8 +1247,8 @@
    "id": 29,
    "type": "Preview3D",
    "pos": [
-    -150,
-    600
+    3120,
+    380
    ],
    "size": [
     860,
@@ -1283,8 +1283,8 @@
    "id": 30,
    "type": "Hy3DNvdiffrastRenderer",
    "pos": [
-    1400,
-    1100
+    6200,
+    380
    ],
    "size": [
     300,
@@ -1340,8 +1340,8 @@
    "id": 31,
    "type": "SaveImage",
    "pos": [
-    1700,
-    1100
+    6640,
+    380
    ],
    "size": [
     420,
@@ -1370,8 +1370,8 @@
    "id": 33,
    "type": "SaveImage",
    "pos": [
-    1700,
-    1540
+    5760,
+    380
    ],
    "size": [
     420,
@@ -1400,8 +1400,8 @@
    "id": 34,
    "type": "PreviewImage",
    "pos": [
-    -1150,
-    250
+    1360,
+    380
    ],
    "size": [
     320,
@@ -1428,8 +1428,8 @@
    "id": 35,
    "type": "SaveImage",
    "pos": [
-    -800,
-    250
+    1360,
+    640
    ],
    "size": [
     420,

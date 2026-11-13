@@ -7,7 +7,7 @@
    "type": "LoadImage",
    "pos": [
     40,
-    200
+    120
    ],
    "size": [
     320,
@@ -46,8 +46,8 @@
    "id": 2,
    "type": "UpscaleModelLoader",
    "pos": [
-    400,
-    420
+    40,
+    380
    ],
    "size": [
     380,
@@ -78,8 +78,8 @@
    "id": 3,
    "type": "ImageUpscaleWithModel",
    "pos": [
-    820,
-    200
+    480,
+    120
    ],
    "size": [
     300,
@@ -120,7 +120,7 @@
    "id": 4,
    "type": "SaveImage",
    "pos": [
-    1180,
+    920,
     120
    ],
    "size": [
@@ -149,8 +149,8 @@
    "id": 5,
    "type": "ImageCompare",
    "pos": [
-    1180,
-    460
+    920,
+    380
    ],
    "size": [
     420,
@@ -195,7 +195,7 @@
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## upscale.json\n\nx4 upscale (GAN) with a before/after slider\n\n**Does:** one x4 GAN pass - **faithful**, it invents nothing, so it cannot drift away from the source. The `ImageCompare` node at the end shows the source and the result in one viewport with a slider; the `SaveImage` is the deliverable (the comparer only previews, so nothing extra is written by it).\n**Which to use:** shippable output -> `upscale-seedvr2.json` (Apache-2.0). This flow -> when you want the source respected, and you accept the licence below.\n**Trap:** `4x-UltraSharp` is **non-commercial** - do not ship its output. The loader's model dropdown can be switched to `RealESRGAN_x4plus` (permissive; over-smooths concept art a little) if you need a clean licence without changing the flow.\n**Note:** the model multiplies by 4, so a 1024 px input becomes 4096 px.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **E4b** in the scenarios' `EXPERIMENTS` logs.*"
+    "## upscale.json\n\nx4 upscale (GAN) with a before/after slider\n\n**Does:** one x4 GAN pass - **faithful**, it invents nothing, so it cannot drift away from the source. The `ImageCompare` node at the end shows the source and the result in one viewport with a slider; the `SaveImage` is the deliverable (the comparer only previews, so nothing extra is written by it).\n**Which to use:** shippable output -> `upscale-seedvr2.json` (Apache-2.0). This flow -> when you want the source respected, and you accept the licence below.\n**Trap:** `4x-UltraSharp` is **non-commercial** - do not ship its output. The loader's model dropdown can be switched to `RealESRGAN_x4plus` (permissive; over-smooths concept art a little) if you need a clean licence without changing the flow.\n**Note:** the model multiplies by 4, so a 1024 px input becomes 4096 px.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  \u00b7  Why it is this way: **E4b** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "properties": {},
    "order": 0

@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -1000,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -46,8 +46,8 @@
    "id": 2,
    "type": "SeedVR2LoadDiTModel",
    "pos": [
-    -1000,
-    400
+    40,
+    380
    ],
    "size": [
     380,
@@ -84,8 +84,8 @@
    "id": 3,
    "type": "SeedVR2LoadVAEModel",
    "pos": [
-    -1000,
-    700
+    40,
+    640
    ],
    "size": [
     380,
@@ -126,8 +126,8 @@
    "id": 4,
    "type": "SeedVR2VideoUpscaler",
    "pos": [
-    -560,
-    0
+    480,
+    120
    ],
    "size": [
     360,
@@ -187,8 +187,8 @@
    "id": 5,
    "type": "SaveImage",
    "pos": [
-    -140,
-    0
+    920,
+    120
    ],
    "size": [
     400,
@@ -216,8 +216,8 @@
    "id": 6,
    "type": "ImageCompare",
    "pos": [
-    -140,
-    400
+    920,
+    380
    ],
    "size": [
     420,
@@ -262,7 +262,7 @@
    "inputs": [],
    "outputs": [],
    "widgets_values": [
-    "## upscale-seedvr2.json\n\nSeedVR2 upscale / restore, with a before/after slider\n\nU1 - SeedVR2 (Apache 2.0) replaces the non-commercial 4x-UltraSharp. RESOLUTION IS THE SHORT EDGE, not a multiplier: resolution=2048 on a 1024 input gives 2048. batch_size must follow 4n+1 (use 1 for a single still). color_correction='lab' is the recommended highest-fidelity mode. 24 GB -> 7B fp16 with no memory tricks (offload_device=none on the loaders); drop to 3B fp16 or 7B fp8 + blocks_to_swap/offloading if it OOMs. Measured vs 4x-UltraSharp at 2x: more reconstructed detail (grad-var 137.0 vs 97.7) but more drift from the source (2.70 vs 1.29) and slower (39 s vs 6 s) - it regenerates rather than enlarges.\n**Slider:** `ImageCompare` shows the source against the result; the `SaveImage` is the deliverable.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  ·  Why it is this way: **U1/E13f** in the scenarios' `EXPERIMENTS` logs.*"
+    "## upscale-seedvr2.json\n\nSeedVR2 upscale / restore, with a before/after slider\n\nU1 - SeedVR2 (Apache 2.0) replaces the non-commercial 4x-UltraSharp. RESOLUTION IS THE SHORT EDGE, not a multiplier: resolution=2048 on a 1024 input gives 2048. batch_size must follow 4n+1 (use 1 for a single still). color_correction='lab' is the recommended highest-fidelity mode. 24 GB -> 7B fp16 with no memory tricks (offload_device=none on the loaders); drop to 3B fp16 or 7B fp8 + blocks_to_swap/offloading if it OOMs. Measured vs 4x-UltraSharp at 2x: more reconstructed detail (grad-var 137.0 vs 97.7) but more drift from the source (2.70 vs 1.29) and slower (39 s vs 6 s) - it regenerates rather than enlarges.\n**Slider:** `ImageCompare` shows the source against the result; the `SaveImage` is the deliverable.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  \u00b7  Why it is this way: **U1/E13f** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "properties": {},
    "order": 0

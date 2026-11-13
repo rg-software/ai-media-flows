@@ -6,8 +6,8 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1100,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -55,8 +55,8 @@
    "id": 2,
    "type": "CLIPTextEncode",
    "pos": [
-    -760,
-    -220
+    480,
+    120
    ],
    "size": [
     420,
@@ -93,8 +93,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    -760,
-    90
+    480,
+    380
    ],
    "size": [
     420,
@@ -131,8 +131,8 @@
    "id": 8,
    "type": "LoadImage",
    "pos": [
-    -1580,
-    420
+    40,
+    640
    ],
    "size": [
     320,
@@ -170,8 +170,8 @@
    "id": 9,
    "type": "CannyEdgePreprocessor",
    "pos": [
-    -1200,
-    500
+    480,
+    640
    ],
    "size": [
     300,
@@ -211,8 +211,8 @@
    "id": 10,
    "type": "ControlNetLoader",
    "pos": [
-    -1200,
-    700
+    40,
+    900
    ],
    "size": [
     320,
@@ -243,8 +243,8 @@
    "id": 11,
    "type": "ControlNetApplyAdvanced",
    "pos": [
-    -820,
-    520
+    920,
+    120
    ],
    "size": [
     320,
@@ -311,8 +311,8 @@
    "id": 4,
    "type": "EmptyLatentImage",
    "pos": [
-    -420,
-    300
+    40,
+    380
    ],
    "size": [
     320,
@@ -345,8 +345,8 @@
    "id": 5,
    "type": "KSampler",
    "pos": [
-    -40,
-    0
+    1360,
+    120
    ],
    "size": [
     320,
@@ -404,8 +404,8 @@
    "id": 6,
    "type": "VAEDecode",
    "pos": [
-    340,
-    0
+    1800,
+    120
    ],
    "size": [
     240,
@@ -445,8 +445,8 @@
    "id": 7,
    "type": "SaveImage",
    "pos": [
-    640,
-    -50
+    2240,
+    120
    ],
    "size": [
     360,
@@ -474,8 +474,8 @@
    "id": 12,
    "type": "SaveImage",
    "pos": [
-    -880,
-    760
+    920,
+    380
    ],
    "size": [
     360,
@@ -517,7 +517,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## sdxl-controlnet-canny.json\n\nControlNet canny\n\n**Does:** generation constrained by the *structure* of an input image (Canny edges) — the\nlayout transfers, the content and style are replaced.\n**Knobs:** `strength` ~0.8 holds structure while freeing style; the canny low/high thresholds\ncontrol edge density.\n**Superseded:** `controlnet-union.json` does this and more from **one** model. Use this only\nif you specifically want the SDXL-v2 canny model.\n\n---\n*How to run it: story **S2** in `HOWTO.md`  ·  Why it is this way: **E2b** in the scenarios' `EXPERIMENTS` logs.*"
+    "## sdxl-controlnet-canny.json\n\nControlNet canny\n\n**Does:** generation constrained by the *structure* of an input image (Canny edges) \u2014 the\nlayout transfers, the content and style are replaced.\n**Knobs:** `strength` ~0.8 holds structure while freeing style; the canny low/high thresholds\ncontrol edge density.\n**Superseded:** `controlnet-union.json` does this and more from **one** model. Use this only\nif you specifically want the SDXL-v2 canny model.\n\n---\n*How to run it: story **S2** in `HOWTO.md`  \u00b7  Why it is this way: **E2b** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"

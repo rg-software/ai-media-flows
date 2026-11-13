@@ -6,8 +6,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    -1180,
-    0
+    40,
+    120
    ],
    "size": [
     320,
@@ -45,8 +45,8 @@
    "id": 2,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    -1180,
-    360
+    40,
+    380
    ],
    "size": [
     360,
@@ -94,8 +94,8 @@
    "id": 3,
    "type": "PulidModelLoader",
    "pos": [
-    -1180,
-    520
+    40,
+    640
    ],
    "size": [
     420,
@@ -126,8 +126,8 @@
    "id": 4,
    "type": "PulidEvaClipLoader",
    "pos": [
-    -1180,
-    620
+    40,
+    900
    ],
    "size": [
     420,
@@ -156,8 +156,8 @@
    "id": 5,
    "type": "PulidInsightFaceLoader",
    "pos": [
-    -1180,
-    720
+    40,
+    1160
    ],
    "size": [
     420,
@@ -188,8 +188,8 @@
    "id": 6,
    "type": "ApplyPulid",
    "pos": [
-    -700,
-    0
+    480,
+    120
    ],
    "size": [
     340,
@@ -255,8 +255,8 @@
    "id": 7,
    "type": "CLIPTextEncode",
    "pos": [
-    -300,
-    0
+    480,
+    380
    ],
    "size": [
     460,
@@ -293,8 +293,8 @@
    "id": 8,
    "type": "CLIPTextEncode",
    "pos": [
-    -300,
-    200
+    480,
+    640
    ],
    "size": [
     320,
@@ -331,8 +331,8 @@
    "id": 9,
    "type": "EmptyLatentImage",
    "pos": [
-    200,
-    200
+    40,
+    1420
    ],
    "size": [
     300,
@@ -365,8 +365,8 @@
    "id": 10,
    "type": "KSampler",
    "pos": [
-    200,
-    -120
+    920,
+    120
    ],
    "size": [
     320,
@@ -424,8 +424,8 @@
    "id": 11,
    "type": "VAEDecode",
    "pos": [
-    580,
-    -120
+    1360,
+    120
    ],
    "size": [
     220,
@@ -465,8 +465,8 @@
    "id": 12,
    "type": "SaveImage",
    "pos": [
-    840,
-    -120
+    1800,
+    120
    ],
    "size": [
     400,
@@ -508,7 +508,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## pulid-identity.json\n\nIdentity + free composition\n\nU5 - PuLID (SDXL v1.1) identity with COMPOSITIONAL FREEDOM. Same prompt, seed, steps and cfg as the E14b InstantID run, so the two are directly comparable. RESULT: InstantID returned a bust (face = 33.0% of frame, cos 0.823); PuLID returned the full-body path scene the prompt asked for (face = 9.8% of frame, cos 0.313). Both sit far above the prompt-level baseline (0.143). So the two are NOT ranked - they are different jobs: InstantID for tight identity portraits, PuLID for identity inside a free composition. method='fidelity' favours resemblance, 'style' frees the checkpoint; ApplyPulidAdvanced adds a fidelity slider and projection. Needs facexlib + insightface/antelopev2 + EVA-CLIP (auto-downloaded) + cubiq/PuLID_ComfyUI + ip-adapter_pulid_sdxl_fp16.safetensors. Use a SHARP reference - the EVA-CLIP path is sensitive to reference quality.\n\n---\n*How to run it: story **S7** in `HOWTO.md`  ·  Why it is this way: **U5** in the scenarios' `EXPERIMENTS` logs.*"
+    "## pulid-identity.json\n\nIdentity + free composition\n\nU5 - PuLID (SDXL v1.1) identity with COMPOSITIONAL FREEDOM. Same prompt, seed, steps and cfg as the E14b InstantID run, so the two are directly comparable. RESULT: InstantID returned a bust (face = 33.0% of frame, cos 0.823); PuLID returned the full-body path scene the prompt asked for (face = 9.8% of frame, cos 0.313). Both sit far above the prompt-level baseline (0.143). So the two are NOT ranked - they are different jobs: InstantID for tight identity portraits, PuLID for identity inside a free composition. method='fidelity' favours resemblance, 'style' frees the checkpoint; ApplyPulidAdvanced adds a fidelity slider and projection. Needs facexlib + insightface/antelopev2 + EVA-CLIP (auto-downloaded) + cubiq/PuLID_ComfyUI + ip-adapter_pulid_sdxl_fp16.safetensors. Use a SHARP reference - the EVA-CLIP path is sensitive to reference quality.\n\n---\n*How to run it: story **S7** in `HOWTO.md`  \u00b7  Why it is this way: **U5** in the scenarios' `EXPERIMENTS` logs.*"
    ],
    "color": "#332922",
    "bgcolor": "#593930"
