@@ -121,3 +121,38 @@ This is the third scenario born from a modality with the node surface already in
     - **Closure:** for a bad span in an XL song take, re-roll the whole take or edit outside ComfyUI. The XL repaint variant is demoted to `workflows/scratch/` (E37/E38 carry the knowledge; the graph rebuilds in minutes if an instrumental-span use appears). The turbo repaint flow stays shipped - it has a measured PASS on turbo takes (E19).
 - Next: closed for this scenario; nothing further planned.
 
+
+## E39 - Chatterbox's expressiveness knobs: exaggerated enough to matter, unstable at 2.0 (PASS, with a window)
+
+- Date: 2026-11-15
+- Stage: voice (narration) - knob verification
+- Workflow: `audio/workflows/chatterbox-narration.json` graph via API (`FL_ChatterboxTTS` -> `SaveAudioAdvanced`)
+- Input: the E25 two-sentence script, seed 0, temperature 0.8, 24 kHz mono; arms: `exaggeration` 0.25 / 1.0 / 2.0 (cfg_weight 0.5) plus `cfg_weight` 1.0 (exaggeration 0.5); reference = the E25 default take (0.5 / 0.5, same seed)
+- Params: the pack's own knob ranges (exaggeration 0.25-2.0, cfg_weight 0.2-1.0); nothing else moved
+- Output: `output/audio/e39_{exg025,exg100,exg200,cfg100}_00001.flac` (+ `e39_exg050_E25.flac` = the E25 take copied for one-folder comparison)
+- Verdict: **PASS - the knobs are real, and exaggeration has a measured window**
+- Observations:
+    - **`exaggeration` is audible without any listening:** across 0.25 -> 2.0 the take's duration goes 5.04 s -> 7.36 s (+46%) and RMS -18.9 -> -12.8 dBFS (about +6 dB). It is a delivery knob, not a cosmetic one - the standard flow's headline claim (HOWTO sold it on pack documentation until now) is measured.
+    - **`cfg_weight` paces the line:** 0.5 -> 1.0 at the same seed shortened the take 5.48 s -> 4.68 s at near-equal RMS (-17.4 -> -17.0). Smaller, real.
+    - **The window: `exaggeration` 2.0 degrades the take.** ASR (whisper-small, 16 kHz): 0.25 and 1.0 transcribe the script exactly; **2.0 repeats the closing line** ("...it was listening now. It was listen...") - the same repetition instability the singing models show at their extremes. Keep **exaggeration <= 1.0**.
+    - **Ears remain the verdict on naturalness** (which arm *sounds* best is not scoreable here); the numbers only establish that the knobs move the delivery and where the cliff is.
+    - **Consequence:** the standard flow keeps its place in S26 - its differentiator (the expressiveness pair Turbo lacks) is now measured, with a documented safe window.
+- Next: none planned; the Turbo-vs-standard split (tags, E27/E28) and this window close the S26 knob story.
+
+
+## E40 - multilingual Chatterbox: Russian PASS (ears pending), Japanese fails the words test
+
+- Date: 2026-11-15
+- Stage: voice (narration) - multilingual
+- Workflow: `FL_ChatterboxMultilingualTTS` via API (the pack's 23-language node, first non-English use after E26's reference-voice cameo); built as `workflows/scratch/chatterbox-multilingual.json` (demoted after the ears verdict)
+- Input: the E25 forge script translated - Russian "Кузница замолчала за час до рассвета. Всё, что инженеры построили в темноте, теперь слушало." / Japanese "鍛冶場は夜明けの一時間前に静まり返った。技師たちが闇の中で造ったものは、いまこちらのことを聞いていた。"; language Russian (ru) / Japanese (ja); stock knobs (exaggeration 0.5, cfg_weight 0.5, temperature 0.8, repetition_penalty 2.0, min_p 0.05, top_p 1.0), seed 0
+- Params: defaults throughout; no voice reference (the model's own narrator per language)
+- Output: `output/audio/e40_{ru,ja}_00001.flac` (24 kHz mono; ru 4.85 s peak -1.9 / rms -17.2; ja 4.95 s peak -0.1 / rms -16.2)
+- Verdict: **Russian PASS on words, FAIL on ears (heavy accent) - Japanese FAIL**
+- Observations:
+    - **Russian: the script comes back essentially word-perfect.** ASR (whisper-small, language-forced): the full two sentences, one possible slip ("замолчила" vs "замолчала" - ASR, not a mispronunciation). Levels in family with the English takes (-17 dBFS rms). **But the ears verdict is in and it is negative: the delivery carries a heavy foreign accent** (the user: "quite an awful accent"). The words survive; the voice does not pass as a native narrator. The user's diagnosis sharpens it: **the errors are stress-level** - wrong stress placement, which the ASR "slip" ("замолчила" vs "замолчала") likely reflects as a real mispronunciation, since wrong stress shifts vowel reduction. That rules out the cheap fix: a cloned native reference supplies timbre and delivery, not the model's text-to-phoneme decisions, so cloning would reproduce the same stress errors in a nicer voice.
+    - **Japanese: the words do not survive.** ASR picks up garbled phonetic fragments ("ニューは向けの周に...") - the take does not say the script. The pack's "23 languages" list is NOT uniform; Japanese may need specific text handling the node doesn't do, or the model simply can't - either way it is measured unusable as-is.
+    - **Method note:** verification is the same words test as E25/E37 - ASR the take, compare to the script. For any new language, that check runs BEFORE spending ears.
+    - **Consequence:** non-English VO has one path (`FL_ChatterboxMultilingualTTS`) and it is per-language luck. Russian works; Japanese doesn't; each additional language costs one transcript check.
+- Next: Russian VO through Chatterbox is effectively closed for polished narration (usable at most for a stylised "foreign voice" character). Cloning from a native Russian reference was considered and **skipped as unlikely to help** (stress errors are synthesis-side, not voice-side - see above). If a Russian need hardens, the real options are outside this pack: a dedicated Russian-native TTS with correct stress handling (Piper, MIT, native voices but a robotic register; or a non-commercial-clause model such as XTTS-v2/Fish for better voices with a licence landmine) - each = new pack + weights + one E-row. Other languages only when a real need arrives - one run + one ASR each.
+

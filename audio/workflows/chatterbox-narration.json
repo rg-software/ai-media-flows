@@ -1,122 +1,213 @@
 {
- "last_node_id": 11,
- "last_link_id": 1,
- "nodes": [
-  {
-   "id": 1,
-   "type": "FL_ChatterboxTTS",
-   "pos": [
-    40,
-    120
-   ],
-   "size": [
-    430,
-    300
-   ],
-   "flags": {},
-   "order": 1,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
+  "id": "6e07006f-d0cd-474d-8552-5b5c6c9072a3",
+  "revision": 0,
+  "last_node_id": 12,
+  "last_link_id": 2,
+  "nodes": [
     {
-     "name": "audio",
-     "type": "AUDIO",
-     "links": [
-      1
-     ]
+      "id": 1,
+      "type": "FL_ChatterboxTTS",
+      "pos": [
+        -491.05008211109543,
+        756.7655630602178
+      ],
+      "size": [
+        430,
+        300
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_prompt",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "message",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_fill-chatterbox",
+        "ver": "f7d7a16187430abcaf91a3039b9c83aa9960816a",
+        "Node name for S&R": "FL_ChatterboxTTS"
+      },
+      "widgets_values": [
+        "The forge went quiet an hour before dawn. Whatever the engineers built in the dark, it was listening now.",
+        0.5,
+        0.5,
+        0.8,
+        0,
+        "fixed",
+        false,
+        false
+      ],
+      "widgets_values_named": {
+        "text": "The forge went quiet an hour before dawn. Whatever the engineers built in the dark, it was listening now.",
+        "exaggeration": 0.5,
+        "cfg_weight": 0.5,
+        "temperature": 0.8,
+        "seed": 0,
+        "control_after_generate": "fixed",
+        "use_cpu": false,
+        "keep_model_loaded": false
+      },
+      "color": "#232",
+      "bgcolor": "#353"
     },
     {
-     "name": "message",
-     "type": "STRING",
-     "links": []
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "FL_ChatterboxTTS"
-   },
-   "widgets_values": [
-    "The forge went quiet an hour before dawn. Whatever the engineers built in the dark, it was listening now.",
-    0.5,
-    0.5,
-    0.8,
-    0,
-    "fixed",
-    false,
-    false
-   ]
-  },
-  {
-   "id": 2,
-   "type": "SaveAudioAdvanced",
-   "pos": [
-    480,
-    120
-   ],
-   "size": [
-    320,
-    100
-   ],
-   "flags": {},
-   "order": 2,
-   "mode": 0,
-   "inputs": [
+      "id": 2,
+      "type": "SaveAudioAdvanced",
+      "pos": [
+        -34.285627092633945,
+        839.8856680733818
+      ],
+      "size": [
+        320,
+        136
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "SaveAudioAdvanced"
+      },
+      "widgets_values": [
+        "audio/chatterbox-narration",
+        "flac"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "audio/chatterbox-narration",
+        "format": "flac"
+      },
+      "color": "#322",
+      "bgcolor": "#533"
+    },
     {
-     "name": "audio",
-     "type": "AUDIO",
-     "link": 1
+      "id": 11,
+      "type": "MarkdownNote",
+      "pos": [
+        -620,
+        420
+      ],
+      "size": [
+        819.4285365513392,
+        263.42860630580356
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "## Chatterbox narration (E25) - text to speech, for VO and dialogue\n\n**The voice cell.** `FL_ChatterboxTTS` (ResembleAI's Chatterbox, via `filliptm/ComfyUI_Fill-ChatterBox`) turns a script into\nspeech; the model downloads on first use to `ComfyUI/models/chatterbox/`.\n\n- **`text`** is the script - punctuation and paragraph breaks are the pacing controls (there is no SSML).\n- **`exaggeration`** (0.25-2.0) and **`cfg_weight`** (0.2-1.0) are the expressiveness knobs; `temperature` is variation and `seed` is the take.\n- **`audio_prompt`** is unconnected here - it takes 5-10 s of a voice and **clones** it, so wire a `LoadAudio` to it for a different narrator.\n- The take lands near full scale, so normalise before mixing it into anything.\n- **No paralinguistic tags here:** `[laugh]`, `[sigh]` are read aloud as words (E27) - that feature is the **Turbo** model's.\n\n*How to run it: story **S26** in `HOWTO.md`  ·  Why it is this way: **E25** in `audio/EXPERIMENTS.md`.*"
+      ],
+      "widgets_values_named": {
+        "text": "## Chatterbox narration (E25) - text to speech, for VO and dialogue\n\n**The voice cell.** `FL_ChatterboxTTS` (ResembleAI's Chatterbox, via `filliptm/ComfyUI_Fill-ChatterBox`) turns a script into\nspeech; the model downloads on first use to `ComfyUI/models/chatterbox/`.\n\n- **`text`** is the script - punctuation and paragraph breaks are the pacing controls (there is no SSML).\n- **`exaggeration`** (0.25-2.0) and **`cfg_weight`** (0.2-1.0) are the expressiveness knobs; `temperature` is variation and `seed` is the take.\n- **`audio_prompt`** is unconnected here - it takes 5-10 s of a voice and **clones** it, so wire a `LoadAudio` to it for a different narrator.\n- The take lands near full scale, so normalise before mixing it into anything.\n- **No paralinguistic tags here:** `[laugh]`, `[sigh]` are read aloud as words (E27) - that feature is the **Turbo** model's.\n\n*How to run it: story **S26** in `HOWTO.md`  ·  Why it is this way: **E25** in `audio/EXPERIMENTS.md`.*"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 12,
+      "type": "LoadAudio",
+      "pos": [
+        -808.689134499683,
+        755.717959899734
+      ],
+      "size": [
+        282.798828125,
+        136
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "LoadAudio"
+      },
+      "widgets_values": [
+        "refA.flac",
+        ""
+      ],
+      "widgets_values_named": {
+        "audio": "refA.flac",
+        "upload": ""
+      },
+      "color": "#232",
+      "bgcolor": "#353"
     }
-   ],
-   "outputs": [],
-   "properties": {
-    "Node name for S&R": "SaveAudioAdvanced"
-   },
-   "widgets_values": [
-    "audio/chatterbox-narration",
-    "flac"
-   ]
+  ],
+  "links": [
+    [
+      2,
+      12,
+      0,
+      1,
+      0,
+      "AUDIO"
+    ],
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "AUDIO"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1.0248700000000006,
+      "offset": [
+        780.865213882006,
+        -356.4002605646204
+      ]
+    },
+    "frontendVersion": "1.59.1"
   },
-  {
-   "id": 11,
-   "type": "MarkdownNote",
-   "pos": [
-    -620,
-    420
-   ],
-   "size": [
-    560,
-    380
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "properties": {},
-   "widgets_values": [
-    "## Chatterbox narration (E25) - text to speech, for VO and dialogue\n\n**The voice cell.** `FL_ChatterboxTTS` (ResembleAI's Chatterbox, via `filliptm/ComfyUI_Fill-ChatterBox`) turns a script into\nspeech; the model downloads on first use to `ComfyUI/models/chatterbox/`.\n\n- **`text`** is the script - punctuation and paragraph breaks are the pacing controls (there is no SSML).\n- **`exaggeration`** (0.25-2.0) and **`cfg_weight`** (0.2-1.0) are the expressiveness knobs; `temperature` is variation and `seed` is the take.\n- **`audio_prompt`** is unconnected here - it takes 5-10 s of a voice and **clones** it, so wire a `LoadAudio` to it for a different narrator.\n- The take lands near full scale, so normalise before mixing it into anything.\n- **No paralinguistic tags here:** `[laugh]`, `[sigh]` are read aloud as words (E27) - that feature is the **Turbo** model's.\n\n*How to run it: story **S26** in `HOWTO.md`  \u00b7  Why it is this way: **E25** in `audio/EXPERIMENTS.md`.*"
-   ]
-  }
- ],
- "links": [
-  [
-   1,
-   1,
-   0,
-   2,
-   0,
-   "AUDIO"
-  ]
- ],
- "groups": [],
- "config": {},
- "extra": {
-  "ds": {
-   "scale": 0.7,
-   "offset": [
-    0,
-    0
-   ]
-  }
- },
- "version": 0.4
+  "version": 0.4
 }

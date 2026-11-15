@@ -1,123 +1,215 @@
 {
- "last_node_id": 11,
- "last_link_id": 1,
- "nodes": [
-  {
-   "id": 1,
-   "type": "FL_ChatterboxTurboTTS",
-   "pos": [
-    40,
-    120
-   ],
-   "size": [
-    430,
-    240
-   ],
-   "flags": {},
-   "order": 1,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
+  "id": "96cc5ff4-ba26-483d-bad8-ae4e5373e15f",
+  "revision": 0,
+  "last_node_id": 14,
+  "last_link_id": 2,
+  "nodes": [
     {
-     "name": "audio",
-     "type": "AUDIO",
-     "links": [
-      1
-     ]
+      "id": 1,
+      "type": "FL_ChatterboxTurboTTS",
+      "pos": [
+        -313.0225978641651,
+        867.5146719628375
+      ],
+      "size": [
+        430,
+        300
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_prompt",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "message",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_fill-chatterbox",
+        "ver": "f7d7a16187430abcaf91a3039b9c83aa9960816a",
+        "Node name for S&R": "FL_ChatterboxTurboTTS"
+      },
+      "widgets_values": [
+        "Hello there. [laugh] Isn't this amazing? [sigh] I could do this all day.",
+        0.8,
+        1000,
+        0.95,
+        1.2,
+        1567377444,
+        "randomize",
+        false,
+        false
+      ],
+      "widgets_values_named": {
+        "text": "Hello there. [laugh] Isn't this amazing? [sigh] I could do this all day.",
+        "temperature": 0.8,
+        "top_k": 1000,
+        "top_p": 0.95,
+        "repetition_penalty": 1.2,
+        "seed": 1567377444,
+        "control_after_generate": "randomize",
+        "use_cpu": false,
+        "keep_model_loaded": false
+      },
+      "color": "#232",
+      "bgcolor": "#353"
     },
     {
-     "name": "message",
-     "type": "STRING",
-     "links": []
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "FL_ChatterboxTurboTTS"
-   },
-   "widgets_values": [
-    "Hello there. [laugh] Isn't this amazing? [sigh] I could do this all day.",
-    0.8,
-    1000,
-    0.95,
-    1.2,
-    0,
-    "fixed",
-    false,
-    false
-   ]
-  },
-  {
-   "id": 2,
-   "type": "SaveAudioAdvanced",
-   "pos": [
-    480,
-    120
-   ],
-   "size": [
-    320,
-    100
-   ],
-   "flags": {},
-   "order": 2,
-   "mode": 0,
-   "inputs": [
+      "id": 2,
+      "type": "SaveAudioAdvanced",
+      "pos": [
+        173.1758533080149,
+        983.0838367557038
+      ],
+      "size": [
+        320,
+        136
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "SaveAudioAdvanced"
+      },
+      "widgets_values": [
+        "audio/chatterbox-narration-turbo",
+        "flac"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "audio/chatterbox-narration-turbo",
+        "format": "flac"
+      },
+      "color": "#332922",
+      "bgcolor": "#593930"
+    },
     {
-     "name": "audio",
-     "type": "AUDIO",
-     "link": 1
+      "id": 11,
+      "type": "MarkdownNote",
+      "pos": [
+        -595.8018209207327,
+        510.65324762797644
+      ],
+      "size": [
+        574.0505717531547,
+        280.08488090638906
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "## Chatterbox Turbo narration (E28) - the same job, with paralinguistic tags\n\n**The expressive variant of `chatterbox-narration.json`.** Same pack, different model (`ResembleAI/chatterbox-turbo`, ~1 GB,\ndownloaded on first use).\n\n- **Paralinguistic tags are the point:** `[laugh]`, `[sigh]`, `[gasp]`, `[chuckle]`, `[cough]`, `[sniff]`, `[groan]`, `[shush]`,\n  `[clear throat]` - the model *performs* them, where the standard model reads the word aloud (E27/E28).\n- **Its knobs differ:** `temperature`, `top_k`, `top_p`, `repetition_penalty` - there is no `exaggeration`/`cfg_weight` here.\n- **It comes out much quieter** (peak about -8 dBFS against the standard model's -0.1), so raise it rather than normalise it\n  down; still 24 kHz mono.\n- `audio_prompt` clones a voice here too.\n\n*How to run it: story **S26** in `HOWTO.md`  ·  Why it is this way: **E28** in `audio/EXPERIMENTS.md`.*"
+      ],
+      "widgets_values_named": {
+        "text": "## Chatterbox Turbo narration (E28) - the same job, with paralinguistic tags\n\n**The expressive variant of `chatterbox-narration.json`.** Same pack, different model (`ResembleAI/chatterbox-turbo`, ~1 GB,\ndownloaded on first use).\n\n- **Paralinguistic tags are the point:** `[laugh]`, `[sigh]`, `[gasp]`, `[chuckle]`, `[cough]`, `[sniff]`, `[groan]`, `[shush]`,\n  `[clear throat]` - the model *performs* them, where the standard model reads the word aloud (E27/E28).\n- **Its knobs differ:** `temperature`, `top_k`, `top_p`, `repetition_penalty` - there is no `exaggeration`/`cfg_weight` here.\n- **It comes out much quieter** (peak about -8 dBFS against the standard model's -0.1), so raise it rather than normalise it\n  down; still 24 kHz mono.\n- `audio_prompt` clones a voice here too.\n\n*How to run it: story **S26** in `HOWTO.md`  ·  Why it is this way: **E28** in `audio/EXPERIMENTS.md`.*"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 12,
+      "type": "LoadAudio",
+      "pos": [
+        -630.4654246387533,
+        867.9995049453591
+      ],
+      "size": [
+        282.798828125,
+        136
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "LoadAudio"
+      },
+      "widgets_values": [
+        "refA.flac",
+        ""
+      ],
+      "widgets_values_named": {
+        "audio": "refA.flac",
+        "upload": ""
+      },
+      "color": "#232",
+      "bgcolor": "#353"
     }
-   ],
-   "outputs": [],
-   "properties": {
-    "Node name for S&R": "SaveAudioAdvanced"
-   },
-   "widgets_values": [
-    "audio/chatterbox-narration-turbo",
-    "flac"
-   ]
+  ],
+  "links": [
+    [
+      2,
+      12,
+      0,
+      1,
+      0,
+      "AUDIO"
+    ],
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "AUDIO"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1.024870000000001,
+      "offset": [
+        692.1318388994868,
+        -363.74039542967773
+      ]
+    },
+    "frontendVersion": "1.59.1"
   },
-  {
-   "id": 11,
-   "type": "MarkdownNote",
-   "pos": [
-    -620,
-    360
-   ],
-   "size": [
-    560,
-    380
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "properties": {},
-   "widgets_values": [
-    "## Chatterbox Turbo narration (E28) - the same job, with paralinguistic tags\n\n**The expressive variant of `chatterbox-narration.json`.** Same pack, different model (`ResembleAI/chatterbox-turbo`, ~1 GB,\ndownloaded on first use).\n\n- **Paralinguistic tags are the point:** `[laugh]`, `[sigh]`, `[gasp]`, `[chuckle]`, `[cough]`, `[sniff]`, `[groan]`, `[shush]`,\n  `[clear throat]` - the model *performs* them, where the standard model reads the word aloud (E27/E28).\n- **Its knobs differ:** `temperature`, `top_k`, `top_p`, `repetition_penalty` - there is no `exaggeration`/`cfg_weight` here.\n- **It comes out much quieter** (peak about -8 dBFS against the standard model's -0.1), so raise it rather than normalise it\n  down; still 24 kHz mono.\n- `audio_prompt` clones a voice here too.\n\n*How to run it: story **S26** in `HOWTO.md`  \u00b7  Why it is this way: **E28** in `audio/EXPERIMENTS.md`.*"
-   ]
-  }
- ],
- "links": [
-  [
-   1,
-   1,
-   0,
-   2,
-   0,
-   "AUDIO"
-  ]
- ],
- "groups": [],
- "config": {},
- "extra": {
-  "ds": {
-   "scale": 0.7,
-   "offset": [
-    0,
-    0
-   ]
-  }
- },
- "version": 0.4
+  "version": 0.4
 }

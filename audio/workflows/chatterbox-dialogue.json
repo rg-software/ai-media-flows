@@ -1,4 +1,6 @@
 {
+ "id": "4e3a45b1-3375-45af-8aa9-dcf95c2887c5",
+ "revision": 0,
  "last_node_id": 11,
  "last_link_id": 5,
  "nodes": [
@@ -6,15 +8,15 @@
    "id": 1,
    "type": "LoadAudio",
    "pos": [
-    40,
-    120
+    127.4257282421337,
+    32.574286646378084
    ],
    "size": [
     300,
-    100
+    136
    ],
    "flags": {},
-   "order": 1,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -27,26 +29,34 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "LoadAudio"
    },
    "widgets_values": [
     "refA.flac",
     "upload"
-   ]
+   ],
+   "widgets_values_named": {
+    "audio": "refA.flac",
+    "upload": "upload"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "LoadAudio",
    "pos": [
-    40,
-    380
+    135.23156652642524,
+    212.9544711310948
    ],
    "size": [
     300,
-    100
+    136
    ],
    "flags": {},
-   "order": 2,
+   "order": 1,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -59,23 +69,31 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "LoadAudio"
    },
    "widgets_values": [
-    "refB.flac",
+    "singer_ref.flac",
     "upload"
-   ]
+   ],
+   "widgets_values_named": {
+    "audio": "singer_ref.flac",
+    "upload": "upload"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 3,
    "type": "FL_ChatterboxDialogTTS",
    "pos": [
-    480,
-    120
+    481.2571236746652,
+    16.914324079241055
    ],
    "size": [
     430,
-    340
+    356
    ],
    "flags": {},
    "order": 3,
@@ -90,6 +108,18 @@
      "name": "speaker_B_Audio",
      "type": "AUDIO",
      "link": 2
+    },
+    {
+     "name": "speaker_C_Audio",
+     "shape": 7,
+     "type": "AUDIO",
+     "link": null
+    },
+    {
+     "name": "speaker_D_Audio",
+     "shape": 7,
+     "type": "AUDIO",
+     "link": null
     }
    ],
    "outputs": [
@@ -131,6 +161,8 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfyui_fill-chatterbox",
+    "ver": "f7d7a16187430abcaf91a3039b9c83aa9960816a",
     "Node name for S&R": "FL_ChatterboxDialogTTS"
    },
    "widgets_values": [
@@ -142,18 +174,30 @@
     "fixed",
     false,
     false
-   ]
+   ],
+   "widgets_values_named": {
+    "dialog_text": "SPEAKER A: The gate is open. Whatever came through it, it came through singing.\nSPEAKER B: Then we answer with the same song. Light the forge.\nSPEAKER A: It will not be enough.\nSPEAKER B: It has never had to be.",
+    "exaggeration": 0.5,
+    "cfg_weight": 0.5,
+    "temperature": 0.8,
+    "seed": 0,
+    "control_after_generate": "fixed",
+    "use_cpu": false,
+    "keep_model_loaded": false
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
    "type": "SaveAudioAdvanced",
    "pos": [
-    920,
-    120
+    1011.3286324957678,
+    139.5146701532877
    ],
    "size": [
     340,
-    100
+    136
    ],
    "flags": {},
    "order": 4,
@@ -165,25 +209,39 @@
      "link": 3
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveAudioAdvanced"
    },
    "widgets_values": [
     "audio/E26_dialog_mix",
     "flac"
-   ]
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "audio/E26_dialog_mix",
+    "format": "flac"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 5,
    "type": "SaveAudioAdvanced",
    "pos": [
-    920,
-    380
+    1020.0713512273963,
+    371.7258852656694
    ],
    "size": [
-    340,
-    100
+    347.7052052133363,
+    189.98756853336798
    ],
    "flags": {},
    "order": 5,
@@ -195,25 +253,39 @@
      "link": 4
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveAudioAdvanced"
    },
    "widgets_values": [
     "audio/E26_dialog_speakerA",
     "flac"
-   ]
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "audio/E26_dialog_speakerA",
+    "format": "flac"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 6,
    "type": "SaveAudioAdvanced",
    "pos": [
-    920,
-    640
+    1033.1069638900847,
+    615.3335414929912
    ],
    "size": [
     340,
-    100
+    136
    ],
    "flags": {},
    "order": 6,
@@ -225,25 +297,39 @@
      "link": 5
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveAudioAdvanced"
    },
    "widgets_values": [
     "audio/E26_dialog_speakerB",
     "flac"
-   ]
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "audio/E26_dialog_speakerB",
+    "format": "flac"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 11,
    "type": "MarkdownNote",
    "pos": [
-    -600,
-    440
+    190.74287632533458,
+    -262.7428163800919
    ],
    "size": [
-    560,
-    420
+    758.62848336356,
+    226.03754534040172
    ],
    "flags": {},
    "order": 0,
@@ -253,7 +339,12 @@
    "properties": {},
    "widgets_values": [
     "## Chatterbox dialogue (E26) - a two-speaker scene, and per-speaker stems\n\n**The dialogue cell.** `FL_ChatterboxDialogTTS` writes a scene from a labelled script - `SPEAKER A:` / `SPEAKER B:`\none line each - and gives back the mixed scene **plus each speaker's track separately** (that is the point for a game:\none file per line, for engine playback).\n\n- **`speaker_A_Audio` / `speaker_B_Audio` are REQUIRED**: 5-10 s of each voice, and they **are** the two voices - two close\n  clips give two close voices (E26), and a **sung reference works** (E26b): a window of a separated vocal stem came back as a\n  distinct voice, so a song's singer can narrate. Your own clips give real characters; `C`/`D` extend it to four.\n- **`dialog_text`** is parsed line-by-line, and only lines starting `SPEAKER X:` are spoken.\n- `exaggeration` / `cfg_weight` / `temperature` / `seed` behave as in `chatterbox-narration.json`.\n- Output is 24 kHz mono, near full scale: a set of VO stems to place, not a bed.\n\n*How to run it: story **S27** in `HOWTO.md`  \u00b7  Why it is this way: **E26** in `audio/EXPERIMENTS.md`.*"
-   ]
+   ],
+   "widgets_values_named": {
+    "text": "## Chatterbox dialogue (E26) - a two-speaker scene, and per-speaker stems\n\n**The dialogue cell.** `FL_ChatterboxDialogTTS` writes a scene from a labelled script - `SPEAKER A:` / `SPEAKER B:`\none line each - and gives back the mixed scene **plus each speaker's track separately** (that is the point for a game:\none file per line, for engine playback).\n\n- **`speaker_A_Audio` / `speaker_B_Audio` are REQUIRED**: 5-10 s of each voice, and they **are** the two voices - two close\n  clips give two close voices (E26), and a **sung reference works** (E26b): a window of a separated vocal stem came back as a\n  distinct voice, so a song's singer can narrate. Your own clips give real characters; `C`/`D` extend it to four.\n- **`dialog_text`** is parsed line-by-line, and only lines starting `SPEAKER X:` are spoken.\n- `exaggeration` / `cfg_weight` / `temperature` / `seed` behave as in `chatterbox-narration.json`.\n- Output is 24 kHz mono, near full scale: a set of VO stems to place, not a bed.\n\n*How to run it: story **S27** in `HOWTO.md`  \u00b7  Why it is this way: **E26** in `audio/EXPERIMENTS.md`.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -302,12 +393,13 @@
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.6363636363636366,
    "offset": [
-    0,
-    0
+    179.9578504447202,
+    616.0245959283237
    ]
-  }
+  },
+  "frontendVersion": "1.59.1"
  },
  "version": 0.4
 }

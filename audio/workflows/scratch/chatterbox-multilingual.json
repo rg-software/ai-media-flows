@@ -1,0 +1,127 @@
+{
+ "last_node_id": 11,
+ "last_link_id": 1,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "FL_ChatterboxMultilingualTTS",
+   "pos": [
+    40,
+    120
+   ],
+   "size": [
+    430,
+    300
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "message",
+     "type": "STRING",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FL_ChatterboxTTS"
+   },
+   "widgets_values": [
+    "\u041a\u0443\u0437\u043d\u0438\u0446\u0430 \u0437\u0430\u043c\u043e\u043b\u0447\u0430\u043b\u0430 \u0437\u0430 \u0447\u0430\u0441 \u0434\u043e \u0440\u0430\u0441\u0441\u0432\u0435\u0442\u0430. \u0412\u0441\u0451, \u0447\u0442\u043e \u0438\u043d\u0436\u0435\u043d\u0435\u0440\u044b \u043f\u043e\u0441\u0442\u0440\u043e\u0438\u043b\u0438 \u0432 \u0442\u0435\u043c\u043d\u043e\u0442\u0435, \u0442\u0435\u043f\u0435\u0440\u044c \u0441\u043b\u0443\u0448\u0430\u043b\u043e.",
+    "Russian (ru)",
+    0.5,
+    0.5,
+    0.8,
+    2.0,
+    0.05,
+    1.0,
+    0,
+    "fixed",
+    false,
+    false
+   ],
+   "title": "FL Chatterbox Multilingual TTS"
+  },
+  {
+   "id": 2,
+   "type": "SaveAudioAdvanced",
+   "pos": [
+    480,
+    120
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 1
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
+   "widgets_values": [
+    "audio/chatterbox-multilingual",
+    "flac"
+   ]
+  },
+  {
+   "id": 11,
+   "type": "MarkdownNote",
+   "pos": [
+    -620,
+    420
+   ],
+   "size": [
+    560,
+    380
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## Chatterbox multilingual (E40) - text to speech in 23 languages\n\nThe **only path to non-English VO** in the audio cell: `FL_ChatterboxMultilingualTTS`\n(same pack, `filliptm/ComfyUI_Fill-ChatterBox`) - 23 languages, same expressiveness\nknobs as the standard node, cross-lingual voice cloning via `audio_prompt`.\n\n- **`language`** selects the target; the **text must be written in that language**.\n- Measured (E40): **Russian words PASS / ears FAIL** - the script comes back\n  word-perfect (ASR) but the delivery carries a **heavy foreign accent** (the model is\n  English-anchored). **Japanese FAILS the words test** outright - the take does not say\n  the script. The \"23 languages\" list is NOT uniform: verify each new language with a\n  transcript, then ears for accent, before trusting it.\n- Same output caveats as the standard node: **24 kHz mono**, lands near full scale\n  (peak -0.1..-1.9 dBFS measured), normalise before mixing.\n- For paralinguistic tags there is **no multilingual Turbo** - Turbo is English-only.\n\n*How to run it: story **S26** in `HOWTO.md`  \u00b7  Why it is this way: **E40** in `audio/EXPERIMENTS.md`.*\n\n**DEMOTED to scratch 2026-11-15 (E40):** Russian words PASS but the ears rejected the delivery - heavy foreign accent, and the errors are stress-level (mis-stressed words shift vowel reduction; the ASR \"slip\" was a real mispronunciation). Cloning a native reference cannot fix that (a reference supplies timbre, not the model's text-to-phoneme decisions). Japanese fails the words test outright. Polished non-English VO is closed in this pack; rebuild from this file only for a stylised foreign-voice character."
+   ]
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   2,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}

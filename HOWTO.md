@@ -340,7 +340,7 @@
 
 - *When:* a take is right except for **one span** - a mispronounced word, a weak section, a deliberately deleted passage - and you want that span regenerated **without touching the rest**. This is the audio analogue of inpainting.
 - *Steps:*
-	- open `audio/workflows/ace-step-latent-repaint.json`, and put the source audio on `LoadAudio` with its **length in seconds** on the `FloatConstant` (the flow sizes the latent from it, so the two must agree);
+	- open `audio/workflows/ace-step-latent-repaint.json`, and put the source audio on `LoadAudio` with its **length in seconds** on the `FloatConstant` (these two must agree);
 	- set the **span to repair** - just two numbers, `repair from (s)` and `repair to (s)`. The flow converts them to the latent frames the mask works: repairing 55-61 s of a 120 s take is simply `55` and `61`;
 	- set `tags` and `lyrics` to the **take's own whole prompt** - its style and its full lyric (like an image inpaint prompts the whole picture and masks the region);
 	- run; a 120 s take costs about **15 s**.
@@ -352,11 +352,12 @@
 
 - *When:* you want a **spoken line** - narration, a character's voice-over, a radio bark - rather than music, and you want to choose (or clone) the voice.
 - *Steps:*
-	- open `audio/workflows/chatterbox-narration.json` and put the script in **`text`** - punctuation and paragraph breaks are the pacing controls, because there is no SSML;
+	- open `audio/workflows/chatterbox-narration.json` and put the script in **`text`** - punctuation and paragraph breaks are the pacing controls, because there is no speech markup syntax;
 	- optionally wire a `LoadAudio` holding **5-10 s of a voice** to **`audio_prompt`** to clone it; left unconnected, you get the model's own narrator;
-	- run. A line takes seconds once the model is loaded - the first run downloads ~1 GB to `models/chatterbox/`;
-	- **for paralinguistic tags** (`[laugh]`, `[sigh]`, ...) use `audio/workflows/chatterbox-narration-turbo.json` instead - the **Turbo** model *performs* them, where this one reads them aloud (E27/E28).
-- *Knobs:* **`exaggeration`** (0.25-2.0) and **`cfg_weight`** (0.2-1.0) are the expressiveness pair - they are what makes a line read as a delivery rather than a read-out; `temperature` is variation and `seed` is the take.
+	- run. A line takes seconds once the model is loaded;
+	- **for paralinguistic tags** (`[laugh]`, `[sigh]`, ...) use `audio/workflows/chatterbox-narration-turbo.json` instead - the **Turbo** model *performs* them, where this one reads them aloud (E27/E28);
+	- **for non-English VO: measured closed in this pack** (E40). The demoted variant lives in `workflows/scratch/`; usable at most for a stylised foreign-voice character.
+- *Knobs:* **`exaggeration`** (0.25-2.0) and **`cfg_weight`** (0.2-1.0) are the expressiveness pair - they are what makes a line read as a delivery rather than a read-out, and that is **measured** (E39): exaggeration moves the take audibly (5.0 -> 7.4 s and +6 dB RMS across the range) but **2.0 repeats the closing line**, so keep it **<= 1.0**; cfg_weight paces the line (0.5 -> 1.0 cut ~0.8 s at the same seed). `temperature` is variation and `seed` is the take.
 - *Traps:* the output is **24 kHz mono** where every other flow here is 48 kHz stereo, so treat it as a **VO element to place in a mix**, not a bed - and it lands near full scale, so normalise. Unlike singing, **the words are worth checking with a transcript**: for speech, ASR is a real presence test (E25). And **paralinguistic tags are not this node's**: `[laugh]`, `[sigh]` and friends are read aloud as words (E27) - they belong to the **Turbo** flow (`audio/workflows/chatterbox-narration-turbo.json`, a separate ~1 GB model), not this one - and Turbo's knobs differ (no `exaggeration`/`cfg_weight`) and it lands much quieter (peak about -8 dBFS), so raise it rather than normalise it down.
 - *More:* [`audio/README.md`](audio/README.md), and E25/E27/E28 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
@@ -365,7 +366,7 @@
 - *When:* you want a **conversation** - two voices (up to four) trading lines - not a single voice-over, and you want each line as its own file.
 - *Steps:*
 	- open `audio/workflows/chatterbox-dialogue.json`;
-	- put the **two voices** on the `LoadAudio` nodes - `speaker_A_Audio` / `speaker_B_Audio` are **required**, 5-10 s each: your own clips, or a window of a separated vocal stem (a **sung** reference works and gives a distinct voice - E26b);
+	- put the **two voices** on the `LoadAudio` nodes - `speaker_A_Audio` / `speaker_B_Audio` are **required**, 5-10 s each: your own clips, or a window of a separated vocal stem (a **sung** reference works and gives a distinct voice);
 	- write the script in `dialog_text`, one line per `SPEAKER A:` / `SPEAKER B:` label;
 	- run: you get the **mixed scene plus each speaker's track**, all on the same timeline (silent where the other talks) - they drop straight onto a game timeline.
 - *Knobs:* `exaggeration` / `cfg_weight` / `temperature` / `seed` behave as in S26; optional `speaker_C_Audio` / `speaker_D_Audio` extend the cast to four.
