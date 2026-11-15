@@ -1,0 +1,1209 @@
+{
+ "last_node_id": 33,
+ "last_link_id": 44,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    40,
+    120
+   ],
+   "size": [
+    330,
+    100
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ],
+     "slot_index": 0
+    }
+   ],
+   "widgets_values": [
+    "acestep_v1.5_xl_sft_bf16.safetensors",
+    "default"
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "order": 0
+  },
+  {
+   "id": 9,
+   "type": "FloatConstant",
+   "pos": [
+    40,
+    380
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      5,
+      37
+     ]
+    }
+   ],
+   "widgets_values": [
+    120.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "FloatConstant"
+   },
+   "order": 1,
+   "title": "clip length (s)"
+  },
+  {
+   "id": 10,
+   "type": "INTConstant",
+   "pos": [
+    40,
+    640
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "outputs": [
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      4,
+      7
+     ]
+    }
+   ],
+   "widgets_values": [
+    31
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "properties": {
+    "Node name for S&R": "INTConstant"
+   },
+   "order": 2
+  },
+  {
+   "id": 2,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    480,
+    120
+   ],
+   "size": [
+    280,
+    70
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      2
+     ]
+    }
+   ],
+   "widgets_values": [
+    3.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow"
+   },
+   "order": 3
+  },
+  {
+   "id": 3,
+   "type": "TextEncodeAceStepAudio1.5",
+   "pos": [
+    480,
+    380
+   ],
+   "size": [
+    330,
+    430
+   ],
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 41
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 4
+    },
+    {
+     "name": "duration",
+     "type": "FLOAT",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      6,
+      14
+     ]
+    }
+   ],
+   "widgets_values": [
+    "Industrial rock, hammering machine percussion with metallic clangs, distorted bass, cold analog synth, shouted male lead with a gang chorus, gritty lo-fi production, relentless and mechanical",
+    "[Verse]\nSteel is breathing in the dark\nPistons counting out the hour\nEvery window blind with sparks\nEvery hand a kind of power\nHammers fall like steady rain\nOn the anvil of the day\nWe are forging something nameless\nFrom the rust and from the clay\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Verse]\nFurnace glow along the floor\nShadows walk the factory wall\nWe have heard the engines roar\nAnd we never once will fall\nOil and smoke and borrowed light\nEvery rivet set in time\nWe will work into the night\nTill the morning bells will chime\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Bridge]\nAnd when the metal sings\nAnd when the silence breaks\nWe will know the shape of things\nBy everything it makes\n\n[Final Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Outro]\nTurn the wheel, turn the wheel\nHold the line",
+    31,
+    "fixed",
+    120,
+    120,
+    "4",
+    "en",
+    "E minor",
+    true,
+    2.0,
+    0.85,
+    0.9,
+    0,
+    0.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "TextEncodeAceStepAudio1.5"
+   },
+   "order": 4
+  },
+  {
+   "id": 4,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    920,
+    120
+   ],
+   "size": [
+    240,
+    50
+   ],
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "order": 5
+  },
+  {
+   "id": 6,
+   "type": "KSampler",
+   "pos": [
+    2680,
+    120
+   ],
+   "size": [
+    290,
+    260
+   ],
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 14
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 8
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 31
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "link": 7
+    }
+   ],
+   "widgets_values": [
+    31,
+    "fixed",
+    50,
+    7,
+    "euler",
+    "simple",
+    1.0
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      11
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "order": 7
+  },
+  {
+   "id": 7,
+   "type": "VAEDecodeAudio",
+   "pos": [
+    3120,
+    120
+   ],
+   "size": [
+    240,
+    70
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 11
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 43
+    }
+   ],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "widgets_values": [],
+   "properties": {
+    "Node name for S&R": "VAEDecodeAudio"
+   },
+   "order": 8
+  },
+  {
+   "id": 8,
+   "type": "SaveAudioAdvanced",
+   "pos": [
+    3560,
+    120
+   ],
+   "size": [
+    300,
+    110
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 13
+    }
+   ],
+   "outputs": [],
+   "widgets_values": [
+    "audio/ace_step",
+    "flac"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
+   "order": 9
+  },
+  {
+   "id": 11,
+   "type": "MarkdownNote",
+   "pos": [
+    -1180,
+    1050
+   ],
+   "size": [
+    560,
+    620
+   ],
+   "widgets_values": [
+    "## ACE-Step latent repaint (E19) - regenerate a time span, keep the rest\n\n**The masked-latent route, and it works.** ACE-Step core (MIT) encodes the take, masks a band of the\naudio latent, and re-samples **only that band** - the rest of the take comes back at the VAE round-trip\nlevel, i.e. untouched. **15.4 s per 120 s take.**\n\n- **the span** is typed as **`repair from (s)` / `repair to (s)`** - two `FloatConstant`s. Three\n  `ComfyMathExpression` nodes turn them into the latent frames the mask works in (**25 per second**):\n  `from` x25 -> `MaskComposite.x`, `(to-from)` x25 -> the ones-mask `width`, and the clip length x25 ->\n  the zeros-mask `width` (so `clip length (s)` must be the take's own length). Repairing 55-61 s of a\n  120 s take is just `55` and `61` - no arithmetic, and the span is `[from, to)`.\n- **`tags` + `lyrics` are the take's whole prompt** - the same deal as an image inpaint, where the\n  prompt describes the whole picture and the mask picks the region. The mask confines *where* the\n  sampling changes; the text says what the piece is. Give it the take's own style and its full lyric\n  (E19b; trimming the lyric to just the span's words is untested).\n- **`SetAudioLatentNoiseMask`** - a **10-line custom node** (`custom_nodes/audio_latent_mask/`, mirrored\n  to `audio/custom_nodes/`), and the flow **does not run without it**. The core `SetLatentNoiseMask`\n  reshapes every mask to 4-D, which is right for image latents and wrong for a 3-D audio latent: its\n  `reshape_mask` path then wants a 3-D mask and raises *\"input with spatial dimensions of [1, 3000]\"*.\n  This node stores the mask unchanged. Drop-in, same inputs/output.\n- **`denoise` 1.0** on `KSampler` is right here: the noise mask already confines the sampling, so 1.0\n  means \"regenerate the band\", not \"regenerate everything\".\n\n**What E19 measured (control = the same flow with an all-zero mask, i.e. the VAE round-trip alone):**\n\n| | `mean|diff|` outside 55-61 s | inside |\n|---|---|---|\n| repaint vs round-trip | **0.0015** | **0.198** (127.7x) |\n| original vs round-trip | 0.02061 | - |\n| original vs repaint | 0.02077 | - |\n\nThe last two agree to four decimals: **the surrounding audio is preserved exactly** and the only outside\ndifference is the encode/decode round-trip. Refilling a *deleted* span works too - it returns at\n**-14.77 dB** against the original's -13.07 dB.\n\n**Two things to know before trusting a repaint.** (1) It is a **different performance** of that span\n(E18c), so the join is still a listening question - this route proves the *surroundings* are untouched,\nwhich is what every other route failed. (2) The mask edges are **hard** - the `GrowMaskWithBlur` on the band is a no-op at\n`expand` 0 / `blur_radius` 0.0, so raise it only if a click at the span's ends shows up.\n\n\n**Dead ends this replaces:** the kaola pack's `ACE_STEP_Repaint` (`scratch/ace-step-repaint.json`,\nkept for the record) and the `ReplaceVideoLatentFrames` comp (E18b) both rewrote the whole take\n(outside `mean|diff|` ~0.06-0.075, flat).\n\n---\n*How to run it: story **S24** in `HOWTO.md`  \u00b7  Why it is this way: **E19/E19b** in `audio/EXPERIMENTS.md`.*\n\n\n**XL SFT variant (UNMEASURED - E-row pending first real use):** identical to the turbo repaint except the loader stack, swapped for the XL SFT arm so that XL takes can be repainted with their own model (same 1.5 latent space: `ace_1.5_vae` + `TextEncodeAceStepAudio1.5`; only the loaders differ). Sampler recipe raised to XL's 50 steps / cfg 7. Match-the-take rule: repaint a take with the model that made it. v1 takes need a v1-variant flow (different latent space - not shipped)."
+   ],
+   "flags": {},
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "order": 0
+  },
+  {
+   "id": 20,
+   "type": "LoadAudio",
+   "pos": [
+    40,
+    900
+   ],
+   "size": [
+    330,
+    80
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      25
+     ]
+    }
+   ],
+   "widgets_values": [
+    "ace_iron_a.flac",
+    "upload"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "LoadAudio"
+   },
+   "order": 40
+  },
+  {
+   "id": 21,
+   "type": "VAEEncodeAudio",
+   "pos": [
+    480,
+    640
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 25
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 44
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      27
+     ]
+    }
+   ],
+   "widgets_values": [],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "VAEEncodeAudio"
+   },
+   "order": 41
+  },
+  {
+   "id": 22,
+   "type": "SolidMask",
+   "pos": [
+    920,
+    380
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "inputs": [
+    {
+     "name": "width",
+     "type": "INT",
+     "widget": {
+      "name": "width"
+     },
+     "link": 40
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [
+      28
+     ]
+    }
+   ],
+   "widgets_values": [
+    0.0,
+    3000,
+    1
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SolidMask"
+   },
+   "order": 42
+  },
+  {
+   "id": 23,
+   "type": "SolidMask",
+   "pos": [
+    920,
+    640
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "inputs": [
+    {
+     "name": "width",
+     "type": "INT",
+     "widget": {
+      "name": "width"
+     },
+     "link": 39
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [
+      29
+     ]
+    }
+   ],
+   "widgets_values": [
+    1.0,
+    150,
+    1
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SolidMask"
+   },
+   "order": 43
+  },
+  {
+   "id": 24,
+   "type": "MaskComposite",
+   "pos": [
+    1360,
+    120
+   ],
+   "size": [
+    260,
+    130
+   ],
+   "inputs": [
+    {
+     "name": "destination",
+     "type": "MASK",
+     "link": 28
+    },
+    {
+     "name": "source",
+     "type": "MASK",
+     "link": 29
+    },
+    {
+     "name": "x",
+     "type": "INT",
+     "widget": {
+      "name": "x"
+     },
+     "link": 38
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [
+      32
+     ]
+    }
+   ],
+   "widgets_values": [
+    1375,
+    0,
+    "add"
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "MaskComposite"
+   },
+   "order": 44
+  },
+  {
+   "id": 25,
+   "type": "SetAudioLatentNoiseMask",
+   "pos": [
+    2240,
+    120
+   ],
+   "size": [
+    250,
+    80
+   ],
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 27
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 33
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      31
+     ]
+    }
+   ],
+   "widgets_values": [],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "SetAudioLatentNoiseMask"
+   },
+   "order": 45
+  },
+  {
+   "id": 26,
+   "type": "GrowMaskWithBlur",
+   "pos": [
+    1800,
+    120
+   ],
+   "size": [
+    260,
+    190
+   ],
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 32
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [
+      33
+     ]
+    },
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    0,
+    0.0,
+    true,
+    false,
+    0.0,
+    1.0,
+    1.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "GrowMaskWithBlur"
+   },
+   "order": 26
+  },
+  {
+   "id": 27,
+   "type": "FloatConstant",
+   "title": "repair from (s)",
+   "pos": [
+    40,
+    1160
+   ],
+   "size": [
+    210,
+    60
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      34,
+      35
+     ]
+    }
+   ],
+   "widgets_values": [
+    55.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 1,
+   "properties": {
+    "Node name for S&R": "FloatConstant"
+   }
+  },
+  {
+   "id": 28,
+   "type": "FloatConstant",
+   "title": "repair to (s)",
+   "pos": [
+    40,
+    1420
+   ],
+   "size": [
+    210,
+    60
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": [
+      36
+     ]
+    }
+   ],
+   "widgets_values": [
+    61.0
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 1,
+   "properties": {
+    "Node name for S&R": "FloatConstant"
+   }
+  },
+  {
+   "id": 29,
+   "type": "ComfyMathExpression",
+   "title": "start -> frames",
+   "pos": [
+    480,
+    900
+   ],
+   "size": [
+    250,
+    100
+   ],
+   "inputs": [
+    {
+     "label": "a",
+     "localized_name": "values.a",
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 34
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": []
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      38
+     ]
+    },
+    {
+     "name": "BOOLEAN",
+     "type": "BOOLEAN",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "a*25"
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 2,
+   "properties": {
+    "Node name for S&R": "ComfyMathExpression"
+   }
+  },
+  {
+   "id": 30,
+   "type": "ComfyMathExpression",
+   "title": "span -> frames",
+   "pos": [
+    480,
+    1160
+   ],
+   "size": [
+    250,
+    100
+   ],
+   "inputs": [
+    {
+     "label": "a",
+     "localized_name": "values.a",
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 35
+    },
+    {
+     "label": "b",
+     "localized_name": "values.b",
+     "name": "values.b",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 36,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": []
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      39
+     ]
+    },
+    {
+     "name": "BOOLEAN",
+     "type": "BOOLEAN",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "(b-a)*25"
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 2,
+   "properties": {
+    "Node name for S&R": "ComfyMathExpression"
+   }
+  },
+  {
+   "id": 31,
+   "type": "ComfyMathExpression",
+   "title": "clip -> frames",
+   "pos": [
+    480,
+    1420
+   ],
+   "size": [
+    250,
+    100
+   ],
+   "inputs": [
+    {
+     "label": "a",
+     "localized_name": "values.a",
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 37
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "links": []
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": [
+      40
+     ]
+    },
+    {
+     "name": "BOOLEAN",
+     "type": "BOOLEAN",
+     "links": []
+    }
+   ],
+   "widgets_values": [
+    "a*25"
+   ],
+   "flags": {},
+   "mode": 0,
+   "order": 2,
+   "properties": {
+    "Node name for S&R": "ComfyMathExpression"
+   }
+  },
+  {
+   "id": 32,
+   "type": "DualCLIPLoader",
+   "pos": [
+    40,
+    360
+   ],
+   "size": [
+    400,
+    130
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      41
+     ],
+     "slot_index": 0
+    }
+   ],
+   "widgets_values": [
+    "qwen_0.6b_ace15.safetensors",
+    "qwen_4b_ace15.safetensors",
+    "ace",
+    "default"
+   ],
+   "properties": {
+    "Node name for S&R": "DualCLIPLoader"
+   }
+  },
+  {
+   "id": 33,
+   "type": "VAELoader",
+   "pos": [
+    40,
+    520
+   ],
+   "size": [
+    400,
+    58
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      43,
+      44
+     ],
+     "slot_index": 0
+    }
+   ],
+   "widgets_values": [
+    "ace_1.5_vae.safetensors"
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   }
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   2,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   2,
+   0,
+   6,
+   0,
+   "MODEL"
+  ],
+  [
+   4,
+   10,
+   0,
+   3,
+   1,
+   "INT"
+  ],
+  [
+   5,
+   9,
+   0,
+   3,
+   2,
+   "FLOAT"
+  ],
+  [
+   6,
+   3,
+   0,
+   4,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   14,
+   3,
+   0,
+   6,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   10,
+   0,
+   6,
+   4,
+   "INT"
+  ],
+  [
+   8,
+   4,
+   0,
+   6,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   11,
+   6,
+   0,
+   7,
+   0,
+   "LATENT"
+  ],
+  [
+   13,
+   7,
+   0,
+   8,
+   0,
+   "AUDIO"
+  ],
+  [
+   25,
+   20,
+   0,
+   21,
+   0,
+   "AUDIO"
+  ],
+  [
+   27,
+   21,
+   0,
+   25,
+   0,
+   "LATENT"
+  ],
+  [
+   28,
+   22,
+   0,
+   24,
+   0,
+   "MASK"
+  ],
+  [
+   29,
+   23,
+   0,
+   24,
+   1,
+   "MASK"
+  ],
+  [
+   31,
+   25,
+   0,
+   6,
+   3,
+   "LATENT"
+  ],
+  [
+   32,
+   24,
+   0,
+   26,
+   0,
+   "MASK"
+  ],
+  [
+   33,
+   26,
+   0,
+   25,
+   1,
+   "MASK"
+  ],
+  [
+   34,
+   27,
+   0,
+   29,
+   0,
+   "FLOAT"
+  ],
+  [
+   35,
+   27,
+   0,
+   30,
+   0,
+   "FLOAT"
+  ],
+  [
+   36,
+   28,
+   0,
+   30,
+   1,
+   "FLOAT"
+  ],
+  [
+   37,
+   9,
+   0,
+   31,
+   0,
+   "FLOAT"
+  ],
+  [
+   38,
+   29,
+   1,
+   24,
+   2,
+   "INT"
+  ],
+  [
+   39,
+   30,
+   1,
+   23,
+   0,
+   "INT"
+  ],
+  [
+   40,
+   31,
+   1,
+   22,
+   0,
+   "INT"
+  ],
+  [
+   41,
+   32,
+   0,
+   3,
+   0,
+   "CLIP"
+  ],
+  [
+   43,
+   33,
+   0,
+   7,
+   1,
+   "VAE"
+  ],
+  [
+   44,
+   33,
+   0,
+   21,
+   1,
+   "VAE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7,
+   "offset": [
+    0,
+    0
+   ]
+  }
+ },
+ "version": 0.4
+}

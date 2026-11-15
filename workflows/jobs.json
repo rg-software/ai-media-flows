@@ -231,7 +231,7 @@
    "category": "video"
   },
   {
-   "want": "Generate music or a song from a text prompt",
+   "want": "Generate music from a text prompt (instrumental-leaning default; vocal songs are style-fragile - for reliable singing see S23)",
    "detail": "`audio/workflows/ace-step.json` (tags + optional lyrics; ACE-Step 1.5, MIT, 9.3 GB all-in-one)",
    "story": "S19",
    "category": "audio"
@@ -255,14 +255,14 @@
    "category": "audio"
   },
   {
-   "want": "Generate a song that actually sings",
-   "detail": "`audio/workflows/ace-step-xl-sft.json` (**MIT** - lyric-full on clear-lead styles) or `audio/workflows/ace-step-v1-35b.json` (**MIT** - ~2x faster/lighter and it sings shouty styles); E23 kept both: they split by style, not by rank",
+   "want": "Generate a song with reliable vocals (two arms split by style)",
+   "detail": "clear-lead styles -> `audio/workflows/ace-step-xl-sft.json` (MIT, lyric-full arm) | shouty/industrial styles -> `audio/workflows/ace-step-v1-35b.json` (MIT, faster and lighter)",
    "story": "S23",
    "category": "audio"
   },
   {
    "want": "Repair a region of a track (re-sing a span, refill a deleted passage)",
-   "detail": "`audio/workflows/ace-step-latent-repaint.json` (ACE-Step core + a custom node `SetAudioLatentNoiseMask` which masks a time band of the audio latent and resamples only it)",
+   "detail": "`audio/workflows/ace-step-latent-repaint.json` (ACE-Step core + a custom node `SetAudioLatentNoiseMask` which masks a time band of the audio latent and resamples only it); for an **XL SFT take**:  `audio/workflows/ace-step-xl-repaint.json` (XL loader stack swapped in - same 1.5 latent space; UNMEASURED, E-row pending)",
    "story": "S24",
    "category": "audio"
   },
@@ -550,6 +550,9 @@
   },
   "qwen-image-base.json": {
    "story": "S1"
+  },
+  "ace-step-xl-repaint.json": {
+   "story": "S24"
   }
  },
  "categories": [

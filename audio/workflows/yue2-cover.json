@@ -1,18 +1,24 @@
 {
- "last_node_id": 13,
- "last_link_id": 16,
+ "id": "43c2ded0-155a-4fa2-8004-b89d5e2a7aa9",
+ "revision": 0,
+ "last_node_id": 16,
+ "last_link_id": 23,
  "nodes": [
   {
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    40,
-    120
+    -192.72728858056,
+    145.97402597402598
    ],
    "size": [
     340,
     100
    ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "MODEL",
@@ -36,60 +42,59 @@
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
    "widgets_values": [
     "yue2_3b_int8_convrot.safetensors"
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "CheckpointLoaderSimple"
-   },
-   "order": 0
+   "widgets_values_named": {
+    "ckpt_name": "yue2_3b_int8_convrot.safetensors"
+   }
   },
   {
-   "id": 2,
-   "type": "INTConstant",
+   "id": 13,
+   "type": "MarkdownNote",
    "pos": [
-    40,
-    380
+    -57.18244101905407,
+    -418.246833258243
    ],
    "size": [
-    240,
-    60
-   ],
-   "outputs": [
-    {
-     "name": "INT",
-     "type": "INT",
-     "links": [
-      4,
-      5
-     ]
-    }
-   ],
-   "widgets_values": [
-    0
+    1303.3543706096293,
+    419.1951670577489
    ],
    "flags": {},
+   "order": 0,
    "mode": 0,
    "inputs": [],
-   "properties": {
-    "Node name for S&R": "INTConstant"
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## Restyle a track (cover its melody) - YuE 2\n\n**A reference track in, the same tune out in a new style.** The one restyle route in the repo: SheetSage2\ntranscribes the reference's **melody** into ABC notation (`SheetSage2AudioToABC`, previewed on node 6) and\n`YuE2GenerateMusic(mode='melody')` re-renders from it with a **style and lyrics you write**. ACE-Step's\nstyle flow only *keeps* a reference (E5), so this is the capability it cannot reach - and the user's ears\nconfirm the cover is recognisably the reference's tune, restyled (E12d).\n\n- **the reference** goes on `LoadAudio` (any audio file in ComfyUI's `input/`); a 30 s reference covers in\n  **65 s**.\n- **`STYLE`** (node 7) is the idiom to change it into - the shipped example is industrial rock.\n- **`LYRICS`** (node 7) is new text: the reference's *melody* is kept, its *words* are not. New words only land when the source has a sung vocal line - an instrumental's transcribed `Vocal` line is all rests, and E22's added lyric was not sung.\n- **`max_duration` must be at least the reference's length.** The model chooses the duration itself and this\n  only bounds it - unlike ACE-Step, where the duration is a constant we set. So **you cannot target a length**: the cap only bounds, and the model stops when its ABC phrase ends (E22: a 30 s instrumental at cap 30 came out 27.7 s with a 188-word lyric, 29.5 s with none).\n- **`mode`** is `melody` (a cover); `full` writes a new song instead.\n- **node 6 (`PreviewAny`) shows the ABC** that SheetSage2 transcribed - the way to see whether the melody was\n  read at all. It is two-voice (`Vocal` + `Ins`); an all-rests `Vocal` line means the reference was\n  instrumental.\n\n**Licence: `cc-by-nc-4.0` (`Comfy-Org/YuE2`) - non-commercial, research only.** And **a transcript is not a presence test**:\nWhisper read 0-19 words on takes whose vocal the ears plainly hear (E12c), so never call a take instrumental\nfrom a transcript.\n\n---\n*How to run it: story **S22** in `HOWTO.md`  \u00b7  Why it is this way: **E12/E12d/E22** in `audio/EXPERIMENTS.md`.*\n"
+   ],
+   "widgets_values_named": {
+    "text": "## Restyle a track (cover its melody) - YuE 2\n\n**A reference track in, the same tune out in a new style.** The one restyle route in the repo: SheetSage2\ntranscribes the reference's **melody** into ABC notation (`SheetSage2AudioToABC`, previewed on node 6) and\n`YuE2GenerateMusic(mode='melody')` re-renders from it with a **style and lyrics you write**. ACE-Step's\nstyle flow only *keeps* a reference (E5), so this is the capability it cannot reach - and the user's ears\nconfirm the cover is recognisably the reference's tune, restyled (E12d).\n\n- **the reference** goes on `LoadAudio` (any audio file in ComfyUI's `input/`); a 30 s reference covers in\n  **65 s**.\n- **`STYLE`** (node 7) is the idiom to change it into - the shipped example is industrial rock.\n- **`LYRICS`** (node 7) is new text: the reference's *melody* is kept, its *words* are not. New words only land when the source has a sung vocal line - an instrumental's transcribed `Vocal` line is all rests, and E22's added lyric was not sung.\n- **`max_duration` must be at least the reference's length.** The model chooses the duration itself and this\n  only bounds it - unlike ACE-Step, where the duration is a constant we set. So **you cannot target a length**: the cap only bounds, and the model stops when its ABC phrase ends (E22: a 30 s instrumental at cap 30 came out 27.7 s with a 188-word lyric, 29.5 s with none).\n- **`mode`** is `melody` (a cover); `full` writes a new song instead.\n- **node 6 (`PreviewAny`) shows the ABC** that SheetSage2 transcribed - the way to see whether the melody was\n  read at all. It is two-voice (`Vocal` + `Ins`); an all-rests `Vocal` line means the reference was\n  instrumental.\n\n**Licence: `cc-by-nc-4.0` (`Comfy-Org/YuE2`) - non-commercial, research only.** And **a transcript is not a presence test**:\nWhisper read 0-19 words on takes whose vocal the ears plainly hear (E12c), so never call a take instrumental\nfrom a transcript.\n\n---\n*How to run it: story **S22** in `HOWTO.md`  \u00b7  Why it is this way: **E12/E12d/E22** in `audio/EXPERIMENTS.md`.*\n"
    },
-   "order": 1
+   "color": "#432",
+   "bgcolor": "#653"
   },
   {
    "id": 3,
    "type": "LoadAudio",
    "pos": [
-    40,
-    640
+    -151.8738473284407,
+    597.3699782485037
    ],
    "size": [
     320,
-    80
+    136
    ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "AUDIO",
@@ -99,28 +104,37 @@
      ]
     }
    ],
-   "widgets_values": [
-    "e5_reference.flac"
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "LoadAudio"
    },
-   "order": 2
+   "widgets_values": [
+    "e5_reference.flac",
+    ""
+   ],
+   "widgets_values_named": {
+    "audio": "e5_reference.flac",
+    "upload": ""
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
    "type": "AudioEncoderLoader",
    "pos": [
-    40,
-    900
+    -195.42859758649553,
+    297.7142769949777
    ],
    "size": [
     320,
     80
    ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "AUDIO_ENCODER",
@@ -130,28 +144,73 @@
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "AudioEncoderLoader"
+   },
    "widgets_values": [
     "sheetsage2_bf16.safetensors"
    ],
+   "widgets_values_named": {
+    "audio_encoder_name": "sheetsage2_bf16.safetensors"
+   }
+  },
+  {
+   "id": 16,
+   "type": "SeedNode",
+   "pos": [
+    -150.50661535951724,
+    447.52758575765546
+   ],
+   "size": [
+    270,
+    82
+   ],
    "flags": {},
+   "order": 4,
    "mode": 0,
    "inputs": [],
+   "outputs": [
+    {
+     "name": "seed",
+     "type": "INT",
+     "links": [
+      22,
+      23
+     ]
+    }
+   ],
    "properties": {
-    "Node name for S&R": "AudioEncoderLoader"
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SeedNode"
    },
-   "order": 3
+   "widgets_values": [
+    164052452275743,
+    "randomize"
+   ],
+   "widgets_values_named": {
+    "seed": 164052452275743,
+    "control_after_generate": "randomize"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
    "type": "SheetSage2AudioToABC",
    "pos": [
-    480,
-    120
+    243.1357377197554,
+    125.32698630160684
    ],
    "size": [
     320,
     130
    ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
    "inputs": [
     {
      "name": "audio_encoder",
@@ -166,62 +225,40 @@
    ],
    "outputs": [
     {
-     "name": "STRING",
+     "name": "abc",
+     "shape": 6,
      "type": "STRING",
      "links": [
-      8,
-      9
+      8
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SheetSage2AudioToABC"
+   },
    "widgets_values": [
     "melody"
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "SheetSage2AudioToABC"
-   },
-   "order": 4
-  },
-  {
-   "id": 6,
-   "type": "PreviewAny",
-   "pos": [
-    920,
-    120
-   ],
-   "size": [
-    320,
-    90
-   ],
-   "inputs": [
-    {
-     "name": "source",
-     "type": "STRING",
-     "link": 9
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "outputs": [],
-   "widgets_values": [],
-   "properties": {
-    "Node name for S&R": "PreviewAny"
-   },
-   "order": 5
+   "widgets_values_named": {
+    "mode": "melody"
+   }
   },
   {
    "id": 7,
    "type": "YuE2GenerateMusic",
    "pos": [
-    920,
-    380
+    449.9174159026346,
+    362.9989166439916
    ],
    "size": [
     340,
-    360
+    432
    ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -231,12 +268,18 @@
     {
      "name": "abc",
      "type": "STRING",
+     "widget": {
+      "name": "abc"
+     },
      "link": 8
     },
     {
      "name": "seed",
      "type": "INT",
-     "link": 4
+     "widget": {
+      "name": "seed"
+     },
+     "link": 22
     }
    ],
    "outputs": [
@@ -249,13 +292,18 @@
      ]
     },
     {
-     "name": "FLOAT",
+     "name": "seconds",
      "type": "FLOAT",
      "links": [
       13
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "YuE2GenerateMusic"
+   },
    "widgets_values": [
     "Industrial rock, hammering machine percussion with metallic clangs, distorted bass, cold analog synth, shouted male lead with a gang chorus, gritty lo-fi production, relentless and mechanical",
     "[Verse]\nSteel is breathing in the dark\nPistons counting out the hour\nEvery window blind with sparks\nEvery hand a kind of power\nHammers fall like steady rain\nOn the anvil of the day\nWe are forging something nameless\nFrom the rust and from the clay\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Verse]\nFurnace glow along the floor\nShadows walk the factory wall\nWe have heard the engines roar\nAnd we never once will fall\nOil and smoke and borrowed light\nEvery rivet set in time\nWe will work into the night\nTill the morning bells will chime\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Bridge]\nAnd when the metal sings\nAnd when the silence breaks\nWe will know the shape of things\nBy everything it makes\n\n[Final Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Outro]\nTurn the wheel, turn the wheel\nHold the line",
@@ -263,31 +311,44 @@
     0,
     "fixed",
     "melody",
-    30.0,
-    1.0,
+    30,
+    1,
     0.95,
     100,
     1.2,
-    1.0
+    1
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "YuE2GenerateMusic"
+   "widgets_values_named": {
+    "style": "Industrial rock, hammering machine percussion with metallic clangs, distorted bass, cold analog synth, shouted male lead with a gang chorus, gritty lo-fi production, relentless and mechanical",
+    "lyrics": "[Verse]\nSteel is breathing in the dark\nPistons counting out the hour\nEvery window blind with sparks\nEvery hand a kind of power\nHammers fall like steady rain\nOn the anvil of the day\nWe are forging something nameless\nFrom the rust and from the clay\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Verse]\nFurnace glow along the floor\nShadows walk the factory wall\nWe have heard the engines roar\nAnd we never once will fall\nOil and smoke and borrowed light\nEvery rivet set in time\nWe will work into the night\nTill the morning bells will chime\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Bridge]\nAnd when the metal sings\nAnd when the silence breaks\nWe will know the shape of things\nBy everything it makes\n\n[Final Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Outro]\nTurn the wheel, turn the wheel\nHold the line",
+    "abc": "",
+    "seed": 0,
+    "control_after_generate": "fixed",
+    "mode": "melody",
+    "max_duration": 30,
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 100,
+    "repetition_penalty": 1.2,
+    "cfg_scale": 1
    },
-   "order": 6
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 8,
    "type": "ConditioningZeroOut",
    "pos": [
-    1360,
-    120
+    840.5195597859175,
+    172.98709621677145
    ],
    "size": [
     240,
     50
    ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
    "inputs": [
     {
      "name": "conditioning",
@@ -304,29 +365,33 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ConditioningZeroOut"
-   },
-   "order": 7
+   }
   },
   {
    "id": 9,
    "type": "EmptyYuE2LatentAudio",
    "pos": [
-    1360,
-    380
+    900.7792128525773,
+    391.4285555752841
    ],
    "size": [
     300,
     90
    ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
    "inputs": [
     {
      "name": "seconds",
      "type": "FLOAT",
+     "widget": {
+      "name": "seconds"
+     },
      "link": 13
     }
    ],
@@ -339,28 +404,34 @@
      ]
     }
    ],
-   "widgets_values": [
-    30.0,
-    1
-   ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "EmptyYuE2LatentAudio"
    },
-   "order": 8
+   "widgets_values": [
+    30,
+    1
+   ],
+   "widgets_values_named": {
+    "seconds": 30,
+    "batch_size": 1
+   }
   },
   {
    "id": 10,
    "type": "KSampler",
    "pos": [
-    1800,
-    120
+    1292.8973965993907,
+    214.81421084285586
    ],
    "size": [
     290,
-    260
+    262
    ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -385,7 +456,10 @@
     {
      "name": "seed",
      "type": "INT",
-     "link": 5
+     "widget": {
+      "name": "seed"
+     },
+     "link": 23
     }
    ],
    "outputs": [
@@ -397,33 +471,44 @@
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "KSampler"
+   },
    "widgets_values": [
     0,
     "fixed",
     32,
-    1.0,
+    1,
     "dpm_2",
     "sgm_uniform",
-    1.0
+    1
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "KSampler"
-   },
-   "order": 9
+   "widgets_values_named": {
+    "seed": 0,
+    "control_after_generate": "fixed",
+    "steps": 32,
+    "cfg": 1,
+    "sampler_name": "dpm_2",
+    "scheduler": "sgm_uniform",
+    "denoise": 1
+   }
   },
   {
    "id": 11,
    "type": "VAEDecodeAudio",
    "pos": [
-    2240,
-    120
+    1455.941175109071,
+    641.3517384120395
    ],
    "size": [
     240,
     60
    ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
    "inputs": [
     {
      "name": "samples",
@@ -445,25 +530,26 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAEDecodeAudio"
-   },
-   "order": 10
+   }
   },
   {
    "id": 12,
    "type": "SaveAudioAdvanced",
    "pos": [
-    2680,
-    120
+    1688.3483612456885,
+    211.719492409446
    ],
    "size": [
     300,
-    100
+    136
    ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
    "inputs": [
     {
      "name": "audio",
@@ -473,42 +559,26 @@
    ],
    "outputs": [
     {
-     "name": "AUDIO",
+     "name": "audio",
      "type": "AUDIO",
      "links": []
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
    "widgets_values": [
     "audio/YuE2_cover",
     "flac"
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "SaveAudioAdvanced"
+   "widgets_values_named": {
+    "filename_prefix": "audio/YuE2_cover",
+    "format": "flac"
    },
-   "order": 11
-  },
-  {
-   "id": 13,
-   "type": "MarkdownNote",
-   "pos": [
-    -1400,
-    640
-   ],
-   "size": [
-    420,
-    320
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "widgets_values": [
-    "## Restyle a track (cover its melody) - YuE 2\n\n**A reference track in, the same tune out in a new style.** The one restyle route in the repo: SheetSage2\ntranscribes the reference's **melody** into ABC notation (`SheetSage2AudioToABC`, previewed on node 6) and\n`YuE2GenerateMusic(mode='melody')` re-renders from it with a **style and lyrics you write**. ACE-Step's\nstyle flow only *keeps* a reference (E5), so this is the capability it cannot reach - and the user's ears\nconfirm the cover is recognisably the reference's tune, restyled (E12d).\n\n- **the reference** goes on `LoadAudio` (any audio file in ComfyUI's `input/`); a 30 s reference covers in\n  **65 s**.\n- **`STYLE`** (node 7) is the idiom to change it into - the shipped example is industrial rock.\n- **`LYRICS`** (node 7) is new text: the reference's *melody* is kept, its *words* are not. New words only land when the source has a sung vocal line - an instrumental's transcribed `Vocal` line is all rests, and E22's added lyric was not sung.\n- **`max_duration` must be at least the reference's length.** The model chooses the duration itself and this\n  only bounds it - unlike ACE-Step, where the duration is a constant we set. So **you cannot target a length**: the cap only bounds, and the model stops when its ABC phrase ends (E22: a 30 s instrumental at cap 30 came out 27.7 s with a 188-word lyric, 29.5 s with none).\n- **`mode`** is `melody` (a cover); `full` writes a new song instead.\n- **node 6 (`PreviewAny`) shows the ABC** that SheetSage2 transcribed - the way to see whether the melody was\n  read at all. It is two-voice (`Vocal` + `Ins`); an all-rests `Vocal` line means the reference was\n  instrumental.\n\n**Licence: `cc-by-nc-4.0` (`Comfy-Org/YuE2`) - non-commercial, research only.** And **a transcript is not a presence test**:\nWhisper read 0-19 words on takes whose vocal the ears plainly hear (E12c), so never call a take instrumental\nfrom a transcript.\n\n---\n*How to run it: story **S22** in `HOWTO.md`  \u00b7  Why it is this way: **E12/E12d/E22** in `audio/EXPERIMENTS.md`.*\n"
-   ],
-   "properties": {},
-   "order": 0
+   "color": "#322",
+   "bgcolor": "#533"
   }
  ],
  "links": [
@@ -537,22 +607,6 @@
    "VAE"
   ],
   [
-   4,
-   2,
-   0,
-   7,
-   2,
-   "INT"
-  ],
-  [
-   5,
-   2,
-   0,
-   10,
-   4,
-   "INT"
-  ],
-  [
    6,
    3,
    0,
@@ -567,22 +621,6 @@
    5,
    0,
    "AUDIO_ENCODER"
-  ],
-  [
-   8,
-   5,
-   0,
-   7,
-   1,
-   "STRING"
-  ],
-  [
-   9,
-   5,
-   0,
-   6,
-   0,
-   "STRING"
   ],
   [
    10,
@@ -633,24 +671,49 @@
    "LATENT"
   ],
   [
+   8,
+   5,
+   0,
+   7,
+   1,
+   "STRING"
+  ],
+  [
    16,
    11,
    0,
    12,
    0,
    "AUDIO"
+  ],
+  [
+   22,
+   16,
+   0,
+   7,
+   2,
+   "INT"
+  ],
+  [
+   23,
+   16,
+   0,
+   10,
+   4,
+   "INT"
   ]
  ],
  "groups": [],
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.8470000000000004,
    "offset": [
-    0,
-    0
+    124.37695692063772,
+    -10.799791250784637
    ]
-  }
+  },
+  "frontendVersion": "1.59.1"
  },
  "version": 0.4
 }

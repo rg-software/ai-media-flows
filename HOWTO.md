@@ -280,18 +280,17 @@
 
 ### S19. Generate music from a text prompt
 
-- *When:* you want a music track from a description, with no source audio.
+- *When:* you want a music track from a description, with no source audio - the instrumental default and the fastest take. Singing is possible butfragile - for reliable vocals use S23.
 - *Steps:*
-	- open `audio/workflows/ace-step.json`. The checkpoint `ace_step_1.5_turbo_aio.safetensors` must be in `models/checkpoints/` (9.3 GB);
+	- open `audio/workflows/ace-step.json`.
 	- describe the music in **`tags`** (genre, mood, instrumentation, production). For an instrumental leave **`lyrics`** empty; to write a song, put the words in with `[Verse]` / `[Chorus]` markers;
 	- set **`duration`** (seconds) and, if you care, `bpm`, `keyscale`, `language`;
 	- **for a song, write full sections and budget 2+ minutes** - measured, the vocals need room (see the trap);
 	- run. A 2-minute track takes about **25 s**, including loading the model.
-- *Knobs:* the two constants at the left are wired to **both** of their consumers on purpose - **seed** goes to the text encoder *and* the sampler, and **duration** goes to the encoder *and* the latent's `seconds`. Change them there, not on the nodes, or the condition and the sample will disagree about what is being made.
+- *Knobs:* the two constants at the left are wired to **both** of their consumers on purpose - **seed** goes to the text encoder *and* the sampler, and **duration** goes to the encoder *and* the latent's `seconds`.
 - *Trap:* **the lyric has to be song-sized, and song-shaped** (E6/E7). The model sings roughly **60% of the words it is given**, i.e. **1.5-3 words per second** - a 120 s track wants **250-350 words**, and a 40-word poem comes back instrumental however good the tags are (same tags: 209 sung words at 344 input, 1 at 40). A bare `[Verse]` marker changes nothing on its own; **verse/chorus/bridge with a repeated chorus** took one such poem from 1 sung word to **86 (74% precision)**, using only the poem's own words - its strongest line is a ready-made chorus. **Repeat a short lyric into song form until the word count matches the duration**, or accept an instrumental.
 - *Trap:* **a short track will not sing.** Measured: at 30 s the flow produced **no vocal at all**, even with a full song's lyric, and at 120 s the same lyric sang (85% of the sung words came from the input). The planner builds a whole-song blueprint and the duration truncates it, so what survives short is the *instrumental intro*; a 3-line lyric also under-fills a long track. Write sections, and give it 2+ minutes.
 - *Note:* `KSampler`'s **negative input looks like a mistake and is not** - it is the positive through `ConditioningZeroOut` (an empty negative), because ACE-Step's prompt has no "undesired" concept and the sampler needs a negative slot; at cfg 1.0 it is unused anyway.
-- *Trap:* you cannot listen to the result from here. Judge it by the level numbers (`peak`/`RMS` should sit near -1/-14 dBFS, i.e. mastered rather than raw), by duration and sample rate, and - as we do - by a **spectrogram**: harmonic lines mean pitch, regular vertical transients mean a beat, a flat wash means noise. See `audio/README.md`.
 - *Note on the lyric's markup:* `[Verse]` / `[Chorus]` / `[Bridge]` are **a convention the model learned, not a keyword list** - nothing parses them, and the templates themselves also use free-form ones like `[Intro - Rhodes piano and brushed drums]` or `[drum fill]`. Use the standard names for structure, a dash plus a phrase for hints; an invented name will not error. See [`audio/README.md`](audio/README.md).
 - *More:* [`audio/README.md`](audio/README.md), and E1 in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
@@ -299,9 +298,8 @@
 
 - *When:* you have a track whose feel you want more of - a bed, a theme, more of the same palette - rather than something new.
 - *Steps:*
-	- put your reference in ComfyUI's `input/` (flac/wav/mp3) and set `LoadAudio` to it;
 	- open `audio/workflows/ace-step-style.json`; set the **target length** on the `FloatConstant` (it feeds the trim and the conditioning, so they agree);
-	- put the style you *want* in **`tags`** - although see the trap;
+	- put the style you *want* in **`tags`** - measured (E5), tags are a weak **nudge only**: even at high denoise the take stays close to the reference;
 	- set **`denoise`** and run. A take costs about 5 s.
 - *Knobs:* **`denoise`** - measured, this is a *retention* dial: 0.3-0.5 gives the same piece re-rendered (spectral similarity to the reference 0.99), and even 0.9 stays closer to the reference than to a text-only take of the same tags. The curve is not monotone (0.7 came out least like the reference), and with the turbo's 8 steps `denoise` is quantised to eighths.
 - *Trap:* **this is "more of this", not "make this industrial".** It keeps the reference's character, so it is the tool for a consistent soundtrack; for a genuine restyle use **S22** (YuE, non-commercial). And a rhythmic reference needs its `duration` matched, since the conditioning and the encoded latent must agree.
@@ -321,7 +319,7 @@
 
 - *When:* you have a track, a loop, or a hook you like, and you want **the same tune in a different idiom** ("make this industrial"). This is the only *restyle* route in the repo - **S20** can hold a reference's character, but it cannot change it.
 - *Steps:*
-	- open `audio/workflows/yue2-cover.json` and put your reference in ComfyUI's `input/`, picked on the **`LoadAudio`** node;
+	- open `audio/workflows/yue2-cover.json` and set your reference via the **`LoadAudio`** node;
 	- write the **style** to change it into (the shipped `STYLE` is industrial rock) and the **lyrics** you want - the reference's *melody* is kept, its *words* are not;
 	- run. A 30 s reference covers in about **65 s**.
 - *Knobs:* `max_duration` is a **ceiling, not a requested length** - you cannot pick the cover's size. The model stops when its generated song ends, so the length follows the ABC's music: E22 measured a 30 s instrumental at cap 30 coming out 27.7 s with a 188-word lyric and 29.5 s with none. A longer source helps only by giving SheetSage2 more melody to transcribe. `mode` is `melody` for a cover (`full` writes a new song instead).
