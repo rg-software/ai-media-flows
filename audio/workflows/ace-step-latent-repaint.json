@@ -1,6 +1,6 @@
 {
  "last_node_id": 31,
- "last_link_id": 40,
+ "last_link_id": 45,
  "nodes": [
   {
    "id": 1,
@@ -392,7 +392,7 @@
     620
    ],
    "widgets_values": [
-    "## ACE-Step latent repaint (E19) - regenerate a time span, keep the rest\n\n**The masked-latent route, and it works.** ACE-Step core (MIT) encodes the take, masks a band of the\naudio latent, and re-samples **only that band** - the rest of the take comes back at the VAE round-trip\nlevel, i.e. untouched. **15.4 s per 120 s take.**\n\n- **the span** is typed as **`repair from (s)` / `repair to (s)`** - two `FloatConstant`s. Three\n  `ComfyMathExpression` nodes turn them into the latent frames the mask works in (**25 per second**):\n  `from` x25 -> `MaskComposite.x`, `(to-from)` x25 -> the ones-mask `width`, and the clip length x25 ->\n  the zeros-mask `width` (so `clip length (s)` must be the take's own length). Repairing 55-61 s of a\n  120 s take is just `55` and `61` - no arithmetic, and the span is `[from, to)`.\n- **`tags` + `lyrics` are the take's whole prompt** - the same deal as an image inpaint, where the\n  prompt describes the whole picture and the mask picks the region. The mask confines *where* the\n  sampling changes; the text says what the piece is. Give it the take's own style and its full lyric\n  (E19b; trimming the lyric to just the span's words is untested).\n- **`SetAudioLatentNoiseMask`** - a **10-line custom node** (`custom_nodes/audio_latent_mask/`, mirrored\n  to `audio/custom_nodes/`), and the flow **does not run without it**. The core `SetLatentNoiseMask`\n  reshapes every mask to 4-D, which is right for image latents and wrong for a 3-D audio latent: its\n  `reshape_mask` path then wants a 3-D mask and raises *\"input with spatial dimensions of [1, 3000]\"*.\n  This node stores the mask unchanged. Drop-in, same inputs/output.\n- **`denoise` 1.0** on `KSampler` is right here: the noise mask already confines the sampling, so 1.0\n  means \"regenerate the band\", not \"regenerate everything\".\n\n**What E19 measured (control = the same flow with an all-zero mask, i.e. the VAE round-trip alone):**\n\n| | `mean|diff|` outside 55-61 s | inside |\n|---|---|---|\n| repaint vs round-trip | **0.0015** | **0.198** (127.7x) |\n| original vs round-trip | 0.02061 | - |\n| original vs repaint | 0.02077 | - |\n\nThe last two agree to four decimals: **the surrounding audio is preserved exactly** and the only outside\ndifference is the encode/decode round-trip. Refilling a *deleted* span works too - it returns at\n**-14.77 dB** against the original's -13.07 dB.\n\n**Two things to know before trusting a repaint.** (1) It is a **different performance** of that span\n(E18c), so the join is still a listening question - this route proves the *surroundings* are untouched,\nwhich is what every other route failed. (2) The mask edges are **hard** - the `GrowMaskWithBlur` on the band is a no-op at\n`expand` 0 / `blur_radius` 0.0, so raise it only if a click at the span's ends shows up.\n\n\n**Dead ends this replaces:** the kaola pack's `ACE_STEP_Repaint` (`scratch/ace-step-repaint.json`,\nkept for the record) and the `ReplaceVideoLatentFrames` comp (E18b) both rewrote the whole take\n(outside `mean|diff|` ~0.06-0.075, flat).\n\n---\n*How to run it: story **S24** in `HOWTO.md`  \u00b7  Why it is this way: **E19/E19b** in `audio/EXPERIMENTS.md`.*\n"
+    "## ACE-Step latent repaint (E19) - regenerate a time span, keep the rest\n\n**The masked-latent route, and it works.** ACE-Step core (MIT) encodes the take, masks a band of the\naudio latent, and re-samples **only that band** - the rest of the take comes back at the VAE round-trip\nlevel, i.e. untouched. **15.4 s per 120 s take.**\n\n- **the span** is typed as **`repair from (s)` / `repair to (s)`** - two `FloatConstant`s. Three\n  `ComfyMathExpression` nodes turn them into the latent frames the mask works in (**25 per second**):\n  `from` x25 -> `MaskComposite.x`, `(to-from)` x25 -> the ones-mask `width`, and the clip length x25 ->\n  the zeros-mask `width` (so `clip length (s)` must be the take's own length). Repairing 55-61 s of a\n  120 s take is just `55` and `61` - no arithmetic, and the span is `[from, to)`.\n- **`tags` + `lyrics` are the take's whole prompt** - the same deal as an image inpaint, where the\n  prompt describes the whole picture and the mask picks the region. The mask confines *where* the\n  sampling changes; the text says what the piece is. Give it the take's own style and its full lyric\n  (E19b; trimming the lyric to just the span's words is untested).\n- **`SetAudioLatentNoiseMask`** - a **10-line custom node** (`custom_nodes/audio_latent_mask/`, mirrored\n  to `audio/custom_nodes/`), and the flow **does not run without it**. The core `SetLatentNoiseMask`\n  reshapes every mask to 4-D, which is right for image latents and wrong for a 3-D audio latent: its\n  `reshape_mask` path then wants a 3-D mask and raises *\"input with spatial dimensions of [1, 3000]\"*.\n  This node stores the mask unchanged. Drop-in, same inputs/output.\n- **`denoise` 1.0** on `KSampler` is right here: the noise mask already confines the sampling, so 1.0\n  means \"regenerate the band\", not \"regenerate everything\".\n\n**What E19 measured (control = the same flow with an all-zero mask, i.e. the VAE round-trip alone):**\n\n| | `mean|diff|` outside 55-61 s | inside |\n|---|---|---|\n| repaint vs round-trip | **0.0015** | **0.198** (127.7x) |\n| original vs round-trip | 0.02061 | - |\n| original vs repaint | 0.02077 | - |\n\nThe last two agree to four decimals: **the surrounding audio is preserved exactly** and the only outside\ndifference is the encode/decode round-trip. Refilling a *deleted* span works too - it returns at\n**-14.77 dB** against the original's -13.07 dB.\n\n**Two things to know before trusting a repaint.** (1) It is a **different performance** of that span\n(E18c), so the join is still a listening question - this route proves the *surroundings* are untouched,\nwhich is what every other route failed. (2) The mask edges are **hard** - the `GrowMaskWithBlur` on the band is a no-op at\n`expand` 0 / `blur_radius` 0.0, so raise it only if a click at the span's ends shows up.\n\n\n**Dead ends this replaces:** the kaola pack's `ACE_STEP_Repaint` (`scratch/ace-step-repaint.json`,\nkept for the record) and the `ReplaceVideoLatentFrames` comp (E18b) both rewrote the whole take\n(outside `mean|diff|` ~0.06-0.075, flat).\n\n---\n*How to run it: story **S24** in `HOWTO.md`  ·  Why it is this way: **E19/E19b** in `audio/EXPERIMENTS.md`.*\n\n\n**2026-11-15:** GrowMaskWithBlur routed around - its mask shape breaks SetAudioLatentNoiseMask (mask-broadcast error at KSampler; found while measuring the XL repaint variant, E37). The band regenerates without feathering; E19b measured feathering as NOT the seam fix anyway."
    ],
    "flags": {},
    "mode": 0,
@@ -593,7 +593,8 @@
      "name": "MASK",
      "type": "MASK",
      "links": [
-      32
+      32,
+      45
      ]
     }
    ],
@@ -629,7 +630,7 @@
     {
      "name": "mask",
      "type": "MASK",
-     "link": 33
+     "link": 45
     }
    ],
    "outputs": [
@@ -671,9 +672,7 @@
     {
      "name": "MASK",
      "type": "MASK",
-     "links": [
-      33
-     ]
+     "links": []
     },
     {
      "name": "IMAGE",
@@ -1075,14 +1074,6 @@
    "MASK"
   ],
   [
-   33,
-   26,
-   0,
-   25,
-   1,
-   "MASK"
-  ],
-  [
    34,
    27,
    0,
@@ -1137,6 +1128,14 @@
    22,
    0,
    "INT"
+  ],
+  [
+   45,
+   24,
+   0,
+   25,
+   1,
+   "MASK"
   ]
  ],
  "groups": [],

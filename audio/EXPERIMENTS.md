@@ -86,3 +86,38 @@ This is the third scenario born from a modality with the node surface already in
 - [x] **YuE 2's cover/restyle route - NON-COMMERCIAL, but it works. Done (E12-E12d).** It runs here (3.96 GB int8, ~6.2 GB VRAM, a 120 s take in 385 s), and **the cover is the capability ACE-Step cannot reach**: SheetSage2 transcribes the reference's melody into ABC notation and `YuE2GenerateMusic(mode='melody')` re-renders it with a new style and new words - the user's ears confirm the cover is recognisably the reference's tune, restyled, and a 30 s cover costs 65 s. **Its text2music loses to ACE-Step** on identical input (~72 transcribed words against 19, and ACE-Step is MIT), and the template's own defaults come back instrumental. **The weights are `cc-by-nc-4.0`, so every output is research only** - the shippable alternative (ACE-Step's own Cover mode) was then costed out and **does not work here** - the pack's `ACE_STEP_Cover` produced noise/NaNs (E18d/E18f) - so this non-commercial route is the only working restyle. Shipped as S22 (`audio/workflows/yue2-cover.json`); the measured arms stay in `workflows/scratch/`, and `ace-step-e8-ballad.json` preserves the ACE-Step side of the comparison.
 - [x] **The ComfyUI update ran 2026-09-28 and was clean (see `comfyui/pinned-config.md`).** It brought the YuE 2 nodes and left **torch untouched** (pinned on the install line, so `custom_rasterizer` - built from source against exactly 2.11.0+cu128, nvcc 12.8 - did not need a rebuild); all 35 workflows still validate. It did **not** bring Mel-Band or Chatterbox - those are a *node-pack* install (above) - and the real constraint on any future **torch-moving** update is `custom_rasterizer`, which the freeze alone cannot restore. The frontend bump re-armed the Load3D texture re-check (still no GLB texture in the viewer - cosmetic, the `Textured turntable` workaround stays).
 - [ ] **Joint audio+video.** `WanSoundImageToVideo` and `LTXV`'s audio VAE sit in `video/`'s deferred backlog; ACE-Step plus one of those is a talking-head/music-video route. **Scoped 2026-10-10: the music-video half has official weights - `Comfy-Org/Wan-Dancer`, apache-2.0 and ungated, but it needs BOTH fp8_scaled 14B experts (`wan2.2_dancer_14b_global` + `..._local`, 18.34 GB each, so ~37 GB for the pair) driving the `WanDancerVideo` node; the talking-head half is `MeiGen-AI/InfiniteTalk` (video/EXPERIMENTS E15)** that spans two scenarios.
+
+## E37 - XL SFT latent repaint: mechanism works, lyric adherence collapses (BLOCKED)
+
+- Date: 2026-11-15
+- Stage: repair (span)
+- Workflow: `workflows/scratch/ace-step-xl-repaint.json` (built this session from `ace-step-latent-repaint.json`, loader stack swapped to the XL SFT arm)
+- Input: `E23_xl_clearlead_c00_00001.flac` (the E23 XL take, 120 s, 48 kHz) + the take's own conditioning (E13b clear-lead style + the 188-word 'Iron heart' lyric), seed 31, span 55-61 s, 50 steps / cfg 7, denoise 1.0
+- Params: span from FloatConstant 55 / to 61 -> the seconds-based mask machinery (a*25 / (b-a)*25); GrowMaskWithBlur present in the first attempt, then routed around
+- Output: `output/_xlrepaint_noblur/xl_noblur_00001.flac`; span cuts `span_orig.wav` / `span_repaint.wav` (53-63 s)
+- Verdict: **BLOCKED for lyric-faithful repair**
+- Observations:
+    - **The mechanism itself works, numerically verified.** Per-second diff profile: the band (55-61 s) regenerated (mean abs diff 0.20), everything else preserved at VAE-roundtrip level (0.002-0.045); RMS 0.188 vs 0.189. Outside-span max diff 0.70 = one boundary click, not diffusion.
+    - **But the repainted span does not re-sing the take's words.** ASR (whisper-small via HF pipeline, 16 kHz per the E20 correction): original span = "Every rivet's set in time / We will work into the night / Till the morning bells will chime" (correct, matches the lyric); repainted span = a repetition loop ("I run hard, turn the wall" x50) - invented words, no lyric adherence. Same ASR on both spans, so the loop is in the audio.
+    - **Finding 2: GrowMaskWithBlur breaks the repaint chain.** With the blur node in the graph, KSampler fails with a mask-broadcast error ("size of tensor a (64) must match b (3000) at dimension 1") - on the TURBO control too, i.e. not an XL issue. Routed around (24 -> 25 directly), everything runs. Both repaint flows now route around it; E19b had already measured feathering as NOT the seam fix.
+    - **Interpretation:** span repair under XL SFT produces style-consistent audio in the band but loses word-level continuity with the surrounding take. The turbo repaint (E19) was judged PASS by the user's ears - whether that is a model difference (1.5 turbo vs XL SFT) or recipe difference (8/1 vs 50/7) is not separated by this row.
+    - **Consequence:** for XL takes, span repair = re-roll the whole take or edit outside ComfyUI. The XL repaint flow stays in the repo with the BLOCKED flag; the turbo repaint flow keeps its PASS with the GrowMask fix.
+- Next: optional - one more arm with the turbo repaint model on the XL take (timbre mismatch unverified but the turbo mechanism sang its own words in E19); or accept the boundary and close.
+
+
+## E38 - turbo repaint on an XL take: the loop reproduces (closes span repair for XL takes)
+
+- Date: 2026-11-15
+- Stage: repair (span)
+- Workflow: `ace-step-latent-repaint.json` graph (turbo stack) on the **XL SFT take** `E23_xl_clearlead_c00_00001.flac`
+- Input: the take's own conditioning (E13b clear-lead style + the 188-word 'Iron heart' lyric), seed 31, span 55-61 s, turbo recipe 8 steps / cfg 1, denoise 1.0
+- Params: identical to E37 except the model stack (turbo all-in-one instead of the XL SFT arm)
+- Output: `output/_xlrepaint/turbo_on_xl_00001.flac`; span cut `span_turbo_on_xl.wav` (53-63 s)
+- Verdict: **BLOCKED - the loop reproduces regardless of repaint model**
+- Observations:
+    - **Outside the band the take is preserved identically** (per-5s diff 0.002-0.047, the same profile as E37), and the band regenerates (0.23). The mechanism holds.
+    - **But ASR on the repainted span:** original = "Every rivet's set in time / We will work into the night / Till the morning bells will chime" (correct); turbo-repainted = a repetition loop ("I run hard, turn the wall" x50) - invented words, the same collapse E37 measured under the XL repaint model.
+    - **So the loop is take-side, not model-side:** the turbo repaint re-sang its own words on a turbo take (E19 PASS) but loops on the XL take. Span repair with lyric fidelity does not transfer to XL takes under either repaint model. (Loose hypothesis: the clear-lead style take - where E13b found the turbo produces no vocal from scratch - resists word-level continuation; unverified.)
+    - **Closure:** for a bad span in an XL song take, re-roll the whole take or edit outside ComfyUI. The XL repaint variant is demoted to `workflows/scratch/` (E37/E38 carry the knowledge; the graph rebuilds in minutes if an instrumental-span use appears). The turbo repaint flow stays shipped - it has a measured PASS on turbo takes (E19).
+- Next: closed for this scenario; nothing further planned.
+

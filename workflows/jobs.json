@@ -262,7 +262,7 @@
   },
   {
    "want": "Repair a region of a track (re-sing a span, refill a deleted passage)",
-   "detail": "`audio/workflows/ace-step-latent-repaint.json` (ACE-Step core + a custom node `SetAudioLatentNoiseMask` which masks a time band of the audio latent and resamples only it); for an **XL SFT take**:  `audio/workflows/ace-step-xl-repaint.json` (XL loader stack swapped in - same 1.5 latent space; UNMEASURED, E-row pending)",
+   "detail": "`audio/workflows/ace-step-latent-repaint.json` (ACE-Step core + a custom node `SetAudioLatentNoiseMask` which masks a time band of the audio latent and resamples only it) - turbo takes. **Span repair for XL takes: BLOCKED (E37/E38 - the band re-sings a repetition loop under either repaint model; re-roll or edit externally; the XL-recipe variant lives in `workflows/scratch/`)**",
    "story": "S24",
    "category": "audio"
   },
@@ -550,9 +550,6 @@
   },
   "qwen-image-base.json": {
    "story": "S1"
-  },
-  "ace-step-xl-repaint.json": {
-   "story": "S24"
   }
  },
  "categories": [
