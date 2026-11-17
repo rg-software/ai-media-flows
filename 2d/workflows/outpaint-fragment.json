@@ -1,0 +1,1388 @@
+{
+ "id": "32b58517-2a88-4b86-a05b-bc8836f47d5f",
+ "revision": 0,
+ "last_node_id": 22,
+ "last_link_id": 38,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "LoadImage",
+   "pos": [
+    -93.86602395429074,
+    299.99557848606605
+   ],
+   "size": [
+    320,
+    314
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      1,
+      2
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [
+      38
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "env_cottage.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "env_cottage.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 4,
+   "type": "CheckpointLoaderSimple",
+   "pos": [
+    -92.95267715098026,
+    111.85956953286421
+   ],
+   "size": [
+    320,
+    122
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      4
+     ]
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "slot_index": 1,
+     "links": [
+      5,
+      6
+     ]
+    },
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "slot_index": 2,
+     "links": [
+      8,
+      37
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
+   "widgets_values": [
+    "RealVisXL_V5.0_fp16.safetensors"
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 5,
+   "type": "CLIPTextEncode",
+   "pos": [
+    278.90687512990934,
+    112.66297522231058
+   ],
+   "size": [
+    400,
+    180
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      12
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "medieval fantasy cottage in a lush garden, stone wall, tall trees, overcast sky, environment concept art, highly detailed digital painting, seamless continuation"
+   ],
+   "widgets_values_named": {
+    "text": "medieval fantasy cottage in a lush garden, stone wall, tall trees, overcast sky, environment concept art, highly detailed digital painting, seamless continuation"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 6,
+   "type": "CLIPTextEncode",
+   "pos": [
+    280.71571016104883,
+    346.2305232279621
+   ],
+   "size": [
+    400,
+    180
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "blurry, lowres, text, watermark, jpeg artifacts, deformed, seams, horizon mismatch"
+   ],
+   "widgets_values_named": {
+    "text": "blurry, lowres, text, watermark, jpeg artifacts, deformed, seams, horizon mismatch"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 7,
+   "type": "GetImageSize",
+   "pos": [
+    767.2273251914694,
+    415.98691863740106
+   ],
+   "size": [
+    260,
+    106
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "width",
+     "type": "INT",
+     "slot_index": 0,
+     "links": [
+      16,
+      18
+     ]
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "slot_index": 1,
+     "links": [
+      20,
+      22
+     ]
+    },
+    {
+     "name": "batch_size",
+     "type": "INT",
+     "slot_index": 2,
+     "links": []
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "GetImageSize"
+   }
+  },
+  {
+   "id": 8,
+   "type": "INTConstant",
+   "pos": [
+    73.58522543540009,
+    693.6685598317747
+   ],
+   "size": [
+    220,
+    58
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "value",
+     "type": "INT",
+     "slot_index": 0,
+     "links": [
+      15
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
+    "Node name for S&R": "INTConstant"
+   },
+   "widgets_values": [
+    0
+   ],
+   "widgets_values_named": {
+    "value": 0
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 9,
+   "type": "INTConstant",
+   "pos": [
+    604.5268541312739,
+    708.5445122755781
+   ],
+   "size": [
+    220,
+    58
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "value",
+     "type": "INT",
+     "slot_index": 0,
+     "links": [
+      17
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
+    "Node name for S&R": "INTConstant"
+   },
+   "widgets_values": [
+    1024
+   ],
+   "widgets_values_named": {
+    "value": 1024
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 10,
+   "type": "INTConstant",
+   "pos": [
+    331.3678525779352,
+    591.3633793080776
+   ],
+   "size": [
+    220,
+    58
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "value",
+     "type": "INT",
+     "slot_index": 0,
+     "links": [
+      19
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
+    "Node name for S&R": "INTConstant"
+   },
+   "widgets_values": [
+    0
+   ],
+   "widgets_values_named": {
+    "value": 0
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 11,
+   "type": "INTConstant",
+   "pos": [
+    325.03630889786257,
+    788.948611335995
+   ],
+   "size": [
+    220,
+    58
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "value",
+     "type": "INT",
+     "slot_index": 0,
+     "links": [
+      21
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
+    "Node name for S&R": "INTConstant"
+   },
+   "widgets_values": [
+    0
+   ],
+   "widgets_values_named": {
+    "value": 0
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 12,
+   "type": "ComfyMathExpression",
+   "pos": [
+    1060.0002070236949,
+    570.6565121748968
+   ],
+   "size": [
+    260,
+    148
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 15
+    },
+    {
+     "name": "values.b",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 16
+    },
+    {
+     "name": "values.c",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "slot_index": 0,
+     "links": [
+      24
+     ]
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "BOOL",
+     "type": "BOOLEAN",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ComfyMathExpression"
+   },
+   "widgets_values": [
+    "a/b+1"
+   ],
+   "widgets_values_named": {
+    "expression": "a/b+1"
+   }
+  },
+  {
+   "id": 13,
+   "type": "ComfyMathExpression",
+   "pos": [
+    1058.1910959609622,
+    684.3249167389004
+   ],
+   "size": [
+    260,
+    148
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 17
+    },
+    {
+     "name": "values.b",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 18
+    },
+    {
+     "name": "values.c",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "slot_index": 0,
+     "links": [
+      25
+     ]
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "BOOL",
+     "type": "BOOLEAN",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ComfyMathExpression"
+   },
+   "widgets_values": [
+    "a/b+1"
+   ],
+   "widgets_values_named": {
+    "expression": "a/b+1"
+   }
+  },
+  {
+   "id": 14,
+   "type": "ComfyMathExpression",
+   "pos": [
+    1059.095513476532,
+    931.8595522808896
+   ],
+   "size": [
+    260,
+    148
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 19
+    },
+    {
+     "name": "values.b",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 20
+    },
+    {
+     "name": "values.c",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "slot_index": 0,
+     "links": [
+      26
+     ]
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "BOOL",
+     "type": "BOOLEAN",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ComfyMathExpression"
+   },
+   "widgets_values": [
+    "a/b+1"
+   ],
+   "widgets_values_named": {
+    "expression": "a/b+1"
+   }
+  },
+  {
+   "id": 15,
+   "type": "ComfyMathExpression",
+   "pos": [
+    1060,
+    1060
+   ],
+   "size": [
+    260,
+    148
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "values.a",
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 21
+    },
+    {
+     "name": "values.b",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": 22
+    },
+    {
+     "name": "values.c",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "slot_index": 0,
+     "links": [
+      27
+     ]
+    },
+    {
+     "name": "INT",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "BOOL",
+     "type": "BOOLEAN",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ComfyMathExpression"
+   },
+   "widgets_values": [
+    "a/b+1"
+   ],
+   "widgets_values_named": {
+    "expression": "a/b+1"
+   }
+  },
+  {
+   "id": 16,
+   "type": "InpaintCropImproved",
+   "pos": [
+    1380,
+    400
+   ],
+   "size": [
+    340,
+    650
+   ],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 2
+    },
+    {
+     "name": "mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": 38
+    },
+    {
+     "name": "optional_context_mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
+    },
+    {
+     "name": "extend_up_factor",
+     "type": "FLOAT",
+     "widget": {
+      "name": "extend_up_factor"
+     },
+     "link": 26
+    },
+    {
+     "name": "extend_down_factor",
+     "type": "FLOAT",
+     "widget": {
+      "name": "extend_down_factor"
+     },
+     "link": 27
+    },
+    {
+     "name": "extend_left_factor",
+     "type": "FLOAT",
+     "widget": {
+      "name": "extend_left_factor"
+     },
+     "link": 24
+    },
+    {
+     "name": "extend_right_factor",
+     "type": "FLOAT",
+     "widget": {
+      "name": "extend_right_factor"
+     },
+     "link": 25
+    }
+   ],
+   "outputs": [
+    {
+     "name": "stitcher",
+     "type": "STITCHER",
+     "slot_index": 0,
+     "links": [
+      33
+     ]
+    },
+    {
+     "name": "cropped_image",
+     "type": "IMAGE",
+     "slot_index": 1,
+     "links": [
+      28
+     ]
+    },
+    {
+     "name": "cropped_mask",
+     "type": "MASK",
+     "slot_index": 2,
+     "links": [
+      29
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-inpaint-cropandstitch",
+    "ver": "00d4776c52d84ce150ce5fe50bf90f956db02a4c",
+    "Node name for S&R": "InpaintCropImproved"
+   },
+   "widgets_values": [
+    "bilinear",
+    "bicubic",
+    false,
+    "ensure minimum resolution",
+    1024,
+    1024,
+    16384,
+    16384,
+    true,
+    0,
+    false,
+    64,
+    0.1,
+    true,
+    1,
+    1,
+    1,
+    2,
+    4,
+    false,
+    2048,
+    1024,
+    "32",
+    "gpu (much faster)"
+   ],
+   "widgets_values_named": {
+    "downscale_algorithm": "bilinear",
+    "upscale_algorithm": "bicubic",
+    "preresize": false,
+    "preresize_mode": "ensure minimum resolution",
+    "preresize_min_width": 1024,
+    "preresize_min_height": 1024,
+    "preresize_max_width": 16384,
+    "preresize_max_height": 16384,
+    "mask_fill_holes": true,
+    "mask_expand_pixels": 0,
+    "mask_invert": false,
+    "mask_blend_pixels": 64,
+    "mask_hipass_filter": 0.1,
+    "extend_for_outpainting": true,
+    "extend_up_factor": 1,
+    "extend_down_factor": 1,
+    "extend_left_factor": 1,
+    "extend_right_factor": 2,
+    "context_from_mask_extend_factor": 4,
+    "output_resize_to_target_size": false,
+    "output_target_width": 2048,
+    "output_target_height": 1024,
+    "output_padding": "32",
+    "device_mode": "gpu (much faster)"
+   }
+  },
+  {
+   "id": 17,
+   "type": "InpaintModelConditioning",
+   "pos": [
+    1775.4774983747616,
+    415.3765814344986
+   ],
+   "size": [
+    300,
+    220
+   ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 12
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 13
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 8
+    },
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 28
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 29
+    }
+   ],
+   "outputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      30
+     ]
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "slot_index": 1,
+     "links": [
+      31
+     ]
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "slot_index": 2,
+     "links": [
+      32
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "InpaintModelConditioning"
+   },
+   "widgets_values": [
+    true
+   ],
+   "widgets_values_named": {
+    "noise_mask": true
+   }
+  },
+  {
+   "id": 18,
+   "type": "KSampler",
+   "pos": [
+    1780,
+    700
+   ],
+   "size": [
+    300,
+    262
+   ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 4
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 30
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 31
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 32
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      34
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    9206,
+    "fixed",
+    25,
+    6,
+    "euler",
+    "normal",
+    0.9
+   ],
+   "widgets_values_named": {
+    "seed": 9206,
+    "control_after_generate": "fixed",
+    "steps": 25,
+    "cfg": 6,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 0.9
+   }
+  },
+  {
+   "id": 19,
+   "type": "VAEDecode",
+   "pos": [
+    1780,
+    1000
+   ],
+   "size": [
+    200,
+    50
+   ],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 34
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 37
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      35
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "VAEDecode"
+   }
+  },
+  {
+   "id": 20,
+   "type": "InpaintStitchImproved",
+   "pos": [
+    2068.4435780833405,
+    1108.2238338714087
+   ],
+   "size": [
+    300,
+    80
+   ],
+   "flags": {},
+   "order": 18,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "stitcher",
+     "type": "STITCHER",
+     "link": 33
+    },
+    {
+     "name": "inpainted_image",
+     "type": "IMAGE",
+     "link": 35
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      36
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-inpaint-cropandstitch",
+    "ver": "00d4776c52d84ce150ce5fe50bf90f956db02a4c",
+    "Node name for S&R": "InpaintStitchImproved"
+   }
+  },
+  {
+   "id": 21,
+   "type": "SaveImage",
+   "pos": [
+    2184.219578284703,
+    446.9374593690412
+   ],
+   "size": [
+    300,
+    300
+   ],
+   "flags": {},
+   "order": 19,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 36
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/E9/outpaint-fragment"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/E9/outpaint-fragment"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 22,
+   "type": "MarkdownNote",
+   "pos": [
+    736.2476259478135,
+    -223.43398090483907
+   ],
+   "size": [
+    864.3125068688205,
+    234.03748179830137
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "widgets_values": [
+    "## Outpaint a fragment (big sources: extend part of the picture)\n\nSame px knobs and factor math as `outpaint-px.json` (`f = 1 + N/W`, source-relative) - plus a **mask**: paint (MaskEditor) the **edge strip** to be extended + repainted. The mask does two jobs: it **localizes the crop** (so a big source samples only a local region, in the SDXL budget) and it marks the strip that becomes the **transition** into the new area (the strip is repainted - keep it thin). **`context_from_mask_extend_factor` is 4.0 here, not the pack default 1.2** - measured: at 1.2 the crop is a ~100 px sliver and the model invents in isolation (E41: it built a decontextualized second cottage); at 4.0 the crop carries enough scene to continue coherently.\n\n- Same budget note: the output canvas is `W + N_left + N_right` x `H + N_up + N_down` at the **source resolution** - the pack edge-replicates, samples the local crop natively, and stitches.\n- Never pad with **black**: base SDXL will not paint over black padding (E41 - strips came back black at denoise 0.9 and 1.0). The pack's own extend padding is edge replication - let it pad.\n- For extending a **whole small picture**, use `outpaint-px.json`.\n\n*How to run it: story **S5** in `HOWTO.md`  \u00b7  Why it is this way: **E41** in `2d/EXPERIMENTS-2D.md`.*\n\n**Very large sources (4K+) - the marching recipe (for revisiting):**\n- mask **~300x300 square-ish patches touching the edge** (bottom corner of the patch ON the canvas edge, so the 4x-grown crop reaches into the extension area; square-ish keeps the crop aspect sane - a long thin strip mask gives a 4:1 crop, which SDXL composes poorly even when it fits the MP budget)\n- context 4.0, constant **N** = the extension depth; **~13 runs per 3840 px edge**, feed-forward: each run's stitched output is the next run's input\n- prompt per patch = the **local continuation** (trap 3)\n- trade knob: context 2.0 doubles the patch size (~600x600, ~7 runs per edge) as long as the crop keeps **>= ~150 px of real scene per side** and aspect <= ~1:2.5\n- one mask = one local region; opposite edges = separate runs\n- source size is unconstrained - only the crop must fit the budget; a batch driver walking a mask grid would automate the march if this ever gets tedious"
+   ],
+   "widgets_values_named": {
+    "text": "## Outpaint a fragment (big sources: extend part of the picture)\n\nSame px knobs and factor math as `outpaint-px.json` (`f = 1 + N/W`, source-relative) - plus a **mask**: paint (MaskEditor) the **edge strip** to be extended + repainted. The mask does two jobs: it **localizes the crop** (so a big source samples only a local region, in the SDXL budget) and it marks the strip that becomes the **transition** into the new area (the strip is repainted - keep it thin). **`context_from_mask_extend_factor` is 4.0 here, not the pack default 1.2** - measured: at 1.2 the crop is a ~100 px sliver and the model invents in isolation (E41: it built a decontextualized second cottage); at 4.0 the crop carries enough scene to continue coherently.\n\n- Same budget note: the output canvas is `W + N_left + N_right` x `H + N_up + N_down` at the **source resolution** - the pack edge-replicates, samples the local crop natively, and stitches.\n- Never pad with **black**: base SDXL will not paint over black padding (E41 - strips came back black at denoise 0.9 and 1.0). The pack's own extend padding is edge replication - let it pad.\n- For extending a **whole small picture**, use `outpaint-px.json`.\n\n*How to run it: story **S5** in `HOWTO.md`  \u00b7  Why it is this way: **E41** in `2d/EXPERIMENTS-2D.md`.*\n\n**Very large sources (4K+) - the marching recipe (for revisiting):**\n- mask **~300x300 square-ish patches touching the edge** (bottom corner of the patch ON the canvas edge, so the 4x-grown crop reaches into the extension area; square-ish keeps the crop aspect sane - a long thin strip mask gives a 4:1 crop, which SDXL composes poorly even when it fits the MP budget)\n- context 4.0, constant **N** = the extension depth; **~13 runs per 3840 px edge**, feed-forward: each run's stitched output is the next run's input\n- prompt per patch = the **local continuation** (trap 3)\n- trade knob: context 2.0 doubles the patch size (~600x600, ~7 runs per edge) as long as the crop keeps **>= ~150 px of real scene per side** and aspect <= ~1:2.5\n- one mask = one local region; opposite edges = separate runs\n- source size is unconstrained - only the crop must fit the budget; a batch driver walking a mask grid would automate the march if this ever gets tedious"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   7,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   1,
+   0,
+   16,
+   0,
+   "IMAGE"
+  ],
+  [
+   4,
+   4,
+   0,
+   18,
+   0,
+   "MODEL"
+  ],
+  [
+   5,
+   4,
+   1,
+   5,
+   0,
+   "CLIP"
+  ],
+  [
+   6,
+   4,
+   1,
+   6,
+   0,
+   "CLIP"
+  ],
+  [
+   8,
+   4,
+   2,
+   17,
+   2,
+   "VAE"
+  ],
+  [
+   37,
+   4,
+   2,
+   19,
+   1,
+   "VAE"
+  ],
+  [
+   12,
+   5,
+   0,
+   17,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   13,
+   6,
+   0,
+   17,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   28,
+   16,
+   1,
+   17,
+   3,
+   "IMAGE"
+  ],
+  [
+   29,
+   16,
+   2,
+   17,
+   4,
+   "MASK"
+  ],
+  [
+   30,
+   17,
+   0,
+   18,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   31,
+   17,
+   1,
+   18,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   32,
+   17,
+   2,
+   18,
+   3,
+   "LATENT"
+  ],
+  [
+   33,
+   16,
+   0,
+   20,
+   0,
+   "STITCHER"
+  ],
+  [
+   34,
+   18,
+   0,
+   19,
+   0,
+   "LATENT"
+  ],
+  [
+   35,
+   19,
+   0,
+   20,
+   1,
+   "IMAGE"
+  ],
+  [
+   36,
+   20,
+   0,
+   21,
+   0,
+   "IMAGE"
+  ],
+  [
+   38,
+   1,
+   1,
+   16,
+   1,
+   "MASK"
+  ],
+  [
+   15,
+   8,
+   0,
+   12,
+   0,
+   "INT"
+  ],
+  [
+   16,
+   7,
+   0,
+   12,
+   1,
+   "INT"
+  ],
+  [
+   17,
+   9,
+   0,
+   13,
+   0,
+   "INT"
+  ],
+  [
+   18,
+   7,
+   0,
+   13,
+   1,
+   "INT"
+  ],
+  [
+   19,
+   10,
+   0,
+   14,
+   0,
+   "INT"
+  ],
+  [
+   20,
+   7,
+   1,
+   14,
+   1,
+   "INT"
+  ],
+  [
+   21,
+   11,
+   0,
+   15,
+   0,
+   "INT"
+  ],
+  [
+   22,
+   7,
+   1,
+   15,
+   1,
+   "INT"
+  ],
+  [
+   26,
+   14,
+   0,
+   16,
+   3,
+   "FLOAT"
+  ],
+  [
+   27,
+   15,
+   0,
+   16,
+   4,
+   "FLOAT"
+  ],
+  [
+   24,
+   12,
+   0,
+   16,
+   5,
+   "FLOAT"
+  ],
+  [
+   25,
+   13,
+   0,
+   16,
+   6,
+   "FLOAT"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.37510002517700247,
+   "offset": [
+    703.170670770213,
+    443.00957948767905
+   ]
+  },
+  "frontendVersion": "1.59.1"
+ },
+ "version": 0.4
+}

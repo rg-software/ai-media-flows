@@ -1,0 +1,777 @@
+{
+ "id": "24472599-8653-4312-93f0-106e26df224c",
+ "revision": 0,
+ "last_node_id": 11,
+ "last_link_id": 17,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "LoadImage",
+   "pos": [
+    -15.050146595764147,
+    218.38758255310063
+   ],
+   "size": [
+    320,
+    318
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": []
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "LoadImage",
+    "cablemanagement.drawers": {
+     "inputs": false,
+     "outputs": true
+    }
+   },
+   "widgets_values": [
+    "env_cottage.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "env_cottage.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 2,
+   "type": "CheckpointLoaderSimple",
+   "pos": [
+    -40.81829319152831,
+    -41.66075531921399
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      2
+     ]
+    },
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "slot_index": 1,
+     "links": [
+      3,
+      4
+     ]
+    },
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "slot_index": 2,
+     "links": [
+      5,
+      6
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
+   "widgets_values": [
+    "RealVisXL_V5.0_fp16.safetensors"
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 3,
+   "type": "CLIPTextEncode",
+   "pos": [
+    467.33538115406975,
+    72.50768939268977
+   ],
+   "size": [
+    400,
+    160
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      7
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "medieval fantasy cottage in a lush garden, stone wall, tall trees, overcast sky, environment concept art, highly detailed digital painting, seamless continuation"
+   ],
+   "widgets_values_named": {
+    "text": "medieval fantasy cottage in a lush garden, stone wall, tall trees, overcast sky, environment concept art, highly detailed digital painting, seamless continuation"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 4,
+   "type": "CLIPTextEncode",
+   "pos": [
+    465.22456437674896,
+    280.79390626959196
+   ],
+   "size": [
+    400,
+    160
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "blurry, lowres, text, watermark, jpeg artifacts, deformed, seams, horizon mismatch"
+   ],
+   "widgets_values_named": {
+    "text": "blurry, lowres, text, watermark, jpeg artifacts, deformed, seams, horizon mismatch"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 5,
+   "type": "InpaintCropImproved",
+   "pos": [
+    454.6707623081394,
+    484.85846946199575
+   ],
+   "size": [
+    420,
+    650
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 1
+    },
+    {
+     "name": "mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
+    },
+    {
+     "name": "optional_context_mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "stitcher",
+     "type": "STITCHER",
+     "slot_index": 0,
+     "links": [
+      15
+     ]
+    },
+    {
+     "name": "cropped_image",
+     "type": "IMAGE",
+     "slot_index": 1,
+     "links": [
+      9
+     ]
+    },
+    {
+     "name": "cropped_mask",
+     "type": "MASK",
+     "slot_index": 2,
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-inpaint-cropandstitch",
+    "ver": "00d4776c52d84ce150ce5fe50bf90f956db02a4c",
+    "Node name for S&R": "InpaintCropImproved"
+   },
+   "widgets_values": [
+    "bilinear",
+    "bicubic",
+    false,
+    "ensure minimum resolution",
+    1024,
+    1024,
+    16384,
+    16384,
+    true,
+    0,
+    false,
+    64,
+    0.1,
+    true,
+    1,
+    1,
+    1.5,
+    1.5,
+    1.2,
+    true,
+    1536,
+    768,
+    "32",
+    "gpu (much faster)"
+   ],
+   "widgets_values_named": {
+    "downscale_algorithm": "bilinear",
+    "upscale_algorithm": "bicubic",
+    "preresize": false,
+    "preresize_mode": "ensure minimum resolution",
+    "preresize_min_width": 1024,
+    "preresize_min_height": 1024,
+    "preresize_max_width": 16384,
+    "preresize_max_height": 16384,
+    "mask_fill_holes": true,
+    "mask_expand_pixels": 0,
+    "mask_invert": false,
+    "mask_blend_pixels": 64,
+    "mask_hipass_filter": 0.1,
+    "extend_for_outpainting": true,
+    "extend_up_factor": 1,
+    "extend_down_factor": 1,
+    "extend_left_factor": 1.5,
+    "extend_right_factor": 1.5,
+    "context_from_mask_extend_factor": 1.2,
+    "output_resize_to_target_size": true,
+    "output_target_width": 1536,
+    "output_target_height": 768,
+    "output_padding": "32",
+    "device_mode": "gpu (much faster)"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 6,
+   "type": "InpaintModelConditioning",
+   "pos": [
+    945.3293182112876,
+    345.8522218001408
+   ],
+   "size": [
+    360,
+    180
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 7
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 8
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 5
+    },
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 9
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      11
+     ]
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "slot_index": 1,
+     "links": [
+      12
+     ]
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "slot_index": 2,
+     "links": [
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "InpaintModelConditioning"
+   },
+   "widgets_values": [
+    true
+   ],
+   "widgets_values_named": {
+    "noise_mask": true
+   }
+  },
+  {
+   "id": 7,
+   "type": "KSampler",
+   "pos": [
+    1360,
+    120
+   ],
+   "size": [
+    320,
+    300
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 11
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 12
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 13
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    9101,
+    "randomize",
+    25,
+    6,
+    "euler",
+    "normal",
+    0.9
+   ],
+   "widgets_values_named": {
+    "seed": 9101,
+    "control_after_generate": "randomize",
+    "steps": 25,
+    "cfg": 6,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 0.9
+   }
+  },
+  {
+   "id": 8,
+   "type": "VAEDecode",
+   "pos": [
+    1732.4554735142744,
+    -11.923029104037425
+   ],
+   "size": [
+    220,
+    60
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 14
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      16
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "VAEDecode"
+   }
+  },
+  {
+   "id": 9,
+   "type": "InpaintStitchImproved",
+   "pos": [
+    1804.8750695658691,
+    266.174828933615
+   ],
+   "size": [
+    300,
+    80
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "stitcher",
+     "type": "STITCHER",
+     "link": 15
+    },
+    {
+     "name": "inpainted_image",
+     "type": "IMAGE",
+     "link": 16
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      17
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-inpaint-cropandstitch",
+    "ver": "00d4776c52d84ce150ce5fe50bf90f956db02a4c",
+    "Node name for S&R": "InpaintStitchImproved"
+   }
+  },
+  {
+   "id": 10,
+   "type": "SaveImage",
+   "pos": [
+    2178.5864760584695,
+    310.3671813794339
+   ],
+   "size": [
+    400,
+    300
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 17
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2D/E9/outpaint"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/E9/outpaint"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 11,
+   "type": "MarkdownNote",
+   "pos": [
+    337.0894764174553,
+    -330.85476286848893
+   ],
+   "size": [
+    720,
+    200
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## outpaint.json\n\nOutpaint\n\n**Does:** outpaint to a wider canvas (Crop&Stitch). `extend_left/right_factor=1.5` is +50% width\nper side. The original region returns at mean|diff| **0.041/255** (pixel-identical) because the\nstitcher never VAE round-trips unmasked pixels; the core `ImagePadForOutpaint` baseline drifted\n6.477/255. `device_mode=\"gpu (much faster)\"` matters 30-100x.\n**By design:** the new area is *invented* (the node pads the canvas by edge-clamp and the\nsampler replaces it). For a *controlled* extension - the same trees/sky carried outward - pad\nthe canvas with `scripts/pad_image.py` and run `inpaint.json` at denoise ~0.7 instead (S5, E18).\n**Resolution (E19):** samples at **1536x768**, not the raw 2048x1024 crop - at 2.1 MP\nSDXL goes mushy (blurry foliage, smeared wall); 1536x768 is crisp and ~33% faster (12 s vs\n18 s). Keep the target's aspect equal to the crop's. `preresize` cannot help: it runs\nBEFORE the extension, so it never sees the padded canvas.\n**Seam (E17):** this graph ships `mask_blend_pixels` **64** - the border knob (seam step\n19.6 -> 11.7 of 255; at 64 the boundary no longer stands out from its own surroundings) - with\n`denoise` **0.9** for the colour match (colour step 16.1 -> 11.7). At ~0.8 and below the model\nstarts *inventing* rather than refining - on the cottage it painted a second, different cottage\n(the extension fill is an **edge-clamp smear**, not a mirror, so what survives is not the source).\n**`mask_expand_pixels` and\n`context_from_mask_extend_factor` do nothing here**: the mask ops run before the extension and\nno mask is wired in. A clipped object (half a tree) is not continued by any blend width - the\nnew area is invented.\n\n---\n*How to run it: story **S5** in `HOWTO.md`  \u00b7  Why it is this way: **E9, E17** in the scenarios' `EXPERIMENTS` logs.*\n\n**DEMOTED to scratch 2026-11-17 (E41):** superseded by `outpaint-px.json` (px knobs + in-graph factor math - the factor widgets and the target size here were two independently-set numbers describing one canvas, and the shipped file had drifted from what E9 measured) and `outpaint-fragment.json` (masked fragment mode)."
+   ],
+   "widgets_values_named": {
+    "text": "## outpaint.json\n\nOutpaint\n\n**Does:** outpaint to a wider canvas (Crop&Stitch). `extend_left/right_factor=1.5` is +50% width\nper side. The original region returns at mean|diff| **0.041/255** (pixel-identical) because the\nstitcher never VAE round-trips unmasked pixels; the core `ImagePadForOutpaint` baseline drifted\n6.477/255. `device_mode=\"gpu (much faster)\"` matters 30-100x.\n**By design:** the new area is *invented* (the node pads the canvas by edge-clamp and the\nsampler replaces it). For a *controlled* extension - the same trees/sky carried outward - pad\nthe canvas with `scripts/pad_image.py` and run `inpaint.json` at denoise ~0.7 instead (S5, E18).\n**Resolution (E19):** samples at **1536x768**, not the raw 2048x1024 crop - at 2.1 MP\nSDXL goes mushy (blurry foliage, smeared wall); 1536x768 is crisp and ~33% faster (12 s vs\n18 s). Keep the target's aspect equal to the crop's. `preresize` cannot help: it runs\nBEFORE the extension, so it never sees the padded canvas.\n**Seam (E17):** this graph ships `mask_blend_pixels` **64** - the border knob (seam step\n19.6 -> 11.7 of 255; at 64 the boundary no longer stands out from its own surroundings) - with\n`denoise` **0.9** for the colour match (colour step 16.1 -> 11.7). At ~0.8 and below the model\nstarts *inventing* rather than refining - on the cottage it painted a second, different cottage\n(the extension fill is an **edge-clamp smear**, not a mirror, so what survives is not the source).\n**`mask_expand_pixels` and\n`context_from_mask_extend_factor` do nothing here**: the mask ops run before the extension and\nno mask is wired in. A clipped object (half a tree) is not continued by any blend width - the\nnew area is invented.\n\n---\n*How to run it: story **S5** in `HOWTO.md`  \u00b7  Why it is this way: **E9, E17** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#332922",
+   "bgcolor": "#593930"
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   5,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   2,
+   0,
+   7,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   2,
+   1,
+   3,
+   0,
+   "CLIP"
+  ],
+  [
+   4,
+   2,
+   1,
+   4,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   2,
+   2,
+   6,
+   2,
+   "VAE"
+  ],
+  [
+   6,
+   2,
+   2,
+   8,
+   1,
+   "VAE"
+  ],
+  [
+   7,
+   3,
+   0,
+   6,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   8,
+   4,
+   0,
+   6,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   9,
+   5,
+   1,
+   6,
+   3,
+   "IMAGE"
+  ],
+  [
+   10,
+   5,
+   2,
+   6,
+   4,
+   "MASK"
+  ],
+  [
+   11,
+   6,
+   0,
+   7,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   12,
+   6,
+   1,
+   7,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   13,
+   6,
+   2,
+   7,
+   3,
+   "LATENT"
+  ],
+  [
+   14,
+   7,
+   0,
+   8,
+   0,
+   "LATENT"
+  ],
+  [
+   15,
+   5,
+   0,
+   9,
+   0,
+   "STITCHER"
+  ],
+  [
+   16,
+   8,
+   0,
+   9,
+   1,
+   "IMAGE"
+  ],
+  [
+   17,
+   9,
+   0,
+   10,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.9090909090909091,
+   "offset": [
+    71.6500504982039,
+    -503.1241172126612
+   ]
+  },
+  "frontendVersion": "1.59.1"
+ },
+ "version": 0.4
+}

@@ -76,7 +76,7 @@
   },
   {
    "want": "Make the picture bigger (outpaint)",
-   "detail": "`2d/workflows/outpaint.json` (invents the new area; the original stays pixel-exact)",
+   "detail": "`2d/workflows/outpaint-px.json` (whole picture; keep the canvas <= ~1.5 MP) - or `2d/workflows/outpaint-fragment.json` (for large sources: the edge strip localizes the sampling and becomes the transition). Both invent the new area; the original returns untouched (E41).",
    "story": "S5",
    "category": "2d"
   },
@@ -385,9 +385,6 @@
   "marigold_pbr.py": {
    "story": "S11"
   },
-  "outpaint.json": {
-   "story": "S5"
-  },
   "pack_pbr_material.py": {
    "story": "S11"
   },
@@ -550,6 +547,12 @@
   },
   "qwen-image-base.json": {
    "story": "S1"
+  },
+  "outpaint-px.json": {
+   "story": "S5"
+  },
+  "outpaint-fragment.json": {
+   "story": "S5"
   }
  },
  "categories": [

@@ -1,4 +1,6 @@
 {
+ "id": "e2f5d86c-9608-496d-b6c1-138ddd950566",
+ "revision": 0,
  "last_node_id": 6,
  "last_link_id": 4,
  "nodes": [
@@ -6,8 +8,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    40,
-    120
+    -861.4662942060645,
+    -141.11439940727882
    ],
    "size": [
     320,
@@ -21,39 +23,47 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       1
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "MASK",
      "type": "MASK",
-     "links": [],
-     "slot_index": 1
+     "slot_index": 1,
+     "links": []
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
     "2d/env_cottage.png",
     "image"
-   ]
+   ],
+   "widgets_values_named": {
+    "image": "2d/env_cottage.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "DepthAnythingV2Preprocessor",
    "pos": [
-    480,
-    120
+    -477.64443287031236,
+    -26.707910692951714
    ],
    "size": [
     300,
     100
    ],
    "flags": {},
-   "order": 1,
+   "order": 2,
    "mode": 0,
    "inputs": [
     {
@@ -66,30 +76,39 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       3
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui_controlnet_aux",
+    "ver": "59b1fc411ede8623b2997855b8018f0b3b6cf49f",
     "Node name for S&R": "DepthAnythingV2Preprocessor"
    },
-   "widgets_values": []
+   "widgets_values": [
+    "depth_anything_v2_vitl.pth",
+    512
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "depth_anything_v2_vitl.pth",
+    "resolution": 512
+   }
   },
   {
    "id": 3,
    "type": "SaveImage",
    "pos": [
-    920,
-    120
+    -102.84130916211961,
+    -100.62947652521791
    ],
    "size": [
     360,
     280
    ],
    "flags": {},
-   "order": 2,
+   "order": 3,
    "mode": 0,
    "inputs": [
     {
@@ -98,13 +117,26 @@
      "link": 3
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveImage"
    },
    "widgets_values": [
     "2D/E12/depth"
-   ]
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/E12/depth"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 6,
@@ -126,8 +158,11 @@
    "widgets_values": [
     "## depth-normal.json\n\nDepth map\n\n**Does:** monocular depth (DepthAnythingV2) from a single image. No extra weights - ACN\ndownloads it on first use.\n**Reads:** depth = light is *near*. Depth is **relative** (no absolute scale), so it is a\nguidance/parallax cue, **not** a height or displacement map.\n**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.\n**Note:** DSINE was removed from this graph - it is non-commercial and camera-space. A\nmaterial normal belongs to the PBR path.\n\n---\n*How to run it: story **S4** in `HOWTO.md`  \u00b7  Why it is this way: **E12** in the scenarios' `EXPERIMENTS` logs.*"
    ],
-   "color": "#332922",
-   "bgcolor": "#593930"
+   "widgets_values_named": {
+    "text": "## depth-normal.json\n\nDepth map\n\n**Does:** monocular depth (DepthAnythingV2) from a single image. No extra weights - ACN\ndownloads it on first use.\n**Reads:** depth = light is *near*. Depth is **relative** (no absolute scale), so it is a\nguidance/parallax cue, **not** a height or displacement map.\n**Feeds:** depth-ControlNet, depth-ordered composition, engine parallax.\n**Note:** DSINE was removed from this graph - it is non-commercial and camera-space. A\nmaterial normal belongs to the PBR path.\n\n---\n*How to run it: story **S4** in `HOWTO.md`  \u00b7  Why it is this way: **E12** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -148,21 +183,17 @@
    "IMAGE"
   ]
  ],
- "groups": [
-  {
-   "title": "Depth map",
-   "bounding": [
-    -880,
-    -260,
-    1200,
-    700
-   ],
-   "color": "#3f789e",
-   "font_size": 22,
-   "flags": {}
-  }
- ],
+ "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7400249944258175,
+   "offset": [
+    1019.1869465832999,
+    713.2640481547382
+   ]
+  },
+  "frontendVersion": "1.59.1"
+ },
  "version": 0.4
 }

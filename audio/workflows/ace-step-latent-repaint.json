@@ -1,18 +1,24 @@
 {
- "last_node_id": 31,
- "last_link_id": 45,
+ "id": "f82744dc-f7f1-4c0a-8dfe-a80293dcfed6",
+ "revision": 0,
+ "last_node_id": 32,
+ "last_link_id": 42,
  "nodes": [
   {
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    40,
-    120
+    -22.337662337662323,
+    140.77924059582995
    ],
    "size": [
     330,
     100
    ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "MODEL",
@@ -37,31 +43,36 @@
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CheckpointLoaderSimple"
+   },
    "widgets_values": [
     "ace_step_1.5_turbo_aio.safetensors"
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "CheckpointLoaderSimple"
-   },
-   "order": 0
+   "widgets_values_named": {
+    "ckpt_name": "ace_step_1.5_turbo_aio.safetensors"
+   }
   },
   {
    "id": 9,
    "type": "FloatConstant",
    "pos": [
-    40,
-    380
+    53.03422515761049,
+    549.9173478055591
    ],
    "size": [
     240,
     60
    ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
-     "name": "FLOAT",
+     "name": "value",
      "type": "FLOAT",
      "links": [
       5,
@@ -69,49 +80,20 @@
      ]
     }
    ],
-   "widgets_values": [
-    120.0
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
+   "title": "clip length (s)",
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "FloatConstant"
    },
-   "order": 1,
-   "title": "clip length (s)"
-  },
-  {
-   "id": 10,
-   "type": "INTConstant",
-   "pos": [
-    40,
-    640
-   ],
-   "size": [
-    240,
-    60
-   ],
-   "outputs": [
-    {
-     "name": "INT",
-     "type": "INT",
-     "links": [
-      4,
-      7
-     ]
-    }
-   ],
    "widgets_values": [
-    31
+    120
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "INTConstant"
+   "widgets_values_named": {
+    "value": 120
    },
-   "order": 2
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
@@ -122,8 +104,11 @@
    ],
    "size": [
     280,
-    70
+    82
    ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -140,27 +125,34 @@
      ]
     }
    ],
-   "widgets_values": [
-    3.0
-   ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ModelSamplingAuraFlow"
    },
-   "order": 3
+   "widgets_values": [
+    3,
+    "flow"
+   ],
+   "widgets_values_named": {
+    "shift": 3,
+    "sampling": "flow"
+   }
   },
   {
    "id": 3,
    "type": "TextEncodeAceStepAudio1.5",
    "pos": [
-    480,
-    380
+    500.3918730860759,
+    281.88432803823935
    ],
    "size": [
     330,
-    430
+    454
    ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -170,11 +162,17 @@
     {
      "name": "seed",
      "type": "INT",
-     "link": 4
+     "widget": {
+      "name": "seed"
+     },
+     "link": 41
     },
     {
      "name": "duration",
      "type": "FLOAT",
+     "widget": {
+      "name": "duration"
+     },
      "link": 5
     }
    ],
@@ -188,6 +186,11 @@
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "TextEncodeAceStepAudio1.5"
+   },
    "widgets_values": [
     "Industrial rock, hammering machine percussion with metallic clangs, distorted bass, cold analog synth, shouted male lead with a gang chorus, gritty lo-fi production, relentless and mechanical",
     "[Verse]\nSteel is breathing in the dark\nPistons counting out the hour\nEvery window blind with sparks\nEvery hand a kind of power\nHammers fall like steady rain\nOn the anvil of the day\nWe are forging something nameless\nFrom the rust and from the clay\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Verse]\nFurnace glow along the floor\nShadows walk the factory wall\nWe have heard the engines roar\nAnd we never once will fall\nOil and smoke and borrowed light\nEvery rivet set in time\nWe will work into the night\nTill the morning bells will chime\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Bridge]\nAnd when the metal sings\nAnd when the silence breaks\nWe will know the shape of things\nBy everything it makes\n\n[Final Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Outro]\nTurn the wheel, turn the wheel\nHold the line",
@@ -199,30 +202,46 @@
     "en",
     "E minor",
     true,
-    2.0,
+    2,
     0.85,
     0.9,
     0,
-    0.0
+    0
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "TextEncodeAceStepAudio1.5"
+   "widgets_values_named": {
+    "tags": "Industrial rock, hammering machine percussion with metallic clangs, distorted bass, cold analog synth, shouted male lead with a gang chorus, gritty lo-fi production, relentless and mechanical",
+    "lyrics": "[Verse]\nSteel is breathing in the dark\nPistons counting out the hour\nEvery window blind with sparks\nEvery hand a kind of power\nHammers fall like steady rain\nOn the anvil of the day\nWe are forging something nameless\nFrom the rust and from the clay\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Verse]\nFurnace glow along the floor\nShadows walk the factory wall\nWe have heard the engines roar\nAnd we never once will fall\nOil and smoke and borrowed light\nEvery rivet set in time\nWe will work into the night\nTill the morning bells will chime\n\n[Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Bridge]\nAnd when the metal sings\nAnd when the silence breaks\nWe will know the shape of things\nBy everything it makes\n\n[Final Chorus]\nIron heart, iron heart\nTurn the wheel and hold the line\nIron heart, iron heart\nEverything we build is mine\n\n[Outro]\nTurn the wheel, turn the wheel\nHold the line",
+    "seed": 31,
+    "control_after_generate": "fixed",
+    "bpm": 120,
+    "duration": 120,
+    "timesignature": "4",
+    "language": "en",
+    "keyscale": "E minor",
+    "generate_audio_codes": true,
+    "cfg_scale": 2,
+    "temperature": 0.85,
+    "top_p": 0.9,
+    "top_k": 0,
+    "min_p": 0
    },
-   "order": 4
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
    "type": "ConditioningZeroOut",
    "pos": [
-    920,
-    120
+    1091.4286150251116,
+    270.8571515764509
    ],
    "size": [
     240,
     50
    ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
    "inputs": [
     {
      "name": "conditioning",
@@ -239,25 +258,26 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ConditioningZeroOut"
-   },
-   "order": 5
+   }
   },
   {
    "id": 6,
    "type": "KSampler",
    "pos": [
-    2680,
-    120
+    2430.857195172991,
+    398.8571384974888
    ],
    "size": [
     290,
-    260
+    262
    ],
+   "flags": {},
+   "order": 19,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -282,17 +302,11 @@
     {
      "name": "seed",
      "type": "INT",
-     "link": 7
+     "widget": {
+      "name": "seed"
+     },
+     "link": 42
     }
-   ],
-   "widgets_values": [
-    31,
-    "fixed",
-    8,
-    1.0,
-    "euler",
-    "simple",
-    1.0
    ],
    "outputs": [
     {
@@ -303,24 +317,44 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "KSampler"
    },
-   "order": 7
+   "widgets_values": [
+    31,
+    "fixed",
+    8,
+    1,
+    "euler",
+    "simple",
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 31,
+    "control_after_generate": "fixed",
+    "steps": 8,
+    "cfg": 1,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1
+   }
   },
   {
    "id": 7,
    "type": "VAEDecodeAudio",
    "pos": [
-    3120,
-    120
+    2734.8570905412944,
+    189.71426827566964
    ],
    "size": [
     240,
     70
    ],
+   "flags": {},
+   "order": 20,
+   "mode": 0,
    "inputs": [
     {
      "name": "samples",
@@ -342,25 +376,26 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAEDecodeAudio"
-   },
-   "order": 8
+   }
   },
   {
    "id": 8,
    "type": "SaveAudioAdvanced",
    "pos": [
-    3560,
-    120
+    2821.7142159598216,
+    465.14284406389504
    ],
    "size": [
     300,
-    110
+    136
    ],
+   "flags": {},
+   "order": 21,
+   "mode": 0,
    "inputs": [
     {
      "name": "audio",
@@ -368,50 +403,69 @@
      "link": 13
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SaveAudioAdvanced"
+   },
    "widgets_values": [
     "audio/ace_step",
     "flac"
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "SaveAudioAdvanced"
+   "widgets_values_named": {
+    "filename_prefix": "audio/ace_step",
+    "format": "flac"
    },
-   "order": 9
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 11,
    "type": "MarkdownNote",
    "pos": [
-    -1180,
-    1050
+    16.378892249189335,
+    -500.78299623797375
    ],
    "size": [
-    560,
-    620
-   ],
-   "widgets_values": [
-    "## ACE-Step latent repaint (E19) - regenerate a time span, keep the rest\n\n**The masked-latent route, and it works.** ACE-Step core (MIT) encodes the take, masks a band of the\naudio latent, and re-samples **only that band** - the rest of the take comes back at the VAE round-trip\nlevel, i.e. untouched. **15.4 s per 120 s take.**\n\n- **the span** is typed as **`repair from (s)` / `repair to (s)`** - two `FloatConstant`s. Three\n  `ComfyMathExpression` nodes turn them into the latent frames the mask works in (**25 per second**):\n  `from` x25 -> `MaskComposite.x`, `(to-from)` x25 -> the ones-mask `width`, and the clip length x25 ->\n  the zeros-mask `width` (so `clip length (s)` must be the take's own length). Repairing 55-61 s of a\n  120 s take is just `55` and `61` - no arithmetic, and the span is `[from, to)`.\n- **`tags` + `lyrics` are the take's whole prompt** - the same deal as an image inpaint, where the\n  prompt describes the whole picture and the mask picks the region. The mask confines *where* the\n  sampling changes; the text says what the piece is. Give it the take's own style and its full lyric\n  (E19b; trimming the lyric to just the span's words is untested).\n- **`SetAudioLatentNoiseMask`** - a **10-line custom node** (`custom_nodes/audio_latent_mask/`, mirrored\n  to `audio/custom_nodes/`), and the flow **does not run without it**. The core `SetLatentNoiseMask`\n  reshapes every mask to 4-D, which is right for image latents and wrong for a 3-D audio latent: its\n  `reshape_mask` path then wants a 3-D mask and raises *\"input with spatial dimensions of [1, 3000]\"*.\n  This node stores the mask unchanged. Drop-in, same inputs/output.\n- **`denoise` 1.0** on `KSampler` is right here: the noise mask already confines the sampling, so 1.0\n  means \"regenerate the band\", not \"regenerate everything\".\n\n**What E19 measured (control = the same flow with an all-zero mask, i.e. the VAE round-trip alone):**\n\n| | `mean|diff|` outside 55-61 s | inside |\n|---|---|---|\n| repaint vs round-trip | **0.0015** | **0.198** (127.7x) |\n| original vs round-trip | 0.02061 | - |\n| original vs repaint | 0.02077 | - |\n\nThe last two agree to four decimals: **the surrounding audio is preserved exactly** and the only outside\ndifference is the encode/decode round-trip. Refilling a *deleted* span works too - it returns at\n**-14.77 dB** against the original's -13.07 dB.\n\n**Two things to know before trusting a repaint.** (1) It is a **different performance** of that span\n(E18c), so the join is still a listening question - this route proves the *surroundings* are untouched,\nwhich is what every other route failed. (2) The mask edges are **hard** - the `GrowMaskWithBlur` on the band is a no-op at\n`expand` 0 / `blur_radius` 0.0, so raise it only if a click at the span's ends shows up.\n\n\n**Dead ends this replaces:** the kaola pack's `ACE_STEP_Repaint` (`scratch/ace-step-repaint.json`,\nkept for the record) and the `ReplaceVideoLatentFrames` comp (E18b) both rewrote the whole take\n(outside `mean|diff|` ~0.06-0.075, flat).\n\n---\n*How to run it: story **S24** in `HOWTO.md`  ·  Why it is this way: **E19/E19b** in `audio/EXPERIMENTS.md`.*\n\n\n**2026-11-15:** GrowMaskWithBlur routed around - its mask shape breaks SetAudioLatentNoiseMask (mask-broadcast error at KSampler; found while measuring the XL repaint variant, E37). The band regenerates without feathering; E19b measured feathering as NOT the seam fix anyway."
+    1250.2184895403184,
+    453.89507764500223
    ],
    "flags": {},
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [],
    "properties": {},
-   "order": 0
+   "widgets_values": [
+    "## ACE-Step latent repaint (E19) - regenerate a time span, keep the rest\n\n**The masked-latent route, and it works.** ACE-Step core (MIT) encodes the take, masks a band of the\naudio latent, and re-samples **only that band** - the rest of the take comes back at the VAE round-trip\nlevel, i.e. untouched. **15.4 s per 120 s take.**\n\n- **the span** is typed as **`repair from (s)` / `repair to (s)`** - two `FloatConstant`s. Three\n  `ComfyMathExpression` nodes turn them into the latent frames the mask works in (**25 per second**):\n  `from` x25 -> `MaskComposite.x`, `(to-from)` x25 -> the ones-mask `width`, and the clip length x25 ->\n  the zeros-mask `width` (so `clip length (s)` must be the take's own length). Repairing 55-61 s of a\n  120 s take is just `55` and `61` - no arithmetic, and the span is `[from, to)`.\n- **`tags` + `lyrics` are the take's whole prompt** - the same deal as an image inpaint, where the\n  prompt describes the whole picture and the mask picks the region. The mask confines *where* the\n  sampling changes; the text says what the piece is. Give it the take's own style and its full lyric\n  (E19b; trimming the lyric to just the span's words is untested).\n- **`SetAudioLatentNoiseMask`** - a **10-line custom node** (`custom_nodes/audio_latent_mask/`, mirrored\n  to `audio/custom_nodes/`), and the flow **does not run without it**. The core `SetLatentNoiseMask`\n  reshapes every mask to 4-D, which is right for image latents and wrong for a 3-D audio latent: its\n  `reshape_mask` path then wants a 3-D mask and raises *\"input with spatial dimensions of [1, 3000]\"*.\n  This node stores the mask unchanged. Drop-in, same inputs/output.\n- **`denoise` 1.0** on `KSampler` is right here: the noise mask already confines the sampling, so 1.0\n  means \"regenerate the band\", not \"regenerate everything\".\n\n**What E19 measured (control = the same flow with an all-zero mask, i.e. the VAE round-trip alone):**\n\n| | `mean|diff|` outside 55-61 s | inside |\n|---|---|---|\n| repaint vs round-trip | **0.0015** | **0.198** (127.7x) |\n| original vs round-trip | 0.02061 | - |\n| original vs repaint | 0.02077 | - |\n\nThe last two agree to four decimals: **the surrounding audio is preserved exactly** and the only outside\ndifference is the encode/decode round-trip. Refilling a *deleted* span works too - it returns at\n**-14.77 dB** against the original's -13.07 dB.\n\n**Two things to know before trusting a repaint.** (1) It is a **different performance** of that span\n(E18c), so the join is still a listening question - this route proves the *surroundings* are untouched,\nwhich is what every other route failed. (2) The mask edges are **hard** - the `GrowMaskWithBlur` on the band is a no-op at\n`expand` 0 / `blur_radius` 0.0, so raise it only if a click at the span's ends shows up.\n\n\n**Dead ends this replaces:** the kaola pack's `ACE_STEP_Repaint` (`scratch/ace-step-repaint.json`,\nkept for the record) and the `ReplaceVideoLatentFrames` comp (E18b) both rewrote the whole take\n(outside `mean|diff|` ~0.06-0.075, flat).\n\n---\n*How to run it: story **S24** in `HOWTO.md`  \u00b7  Why it is this way: **E19/E19b** in `audio/EXPERIMENTS.md`.*\n"
+   ],
+   "widgets_values_named": {
+    "text": "## ACE-Step latent repaint (E19) - regenerate a time span, keep the rest\n\n**The masked-latent route, and it works.** ACE-Step core (MIT) encodes the take, masks a band of the\naudio latent, and re-samples **only that band** - the rest of the take comes back at the VAE round-trip\nlevel, i.e. untouched. **15.4 s per 120 s take.**\n\n- **the span** is typed as **`repair from (s)` / `repair to (s)`** - two `FloatConstant`s. Three\n  `ComfyMathExpression` nodes turn them into the latent frames the mask works in (**25 per second**):\n  `from` x25 -> `MaskComposite.x`, `(to-from)` x25 -> the ones-mask `width`, and the clip length x25 ->\n  the zeros-mask `width` (so `clip length (s)` must be the take's own length). Repairing 55-61 s of a\n  120 s take is just `55` and `61` - no arithmetic, and the span is `[from, to)`.\n- **`tags` + `lyrics` are the take's whole prompt** - the same deal as an image inpaint, where the\n  prompt describes the whole picture and the mask picks the region. The mask confines *where* the\n  sampling changes; the text says what the piece is. Give it the take's own style and its full lyric\n  (E19b; trimming the lyric to just the span's words is untested).\n- **`SetAudioLatentNoiseMask`** - a **10-line custom node** (`custom_nodes/audio_latent_mask/`, mirrored\n  to `audio/custom_nodes/`), and the flow **does not run without it**. The core `SetLatentNoiseMask`\n  reshapes every mask to 4-D, which is right for image latents and wrong for a 3-D audio latent: its\n  `reshape_mask` path then wants a 3-D mask and raises *\"input with spatial dimensions of [1, 3000]\"*.\n  This node stores the mask unchanged. Drop-in, same inputs/output.\n- **`denoise` 1.0** on `KSampler` is right here: the noise mask already confines the sampling, so 1.0\n  means \"regenerate the band\", not \"regenerate everything\".\n\n**What E19 measured (control = the same flow with an all-zero mask, i.e. the VAE round-trip alone):**\n\n| | `mean|diff|` outside 55-61 s | inside |\n|---|---|---|\n| repaint vs round-trip | **0.0015** | **0.198** (127.7x) |\n| original vs round-trip | 0.02061 | - |\n| original vs repaint | 0.02077 | - |\n\nThe last two agree to four decimals: **the surrounding audio is preserved exactly** and the only outside\ndifference is the encode/decode round-trip. Refilling a *deleted* span works too - it returns at\n**-14.77 dB** against the original's -13.07 dB.\n\n**Two things to know before trusting a repaint.** (1) It is a **different performance** of that span\n(E18c), so the join is still a listening question - this route proves the *surroundings* are untouched,\nwhich is what every other route failed. (2) The mask edges are **hard** - the `GrowMaskWithBlur` on the band is a no-op at\n`expand` 0 / `blur_radius` 0.0, so raise it only if a click at the span's ends shows up.\n\n\n**Dead ends this replaces:** the kaola pack's `ACE_STEP_Repaint` (`scratch/ace-step-repaint.json`,\nkept for the record) and the `ReplaceVideoLatentFrames` comp (E18b) both rewrote the whole take\n(outside `mean|diff|` ~0.06-0.075, flat).\n\n---\n*How to run it: story **S24** in `HOWTO.md`  \u00b7  Why it is this way: **E19/E19b** in `audio/EXPERIMENTS.md`.*\n"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   },
   {
    "id": 20,
    "type": "LoadAudio",
    "pos": [
-    40,
-    900
+    27.532459605823874,
+    843.8960880428166
    ],
    "size": [
     330,
-    80
+    136
    ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -422,28 +476,36 @@
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "LoadAudio"
+   },
    "widgets_values": [
     "ace_iron_a.flac",
     "upload"
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "LoadAudio"
+   "widgets_values_named": {
+    "audio": "ace_iron_a.flac",
+    "upload": "upload"
    },
-   "order": 40
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 21,
    "type": "VAEEncodeAudio",
    "pos": [
-    480,
-    640
+    610.28564453125,
+    779.4285365513392
    ],
    "size": [
     240,
     60
    ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
    "inputs": [
     {
      "name": "audio",
@@ -465,25 +527,26 @@
      ]
     }
    ],
-   "widgets_values": [],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAEEncodeAudio"
-   },
-   "order": 41
+   }
   },
   {
    "id": 22,
    "type": "SolidMask",
    "pos": [
-    920,
-    380
+    1074.2857142857142,
+    389.1428920200893
    ],
    "size": [
     240,
-    90
+    106
    ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
    "inputs": [
     {
      "name": "width",
@@ -503,29 +566,36 @@
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SolidMask"
+   },
    "widgets_values": [
-    0.0,
+    0,
     3000,
     1
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "SolidMask"
-   },
-   "order": 42
+   "widgets_values_named": {
+    "value": 0,
+    "width": 3000,
+    "height": 1
+   }
   },
   {
    "id": 23,
    "type": "SolidMask",
    "pos": [
-    920,
-    640
+    1070.857195172991,
+    694.8570905412946
    ],
    "size": [
     240,
-    90
+    106
    ],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
    "inputs": [
     {
      "name": "width",
@@ -545,29 +615,36 @@
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SolidMask"
+   },
    "widgets_values": [
-    1.0,
+    1,
     150,
     1
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "SolidMask"
-   },
-   "order": 43
+   "widgets_values_named": {
+    "value": 1,
+    "width": 150,
+    "height": 1
+   }
   },
   {
    "id": 24,
    "type": "MaskComposite",
    "pos": [
-    1360,
-    120
+    1394.2857142857142,
+    678.8572692871094
    ],
    "size": [
     260,
     130
    ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
    "inputs": [
     {
      "name": "destination",
@@ -593,34 +670,40 @@
      "name": "MASK",
      "type": "MASK",
      "links": [
-      32,
-      45
+      32
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "MaskComposite"
+   },
    "widgets_values": [
     1375,
     0,
     "add"
    ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "MaskComposite"
-   },
-   "order": 44
+   "widgets_values_named": {
+    "x": 1375,
+    "y": 0,
+    "operation": "add"
+   }
   },
   {
    "id": 25,
    "type": "SetAudioLatentNoiseMask",
    "pos": [
-    2240,
-    120
+    1986.2857491629466,
+    653.7142835344587
    ],
    "size": [
     250,
     80
    ],
+   "flags": {},
+   "order": 18,
+   "mode": 0,
    "inputs": [
     {
      "name": "samples",
@@ -630,7 +713,7 @@
     {
      "name": "mask",
      "type": "MASK",
-     "link": 45
+     "link": 33
     }
    ],
    "outputs": [
@@ -642,25 +725,24 @@
      ]
     }
    ],
-   "widgets_values": [],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "SetAudioLatentNoiseMask"
-   },
-   "order": 45
+   }
   },
   {
    "id": 26,
    "type": "GrowMaskWithBlur",
    "pos": [
-    1800,
-    120
+    1698.2856968470983,
+    746.2857273646763
    ],
    "size": [
     260,
-    190
+    246
    ],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
    "inputs": [
     {
      "name": "mask",
@@ -670,48 +752,62 @@
    ],
    "outputs": [
     {
-     "name": "MASK",
+     "name": "mask",
      "type": "MASK",
-     "links": []
+     "links": [
+      33
+     ]
     },
     {
-     "name": "IMAGE",
-     "type": "IMAGE",
+     "name": "mask_inverted",
+     "type": "MASK",
      "links": []
     }
    ],
-   "widgets_values": [
-    0,
-    0.0,
-    true,
-    false,
-    0.0,
-    1.0,
-    1.0
-   ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "GrowMaskWithBlur"
    },
-   "order": 26
+   "widgets_values": [
+    0,
+    0,
+    true,
+    false,
+    0,
+    1,
+    1,
+    false
+   ],
+   "widgets_values_named": {
+    "expand": 0,
+    "incremental_expandrate": 0,
+    "tapered_corners": true,
+    "flip_input": false,
+    "blur_radius": 0,
+    "lerp_alpha": 1,
+    "decay_factor": 1,
+    "fill_holes": false
+   }
   },
   {
    "id": 27,
    "type": "FloatConstant",
-   "title": "repair from (s)",
    "pos": [
-    40,
-    1160
+    41.03896500228288,
+    1035.3246753246754
    ],
    "size": [
     210,
     60
    ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
-     "name": "FLOAT",
+     "name": "value",
      "type": "FLOAT",
      "links": [
       34,
@@ -719,67 +815,86 @@
      ]
     }
    ],
-   "widgets_values": [
-    55.0
-   ],
-   "flags": {},
-   "mode": 0,
-   "order": 1,
+   "title": "repair from (s)",
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "FloatConstant"
-   }
+   },
+   "widgets_values": [
+    55
+   ],
+   "widgets_values_named": {
+    "value": 55
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 28,
    "type": "FloatConstant",
-   "title": "repair to (s)",
    "pos": [
-    40,
-    1420
+    56.62338058669846,
+    1203.8960721895291
    ],
    "size": [
     210,
     60
    ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
-     "name": "FLOAT",
+     "name": "value",
      "type": "FLOAT",
      "links": [
       36
      ]
     }
    ],
-   "widgets_values": [
-    61.0
-   ],
-   "flags": {},
-   "mode": 0,
-   "order": 1,
+   "title": "repair to (s)",
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "FloatConstant"
-   }
+   },
+   "widgets_values": [
+    61
+   ],
+   "widgets_values_named": {
+    "value": 61
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 29,
    "type": "ComfyMathExpression",
-   "title": "start -> frames",
    "pos": [
-    480,
-    900
+    574.5454819284054,
+    907.5560946954324
    ],
    "size": [
     250,
-    100
+    128
    ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
    "inputs": [
     {
      "label": "a",
-     "localized_name": "values.a",
      "name": "values.a",
      "type": "FLOAT,INT,BOOLEAN",
      "link": 34
+    },
+    {
+     "name": "values.b",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": null
     }
    ],
    "outputs": [
@@ -796,48 +911,57 @@
      ]
     },
     {
-     "name": "BOOLEAN",
+     "name": "BOOL",
      "type": "BOOLEAN",
      "links": []
     }
    ],
+   "title": "start -> frames",
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ComfyMathExpression"
+   },
    "widgets_values": [
     "a*25"
    ],
-   "flags": {},
-   "mode": 0,
-   "order": 2,
-   "properties": {
-    "Node name for S&R": "ComfyMathExpression"
+   "widgets_values_named": {
+    "expression": "a*25"
    }
   },
   {
    "id": 30,
    "type": "ComfyMathExpression",
-   "title": "span -> frames",
    "pos": [
-    480,
-    1160
+    569.350633497362,
+    1167.272854099026
    ],
    "size": [
     250,
-    100
+    128
    ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
    "inputs": [
     {
      "label": "a",
-     "localized_name": "values.a",
      "name": "values.a",
      "type": "FLOAT,INT,BOOLEAN",
      "link": 35
     },
     {
      "label": "b",
-     "localized_name": "values.b",
      "name": "values.b",
+     "shape": 7,
      "type": "FLOAT,INT,BOOLEAN",
-     "link": 36,
-     "shape": 7
+     "link": 36
+    },
+    {
+     "name": "values.c",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": null
     }
    ],
    "outputs": [
@@ -854,40 +978,50 @@
      ]
     },
     {
-     "name": "BOOLEAN",
+     "name": "BOOL",
      "type": "BOOLEAN",
      "links": []
     }
    ],
+   "title": "span -> frames",
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ComfyMathExpression"
+   },
    "widgets_values": [
     "(b-a)*25"
    ],
-   "flags": {},
-   "mode": 0,
-   "order": 2,
-   "properties": {
-    "Node name for S&R": "ComfyMathExpression"
+   "widgets_values_named": {
+    "expression": "(b-a)*25"
    }
   },
   {
    "id": 31,
    "type": "ComfyMathExpression",
-   "title": "clip -> frames",
    "pos": [
-    480,
-    1420
+    568.2078572062703,
+    1440.3637378246754
    ],
    "size": [
     250,
-    100
+    128
    ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
    "inputs": [
     {
      "label": "a",
-     "localized_name": "values.a",
      "name": "values.a",
      "type": "FLOAT,INT,BOOLEAN",
      "link": 37
+    },
+    {
+     "name": "values.b",
+     "shape": 7,
+     "type": "FLOAT,INT,BOOLEAN",
+     "link": null
     }
    ],
    "outputs": [
@@ -904,20 +1038,64 @@
      ]
     },
     {
-     "name": "BOOLEAN",
+     "name": "BOOL",
      "type": "BOOLEAN",
      "links": []
     }
    ],
+   "title": "clip -> frames",
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "ComfyMathExpression"
+   },
    "widgets_values": [
     "a*25"
    ],
-   "flags": {},
-   "mode": 0,
-   "order": 2,
-   "properties": {
-    "Node name for S&R": "ComfyMathExpression"
+   "widgets_values_named": {
+    "expression": "a*25"
    }
+  },
+  {
+   "id": 32,
+   "type": "SeedNode",
+   "pos": [
+    34.36221203940312,
+    707.5423712565433
+   ],
+   "size": [
+    270,
+    82
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "seed",
+     "type": "INT",
+     "links": [
+      41,
+      42
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SeedNode"
+   },
+   "widgets_values": [
+    0,
+    "fixed"
+   ],
+   "widgets_values_named": {
+    "seed": 0,
+    "control_after_generate": "fixed"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   }
  ],
  "links": [
@@ -946,22 +1124,6 @@
    "CLIP"
   ],
   [
-   4,
-   10,
-   0,
-   3,
-   1,
-   "INT"
-  ],
-  [
-   5,
-   9,
-   0,
-   3,
-   2,
-   "FLOAT"
-  ],
-  [
    6,
    3,
    0,
@@ -976,14 +1138,6 @@
    6,
    1,
    "CONDITIONING"
-  ],
-  [
-   7,
-   10,
-   0,
-   6,
-   4,
-   "INT"
   ],
   [
    8,
@@ -1008,14 +1162,6 @@
    7,
    1,
    "VAE"
-  ],
-  [
-   13,
-   7,
-   0,
-   8,
-   0,
-   "AUDIO"
   ],
   [
    25,
@@ -1074,6 +1220,30 @@
    "MASK"
   ],
   [
+   33,
+   26,
+   0,
+   25,
+   1,
+   "MASK"
+  ],
+  [
+   38,
+   29,
+   1,
+   24,
+   2,
+   "INT"
+  ],
+  [
+   13,
+   7,
+   0,
+   8,
+   0,
+   "AUDIO"
+  ],
+  [
    34,
    27,
    0,
@@ -1106,11 +1276,19 @@
    "FLOAT"
   ],
   [
-   38,
-   29,
-   1,
-   24,
+   5,
+   9,
+   0,
+   3,
    2,
+   "FLOAT"
+  ],
+  [
+   40,
+   31,
+   1,
+   22,
+   0,
    "INT"
   ],
   [
@@ -1122,32 +1300,33 @@
    "INT"
   ],
   [
-   40,
-   31,
-   1,
-   22,
+   41,
+   32,
    0,
+   3,
+   1,
    "INT"
   ],
   [
-   45,
-   24,
+   42,
+   32,
    0,
-   25,
-   1,
-   "MASK"
+   6,
+   4,
+   "INT"
   ]
  ],
  "groups": [],
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.7700000000000001,
    "offset": [
-    0,
-    0
+    -1810.0001009994496,
+    -83.54754733461185
    ]
-  }
+  },
+  "frontendVersion": "1.59.1"
  },
  "version": 0.4
 }

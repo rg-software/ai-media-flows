@@ -1,6 +1,8 @@
 {
- "last_node_id": 12,
- "last_link_id": 18,
+ "id": "21a1155d-4ae4-42d7-ae44-2d5d35b36706",
+ "revision": 0,
+ "last_node_id": 13,
+ "last_link_id": 22,
  "nodes": [
   {
    "id": 1,
@@ -21,50 +23,57 @@
     {
      "name": "MODEL",
      "type": "MODEL",
+     "slot_index": 0,
      "links": [
       3
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "CLIP",
      "type": "CLIP",
+     "slot_index": 1,
      "links": [
       1,
       2
-     ],
-     "slot_index": 1
+     ]
     },
     {
      "name": "VAE",
      "type": "VAE",
+     "slot_index": 2,
      "links": [
       6,
       14
-     ],
-     "slot_index": 2
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
    "widgets_values": [
     "RealVisXL_V5.0_fp16.safetensors"
-   ]
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    120
+    431.15622687644395,
+    148.86228731809604
    ],
    "size": [
     440,
     130
    ],
    "flags": {},
-   "order": 1,
+   "order": 3,
    "mode": 0,
    "inputs": [
     {
@@ -77,32 +86,39 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       4
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
     "steep roof of bright blue glazed ceramic tiles, fantasy cottage, detailed, coherent lighting"
-   ]
+   ],
+   "widgets_values_named": {
+    "text": "steep roof of bright blue glazed ceramic tiles, fantasy cottage, detailed, coherent lighting"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    380
+    425.60580003723976,
+    330.04611610076546
    ],
    "size": [
     440,
     110
    ],
    "flags": {},
-   "order": 2,
+   "order": 4,
    "mode": 0,
    "inputs": [
     {
@@ -115,143 +131,84 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       5
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
     "blurry, lowres, text, watermark, jpeg artifacts, deformed, seams, mismatched lighting"
-   ]
+   ],
+   "widgets_values_named": {
+    "text": "blurry, lowres, text, watermark, jpeg artifacts, deformed, seams, mismatched lighting"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
    "type": "LoadImage",
    "pos": [
-    40,
-    380
+    51.10085367840853,
+    278.9822272918427
    ],
    "size": [
     320,
     320
    ],
    "flags": {},
-   "order": 3,
+   "order": 1,
    "mode": 0,
    "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       7,
       15
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "MASK",
      "type": "MASK",
-     "links": [],
-     "slot_index": 1
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "LoadImage"
-   },
-   "widgets_values": [
-    "2d/env_cottage.png",
-    "image"
-   ]
-  },
-  {
-   "id": 5,
-   "type": "LoadImage",
-   "pos": [
-    40,
-    640
-   ],
-   "size": [
-    320,
-    320
-   ],
-   "flags": {},
-   "order": 4,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
+     "slot_index": 1,
      "links": [
-      8
-     ],
-     "slot_index": 0
-    },
-    {
-     "name": "MASK",
-     "type": "MASK",
-     "links": [],
-     "slot_index": 1
+      21,
+      22
+     ]
     }
    ],
    "properties": {
-    "Node name for S&R": "LoadImage"
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "LoadImage",
+    "image": "clipspace-painted-masked-1794895693848.png [input]"
    },
    "widgets_values": [
-    "2d/env_cottage_roof_mask.png",
+    "clipspace-painted-masked-1794895693848.png [input]",
     "image"
-   ]
-  },
-  {
-   "id": 6,
-   "type": "ImageToMask",
-   "pos": [
-    480,
-    640
    ],
-   "size": [
-    240,
-    80
-   ],
-   "flags": {},
-   "order": 5,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "image",
-     "type": "IMAGE",
-     "link": 8
-    }
-   ],
-   "outputs": [
-    {
-     "name": "MASK",
-     "type": "MASK",
-     "links": [
-      9,
-      17
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ImageToMask"
+   "widgets_values_named": {
+    "image": "clipspace-painted-masked-1794895693848.png [input]",
+    "upload": "image"
    },
-   "widgets_values": [
-    "red"
-   ]
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 7,
    "type": "InpaintModelConditioning",
    "pos": [
-    920,
-    120
+    992.1555489096554,
+    143.31177578609947
    ],
    "size": [
     300,
@@ -284,48 +241,53 @@
     {
      "name": "mask",
      "type": "MASK",
-     "link": 9
+     "link": 20
     }
    ],
    "outputs": [
     {
      "name": "positive",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       10
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
+     "slot_index": 1,
      "links": [
       11
-     ],
-     "slot_index": 1
+     ]
     },
     {
      "name": "latent",
      "type": "LATENT",
+     "slot_index": 2,
      "links": [
       12
-     ],
-     "slot_index": 2
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "InpaintModelConditioning"
    },
    "widgets_values": [
     true
-   ]
+   ],
+   "widgets_values_named": {
+    "noise_mask": true
+   }
   },
   {
    "id": 8,
    "type": "KSampler",
    "pos": [
-    1360,
-    120
+    1352.6734086236288,
+    123.66329568818554
    ],
    "size": [
     320,
@@ -360,31 +322,42 @@
     {
      "name": "LATENT",
      "type": "LATENT",
+     "slot_index": 0,
      "links": [
       13
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "KSampler"
    },
    "widgets_values": [
     7101,
     "fixed",
     25,
-    6.0,
+    6,
     "euler",
     "normal",
-    1.0
-   ]
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 7101,
+    "control_after_generate": "fixed",
+    "steps": 25,
+    "cfg": 6,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 1
+   }
   },
   {
    "id": 9,
    "type": "VAEDecode",
    "pos": [
-    1800,
-    120
+    1726.1238187701913,
+    441.02555678241276
    ],
    "size": [
     240,
@@ -409,23 +382,24 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       16
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 10,
    "type": "ImageCompositeMasked",
    "pos": [
-    2240,
-    120
+    1912.8690249336018,
+    606.8501872866195
    ],
    "size": [
     320,
@@ -446,60 +420,44 @@
      "link": 16
     },
     {
-     "name": "x",
-     "type": "INT",
-     "widget": {
-      "name": "x"
-     },
-     "link": null
-    },
-    {
-     "name": "y",
-     "type": "INT",
-     "widget": {
-      "name": "y"
-     },
-     "link": null
-    },
-    {
-     "name": "resize_source",
-     "type": "BOOLEAN",
-     "widget": {
-      "name": "resize_source"
-     },
-     "link": null
-    },
-    {
      "name": "mask",
+     "shape": 7,
      "type": "MASK",
-     "link": 17
+     "link": 22
     }
    ],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       18
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ImageCompositeMasked"
    },
    "widgets_values": [
     0,
     0,
     false
-   ]
+   ],
+   "widgets_values_named": {
+    "x": 0,
+    "y": 0,
+    "resize_source": false
+   }
   },
   {
    "id": 11,
    "type": "SaveImage",
    "pos": [
-    2680,
-    120
+    2157.982439618703,
+    180.32214322999207
    ],
    "size": [
     380,
@@ -515,24 +473,37 @@
      "link": 18
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveImage"
    },
    "widgets_values": [
     "2D/E8/inpaint_composited"
-   ]
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/E8/inpaint_composited"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 12,
    "type": "MarkdownNote",
    "pos": [
-    -1200,
-    -440
+    75.11598464942244,
+    -182.18934803021125
    ],
    "size": [
-    720,
-    200
+    629.4178977022109,
+    179.09648982339084
    ],
    "flags": {},
    "order": 0,
@@ -541,10 +512,76 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## inpaint.json\n\nInpaint\n\nInpaint (core InpaintModelConditioning). IMPORTANT: the raw output drifts ~5/255 outside the mask (VAE round-trip) -> always ImageCompositeMasked with the mask back onto the original for pixel-exact preservation outside.\n\n---\n*How to run it: story **S5** in `HOWTO.md`  \u00b7  Why it is this way: **E8** in the scenarios' `EXPERIMENTS` logs.*"
+    "## inpaint.json\n\nInpaint\n\nInpaint (core InpaintModelConditioning). IMPORTANT: the raw output drifts ~5/255 outside the mask (VAE round-trip) -> always ImageCompositeMasked with the mask back onto the original for pixel-exact preservation outside.\n\n---\n*How to run it: story **S5** in `HOWTO.md`  \u00b7  Why it is this way: **E8** in the scenarios' `EXPERIMENTS` logs.*\n\n**Mask softener (added 2026-11-16):** the mask passes a `GrowMaskWithBlur` before conditioning - shipped at **expand 0 / blur 0 = the E8-measured hard-mask behavior**, identical output (verified by re-run, same seed). Raise the knobs for object edits: **grow first** (8-32 px - covers paint-line imprecision, prevents ghost remnants of the old content at full strength), **then blur** (2-8 px - blends the seam). Blur alone puts half-strength exactly on your painted line - that is where ghosts come from. Painted masks are binary (MaskEditor); softness is deliberately a graph knob, not a drawing skill. The composite below still blends with the original un-feathered mask, so the untouched region keeps the E8 guarantee."
    ],
+   "widgets_values_named": {
+    "text": "## inpaint.json\n\nInpaint\n\nInpaint (core InpaintModelConditioning). IMPORTANT: the raw output drifts ~5/255 outside the mask (VAE round-trip) -> always ImageCompositeMasked with the mask back onto the original for pixel-exact preservation outside.\n\n---\n*How to run it: story **S5** in `HOWTO.md`  \u00b7  Why it is this way: **E8** in the scenarios' `EXPERIMENTS` logs.*\n\n**Mask softener (added 2026-11-16):** the mask passes a `GrowMaskWithBlur` before conditioning - shipped at **expand 0 / blur 0 = the E8-measured hard-mask behavior**, identical output (verified by re-run, same seed). Raise the knobs for object edits: **grow first** (8-32 px - covers paint-line imprecision, prevents ghost remnants of the old content at full strength), **then blur** (2-8 px - blends the seam). Blur alone puts half-strength exactly on your painted line - that is where ghosts come from. Painted masks are binary (MaskEditor); softness is deliberately a graph knob, not a drawing skill. The composite below still blends with the original un-feathered mask, so the untouched region keeps the E8 guarantee."
+   },
    "color": "#332922",
    "bgcolor": "#593930"
+  },
+  {
+   "id": 13,
+   "type": "GrowMaskWithBlur",
+   "pos": [
+    408.3995827016971,
+    621.2578114381155
+   ],
+   "size": [
+    300,
+    246
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 21
+    }
+   ],
+   "outputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": [
+      20
+     ]
+    },
+    {
+     "name": "mask_inverted",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
+    "Node name for S&R": "GrowMaskWithBlur"
+   },
+   "widgets_values": [
+    6,
+    0,
+    true,
+    false,
+    3,
+    1,
+    1,
+    false
+   ],
+   "widgets_values_named": {
+    "expand": 6,
+    "incremental_expandrate": 0,
+    "tapered_corners": true,
+    "flip_input": false,
+    "blur_radius": 3,
+    "lerp_alpha": 1,
+    "decay_factor": 1,
+    "fill_holes": false
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   }
  ],
  "links": [
@@ -605,22 +642,6 @@
    "IMAGE"
   ],
   [
-   8,
-   5,
-   0,
-   6,
-   0,
-   "IMAGE"
-  ],
-  [
-   9,
-   6,
-   0,
-   7,
-   4,
-   "MASK"
-  ],
-  [
    10,
    7,
    0,
@@ -677,37 +698,49 @@
    "IMAGE"
   ],
   [
-   17,
-   6,
-   0,
-   10,
-   5,
-   "MASK"
-  ],
-  [
    18,
    10,
    0,
    11,
    0,
    "IMAGE"
+  ],
+  [
+   20,
+   13,
+   0,
+   7,
+   4,
+   "MASK"
+  ],
+  [
+   21,
+   4,
+   1,
+   13,
+   0,
+   "MASK"
+  ],
+  [
+   22,
+   4,
+   1,
+   10,
+   2,
+   "MASK"
   ]
  ],
- "groups": [
-  {
-   "title": "Inpaint",
-   "bounding": [
-    -1260,
-    -300,
-    2560,
-    900
-   ],
-   "color": "#3f789e",
-   "font_size": 20,
-   "flags": {}
-  }
- ],
+ "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7927318254015236,
+   "offset": [
+    -63.955617055442445,
+    -80.57613467396118
+   ]
+  },
+  "frontendVersion": "1.59.1"
+ },
  "version": 0.4
 }

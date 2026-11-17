@@ -86,16 +86,11 @@
 ### S5. Edit a picture: remove, replace, extend
 
 - *When:* fix or change part of an existing image; make the canvas bigger.
-- *Steps:*
-	- inpaint `2d/workflows/inpaint.json`;
-	- outpaint `2d/workflows/outpaint.json` (`extend_left/right_factor` 1.5 = +50% per side).
-	- For an **instruction-style** edit ("relight this", "change the material") use `2d/workflows/qwen-edit-gguf.json`.
-- *Outpaint:* `2d/workflows/outpaint.json` **invents** the new area (expect new content), but the original region comes back untouched.
-- *Knobs:* denoise. For harmonisation, **0.45 integrates while keeping the subject; 0.75 replaces it** — and small subjects break first. For outpaint, also try `mask_blend_pixels`.
-- *Colour step at the seam*. If two sides of the same seam are not of the same colour, fix it at generation: lower `denoise` or try inpaint of the affected area. A palette match (`scripts/color_match.py`, or `ColorMatch` in the canvas) is only for a **global** cast.
-- *Extending without inventing:* when you want the same existing objects (trees/sky/etc.) carried outward, pad the canvas with `scripts/pad_image.py --mirror-band 128 --mask-feather 24` — a mirrored **band** at the seam, invented beyond — then run `2d/workflows/inpaint.json` on it at `denoise` ~0.65–0.75 so it refines the fill instead of replacing it.
-- *Trap:* raw inpaint drifts ~5/255 *outside* the mask (VAE round-trip). Crop&Stitch avoids this entirely; if you use the older path, composite back with the mask.
-- *Warning:* the Kontext route is **non-commercial** — don't ship its output. `qwen-edit-gguf.json` does the same job under Apache-2.0.
+- *I want to remove or replace something* -> `2d/workflows/inpaint.json`. Mask the area - draw on the image itself (`LoadImage` -> right-click -> **Open in MaskEditor**) or use a file-based mask. The mask passes a `GrowMaskWithBlur` shipped at **0/0 = hard**; for object edits raise **expand first** (8-32 px - covers paint-line imprecision, prevents ghost remnants of the removed thing), **then blur_radius** (2-8 px - blends the seam).
+- *I want a bigger canvas* -> `2d/workflows/outpaint-px.json`. Set the four **`outpaint_*_px` INT nodes** - pixels to add per side (0 = leave that side); the in-graph math converts them to factors (`f = 1 + N/W`, per side) and the canvas follows automatically. **Keep the target size `<= ~1.5 MP` and canvas sides multiples of 64** - these knobs are the budget control. The new area is **invented** (expect new content); the original region comes back untouched (E41).
+- *The source is big, or I only want to extend one edge* -> `2d/workflows/outpaint-fragment.json`: the same px knobs plus a **painted mask on the edge strip** (MaskEditor). The mask localizes the sampling and marks the strip that becomes the **transition** into the new area - it is repainted by design, so keep it thin. The flow ships `context_from_mask_extend_factor` **4.0**. **Never pad the canvas with black yourself** - base SDXL will not paint over black padding (E41); the pack's own padding is edge replication and works.
+- *I want to direct the edit in words* -> `2d/workflows/qwen-edit-gguf.json` ("relight this", "change the material") - instruction-style, no mask needed. The encoder node accepts **up to three images** (`image1`/`image2`/`image3` - the model's cross-image editing: "put the person from image 2 into image 1"), but the flow ships and we measured only the **single-image** case. Source dimensions are **not** preserved. If relight is not needed, you can set the relight LoRA strength to 0.
+- *Prompt rule (applies to both edit flows):* describe **what the sampler sees**, not the global scene. Inpaint = the scene around the hole. Outpaint = the **seam neighborhood only** - "forest with a hut" + a seam next to the hut grows a second hut (E41 trap 3): name the continuation ("dense forest, tall trees"), never subjects that already exist in the picture - they travel through the context pixels the crop carries.
 
 ### S6. Compose a scene from parts
 
