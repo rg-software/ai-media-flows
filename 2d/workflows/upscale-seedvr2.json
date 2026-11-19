@@ -1,4 +1,6 @@
 {
+ "id": "2a742292-6c63-4ae2-99df-c39a9c7700a1",
+ "revision": 0,
  "last_node_id": 7,
  "last_link_id": 6,
  "nodes": [
@@ -6,17 +8,17 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    40,
-    120
+    99.42862374441964,
+    -19.4285801478795
    ],
    "size": [
     320,
     320
    ],
-   "widgets_values": [
-    "2d/char_knight.png",
-    "image"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
@@ -34,13 +36,21 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "LoadImage"
    },
-   "order": 0
+   "widgets_values": [
+    "char_knight.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "char_knight.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
@@ -53,14 +63,16 @@
     380,
     220
    ],
-   "widgets_values": [
-    "seedvr2_ema_7b_fp16.safetensors",
-    "cuda:0",
-    0,
-    false,
-    "none",
-    false,
-    "sdpa"
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "torch_compile_args",
+     "shape": 7,
+     "type": "TORCH_COMPILE_ARGS",
+     "link": null
+    }
    ],
    "outputs": [
     {
@@ -72,25 +84,67 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "seedvr2_videoupscaler",
+    "ver": "4490bd1f482e026674543386bb2a4d176da245b9",
     "Node name for S&R": "SeedVR2LoadDiTModel"
    },
-   "order": 1
+   "widgets_values": [
+    "seedvr2_ema_7b_fp16.safetensors",
+    "cuda:0",
+    0,
+    false,
+    "none",
+    false,
+    "sdpa"
+   ],
+   "widgets_values_named": {
+    "model": "seedvr2_ema_7b_fp16.safetensors",
+    "device": "cuda:0",
+    "blocks_to_swap": 0,
+    "swap_io_components": false,
+    "offload_device": "none",
+    "cache_model": false,
+    "attention_mode": "sdpa"
+   }
   },
   {
    "id": 3,
    "type": "SeedVR2LoadVAEModel",
    "pos": [
     40,
-    640
+    699.4286673409598
    ],
    "size": [
     380,
     300
    ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "torch_compile_args",
+     "shape": 7,
+     "type": "TORCH_COMPILE_ARGS",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "SEEDVR2_VAE",
+     "type": "SEEDVR2_VAE",
+     "slot_index": 0,
+     "links": [
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "seedvr2_videoupscaler",
+    "ver": "4490bd1f482e026674543386bb2a4d176da245b9",
+    "Node name for S&R": "SeedVR2LoadVAEModel"
+   },
    "widgets_values": [
     "ema_vae_fp16.safetensors",
     "cuda:0",
@@ -104,50 +158,34 @@
     "none",
     false
    ],
-   "outputs": [
-    {
-     "name": "SEEDVR2_VAE",
-     "type": "SEEDVR2_VAE",
-     "slot_index": 0,
-     "links": [
-      3
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "SeedVR2LoadVAEModel"
-   },
-   "order": 2
+   "widgets_values_named": {
+    "model": "ema_vae_fp16.safetensors",
+    "device": "cuda:0",
+    "encode_tiled": false,
+    "encode_tile_size": 1024,
+    "encode_tile_overlap": 128,
+    "decode_tiled": false,
+    "decode_tile_size": 1024,
+    "decode_tile_overlap": 128,
+    "tile_debug": "false",
+    "offload_device": "none",
+    "cache_model": false
+   }
   },
   {
    "id": 4,
    "type": "SeedVR2VideoUpscaler",
    "pos": [
-    480,
-    120
+    481.14292689732144,
+    390.8571297781808
    ],
    "size": [
     360,
     480
    ],
-   "widgets_values": [
-    42,
-    "fixed",
-    2048,
-    0,
-    1,
-    false,
-    "lab",
-    0,
-    0,
-    0.0,
-    0.0,
-    "cpu",
-    false
-   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [
     {
      "name": "image",
@@ -176,27 +214,58 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "seedvr2_videoupscaler",
+    "ver": "4490bd1f482e026674543386bb2a4d176da245b9",
     "Node name for S&R": "SeedVR2VideoUpscaler"
    },
-   "order": 3
+   "widgets_values": [
+    42,
+    "fixed",
+    2048,
+    0,
+    1,
+    false,
+    "lab",
+    0,
+    0,
+    0,
+    0,
+    "cpu",
+    false
+   ],
+   "widgets_values_named": {
+    "seed": 42,
+    "control_after_generate": "fixed",
+    "resolution": 2048,
+    "max_resolution": 0,
+    "batch_size": 1,
+    "uniform_batch_size": false,
+    "color_correction": "lab",
+    "temporal_overlap": 0,
+    "prepend_frames": 0,
+    "input_noise_scale": 0,
+    "latent_noise_scale": 0,
+    "offload_device": "cpu",
+    "enable_debug": false
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
    "type": "SaveImage",
    "pos": [
-    920,
-    120
+    901.7144775390625,
+    574.8571995326452
    ],
    "size": [
     400,
     300
    ],
-   "widgets_values": [
-    "2D/U1/seedvr2"
-   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
@@ -204,68 +273,89 @@
      "link": 4
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveImage"
    },
-   "order": 4
+   "widgets_values": [
+    "2D/U1/seedvr2"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/U1/seedvr2"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 6,
    "type": "ImageCompare",
    "pos": [
-    920,
-    380
+    885.7142857142857,
+    34.85709054129461
    ],
    "size": [
     420,
     460
    ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
    "inputs": [
     {
      "name": "image_a",
-     "type": "IMAGE",
      "shape": 7,
+     "type": "IMAGE",
      "link": 5
     },
     {
      "name": "image_b",
-     "type": "IMAGE",
      "shape": 7,
+     "type": "IMAGE",
      "link": 6
     }
    ],
-   "flags": {},
-   "mode": 0,
    "outputs": [],
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ImageCompare"
    },
-   "order": 5
+   "widgets_values": [],
+   "widgets_values_named": {}
   },
   {
    "id": 7,
    "type": "MarkdownNote",
    "pos": [
-    -1000,
-    -220
+    -380.8645431124414,
+    -46.285721976998275
    ],
    "size": [
     420,
     320
    ],
    "flags": {},
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [],
+   "properties": {},
    "widgets_values": [
     "## upscale-seedvr2.json\n\nSeedVR2 upscale / restore, with a before/after slider\n\nU1 - SeedVR2 (Apache 2.0) replaces the non-commercial 4x-UltraSharp. RESOLUTION IS THE SHORT EDGE, not a multiplier: resolution=2048 on a 1024 input gives 2048. batch_size must follow 4n+1 (use 1 for a single still). color_correction='lab' is the recommended highest-fidelity mode. 24 GB -> 7B fp16 with no memory tricks (offload_device=none on the loaders); drop to 3B fp16 or 7B fp8 + blocks_to_swap/offloading if it OOMs. Measured vs 4x-UltraSharp at 2x: more reconstructed detail (grad-var 137.0 vs 97.7) but more drift from the source (2.70 vs 1.29) and slower (39 s vs 6 s) - it regenerates rather than enlarges.\n**Slider:** `ImageCompare` shows the source against the result; the `SaveImage` is the deliverable.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  \u00b7  Why it is this way: **U1/E13f** in the scenarios' `EXPERIMENTS` logs.*"
    ],
-   "properties": {},
-   "order": 0
+   "widgets_values_named": {
+    "text": "## upscale-seedvr2.json\n\nSeedVR2 upscale / restore, with a before/after slider\n\nU1 - SeedVR2 (Apache 2.0) replaces the non-commercial 4x-UltraSharp. RESOLUTION IS THE SHORT EDGE, not a multiplier: resolution=2048 on a 1024 input gives 2048. batch_size must follow 4n+1 (use 1 for a single still). color_correction='lab' is the recommended highest-fidelity mode. 24 GB -> 7B fp16 with no memory tricks (offload_device=none on the loaders); drop to 3B fp16 or 7B fp8 + blocks_to_swap/offloading if it OOMs. Measured vs 4x-UltraSharp at 2x: more reconstructed detail (grad-var 137.0 vs 97.7) but more drift from the source (2.70 vs 1.29) and slower (39 s vs 6 s) - it regenerates rather than enlarges.\n**Slider:** `ImageCompare` shows the source against the result; the `SaveImage` is the deliverable.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  \u00b7  Why it is this way: **U1/E13f** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -322,12 +412,13 @@
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.3592106827614946,
    "offset": [
-    0,
-    0
+    1293.6132501008349,
+    1166.339720881928
    ]
-  }
+  },
+  "frontendVersion": "1.59.1"
  },
  "version": 0.4
 }

@@ -1,4 +1,6 @@
 {
+ "id": "6bb9922e-5436-417c-ae72-62dbd1ef1c51",
+ "revision": 0,
  "last_node_id": 35,
  "last_link_id": 44,
  "nodes": [
@@ -6,8 +8,8 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    40,
-    120
+    -256.00101685070047,
+    73.0612919470809
    ],
    "size": [
     315,
@@ -21,25 +23,33 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       1
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "MASK",
      "type": "MASK",
-     "links": null,
-     "slot_index": 1
+     "slot_index": 1,
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
     "front.png",
     "image"
-   ]
+   ],
+   "widgets_values_named": {
+    "image": "front.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 21,
@@ -50,30 +60,53 @@
    ],
    "size": [
     320,
-    170
+    286
    ],
    "flags": {},
-   "order": 1,
+   "order": 9,
    "mode": 0,
    "inputs": [
     {
      "name": "image",
      "type": "IMAGE",
      "link": 1
+    },
+    {
+     "name": "mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
     }
    ],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       26,
       30
-     ],
-     "slot_index": 0
+     ]
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "ImageResizeKJv2"
    },
    "widgets_values": [
@@ -83,8 +116,19 @@
     "pad",
     "0, 0, 0",
     "center",
-    16
-   ]
+    16,
+    "cpu"
+   ],
+   "widgets_values_named": {
+    "width": 512,
+    "height": 512,
+    "upscale_method": "lanczos",
+    "keep_proportion": "pad",
+    "pad_color": "0, 0, 0",
+    "crop_position": "center",
+    "divisible_by": 16,
+    "device": "cpu"
+   }
   },
   {
    "id": 22,
@@ -95,29 +139,52 @@
    ],
    "size": [
     320,
-    170
+    286
    ],
    "flags": {},
-   "order": 1,
+   "order": 10,
    "mode": 0,
    "inputs": [
     {
      "name": "image",
      "type": "IMAGE",
      "link": 2
+    },
+    {
+     "name": "mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
     }
    ],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       27
-     ],
-     "slot_index": 0
+     ]
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "ImageResizeKJv2"
    },
    "widgets_values": [
@@ -127,8 +194,19 @@
     "pad",
     "0, 0, 0",
     "center",
-    16
-   ]
+    16,
+    "cpu"
+   ],
+   "widgets_values_named": {
+    "width": 512,
+    "height": 512,
+    "upscale_method": "lanczos",
+    "keep_proportion": "pad",
+    "pad_color": "0, 0, 0",
+    "crop_position": "center",
+    "divisible_by": 16,
+    "device": "cpu"
+   }
   },
   {
    "id": 23,
@@ -139,29 +217,52 @@
    ],
    "size": [
     320,
-    170
+    286
    ],
    "flags": {},
-   "order": 1,
+   "order": 11,
    "mode": 0,
    "inputs": [
     {
      "name": "image",
      "type": "IMAGE",
      "link": 3
+    },
+    {
+     "name": "mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
     }
    ],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       28
-     ],
-     "slot_index": 0
+     ]
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "ImageResizeKJv2"
    },
    "widgets_values": [
@@ -171,8 +272,19 @@
     "pad",
     "0, 0, 0",
     "center",
-    16
-   ]
+    16,
+    "cpu"
+   ],
+   "widgets_values_named": {
+    "width": 512,
+    "height": 512,
+    "upscale_method": "lanczos",
+    "keep_proportion": "pad",
+    "pad_color": "0, 0, 0",
+    "crop_position": "center",
+    "divisible_by": 16,
+    "device": "cpu"
+   }
   },
   {
    "id": 24,
@@ -183,29 +295,52 @@
    ],
    "size": [
     320,
-    170
+    286
    ],
    "flags": {},
-   "order": 1,
+   "order": 12,
    "mode": 0,
    "inputs": [
     {
      "name": "image",
      "type": "IMAGE",
      "link": 4
+    },
+    {
+     "name": "mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
     }
    ],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       29
-     ],
-     "slot_index": 0
+     ]
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "ImageResizeKJv2"
    },
    "widgets_values": [
@@ -215,167 +350,216 @@
     "pad",
     "0, 0, 0",
     "center",
-    16
-   ]
+    16,
+    "cpu"
+   ],
+   "widgets_values_named": {
+    "width": 512,
+    "height": 512,
+    "upscale_method": "lanczos",
+    "keep_proportion": "pad",
+    "pad_color": "0, 0, 0",
+    "crop_position": "center",
+    "divisible_by": 16,
+    "device": "cpu"
+   }
   },
   {
    "id": 2,
    "type": "LoadImage",
    "pos": [
-    40,
-    380
+    -591.2774259432902,
+    382.8738267910883
    ],
    "size": [
     315,
     300
    ],
    "flags": {},
-   "order": 0,
+   "order": 1,
    "mode": 0,
    "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       2
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "MASK",
      "type": "MASK",
-     "links": null,
-     "slot_index": 1
+     "slot_index": 1,
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
     "left.png",
     "image"
-   ]
+   ],
+   "widgets_values_named": {
+    "image": "left.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 3,
    "type": "LoadImage",
    "pos": [
-    40,
-    640
+    83.10689027516713,
+    372.7368490957016
    ],
    "size": [
     315,
     300
    ],
    "flags": {},
-   "order": 0,
+   "order": 2,
    "mode": 0,
    "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       3
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "MASK",
      "type": "MASK",
-     "links": null,
-     "slot_index": 1
+     "slot_index": 1,
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
     "right.png",
     "image"
-   ]
+   ],
+   "widgets_values_named": {
+    "image": "right.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
    "type": "LoadImage",
    "pos": [
-    40,
-    900
+    -244.5059654819263,
+    488.0890533280947
    ],
    "size": [
     315,
     300
    ],
    "flags": {},
-   "order": 0,
+   "order": 3,
    "mode": 0,
    "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       4
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "MASK",
      "type": "MASK",
-     "links": null,
-     "slot_index": 1
+     "slot_index": 1,
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
     "back.png",
     "image"
-   ]
+   ],
+   "widgets_values_named": {
+    "image": "back.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
    "type": "Hy3DModelLoader",
    "pos": [
-    40,
-    1160
+    469.92022712331527,
+    1367.5839447323815
    ],
    "size": [
     300,
-    100
+    126
    ],
    "flags": {},
-   "order": 0,
+   "order": 4,
    "mode": 0,
-   "inputs": [],
+   "inputs": [
+    {
+     "name": "compile_args",
+     "shape": 7,
+     "type": "HY3DCOMPILEARGS",
+     "link": null
+    }
+   ],
    "outputs": [
     {
      "name": "pipeline",
      "type": "HY3DMODEL",
+     "slot_index": 0,
      "links": [
       5
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "vae",
      "type": "HY3DVAE",
+     "slot_index": 1,
      "links": [
       6
-     ],
-     "slot_index": 1
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DModelLoader"
    },
    "widgets_values": [
     "hy3dgen/hunyuan3d-dit-v2-mv-fast/model.fp16.safetensors",
     "sdpa",
     false
-   ]
+   ],
+   "widgets_values_named": {
+    "model": "hy3dgen/hunyuan3d-dit-v2-mv-fast/model.fp16.safetensors",
+    "attention_mode": "sdpa",
+    "cublas_ops": false
+   }
   },
   {
    "id": 6,
@@ -386,10 +570,10 @@
    ],
    "size": [
     300,
-    230
+    234
    ],
    "flags": {},
-   "order": 2,
+   "order": 13,
    "mode": 0,
    "inputs": [
     {
@@ -399,21 +583,25 @@
     },
     {
      "name": "front",
+     "shape": 7,
      "type": "IMAGE",
      "link": 26
     },
     {
      "name": "left",
+     "shape": 7,
      "type": "IMAGE",
      "link": 27
     },
     {
      "name": "right",
+     "shape": 7,
      "type": "IMAGE",
      "link": 28
     },
     {
      "name": "back",
+     "shape": 7,
      "type": "IMAGE",
      "link": 29
     }
@@ -422,50 +610,57 @@
     {
      "name": "latents",
      "type": "HY3DLATENT",
+     "slot_index": 0,
      "links": [
       7
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "image",
      "type": "IMAGE",
-     "links": [
-      43,
-      44
-     ],
-     "slot_index": 1
+     "slot_index": 1,
+     "links": []
     },
     {
      "name": "mask",
      "type": "MASK",
-     "links": null,
-     "slot_index": 2
+     "slot_index": 2,
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DGenerateMeshMultiView"
    },
    "widgets_values": [
     5.5,
     30,
     123,
-    "fixed"
-   ]
+    "fixed",
+    "FlowMatchEulerDiscreteScheduler"
+   ],
+   "widgets_values_named": {
+    "guidance_scale": 5.5,
+    "steps": 30,
+    "seed": 123,
+    "control_after_generate": "fixed",
+    "scheduler": "FlowMatchEulerDiscreteScheduler"
+   }
   },
   {
    "id": 7,
    "type": "Hy3DVAEDecode",
    "pos": [
-    1360,
-    120
+    1029.7729098048908,
+    617.2532521381122
    ],
    "size": [
     300,
-    170
+    222
    ],
    "flags": {},
-   "order": 3,
+   "order": 14,
    "mode": 0,
    "inputs": [
     {
@@ -483,13 +678,15 @@
     {
      "name": "trimesh",
      "type": "TRIMESH",
+     "slot_index": 0,
      "links": [
       8
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DVAEDecode"
    },
    "widgets_values": [
@@ -497,22 +694,33 @@
     256,
     32000,
     0,
-    "mc"
-   ]
+    "mc",
+    true,
+    true
+   ],
+   "widgets_values_named": {
+    "box_v": 1.01,
+    "octree_resolution": 256,
+    "num_chunks": 32000,
+    "mc_level": 0,
+    "mc_algo": "mc",
+    "enable_flash_vdm": true,
+    "force_offload": true
+   }
   },
   {
    "id": 8,
    "type": "Hy3DPostprocessMesh",
    "pos": [
-    1800,
-    120
+    1325.6968975864338,
+    156.9752324410722
    ],
    "size": [
     315,
     174
    ],
    "flags": {},
-   "order": 4,
+   "order": 15,
    "mode": 0,
    "inputs": [
     {
@@ -525,13 +733,15 @@
     {
      "name": "trimesh",
      "type": "TRIMESH",
+     "slot_index": 0,
      "links": [
       9
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DPostprocessMesh"
    },
    "widgets_values": [
@@ -540,21 +750,28 @@
     true,
     50000,
     false
-   ]
+   ],
+   "widgets_values_named": {
+    "remove_floaters": true,
+    "remove_degenerate_faces": true,
+    "reduce_faces": true,
+    "max_facenum": 50000,
+    "smooth_normals": false
+   }
   },
   {
    "id": 9,
    "type": "Hy3DIMRemesh",
    "pos": [
-    2240,
-    120
+    1471.1699295102962,
+    471.9022633512361
    ],
    "size": [
     300,
     230
    ],
    "flags": {},
-   "order": 5,
+   "order": 16,
    "mode": 0,
    "inputs": [
     {
@@ -567,14 +784,15 @@
     {
      "name": "trimesh",
      "type": "TRIMESH",
+     "slot_index": 0,
      "links": [
-      11,
-      12
-     ],
-     "slot_index": 0
+      11
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DIMRemesh"
    },
    "widgets_values": [
@@ -584,61 +802,29 @@
     true,
     true,
     40000
-   ]
-  },
-  {
-   "id": 10,
-   "type": "Hy3DExportMesh",
-   "pos": [
-    2680,
-    120
    ],
-   "size": [
-    315,
-    106
-   ],
-   "flags": {},
-   "order": 6,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "trimesh",
-     "type": "TRIMESH",
-     "link": 12
-    }
-   ],
-   "outputs": [
-    {
-     "name": "glb_path",
-     "type": "STRING",
-     "links": [
-      38
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "Hy3DExportMesh"
-   },
-   "widgets_values": [
-    "3D/Hy3Dmv_untextured",
-    "glb",
-    true
-   ]
+   "widgets_values_named": {
+    "merge_vertices": true,
+    "vertex_count": 10000,
+    "smooth_iter": 8,
+    "align_to_boundaries": true,
+    "triangulate_result": true,
+    "max_facenum": 40000
+   }
   },
   {
    "id": 11,
    "type": "Hy3DMeshUVWrap",
    "pos": [
-    2680,
-    380
+    1731.3939410859743,
+    207.87389530504387
    ],
    "size": [
     214,
     46
    ],
    "flags": {},
-   "order": 6,
+   "order": 17,
    "mode": 0,
    "inputs": [
     {
@@ -651,44 +837,47 @@
     {
      "name": "trimesh",
      "type": "TRIMESH",
+     "slot_index": 0,
      "links": [
       13
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DMeshUVWrap"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 12,
    "type": "Hy3DCameraConfig",
    "pos": [
-    40,
-    1420
+    -17.986511412009406,
+    911.2085195057141
    ],
    "size": [
     340,
-    120
+    154
    ],
    "flags": {},
-   "order": 0,
+   "order": 5,
    "mode": 0,
    "inputs": [],
    "outputs": [
     {
      "name": "camera_config",
      "type": "HY3DCAMERA",
+     "slot_index": 0,
      "links": [
       14,
       15
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DCameraConfig"
    },
    "widgets_values": [
@@ -697,21 +886,30 @@
     "1, 0.1, 0.5, 0.1, 0.05, 0.05",
     1.45,
     1.2
-   ]
+   ],
+   "widgets_values_named": {
+    "camera_azimuths": "0, 90, 180, 270, 0, 180",
+    "camera_elevations": "0, 0, 0, 0, 90, -90",
+    "view_weights": "1, 0.1, 0.5, 0.1, 0.05, 0.05",
+    "camera_distance": 1.45,
+    "ortho_scale": 1.2
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 13,
    "type": "Hy3DRenderMultiView",
    "pos": [
-    3120,
-    120
+    1860.2919249970466,
+    386.4767053676804
    ],
    "size": [
     342,
     170
    ],
    "flags": {},
-   "order": 7,
+   "order": 18,
    "mode": 0,
    "inputs": [
     {
@@ -721,6 +919,7 @@
     },
     {
      "name": "camera_config",
+     "shape": 7,
      "type": "HY3DCAMERA",
      "link": 14
     }
@@ -729,88 +928,107 @@
     {
      "name": "normal_maps",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       16
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "position_maps",
      "type": "IMAGE",
+     "slot_index": 1,
      "links": [
       17
-     ],
-     "slot_index": 1
+     ]
     },
     {
      "name": "renderer",
      "type": "MESHRENDER",
+     "slot_index": 2,
      "links": [
       19
-     ],
-     "slot_index": 2
+     ]
     },
     {
      "name": "masks",
      "type": "MASK",
-     "links": null,
-     "slot_index": 3
+     "slot_index": 3,
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DRenderMultiView"
    },
    "widgets_values": [
     1024,
     2048,
     "world"
-   ]
+   ],
+   "widgets_values_named": {
+    "render_size": 1024,
+    "texture_size": 2048,
+    "normal_space": "world"
+   }
   },
   {
    "id": 14,
    "type": "DownloadAndLoadHy3DPaintModel",
    "pos": [
-    40,
-    1680
+    1863.6370537078747,
+    695.626249877917
    ],
    "size": [
     327,
     58
    ],
    "flags": {},
-   "order": 0,
+   "order": 6,
    "mode": 0,
-   "inputs": [],
+   "inputs": [
+    {
+     "name": "compile_args",
+     "shape": 7,
+     "type": "HY3DCOMPILEARGS",
+     "link": null
+    }
+   ],
    "outputs": [
     {
      "name": "multiview_pipe",
      "type": "HY3DDIFFUSERSPIPE",
+     "slot_index": 0,
      "links": [
       18
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "DownloadAndLoadHy3DPaintModel"
    },
    "widgets_values": [
     "hunyuan3d-paint-v2-0"
-   ]
+   ],
+   "widgets_values_named": {
+    "model": "hunyuan3d-paint-v2-0"
+   }
   },
   {
    "id": 15,
    "type": "Hy3DSampleMultiView",
    "pos": [
-    3560,
-    120
+    2292.8385214606124,
+    63.531130711203446
    ],
    "size": [
     311,
-    270
+    274
    ],
    "flags": {},
-   "order": 8,
+   "order": 19,
    "mode": 0,
    "inputs": [
     {
@@ -835,75 +1053,110 @@
     },
     {
      "name": "camera_config",
+     "shape": 7,
      "type": "HY3DCAMERA",
      "link": 15
+    },
+    {
+     "name": "scheduler",
+     "shape": 7,
+     "type": "NOISESCHEDULER",
+     "link": null
+    },
+    {
+     "name": "samples",
+     "shape": 7,
+     "type": "LATENT",
+     "link": null
     }
    ],
    "outputs": [
     {
      "name": "image",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       20
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DSampleMultiView"
    },
    "widgets_values": [
     512,
     32,
     123,
-    "fixed"
-   ]
+    "fixed",
+    1
+   ],
+   "widgets_values_named": {
+    "view_size": 512,
+    "steps": 32,
+    "seed": 123,
+    "control_after_generate": "fixed",
+    "denoise_strength": 1
+   }
   },
   {
    "id": 16,
    "type": "DownloadAndLoadHy3DDelightModel",
    "pos": [
-    40,
-    1940
+    1876.535758258195,
+    855.0362964268145
    ],
    "size": [
     307,
     58
    ],
    "flags": {},
-   "order": 0,
+   "order": 7,
    "mode": 0,
-   "inputs": [],
+   "inputs": [
+    {
+     "name": "compile_args",
+     "shape": 7,
+     "type": "HY3DCOMPILEARGS",
+     "link": null
+    }
+   ],
    "outputs": [
     {
      "name": "delight_pipe",
      "type": "HY3DDIFFUSERSPIPE",
+     "slot_index": 0,
      "links": [
       21
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "DownloadAndLoadHy3DDelightModel"
    },
    "widgets_values": [
     "hunyuan3d-delight-v2-0"
-   ]
+   ],
+   "widgets_values_named": {
+    "model": "hunyuan3d-delight-v2-0"
+   }
   },
   {
    "id": 17,
    "type": "Hy3DDelightImage",
    "pos": [
-    4000,
-    120
+    2373.6964783180038,
+    964.7745344378999
    ],
    "size": [
     278,
     222
    ],
    "flags": {},
-   "order": 9,
+   "order": 20,
    "mode": 0,
    "inputs": [
     {
@@ -915,42 +1168,59 @@
      "name": "image",
      "type": "IMAGE",
      "link": 20
+    },
+    {
+     "name": "scheduler",
+     "shape": 7,
+     "type": "NOISESCHEDULER",
+     "link": null
     }
    ],
    "outputs": [
     {
      "name": "image",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       22
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DDelightImage"
    },
    "widgets_values": [
     50,
     512,
     512,
-    1.0,
-    42
-   ]
+    1,
+    42,
+    "randomize"
+   ],
+   "widgets_values_named": {
+    "steps": 50,
+    "width": 512,
+    "height": 512,
+    "cfg_image": 1,
+    "seed": 42,
+    "control_after_generate": "randomize"
+   }
   },
   {
    "id": 18,
    "type": "Hy3DBakeFromMultiview",
    "pos": [
-    4440,
-    120
+    2522.317078321951,
+    607.8910392716676
    ],
    "size": [
     302,
     66
    ],
    "flags": {},
-   "order": 10,
+   "order": 21,
    "mode": 0,
    "inputs": [
     {
@@ -962,52 +1232,59 @@
      "name": "renderer",
      "type": "MESHRENDER",
      "link": 19
+    },
+    {
+     "name": "camera_config",
+     "shape": 7,
+     "type": "HY3DCAMERA",
+     "link": null
     }
    ],
    "outputs": [
     {
      "name": "texture",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       31
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "mask",
      "type": "MASK",
+     "slot_index": 1,
      "links": [
       32
-     ],
-     "slot_index": 1
+     ]
     },
     {
      "name": "renderer",
      "type": "MESHRENDER",
+     "slot_index": 2,
      "links": [
       33
-     ],
-     "slot_index": 2
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DBakeFromMultiview"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 25,
    "type": "Hy3DMeshVerticeInpaintTexture",
    "pos": [
-    4880,
-    120
+    2734.5217319892568,
+    117.74123661198252
    ],
    "size": [
     277,
     66
    ],
    "flags": {},
-   "order": 11,
+   "order": 22,
    "mode": 0,
    "inputs": [
     {
@@ -1030,46 +1307,47 @@
     {
      "name": "texture",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       34
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "mask",
      "type": "MASK",
+     "slot_index": 1,
      "links": [
       35
-     ],
-     "slot_index": 1
+     ]
     },
     {
      "name": "renderer",
      "type": "MESHRENDER",
+     "slot_index": 2,
      "links": [
       36
-     ],
-     "slot_index": 2
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DMeshVerticeInpaintTexture"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 26,
    "type": "CV2InpaintTexture",
    "pos": [
-    5320,
-    120
+    3070.2803681648656,
+    -26.819060150870996
    ],
    "size": [
     239,
     120
    ],
    "flags": {},
-   "order": 12,
+   "order": 23,
    "mode": 0,
    "inputs": [
     {
@@ -1087,34 +1365,39 @@
     {
      "name": "texture",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
-      23,
-      42
-     ],
-     "slot_index": 0
+      23
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "CV2InpaintTexture"
    },
    "widgets_values": [
     3,
     "ns"
-   ]
+   ],
+   "widgets_values_named": {
+    "inpaint_radius": 3,
+    "inpaint_method": "ns"
+   }
   },
   {
    "id": 19,
    "type": "Hy3DApplyTexture",
    "pos": [
-    5760,
-    120
+    3083.375552628716,
+    490.4358170003678
    ],
    "size": [
     226,
     46
    ],
    "flags": {},
-   "order": 13,
+   "order": 24,
    "mode": 0,
    "inputs": [
     {
@@ -1132,31 +1415,32 @@
     {
      "name": "trimesh",
      "type": "TRIMESH",
+     "slot_index": 0,
      "links": [
       25,
       39
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DApplyTexture"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 20,
    "type": "Hy3DExportMesh",
    "pos": [
-    6200,
-    120
+    3392.367836193968,
+    196.7978259456106
    ],
    "size": [
     315,
     106
    ],
    "flags": {},
-   "order": 14,
+   "order": 25,
    "mode": 0,
    "inputs": [
     {
@@ -1169,27 +1453,34 @@
     {
      "name": "glb_path",
      "type": "STRING",
+     "slot_index": 0,
      "links": [
       37
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DExportMesh"
    },
    "widgets_values": [
     "3D/Hy3Dmv_textured",
     "glb",
     true
-   ]
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "3D/Hy3Dmv_textured",
+    "file_format": "glb",
+    "save_file": true
+   }
   },
   {
    "id": 27,
    "type": "MarkdownNote",
    "pos": [
-    -2200,
-    -320
+    54.64802694257787,
+    -209.11568268424094
    ],
    "size": [
     720,
@@ -1202,8 +1493,11 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D \u2014 several consistent views (uniform 512\u00b2) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node \u2014 orbit them in the canvas (geometry only: the\nviewer renders no textures on the current frontend) \u2014 plus a **Textured turntable (12 frames)** image\nbatch from `Hy3DNvdiffrastRenderer`, the reliable way to see the texture.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3Dmv_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` for a full PBR set.\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  \u00b7  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
+    "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D \u2014 several consistent views (uniform 512\u00b2) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node \u2014 orbit them in the canvas (textures render since core v0.46 / frontend 1.59.6 - tested 2026-11-19) \u2014 plus a **Textured turntable (12 frames)** image\nbatch from `Hy3DNvdiffrastRenderer`, the reliable way to see the texture.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3Dmv_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` for a full PBR set.\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  \u00b7  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
    ],
+   "widgets_values_named": {
+    "text": "## hy3d-multiview-workflow.json\n\nHy3D multiview\n\n**Does:** the multiview variant of Hy3D \u2014 several consistent views (uniform 512\u00b2) feed the\nshape model, which usually beats a single-view guess on occluded geometry.\n**View:** both exports end in a `Preview3D` node \u2014 orbit them in the canvas (textures render since core v0.46 / frontend 1.59.6 - tested 2026-11-19) \u2014 plus a **Textured turntable (12 frames)** image\nbatch from `Hy3DNvdiffrastRenderer`, the reliable way to see the texture.\n**PBR:** the bake is base colour only, so the flow also writes the atlas as an image\n(`3D/Hy3Dmv_texture_atlas_*`) - feed it to `2d/workflows/pbr-material.json` for a full PBR set.\n**See:** `3d/README.md`, `3d/EXPERIMENTS.md` E2d.\n\n---\n*How to run it: story **S12** in `HOWTO.md`  \u00b7  Why it is this way: **E2d** in the scenarios' `EXPERIMENTS` logs.*"
+   },
    "color": "#332922",
    "bgcolor": "#593930"
   },
@@ -1211,20 +1505,32 @@
    "id": 28,
    "type": "Preview3D",
    "pos": [
-    6640,
-    120
+    3951.9689289203293,
+    -123.94554117699795
    ],
    "size": [
     860,
     900
    ],
    "flags": {},
-   "order": 15,
+   "order": 27,
    "mode": 0,
    "inputs": [
     {
+     "name": "camera_info",
+     "shape": 7,
+     "type": "LOAD3D_CAMERA",
+     "link": null
+    },
+    {
+     "name": "bg_image",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": null
+    },
+    {
      "name": "model_file",
-     "type": "STRING",
+     "type": "STRING,FILE_3D_GLB,FILE_3D_GLTF,FILE_3D_FBX,FILE_3D_OBJ,FILE_3D_STL,FILE_3D_USDZ,FILE_3D",
      "widget": {
       "name": "model_file"
      },
@@ -1234,64 +1540,34 @@
    "outputs": [],
    "title": "Preview textured GLB",
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "Preview3D"
    },
    "widgets_values": [
     "",
-    "original",
-    "original",
     ""
-   ]
-  },
-  {
-   "id": 29,
-   "type": "Preview3D",
-   "pos": [
-    3120,
-    380
    ],
-   "size": [
-    860,
-    900
-   ],
-   "flags": {},
-   "order": 7,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "model_file",
-     "type": "STRING",
-     "widget": {
-      "name": "model_file"
-     },
-     "link": 38
-    }
-   ],
-   "outputs": [],
-   "title": "Preview untextured GLB",
-   "properties": {
-    "Node name for S&R": "Preview3D"
+   "widgets_values_named": {
+    "model_file": "",
+    "image": ""
    },
-   "widgets_values": [
-    "",
-    "original",
-    "original",
-    ""
-   ]
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 30,
    "type": "Hy3DNvdiffrastRenderer",
    "pos": [
-    6200,
-    380
+    3351.710310621294,
+    838.5272013920965
    ],
    "size": [
     300,
     380
    ],
    "flags": {},
-   "order": 14,
+   "order": 26,
    "mode": 0,
    "inputs": [
     {
@@ -1304,20 +1580,22 @@
     {
      "name": "image",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       40
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "mask",
      "type": "MASK",
-     "links": null,
-     "slot_index": 1
+     "slot_index": 1,
+     "links": null
     }
    ],
    "title": "Textured turntable (12 frames)",
    "properties": {
+    "cnr_id": "comfyui-hunyuan3dwrapper",
+    "ver": "2609efa38f6a98292476f714839b7c1e5f9b699a",
     "Node name for S&R": "Hy3DNvdiffrastRenderer"
    },
    "widgets_values": [
@@ -1326,29 +1604,44 @@
     768,
     2,
     12,
-    2.0,
-    0.0,
-    0.0,
-    60.0,
+    2,
+    0,
+    0,
+    60,
     0.1,
-    1000.0,
-    0.0,
-    0.0
-   ]
+    1000,
+    0,
+    0
+   ],
+   "widgets_values_named": {
+    "render_type": "textured",
+    "width": 768,
+    "height": 768,
+    "ssaa": 2,
+    "num_frames": 12,
+    "camera_distance": 2,
+    "yaw": 0,
+    "pitch": 0,
+    "fov": 60,
+    "near": 0.1,
+    "far": 1000,
+    "pan_x": 0,
+    "pan_y": 0
+   }
   },
   {
    "id": 31,
    "type": "SaveImage",
    "pos": [
-    6640,
-    380
+    3794.263025500277,
+    906.6112077970955
    ],
    "size": [
     420,
     420
    ],
    "flags": {},
-   "order": 15,
+   "order": 28,
    "mode": 0,
    "inputs": [
     {
@@ -1357,102 +1650,25 @@
      "link": 40
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "title": "Textured turntable (save)",
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveImage"
    },
    "widgets_values": [
     "3D/Hy3Dmv_textured_render"
-   ]
-  },
-  {
-   "id": 33,
-   "type": "SaveImage",
-   "pos": [
-    5760,
-    380
    ],
-   "size": [
-    420,
-    420
-   ],
-   "flags": {},
-   "order": 17,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 42
-    }
-   ],
-   "outputs": [],
-   "title": "Base-colour atlas (save)",
-   "properties": {
-    "Node name for S&R": "SaveImage"
-   },
-   "widgets_values": [
-    "3D/Hy3Dmv_texture_atlas"
-   ]
-  },
-  {
-   "id": 34,
-   "type": "PreviewImage",
-   "pos": [
-    1360,
-    380
-   ],
-   "size": [
-    320,
-    320
-   ],
-   "flags": {},
-   "order": 18,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 43
-    }
-   ],
-   "outputs": [],
-   "title": "Generated views (6: 0/90/180/270/top/bottom)",
-   "properties": {
-    "Node name for S&R": "PreviewImage"
-   },
-   "widgets_values": []
-  },
-  {
-   "id": 35,
-   "type": "SaveImage",
-   "pos": [
-    1360,
-    640
-   ],
-   "size": [
-    420,
-    420
-   ],
-   "flags": {},
-   "order": 19,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 44
-    }
-   ],
-   "outputs": [],
-   "title": "Generated views (save)",
-   "properties": {
-    "Node name for S&R": "SaveImage"
-   },
-   "widgets_values": [
-    "3D/Hy3Dmv_views"
-   ]
+   "widgets_values_named": {
+    "filename_prefix": "3D/Hy3Dmv_textured_render"
+   }
   }
  ],
  "links": [
@@ -1533,14 +1749,6 @@
    9,
    0,
    11,
-   0,
-   "TRIMESH"
-  ],
-  [
-   12,
-   9,
-   0,
-   10,
    0,
    "TRIMESH"
   ],
@@ -1729,22 +1937,6 @@
    "MESHRENDER"
   ],
   [
-   37,
-   20,
-   0,
-   28,
-   0,
-   "STRING"
-  ],
-  [
-   38,
-   10,
-   0,
-   29,
-   0,
-   "STRING"
-  ],
-  [
    39,
    19,
    0,
@@ -1761,32 +1953,25 @@
    "IMAGE"
   ],
   [
-   42,
-   26,
+   37,
+   20,
    0,
-   33,
-   0,
-   "IMAGE"
-  ],
-  [
-   43,
-   6,
-   1,
-   34,
-   0,
-   "IMAGE"
-  ],
-  [
-   44,
-   6,
-   1,
-   35,
-   0,
-   "IMAGE"
+   28,
+   2,
+   "STRING"
   ]
  ],
  "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.2927086344743592,
+   "offset": [
+    967.9754975932332,
+    1117.6155079397531
+   ]
+  },
+  "frontendVersion": "1.59.6"
+ },
  "version": 0.4
 }

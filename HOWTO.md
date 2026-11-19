@@ -139,10 +139,20 @@
 
 - *When:* you need game-ready sprites, animation frames, or packed sheets - in **any style** (pixel, anime, painted, realistic).
 - *Produce the frames in your chosen style:*
-	- **pixel art** -> its own story, **S31** below (generation, conversion, palettes - the style has real machinery);
-	- **any other style** -> generate each frame from a prompt (S1), or restyle existing art (S8: `ipadapter-style.json`, `qwen-edit-gguf.json`);
+	- **pixel art** -> its own story, **S31** below;
+	- **any other style** -> generate each frame (S1), or restyle existing art (S8);
 - *Animate a sprite across a few poses:* get one skeleton per pose with `2d/workflows/pose-extract.json` (**S16**, one photo per pose), render each with `2d/workflows/pose-skeleton.json`, then pack the frames with `scripts/atlas.py`. **Keep the IPAdapter at 0.15** - that is what holds the character's design while the pose changes; higher weights freeze the reference's own stance. **Measured limits:** poses that differ by **~40 degrees or more** read as distinct frames, but **10-30 degree steps render as the same pose**, so a 3-4 frame idle / attack / ready works (while **walk cycle does not**).
-- *Generate animation frames from a rigged 3D model:* use a rigged GLB with named animation clips (see KayKit Adventurers Knight as an example). The renderer is plain `bpy`; it needs Python 3.11 and the opt-in `pose-render` uv extra. From the repo root, set `UV_PROJECT_ENVIRONMENT` to a separate env path, then run `uv run --extra pose-render --python 3.11 scripts/render_glb_poses.py --glb <model.glb> --out <ComfyUI>/input/poses --clip Idle_Rig:0.5 --clip 1H_Melee_Attack_Chop_Rig:0.15,0.35,0.55,0.75 --yaws 0,45,90,135,180 --gear 1H_Sword,Round_Shield`. Repeat `--clip` for another animation; `--gear` is optional, and names the weapons to keep. One fixed camera keeps scale constant across the set.
+- *Generate animation frames from a rigged 3D model:* use a rigged GLB with named animation clips (see KayKit Adventurers Knight as an example). The renderer is plain `bpy`; it needs Python 3.11 and the opt-in `pose-render` uv extra. From the repo root, set `UV_PROJECT_ENVIRONMENT` to a separate env path, then run
+  
+  ```shell
+  uv run --extra pose-render --python 3.11
+    scripts/render_glb_poses.py --glb <model.glb> --out
+    <ComfyUI>/input/poses --clip Idle_Rig:0.5 --clip
+    1H_Melee_Attack_Chop_Rig:0.15,0.35,0.55,0.75 --yaws
+    0,45,90,135,180 --gear 1H_Sword,Round_Shield
+  ```
+
+  Repeat `--clip` for another animation; `--gear` is optional, and names the weapons to keep. One fixed camera keeps scale constant across the set.
 	- Style each render with your chosen style pass (for pixel art: `2d/workflows/pixel-art-convert.json` with one shared palette - **S31**; do **not** use `pixel-art-restyle` for clean renders: its redraw changes the design/pose);
 	- Restore transparency: run `uv run python scripts/restore_alpha.py --source <render.png> --sprite <converted.png> --out <sprite-rgba.png>`. The helper resizes the original alpha with nearest-neighbour; pack the RGBA results with `scripts/atlas.py`.
 	- For a short animation, use several fractions from one clip (e.g. `0.15,0.35,0.55,0.75`) so it samples the motion; flatten lighting to reduce palette flicker. At 128 px subtle motions can be hard to read.
@@ -153,7 +163,7 @@
 - *When:* you need more resolution, or a soft/small face cleaned up.
 - *Steps:* `2d/workflows/upscale-seedvr2.json` (Apache-2.0). Set `resolution` to the **short edge**; set it equal to the image size to **restore** instead of upscaling (including face restore).
 - *See the result:* check the slider in the `ImageCompare` node; the `SaveImage` output is the deliverable.
-- *Knobs:* `batch_size` must be 4n+1. SeedVR2 *reconstructs* (more detail, more drift, slower); `upscale.json`'s GAN is faithful (it invents nothing).
+- *Knobs:* `batch_size` must be 4n+1. For images, keep it 1. SeedVR2 *reconstructs* (more detail, more drift); `upscale.json`'s GAN is faithful (it invents nothing). You can use SeedVR2 with 1x scale to _reconstruct_ a damaged image.
 - *Warning:* don't ship output from `upscale.json` — its `4x-UltraSharp` model is **non-commercial**. `upscale-seedvr2.json` is Apache-2.0.
 
 ### S11. Materials: seamless textures, PBR, and into 3D
@@ -174,7 +184,7 @@
 - *Steps:* `3d/workflows/hy3d-full-workflow.json` (shape → texture → bake) or `hy3d-multiview-workflow.json`; rig with `3d/workflows/unirig-humanoid-workflow.json`. Its `Hy3DMeshUVWrap` node is what gives a generated mesh its UVs, which is why a Hy3D mesh can take a material straight from S11.
 - *Multiple angles:* `hy3d-multiview-workflow.json` wants front/left/right/back. `2d/workflows/sv3d-turnaround.json` makes them from a single image — four views in one batch (if you want only the views, that flow is the whole job).
 - *View:* the run ends in a viewer node — `Preview3D` on both Hy3D exports, `UniRigPreviewRiggedMesh` on the rig. The viewers read from `output/`, where the GLB/FBX already land.
-- *Textures:* the ComfyUI 3D viewer does not show GLB textures (both `Preview3D` and `Load3D` tested, plus a third-party viewer; it is a frontend limitation, not in your file - re-checked on 1.53.6, 2026-09-28: unchanged - and on every frontend upgrade, `PIPELINES.md`). Each Hy3D flow therefore also ends in a **Textured turntable**, which renders the textured mesh to a 12-frame 360° image batch.
+- *Textures:* the ComfyUI 3D viewer **does show GLB textures** since core v0.46 / frontend 1.59.6 (tested 2026-11-19 on `Load3D` and the Hy3D flows' `Preview3D`; before that update it was a frontend limitation, re-checked on 1.53.6 and 1.59.1). `Preview3D` is now **deprecated** — it still works, but the durable viewer is `Load3D` / the `Load3D (Advanced)` + `Preview 3D (Advanced)` pair, which read GLBs from `input/3d/`. Each Hy3D flow also ends in a **Textured turntable**, which renders the textured mesh to a 12-frame 360° image batch - still the delivery-oriented way to review the texture.
 - *PBR:* the generated texture is **base colour only** — one atlas, a constant roughness, no PBR maps (and our GLB omits `metallicFactor`, which glTF then defaults to **1.0**, i.e. fully metallic). Each flow also saves that **atlas as an image**; load it into `2d/workflows/pbr-material.json` to get PBR textures, then pack it for the target with `scripts/make_gltf_material.py` (glTF) or `scripts/pack_pbr_material.py` (Unity).
 - *Warning:* Hy3D runs under the **Tencent Hunyuan 3D Community License**, which **excludes the EU, UK and South Korea** and requires a licence from Tencent above 1M monthly users. UniRig (rigging) is MIT.
 - *More:* `3d/README.md`.
@@ -400,6 +410,8 @@
 - *Measured:* all three tested presets do what they say, identity holds, 115 s per cell ([`video/evidence/E18-camera-sheet.png`](video/evidence/E18-camera-sheet.png), E18). Weights: `wan2.1_fun_camera_v1.1_1.3B_bf16` (3.23 GB, Apache-2.0, official Comfy-Org repack).
 - *Traps:* the trajectory is a **preset** - a bespoke camera path needs the node's JSON pose input, which this flow does not expose. `Static` looks "broken" on a first glance because almost nothing moves; that is the point (compare S15/S28, where the camera wanders on its own).
 - *More:* [`video/README.md`](video/README.md), and E18 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
+	- **the orbit specialist**: `2d/workflows/sv3d-turnaround.json` - a **single image** to a 360° orbital video of the subject, no mesh, no text - the turnaround/product-view route. The weights are **non-commercial** (Stability); documented as the multiview source for 3D in S12.
 
 ### S30. Turn a generated clip into a VFX flipbook
 

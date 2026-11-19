@@ -1,4 +1,6 @@
 {
+ "id": "9ec699fb-ba8b-48e0-8491-d81a51e9cbb7",
+ "revision": 0,
  "last_node_id": 5,
  "last_link_id": 3,
  "nodes": [
@@ -6,9 +8,17 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    40,
-    120
+    -611.4285714285714,
+    202.2857230050223
    ],
+   "size": [
+    270,
+    102
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
@@ -23,29 +33,36 @@
      "links": []
     }
    ],
-   "widgets_values": [
-    "2d/char_heroine.png",
-    "image"
-   ],
-   "flags": {},
-   "mode": 0,
-   "size": [
-    270,
-    100
-   ],
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "LoadImage"
    },
-   "order": 0
+   "widgets_values": [
+    "char_heroine.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "char_heroine.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "OpenposePreprocessor",
    "pos": [
-    480,
-    120
+    -171.42857142857144,
+    202.2857230050223
    ],
+   "size": [
+    270,
+    174
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
    "inputs": [
     {
      "name": "image",
@@ -69,6 +86,11 @@
      ]
     }
    ],
+   "properties": {
+    "cnr_id": "comfyui_controlnet_aux",
+    "ver": "59b1fc411ede8623b2997855b8018f0b3b6cf49f",
+    "Node name for S&R": "OpenposePreprocessor"
+   },
    "widgets_values": [
     "enable",
     "enable",
@@ -76,24 +98,28 @@
     1024,
     "disable"
    ],
-   "flags": {},
-   "mode": 0,
-   "size": [
-    270,
-    100
-   ],
-   "properties": {
-    "Node name for S&R": "OpenposePreprocessor"
-   },
-   "order": 1
+   "widgets_values_named": {
+    "detect_hand": "enable",
+    "detect_body": "enable",
+    "detect_face": "enable",
+    "resolution": 1024,
+    "scale_stick_for_xinsr_cn": "disable"
+   }
   },
   {
    "id": 3,
    "type": "SaveImage",
    "pos": [
-    920,
-    120
+    181.71421595982133,
+    134.85726492745533
    ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
@@ -101,28 +127,41 @@
      "link": 2
     }
    ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "SaveImage"
+   },
    "widgets_values": [
     "2D/pose_extract"
    ],
-   "flags": {},
-   "mode": 0,
-   "size": [
-    270,
-    100
-   ],
-   "outputs": [],
-   "properties": {
-    "Node name for S&R": "SaveImage"
+   "widgets_values_named": {
+    "filename_prefix": "2D/pose_extract"
    },
-   "order": 2
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
    "type": "SavePoseKpsAsJsonFile",
    "pos": [
-    920,
-    380
+    172.5714111328125,
+    575.4285975864955
    ],
+   "size": [
+    270,
+    100
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [
     {
      "name": "pose_kps",
@@ -130,20 +169,18 @@
      "link": 3
     }
    ],
+   "outputs": [],
+   "properties": {
+    "cnr_id": "comfyui_controlnet_aux",
+    "ver": "59b1fc411ede8623b2997855b8018f0b3b6cf49f",
+    "Node name for S&R": "SavePoseKpsAsJsonFile"
+   },
    "widgets_values": [
     "2D/pose_keypoints"
    ],
-   "flags": {},
-   "mode": 0,
-   "size": [
-    270,
-    100
-   ],
-   "outputs": [],
-   "properties": {
-    "Node name for S&R": "SavePoseKpsAsJsonFile"
-   },
-   "order": 3
+   "widgets_values_named": {
+    "filename_prefix": "2D/pose_keypoints"
+   }
   },
   {
    "id": 5,
@@ -156,15 +193,20 @@
     420,
     320
    ],
-   "widgets_values": [
-    "# Pose from a photo\n\nExtracts a body pose from a photo and writes **two** things:\n\n* the skeleton **image** (`2D/pose_extract_*.png`) - what a ControlNet reads;\n* the **keypoints JSON** (`2D/pose_keypoints_*.json`) - 18 joints of `x, y, confidence`, editable and\n  measurable (`0 nose, 1 neck, 2/3/4 R shoulder/elbow/wrist, 5/6/7 L, 8/9/10 R hip/knee/ankle, 11/12/13 L,\n  14-17 eyes and ears`; R is the subject's right = image left).\n\n**How to use it:** take the skeleton image, put it in `input/` (or pick it straight out of `output/` with a\n`LoadImageOutput` node), and point `2d/workflows/pose-skeleton.json` at it. One photo per pose - S9's sprite\nframes are just several photos in, several skeletons out.\n\n**Trap - the detector needs a photoreal-enough person.** Measured on our own assets: `char_heroine` (the\nshipped default) yields all 18 joints, while the armoured `char_knight` yields **none** (`people: []`). So on\nstylised art this flow silently produces nothing - that is a limit of the detector, not a setting.\n`DensePosePreprocessor` reads `char_knight` perfectly, but its output cannot drive the union ControlNet\n(there is no densepose mode in its type list), so it is an inspection aid rather than a cue.\n\n**Knobs:** `resolution` (1024 keeps joints crisp on a 1024-square input), and `detect_hand`/`detect_face`\n(they add keypoints to the JSON; body joints are what a pose ControlNet uses).\n\n*How to run it: story **S16** in `HOWTO.md`  \u00b7  Why it is this way: extraction is its own operation (`image -> keypoints`), so S7 and S9 consume it rather than each carrying a private copy of the detector.*\n\nOutput is a cue, not a picture - it exists to drive `pose-skeleton.json`."
-   ],
    "flags": {},
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [],
    "properties": {},
-   "order": 0
+   "widgets_values": [
+    "# Pose from a photo\n\nExtracts a body pose from a photo and writes **two** things:\n\n* the skeleton **image** (`2D/pose_extract_*.png`) - what a ControlNet reads;\n* the **keypoints JSON** (`2D/pose_keypoints_*.json`) - 18 joints of `x, y, confidence`, editable and\n  measurable (`0 nose, 1 neck, 2/3/4 R shoulder/elbow/wrist, 5/6/7 L, 8/9/10 R hip/knee/ankle, 11/12/13 L,\n  14-17 eyes and ears`; R is the subject's right = image left).\n\n**How to use it:** take the skeleton image, put it in `input/` (or pick it straight out of `output/` with a\n`LoadImageOutput` node), and point `2d/workflows/pose-skeleton.json` at it. One photo per pose - S9's sprite\nframes are just several photos in, several skeletons out.\n\n**Trap - the detector needs a photoreal-enough person.** Measured on our own assets: `char_heroine` (the\nshipped default) yields all 18 joints, while the armoured `char_knight` yields **none** (`people: []`). So on\nstylised art this flow silently produces nothing - that is a limit of the detector, not a setting.\n`DensePosePreprocessor` reads `char_knight` perfectly, but its output cannot drive the union ControlNet\n(there is no densepose mode in its type list), so it is an inspection aid rather than a cue.\n\n**Knobs:** `resolution` (1024 keeps joints crisp on a 1024-square input), and `detect_hand`/`detect_face`\n(they add keypoints to the JSON; body joints are what a pose ControlNet uses).\n\n*How to run it: story **S16** in `HOWTO.md`  \u00b7  Why it is this way: extraction is its own operation (`image -> keypoints`), so S7 and S9 consume it rather than each carrying a private copy of the detector.*\n\nOutput is a cue, not a picture - it exists to drive `pose-skeleton.json`."
+   ],
+   "widgets_values_named": {
+    "text": "# Pose from a photo\n\nExtracts a body pose from a photo and writes **two** things:\n\n* the skeleton **image** (`2D/pose_extract_*.png`) - what a ControlNet reads;\n* the **keypoints JSON** (`2D/pose_keypoints_*.json`) - 18 joints of `x, y, confidence`, editable and\n  measurable (`0 nose, 1 neck, 2/3/4 R shoulder/elbow/wrist, 5/6/7 L, 8/9/10 R hip/knee/ankle, 11/12/13 L,\n  14-17 eyes and ears`; R is the subject's right = image left).\n\n**How to use it:** take the skeleton image, put it in `input/` (or pick it straight out of `output/` with a\n`LoadImageOutput` node), and point `2d/workflows/pose-skeleton.json` at it. One photo per pose - S9's sprite\nframes are just several photos in, several skeletons out.\n\n**Trap - the detector needs a photoreal-enough person.** Measured on our own assets: `char_heroine` (the\nshipped default) yields all 18 joints, while the armoured `char_knight` yields **none** (`people: []`). So on\nstylised art this flow silently produces nothing - that is a limit of the detector, not a setting.\n`DensePosePreprocessor` reads `char_knight` perfectly, but its output cannot drive the union ControlNet\n(there is no densepose mode in its type list), so it is an inspection aid rather than a cue.\n\n**Knobs:** `resolution` (1024 keeps joints crisp on a 1024-square input), and `detect_hand`/`detect_face`\n(they add keypoints to the JSON; body joints are what a pose ControlNet uses).\n\n*How to run it: story **S16** in `HOWTO.md`  \u00b7  Why it is this way: extraction is its own operation (`image -> keypoints`), so S7 and S9 consume it rather than each carrying a private copy of the detector.*\n\nOutput is a cue, not a picture - it exists to drive `pose-skeleton.json`."
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -199,10 +241,11 @@
   "ds": {
    "scale": 0.7,
    "offset": [
-    0,
-    0
+    770.285993303571,
+    342.85716465541276
    ]
-  }
+  },
+  "frontendVersion": "1.59.1"
  },
  "version": 0.4
 }

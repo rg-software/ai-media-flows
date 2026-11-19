@@ -1,4 +1,6 @@
 {
+ "id": "dd041876-85f4-4e52-a7fe-5593f0cb8ea3",
+ "revision": 0,
  "last_node_id": 6,
  "last_link_id": 5,
  "nodes": [
@@ -6,17 +8,17 @@
    "id": 1,
    "type": "LoadImage",
    "pos": [
-    40,
-    120
+    62.85718645368303,
+    1.14288330078125
    ],
    "size": [
     320,
     320
    ],
-   "widgets_values": [
-    "2d/env_cottage.png",
-    "image"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
@@ -34,13 +36,21 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "LoadImage"
    },
-   "order": 0
+   "widgets_values": [
+    "env_cottage.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "env_cottage.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
@@ -53,9 +63,10 @@
     380,
     60
    ],
-   "widgets_values": [
-    "4x-UltraSharp.safetensors"
-   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "UPSCALE_MODEL",
@@ -66,25 +77,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "UpscaleModelLoader"
    },
-   "order": 1
+   "widgets_values": [
+    "4x-UltraSharp.safetensors"
+   ],
+   "widgets_values_named": {
+    "model_name": "4x-UltraSharp.safetensors"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 3,
    "type": "ImageUpscaleWithModel",
    "pos": [
-    480,
-    120
+    490.28564453125,
+    268.5714503696987
    ],
    "size": [
     300,
     100
    ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
    "inputs": [
     {
      "name": "upscale_model",
@@ -108,28 +128,26 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ImageUpscaleWithModel"
-   },
-   "order": 2
+   }
   },
   {
    "id": 4,
    "type": "SaveImage",
    "pos": [
-    920,
-    120
+    850.2857317243303,
+    57.14284624372209
    ],
    "size": [
     400,
     300
    ],
-   "widgets_values": [
-    "2D/upscale/x4"
-   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
@@ -137,47 +155,63 @@
      "link": 3
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveImage"
    },
-   "order": 3
+   "widgets_values": [
+    "2D/upscale/x4"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/upscale/x4"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 5,
    "type": "ImageCompare",
    "pos": [
-    920,
-    380
+    603.4286934988838,
+    489.7142682756697
    ],
    "size": [
     420,
     460
    ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
    "inputs": [
     {
      "name": "image_a",
-     "type": "IMAGE",
      "shape": 7,
+     "type": "IMAGE",
      "link": 4
     },
     {
      "name": "image_b",
-     "type": "IMAGE",
      "shape": 7,
+     "type": "IMAGE",
      "link": 5
     }
    ],
-   "flags": {},
-   "mode": 0,
    "outputs": [],
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ImageCompare"
    },
-   "order": 4
+   "widgets_values": [],
+   "widgets_values_named": {}
   },
   {
    "id": 6,
@@ -191,14 +225,19 @@
     320
    ],
    "flags": {},
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [],
+   "properties": {},
    "widgets_values": [
     "## upscale.json\n\nx4 upscale (GAN) with a before/after slider\n\n**Does:** one x4 GAN pass - **faithful**, it invents nothing, so it cannot drift away from the source. The `ImageCompare` node at the end shows the source and the result in one viewport with a slider; the `SaveImage` is the deliverable (the comparer only previews, so nothing extra is written by it).\n**Which to use:** shippable output -> `upscale-seedvr2.json` (Apache-2.0). This flow -> when you want the source respected, and you accept the licence below.\n**Trap:** `4x-UltraSharp` is **non-commercial** - do not ship its output. The loader's model dropdown can be switched to `RealESRGAN_x4plus` (permissive; over-smooths concept art a little) if you need a clean licence without changing the flow.\n**Note:** the model multiplies by 4, so a 1024 px input becomes 4096 px.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  \u00b7  Why it is this way: **E4b** in the scenarios' `EXPERIMENTS` logs.*"
    ],
-   "properties": {},
-   "order": 0
+   "widgets_values_named": {
+    "text": "## upscale.json\n\nx4 upscale (GAN) with a before/after slider\n\n**Does:** one x4 GAN pass - **faithful**, it invents nothing, so it cannot drift away from the source. The `ImageCompare` node at the end shows the source and the result in one viewport with a slider; the `SaveImage` is the deliverable (the comparer only previews, so nothing extra is written by it).\n**Which to use:** shippable output -> `upscale-seedvr2.json` (Apache-2.0). This flow -> when you want the source respected, and you accept the licence below.\n**Trap:** `4x-UltraSharp` is **non-commercial** - do not ship its output. The loader's model dropdown can be switched to `RealESRGAN_x4plus` (permissive; over-smooths concept art a little) if you need a clean licence without changing the flow.\n**Note:** the model multiplies by 4, so a 1024 px input becomes 4096 px.\n\n---\n*How to run it: story **S10** in `HOWTO.md`  \u00b7  Why it is this way: **E4b** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -247,12 +286,13 @@
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.4781094187555498,
    "offset": [
-    0,
-    0
+    733.3838345734765,
+    437.8286813017223
    ]
-  }
+  },
+  "frontendVersion": "1.59.1"
  },
  "version": 0.4
 }
