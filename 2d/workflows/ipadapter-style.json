@@ -1,4 +1,6 @@
 {
+ "id": "bc2f6a49-4884-4d7f-8b2f-318eda60d2e5",
+ "revision": 0,
  "last_node_id": 12,
  "last_link_id": 13,
  "nodes": [
@@ -21,42 +23,49 @@
     {
      "name": "MODEL",
      "type": "MODEL",
+     "slot_index": 0,
      "links": [
       1
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "CLIP",
      "type": "CLIP",
+     "slot_index": 1,
      "links": [
       12,
       13
-     ],
-     "slot_index": 1
+     ]
     },
     {
      "name": "VAE",
      "type": "VAE",
+     "slot_index": 2,
      "links": [
       10
-     ],
-     "slot_index": 2
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
    "widgets_values": [
     "RealVisXL_V5.0_fp16.safetensors"
-   ]
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "CLIPVisionLoader",
    "pos": [
-    40,
-    380
+    65.20416772602198,
+    936.2299816035531
    ],
    "size": [
     340,
@@ -70,25 +79,30 @@
     {
      "name": "CLIP_VISION",
      "type": "CLIP_VISION",
+     "slot_index": 0,
      "links": [
       4
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPVisionLoader"
    },
    "widgets_values": [
     "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
-   ]
+   ],
+   "widgets_values_named": {
+    "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+   }
   },
   {
    "id": 3,
    "type": "IPAdapterModelLoader",
    "pos": [
-    40,
-    640
+    43.47648380046887,
+    801.654291988086
    ],
    "size": [
     360,
@@ -102,25 +116,30 @@
     {
      "name": "IPADAPTER",
      "type": "IPADAPTER",
+     "slot_index": 0,
      "links": [
       2
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui_ipadapter_plus",
+    "ver": "a0f451a5113cf9becb0847b92884cb10cbdec0ef",
     "Node name for S&R": "IPAdapterModelLoader"
    },
    "widgets_values": [
     "ip-adapter-plus_sdxl_vit-h.safetensors"
-   ]
+   ],
+   "widgets_values_named": {
+    "ipadapter_file": "ip-adapter-plus_sdxl_vit-h.safetensors"
+   }
   },
   {
    "id": 4,
    "type": "LoadImage",
    "pos": [
-    40,
-    900
+    69.54976418813538,
+    263.8119519101579
    ],
    "size": [
     320,
@@ -134,25 +153,33 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       3
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "MASK",
      "type": "MASK",
-     "links": [],
-     "slot_index": 1
+     "slot_index": 1,
+     "links": []
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/bg_forest.png",
+    "env_cottage.png",
     "image"
-   ]
+   ],
+   "widgets_values_named": {
+    "image": "env_cottage.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
@@ -163,10 +190,10 @@
    ],
    "size": [
     340,
-    240
+    278
    ],
    "flags": {},
-   "order": 4,
+   "order": 8,
    "mode": 0,
    "inputs": [
     {
@@ -186,16 +213,19 @@
     },
     {
      "name": "image_negative",
+     "shape": 7,
      "type": "IMAGE",
      "link": null
     },
     {
      "name": "attn_mask",
+     "shape": 7,
      "type": "MASK",
      "link": null
     },
     {
      "name": "clip_vision",
+     "shape": 7,
      "type": "CLIP_VISION",
      "link": 4
     }
@@ -204,37 +234,47 @@
     {
      "name": "MODEL",
      "type": "MODEL",
+     "slot_index": 0,
      "links": [
       5
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfyui_ipadapter_plus",
+    "ver": "a0f451a5113cf9becb0847b92884cb10cbdec0ef",
     "Node name for S&R": "IPAdapterAdvanced"
    },
    "widgets_values": [
     0.4,
     "linear",
     "concat",
-    0.0,
-    1.0,
+    0,
+    1,
     "V only"
-   ]
+   ],
+   "widgets_values_named": {
+    "weight": 0.4,
+    "weight_type": "linear",
+    "combine_embeds": "concat",
+    "start_at": 0,
+    "end_at": 1,
+    "embeds_scaling": "V only"
+   }
   },
   {
    "id": 6,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    380
+    478.26174152282033,
+    517.3192700775991
    ],
    "size": [
     440,
     130
    ],
    "flags": {},
-   "order": 5,
+   "order": 6,
    "mode": 0,
    "inputs": [
     {
@@ -247,32 +287,39 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       6
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
     "a snowy mountain range at dawn, concept art, highly detailed digital painting"
-   ]
+   ],
+   "widgets_values_named": {
+    "text": "a snowy mountain range at dawn, concept art, highly detailed digital painting"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 7,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    640
+    469.57064806026483,
+    700.8376210839982
    ],
    "size": [
     440,
     110
    ],
    "flags": {},
-   "order": 6,
+   "order": 7,
    "mode": 0,
    "inputs": [
     {
@@ -285,66 +332,82 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       7
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
     "blurry, lowres, text, watermark, jpeg artifacts, deformed"
-   ]
+   ],
+   "widgets_values_named": {
+    "text": "blurry, lowres, text, watermark, jpeg artifacts, deformed"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 8,
    "type": "EmptyLatentImage",
    "pos": [
-    40,
-    1160
+    98.23033282990008,
+    632.4506533459924
    ],
    "size": [
     300,
-    100
+    106
    ],
    "flags": {},
-   "order": 7,
+   "order": 4,
    "mode": 0,
    "inputs": [],
    "outputs": [
     {
      "name": "LATENT",
      "type": "LATENT",
+     "slot_index": 0,
      "links": [
       8
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "EmptyLatentImage"
    },
    "widgets_values": [
     1024,
     1024,
     1
-   ]
+   ],
+   "widgets_values_named": {
+    "width": 1024,
+    "height": 1024,
+    "batch_size": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 9,
    "type": "KSampler",
    "pos": [
-    920,
-    120
+    970.6691770006813,
+    212.73395630468355
    ],
    "size": [
     320,
     262
    ],
    "flags": {},
-   "order": 8,
+   "order": 9,
    "mode": 0,
    "inputs": [
     {
@@ -372,38 +435,49 @@
     {
      "name": "LATENT",
      "type": "LATENT",
+     "slot_index": 0,
      "links": [
       9
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "KSampler"
    },
    "widgets_values": [
     8101,
     "fixed",
     25,
-    7.0,
+    7,
     "euler",
     "normal",
-    1.0
-   ]
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 8101,
+    "control_after_generate": "fixed",
+    "steps": 25,
+    "cfg": 7,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 1
+   }
   },
   {
    "id": 10,
    "type": "VAEDecode",
    "pos": [
-    1360,
-    120
+    1329.4073801872282,
+    46.386449312938595
    ],
    "size": [
     240,
     60
    ],
    "flags": {},
-   "order": 9,
+   "order": 10,
    "mode": 0,
    "inputs": [
     {
@@ -421,30 +495,31 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       11
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 11,
    "type": "SaveImage",
    "pos": [
-    1800,
-    120
+    1381.0032349918583,
+    219.44332849194672
    ],
    "size": [
     380,
     300
    ],
    "flags": {},
-   "order": 10,
+   "order": 11,
    "mode": 0,
    "inputs": [
     {
@@ -453,20 +528,33 @@
      "link": 11
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveImage"
    },
    "widgets_values": [
     "2D/E11/ipadapter_style"
-   ]
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/E11/ipadapter_style"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 12,
    "type": "MarkdownNote",
    "pos": [
-    -1200,
-    -420
+    36.36321871715154,
+    -174.4210045013877
    ],
    "size": [
     720,
@@ -481,6 +569,9 @@
    "widgets_values": [
     "## ipadapter-style.json\n\nStyle reference (superseded)\n\n**Does:** transfers the style/look of a reference image (IPAdapter).\n**Knobs:** `weight` \u2014 0.0-0.2 style hint only; 0.3-0.5 blend; **>=0.6 the reference overrides\nthe prompt** (content takeover).\n**Superseded:** Qwen-Edit's multi-image reference does this without IPAdapter and with an\nApache-2.0 licence (E14c; see `qwen-edit-gguf.json`).\n\n---\n*How to run it: story **S8** in `HOWTO.md`  \u00b7  Why it is this way: **E11** in the scenarios' `EXPERIMENTS` logs.*"
    ],
+   "widgets_values_named": {
+    "text": "## ipadapter-style.json\n\nStyle reference (superseded)\n\n**Does:** transfers the style/look of a reference image (IPAdapter).\n**Knobs:** `weight` \u2014 0.0-0.2 style hint only; 0.3-0.5 blend; **>=0.6 the reference overrides\nthe prompt** (content takeover).\n**Superseded:** Qwen-Edit's multi-image reference does this without IPAdapter and with an\nApache-2.0 licence (E14c; see `qwen-edit-gguf.json`).\n\n---\n*How to run it: story **S8** in `HOWTO.md`  \u00b7  Why it is this way: **E11** in the scenarios' `EXPERIMENTS` logs.*"
+   },
    "color": "#332922",
    "bgcolor": "#593930"
   }
@@ -591,21 +682,17 @@
    "CLIP"
   ]
  ],
- "groups": [
-  {
-   "title": "Style reference (superseded)",
-   "bounding": [
-    -1260,
-    -280,
-    2560,
-    1060
-   ],
-   "color": "#3f789e",
-   "font_size": 20,
-   "flags": {}
-  }
- ],
+ "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.8368023314972852,
+   "offset": [
+    -235.68444778159585,
+    -30.882933413026798
+   ]
+  },
+  "frontendVersion": "1.59.1"
+ },
  "version": 0.4
 }

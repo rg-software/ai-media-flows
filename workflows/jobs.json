@@ -124,7 +124,7 @@
   },
   {
    "want": "Put a character in a specific pose",
-   "detail": "`2d/workflows/pose-extract.json` (get the pose from a photo) · `2d/workflows/qwen-edit-gguf.json` (instruction - best for a specific pose) · `2d/workflows/pose-skeleton.json` (skeleton cue - holds a **coarse stance** at `strength 1.5` + `end_percent 0.5`, but not limb angles)",
+   "detail": "`2d/workflows/pose-extract.json` (get the pose from a photo) · `2d/workflows/qwen-edit-gguf.json` (instruction - best for a specific pose) · `2d/workflows/pose-skeleton.json` (skeleton cue - holds a **coarse stance**)",
    "story": "S7",
    "category": "2d"
   },
