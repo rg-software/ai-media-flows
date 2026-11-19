@@ -1,648 +1,731 @@
 {
- "last_node_id": 13,
- "last_link_id": 12,
- "nodes": [
-  {
-   "id": 1,
-   "type": "LoadImage",
-   "pos": [
-    40,
-    120
-   ],
-   "size": [
-    320,
-    320
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
+  "id": "a583b6aa-e2a2-4ac5-9f75-15faec9a929a",
+  "revision": 0,
+  "last_node_id": 13,
+  "last_link_id": 12,
+  "nodes": [
     {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "links": [
-      5
-     ],
-     "slot_index": 0
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [
+        52.317547501945455,
+        104.60319777438167
+      ],
+      "size": [
+        320,
+        320
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            5
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "slot_index": 1,
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "2d/portrait_heroine.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "2d/portrait_heroine.png",
+        "upload": "image"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
     },
     {
-     "name": "MASK",
-     "type": "MASK",
-     "links": [],
-     "slot_index": 1
+      "id": 2,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        43.824095711236225,
+        502.37058865892584
+      ],
+      "size": [
+        360,
+        100
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "slot_index": 1,
+          "links": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "slot_index": 2,
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "RealVisXL_V5.0_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 3,
+      "type": "PulidModelLoader",
+      "pos": [
+        48.604233584921275,
+        935.4103178492534
+      ],
+      "size": [
+        357.85870744002995,
+        86.00002550565304
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "PULID",
+          "type": "PULID",
+          "slot_index": 0,
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "pulid_comfyui",
+        "ver": "93e0c4c226b87b23c0009d671978bad0e77289ff",
+        "Node name for S&R": "PulidModelLoader"
+      },
+      "widgets_values": [
+        "ip-adapter_pulid_sdxl_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "pulid_file": "ip-adapter_pulid_sdxl_fp16.safetensors"
+      }
+    },
+    {
+      "id": 4,
+      "type": "PulidEvaClipLoader",
+      "pos": [
+        51.4722506644292,
+        825.430461854409
+      ],
+      "size": [
+        355.9466231151323,
+        57.99996118690308
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "EVA_CLIP",
+          "type": "EVA_CLIP",
+          "slot_index": 0,
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "pulid_comfyui",
+        "ver": "93e0c4c226b87b23c0009d671978bad0e77289ff",
+        "Node name for S&R": "PulidEvaClipLoader"
+      }
+    },
+    {
+      "id": 5,
+      "type": "PulidInsightFaceLoader",
+      "pos": [
+        56.25235206883474,
+        1063.44196621872
+      ],
+      "size": [
+        352.1226003424551,
+        85.99997080173377
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FACEANALYSIS",
+          "type": "FACEANALYSIS",
+          "slot_index": 0,
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "pulid_comfyui",
+        "ver": "93e0c4c226b87b23c0009d671978bad0e77289ff",
+        "Node name for S&R": "PulidInsightFaceLoader"
+      },
+      "widgets_values": [
+        "CUDA"
+      ],
+      "widgets_values_named": {
+        "provider": "CUDA"
+      }
+    },
+    {
+      "id": 6,
+      "type": "ApplyPulid",
+      "pos": [
+        496.25238853811425,
+        61.68275921932451
+      ],
+      "size": [
+        340,
+        240
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        },
+        {
+          "name": "pulid",
+          "type": "PULID",
+          "link": 2
+        },
+        {
+          "name": "eva_clip",
+          "type": "EVA_CLIP",
+          "link": 3
+        },
+        {
+          "name": "face_analysis",
+          "type": "FACEANALYSIS",
+          "link": 4
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 5
+        },
+        {
+          "name": "attn_mask",
+          "shape": 7,
+          "type": "MASK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "pulid_comfyui",
+        "ver": "93e0c4c226b87b23c0009d671978bad0e77289ff",
+        "Node name for S&R": "ApplyPulid"
+      },
+      "widgets_values": [
+        "fidelity",
+        1,
+        0,
+        1
+      ],
+      "widgets_values_named": {
+        "method": "fidelity",
+        "weight": 1,
+        "start_at": 0,
+        "end_at": 1
+      }
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": [
+        501.98849563568905,
+        401.03241700396075
+      ],
+      "size": [
+        460,
+        160
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "a fantasy sorceress with long auburn hair standing on a forest path, wearing blue and gold mage robes, misty pine forest, god rays, environment concept art, highly detailed digital painting"
+      ],
+      "widgets_values_named": {
+        "text": "a fantasy sorceress with long auburn hair standing on a forest path, wearing blue and gold mage robes, misty pine forest, god rays, environment concept art, highly detailed digital painting"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 8,
+      "type": "CLIPTextEncode",
+      "pos": [
+        498.48751777741256,
+        639.3539343138616
+      ],
+      "size": [
+        320,
+        120
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "blurry, lowres, text, watermark, jpeg artifacts, deformed, extra limbs, distorted face"
+      ],
+      "widgets_values_named": {
+        "text": "blurry, lowres, text, watermark, jpeg artifacts, deformed, extra limbs, distorted face"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 9,
+      "type": "EmptyLatentImage",
+      "pos": [
+        42.8680535487874,
+        652.3156852770472
+      ],
+      "size": [
+        300,
+        106
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ],
+      "widgets_values_named": {
+        "width": 1024,
+        "height": 1024,
+        "batch_size": 1
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 10,
+      "type": "KSampler",
+      "pos": [
+        1007.9538366656383,
+        116.17594075804328
+      ],
+      "size": [
+        320,
+        300
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 8
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 9
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 11
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        14001,
+        "randomize",
+        30,
+        5,
+        "euler",
+        "normal",
+        1
+      ],
+      "widgets_values_named": {
+        "seed": 14001,
+        "control_after_generate": "randomize",
+        "steps": 30,
+        "cfg": 5,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 1
+      }
+    },
+    {
+      "id": 11,
+      "type": "VAEDecode",
+      "pos": [
+        1058.4262122081639,
+        553.9099100281558
+      ],
+      "size": [
+        220,
+        60
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 13
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            14
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 12,
+      "type": "SaveImage",
+      "pos": [
+        1418.2611018441737,
+        187.44052896607377
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "2D/U5/pulid_character"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "2D/U5/pulid_character"
+      },
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 13,
+      "type": "MarkdownNote",
+      "pos": [
+        45.967596835324315,
+        -197.31945099512498
+      ],
+      "size": [
+        720,
+        200
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "## pulid-identity.json\n\nIdentity + free composition\n\nU5 - PuLID (SDXL v1.1) identity with COMPOSITIONAL FREEDOM. Same prompt, seed, steps and cfg as the E14b InstantID run, so the two are directly comparable. RESULT: InstantID returned a bust (face = 33.0% of frame, cos 0.823); PuLID returned the full-body path scene the prompt asked for (face = 9.8% of frame, cos 0.313). Both sit far above the prompt-level baseline (0.143). So the two are NOT ranked - they are different jobs: InstantID for tight identity portraits, PuLID for identity inside a free composition. method='fidelity' favours resemblance, 'style' frees the checkpoint; ApplyPulidAdvanced adds a fidelity slider and projection. Needs facexlib + insightface/antelopev2 + EVA-CLIP (auto-downloaded) + cubiq/PuLID_ComfyUI + ip-adapter_pulid_sdxl_fp16.safetensors. Use a SHARP reference - the EVA-CLIP path is sensitive to reference quality.\n\n---\n*How to run it: story **S7** in `HOWTO.md`  ·  Why it is this way: **U5** in the scenarios' `EXPERIMENTS` logs.*"
+      ],
+      "widgets_values_named": {
+        "text": "## pulid-identity.json\n\nIdentity + free composition\n\nU5 - PuLID (SDXL v1.1) identity with COMPOSITIONAL FREEDOM. Same prompt, seed, steps and cfg as the E14b InstantID run, so the two are directly comparable. RESULT: InstantID returned a bust (face = 33.0% of frame, cos 0.823); PuLID returned the full-body path scene the prompt asked for (face = 9.8% of frame, cos 0.313). Both sit far above the prompt-level baseline (0.143). So the two are NOT ranked - they are different jobs: InstantID for tight identity portraits, PuLID for identity inside a free composition. method='fidelity' favours resemblance, 'style' frees the checkpoint; ApplyPulidAdvanced adds a fidelity slider and projection. Needs facexlib + insightface/antelopev2 + EVA-CLIP (auto-downloaded) + cubiq/PuLID_ComfyUI + ip-adapter_pulid_sdxl_fp16.safetensors. Use a SHARP reference - the EVA-CLIP path is sensitive to reference quality.\n\n---\n*How to run it: story **S7** in `HOWTO.md`  ·  Why it is this way: **U5** in the scenarios' `EXPERIMENTS` logs.*"
+      },
+      "color": "#332922",
+      "bgcolor": "#593930"
     }
-   ],
-   "properties": {
-    "Node name for S&R": "LoadImage"
-   },
-   "widgets_values": [
-    "2d/portrait_heroine.png",
-    "image"
-   ]
-  },
-  {
-   "id": 2,
-   "type": "CheckpointLoaderSimple",
-   "pos": [
-    40,
-    380
-   ],
-   "size": [
-    360,
-    100
-   ],
-   "flags": {},
-   "order": 1,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "MODEL",
-     "type": "MODEL",
-     "links": [
-      1
-     ],
-     "slot_index": 0
-    },
-    {
-     "name": "CLIP",
-     "type": "CLIP",
-     "links": [
+  ],
+  "links": [
+    [
+      1,
+      2,
+      0,
       6,
-      7
-     ],
-     "slot_index": 1
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      3,
+      0,
+      6,
+      1,
+      "PULID"
+    ],
+    [
+      3,
+      4,
+      0,
+      6,
+      2,
+      "EVA_CLIP"
+    ],
+    [
+      4,
+      5,
+      0,
+      6,
+      3,
+      "FACEANALYSIS"
+    ],
+    [
+      5,
+      1,
+      0,
+      6,
+      4,
+      "IMAGE"
+    ],
+    [
+      6,
+      2,
+      1,
+      7,
+      0,
+      "CLIP"
+    ],
+    [
+      7,
+      2,
+      1,
+      8,
+      0,
+      "CLIP"
+    ],
+    [
+      8,
+      6,
+      0,
+      10,
+      0,
+      "MODEL"
+    ],
+    [
+      9,
+      7,
+      0,
+      10,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      10,
+      2,
+      2,
+      11,
+      1,
+      "VAE"
+    ],
+    [
+      11,
+      8,
+      0,
+      10,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      9,
+      0,
+      10,
+      3,
+      "LATENT"
+    ],
+    [
+      13,
+      10,
+      0,
+      11,
+      0,
+      "LATENT"
+    ],
+    [
+      14,
+      11,
+      0,
+      12,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.6287019770828587,
+      "offset": [
+        240.22831298598564,
+        248.55692079481872
+      ]
     },
-    {
-     "name": "VAE",
-     "type": "VAE",
-     "links": [
-      10
-     ],
-     "slot_index": 2
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CheckpointLoaderSimple"
-   },
-   "widgets_values": [
-    "RealVisXL_V5.0_fp16.safetensors"
-   ]
+    "frontendVersion": "1.59.1"
   },
-  {
-   "id": 3,
-   "type": "PulidModelLoader",
-   "pos": [
-    40,
-    640
-   ],
-   "size": [
-    420,
-    60
-   ],
-   "flags": {},
-   "order": 2,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "PULID",
-     "type": "PULID",
-     "links": [
-      2
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "PulidModelLoader"
-   },
-   "widgets_values": [
-    "ip-adapter_pulid_sdxl_fp16.safetensors"
-   ]
-  },
-  {
-   "id": 4,
-   "type": "PulidEvaClipLoader",
-   "pos": [
-    40,
-    900
-   ],
-   "size": [
-    420,
-    60
-   ],
-   "flags": {},
-   "order": 3,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "EVA_CLIP",
-     "type": "EVA_CLIP",
-     "links": [
-      3
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "PulidEvaClipLoader"
-   },
-   "widgets_values": []
-  },
-  {
-   "id": 5,
-   "type": "PulidInsightFaceLoader",
-   "pos": [
-    40,
-    1160
-   ],
-   "size": [
-    420,
-    60
-   ],
-   "flags": {},
-   "order": 4,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "FACEANALYSIS",
-     "type": "FACEANALYSIS",
-     "links": [
-      4
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "PulidInsightFaceLoader"
-   },
-   "widgets_values": [
-    "CUDA"
-   ]
-  },
-  {
-   "id": 6,
-   "type": "ApplyPulid",
-   "pos": [
-    480,
-    120
-   ],
-   "size": [
-    340,
-    240
-   ],
-   "flags": {},
-   "order": 5,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 1
-    },
-    {
-     "name": "pulid",
-     "type": "PULID",
-     "link": 2
-    },
-    {
-     "name": "eva_clip",
-     "type": "EVA_CLIP",
-     "link": 3
-    },
-    {
-     "name": "face_analysis",
-     "type": "FACEANALYSIS",
-     "link": 4
-    },
-    {
-     "name": "image",
-     "type": "IMAGE",
-     "link": 5
-    },
-    {
-     "name": "attn_mask",
-     "type": "MASK",
-     "link": null,
-     "shape": 7
-    }
-   ],
-   "outputs": [
-    {
-     "name": "MODEL",
-     "type": "MODEL",
-     "links": [
-      8
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ApplyPulid"
-   },
-   "widgets_values": [
-    "fidelity",
-    1.0,
-    0.0,
-    1.0
-   ]
-  },
-  {
-   "id": 7,
-   "type": "CLIPTextEncode",
-   "pos": [
-    480,
-    380
-   ],
-   "size": [
-    460,
-    160
-   ],
-   "flags": {},
-   "order": 6,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 6
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "links": [
-      9
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "widgets_values": [
-    "a fantasy sorceress with long auburn hair standing on a forest path, wearing blue and gold mage robes, misty pine forest, god rays, environment concept art, highly detailed digital painting"
-   ]
-  },
-  {
-   "id": 8,
-   "type": "CLIPTextEncode",
-   "pos": [
-    480,
-    640
-   ],
-   "size": [
-    320,
-    120
-   ],
-   "flags": {},
-   "order": 7,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 7
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "links": [
-      11
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "widgets_values": [
-    "blurry, lowres, text, watermark, jpeg artifacts, deformed, extra limbs, distorted face"
-   ]
-  },
-  {
-   "id": 9,
-   "type": "EmptyLatentImage",
-   "pos": [
-    40,
-    1420
-   ],
-   "size": [
-    300,
-    100
-   ],
-   "flags": {},
-   "order": 8,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "links": [
-      12
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "EmptyLatentImage"
-   },
-   "widgets_values": [
-    1024,
-    1024,
-    1
-   ]
-  },
-  {
-   "id": 10,
-   "type": "KSampler",
-   "pos": [
-    920,
-    120
-   ],
-   "size": [
-    320,
-    300
-   ],
-   "flags": {},
-   "order": 9,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 8
-    },
-    {
-     "name": "positive",
-     "type": "CONDITIONING",
-     "link": 9
-    },
-    {
-     "name": "negative",
-     "type": "CONDITIONING",
-     "link": 11
-    },
-    {
-     "name": "latent_image",
-     "type": "LATENT",
-     "link": 12
-    }
-   ],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "links": [
-      13
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "KSampler"
-   },
-   "widgets_values": [
-    14001,
-    "randomize",
-    30,
-    5.0,
-    "euler",
-    "normal",
-    1.0
-   ]
-  },
-  {
-   "id": 11,
-   "type": "VAEDecode",
-   "pos": [
-    1360,
-    120
-   ],
-   "size": [
-    220,
-    60
-   ],
-   "flags": {},
-   "order": 10,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "samples",
-     "type": "LATENT",
-     "link": 13
-    },
-    {
-     "name": "vae",
-     "type": "VAE",
-     "link": 10
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "links": [
-      14
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
-  },
-  {
-   "id": 12,
-   "type": "SaveImage",
-   "pos": [
-    1800,
-    120
-   ],
-   "size": [
-    400,
-    300
-   ],
-   "flags": {},
-   "order": 11,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 14
-    }
-   ],
-   "outputs": [],
-   "properties": {
-    "Node name for S&R": "SaveImage"
-   },
-   "widgets_values": [
-    "2D/U5/pulid_character"
-   ]
-  },
-  {
-   "id": 13,
-   "type": "MarkdownNote",
-   "pos": [
-    -1180,
-    -340
-   ],
-   "size": [
-    720,
-    200
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "properties": {},
-   "widgets_values": [
-    "## pulid-identity.json\n\nIdentity + free composition\n\nU5 - PuLID (SDXL v1.1) identity with COMPOSITIONAL FREEDOM. Same prompt, seed, steps and cfg as the E14b InstantID run, so the two are directly comparable. RESULT: InstantID returned a bust (face = 33.0% of frame, cos 0.823); PuLID returned the full-body path scene the prompt asked for (face = 9.8% of frame, cos 0.313). Both sit far above the prompt-level baseline (0.143). So the two are NOT ranked - they are different jobs: InstantID for tight identity portraits, PuLID for identity inside a free composition. method='fidelity' favours resemblance, 'style' frees the checkpoint; ApplyPulidAdvanced adds a fidelity slider and projection. Needs facexlib + insightface/antelopev2 + EVA-CLIP (auto-downloaded) + cubiq/PuLID_ComfyUI + ip-adapter_pulid_sdxl_fp16.safetensors. Use a SHARP reference - the EVA-CLIP path is sensitive to reference quality.\n\n---\n*How to run it: story **S7** in `HOWTO.md`  \u00b7  Why it is this way: **U5** in the scenarios' `EXPERIMENTS` logs.*"
-   ],
-   "color": "#332922",
-   "bgcolor": "#593930"
-  }
- ],
- "links": [
-  [
-   1,
-   2,
-   0,
-   6,
-   0,
-   "MODEL"
-  ],
-  [
-   2,
-   3,
-   0,
-   6,
-   1,
-   "PULID"
-  ],
-  [
-   3,
-   4,
-   0,
-   6,
-   2,
-   "EVA_CLIP"
-  ],
-  [
-   4,
-   5,
-   0,
-   6,
-   3,
-   "FACEANALYSIS"
-  ],
-  [
-   5,
-   1,
-   0,
-   6,
-   4,
-   "IMAGE"
-  ],
-  [
-   6,
-   2,
-   1,
-   7,
-   0,
-   "CLIP"
-  ],
-  [
-   7,
-   2,
-   1,
-   8,
-   0,
-   "CLIP"
-  ],
-  [
-   8,
-   6,
-   0,
-   10,
-   0,
-   "MODEL"
-  ],
-  [
-   9,
-   7,
-   0,
-   10,
-   1,
-   "CONDITIONING"
-  ],
-  [
-   10,
-   2,
-   2,
-   11,
-   1,
-   "VAE"
-  ],
-  [
-   11,
-   8,
-   0,
-   10,
-   2,
-   "CONDITIONING"
-  ],
-  [
-   12,
-   9,
-   0,
-   10,
-   3,
-   "LATENT"
-  ],
-  [
-   13,
-   10,
-   0,
-   11,
-   0,
-   "LATENT"
-  ],
-  [
-   14,
-   11,
-   0,
-   12,
-   0,
-   "IMAGE"
-  ]
- ],
- "groups": [
-  {
-   "title": "Identity + free composition",
-   "bounding": [
-    -1240,
-    -180,
-    2500,
-    1000
-   ],
-   "color": "#6b3f9e",
-   "font_size": 22,
-   "flags": {}
-  }
- ],
- "config": {},
- "extra": {},
- "version": 0.4
+  "version": 0.4
 }

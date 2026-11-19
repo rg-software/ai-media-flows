@@ -1,4 +1,6 @@
 {
+ "id": "56a2a575-b622-4169-8676-9a86cc798131",
+ "revision": 0,
  "last_node_id": 14,
  "last_link_id": 17,
  "nodes": [
@@ -21,120 +23,51 @@
     {
      "name": "MODEL",
      "type": "MODEL",
+     "slot_index": 0,
      "links": [
       10
-     ],
-     "slot_index": 0
+     ]
     },
     {
      "name": "CLIP",
      "type": "CLIP",
+     "slot_index": 1,
      "links": [
       1,
       2,
       3,
       4
-     ],
-     "slot_index": 1
+     ]
     },
     {
      "name": "VAE",
      "type": "VAE",
+     "slot_index": 2,
      "links": [
       15
-     ],
-     "slot_index": 2
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
    "widgets_values": [
     "RealVisXL_V5.0_fp16.safetensors"
-   ]
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    120
-   ],
-   "size": [
-    440,
-    120
-   ],
-   "flags": {},
-   "order": 1,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 1
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "links": [
-      5
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "widgets_values": [
-    "fantasy game concept art, ornate detailed painting, lush medieval garden background, soft daylight, highly detailed"
-   ]
-  },
-  {
-   "id": 3,
-   "type": "CLIPTextEncode",
-   "pos": [
-    480,
-    380
-   ],
-   "size": [
-    440,
-    120
-   ],
-   "flags": {},
-   "order": 2,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 2
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "links": [
-      6
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "widgets_values": [
-    "a heroic knight in ornate polished silver plate armor, full body, standing facing viewer"
-   ]
-  },
-  {
-   "id": 4,
-   "type": "CLIPTextEncode",
-   "pos": [
-    480,
-    640
+    482.4233368181858,
+    168.46569640418042
    ],
    "size": [
     440,
@@ -147,32 +80,39 @@
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 3
+     "link": 1
     }
    ],
    "outputs": [
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
-      7
-     ],
-     "slot_index": 0
+      5
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
-    "a sorceress with long auburn hair in blue and gold mage robes, full body, standing facing viewer"
-   ]
+    "fantasy game concept art, ornate detailed painting, lush medieval garden background, soft daylight, highly detailed"
+   ],
+   "widgets_values_named": {
+    "text": "fantasy game concept art, ornate detailed painting, lush medieval garden background, soft daylight, highly detailed"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
-   "id": 5,
+   "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    900
+    484.8466736363715,
+    376.36508721356887
    ],
    "size": [
     440,
@@ -185,6 +125,96 @@
     {
      "name": "clip",
      "type": "CLIP",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      6
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "a heroic knight in ornate polished silver plate armor, full body, standing facing viewer"
+   ],
+   "widgets_values_named": {
+    "text": "a heroic knight in ornate polished silver plate armor, full body, standing facing viewer"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 4,
+   "type": "CLIPTextEncode",
+   "pos": [
+    486.0582958250406,
+    637.5767556226617
+   ],
+   "size": [
+    440,
+    120
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      7
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "a sorceress with long auburn hair in blue and gold mage robes, full body, standing facing viewer"
+   ],
+   "widgets_values_named": {
+    "text": "a sorceress with long auburn hair in blue and gold mage robes, full body, standing facing viewer"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 5,
+   "type": "CLIPTextEncode",
+   "pos": [
+    485.0467908818756,
+    899.068978566147
+   ],
+   "size": [
+    440,
+    120
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
      "link": 4
     }
    ],
@@ -192,32 +222,39 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       11
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
     "blurry, lowres, text, watermark, signature, jpeg artifacts, deformed, extra limbs, cropped"
-   ]
+   ],
+   "widgets_values_named": {
+    "text": "blurry, lowres, text, watermark, signature, jpeg artifacts, deformed, extra limbs, cropped"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 6,
    "type": "ConditioningSetAreaPercentage",
    "pos": [
-    920,
-    120
+    1032.682527481483,
+    468.9525056854374
    ],
    "size": [
     320,
     160
    ],
    "flags": {},
-   "order": 5,
+   "order": 7,
    "mode": 0,
    "inputs": [
     {
@@ -230,36 +267,47 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       8
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ConditioningSetAreaPercentage"
    },
    "widgets_values": [
     0.5,
-    1.0,
-    0.0,
-    0.0,
-    1.0
-   ]
+    1,
+    0,
+    0,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 0.5,
+    "height": 1,
+    "x": 0,
+    "y": 0,
+    "strength": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 7,
    "type": "ConditioningSetAreaPercentage",
    "pos": [
-    920,
-    380
+    1046.0106488793858,
+    731.3757962831994
    ],
    "size": [
     320,
     160
    ],
    "flags": {},
-   "order": 6,
+   "order": 8,
    "mode": 0,
    "inputs": [
     {
@@ -272,36 +320,47 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       9
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ConditioningSetAreaPercentage"
    },
    "widgets_values": [
     0.5,
-    1.0,
+    1,
     0.5,
-    0.0,
-    1.0
-   ]
+    0,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 0.5,
+    "height": 1,
+    "x": 0.5,
+    "y": 0,
+    "strength": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 8,
    "type": "ConditioningCombine",
    "pos": [
-    1360,
-    120
+    1384.2329059776198,
+    77.59266875149592
    ],
    "size": [
     280,
     100
    ],
    "flags": {},
-   "order": 7,
+   "order": 9,
    "mode": 0,
    "inputs": [
     {
@@ -319,30 +378,31 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       12
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ConditioningCombine"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 9,
    "type": "ConditioningCombine",
    "pos": [
-    1800,
-    120
+    1752.7459951151245,
+    122.42329059776199
    ],
    "size": [
     280,
     100
    ],
    "flags": {},
-   "order": 8,
+   "order": 10,
    "mode": 0,
    "inputs": [
     {
@@ -360,64 +420,74 @@
     {
      "name": "CONDITIONING",
      "type": "CONDITIONING",
+     "slot_index": 0,
      "links": [
       13
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "ConditioningCombine"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 10,
    "type": "EmptyLatentImage",
    "pos": [
-    40,
-    380
+    38.63211563261892,
+    279.46087730574243
    ],
    "size": [
     300,
-    100
+    106
    ],
    "flags": {},
-   "order": 9,
+   "order": 1,
    "mode": 0,
    "inputs": [],
    "outputs": [
     {
      "name": "LATENT",
      "type": "LATENT",
+     "slot_index": 0,
      "links": [
       14
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "EmptyLatentImage"
    },
    "widgets_values": [
     1536,
     768,
     1
-   ]
+   ],
+   "widgets_values_named": {
+    "width": 1536,
+    "height": 768,
+    "batch_size": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 11,
    "type": "KSampler",
    "pos": [
-    2240,
-    120
+    2139.4337868460557,
+    145.44445883565336
    ],
    "size": [
     320,
     300
    ],
    "flags": {},
-   "order": 10,
+   "order": 11,
    "mode": 0,
    "inputs": [
     {
@@ -445,38 +515,49 @@
     {
      "name": "LATENT",
      "type": "LATENT",
+     "slot_index": 0,
      "links": [
       16
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "KSampler"
    },
    "widgets_values": [
     15001,
     "randomize",
     25,
-    7.0,
+    7,
     "euler",
     "normal",
-    1.0
-   ]
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 15001,
+    "control_after_generate": "randomize",
+    "steps": 25,
+    "cfg": 7,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 1
+   }
   },
   {
    "id": 12,
    "type": "VAEDecode",
    "pos": [
-    2680,
-    120
+    2356.4918838195804,
+    630.1007757915247
    ],
    "size": [
     220,
     60
    ],
    "flags": {},
-   "order": 11,
+   "order": 12,
    "mode": 0,
    "inputs": [
     {
@@ -494,30 +575,31 @@
     {
      "name": "IMAGE",
      "type": "IMAGE",
+     "slot_index": 0,
      "links": [
       17
-     ],
-     "slot_index": 0
+     ]
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 13,
    "type": "SaveImage",
    "pos": [
-    3120,
-    120
+    2612.322537916449,
+    87.28569248127255
    ],
    "size": [
     400,
     300
    ],
    "flags": {},
-   "order": 12,
+   "order": 13,
    "mode": 0,
    "inputs": [
     {
@@ -526,20 +608,33 @@
      "link": 17
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.37.0",
     "Node name for S&R": "SaveImage"
    },
    "widgets_values": [
     "2D/E15/regional"
-   ]
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/E15/regional"
+   },
+   "color": "#332922",
+   "bgcolor": "#593930"
   },
   {
    "id": 14,
    "type": "MarkdownNote",
    "pos": [
-    -1200,
-    -220
+    58.33074019325363,
+    -199.2584051436927
    ],
    "size": [
     720,
@@ -554,6 +649,9 @@
    "widgets_values": [
     "## regional-prompting.json\n\nRegional prompting\n\nE15 - regional prompting, core nodes only (no install). Pattern: a GLOBAL style prompt combined with per-region prompts, each wrapped in ConditioningSetAreaPercentage, then ConditioningCombine chains them. RESULT vs a single prompt containing both subjects: the single prompt DROPPED one subject entirely (only the sorceress rendered); regional rendered BOTH in their assigned halves. Objective separation score 9.9 -> 30.0, and the sorceress's blue fell from 9.7% to 0.2% on the left half. CAVEAT: the metric was nearly fooled - the baseline's 'silver on the left' was pale castle masonry, not a knight, so ALWAYS look at the image. For irregular (non-rectangular) regions, swap ConditioningSetAreaPercentage for ConditioningSetMaskAndCombine (also core) with masks from E3/SAM.\n\n---\n*How to run it: story **S6** in `HOWTO.md`  \u00b7  Why it is this way: **E15** in the scenarios' `EXPERIMENTS` logs.*"
    ],
+   "widgets_values_named": {
+    "text": "## regional-prompting.json\n\nRegional prompting\n\nE15 - regional prompting, core nodes only (no install). Pattern: a GLOBAL style prompt combined with per-region prompts, each wrapped in ConditioningSetAreaPercentage, then ConditioningCombine chains them. RESULT vs a single prompt containing both subjects: the single prompt DROPPED one subject entirely (only the sorceress rendered); regional rendered BOTH in their assigned halves. Objective separation score 9.9 -> 30.0, and the sorceress's blue fell from 9.7% to 0.2% on the left half. CAVEAT: the metric was nearly fooled - the baseline's 'silver on the left' was pale castle masonry, not a knight, so ALWAYS look at the image. For irregular (non-rectangular) regions, swap ConditioningSetAreaPercentage for ConditioningSetMaskAndCombine (also core) with masks from E3/SAM.\n\n---\n*How to run it: story **S6** in `HOWTO.md`  \u00b7  Why it is this way: **E15** in the scenarios' `EXPERIMENTS` logs.*"
+   },
    "color": "#332922",
    "bgcolor": "#593930"
   }
@@ -696,21 +794,17 @@
    "IMAGE"
   ]
  ],
- "groups": [
-  {
-   "title": "Regional prompting",
-   "bounding": [
-    -1260,
-    -80,
-    3100,
-    700
-   ],
-   "color": "#9e3f6b",
-   "font_size": 22,
-   "flags": {}
-  }
- ],
+ "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.49606442917508425,
+   "offset": [
+    81.24834950768678,
+    396.8522233091277
+   ]
+  },
+  "frontendVersion": "1.59.1"
+ },
  "version": 0.4
 }

@@ -1,823 +1,941 @@
 {
- "last_node_id": 18,
- "last_link_id": 19,
- "nodes": [
-  {
-   "id": 1,
-   "type": "LoadImage",
-   "pos": [
-    40,
-    120
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
+  "id": "cecd3b43-4937-4a66-aeab-f3aa8013fea1",
+  "revision": 0,
+  "last_node_id": 18,
+  "last_link_id": 19,
+  "nodes": [
     {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "links": [
-      1
-     ],
-     "slot_index": 0
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [
+        40,
+        120
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "slot_index": 1,
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "arms_spread.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "arms_spread.png",
+        "upload": "image"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
     },
     {
-     "name": "MASK",
-     "type": "MASK",
-     "links": [],
-     "slot_index": 1
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [
+        40,
+        520.8282544418698
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            2
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "slot_index": 1,
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "char_knight.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "char_knight.png",
+        "upload": "image"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 5,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        43.67765297717288,
+        940.4575950232716
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            4
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "slot_index": 1,
+          "links": [
+            5,
+            6
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "slot_index": 2,
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "RealVisXL_V5.0_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": [
+        485.42690381289503,
+        115.65852663371419
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "full body game character concept art of a single heroic fantasy knight in ornate plate armor, standing with both arms outstretched to the sides, solo, arms and legs fully visible, plain light gray background, no border, no frame, no text, clean silhouette, highly detailed digital painting, neutral studio lighting"
+      ],
+      "widgets_values_named": {
+        "text": "full body game character concept art of a single heroic fantasy knight in ornate plate armor, standing with both arms outstretched to the sides, solo, arms and legs fully visible, plain light gray background, no border, no frame, no text, clean silhouette, highly detailed digital painting, neutral studio lighting"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": [
+        480,
+        315.9634955657557
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "blurry, lowres, text, watermark, extra limbs, cropped, character sheet, multiple views, multiple figures, border, frame, deformed, arms at sides, hands on hips"
+      ],
+      "widgets_values_named": {
+        "text": "blurry, lowres, text, watermark, extra limbs, cropped, character sheet, multiple views, multiple figures, border, frame, deformed, arms at sides, hands on hips"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 8,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [
+        920,
+        120
+      ],
+      "size": [
+        360,
+        186
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 8
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 9
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 11
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            12
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "slot_index": 1,
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        1.5,
+        0,
+        0.5
+      ],
+      "widgets_values_named": {
+        "strength": 1.5,
+        "start_percent": 0,
+        "end_percent": 0.5
+      }
+    },
+    {
+      "id": 9,
+      "type": "ControlNetLoader",
+      "pos": [
+        -403.913871358311,
+        448.4884881456511
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "slot_index": 0,
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "ControlNetLoader"
+      },
+      "widgets_values": [
+        "controlnet-union-sdxl.safetensors"
+      ],
+      "widgets_values_named": {
+        "control_net_name": "controlnet-union-sdxl.safetensors"
+      }
+    },
+    {
+      "id": 10,
+      "type": "SetUnionControlNetType",
+      "pos": [
+        -366.5840769637748,
+        127.7080059294039
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "slot_index": 0,
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "SetUnionControlNetType"
+      },
+      "widgets_values": [
+        "openpose"
+      ],
+      "widgets_values_named": {
+        "type": "openpose"
+      }
+    },
+    {
+      "id": 11,
+      "type": "CLIPVisionLoader",
+      "pos": [
+        -408.25532402291753,
+        645.5375073155725
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP_VISION",
+          "type": "CLIP_VISION",
+          "slot_index": 0,
+          "links": [
+            14
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "CLIPVisionLoader"
+      },
+      "widgets_values": [
+        "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+      ],
+      "widgets_values_named": {
+        "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+      }
+    },
+    {
+      "id": 12,
+      "type": "IPAdapterModelLoader",
+      "pos": [
+        -408.2553240229176,
+        850.1838150529849
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IPADAPTER",
+          "type": "IPADAPTER",
+          "slot_index": 0,
+          "links": [
+            15
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_ipadapter_plus",
+        "ver": "a0f451a5113cf9becb0847b92884cb10cbdec0ef",
+        "Node name for S&R": "IPAdapterModelLoader"
+      },
+      "widgets_values": [
+        "ip-adapter-plus_sdxl_vit-h.safetensors"
+      ],
+      "widgets_values_named": {
+        "ipadapter_file": "ip-adapter-plus_sdxl_vit-h.safetensors"
+      }
+    },
+    {
+      "id": 13,
+      "type": "IPAdapterAdvanced",
+      "pos": [
+        492.4958857137134,
+        753.0861117734987
+      ],
+      "size": [
+        360,
+        278
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 4
+        },
+        {
+          "name": "ipadapter",
+          "type": "IPADAPTER",
+          "link": 15
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 2
+        },
+        {
+          "name": "image_negative",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "attn_mask",
+          "shape": 7,
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "clip_vision",
+          "shape": 7,
+          "type": "CLIP_VISION",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_ipadapter_plus",
+        "ver": "a0f451a5113cf9becb0847b92884cb10cbdec0ef",
+        "Node name for S&R": "IPAdapterAdvanced"
+      },
+      "widgets_values": [
+        0.15,
+        "linear",
+        "concat",
+        0,
+        1,
+        "V only"
+      ],
+      "widgets_values_named": {
+        "weight": 0.15,
+        "weight_type": "linear",
+        "combine_embeds": "concat",
+        "start_at": 0,
+        "end_at": 1,
+        "embeds_scaling": "V only"
+      }
+    },
+    {
+      "id": 14,
+      "type": "EmptyLatentImage",
+      "pos": [
+        496.2978890512135,
+        544.9834357155069
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ],
+      "widgets_values_named": {
+        "width": 1024,
+        "height": 1024,
+        "batch_size": 1
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 15,
+      "type": "KSampler",
+      "pos": [
+        1360,
+        120
+      ],
+      "size": [
+        360,
+        262
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 16
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 12
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 13
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        3101,
+        "fixed",
+        25,
+        7,
+        "euler",
+        "normal",
+        1
+      ],
+      "widgets_values_named": {
+        "seed": 3101,
+        "control_after_generate": "fixed",
+        "steps": 25,
+        "cfg": 7,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 1
+      }
+    },
+    {
+      "id": 16,
+      "type": "VAEDecode",
+      "pos": [
+        1392.6171638503804,
+        687.7355514533513
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 18
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 17,
+      "type": "SaveImage",
+      "pos": [
+        1823.9495775982011,
+        200.89868406014918
+      ],
+      "size": [
+        360,
+        150
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "2D/pose-skeleton"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "2D/pose-skeleton"
+      },
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 18,
+      "type": "MarkdownNote",
+      "pos": [
+        49.85321726573943,
+        -367.5067684788421
+      ],
+      "size": [
+        720,
+        306
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "## pose-skeleton.json\n\nPose from a skeleton\n\n**Does:** puts the character in a POSE you supply as a skeleton - ControlNet-Union's `openpose`\nmode drives the SILHOUETTE while IPAdapter carries the design. It is a coarse-stance tool rather\nthan a pose editor; the measurement below says exactly how far it goes.\n**WHAT THE CUE ACTUALLY BUYS (E22).** The shipped `strength 1.5` + `end_percent 0.5` is the point.\nWith the CN applied for ALL steps it is ignored at 0.9-1.2 and destroys the image at 1.5 (E21c),\nbut ending the window early lets `1.5` impose the cue over a prompt that explicitly says the\nopposite: a 'T-pose, arms outstretched' cue beat 'both arms lowered, hanging straight down at his\nsides' and still rendered clean. It works at the level of the SILHOUETTE only - a 45-deg cue still\nrenders arms at the sides, an asymmetric cue (one arm up) is ignored, and a 'both arms up' cue\ncomes back as shoulder horns rather than arms. Use this flow for a coarse stance (arms out / wide /\ntall) and an instruction (`qwen-edit-gguf.json`) for a specific pose. CFG is NOT a lever (4.0 = 7.0).\n**Skeleton in:** the ControlNet reads node 1. It ships a working example -\n`2d/pose_arms_spread.png` (published from `assets/2d/`) - so the flow runs as-is; point node 1\nelsewhere for your own pose.\n**Getting a pose from a photo:** `2d/workflows/pose-extract.json` (S16) lifts one off a photo and\nwrites both the skeleton image and the keypoints JSON - put that image in `input/` and point node 1\nat it, one photo per pose. The joints are 18 of `x, y, confidence` in pixels:\n`0 nose, 1 neck, 2/3/4 R shoulder/elbow/wrist, 5/6/7 L shoulder/elbow/wrist, 8/9/10 R hip/knee/\nankle, 11/12/13 L hip/knee/ankle, 14-17 eyes and ears` (R = the subject's right = image left).\nThe detector needs a photoreal-enough person (`char_heroine` reads, the armoured `char_knight`\nreturns `people: []`), so on stylised art the skeleton has to be authored **by hand** instead -\n18 joints of `x, y, confidence`, or a keypoint export from a 3D tool.\n**Knobs:** the CN **window** is the one that matters - `strength 1.5` with `end_percent 0.5` (loud\nenough to override the prompt, ended early enough that the sampler renders the last half freely).\nIPAdapter `weight` **0.15**: it fights the cue (0.35 erased a 45-deg spread; >=0.6 freezes the\nreference's own stance, E21/E11). Say the stance you want in the prompt and forbid the one you\ndon't in the negative (`arms at sides, hands on hips`).\n**Limits:** a 2D COCO skeleton has no yaw, so a **camera angle** change is not this flow's job -\nuse an instruction edit, or the 3D path (`Hy3DCameraConfig` + `Hy3DRenderMultiview`).\n\n---\n*How to run it: story **S7** in `HOWTO.md`  ·  Why it is this way: **E21** in the scenarios' `EXPERIMENTS` logs.*"
+      ],
+      "widgets_values_named": {
+        "text": "## pose-skeleton.json\n\nPose from a skeleton\n\n**Does:** puts the character in a POSE you supply as a skeleton - ControlNet-Union's `openpose`\nmode drives the SILHOUETTE while IPAdapter carries the design. It is a coarse-stance tool rather\nthan a pose editor; the measurement below says exactly how far it goes.\n**WHAT THE CUE ACTUALLY BUYS (E22).** The shipped `strength 1.5` + `end_percent 0.5` is the point.\nWith the CN applied for ALL steps it is ignored at 0.9-1.2 and destroys the image at 1.5 (E21c),\nbut ending the window early lets `1.5` impose the cue over a prompt that explicitly says the\nopposite: a 'T-pose, arms outstretched' cue beat 'both arms lowered, hanging straight down at his\nsides' and still rendered clean. It works at the level of the SILHOUETTE only - a 45-deg cue still\nrenders arms at the sides, an asymmetric cue (one arm up) is ignored, and a 'both arms up' cue\ncomes back as shoulder horns rather than arms. Use this flow for a coarse stance (arms out / wide /\ntall) and an instruction (`qwen-edit-gguf.json`) for a specific pose. CFG is NOT a lever (4.0 = 7.0).\n**Skeleton in:** the ControlNet reads node 1. It ships a working example -\n`2d/pose_arms_spread.png` (published from `assets/2d/`) - so the flow runs as-is; point node 1\nelsewhere for your own pose.\n**Getting a pose from a photo:** `2d/workflows/pose-extract.json` (S16) lifts one off a photo and\nwrites both the skeleton image and the keypoints JSON - put that image in `input/` and point node 1\nat it, one photo per pose. The joints are 18 of `x, y, confidence` in pixels:\n`0 nose, 1 neck, 2/3/4 R shoulder/elbow/wrist, 5/6/7 L shoulder/elbow/wrist, 8/9/10 R hip/knee/\nankle, 11/12/13 L hip/knee/ankle, 14-17 eyes and ears` (R = the subject's right = image left).\nThe detector needs a photoreal-enough person (`char_heroine` reads, the armoured `char_knight`\nreturns `people: []`), so on stylised art the skeleton has to be authored **by hand** instead -\n18 joints of `x, y, confidence`, or a keypoint export from a 3D tool.\n**Knobs:** the CN **window** is the one that matters - `strength 1.5` with `end_percent 0.5` (loud\nenough to override the prompt, ended early enough that the sampler renders the last half freely).\nIPAdapter `weight` **0.15**: it fights the cue (0.35 erased a 45-deg spread; >=0.6 freezes the\nreference's own stance, E21/E11). Say the stance you want in the prompt and forbid the one you\ndon't in the negative (`arms at sides, hands on hips`).\n**Limits:** a 2D COCO skeleton has no yaw, so a **camera angle** change is not this flow's job -\nuse an instruction edit, or the 3D path (`Hy3DCameraConfig` + `Hy3DRenderMultiview`).\n\n---\n*How to run it: story **S7** in `HOWTO.md`  ·  Why it is this way: **E21** in the scenarios' `EXPERIMENTS` logs.*"
+      },
+      "color": "#332922",
+      "bgcolor": "#593930"
     }
-   ],
-   "properties": {
-    "Node name for S&R": "LoadImage"
-   },
-   "widgets_values": [
-    "2d/pose_arms_spread.png",
-    "image"
-   ]
-  },
-  {
-   "id": 2,
-   "type": "LoadImage",
-   "pos": [
-    40,
-    380
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "links": [
-      2
-     ],
-     "slot_index": 0
-    },
-    {
-     "name": "MASK",
-     "type": "MASK",
-     "links": [],
-     "slot_index": 1
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "LoadImage"
-   },
-   "widgets_values": [
-    "2d/char_knight.png",
-    "image"
-   ]
-  },
-  {
-   "id": 5,
-   "type": "CheckpointLoaderSimple",
-   "pos": [
-    40,
-    640
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "MODEL",
-     "type": "MODEL",
-     "links": [
-      4
-     ],
-     "slot_index": 0
-    },
-    {
-     "name": "CLIP",
-     "type": "CLIP",
-     "links": [
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      8,
+      3,
+      "IMAGE"
+    ],
+    [
+      2,
+      2,
+      0,
+      13,
+      2,
+      "IMAGE"
+    ],
+    [
+      4,
       5,
-      6
-     ],
-     "slot_index": 1
+      0,
+      13,
+      0,
+      "MODEL"
+    ],
+    [
+      5,
+      5,
+      1,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      6,
+      5,
+      1,
+      7,
+      0,
+      "CLIP"
+    ],
+    [
+      7,
+      5,
+      2,
+      16,
+      1,
+      "VAE"
+    ],
+    [
+      8,
+      6,
+      0,
+      8,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      9,
+      7,
+      0,
+      8,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      10,
+      9,
+      0,
+      10,
+      0,
+      "CONTROL_NET"
+    ],
+    [
+      11,
+      10,
+      0,
+      8,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      12,
+      8,
+      0,
+      15,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      13,
+      8,
+      1,
+      15,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      14,
+      11,
+      0,
+      13,
+      5,
+      "CLIP_VISION"
+    ],
+    [
+      15,
+      12,
+      0,
+      13,
+      1,
+      "IPADAPTER"
+    ],
+    [
+      16,
+      13,
+      0,
+      15,
+      0,
+      "MODEL"
+    ],
+    [
+      17,
+      14,
+      0,
+      15,
+      3,
+      "LATENT"
+    ],
+    [
+      18,
+      15,
+      0,
+      16,
+      0,
+      "LATENT"
+    ],
+    [
+      19,
+      16,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.8918665263678347,
+      "offset": [
+        -32.92256517160746,
+        1.893424284088502
+      ]
     },
-    {
-     "name": "VAE",
-     "type": "VAE",
-     "links": [
-      7
-     ],
-     "slot_index": 2
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CheckpointLoaderSimple"
-   },
-   "widgets_values": [
-    "RealVisXL_V5.0_fp16.safetensors"
-   ]
+    "frontendVersion": "1.59.1"
   },
-  {
-   "id": 6,
-   "type": "CLIPTextEncode",
-   "pos": [
-    480,
-    120
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 5
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "links": [
-      8
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "widgets_values": [
-    "full body game character concept art of a single heroic fantasy knight in ornate plate armor, standing with both arms outstretched to the sides, solo, arms and legs fully visible, plain light gray background, no border, no frame, no text, clean silhouette, highly detailed digital painting, neutral studio lighting"
-   ]
-  },
-  {
-   "id": 7,
-   "type": "CLIPTextEncode",
-   "pos": [
-    480,
-    380
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 6
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "links": [
-      9
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "widgets_values": [
-    "blurry, lowres, text, watermark, extra limbs, cropped, character sheet, multiple views, multiple figures, border, frame, deformed, arms at sides, hands on hips"
-   ]
-  },
-  {
-   "id": 8,
-   "type": "ControlNetApplyAdvanced",
-   "pos": [
-    920,
-    120
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "positive",
-     "type": "CONDITIONING",
-     "link": 8
-    },
-    {
-     "name": "negative",
-     "type": "CONDITIONING",
-     "link": 9
-    },
-    {
-     "name": "control_net",
-     "type": "CONTROL_NET",
-     "link": 11
-    },
-    {
-     "name": "image",
-     "type": "IMAGE",
-     "link": 1
-    }
-   ],
-   "outputs": [
-    {
-     "name": "positive",
-     "type": "CONDITIONING",
-     "links": [
-      12
-     ],
-     "slot_index": 0
-    },
-    {
-     "name": "negative",
-     "type": "CONDITIONING",
-     "links": [
-      13
-     ],
-     "slot_index": 1
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ControlNetApplyAdvanced"
-   },
-   "widgets_values": [
-    1.5,
-    0.0,
-    0.5
-   ]
-  },
-  {
-   "id": 9,
-   "type": "ControlNetLoader",
-   "pos": [
-    40,
-    900
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "CONTROL_NET",
-     "type": "CONTROL_NET",
-     "links": [
-      10
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ControlNetLoader"
-   },
-   "widgets_values": [
-    "controlnet-union-sdxl.safetensors"
-   ]
-  },
-  {
-   "id": 10,
-   "type": "SetUnionControlNetType",
-   "pos": [
-    480,
-    640
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "control_net",
-     "type": "CONTROL_NET",
-     "link": 10
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONTROL_NET",
-     "type": "CONTROL_NET",
-     "links": [
-      11
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "SetUnionControlNetType"
-   },
-   "widgets_values": [
-    "openpose"
-   ]
-  },
-  {
-   "id": 11,
-   "type": "CLIPVisionLoader",
-   "pos": [
-    40,
-    1160
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "CLIP_VISION",
-     "type": "CLIP_VISION",
-     "links": [
-      14
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "CLIPVisionLoader"
-   },
-   "widgets_values": [
-    "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
-   ]
-  },
-  {
-   "id": 12,
-   "type": "IPAdapterModelLoader",
-   "pos": [
-    40,
-    1420
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "IPADAPTER",
-     "type": "IPADAPTER",
-     "links": [
-      15
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "IPAdapterModelLoader"
-   },
-   "widgets_values": [
-    "ip-adapter-plus_sdxl_vit-h.safetensors"
-   ]
-  },
-  {
-   "id": 13,
-   "type": "IPAdapterAdvanced",
-   "pos": [
-    480,
-    900
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 4
-    },
-    {
-     "name": "ipadapter",
-     "type": "IPADAPTER",
-     "link": 15
-    },
-    {
-     "name": "image",
-     "type": "IMAGE",
-     "link": 2
-    },
-    {
-     "name": "image_negative",
-     "type": "IMAGE",
-     "link": null
-    },
-    {
-     "name": "attn_mask",
-     "type": "MASK",
-     "link": null
-    },
-    {
-     "name": "clip_vision",
-     "type": "CLIP_VISION",
-     "link": 14
-    }
-   ],
-   "outputs": [
-    {
-     "name": "MODEL",
-     "type": "MODEL",
-     "links": [
-      16
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "IPAdapterAdvanced"
-   },
-   "widgets_values": [
-    0.15,
-    "linear",
-    "concat",
-    0.0,
-    1.0,
-    "V only"
-   ]
-  },
-  {
-   "id": 14,
-   "type": "EmptyLatentImage",
-   "pos": [
-    40,
-    1680
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "links": [
-      17
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "EmptyLatentImage"
-   },
-   "widgets_values": [
-    1024,
-    1024,
-    1
-   ]
-  },
-  {
-   "id": 15,
-   "type": "KSampler",
-   "pos": [
-    1360,
-    120
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 16
-    },
-    {
-     "name": "positive",
-     "type": "CONDITIONING",
-     "link": 12
-    },
-    {
-     "name": "negative",
-     "type": "CONDITIONING",
-     "link": 13
-    },
-    {
-     "name": "latent_image",
-     "type": "LATENT",
-     "link": 17
-    }
-   ],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "links": [
-      18
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "KSampler"
-   },
-   "widgets_values": [
-    3101,
-    "fixed",
-    25,
-    7.0,
-    "euler",
-    "normal",
-    1.0
-   ]
-  },
-  {
-   "id": 16,
-   "type": "VAEDecode",
-   "pos": [
-    1800,
-    120
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "samples",
-     "type": "LATENT",
-     "link": 18
-    },
-    {
-     "name": "vae",
-     "type": "VAE",
-     "link": 7
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "links": [
-      19
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
-  },
-  {
-   "id": 17,
-   "type": "SaveImage",
-   "pos": [
-    2240,
-    120
-   ],
-   "size": [
-    360,
-    150
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 19
-    }
-   ],
-   "outputs": [],
-   "properties": {
-    "Node name for S&R": "SaveImage"
-   },
-   "widgets_values": [
-    "2D/pose-skeleton"
-   ]
-  },
-  {
-   "id": 18,
-   "type": "MarkdownNote",
-   "pos": [
-    -1240,
-    -324
-   ],
-   "size": [
-    720,
-    306
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "properties": {},
-   "widgets_values": [
-    "## pose-skeleton.json\n\nPose from a skeleton\n\n**Does:** puts the character in a POSE you supply as a skeleton - ControlNet-Union's `openpose`\nmode drives the SILHOUETTE while IPAdapter carries the design. It is a coarse-stance tool rather\nthan a pose editor; the measurement below says exactly how far it goes.\n**WHAT THE CUE ACTUALLY BUYS (E22).** The shipped `strength 1.5` + `end_percent 0.5` is the point.\nWith the CN applied for ALL steps it is ignored at 0.9-1.2 and destroys the image at 1.5 (E21c),\nbut ending the window early lets `1.5` impose the cue over a prompt that explicitly says the\nopposite: a 'T-pose, arms outstretched' cue beat 'both arms lowered, hanging straight down at his\nsides' and still rendered clean. It works at the level of the SILHOUETTE only - a 45-deg cue still\nrenders arms at the sides, an asymmetric cue (one arm up) is ignored, and a 'both arms up' cue\ncomes back as shoulder horns rather than arms. Use this flow for a coarse stance (arms out / wide /\ntall) and an instruction (`qwen-edit-gguf.json`) for a specific pose. CFG is NOT a lever (4.0 = 7.0).\n**Skeleton in:** the ControlNet reads node 1. It ships a working example -\n`2d/pose_arms_spread.png` (published from `assets/2d/`) - so the flow runs as-is; point node 1\nelsewhere for your own pose.\n**Getting a pose from a photo:** `2d/workflows/pose-extract.json` (S16) lifts one off a photo and\nwrites both the skeleton image and the keypoints JSON - put that image in `input/` and point node 1\nat it, one photo per pose. The joints are 18 of `x, y, confidence` in pixels:\n`0 nose, 1 neck, 2/3/4 R shoulder/elbow/wrist, 5/6/7 L shoulder/elbow/wrist, 8/9/10 R hip/knee/\nankle, 11/12/13 L hip/knee/ankle, 14-17 eyes and ears` (R = the subject's right = image left).\nThe detector needs a photoreal-enough person (`char_heroine` reads, the armoured `char_knight`\nreturns `people: []`), so on stylised art the skeleton has to be authored **by hand** instead -\n18 joints of `x, y, confidence`, or a keypoint export from a 3D tool.\n**Knobs:** the CN **window** is the one that matters - `strength 1.5` with `end_percent 0.5` (loud\nenough to override the prompt, ended early enough that the sampler renders the last half freely).\nIPAdapter `weight` **0.15**: it fights the cue (0.35 erased a 45-deg spread; >=0.6 freezes the\nreference's own stance, E21/E11). Say the stance you want in the prompt and forbid the one you\ndon't in the negative (`arms at sides, hands on hips`).\n**Limits:** a 2D COCO skeleton has no yaw, so a **camera angle** change is not this flow's job -\nuse an instruction edit, or the 3D path (`Hy3DCameraConfig` + `Hy3DRenderMultiview`).\n\n---\n*How to run it: story **S7** in `HOWTO.md`  \u00b7  Why it is this way: **E21** in the scenarios' `EXPERIMENTS` logs.*"
-   ],
-   "color": "#332922",
-   "bgcolor": "#593930"
-  }
- ],
- "links": [
-  [
-   1,
-   1,
-   0,
-   8,
-   3,
-   "IMAGE"
-  ],
-  [
-   2,
-   2,
-   0,
-   13,
-   2,
-   "IMAGE"
-  ],
-  [
-   4,
-   5,
-   0,
-   13,
-   0,
-   "MODEL"
-  ],
-  [
-   5,
-   5,
-   1,
-   6,
-   0,
-   "CLIP"
-  ],
-  [
-   6,
-   5,
-   1,
-   7,
-   0,
-   "CLIP"
-  ],
-  [
-   7,
-   5,
-   2,
-   16,
-   1,
-   "VAE"
-  ],
-  [
-   8,
-   6,
-   0,
-   8,
-   0,
-   "CONDITIONING"
-  ],
-  [
-   9,
-   7,
-   0,
-   8,
-   1,
-   "CONDITIONING"
-  ],
-  [
-   10,
-   9,
-   0,
-   10,
-   0,
-   "CONTROL_NET"
-  ],
-  [
-   11,
-   10,
-   0,
-   8,
-   2,
-   "CONTROL_NET"
-  ],
-  [
-   12,
-   8,
-   0,
-   15,
-   1,
-   "CONDITIONING"
-  ],
-  [
-   13,
-   8,
-   1,
-   15,
-   2,
-   "CONDITIONING"
-  ],
-  [
-   14,
-   11,
-   0,
-   13,
-   5,
-   "CLIP_VISION"
-  ],
-  [
-   15,
-   12,
-   0,
-   13,
-   1,
-   "IPADAPTER"
-  ],
-  [
-   16,
-   13,
-   0,
-   15,
-   0,
-   "MODEL"
-  ],
-  [
-   17,
-   14,
-   0,
-   15,
-   3,
-   "LATENT"
-  ],
-  [
-   18,
-   15,
-   0,
-   16,
-   0,
-   "LATENT"
-  ],
-  [
-   19,
-   16,
-   0,
-   17,
-   0,
-   "IMAGE"
-  ]
- ],
- "groups": [
-  {
-   "title": "Pose from a skeleton",
-   "bounding": [
-    -1280,
-    -80,
-    2440,
-    1860
-   ],
-   "color": "#3f789e",
-   "font_size": 24,
-   "flags": {}
-  }
- ],
- "config": {},
- "extra": {},
- "version": 0.4
+  "version": 0.4
 }

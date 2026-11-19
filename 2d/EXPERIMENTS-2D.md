@@ -148,3 +148,20 @@ Same discipline as `3d/EXPERIMENTS.md`: one row per run, verdicts with *why*.
     - **Why the old flow was demoted:** its factor widgets and target size were two independently-set numbers describing one canvas (kept in sync by hand; the shipped file had drifted from what E9 measured). The px knobs + math nodes make the sync automatic, and native sampling removes the target-size question entirely.
 - Next: user polish pass on flow language/layout; the demoted flow's E9 record stays.
 
+
+
+## E14b addendum - the bust bias was the keypoint ControlNet, not the embedding (image_kps decouples)
+
+- Date: 2026-11-18
+- Stage: consistency (face identity) - diagnosis correction
+- Workflow: `2d/workflows/instantid-character.json` via API, two runs, same identity reference (`2d/portrait_heroine.png`) and the same full-scene prompt as E14b ("standing on a forest path")
+- Params: control = `image_kps` wired to the portrait itself (= the shipped `None` behavior, kps derived from the reference); test = `image_kps` from a full-body donor (`input/2d/kps_donor_body.png`: a generated full-body knight, 1024 -> upscaled 2x so its face passes the ~112 px detection floor, 141 px)
+- Output: `output/2D/E14/instantid_kps_{portrait,body}_00001_.png`
+- Verdict: **the user's diagnosis confirmed - composition followed the kps donor**
+- Observations:
+    - Control: bust reproduced (generated face 220x327, identity cosine 0.838 - matches E14b's 0.823, so the wired default is behavior-preserving).
+    - Test: **full-body take on the forest path** (generated face 72x93) - the framing followed the donor, exactly as hypothesized. The naive identity cosine reads 0.352, but that is a small-face embedding artifact (a 72 px face embedding vs a 233 px reference is not a fair comparison); the take visually reads as the same character - ears to confirm.
+    - Donor recipe: generate a full-body figure at 1024 (its face lands at ~72 px, UNDER the ~112 px InsightFace floor), upscale 2x with Lanczos, done.
+    - Correction to E14b's record: the earlier explanation ("the face embedding wants a large face") described the embedding branch's weak bias; the composition LOCK is the keypoint ControlNet mirroring the reference's framing, and `image_kps` is the decoupler. The flow now ships `image_kps` wired (default = the reference portrait).
+- Next: ears on the full-body take; if the identity holds visually, S7 gains the full-body recipe.
+
