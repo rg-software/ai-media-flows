@@ -137,19 +137,16 @@
 
 ### S9. Sprites and atlases
 
-- *When:* you need game-ready sprites (generated, converted from existing art, packed into a sheet, or unpacked from one).
-- *Generate:* `2d/workflows/pixel-art.json`: SDXL + `pixel-art-xl` LoRA (OpenRAIL) at 1024². **That LoRA paints on an 8 px grid**, so its native sprite is 1024/8=128 px. Make sure to set the correct target sprite size when applying pallettes. Generating at 1024² and downscaling beats generating small. For the flat retro look, Retro Diffusion ships **one checkpoint per sprite scale** with a /8 factor: `16x` at 256² -> 16 px, `24x-64x` at 512² -> **64 px**, `128x` at 1024² -> 128 px.
-- *Convert an existing picture, faithfully:* `2d/workflows/pixel-art-convert.json` - resize + palette only, so the source is kept exactly, nothing is invented.
-- *Convert an existing picture, redrawn:* `2d/workflows/pixel-art-restyle.json` - an img2img pass with the pixel-art LoRA first (`denoise` **0.6** is the knob: lower keeps the source, higher redraws it). More sprite-like, but it invents detail.
+- *When:* you need game-ready sprites, animation frames, or packed sheets - in **any style** (pixel, anime, painted, realistic).
+- *Produce the frames in your chosen style:*
+	- **pixel art** -> its own story, **S31** below (generation, conversion, palettes - the style has real machinery);
+	- **any other style** -> generate each frame from a prompt (S1), or restyle existing art (S8: `ipadapter-style.json`, `qwen-edit-gguf.json`);
 - *Animate a sprite across a few poses:* get one skeleton per pose with `2d/workflows/pose-extract.json` (**S16**, one photo per pose), render each with `2d/workflows/pose-skeleton.json`, then pack the frames with `scripts/atlas.py`. **Keep the IPAdapter at 0.15** - that is what holds the character's design while the pose changes; higher weights freeze the reference's own stance. **Measured limits:** poses that differ by **~40 degrees or more** read as distinct frames, but **10-30 degree steps render as the same pose**, so a 3-4 frame idle / attack / ready works (while **walk cycle does not**).
 - *Generate animation frames from a rigged 3D model:* use a rigged GLB with named animation clips (see KayKit Adventurers Knight as an example). The renderer is plain `bpy`; it needs Python 3.11 and the opt-in `pose-render` uv extra. From the repo root, set `UV_PROJECT_ENVIRONMENT` to a separate env path, then run `uv run --extra pose-render --python 3.11 scripts/render_glb_poses.py --glb <model.glb> --out <ComfyUI>/input/poses --clip Idle_Rig:0.5 --clip 1H_Melee_Attack_Chop_Rig:0.15,0.35,0.55,0.75 --yaws 0,45,90,135,180 --gear 1H_Sword,Round_Shield`. Repeat `--clip` for another animation; `--gear` is optional, and names the weapons to keep. One fixed camera keeps scale constant across the set.
-	- Pixelate each render with `2d/workflows/pixel-art-convert.json` and one shared palette (do **not** use `pixel-art-restyle` for clean renders: its redraw changes the design/pose);
+	- Style each render with your chosen style pass (for pixel art: `2d/workflows/pixel-art-convert.json` with one shared palette - **S31**; do **not** use `pixel-art-restyle` for clean renders: its redraw changes the design/pose);
 	- Restore transparency: run `uv run python scripts/restore_alpha.py --source <render.png> --sprite <converted.png> --out <sprite-rgba.png>`. The helper resizes the original alpha with nearest-neighbour; pack the RGBA results with `scripts/atlas.py`.
 	- For a short animation, use several fractions from one clip (e.g. `0.15,0.35,0.55,0.75`) so it samples the motion; flatten lighting to reduce palette flicker. At 128 px subtle motions can be hard to read.
 - *Pack or slice a sheet:* `scripts/atlas.py`. Use with `pack --out sheet.png --columns 2 --cell 64x64 a.png b.png ...` to lay images out row-major (optional `--padding` gap between cells).
-- *Palettes:* the **56 palettes ship inside the `comfyui-pixelart-detector` pack**, so they are already on the box - `PixelArtLoadPalettes` reads that folder (hardcoded). To use your own, drop a PNG into the pack's `palettes` folder, or derive one from an image with `PixelArtPaletteGenerator`. `render_all_palettes_in_grid` renders them all as a labelled sheet.
-- *Traps:* downscale by **nearest**, and derive the divisor from the pair - 1024→128 is the LoRA's own **/8**, 1024→64 is **/16** (a deliberate decimation), Retro Diffusion 512→64 is its **/8**. Whatever the target, edit `ImageScale` **and** the palette pass together. Keep the palette pass at a **fixed** size. Do not downscale *before* an img2img pass: a 64-128 px latent makes SDXL produce mush.
-- *Licence:* the Retro Diffusion models are **purchased**, and RD's terms give their **outputs to the user** (commercial use fine); do not train on RD outputs, and do not commit the weights [retrodiffusion.ai/terms, checked 2026-10-08]. `pixel-art-xl` is OpenRAIL, and it is the **different** look (richer detail), not the licence fix.
 
 ### S10. Finish: upscale and restore
 
@@ -522,6 +519,19 @@
 - *Measured:* same-still guides pin near-static (40 s); full-body to portrait travels smoothly with identity holding ([`video/evidence/E23-ltxv-guides.png`](video/evidence/E23-ltxv-guides.png), E23). Defects: 113 frames out for 97 planned, ghost wobble f96-104 before re-settling, end guide lands slightly early. Weights shared with S35.
 - *Traps:* the padding must decode **byte-exact black** - verify with a decode check, or every noisy frame becomes a guide. Per-guide strengths (`LTXVAddGuideMulti`) do not submit through `sweep_workflow` (DynamicCombo must nest; measured rejection) - shared strength only. Guide stills center-upscale to the canvas, so mismatched aspects crop. Guides steer composed wholes, not independent elements - the model interpolates whole frames between pins, so an object crossing the frame needs a pin per beat; output overshoots ~8 frames per extra guide, trim to plan.
 - *More:* [`video/README.md`](video/README.md), and E23 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+
+
+### S37. Pixel art
+
+- *When:* you want the **pixel-art style** - for sprites, UI, or any asset. (For packing frames into sheets and atlases, see **S9**; the style and the delivery form are separate decisions.)
+- *Generate:* `2d/workflows/pixel-art.json`: SDXL + `pixel-art-xl` LoRA (OpenRAIL) at 1024². **That LoRA paints on an 8 px grid**, so its native sprite is 1024/8=128 px. Make sure to set the correct target sprite size when applying pallettes. Generating at 1024² and downscaling beats generating small. For the flat retro look, Retro Diffusion ships **one checkpoint per sprite scale** with a /8 factor: `16x` at 256² -> 16 px, `24x-64x` at 512² -> **64 px**, `128x` at 1024² -> 128 px.
+- *Convert an existing picture, faithfully:* `2d/workflows/pixel-art-convert.json` - resize + palette only, so the source is kept exactly, nothing is invented.
+- *Convert an existing picture, redrawn:* `2d/workflows/pixel-art-restyle.json` - an img2img pass with the pixel-art LoRA first (`denoise` **0.6** is the knob: lower keeps the source, higher redraws it). More sprite-like, but it invents detail.
+- *Palettes:* the **56 palettes ship inside the `comfyui-pixelart-detector` pack**, so they are already on the box - `PixelArtLoadPalettes` reads that folder (hardcoded). To use your own, drop a PNG into the pack's `palettes` folder, or derive one from an image with `PixelArtPaletteGenerator`. `render_all_palettes_in_grid` renders them all as a labelled sheet.
+- *Traps:* downscale by **nearest**, and derive the divisor from the pair - 1024→128 is the LoRA's own **/8**, 1024→64 is **/16** (a deliberate decimation), Retro Diffusion 512→64 is its **/8**. Whatever the target, edit `ImageScale` **and** the palette pass together. Keep the palette pass at a **fixed** size. Do not downscale *before* an img2img pass: a 64-128 px latent makes SDXL produce mush.
+- *Licence:* the Retro Diffusion models are **purchased**, and RD's terms give their **outputs to the user** (commercial use fine); do not train on RD outputs, and do not commit the weights [retrodiffusion.ai/terms, checked 2026-10-08]. `pixel-art-xl` is OpenRAIL, and it is the **different** look (richer detail), not the licence fix.
+- *More:* E31/E32 and the convert-path rows in [`2d/EXPERIMENTS-2D.md`](2d/EXPERIMENTS-2D.md); for sprites and atlases, back to **S9**.
+
 
 ## If your job isn't here
 

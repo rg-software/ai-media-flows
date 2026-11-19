@@ -35,7 +35,8 @@
   "S33": "Make our character perform an audio file",
   "S34": "Upscale a video while keeping its timebase and audio",
   "S35": "Animate our character from a prompt, fast",
-  "S36": "Animate between our own keyframe stills"
+  "S36": "Animate between our own keyframe stills",
+  "S37": "Pixel art"
  },
  "jobs": [
   {
@@ -143,7 +144,7 @@
   {
    "want": "Pixel art",
    "detail": "`2d/workflows/pixel-art.json` (from a prompt) · `pixel-art-convert.json` (existing image, faithful) · `pixel-art-restyle.json` (existing image, redrawn) · `scripts/atlas.py` (pack a sheet / slice one - local)",
-   "story": "S9",
+   "story": "S37",
    "category": "2d"
   },
   {
@@ -404,13 +405,13 @@
    "story": "S11"
   },
   "pixel-art-convert.json": {
-   "story": "S9"
+   "story": "S37"
   },
   "pixel-art-restyle.json": {
-   "story": "S9"
+   "story": "S37"
   },
   "pixel-art.json": {
-   "story": "S9"
+   "story": "S37"
   },
   "pose-skeleton.json": {
    "story": "S7"
