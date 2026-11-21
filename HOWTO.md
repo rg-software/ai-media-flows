@@ -256,6 +256,7 @@
 	- run it. You get an animated **skeletal GLB** (in `3d/`) and a render preview of the recovered motion (in `video/`);
 	- check the GLB by opening it (Blender, an engine, any glTF viewer).
 - *Knobs:*
+	- **subject selection** - the tracking prompt (`SAM3_VideoTrack.conditioning`) and the detector's `class_name` select *what to track*; they have no effect on the mesh's appearance. `person` is minimal-correct for a single subject; multi-person clips need a distinguishing phrase plus the boxes. `class_name` is a **closed COCO-class dropdown** (subjects outside it: skip the boxes, use the prompt or an initial mask); `BuildPoseFile.track_index` (-1 = all tracks, ≥ 0 = one) picks which tracked person is exported;
 	- `bone_smooth_window` (9) — the export-stage smoother, and **bigger is not better**;
 	- `rotation_threshold_degrees` (0) — at its upstream value of 15 it *disables* smoothing whenever the motion gets fast;
 	- `camera_translation` (`off`) — whether the **root travels at all**. Here `off` holds the root at its **bind position** every frame, so the clip is articulation only (right when the engine drives locomotion itself); `centered` animates the root with `pred_cam_t - pred_cam_t[0]`, a **delta from frame 0**, so the travel inside the footage survives but starts at the origin; `absolute` is the **raw** solve. If the deliverable does not need the body to move through the world, use `off`; otherwise use `centered`; to match a known camera, use `absolute`. It changes the **root translation channel only**.
