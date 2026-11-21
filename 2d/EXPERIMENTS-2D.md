@@ -171,7 +171,7 @@ Same discipline as `3d/EXPERIMENTS.md`: one row per run, verdicts with *why*.
 - Date: 2026-11-21
 - Stage: image-to-3D (Hy3D) - pipeline A/B
 - Workflows: `3d/workflows/hy3d-full-workflow.json` (single-view arm), `3d/workflows/hy3d-multiview-workflow.json` (four-view arms), `2d/workflows/sv3d-turnaround.json` (view source for arm 3)
-- Input: the knight (`front.png`, the realistic full-body render) for the single arm; the four shipped real views (`front/left/right/back.png`) for the real-views arm; sv3d orbit frames (0/90/180/270 deg of an orbit over the same front view, 21-frame batch) for the sv3d arms
+- Input: the knight (`front.png`, the realistic full-body render) for the single arm; the four shipped real view images for the real-views arm; sv3d orbit frames (0/90/180/270 deg of an orbit over the same front view, 21-frame batch) for the sv3d arms
 - Params: both flows as shipped (denoise/steps per their notes); converter: the generic flow->API converter with the week's mapping rules (stale widget slots, seed control pairs, autogrow groups)
 - Output: turntable renders `output/3D/Hy3D_textured_render_0005x_.png` (single), `Hy3Dmv_textured_render_0007x_..0009x_.png` (real-views arm), `_0008x_..` (sv3d arm), `_0009x_-0010x_` (sv3d swapped arm)
 - Verdict: **four real views clearly beat one view; sv3d views do NOT drop in naively - two independent failure modes measured**
