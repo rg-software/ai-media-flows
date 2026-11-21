@@ -1,4 +1,6 @@
 {
+ "id": "57268e71-6245-4fb7-81ff-8a6e2640255f",
+ "revision": 0,
  "last_node_id": 5,
  "last_link_id": 3,
  "nodes": [
@@ -13,10 +15,10 @@
     320,
     320
    ],
-   "widgets_values": [
-    "2d/char_knight.png",
-    "image"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
@@ -33,36 +35,37 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
-   "order": 0
+   "widgets_values": [
+    "char_knight.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "char_knight.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "PixelArtLoadPalettes",
    "pos": [
-    40,
-    380
+    34.84814018142241,
+    493.3411780465144
    ],
    "size": [
     340,
-    300
+    136
    ],
-   "widgets_values": [
-    "pico-8-1x.png",
-    false,
-    "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
-    40,
-    "#f40e12",
-    "#fff",
-    6,
-    true,
-    3
-   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "paletteList",
@@ -73,29 +76,85 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfyui-pixelart-detector",
+    "ver": "d5ed602cb2eb67c05fbe8f5eae5c3b77ee257897",
     "Node name for S&R": "PixelArtLoadPalettes"
    },
-   "order": 1
+   "widgets_values": [
+    "resurrect-64-1x.png",
+    false,
+    "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
+    40,
+    "#f40e12",
+    "#fff",
+    6,
+    true,
+    3,
+    ""
+   ],
+   "widgets_values_named": {
+    "image": "resurrect-64-1x.png",
+    "render_all_palettes_in_grid": false,
+    "grid_settings": "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
+    "paletteList_grid_font_size": 40,
+    "paletteList_grid_font_color": "#f40e12",
+    "paletteList_grid_background": "#fff",
+    "paletteList_grid_cols": 6,
+    "paletteList_grid_add_border": true,
+    "paletteList_grid_border_width": 3,
+    "palette_preview": ""
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 3,
    "type": "PixelArtDetectorConverter",
    "pos": [
-    480,
-    120
+    463.6857226499611,
+    114.84820569087421
    ],
    "size": [
     420,
-    620
+    324
    ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 1
+    },
+    {
+     "name": "paletteList",
+     "shape": 7,
+     "type": "LIST",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "shape": 6,
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-pixelart-detector",
+    "ver": "d5ed602cb2eb67c05fbe8f5eae5c3b77ee257897",
+    "Node name for S&R": "PixelArtDetectorConverter"
+   },
    "widgets_values": [
     "GAMEBOY",
-    64,
-    64,
+    128,
+    128,
     "contain",
     "Image.quantize",
     2,
@@ -114,49 +173,45 @@
     0.02,
     "none"
    ],
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 1
-    },
-    {
-     "name": "paletteList",
-     "type": "LIST",
-     "link": 2
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "slot_index": 0,
-     "links": [
-      3
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "PixelArtDetectorConverter"
+   "widgets_values_named": {
+    "palette": "GAMEBOY",
+    "resize_w": 128,
+    "resize_h": 128,
+    "resize_type": "contain",
+    "pixelize": "Image.quantize",
+    "grid_pixelate_grid_scan_size": 2,
+    "reduce_colors_before_palette_swap": false,
+    "reduce_colors_method": "Image.quantize",
+    "reduce_colors_max_colors": 128,
+    "apply_pixeldetector_max_colors": true,
+    "image_quantize_reduce_method": "MAXCOVERAGE",
+    "opencv_settings": "OpenCV.kmeans: only when reducing is enabled.\nRANDOM_CENTERS: Fast but doesn't guarantee same labels for the same image.\nPP_CENTERS: Slow but will yield optimum and consistent results for same input image.\nattempts: to run criteria_max_iterations so it gets the best labels. Increasing this value will slow down the runtime a lot, but improves the colors!\n",
+    "opencv_kmeans_centers": "RANDOM_CENTERS",
+    "opencv_kmeans_attempts": 10,
+    "opencv_criteria_max_iterations": 10,
+    "pycluster_kmeans_metrics": "EUCLIDEAN_SQUARE",
+    "cleanup": "Clean up colors: Iterate and eliminate pixels while there was none left covering less than the 'cleanup_pixels_threshold' of the image.\nOptionally, enable the 'reduce colors' option, which runs before this cleanup. Good cleanup_threshold values: between .01 & .05",
+    "cleanup_colors": false,
+    "cleanup_pixels_threshold": 0.02,
+    "dither": "none"
    },
-   "order": 2
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
    "type": "SaveImage",
    "pos": [
-    920,
-    120
+    968.0841669105365,
+    116.56543770585691
    ],
    "size": [
     400,
     300
    ],
-   "widgets_values": [
-    "2D/pixel_convert/sprite"
-   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
@@ -164,34 +219,52 @@
      "link": 3
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveImage"
    },
-   "order": 3
+   "widgets_values": [
+    "2D/pixel_convert/sprite"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/pixel_convert/sprite"
+   },
+   "color": "#332922",
+   "bgcolor": "#593930"
   },
   {
    "id": 5,
    "type": "MarkdownNote",
    "pos": [
-    40,
-    620
+    39.141400369871604,
+    -171.67112895215894
    ],
    "size": [
-    420,
-    320
+    627.7923403833381,
+    227.83750495775524
    ],
    "flags": {},
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [],
-   "widgets_values": [
-    "## pixel-art-convert.json\n\nExisting image -> pixel art, with a chosen palette\n\n**Does:** pixelises and palettises a **picture you already have** - no generation, so the composition is kept. `PixelArtLoadPalettes` supplies the palette from an image bundled with the `comfyui-pixelart-detector` pack (**56 of them**: `nintendo-entertainment-system-1x.png`, `nintendo-gameboy-bgb-1x.png`, `pico-8-1x.png`, `sweetie-16-1x.png`, `dawnbringer-32-1x.png`, ...), wired into the converter's `paletteList`.\n**Output size** is `resize_w`/`resize_h` (64x64 here) with `resize_type=contain`, which is the sprite size you get - change both if you want 32 or 128.\n**Dither** is `none`: for game sprites a clean ramp usually beats dithering, and dithering is what makes a downscale look noisy (try `floyd-steinberg` if you want it).\n**Generating instead?** `pixel-art.json` makes a fresh sprite from a prompt; this flow is for converting.\n\n---\n*How to run it: story **S37** in `HOWTO.md`  ·  Why it is this way: **E5/E6** in the scenarios' `EXPERIMENTS` logs.*"
-   ],
    "properties": {},
-   "order": 0
+   "widgets_values": [
+    "## pixel-art-convert.json\n\nExisting image -> pixel art, with a chosen palette\n\n**Does:** pixelises and palettises a **picture you already have** - no generation, so the composition is kept. `PixelArtLoadPalettes` supplies the palette from an image bundled with the `comfyui-pixelart-detector` pack (**56 of them**: `nintendo-entertainment-system-1x.png`, `nintendo-gameboy-bgb-1x.png`, `pico-8-1x.png`, `sweetie-16-1x.png`, `dawnbringer-32-1x.png`, ...), wired into the converter's `paletteList`.\n**Output size** is `resize_w`/`resize_h` (64x64 here) with `resize_type=contain`, which is the sprite size you get - change both if you want 32 or 128.\n**Dither** is `none`: for game sprites a clean ramp usually beats dithering, and dithering is what makes a downscale look noisy (try `floyd-steinberg` if you want it).\n**Generating instead?** `pixel-art.json` makes a fresh sprite from a prompt; this flow is for converting.\n\n---\n*How to run it: story **S37** in `HOWTO.md`  \u00b7  Why it is this way: **E5/E6** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "widgets_values_named": {
+    "text": "## pixel-art-convert.json\n\nExisting image -> pixel art, with a chosen palette\n\n**Does:** pixelises and palettises a **picture you already have** - no generation, so the composition is kept. `PixelArtLoadPalettes` supplies the palette from an image bundled with the `comfyui-pixelart-detector` pack (**56 of them**: `nintendo-entertainment-system-1x.png`, `nintendo-gameboy-bgb-1x.png`, `pico-8-1x.png`, `sweetie-16-1x.png`, `dawnbringer-32-1x.png`, ...), wired into the converter's `paletteList`.\n**Output size** is `resize_w`/`resize_h` (64x64 here) with `resize_type=contain`, which is the sprite size you get - change both if you want 32 or 128.\n**Dither** is `none`: for game sprites a clean ramp usually beats dithering, and dithering is what makes a downscale look noisy (try `floyd-steinberg` if you want it).\n**Generating instead?** `pixel-art.json` makes a fresh sprite from a prompt; this flow is for converting.\n\n---\n*How to run it: story **S37** in `HOWTO.md`  \u00b7  Why it is this way: **E5/E6** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -224,12 +297,13 @@
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.5785123966942165,
    "offset": [
-    0,
-    0
+    330.16870994633626,
+    464.26856811220256
    ]
-  }
+  },
+  "frontendVersion": "1.59.6"
  },
  "version": 0.4
 }

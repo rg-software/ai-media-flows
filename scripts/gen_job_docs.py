@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render workflows/jobs.json into the docs that carry the job -> flow -> story mapping.
+"""Render jobs.json into the docs that carry the job -> flow -> story mapping.
 
 WHY THIS EXISTS
 
@@ -7,7 +7,7 @@ Before this, the same mapping lived hardcoded in four places: README's job table
 `how-to` column, and each workflow's MarkdownNote footer. Adding a job, moving one between stories, or
 renumbering a story meant hand-editing ~45 references - and the 2026-09 renumber (S8-S13 permuted, applied
 as a single regex pass precisely so it could not cascade) showed how easy a half-applied edit would be.
-`workflows/jobs.json` is now the single source; this script writes the surfaces, and `lint_docs.py` gates
+`jobs.json` (repo root) is now the single source; this script writes the surfaces, and `lint_docs.py` gates
 that they still agree.
 
 WHAT IT WRITES
@@ -40,7 +40,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mdtable  # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REGISTRY = os.path.join(REPO, "workflows", "jobs.json")
+REGISTRY = os.path.join(REPO, "jobs.json")
 
 
 def load_registry():
@@ -62,7 +62,7 @@ def story_link(reg, sid):
 
 
 JOBS_HEADER = ["I want to make / do", "flow", "story"]
-JOBS_ANCHOR = "<!-- jobs: generated from workflows/jobs.json by scripts/gen_job_docs.py -->"
+JOBS_ANCHOR = "<!-- jobs: generated from jobs.json by scripts/gen_job_docs.py -->"
 
 
 def grouped_jobs(reg):

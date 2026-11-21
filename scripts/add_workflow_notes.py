@@ -177,11 +177,11 @@ NOTES = {
 
 
 def _story_of(flow: str) -> str:
-    """The story for a flow comes from the one registry (workflows/jobs.json), never a local copy."""
-    reg = json.load(open(os.path.join(REPO, "workflows", "jobs.json"), encoding="utf-8"))
+    """The story for a flow comes from the one registry (jobs.json at the repo root), never a local copy."""
+    reg = json.load(open(os.path.join(REPO, "jobs.json"), encoding="utf-8"))
     meta = reg["flows"].get(flow)
     if not meta:
-        raise SystemExit(f"workflows/jobs.json has no story claim for {flow}")
+        raise SystemExit(f"jobs.json has no story claim for {flow}")
     return ", ".join(meta.get("stories") or [meta["story"]])
 
 

@@ -1,4 +1,6 @@
 {
+ "id": "9fd91adf-605b-47c0-b571-07503019319e",
+ "revision": 0,
  "last_node_id": 13,
  "last_link_id": 16,
  "nodes": [
@@ -13,10 +15,10 @@
     320,
     320
    ],
-   "widgets_values": [
-    "2d/char_knight.png",
-    "image"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
@@ -33,28 +35,37 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
-   "order": 0
+   "widgets_values": [
+    "char_knight.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "char_knight.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    40,
-    380
+    41.142926897321445,
+    490.8571515764509
    ],
    "size": [
     340,
     100
    ],
-   "widgets_values": [
-    "RealVisXL_V5.0_fp16.safetensors"
-   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "MODEL",
@@ -82,30 +93,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
-   "order": 1
+   "widgets_values": [
+    "RealVisXL_V5.0_fp16.safetensors"
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 3,
    "type": "LoraLoader",
    "pos": [
-    480,
-    120
+    437.49704840613936,
+    119.05550437666027
    ],
    "size": [
     340,
     130
    ],
-   "widgets_values": [
-    "pixel-art-xl.safetensors",
-    1.0,
-    1.0
-   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -137,27 +152,36 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoraLoader"
    },
-   "order": 2
+   "widgets_values": [
+    "pixel-art-xl.safetensors",
+    1,
+    1
+   ],
+   "widgets_values_named": {
+    "lora_name": "pixel-art-xl.safetensors",
+    "strength_model": 1,
+    "strength_clip": 1
+   }
   },
   {
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    920,
-    120
+    835.9385924356184,
+    79.38607568301728
    ],
    "size": [
     420,
     140
    ],
-   "widgets_values": [
-    "retro game pixel art of a knight in ornate plate armor, flat colors, cel shading, limited palette, no background"
-   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -175,27 +199,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 3
+   "widgets_values": [
+    "retro game pixel art of a knight in ornate plate armor, flat colors, cel shading, limited palette, no background"
+   ],
+   "widgets_values_named": {
+    "text": "retro game pixel art of a knight in ornate plate armor, flat colors, cel shading, limited palette, no background"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
    "type": "CLIPTextEncode",
    "pos": [
-    920,
-    380
+    830.2715466351831,
+    265.7143001263652
    ],
    "size": [
     420,
     140
    ],
-   "widgets_values": [
-    "photorealistic, 3D, realistic, blurry, smooth gradients, noise, watermark, text, extra limbs, deformed"
-   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -213,24 +244,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 4
+   "widgets_values": [
+    "photorealistic, 3D, realistic, blurry, smooth gradients, noise, watermark, text, extra limbs, deformed"
+   ],
+   "widgets_values_named": {
+    "text": "photorealistic, 3D, realistic, blurry, smooth gradients, noise, watermark, text, extra limbs, deformed"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 6,
    "type": "VAEEncode",
    "pos": [
-    480,
-    380
+    475.0129377236755,
+    386.5927005123782
    ],
    "size": [
     240,
     60
    ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
    "inputs": [
     {
      "name": "pixels",
@@ -253,13 +294,11 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "VAEEncode"
-   },
-   "order": 5
+   }
   },
   {
    "id": 7,
@@ -272,15 +311,9 @@
     320,
     262
    ],
-   "widgets_values": [
-    7701,
-    "fixed",
-    25,
-    8.0,
-    "euler",
-    "normal",
-    0.6
-   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -313,24 +346,44 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "KSampler"
    },
-   "order": 6
+   "widgets_values": [
+    7701,
+    "fixed",
+    25,
+    8,
+    "euler",
+    "normal",
+    0.6
+   ],
+   "widgets_values_named": {
+    "seed": 7701,
+    "control_after_generate": "fixed",
+    "steps": 25,
+    "cfg": 8,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 0.6
+   }
   },
   {
    "id": 8,
    "type": "VAEDecode",
    "pos": [
-    1800,
-    120
+    1734.8287571138023,
+    91.66471695252547
    ],
    "size": [
     240,
     60
    ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
    "inputs": [
     {
      "name": "samples",
@@ -354,28 +407,26 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "order": 7
+   }
   },
   {
    "id": 9,
    "type": "SaveImage",
    "pos": [
-    2240,
-    120
+    2221.1098713520146,
+    42.55016988959197
    ],
    "size": [
     400,
     300
    ],
-   "widgets_values": [
-    "2D/pixel_convert/restyled_raw"
-   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
@@ -383,13 +434,26 @@
      "link": 13
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveImage"
    },
-   "order": 8
+   "widgets_values": [
+    "2D/pixel_convert/restyled_raw"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/pixel_convert/restyled_raw"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 10,
@@ -400,19 +464,12 @@
    ],
    "size": [
     340,
-    300
+    136
    ],
-   "widgets_values": [
-    "pico-8-1x.png",
-    false,
-    "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
-    40,
-    "#f40e12",
-    "#fff",
-    6,
-    true,
-    3
-   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "paletteList",
@@ -423,25 +480,81 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfyui-pixelart-detector",
+    "ver": "d5ed602cb2eb67c05fbe8f5eae5c3b77ee257897",
     "Node name for S&R": "PixelArtLoadPalettes"
    },
-   "order": 9
+   "widgets_values": [
+    "pico-8-1x.png",
+    false,
+    "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
+    40,
+    "#f40e12",
+    "#fff",
+    6,
+    true,
+    3,
+    ""
+   ],
+   "widgets_values_named": {
+    "image": "pico-8-1x.png",
+    "render_all_palettes_in_grid": false,
+    "grid_settings": "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
+    "paletteList_grid_font_size": 40,
+    "paletteList_grid_font_color": "#f40e12",
+    "paletteList_grid_background": "#fff",
+    "paletteList_grid_cols": 6,
+    "paletteList_grid_add_border": true,
+    "paletteList_grid_border_width": 3,
+    "palette_preview": ""
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 11,
    "type": "PixelArtDetectorConverter",
    "pos": [
-    2240,
-    380
+    1759.244431604883,
+    386.61161348417204
    ],
    "size": [
     420,
-    620
+    324
    ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 14
+    },
+    {
+     "name": "paletteList",
+     "shape": 7,
+     "type": "LIST",
+     "link": 15
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "shape": 6,
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      16
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-pixelart-detector",
+    "ver": "d5ed602cb2eb67c05fbe8f5eae5c3b77ee257897",
+    "Node name for S&R": "PixelArtDetectorConverter"
+   },
    "widgets_values": [
     "GAMEBOY",
     128,
@@ -464,49 +577,43 @@
     0.02,
     "none"
    ],
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 14
-    },
-    {
-     "name": "paletteList",
-     "type": "LIST",
-     "link": 15
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "slot_index": 0,
-     "links": [
-      16
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "PixelArtDetectorConverter"
-   },
-   "order": 10
+   "widgets_values_named": {
+    "palette": "GAMEBOY",
+    "resize_w": 128,
+    "resize_h": 128,
+    "resize_type": "contain",
+    "pixelize": "Image.quantize",
+    "grid_pixelate_grid_scan_size": 2,
+    "reduce_colors_before_palette_swap": false,
+    "reduce_colors_method": "Image.quantize",
+    "reduce_colors_max_colors": 128,
+    "apply_pixeldetector_max_colors": true,
+    "image_quantize_reduce_method": "MAXCOVERAGE",
+    "opencv_settings": "OpenCV.kmeans: only when reducing is enabled.\nRANDOM_CENTERS: Fast but doesn't guarantee same labels for the same image.\nPP_CENTERS: Slow but will yield optimum and consistent results for same input image.\nattempts: to run criteria_max_iterations so it gets the best labels. Increasing this value will slow down the runtime a lot, but improves the colors!\n",
+    "opencv_kmeans_centers": "RANDOM_CENTERS",
+    "opencv_kmeans_attempts": 10,
+    "opencv_criteria_max_iterations": 10,
+    "pycluster_kmeans_metrics": "EUCLIDEAN_SQUARE",
+    "cleanup": "Clean up colors: Iterate and eliminate pixels while there was none left covering less than the 'cleanup_pixels_threshold' of the image.\nOptionally, enable the 'reduce colors' option, which runs before this cleanup. Good cleanup_threshold values: between .01 & .05",
+    "cleanup_colors": false,
+    "cleanup_pixels_threshold": 0.02,
+    "dither": "none"
+   }
   },
   {
    "id": 12,
    "type": "SaveImage",
    "pos": [
-    2680,
-    120
+    2216.362710774636,
+    418.925705497252
    ],
    "size": [
     400,
     300
    ],
-   "widgets_values": [
-    "2D/pixel_convert/restyled_pal"
-   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
@@ -514,34 +621,52 @@
      "link": 16
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveImage"
    },
-   "order": 11
+   "widgets_values": [
+    "2D/pixel_convert/restyled_pal"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/pixel_convert/restyled_pal"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 13,
    "type": "MarkdownNote",
    "pos": [
-    40,
-    560
+    40.000043596540195,
+    -174.85700334821433
    ],
    "size": [
-    420,
-    320
+    658.8571166992188,
+    243.83752005440851
    ],
    "flags": {},
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [],
-   "widgets_values": [
-    "## pixel-art-restyle.json\n\nExisting image -> pixel art, REDRAWN (img2img with the pixel-art LoRA)\n\n**Does:** re-paints the source with `pixel-art-xl` before making a sprite, so detail is simplified into the pixel idiom instead of being resampled. `KSampler` is img2img at the model's native resolution: `denoise` **0.6** is the knob - low keeps the source, high redraws it (0.8 moves noticeably further). Then `PixelArtDetectorConverter` at a **fixed 128x128** with a chosen palette makes the grid (`paletteList` from `PixelArtLoadPalettes`; pico-8 by default) - 128 is the same LoRA's native sprite (it paints an 8 px grid at 1024², so /8; set it to 64 for a deliberate 2x reduction). Two saves: the redrawn image at full size and the sprite.\n**Do NOT downscale before the sampler.** A 64-128 px latent makes SDXL produce mush - measured: a 128 px latent at denoise 0.93 returned a colour blob, not a knight. Downscaling belongs at the END, with the known factor.\n**Faithful instead?** `pixel-art-convert.json` keeps the source exactly (resize + palette, no redraw). **Restoring an existing small sprite?** that is a third job - upscale it first so the model can work at native resolution (the `comfyui-pixelart-detector` pack ships an example for it), which is not what this flow does.\n\n---\n*How to run it: story **S37** in `HOWTO.md`  ·  Why it is this way: **E5** nodes + **E31/E32** in the scenarios' `EXPERIMENTS` logs.*"
-   ],
    "properties": {},
-   "order": 0
+   "widgets_values": [
+    "## pixel-art-restyle.json\n\nExisting image -> pixel art, REDRAWN (img2img with the pixel-art LoRA)\n\n**Does:** re-paints the source with `pixel-art-xl` before making a sprite, so detail is simplified into the pixel idiom instead of being resampled. `KSampler` is img2img at the model's native resolution: `denoise` **0.6** is the knob - low keeps the source, high redraws it (0.8 moves noticeably further). Then `PixelArtDetectorConverter` at a **fixed 128x128** with a chosen palette makes the grid (`paletteList` from `PixelArtLoadPalettes`; pico-8 by default) - 128 is the same LoRA's native sprite (it paints an 8 px grid at 1024\u00b2, so /8; set it to 64 for a deliberate 2x reduction). Two saves: the redrawn image at full size and the sprite.\n**Do NOT downscale before the sampler.** A 64-128 px latent makes SDXL produce mush - measured: a 128 px latent at denoise 0.93 returned a colour blob, not a knight. Downscaling belongs at the END, with the known factor.\n**Faithful instead?** `pixel-art-convert.json` keeps the source exactly (resize + palette, no redraw). **Restoring an existing small sprite?** that is a third job - upscale it first so the model can work at native resolution (the `comfyui-pixelart-detector` pack ships an example for it), which is not what this flow does.\n\n---\n*How to run it: story **S37** in `HOWTO.md`  \u00b7  Why it is this way: **E5** nodes + **E31/E32** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "widgets_values_named": {
+    "text": "## pixel-art-restyle.json\n\nExisting image -> pixel art, REDRAWN (img2img with the pixel-art LoRA)\n\n**Does:** re-paints the source with `pixel-art-xl` before making a sprite, so detail is simplified into the pixel idiom instead of being resampled. `KSampler` is img2img at the model's native resolution: `denoise` **0.6** is the knob - low keeps the source, high redraws it (0.8 moves noticeably further). Then `PixelArtDetectorConverter` at a **fixed 128x128** with a chosen palette makes the grid (`paletteList` from `PixelArtLoadPalettes`; pico-8 by default) - 128 is the same LoRA's native sprite (it paints an 8 px grid at 1024\u00b2, so /8; set it to 64 for a deliberate 2x reduction). Two saves: the redrawn image at full size and the sprite.\n**Do NOT downscale before the sampler.** A 64-128 px latent makes SDXL produce mush - measured: a 128 px latent at denoise 0.93 returned a colour blob, not a knight. Downscaling belongs at the END, with the known factor.\n**Faithful instead?** `pixel-art-convert.json` keeps the source exactly (resize + palette, no redraw). **Restoring an existing small sprite?** that is a third job - upscale it first so the model can work at native resolution (the `comfyui-pixelart-detector` pack ships an example for it), which is not what this flow does.\n\n---\n*How to run it: story **S37** in `HOWTO.md`  \u00b7  Why it is this way: **E5** nodes + **E31/E32** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -678,12 +803,13 @@
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 1.0248700000000006,
    "offset": [
-    0,
-    0
+    -1714.2792001580694,
+    -60.85690360043733
    ]
-  }
+  },
+  "frontendVersion": "1.59.6"
  },
  "version": 0.4
 }

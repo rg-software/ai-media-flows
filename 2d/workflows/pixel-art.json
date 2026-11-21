@@ -1,4 +1,6 @@
 {
+ "id": "41e8a8b6-20e0-44d9-9cf7-54037edea554",
+ "revision": 0,
  "last_node_id": 13,
  "last_link_id": 14,
  "nodes": [
@@ -13,9 +15,10 @@
     340,
     100
    ],
-   "widgets_values": [
-    "RealVisXL_V5.0_fp16.safetensors"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "MODEL",
@@ -43,29 +46,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
-   "order": 0
+   "widgets_values": [
+    "RealVisXL_V5.0_fp16.safetensors"
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 2,
    "type": "LoraLoaderModelOnly",
    "pos": [
-    480,
-    120
+    513.0578512396694,
+    69.94097532882603
    ],
    "size": [
     340,
     90
    ],
-   "widgets_values": [
-    "pixel-art-xl.safetensors",
-    1.0
-   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -83,27 +91,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoraLoaderModelOnly"
    },
-   "order": 1
+   "widgets_values": [
+    "pixel-art-xl.safetensors",
+    1
+   ],
+   "widgets_values_named": {
+    "lora_name": "pixel-art-xl.safetensors",
+    "strength_model": 1
+   }
   },
   {
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    380
+    505.5018862529516,
+    250.60215397173852
    ],
    "size": [
     440,
     140
    ],
-   "widgets_values": [
-    "detailed pixel art of a treasure chest, flat colors, cel shading, no background, pixel art style, pixel art"
-   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -121,27 +136,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 2
+   "widgets_values": [
+    "detailed pixel art of a treasure chest, flat colors, cel shading, no background, pixel art style, pixel art"
+   ],
+   "widgets_values_named": {
+    "text": "detailed pixel art of a treasure chest, flat colors, cel shading, no background, pixel art style, pixel art"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    640
+    504.55724650881785,
+    461.48766095410275
    ],
    "size": [
     440,
     120
    ],
-   "widgets_values": [
-    "blurry, muted, dull, hazy, muddy colors, mutated, deformed, noise, borders, frame, watermark, text, signature, cropped, out of frame"
-   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -159,29 +181,35 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 3
+   "widgets_values": [
+    "blurry, muted, dull, hazy, muddy colors, mutated, deformed, noise, borders, frame, watermark, text, signature, cropped, out of frame"
+   ],
+   "widgets_values_named": {
+    "text": "blurry, muted, dull, hazy, muddy colors, mutated, deformed, noise, borders, frame, watermark, text, signature, cropped, out of frame"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
    "type": "EmptyLatentImage",
    "pos": [
     40,
-    380
+    286.2857927594866
    ],
    "size": [
     300,
-    100
+    106
    ],
-   "widgets_values": [
-    1024,
-    1024,
-    1
-   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "LATENT",
@@ -192,34 +220,38 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "EmptyLatentImage"
    },
-   "order": 4
+   "widgets_values": [
+    1024,
+    1024,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 1024,
+    "height": 1024,
+    "batch_size": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 6,
    "type": "KSampler",
    "pos": [
-    920,
-    120
+    1073.9551645974764,
+    268.28806475174326
    ],
    "size": [
     320,
     262
    ],
-   "widgets_values": [
-    5501,
-    "fixed",
-    25,
-    7.0,
-    "euler",
-    "normal",
-    1.0
-   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -252,24 +284,44 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "KSampler"
    },
-   "order": 5
+   "widgets_values": [
+    5501,
+    "fixed",
+    25,
+    7,
+    "euler",
+    "normal",
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 5501,
+    "control_after_generate": "fixed",
+    "steps": 25,
+    "cfg": 7,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 1
+   }
   },
   {
    "id": 7,
    "type": "VAEDecode",
    "pos": [
-    1360,
-    120
+    1421.3931523022432,
+    162.50295159386067
    ],
    "size": [
     240,
     60
    ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
    "inputs": [
     {
      "name": "samples",
@@ -292,31 +344,26 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "order": 6
+   }
   },
   {
    "id": 8,
    "type": "ImageScale",
    "pos": [
-    1800,
-    120
+    1525.1475220447167,
+    348.571417762369
    ],
    "size": [
     300,
     130
    ],
-   "widgets_values": [
-    "nearest-exact",
-    128,
-    128,
-    "disabled"
-   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
    "inputs": [
     {
      "name": "image",
@@ -335,27 +382,38 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "ImageScale"
    },
-   "order": 7
+   "widgets_values": [
+    "nearest-exact",
+    128,
+    128,
+    "disabled"
+   ],
+   "widgets_values_named": {
+    "upscale_method": "nearest-exact",
+    "width": 128,
+    "height": 128,
+    "crop": "disabled"
+   }
   },
   {
    "id": 9,
    "type": "SaveImage",
    "pos": [
-    2240,
-    120
+    2039.8496859424472,
+    104.02918706805687
    ],
    "size": [
     380,
     300
    ],
-   "widgets_values": [
-    "2D/E5/pixel_lora_128"
-   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
@@ -363,36 +421,42 @@
      "link": 11
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveImage"
    },
-   "order": 8
+   "widgets_values": [
+    "2D/E5/pixel_lora_128"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/E5/pixel_lora_128"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 10,
    "type": "PixelArtLoadPalettes",
    "pos": [
-    40,
-    640
+    36.57143729073658,
+    463.99998256138394
    ],
    "size": [
     340,
-    300
+    136
    ],
-   "widgets_values": [
-    "pico-8-1x.png",
-    false,
-    "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
-    40,
-    "#f40e12",
-    "#fff",
-    6,
-    true,
-    3
-   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "paletteList",
@@ -403,25 +467,81 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfyui-pixelart-detector",
+    "ver": "d5ed602cb2eb67c05fbe8f5eae5c3b77ee257897",
     "Node name for S&R": "PixelArtLoadPalettes"
    },
-   "order": 9
+   "widgets_values": [
+    "pico-8-1x.png",
+    false,
+    "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
+    40,
+    "#f40e12",
+    "#fff",
+    6,
+    true,
+    3,
+    ""
+   ],
+   "widgets_values_named": {
+    "image": "pico-8-1x.png",
+    "render_all_palettes_in_grid": false,
+    "grid_settings": "Grid settings. The values will be forwarded to the 'PixelArt Palette Converter to render the grid with all palettes from this node.'",
+    "paletteList_grid_font_size": 40,
+    "paletteList_grid_font_color": "#f40e12",
+    "paletteList_grid_background": "#fff",
+    "paletteList_grid_cols": 6,
+    "paletteList_grid_add_border": true,
+    "paletteList_grid_border_width": 3,
+    "palette_preview": ""
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 11,
    "type": "PixelArtDetectorConverter",
    "pos": [
-    2240,
-    380
+    1887.1716215635838,
+    584.3599951878066
    ],
    "size": [
     420,
-    620
+    324
    ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 12
+    },
+    {
+     "name": "paletteList",
+     "shape": 7,
+     "type": "LIST",
+     "link": 13
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "shape": 6,
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-pixelart-detector",
+    "ver": "d5ed602cb2eb67c05fbe8f5eae5c3b77ee257897",
+    "Node name for S&R": "PixelArtDetectorConverter"
+   },
    "widgets_values": [
     "GAMEBOY",
     128,
@@ -444,49 +564,43 @@
     0.02,
     "none"
    ],
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 12
-    },
-    {
-     "name": "paletteList",
-     "type": "LIST",
-     "link": 13
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "slot_index": 0,
-     "links": [
-      14
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "PixelArtDetectorConverter"
-   },
-   "order": 10
+   "widgets_values_named": {
+    "palette": "GAMEBOY",
+    "resize_w": 128,
+    "resize_h": 128,
+    "resize_type": "contain",
+    "pixelize": "Image.quantize",
+    "grid_pixelate_grid_scan_size": 2,
+    "reduce_colors_before_palette_swap": false,
+    "reduce_colors_method": "Image.quantize",
+    "reduce_colors_max_colors": 128,
+    "apply_pixeldetector_max_colors": true,
+    "image_quantize_reduce_method": "MAXCOVERAGE",
+    "opencv_settings": "OpenCV.kmeans: only when reducing is enabled.\nRANDOM_CENTERS: Fast but doesn't guarantee same labels for the same image.\nPP_CENTERS: Slow but will yield optimum and consistent results for same input image.\nattempts: to run criteria_max_iterations so it gets the best labels. Increasing this value will slow down the runtime a lot, but improves the colors!\n",
+    "opencv_kmeans_centers": "RANDOM_CENTERS",
+    "opencv_kmeans_attempts": 10,
+    "opencv_criteria_max_iterations": 10,
+    "pycluster_kmeans_metrics": "EUCLIDEAN_SQUARE",
+    "cleanup": "Clean up colors: Iterate and eliminate pixels while there was none left covering less than the 'cleanup_pixels_threshold' of the image.\nOptionally, enable the 'reduce colors' option, which runs before this cleanup. Good cleanup_threshold values: between .01 & .05",
+    "cleanup_colors": false,
+    "cleanup_pixels_threshold": 0.02,
+    "dither": "none"
+   }
   },
   {
    "id": 12,
    "type": "SaveImage",
    "pos": [
-    2680,
-    120
+    2505.6949399870537,
+    342.38917779139433
    ],
    "size": [
     380,
     300
    ],
-   "widgets_values": [
-    "2D/E5/pixel_lora_128_pal"
-   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
@@ -494,34 +608,52 @@
      "link": 14
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveImage"
    },
-   "order": 11
+   "widgets_values": [
+    "2D/E5/pixel_lora_128_pal"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "2D/E5/pixel_lora_128_pal"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 13,
    "type": "MarkdownNote",
    "pos": [
-    -1500,
-    -480
+    47.838174953617,
+    -295.15023816994585
    ],
    "size": [
-    420,
-    320
+    860.9666477089258,
+    291.8374137568426
    ],
    "flags": {},
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [],
-   "widgets_values": [
-    "## pixel-art.json\n\nPixel art from a prompt (game-ready sprites)\n\n**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024²**, then `ImageScale` **nearest /8 -> 128x128** (the model's own grid), then `PixelArtDetectorConverter` at a **fixed 128x128** with a chosen palette (`paletteList` from `PixelArtLoadPalettes`, pico-8 by default). Both outputs are 128 px, so they are directly comparable.\n**The grid is 8 px (measured).** This LoRA paints on an **8 px grid at 1024²** - the adjacent-column step ratio peaks at period 8 (6.38, vs 5.35 at 16) and the modal gap between column spikes is 8 px - so **/8 is its native factor and 128 px its native sprite**, which is what the flow ships: nothing the model painted is thrown away. **Want a classic 64 px sprite?** set `ImageScale` to **64x64** and the converter's `resize_w`/`resize_h` to **64** - a deliberate 2x reduction of the model's own pixels.\n**Never auto-detect.** `PixelArtDetectorToImage`'s grid detection is unreliable (measured: it returned 128 px from a 1024² image) and is not idempotent - which is why the palette pass here uses a FIXED size and never an already-downscaled input.\n**Flat retro instead?** `RetroDiffusion24x-64xModel` at 512², 20 steps, cfg 9.5, with **its** measured factor /8 -> 64 px. That model is **purchased**, and RD's terms give its **outputs to the user** (commercial use fine; no training on RD outputs) [retrodiffusion.ai/terms, checked 2026-10-08]. Vendor-stated effective ranges (recorded 2026-10-09 from the retired cheatsheet; we only exercised 256/512/1024 canvases): **16x** canvas 128-512 -> 8-32 px output (Minecraft-biased training), **24x-64x** 192-512 -> 24-64 px, **128x** 768-1280 -> 96-160 px. RD prompts want **natural language** - one descriptive sentence plus a few tags; quality-boilerplate word soup degrades it specifically, and ControlNets/LoRAs can destroy the pixel grid (above a 1280 canvas, generate small and img2img up instead).\n**Converting an existing picture?** `pixel-art-convert.json` keeps the source exactly (resize + palette); `pixel-art-restyle.json` redraws it with the LoRA first.\n\n---\n*How to run it: story **S37** in `HOWTO.md`  ·  Why it is this way: **E5/E5b/E5f** in the scenarios' `EXPERIMENTS` logs.*"
-   ],
    "properties": {},
-   "order": 0
+   "widgets_values": [
+    "## pixel-art.json\n\nPixel art from a prompt (game-ready sprites)\n\n**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024\u00b2**, then `ImageScale` **nearest /8 -> 128x128** (the model's own grid), then `PixelArtDetectorConverter` at a **fixed 128x128** with a chosen palette (`paletteList` from `PixelArtLoadPalettes`, pico-8 by default). Both outputs are 128 px, so they are directly comparable.\n**The grid is 8 px (measured).** This LoRA paints on an **8 px grid at 1024\u00b2** - the adjacent-column step ratio peaks at period 8 (6.38, vs 5.35 at 16) and the modal gap between column spikes is 8 px - so **/8 is its native factor and 128 px its native sprite**, which is what the flow ships: nothing the model painted is thrown away. **Want a classic 64 px sprite?** set `ImageScale` to **64x64** and the converter's `resize_w`/`resize_h` to **64** - a deliberate 2x reduction of the model's own pixels.\n**Never auto-detect.** `PixelArtDetectorToImage`'s grid detection is unreliable (measured: it returned 128 px from a 1024\u00b2 image) and is not idempotent - which is why the palette pass here uses a FIXED size and never an already-downscaled input.\n**Flat retro instead?** `RetroDiffusion24x-64xModel` at 512\u00b2, 20 steps, cfg 9.5, with **its** measured factor /8 -> 64 px. That model is **purchased**, and RD's terms give its **outputs to the user** (commercial use fine; no training on RD outputs) [retrodiffusion.ai/terms, checked 2026-10-08]. Vendor-stated effective ranges (recorded 2026-10-09 from the retired cheatsheet; we only exercised 256/512/1024 canvases): **16x** canvas 128-512 -> 8-32 px output (Minecraft-biased training), **24x-64x** 192-512 -> 24-64 px, **128x** 768-1280 -> 96-160 px. RD prompts want **natural language** - one descriptive sentence plus a few tags; quality-boilerplate word soup degrades it specifically, and ControlNets/LoRAs can destroy the pixel grid (above a 1280 canvas, generate small and img2img up instead).\n**Converting an existing picture?** `pixel-art-convert.json` keeps the source exactly (resize + palette); `pixel-art-restyle.json` redraws it with the LoRA first.\n\n---\n*How to run it: story **S37** in `HOWTO.md`  \u00b7  Why it is this way: **E5/E5b/E5f** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "widgets_values_named": {
+    "text": "## pixel-art.json\n\nPixel art from a prompt (game-ready sprites)\n\n**Does:** SDXL + `pixel-art-xl` LoRA (RealVisXL, strength 1.0) at **1024\u00b2**, then `ImageScale` **nearest /8 -> 128x128** (the model's own grid), then `PixelArtDetectorConverter` at a **fixed 128x128** with a chosen palette (`paletteList` from `PixelArtLoadPalettes`, pico-8 by default). Both outputs are 128 px, so they are directly comparable.\n**The grid is 8 px (measured).** This LoRA paints on an **8 px grid at 1024\u00b2** - the adjacent-column step ratio peaks at period 8 (6.38, vs 5.35 at 16) and the modal gap between column spikes is 8 px - so **/8 is its native factor and 128 px its native sprite**, which is what the flow ships: nothing the model painted is thrown away. **Want a classic 64 px sprite?** set `ImageScale` to **64x64** and the converter's `resize_w`/`resize_h` to **64** - a deliberate 2x reduction of the model's own pixels.\n**Never auto-detect.** `PixelArtDetectorToImage`'s grid detection is unreliable (measured: it returned 128 px from a 1024\u00b2 image) and is not idempotent - which is why the palette pass here uses a FIXED size and never an already-downscaled input.\n**Flat retro instead?** `RetroDiffusion24x-64xModel` at 512\u00b2, 20 steps, cfg 9.5, with **its** measured factor /8 -> 64 px. That model is **purchased**, and RD's terms give its **outputs to the user** (commercial use fine; no training on RD outputs) [retrodiffusion.ai/terms, checked 2026-10-08]. Vendor-stated effective ranges (recorded 2026-10-09 from the retired cheatsheet; we only exercised 256/512/1024 canvases): **16x** canvas 128-512 -> 8-32 px output (Minecraft-biased training), **24x-64x** 192-512 -> 24-64 px, **128x** 768-1280 -> 96-160 px. RD prompts want **natural language** - one descriptive sentence plus a few tags; quality-boilerplate word soup degrades it specifically, and ControlNets/LoRAs can destroy the pixel grid (above a 1280 canvas, generate small and img2img up instead).\n**Converting an existing picture?** `pixel-art-convert.json` keeps the source exactly (resize + palette); `pixel-art-restyle.json` redraws it with the LoRA first.\n\n---\n*How to run it: story **S37** in `HOWTO.md`  \u00b7  Why it is this way: **E5/E5b/E5f** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -642,12 +774,13 @@
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.6934334949441334,
    "offset": [
-    0,
-    0
+    -1010.3429873457095,
+    86.44382227616885
    ]
-  }
+  },
+  "frontendVersion": "1.59.6"
  },
  "version": 0.4
 }

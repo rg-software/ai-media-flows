@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gate: workflows/jobs.json must agree with the docs it feeds.
+"""Gate: jobs.json must agree with the docs it feeds.
 
 Cell-level, not byte-level: a table's *padding* is not content (mdtable re-renders a table with its own
 column widths, so a historical wider row can shift spaces by two while every cell is identical). What must

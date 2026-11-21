@@ -13,7 +13,7 @@ A note on names: the category headings below group the **jobs**, while the folde
 
 ## I want to…
 
-<!-- jobs: generated from workflows/jobs.json by scripts/gen_job_docs.py -->
+<!-- jobs: generated from jobs.json by scripts/gen_job_docs.py -->
 
 ### 2D images
 

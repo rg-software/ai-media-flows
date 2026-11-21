@@ -30,7 +30,7 @@ Checks, in the order of what has actually bitten us:
   6. **Per-flow docs:** every workflow carries a `MarkdownNote` (a group title renders as a
      clipped label in the canvas), and every story cited in the index exists in `HOWTO.md`.
   7. **Story mapping:** every README job row names a story that exists, and every story is
-     referenced by at least one row. Since `workflows/jobs.json` became the single source for the
+     referenced by at least one row. Since `jobs.json` (repo root) became the single source for the
      job -> flow -> story mapping, `check_job_docs` additionally asserts that the README table, every
      PIPELINES story cell and every workflow's note footer still *equal* what that registry renders -
      so the mapping cannot drift, and adding or moving a job is a one-file edit
@@ -343,7 +343,7 @@ def lint_file(path: str, rel: str) -> list[str]:
 CONTRIBUTOR_TOOLS = {"lint_docs.py", "mdtable.py", "add_workflow_notes.py",
                      "gen_assets.py", "publish_assets.sh", "fix_workflow_links.py", "pose_probe.py",
                      "build_workflow.py", "check_workflows.py",
-                     # the job/story/flow registry and its renderer+gate (see workflows/jobs.json)
+                     # the job/story/flow registry and its renderer+gate (see jobs.json at the repo root)
                      "gen_job_docs.py", "check_job_docs.py",
                      # engine-import contract: check a GLB offline, and add the normals Hy3D drops
                      "check_gltf_contract.py", "fix_gltf_normals.py",
