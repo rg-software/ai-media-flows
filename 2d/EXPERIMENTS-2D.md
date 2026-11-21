@@ -165,3 +165,22 @@ Same discipline as `3d/EXPERIMENTS.md`: one row per run, verdicts with *why*.
     - Correction to E14b's record: the earlier explanation ("the face embedding wants a large face") described the embedding branch's weak bias; the composition LOCK is the keypoint ControlNet mirroring the reference's framing, and `image_kps` is the decoupler. The flow now ships `image_kps` wired (default = the reference portrait).
 - Next: ears on the full-body take; if the identity holds visually, S7 gains the full-body recipe.
 
+
+## E42 - multiview vs single-view image-to-3D: four real views win; sv3d views do not drop in (broken twice)
+
+- Date: 2026-11-21
+- Stage: image-to-3D (Hy3D) - pipeline A/B
+- Workflows: `3d/workflows/hy3d-full-workflow.json` (single-view arm), `3d/workflows/hy3d-multiview-workflow.json` (four-view arms), `2d/workflows/sv3d-turnaround.json` (view source for arm 3)
+- Input: the knight (`front.png`, the realistic full-body render) for the single arm; the four shipped real views (`front/left/right/back.png`) for the real-views arm; sv3d orbit frames (0/90/180/270 deg of an orbit over the same front view, 21-frame batch) for the sv3d arms
+- Params: both flows as shipped (denoise/steps per their notes); converter: the generic flow->API converter with the week's mapping rules (stale widget slots, seed control pairs, autogrow groups)
+- Output: turntable renders `output/3D/Hy3D_textured_render_0005x_.png` (single), `Hy3Dmv_textured_render_0007x_..0009x_.png` (real-views arm), `_0008x_..` (sv3d arm), `_0009x_-0010x_` (sv3d swapped arm)
+- Verdict: **four real views clearly beat one view; sv3d views do NOT drop in naively - two independent failure modes measured**
+- Observations:
+    - **Single-view arm:** front render recognizable but noisy (heavy red bleed, chainmail texture wandering onto plates); the back is INVENTED - a full-coverage cape plus a floating chainmail oval on the upper back and smeared shoulders. Exactly the occluded-geometry failure the multiview route exists for.
+    - **Real-views arm:** clearly the best take - crisp structured armor front AND a coherent back (dark armor visible under the cape, no floating patches). The multiview flow earns its keep when real views exist.
+    - **sv3d arm (views fed as front/left/right/back at 0/90/180/270):** broken mesh - floating red cloth panels, debris, a shattered ground plane. First suspect: orbit direction mismatch (left/right swapped).
+    - **sv3d swapped arm (left/right exchanged):** still broken, different artifact - the sv3d frames' gradient studio background was BAKED INTO THE GEOMETRY as large blue slabs. Root cause: the multiview shape model reads background structure as geometry; the real views' uniform flat background was ignorable, sv3d's shaded gradient is not.
+    - **Consequence for the S12 "Multiple angles" line:** the multiview flow requires four CLEAN, background-free views. sv3d-turnaround is a view source only after background removal (rembg is installed for the wrapper) and a convention check; naive feeding produces broken meshes (measured twice). The "sv3d makes the views" convenience is not free.
+    - **Also:** sv3d's orbit was faithful on the front view (near-identical reconstruction of the input) - the failure is in the downstream composition, not sv3d itself.
+- Next: if a single-image-to-good-mesh route is ever needed, the candidate is sv3d views + background removal (rembg) + convention check - one more E-row. Until then: single-view flow for quick takes; four real views when quality matters.
+
