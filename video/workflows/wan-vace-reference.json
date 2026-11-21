@@ -1,853 +1,853 @@
 {
-  "id": "d23135a6-f8c9-4abb-a220-6f54643f9d04",
-  "revision": 0,
-  "last_node_id": 62,
-  "last_link_id": 19,
-  "nodes": [
+ "id": "d23135a6-f8c9-4abb-a220-6f54643f9d04",
+ "revision": 0,
+ "last_node_id": 62,
+ "last_link_id": 19,
+ "nodes": [
+  {
+   "id": 37,
+   "type": "UNETLoader",
+   "pos": [
+    465.61942047277665,
+    628.4295369171535
+   ],
+   "size": [
+    340,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
     {
-      "id": 37,
-      "type": "UNETLoader",
-      "pos": [
-        465.61942047277665,
-        628.4295369171535
-      ],
-      "size": [
-        340,
-        100
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "slot_index": 0,
-          "links": [
-            1
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "UNETLoader"
-      },
-      "widgets_values": [
-        "wan2.1_vace_14B_fp8_scaled.safetensors",
-        "default"
-      ],
-      "widgets_values_named": {
-        "unet_name": "wan2.1_vace_14B_fp8_scaled.safetensors",
-        "weight_dtype": "default"
-      }
-    },
-    {
-      "id": 54,
-      "type": "ModelSamplingSD3",
-      "pos": [
-        1077.1793290635142,
-        655.573288502879
-      ],
-      "size": [
-        220,
-        80
-      ],
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "slot_index": 0,
-          "links": [
-            2
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "ModelSamplingSD3"
-      },
-      "widgets_values": [
-        8
-      ],
-      "widgets_values_named": {
-        "shift": 8
-      }
-    },
-    {
-      "id": 38,
-      "type": "CLIPLoader",
-      "pos": [
-        86.85105957467204,
-        495.4547683890206
-      ],
-      "size": [
-        340,
-        106
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "slot_index": 0,
-          "links": [
-            3,
-            4
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "CLIPLoader"
-      },
-      "widgets_values": [
-        "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-        "wan",
-        "default"
-      ],
-      "widgets_values_named": {
-        "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-        "type": "wan",
-        "device": "default"
-      }
-    },
-    {
-      "id": 39,
-      "type": "VAELoader",
-      "pos": [
-        99.0778892354594,
-        716.8720056548675
-      ],
-      "size": [
-        340,
-        80
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "VAE",
-          "type": "VAE",
-          "slot_index": 0,
-          "links": [
-            7,
-            15
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "VAELoader"
-      },
-      "widgets_values": [
-        "Wan2_1_VAE_bf16.safetensors"
-      ],
-      "widgets_values_named": {
-        "vae_name": "Wan2_1_VAE_bf16.safetensors"
-      }
-    },
-    {
-      "id": 52,
-      "type": "LoadImage",
-      "pos": [
-        81.83142857142855,
-        99.69907737949939
-      ],
-      "size": [
-        340,
-        314
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "slot_index": 0,
-          "links": [
-            8
-          ]
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "slot_index": 1,
-          "links": []
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "char_heroine.png",
-        "image"
-      ],
-      "widgets_values_named": {
-        "image": "char_heroine.png",
-        "upload": "image"
-      },
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 6,
-      "type": "CLIPTextEncode",
-      "pos": [
-        480,
-        120
-      ],
-      "size": [
-        440,
-        160
-      ],
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 3
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "slot_index": 0,
-          "links": [
-            5
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        "a red-haired sorceress in a blue and gold gown spinning gracefully and casting a fire spell, full body, plain background"
-      ],
-      "widgets_values_named": {
-        "text": "a red-haired sorceress in a blue and gold gown spinning gracefully and casting a fire spell, full body, plain background"
-      },
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 7,
-      "type": "CLIPTextEncode",
-      "pos": [
-        480,
-        380
-      ],
-      "size": [
-        440,
-        200
-      ],
-      "flags": {},
-      "order": 7,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 4
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "slot_index": 0,
-          "links": [
-            6
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
-      ],
-      "widgets_values_named": {
-        "text": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
-      }
-    },
-    {
-      "id": 55,
-      "type": "WanVaceToVideo",
-      "pos": [
-        949.0909407974838,
-        121.0389451856737
-      ],
-      "size": [
-        340,
-        254
-      ],
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 5
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 6
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 7
-        },
-        {
-          "name": "control_video",
-          "shape": 7,
-          "type": "IMAGE",
-          "link": null
-        },
-        {
-          "name": "control_masks",
-          "shape": 7,
-          "type": "MASK",
-          "link": null
-        },
-        {
-          "name": "reference_image",
-          "shape": 7,
-          "type": "IMAGE",
-          "link": 8
-        }
-      ],
-      "outputs": [
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "slot_index": 0,
-          "links": [
-            9
-          ]
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "slot_index": 1,
-          "links": [
-            10
-          ]
-        },
-        {
-          "name": "latent",
-          "type": "LATENT",
-          "slot_index": 2,
-          "links": [
-            11
-          ]
-        },
-        {
-          "name": "trim_latent",
-          "type": "INT",
-          "slot_index": 3,
-          "links": [
-            13
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "WanVaceToVideo"
-      },
-      "widgets_values": [
-        768,
-        768,
-        81,
-        1,
-        1
-      ],
-      "widgets_values_named": {
-        "width": 768,
-        "height": 768,
-        "length": 81,
-        "batch_size": 1,
-        "strength": 1
-      },
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 3,
-      "type": "KSampler",
-      "pos": [
-        1360,
-        120
-      ],
-      "size": [
-        340,
-        262
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 2
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 9
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 10
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 11
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "slot_index": 0,
-          "links": [
-            12
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "KSampler"
-      },
-      "widgets_values": [
-        42,
-        "fixed",
-        20,
-        6,
-        "uni_pc",
-        "simple",
-        1
-      ],
-      "widgets_values_named": {
-        "seed": 42,
-        "control_after_generate": "fixed",
-        "steps": 20,
-        "cfg": 6,
-        "sampler_name": "uni_pc",
-        "scheduler": "simple",
-        "denoise": 1
-      }
-    },
-    {
-      "id": 56,
-      "type": "TrimVideoLatent",
-      "pos": [
-        1420.7793198622671,
-        524.1559590921768
-      ],
-      "size": [
-        240,
-        80
-      ],
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 12
-        },
-        {
-          "name": "trim_amount",
-          "type": "INT",
-          "widget": {
-            "name": "trim_amount"
-          },
-          "link": 13
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "slot_index": 0,
-          "links": [
-            14
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "TrimVideoLatent"
-      },
-      "widgets_values": [
-        0
-      ],
-      "widgets_values_named": {
-        "trim_amount": 0
-      }
-    },
-    {
-      "id": 8,
-      "type": "VAEDecode",
-      "pos": [
-        1715.324714957894,
-        724.6755505846686
-      ],
-      "size": [
-        220,
-        80
-      ],
-      "flags": {},
-      "order": 11,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 14
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 15
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "slot_index": 0,
-          "links": [
-            18
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 60,
-      "type": "MarkdownNote",
-      "pos": [
-        56.66121370655742,
-        -261.8835561881242
-      ],
-      "size": [
-        914.9753013028119,
-        298.69716820849527
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [],
-      "properties": {},
-      "widgets_values": [
-        "## wan-vace-reference.json\n\nPrompt-driven animation of a character you own (no driving clip)\n\n**Does:** VACE **reference-to-video** - your character image goes in as the **reference** and the prompt says what she should *do*; the model keeps her identity and acts it out, in the reference's own look and its plain background. Wan2.1-VACE 14B fp8_scaled (`wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB, **Apache-2.0**) plus the umt5 text encoder and Wan VAE this box already ships. **This is the counterpart to `wan-animate-motion.json` (S18):** that flow copies motion from a *driving clip*; this one writes the motion from *words* - the one motion source we had no route for.\n**Measured (E13b, 2026-10-10):** 81 frames at 768x768, 20 steps, cfg 6, shift 8 -> **2729 s (45.5 min)** on the 3090 at 17.25 GB VRAM. **Identity holds** on our own `char_heroine.png` across the clip, and the prompt's fire spell appears and grows in her hand (strip: `video/evidence/E13b-vace-single-strip.png`). **Two honest defects:** the gown's hem smears into a painterly swirl early, and the **last third drifts** (the action dominates, the figure softens) - keep the first ~two thirds if identity is what matters.\n**Knobs:** `length` on `WanVaceToVideo` (81 ships = 3.4 s at 24 fps; the value quantises in 4-frame chunks), **steps/cfg** on the sampler (20 / 6.0 - the 6-step distil LoRA the Animate flow uses is named for I2V at 480p and is untested with VACE reference mode), **shift** on `ModelSamplingSD3` (8.0), and the canvas (768x768 ships; 480x848 roughly halves the cost if you accept the crop).\n**Traps:** the reference brings its **background** with it - a busy photo gives a busy clip, so use a plain one. Never GGUF this model (the same metadata trap as Wan-Animate-2). And when you copy an upstream example, **audit every loader filename against what this box holds**: the example loads `wan_2.1_vae.safetensors`, which we do not have - ours is `Wan2_1_VAE_bf16.safetensors` (wired here).\n**Not in this flow yet:** several subjects at once and region placement (the reference pair and the `control_video` + `control_masks` arms) are measured in E13b and tracked there.\n\n---\n*How to run it: story **S28** in `HOWTO.md`  ·  Why it is this way: **E13/E13b** in the scenarios' `EXPERIMENTS` logs.*"
-      ],
-      "widgets_values_named": {
-        "text": "## wan-vace-reference.json\n\nPrompt-driven animation of a character you own (no driving clip)\n\n**Does:** VACE **reference-to-video** - your character image goes in as the **reference** and the prompt says what she should *do*; the model keeps her identity and acts it out, in the reference's own look and its plain background. Wan2.1-VACE 14B fp8_scaled (`wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB, **Apache-2.0**) plus the umt5 text encoder and Wan VAE this box already ships. **This is the counterpart to `wan-animate-motion.json` (S18):** that flow copies motion from a *driving clip*; this one writes the motion from *words* - the one motion source we had no route for.\n**Measured (E13b, 2026-10-10):** 81 frames at 768x768, 20 steps, cfg 6, shift 8 -> **2729 s (45.5 min)** on the 3090 at 17.25 GB VRAM. **Identity holds** on our own `char_heroine.png` across the clip, and the prompt's fire spell appears and grows in her hand (strip: `video/evidence/E13b-vace-single-strip.png`). **Two honest defects:** the gown's hem smears into a painterly swirl early, and the **last third drifts** (the action dominates, the figure softens) - keep the first ~two thirds if identity is what matters.\n**Knobs:** `length` on `WanVaceToVideo` (81 ships = 3.4 s at 24 fps; the value quantises in 4-frame chunks), **steps/cfg** on the sampler (20 / 6.0 - the 6-step distil LoRA the Animate flow uses is named for I2V at 480p and is untested with VACE reference mode), **shift** on `ModelSamplingSD3` (8.0), and the canvas (768x768 ships; 480x848 roughly halves the cost if you accept the crop).\n**Traps:** the reference brings its **background** with it - a busy photo gives a busy clip, so use a plain one. Never GGUF this model (the same metadata trap as Wan-Animate-2). And when you copy an upstream example, **audit every loader filename against what this box holds**: the example loads `wan_2.1_vae.safetensors`, which we do not have - ours is `Wan2_1_VAE_bf16.safetensors` (wired here).\n**Not in this flow yet:** several subjects at once and region placement (the reference pair and the `control_video` + `control_masks` arms) are measured in E13b and tracked there.\n\n---\n*How to run it: story **S28** in `HOWTO.md`  ·  Why it is this way: **E13/E13b** in the scenarios' `EXPERIMENTS` logs.*"
-      },
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
-      "id": 61,
-      "type": "CreateVideo",
-      "pos": [
-        1785.6063908175906,
-        149.60187181922458
-      ],
-      "size": [
-        284.158203125,
-        174
-      ],
-      "flags": {},
-      "order": 12,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 18
-        },
-        {
-          "name": "audio",
-          "shape": 7,
-          "type": "AUDIO",
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "VIDEO",
-          "type": "VIDEO",
-          "links": [
-            19
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0",
-        "Node name for S&R": "CreateVideo"
-      },
-      "widgets_values": [
-        30,
-        "auto",
-        "sRGB",
-        "auto",
-        "none"
-      ],
-      "widgets_values_named": {
-        "fps": 30,
-        "bit_depth": "auto",
-        "color_space": "sRGB",
-        "chroma_subsampling": "auto",
-        "codec": "none"
-      }
-    },
-    {
-      "id": 62,
-      "type": "SaveVideo",
-      "pos": [
-        1934.3620697533527,
-        466.9572653381697
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {},
-      "order": 13,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "link": 19
-        }
-      ],
-      "outputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "links": null
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.46.0"
-      },
-      "widgets_values": [
-        "wan-vace-reference",
-        "auto",
-        "auto",
-        "auto"
-      ],
-      "widgets_values_named": {
-        "filename_prefix": "wan-vace-reference",
-        "format": "auto",
-        "format.codec": "auto",
-        "codec": "auto"
-      },
-      "color": "#322",
-      "bgcolor": "#533"
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      1
+     ]
     }
-  ],
-  "links": [
-    [
-      1,
-      37,
-      0,
-      54,
-      0,
-      "MODEL"
-    ],
-    [
-      2,
-      54,
-      0,
-      3,
-      0,
-      "MODEL"
-    ],
-    [
-      3,
-      38,
-      0,
-      6,
-      0,
-      "CLIP"
-    ],
-    [
-      4,
-      38,
-      0,
-      7,
-      0,
-      "CLIP"
-    ],
-    [
-      5,
-      6,
-      0,
-      55,
-      0,
-      "CONDITIONING"
-    ],
-    [
-      6,
-      7,
-      0,
-      55,
-      1,
-      "CONDITIONING"
-    ],
-    [
-      7,
-      39,
-      0,
-      55,
-      2,
-      "VAE"
-    ],
-    [
-      9,
-      55,
-      0,
-      3,
-      1,
-      "CONDITIONING"
-    ],
-    [
-      10,
-      55,
-      1,
-      3,
-      2,
-      "CONDITIONING"
-    ],
-    [
-      11,
-      55,
-      2,
-      3,
-      3,
-      "LATENT"
-    ],
-    [
-      12,
-      3,
-      0,
-      56,
-      0,
-      "LATENT"
-    ],
-    [
-      13,
-      55,
-      3,
-      56,
-      1,
-      "INT"
-    ],
-    [
-      14,
-      56,
-      0,
-      8,
-      0,
-      "LATENT"
-    ],
-    [
-      15,
-      39,
-      0,
-      8,
-      1,
-      "VAE"
-    ],
-    [
-      8,
-      52,
-      0,
-      55,
-      5,
-      "IMAGE"
-    ],
-    [
-      18,
-      8,
-      0,
-      61,
-      0,
-      "IMAGE"
-    ],
-    [
-      19,
-      61,
-      0,
-      62,
-      0,
-      "VIDEO"
-    ]
-  ],
-  "groups": [],
-  "config": {},
-  "extra": {
-    "ds": {
-      "scale": 0.525920360631105,
-      "offset": [
-        192.6615074169872,
-        366.86444359053746
-      ]
-    },
-    "frontendVersion": "1.59.6"
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "wan2.1_vace_14B_fp8_scaled.safetensors",
+    "default"
+   ],
+   "widgets_values_named": {
+    "unet_name": "wan2.1_vace_14B_fp8_scaled.safetensors",
+    "weight_dtype": "default"
+   }
   },
-  "version": 0.4
+  {
+   "id": 54,
+   "type": "ModelSamplingSD3",
+   "pos": [
+    1077.1793290635142,
+    655.573288502879
+   ],
+   "size": [
+    220,
+    80
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      2
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "ModelSamplingSD3"
+   },
+   "widgets_values": [
+    8
+   ],
+   "widgets_values_named": {
+    "shift": 8
+   }
+  },
+  {
+   "id": 38,
+   "type": "CLIPLoader",
+   "pos": [
+    86.85105957467204,
+    495.4547683890206
+   ],
+   "size": [
+    340,
+    106
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "slot_index": 0,
+     "links": [
+      3,
+      4
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+    "wan",
+    "default"
+   ],
+   "widgets_values_named": {
+    "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+    "type": "wan",
+    "device": "default"
+   }
+  },
+  {
+   "id": 39,
+   "type": "VAELoader",
+   "pos": [
+    99.0778892354594,
+    716.8720056548675
+   ],
+   "size": [
+    340,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "slot_index": 0,
+     "links": [
+      7,
+      15
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "Wan2_1_VAE_bf16.safetensors"
+   ],
+   "widgets_values_named": {
+    "vae_name": "Wan2_1_VAE_bf16.safetensors"
+   }
+  },
+  {
+   "id": 52,
+   "type": "LoadImage",
+   "pos": [
+    81.83142857142855,
+    99.69907737949939
+   ],
+   "size": [
+    340,
+    314
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      8
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": []
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "char_heroine.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "char_heroine.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 6,
+   "type": "CLIPTextEncode",
+   "pos": [
+    480,
+    120
+   ],
+   "size": [
+    440,
+    160
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      5
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "a red-haired sorceress in a blue and gold gown spinning gracefully and casting a fire spell, full body, plain background"
+   ],
+   "widgets_values_named": {
+    "text": "a red-haired sorceress in a blue and gold gown spinning gracefully and casting a fire spell, full body, plain background"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 7,
+   "type": "CLIPTextEncode",
+   "pos": [
+    480,
+    380
+   ],
+   "size": [
+    440,
+    200
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      6
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
+   ],
+   "widgets_values_named": {
+    "text": "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
+   }
+  },
+  {
+   "id": 55,
+   "type": "WanVaceToVideo",
+   "pos": [
+    949.0909407974838,
+    121.0389451856737
+   ],
+   "size": [
+    340,
+    254
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 5
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 7
+    },
+    {
+     "name": "control_video",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": null
+    },
+    {
+     "name": "control_masks",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
+    },
+    {
+     "name": "reference_image",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 8
+    }
+   ],
+   "outputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      9
+     ]
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "slot_index": 1,
+     "links": [
+      10
+     ]
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "slot_index": 2,
+     "links": [
+      11
+     ]
+    },
+    {
+     "name": "trim_latent",
+     "type": "INT",
+     "slot_index": 3,
+     "links": [
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "WanVaceToVideo"
+   },
+   "widgets_values": [
+    768,
+    768,
+    81,
+    1,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 768,
+    "height": 768,
+    "length": 81,
+    "batch_size": 1,
+    "strength": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 3,
+   "type": "KSampler",
+   "pos": [
+    1360,
+    120
+   ],
+   "size": [
+    340,
+    262
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 9
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 10
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 11
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      12
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    42,
+    "fixed",
+    20,
+    6,
+    "uni_pc",
+    "simple",
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 42,
+    "control_after_generate": "fixed",
+    "steps": 20,
+    "cfg": 6,
+    "sampler_name": "uni_pc",
+    "scheduler": "simple",
+    "denoise": 1
+   }
+  },
+  {
+   "id": 56,
+   "type": "TrimVideoLatent",
+   "pos": [
+    1420.7793198622671,
+    524.1559590921768
+   ],
+   "size": [
+    240,
+    80
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 12
+    },
+    {
+     "name": "trim_amount",
+     "type": "INT",
+     "widget": {
+      "name": "trim_amount"
+     },
+     "link": 13
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "TrimVideoLatent"
+   },
+   "widgets_values": [
+    0
+   ],
+   "widgets_values_named": {
+    "trim_amount": 0
+   }
+  },
+  {
+   "id": 8,
+   "type": "VAEDecode",
+   "pos": [
+    1715.324714957894,
+    724.6755505846686
+   ],
+   "size": [
+    220,
+    80
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 14
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 15
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      18
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "VAEDecode"
+   }
+  },
+  {
+   "id": 60,
+   "type": "MarkdownNote",
+   "pos": [
+    56.66121370655742,
+    -261.8835561881242
+   ],
+   "size": [
+    914.9753013028119,
+    298.69716820849527
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "## wan-vace-reference.json\n\nPrompt-driven animation of a character you own (no driving clip)\n\n**Does:** VACE **reference-to-video** - your character image goes in as the **reference** and the prompt says what she should *do*; the model keeps her identity and acts it out, in the reference's own look and its plain background. Wan2.1-VACE 14B fp8_scaled (`wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB, **Apache-2.0**) plus the umt5 text encoder and Wan VAE this box already ships. **This is the counterpart to `wan-animate-motion.json` (S18):** that flow copies motion from a *driving clip*; this one writes the motion from *words* - the one motion source we had no route for.\n**Measured (E13b, 2026-10-10):** 81 frames at 768x768, 20 steps, cfg 6, shift 8 -> **2729 s (45.5 min)** on the 3090 at 17.25 GB VRAM. **Identity holds** on our own `char_heroine.png` across the clip, and the prompt's fire spell appears and grows in her hand (strip: `video/evidence/E13b-vace-single-strip.png`). **Two honest defects:** the gown's hem smears into a painterly swirl early, and the **last third drifts** (the action dominates, the figure softens) - keep the first ~two thirds if identity is what matters.\n**Knobs:** `length` on `WanVaceToVideo` (81 ships = 3.4 s at 24 fps; the value quantises in 4-frame chunks), **steps/cfg** on the sampler (20 / 6.0 - the 6-step distil LoRA the Animate flow uses is named for I2V at 480p and is untested with VACE reference mode), **shift** on `ModelSamplingSD3` (8.0), and the canvas (768x768 ships; 480x848 roughly halves the cost if you accept the crop).\n**Traps:** the reference brings its **background** with it - a busy photo gives a busy clip, so use a plain one. Never GGUF this model (the same metadata trap as Wan-Animate-2). And when you copy an upstream example, **audit every loader filename against what this box holds**: the example loads `wan_2.1_vae.safetensors`, which we do not have - ours is `Wan2_1_VAE_bf16.safetensors` (wired here).\n**Not in this flow yet:** several subjects at once and region placement (the reference pair and the `control_video` + `control_masks` arms) are measured in E13b and tracked there.\n\n---\n*How to run it: story **S28** in `HOWTO.md`  \u00b7  Why it is this way: **E13/E13b** in the scenarios' `EXPERIMENTS` logs.*"
+   ],
+   "widgets_values_named": {
+    "text": "## wan-vace-reference.json\n\nPrompt-driven animation of a character you own (no driving clip)\n\n**Does:** VACE **reference-to-video** - your character image goes in as the **reference** and the prompt says what she should *do*; the model keeps her identity and acts it out, in the reference's own look and its plain background. Wan2.1-VACE 14B fp8_scaled (`wan2.1_vace_14B_fp8_scaled.safetensors`, 17.6 GB, **Apache-2.0**) plus the umt5 text encoder and Wan VAE this box already ships. **This is the counterpart to `wan-animate-motion.json` (S18):** that flow copies motion from a *driving clip*; this one writes the motion from *words* - the one motion source we had no route for.\n**Measured (E13b, 2026-10-10):** 81 frames at 768x768, 20 steps, cfg 6, shift 8 -> **2729 s (45.5 min)** on the 3090 at 17.25 GB VRAM. **Identity holds** on our own `char_heroine.png` across the clip, and the prompt's fire spell appears and grows in her hand (strip: `video/evidence/E13b-vace-single-strip.png`). **Two honest defects:** the gown's hem smears into a painterly swirl early, and the **last third drifts** (the action dominates, the figure softens) - keep the first ~two thirds if identity is what matters.\n**Knobs:** `length` on `WanVaceToVideo` (81 ships = 3.4 s at 24 fps; the value quantises in 4-frame chunks), **steps/cfg** on the sampler (20 / 6.0 - the 6-step distil LoRA the Animate flow uses is named for I2V at 480p and is untested with VACE reference mode), **shift** on `ModelSamplingSD3` (8.0), and the canvas (768x768 ships; 480x848 roughly halves the cost if you accept the crop).\n**Traps:** the reference brings its **background** with it - a busy photo gives a busy clip, so use a plain one. Never GGUF this model (the same metadata trap as Wan-Animate-2). And when you copy an upstream example, **audit every loader filename against what this box holds**: the example loads `wan_2.1_vae.safetensors`, which we do not have - ours is `Wan2_1_VAE_bf16.safetensors` (wired here).\n**Not in this flow yet:** several subjects at once and region placement (the reference pair and the `control_video` + `control_masks` arms) are measured in E13b and tracked there.\n\n---\n*How to run it: story **S28** in `HOWTO.md`  \u00b7  Why it is this way: **E13/E13b** in the scenarios' `EXPERIMENTS` logs.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
+  },
+  {
+   "id": 61,
+   "type": "CreateVideo",
+   "pos": [
+    1785.6063908175906,
+    149.60187181922458
+   ],
+   "size": [
+    284.158203125,
+    174
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 18
+    },
+    {
+     "name": "audio",
+     "shape": 7,
+     "type": "AUDIO",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "VIDEO",
+     "type": "VIDEO",
+     "links": [
+      19
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
+    "Node name for S&R": "CreateVideo"
+   },
+   "widgets_values": [
+    30,
+    "auto",
+    "sRGB",
+    "auto",
+    "none"
+   ],
+   "widgets_values_named": {
+    "fps": 30,
+    "bit_depth": "auto",
+    "color_space": "sRGB",
+    "chroma_subsampling": "auto",
+    "codec": "none"
+   }
+  },
+  {
+   "id": 62,
+   "type": "SaveVideo",
+   "pos": [
+    1934.3620697533527,
+    466.9572653381697
+   ],
+   "size": [
+    270,
+    106
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "video",
+     "type": "VIDEO",
+     "link": 19
+    }
+   ],
+   "outputs": [
+    {
+     "name": "video",
+     "type": "VIDEO",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0"
+   },
+   "widgets_values": [
+    "wan-vace-reference",
+    "auto",
+    "auto",
+    "auto"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "wan-vace-reference",
+    "format": "auto",
+    "format.codec": "auto",
+    "codec": "auto"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
+  }
+ ],
+ "links": [
+  [
+   1,
+   37,
+   0,
+   54,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   54,
+   0,
+   3,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   38,
+   0,
+   6,
+   0,
+   "CLIP"
+  ],
+  [
+   4,
+   38,
+   0,
+   7,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   6,
+   0,
+   55,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   6,
+   7,
+   0,
+   55,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   39,
+   0,
+   55,
+   2,
+   "VAE"
+  ],
+  [
+   9,
+   55,
+   0,
+   3,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   10,
+   55,
+   1,
+   3,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   11,
+   55,
+   2,
+   3,
+   3,
+   "LATENT"
+  ],
+  [
+   12,
+   3,
+   0,
+   56,
+   0,
+   "LATENT"
+  ],
+  [
+   13,
+   55,
+   3,
+   56,
+   1,
+   "INT"
+  ],
+  [
+   14,
+   56,
+   0,
+   8,
+   0,
+   "LATENT"
+  ],
+  [
+   15,
+   39,
+   0,
+   8,
+   1,
+   "VAE"
+  ],
+  [
+   8,
+   52,
+   0,
+   55,
+   5,
+   "IMAGE"
+  ],
+  [
+   18,
+   8,
+   0,
+   61,
+   0,
+   "IMAGE"
+  ],
+  [
+   19,
+   61,
+   0,
+   62,
+   0,
+   "VIDEO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.525920360631105,
+   "offset": [
+    192.6615074169872,
+    366.86444359053746
+   ]
+  },
+  "frontendVersion": "1.59.6"
+ },
+ "version": 0.4
 }
