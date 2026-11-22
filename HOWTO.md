@@ -226,6 +226,7 @@
 	- the output plays at **the clip's own frame rate** (`CreateVideo.fps` is wired from the video), so a 30 fps clip writes a 30 fps file. The motion is frame-indexed, so a different value is a slow-motion or speed-up;
 	- `pose_strength` — how literally the driving motion is copied;
 	- `reference_image_strength` — identity vs motion trade;
+	- **size** — the output follows the pose video's post-`ImageScale` dimensions (snapped to /16): to change it, set BOTH `ImageScale` nodes' width/height to the target and `WanAnimate2ToVideo`'s widgets to match. The shipped 480×848 normalizes any source (`area` fit, centered) — a clean, similarly-framed character beats a high-resolution one, since only the scaled version is ever seen.
 	- the prompt's camera wording *is* the viewpoint control: the output camera is decoupled from the driving video.
 - *Notes:* its negative prompt (node 6) is the family's standard Chinese block and this flow samples at **cfg 1.0**, where the negative branch has zero weight - so it is inert here, and the Chinese is kept only for consistency with S28/S29 (where cfg is 6 and it *does* matter).
 - *Trap:* the output size comes from the **driving video**, snapped to a multiple of 16 — not from the node's defaults. **Don't swap the model for a GGUF quant.** Those same weights quantised that way make the flow silently ignore your driving video, while the reference image keeps working - so if the character never moves, that is why. The workflow's note has the explanation.
