@@ -56,3 +56,14 @@ This table comes from the `_AXIS_TO_ARKIT` map in the node pack's own `face_expr
 **Measured on our example clip** (`woman_holding_water_glass.mp4`, E20/E20b): **28 of the 72 axes move**, and the most active are **15-19** - `eyeBlinkRight`, `eyeLookOutLeft`, `eyeLookInRight`, `eyeLookInLeft`, `eyeLookOutRight`. Eye and gaze shapes lead, not the jaw; a person looking around exercises the eye axes hardest. `jawOpen` (24) is the mouth axis to check first on a clip where someone talks.
 
 The `blendshape_smooth_window` knob is the facial twin of the body's `bone_smooth_window`, and its sweet spot is **15** (E20b): the largest single-frame weight jump falls from 0.4153 at 1 and 0.3038 at the shipped 7 to **0.1810**, while keeping 87% of each shape's range and 0.984 correlation with the unsmoothed track. At 31 the spike falls further but the *performance* starts going with it - 72% of the range and 0.946 correlation - so larger is not better. See `EXPERIMENTS.md` E20/E20b.
+
+
+## The lipsync path
+
+This export doubles as a **3D lipsync substrate** - two routes, by what you have:
+
+- **Footage exists (in-repo, today):** run `sam3d-motion.json` with a **talking video** instead of a dance clip - the blendshapes articulate with the footage's speech by construction (MediaPipe drives them from the video). `jawOpen` (axis 24) is the mouth axis to check first; no phoneme analysis involved. The eyes/brows come along (E20: gaze axes dominate on casual clips).
+- **Dialogue audio only (engine-side, the standard):** the 44 video-drivable axes above are all **ARKit-named**, which is exactly what engine lipsync libraries expect (Oculus LipSync, RT-Voice, NVIDIA ACE/Audio2Face). The integration is one mapping script: ARKit shape name -> axis index, straight from the table above; the library's audio->viseme curves then drive the morph targets in real time. No footage, dialogue can change to the last minute.
+
+**Quality ceiling, stated honestly:** these are video-derived reconstruction shapes in Meta's MHR basis, not artist visemes - expect prototype-grade articulation, and the 28 axes unreachable from video (including intra-mouth detail) stay zero. For final facial performance, replace the morph targets with authored visemes in the engine. ComfyUI's job ends at delivering the blendshape-carrying GLB; the audio-driven half is the engine's.
+
