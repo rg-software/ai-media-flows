@@ -1,6 +1,6 @@
 {
- "last_node_id": 19,
- "last_link_id": 23,
+ "last_node_id": 23,
+ "last_link_id": 26,
  "nodes": [
   {
    "id": 1,
@@ -63,7 +63,7 @@
      "type": "MODEL",
      "slot_index": 0,
      "links": [
-      2
+      6
      ]
     }
    ],
@@ -94,7 +94,7 @@
      "type": "MODEL_PATCH",
      "slot_index": 0,
      "links": [
-      3
+      7
      ]
     }
    ],
@@ -128,8 +128,8 @@
      "type": "CLIP",
      "slot_index": 0,
      "links": [
-      4,
-      5
+      2,
+      3
      ]
     }
    ],
@@ -159,7 +159,7 @@
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 4
+     "link": 2
     }
    ],
    "outputs": [
@@ -168,7 +168,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      11
+      8
      ]
     }
    ],
@@ -197,7 +197,7 @@
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 5
+     "link": 3
     }
    ],
    "outputs": [
@@ -206,7 +206,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      12
+      9
      ]
     }
    ],
@@ -237,8 +237,9 @@
      "type": "VAE",
      "slot_index": 0,
      "links": [
-      6,
-      18
+      10,
+      19,
+      24
      ]
     }
    ],
@@ -270,7 +271,7 @@
      "type": "AUDIO_ENCODER",
      "slot_index": 0,
      "links": [
-      7
+      4
      ]
     }
    ],
@@ -304,8 +305,9 @@
      "type": "AUDIO",
      "slot_index": 0,
      "links": [
-      8,
-      20
+      5,
+      21,
+      23
      ]
     }
    ],
@@ -333,12 +335,12 @@
     {
      "name": "audio_encoder",
      "type": "AUDIO_ENCODER",
-     "link": 7
+     "link": 4
     },
     {
      "name": "audio",
      "type": "AUDIO",
-     "link": 8
+     "link": 5
     }
    ],
    "outputs": [
@@ -347,7 +349,7 @@
      "type": "AUDIO_ENCODER_OUTPUT",
      "slot_index": 0,
      "links": [
-      9
+      11
      ]
     }
    ],
@@ -379,7 +381,7 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      10
+      12
      ]
     },
     {
@@ -420,42 +422,42 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 2
+     "link": 6
     },
     {
      "name": "model_patch",
      "type": "MODEL_PATCH",
-     "link": 3
+     "link": 7
     },
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "link": 11
+     "link": 8
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "link": 12
+     "link": 9
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 6
+     "link": 10
     },
     {
      "name": "audio_encoder_output_1",
      "type": "AUDIO_ENCODER_OUTPUT",
-     "link": 9
+     "link": 11
     },
     {
      "name": "start_image",
      "type": "IMAGE",
-     "link": 10
+     "link": 12
     },
     {
      "name": "length",
      "type": "INT",
-     "link": 23
+     "link": 13
     }
    ],
    "outputs": [
@@ -464,7 +466,7 @@
      "type": "MODEL",
      "slot_index": 0,
      "links": [
-      13
+      14
      ]
     },
     {
@@ -472,7 +474,7 @@
      "type": "CONDITIONING",
      "slot_index": 1,
      "links": [
-      14
+      15
      ]
     },
     {
@@ -480,7 +482,7 @@
      "type": "CONDITIONING",
      "slot_index": 2,
      "links": [
-      15
+      16
      ]
     },
     {
@@ -488,7 +490,7 @@
      "type": "LATENT",
      "slot_index": 3,
      "links": [
-      16
+      17
      ]
     }
    ],
@@ -523,22 +525,22 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 13
+     "link": 14
     },
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "link": 14
+     "link": 15
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "link": 15
+     "link": 16
     },
     {
      "name": "latent_image",
      "type": "LATENT",
-     "link": 16
+     "link": 17
     }
    ],
    "outputs": [
@@ -547,7 +549,7 @@
      "type": "LATENT",
      "slot_index": 0,
      "links": [
-      17
+      18
      ]
     }
    ],
@@ -574,12 +576,12 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 17
+     "link": 18
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 18
+     "link": 19
     }
    ],
    "outputs": [
@@ -588,7 +590,7 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      19
+      20
      ]
     }
    ],
@@ -618,12 +620,12 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 19
+     "link": 20
     },
     {
      "name": "audio",
      "type": "AUDIO",
-     "link": 20
+     "link": 21
     }
    ],
    "outputs": [
@@ -632,7 +634,7 @@
      "type": "VIDEO",
      "slot_index": 0,
      "links": [
-      21
+      22
      ]
     }
    ],
@@ -663,7 +665,7 @@
     {
      "name": "video",
      "type": "VIDEO",
-     "link": 21
+     "link": 22
     }
    ],
    "outputs": [],
@@ -673,38 +675,6 @@
     "Node name for S&R": "SaveVideo"
    },
    "order": 15
-  },
-  {
-   "id": 18,
-   "type": "PrimitiveFloat",
-   "pos": [
-    40,
-    1940
-   ],
-   "size": [
-    300,
-    80
-   ],
-   "widgets_values": [
-    3.24
-   ],
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "FLOAT",
-     "type": "FLOAT",
-     "slot_index": 0,
-     "links": [
-      22
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "PrimitiveFloat"
-   },
-   "order": 16
   },
   {
    "id": 19,
@@ -718,13 +688,13 @@
     140
    ],
    "widgets_values": [
-    "floor((a*25-1)/4+0.5)*4+1"
+    "floor((a*25/10.78125-1)/4+0.5)*4+1"
    ],
    "inputs": [
     {
      "name": "values.a",
-     "type": "FLOAT",
-     "link": 22
+     "type": "INT",
+     "link": 26
     }
    ],
    "outputs": [
@@ -732,20 +702,14 @@
      "name": "FLOAT",
      "type": "FLOAT",
      "slot_index": 0,
-     "links": []
+     "links": [
+      13
+     ]
     },
     {
      "name": "INT",
      "type": "INT",
      "slot_index": 1,
-     "links": [
-      23
-     ]
-    },
-    {
-     "name": "BOOL",
-     "type": "BOOLEAN",
-     "slot_index": 2,
      "links": []
     }
    ],
@@ -768,7 +732,7 @@
     320
    ],
    "widgets_values": [
-    "## wan-infinitetalk.json\n\nA talking head: our character speaks an audio file\n\n**Does:** a still **portrait** + an audio file -> a clip of the character speaking that audio (`WanInfiniteTalkToVideo`, InfiniteTalk single-speaker). The output **carries the audio** (aac) - a viewer's file with sound. Host: our on-box `wan2.1_i2v_720p_14B_fp8_scaled` with the InfiniteTalk patch applied (`model_patches/wan2.1_infiniteTalk_single_fp16`, 5.13 GB) + `wav2vec2-chinese-base` audio encoder + the lightx2v distill lora + umt5/VAE.\n**Measured (E15, 2026-10-11):** 81 frames (3.24 s of speech at 25 fps) in **210 s**; identity holds through speech (lip-band motion 1.9x forehead, articulation real); the patch applies to our 720p fp8 base, so the route's new weights are only ~5.3 GB. Reference = **portrait** (the E13c identity-knob lesson).\n**Knobs:** the **audio** on `LoadAudio` (replace `audio_speaker1_woman.mp3` - speech from TTS or recording; the audio is what drives the mouth); the **reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (3.24 ships) - how much audio to speak. A `ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 (`floor((a*25-1)/4+0.5)*4+1`), so there is no hand arithmetic; raising it raises VRAM. **`audio_scale`** (1.0) for lip-sync strength; **`motion_frame_count`** (9). Sampling: 6 steps / euler / normal, **no `ModelSamplingSD3`** (the template has none). **fps is pinned at 25** on `CreateVideo` - InfiniteTalk's audio conditioning is resampled for 25-fps video in the node code, so any other fps would desync the mouth; it is deliberately not a knob.\n**Traps:** lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 (the audio is embedded). The clip speaks the FIRST `length` frames' worth of audio (`audio_start=0, `audio_end=length`): audio past that is never read, and audio shorter than the window is padded with the first audio frame (idle mouth) - so **trim your audio to `seconds`**. Longer audio = chain segments: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s **`previous_frames`** (the official extend pattern); each continuation advances `length - motion_frame_count` frames (72 = 2.88 s at defaults - drop the node's `trim_image` leading frames when stitching), not a full segment. For real use reach for `scripts/talk_chain.py` instead of hand-wiring: it plans full chunks plus a trimmed last chunk from the audio duration, assembles in latent space, and muxes once (measured E21: 8.8 s -> 221 frames exact in 606 s). `single_speaker` needs no masks (masks are the two-speaker mode's region control). The patch loads through `ModelPatchLoader` from `models/model_patches/`.\n**Siblings:** `wan-animate-motion.json` (S15) drives motion from a *video*; this flow drives it from *audio*.\n\n---\n*How to run it: story **S32** in `HOWTO.md`  \u00b7  Why it is this way: **E15** in `video/EXPERIMENTS.md`.*"
+    "## wan-infinitetalk.json\n\nA talking head: our character speaks an audio file\n\n**Does:** a still **portrait** + an audio file -> a clip of the character speaking that audio (`WanInfiniteTalkToVideo`, InfiniteTalk single-speaker). The output **carries the audio** (aac) - a viewer's file with sound. Host: our on-box `wan2.1_i2v_720p_14B_fp8_scaled` with the InfiniteTalk patch applied (`model_patches/wan2.1_infiniteTalk_single_fp16`, 5.13 GB) + `wav2vec2-chinese-base` audio encoder + the lightx2v distill lora + umt5/VAE.\n**Measured (E15, 2026-10-11):** 81 frames (3.24 s of speech at 25 fps) in **210 s**; identity holds through speech (lip-band motion 1.9x forehead, articulation real); the patch applies to our 720p fp8 base, so the route's new weights are only ~5.3 GB. Reference = **portrait** (the E13c identity-knob lesson).\n**Knobs:** the **audio** on `LoadAudio` (replace `audio_speaker1_woman.mp3` - speech from TTS or recording; the audio is what drives the mouth); the **reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (3.24 ships) - how much audio to speak. A `ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 (`floor((a*25-1)/4+0.5)*4+1`), so there is no hand arithmetic; raising it raises VRAM. **`audio_scale`** (1.0) for lip-sync strength; **`motion_frame_count`** (9). Sampling: 6 steps / euler / normal, **no `ModelSamplingSD3`** (the template has none). **fps is pinned at 25** on `CreateVideo` - InfiniteTalk's audio conditioning is resampled for 25-fps video in the node code, so any other fps would desync the mouth; it is deliberately not a knob.\n**Traps:** lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 (the audio is embedded). The clip speaks the FIRST `length` frames' worth of audio (`audio_start=0, `audio_end=length`): audio past that is never read, and audio shorter than the window is padded with the first audio frame (idle mouth) - so **trim your audio to `seconds`**. Longer audio = chain segments: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s **`previous_frames`** (the official extend pattern); each continuation advances `length - motion_frame_count` frames (72 = 2.88 s at defaults - drop the node's `trim_image` leading frames when stitching), not a full segment. For real use reach for `scripts/talk_chain.py` instead of hand-wiring: it plans full chunks plus a trimmed last chunk from the audio duration, assembles in latent space, and muxes once (measured E21: 8.8 s -> 221 frames exact in 606 s). `single_speaker` needs no masks (masks are the two-speaker mode's region control). The patch loads through `ModelPatchLoader` from `models/model_patches/`.\n**Siblings:** `wan-animate-motion.json` (S15) drives motion from a *video*; this flow drives it from *audio*.\n\n---\n*How to run it: story **S32** in `HOWTO.md`  \u00b7  Why it is this way: **E15** in `video/EXPERIMENTS.md`.*\n\n**Length is automatic (2026-11-23):** the audio file itself drives the frame count - `VAEEncodeAudio` measures the audio, a math chain converts latent length -> seconds -> 4n+1 frames at 25 fps, and the old manual `PrimitiveFloat` is gone. Swap the audio, press run; nothing to set. To make the character speak faster, time-stretch the AUDIO first (pitch-preserving) - the video length follows it."
    ],
    "inputs": [],
    "outputs": [],
@@ -776,6 +740,97 @@
    "mode": 0,
    "properties": {},
    "order": 0
+  },
+  {
+   "id": 20,
+   "type": "VAEEncodeAudio",
+   "pos": [
+    -340,
+    200
+   ],
+   "size": [
+    260,
+    60
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 23
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 24
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      25
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncodeAudio"
+   },
+   "widgets_values": [],
+   "title": "audio duration sensor"
+  },
+  {
+   "id": 21,
+   "type": "GetAudioLatentSize",
+   "pos": [
+    -340,
+    300
+   ],
+   "size": [
+    260,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 25
+    }
+   ],
+   "outputs": [
+    {
+     "name": "length",
+     "type": "INT",
+     "slot_index": 0,
+     "links": [
+      26
+     ]
+    },
+    {
+     "name": "audio_channels",
+     "type": "INT",
+     "slot_index": 1,
+     "links": []
+    },
+    {
+     "name": "batch_size",
+     "type": "INT",
+     "slot_index": 2,
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "GetAudioLatentSize"
+   },
+   "widgets_values": [],
+   "title": "audio latent length"
   }
  ],
  "links": [
@@ -789,22 +844,6 @@
   ],
   [
    2,
-   2,
-   0,
-   11,
-   0,
-   "MODEL"
-  ],
-  [
-   3,
-   3,
-   0,
-   11,
-   1,
-   "MODEL_PATCH"
-  ],
-  [
-   4,
    4,
    0,
    5,
@@ -812,7 +851,7 @@
    "CLIP"
   ],
   [
-   5,
+   3,
    4,
    0,
    6,
@@ -820,15 +859,7 @@
    "CLIP"
   ],
   [
-   6,
-   7,
-   0,
-   11,
    4,
-   "VAE"
-  ],
-  [
-   7,
    8,
    0,
    10,
@@ -836,7 +867,7 @@
    "AUDIO_ENCODER"
   ],
   [
-   8,
+   5,
    9,
    0,
    10,
@@ -844,7 +875,47 @@
    "AUDIO"
   ],
   [
+   6,
+   2,
+   0,
+   11,
+   0,
+   "MODEL"
+  ],
+  [
+   7,
+   3,
+   0,
+   11,
+   1,
+   "MODEL_PATCH"
+  ],
+  [
+   8,
+   5,
+   0,
+   11,
+   2,
+   "CONDITIONING"
+  ],
+  [
    9,
+   6,
+   0,
+   11,
+   3,
+   "CONDITIONING"
+  ],
+  [
+   10,
+   7,
+   0,
+   11,
+   4,
+   "VAE"
+  ],
+  [
+   11,
    10,
    0,
    11,
@@ -852,7 +923,7 @@
    "AUDIO_ENCODER_OUTPUT"
   ],
   [
-   10,
+   12,
    12,
    0,
    11,
@@ -860,23 +931,15 @@
    "IMAGE"
   ],
   [
-   11,
-   5,
-   0,
-   11,
-   2,
-   "CONDITIONING"
-  ],
-  [
-   12,
-   6,
-   0,
-   11,
-   3,
-   "CONDITIONING"
-  ],
-  [
    13,
+   19,
+   1,
+   11,
+   7,
+   "INT"
+  ],
+  [
+   14,
    11,
    0,
    13,
@@ -884,31 +947,31 @@
    "MODEL"
   ],
   [
-   14,
-   11,
-   1,
-   13,
-   1,
-   "CONDITIONING"
-  ],
-  [
    15,
    11,
-   2,
+   1,
    13,
-   2,
+   1,
    "CONDITIONING"
   ],
   [
    16,
    11,
+   2,
+   13,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   17,
+   11,
    3,
    13,
    3,
    "LATENT"
   ],
   [
-   17,
+   18,
    13,
    0,
    14,
@@ -916,7 +979,7 @@
    "LATENT"
   ],
   [
-   18,
+   19,
    7,
    0,
    14,
@@ -924,7 +987,7 @@
    "VAE"
   ],
   [
-   19,
+   20,
    14,
    0,
    15,
@@ -932,7 +995,7 @@
    "IMAGE"
   ],
   [
-   20,
+   21,
    9,
    0,
    15,
@@ -940,7 +1003,7 @@
    "AUDIO"
   ],
   [
-   21,
+   22,
    15,
    0,
    16,
@@ -948,19 +1011,35 @@
    "VIDEO"
   ],
   [
-   22,
-   18,
+   23,
+   9,
    0,
-   19,
+   20,
    0,
-   "FLOAT"
+   "AUDIO"
   ],
   [
-   23,
-   19,
-   1,
-   11,
+   24,
    7,
+   0,
+   20,
+   1,
+   "VAE"
+  ],
+  [
+   25,
+   20,
+   0,
+   21,
+   0,
+   "LATENT"
+  ],
+  [
+   26,
+   21,
+   0,
+   19,
+   0,
    "INT"
   ]
  ],
