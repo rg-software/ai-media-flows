@@ -1,5 +1,7 @@
 {
- "last_node_id": 9,
+ "id": "cc272834-25d0-4131-b537-acbfc9ed18d5",
+ "revision": 0,
+ "last_node_id": 8,
  "last_link_id": 11,
  "nodes": [
   {
@@ -13,9 +15,10 @@
     360,
     100
    ],
-   "widgets_values": [
-    "sv3d_p.safetensors"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "MODEL",
@@ -43,13 +46,17 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "ImageOnlyCheckpointLoader"
    },
-   "order": 0
+   "widgets_values": [
+    "sv3d_p.safetensors"
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "sv3d_p.safetensors"
+   }
   },
   {
    "id": 2,
@@ -62,10 +69,10 @@
     315,
     314
    ],
-   "widgets_values": [
-    "char_knight.png",
-    "image"
-   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
@@ -82,13 +89,21 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
-   "order": 1
+   "widgets_values": [
+    "char_knight.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "char_knight.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 3,
@@ -99,16 +114,11 @@
    ],
    "size": [
     400,
-    200
+    278
    ],
-   "widgets_values": [
-    576,
-    576,
-    21,
-    "linear",
-    "0:(0.0),\n9:(180.0),\n20:(360.0)",
-    "0:(0.0),\n9:(0.0),\n20:(0.0)"
-   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip_vision",
@@ -152,27 +162,42 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "SV3D_BatchSchedule"
    },
-   "order": 2
+   "widgets_values": [
+    576,
+    576,
+    21,
+    "linear",
+    "0:(0.0),\n9:(180.0),\n20:(360.0)",
+    "0:(0.0),\n9:(0.0),\n20:(0.0)"
+   ],
+   "widgets_values_named": {
+    "width": 576,
+    "height": 576,
+    "batch_size": 21,
+    "interpolation": "linear",
+    "azimuth_points_string": "0:(0.0),\n9:(180.0),\n20:(360.0)",
+    "elevation_points_string": "0:(0.0),\n9:(0.0),\n20:(0.0)"
+   }
   },
   {
    "id": 4,
    "type": "VideoLinearCFGGuidance",
    "pos": [
-    480,
-    380
+    487.2727351993709,
+    599.2207633674918
    ],
    "size": [
     300,
     60
    ],
-   "widgets_values": [
-    1.0
-   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -190,12 +215,17 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "VideoLinearCFGGuidance"
    },
-   "order": 3
+   "widgets_values": [
+    1
+   ],
+   "widgets_values_named": {
+    "min_cfg": 1
+   }
   },
   {
    "id": 5,
@@ -208,15 +238,9 @@
     320,
     262
    ],
-   "widgets_values": [
-    42,
-    "fixed",
-    25,
-    2.5,
-    "euler",
-    "karras",
-    1.0
-   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -249,24 +273,44 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "KSampler"
    },
-   "order": 4
+   "widgets_values": [
+    42,
+    "randomize",
+    25,
+    2.5,
+    "euler",
+    "karras",
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 42,
+    "control_after_generate": "randomize",
+    "steps": 25,
+    "cfg": 2.5,
+    "sampler_name": "euler",
+    "scheduler": "karras",
+    "denoise": 1
+   }
   },
   {
    "id": 6,
    "type": "VAEDecode",
    "pos": [
-    1360,
-    120
+    1043.1999904087618,
+    543.6572004045752
    ],
    "size": [
     240,
     60
    ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
    "inputs": [
     {
      "name": "samples",
@@ -289,28 +333,26 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "widgets_values": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "order": 5
+   }
   },
   {
    "id": 7,
    "type": "SaveImage",
    "pos": [
-    1800,
-    120
+    1357.485656738282,
+    102.40000479561945
    ],
    "size": [
     420,
     420
    ],
-   "widgets_values": [
-    "3D/sv3d_turnaround"
-   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
@@ -318,13 +360,26 @@
      "link": 11
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveImage"
    },
-   "order": 6
+   "widgets_values": [
+    "3D/sv3d_turnaround"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "3D/sv3d_turnaround"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 8,
@@ -338,37 +393,19 @@
     320
    ],
    "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "widgets_values": [
-    "## sv3d-turnaround.json\n\nOne image -> a consistent multi-view turnaround (no mesh needed)\n\n**Does:** SV3D_p takes a single image and renders the same object from fixed azimuths. Ships a **21-frame orbit** (18 deg per frame): ~45 s on the 3090 at ~7 GB VRAM, all frames saved, and you take whatever views you need.\n**Why the orbit and not four stops:** measured on `char_knight.png` (E9b) - asking for four independent 90 deg jumps makes the model hallucinate the back badly, because it is a *video* diffusion model and is far better at advancing the camera a little than teleporting it.\nA smooth orbit sampled at the compass points gives a coherent rear view instead of a jumble (compare rows A and C of `3d/evidence/E9b-knight-sv3d-variants.png`). No text prompt is involved and none can be: the node conditions on CLIP *vision* embeds and camera pose only, with an all-zeros negative (see `SV3D_Conditioning.execute`).\n**Picking views:** with 21 frames the increment is 360/20 = 18 deg, so **frame 0 = 0 deg, 5 = 90, 10 = 180, 15 = 270** and frame 20 wraps back to 0 deg. Those four are what `hy3d-multiview-workflow.json` wants for front/left/right/back.\n**The knob that matters:** `batch_size` must equal the last point index + 1. `azimuth_points_string` `0:(0.0), 9:(180.0), 20:(360.0)` is a full orbit; put more points in for finer sampling. Elevation stays 0 for a level turnaround. `VideoLinearCFGGuidance` is required (SV3D is an image-to-video model); 25 steps / cfg 2.5 is fine - 40/3.5 changed nothing much.\n**Licence:** the SV3D weights are Stability **non-commercial** (commercial use needs a Stability Membership), so anything shipped from this flow inherits that - same posture as Kontext and 4x-UltraSharp in the 2D scenario. The weights live in `models/checkpoints/sv3d_p.safetensors` and are gated on Hugging Face (`stabilityai/sv3d`).\n**See:** `2d/EXPERIMENTS-2D.md` (the flow) and `3d/EXPERIMENTS.md` E9-E9c (why it exists: the\nmultiview gap). The E-rows stay in the 3D log because E9c is a 3D chain.\n\n---\n*How to run it: story **S29** in `HOWTO.md`  \u00b7  Why it is this way: **E9** in the scenario's `EXPERIMENTS` logs.*"
-   ],
-   "properties": {},
-   "order": 0
-  },
-  {
-   "id": 9,
-   "type": "MarkdownNote",
-   "pos": [
-    40,
-    -160
-   ],
-   "size": [
-    560,
-    300
-   ],
-   "flags": {},
    "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [],
-   "properties": {
-    "Node name for S&R": "MarkdownNote"
-   },
+   "properties": {},
    "widgets_values": [
-    "## SV3D turnaround: single image -> 360-degree orbital video\n\n**Does:** one still in, a **21-frame orbital video** out (0 -> 360 degrees, linear ramp - the\n`SV3D_BatchSchedule` azimuth/elevation schedule is the one creative knob: its speed and direction).\n\n**`width`/`height` are SV3D's native 576x576 frame - a model constant, not a source-matching knob.**\nThe source image is conditioning only (CLIP-vision for identity + the VAE-encoded init frame); its pixel\nsize never survives. Off-native sizes push the model off-distribution - to get bigger orbit footage,\nupscale the output (S10), never generate larger.\n\n**Roles:** the multiview source for the Hy3D 3D flows (**S12**) - measured caveat (E42): the frames must be\n**background-removed** and the orbit convention checked before feeding, or the mesh bakes the studio\nbackground in as geometry; and the standalone **turnaround/product-view video** route (**S29**).\n\n**Licence:** Stability SV3D weights are **non-commercial**.\n\n*How to run it: story **S29** in `HOWTO.md` (multiview role: **S12**)  \u00b7  Why: **E42** in `2d/EXPERIMENTS-2D.md`.*"
-   ]
+    "## sv3d-turnaround.json\n\nOne image -> a consistent multi-view turnaround (no mesh needed)\n\n**Does:** SV3D_p takes a single image and renders the same object from fixed azimuths. Ships a **21-frame orbit** (18 deg per frame): ~45 s on the 3090 at ~7 GB VRAM, all frames saved, and you take whatever views you need.\n**Why the orbit and not four stops:** measured on `char_knight.png` (E9b) - asking for four independent 90 deg jumps makes the model hallucinate the back badly, because it is a *video* diffusion model and is far better at advancing the camera a little than teleporting it.\nA smooth orbit sampled at the compass points gives a coherent rear view instead of a jumble (compare rows A and C of `3d/evidence/E9b-knight-sv3d-variants.png`). No text prompt is involved and none can be: the node conditions on CLIP *vision* embeds and camera pose only, with an all-zeros negative (see `SV3D_Conditioning.execute`).\n**Picking views:** with 21 frames the increment is 360/20 = 18 deg, so **frame 0 = 0 deg, 5 = 90, 10 = 180, 15 = 270** and frame 20 wraps back to 0 deg. Those four are what `hy3d-multiview-workflow.json` wants for front/left/right/back.\n**The knob that matters:** `batch_size` must equal the last point index + 1. `azimuth_points_string` `0:(0.0), 9:(180.0), 20:(360.0)` is a full orbit; put more points in for finer sampling. Elevation stays 0 for a level turnaround. `VideoLinearCFGGuidance` is required (SV3D is an image-to-video model); 25 steps / cfg 2.5 is fine - 40/3.5 changed nothing much.\n**Licence:** the SV3D weights are Stability **non-commercial** (commercial use needs a Stability Membership), so anything shipped from this flow inherits that - same posture as Kontext and 4x-UltraSharp in the 2D scenario. The weights live in `models/checkpoints/sv3d_p.safetensors` and are gated on Hugging Face (`stabilityai/sv3d`).\n**See:** `2d/EXPERIMENTS-2D.md` (the flow) and `3d/EXPERIMENTS.md` E9-E9c (why it exists: the\nmultiview gap). The E-rows stay in the 3D log because E9c is a 3D chain.\n\n---\n*How to run it: story **S29** in `HOWTO.md`  \u00b7  Why it is this way: **E9** in the scenario's `EXPERIMENTS` logs.*"
+   ],
+   "widgets_values_named": {
+    "text": "## sv3d-turnaround.json\n\nOne image -> a consistent multi-view turnaround (no mesh needed)\n\n**Does:** SV3D_p takes a single image and renders the same object from fixed azimuths. Ships a **21-frame orbit** (18 deg per frame): ~45 s on the 3090 at ~7 GB VRAM, all frames saved, and you take whatever views you need.\n**Why the orbit and not four stops:** measured on `char_knight.png` (E9b) - asking for four independent 90 deg jumps makes the model hallucinate the back badly, because it is a *video* diffusion model and is far better at advancing the camera a little than teleporting it.\nA smooth orbit sampled at the compass points gives a coherent rear view instead of a jumble (compare rows A and C of `3d/evidence/E9b-knight-sv3d-variants.png`). No text prompt is involved and none can be: the node conditions on CLIP *vision* embeds and camera pose only, with an all-zeros negative (see `SV3D_Conditioning.execute`).\n**Picking views:** with 21 frames the increment is 360/20 = 18 deg, so **frame 0 = 0 deg, 5 = 90, 10 = 180, 15 = 270** and frame 20 wraps back to 0 deg. Those four are what `hy3d-multiview-workflow.json` wants for front/left/right/back.\n**The knob that matters:** `batch_size` must equal the last point index + 1. `azimuth_points_string` `0:(0.0), 9:(180.0), 20:(360.0)` is a full orbit; put more points in for finer sampling. Elevation stays 0 for a level turnaround. `VideoLinearCFGGuidance` is required (SV3D is an image-to-video model); 25 steps / cfg 2.5 is fine - 40/3.5 changed nothing much.\n**Licence:** the SV3D weights are Stability **non-commercial** (commercial use needs a Stability Membership), so anything shipped from this flow inherits that - same posture as Kontext and 4x-UltraSharp in the 2D scenario. The weights live in `models/checkpoints/sv3d_p.safetensors` and are gated on Hugging Face (`stabilityai/sv3d`).\n**See:** `2d/EXPERIMENTS-2D.md` (the flow) and `3d/EXPERIMENTS.md` E9-E9c (why it exists: the\nmultiview gap). The E-rows stay in the 3D log because E9c is a 3D chain.\n\n---\n*How to run it: story **S29** in `HOWTO.md`  \u00b7  Why it is this way: **E9** in the scenario's `EXPERIMENTS` logs.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -465,12 +502,13 @@
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.7700000000000015,
    "offset": [
-    0,
-    0
+    128.8337466983239,
+    44.72027327017988
    ]
-  }
+  },
+  "frontendVersion": "1.59.6"
  },
  "version": 0.4
 }

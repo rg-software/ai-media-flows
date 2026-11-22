@@ -1,22 +1,24 @@
 {
- "last_node_id": 38,
- "last_link_id": 39,
+ "id": "298d69c0-3f62-47c6-9a43-49169e9fa950",
+ "revision": 0,
+ "last_node_id": 40,
+ "last_link_id": 45,
  "nodes": [
   {
    "id": 1,
    "type": "UNETLoader",
    "pos": [
-    40,
-    120
+    43.68117975681855,
+    96.07243689967561
    ],
    "size": [
     340,
     90
    ],
-   "widgets_values": [
-    "wan2.2_animate_14B_int8_convrot.safetensors",
-    "default"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "MODEL",
@@ -27,29 +29,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "UNETLoader"
    },
-   "order": 0
+   "widgets_values": [
+    "wan2.2_animate_14B_int8_convrot.safetensors",
+    "default"
+   ],
+   "widgets_values_named": {
+    "unet_name": "wan2.2_animate_14B_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
   },
   {
    "id": 2,
    "type": "LoraLoaderModelOnly",
    "pos": [
-    480,
-    120
+    446.8695226139613,
+    101.59417142857137
    ],
    "size": [
     300,
-    80
+    82
    ],
-   "widgets_values": [
-    "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
-    1.0
-   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -67,28 +74,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoraLoaderModelOnly"
    },
-   "order": 1
+   "widgets_values": [
+    "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
+    1
+   ],
+   "widgets_values_named": {
+    "lora_name": "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
+    "strength_model": 1
+   }
   },
   {
    "id": 38,
    "type": "LoraLoaderModelOnly",
    "pos": [
-    920,
-    380
+    791.1593404253279,
+    102.07208686915806
    ],
    "size": [
     300,
-    80
+    82
    ],
-   "widgets_values": [
-    "WanAnimate_relight_lora_fp16.safetensors",
-    1.0
-   ],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -106,27 +119,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoraLoaderModelOnly"
    },
-   "order": 2
+   "widgets_values": [
+    "WanAnimate_relight_lora_fp16.safetensors",
+    1
+   ],
+   "widgets_values_named": {
+    "lora_name": "WanAnimate_relight_lora_fp16.safetensors",
+    "strength_model": 1
+   }
   },
   {
    "id": 3,
    "type": "ModelSamplingSD3",
    "pos": [
-    1360,
-    120
+    1140.9706119149344,
+    114.47826547110424
    ],
    "size": [
     220,
     60
    ],
-   "widgets_values": [
-    8.0
-   ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -144,29 +164,33 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "ModelSamplingSD3"
    },
-   "order": 3
+   "widgets_values": [
+    8
+   ],
+   "widgets_values_named": {
+    "shift": 8
+   }
   },
   {
    "id": 4,
    "type": "CLIPLoader",
    "pos": [
     40,
-    380
+    252.99975477207727
    ],
    "size": [
     340,
-    100
+    106
    ],
-   "widgets_values": [
-    "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-    "wan",
-    "default"
-   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "CLIP",
@@ -178,13 +202,21 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPLoader"
    },
-   "order": 4
+   "widgets_values": [
+    "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+    "wan",
+    "default"
+   ],
+   "widgets_values_named": {
+    "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+    "type": "wan",
+    "device": "default"
+   }
   },
   {
    "id": 5,
@@ -197,9 +229,9 @@
     380,
     140
    ],
-   "widgets_values": [
-    "The character is dancing in the room"
-   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -217,12 +249,17 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 5
+   "widgets_values": [
+    "The character is dancing in the room"
+   ],
+   "widgets_values_named": {
+    "text": "The character is dancing in the room"
+   }
   },
   {
    "id": 6,
@@ -235,9 +272,9 @@
     380,
     200
    ],
-   "widgets_values": [
-    "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
-   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -255,27 +292,33 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 6
+   "widgets_values": [
+    "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
+   ],
+   "widgets_values_named": {
+    "text": "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
+   }
   },
   {
    "id": 7,
    "type": "VAELoader",
    "pos": [
-    40,
-    640
+    51.04350416412365,
+    -24.450453556169805
    ],
    "size": [
     340,
     60
    ],
-   "widgets_values": [
-    "Wan2_1_VAE_bf16.safetensors"
-   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "VAE",
@@ -287,28 +330,33 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "VAELoader"
    },
-   "order": 7
+   "widgets_values": [
+    "Wan2_1_VAE_bf16.safetensors"
+   ],
+   "widgets_values_named": {
+    "vae_name": "Wan2_1_VAE_bf16.safetensors"
+   }
   },
   {
    "id": 8,
    "type": "CLIPVisionLoader",
    "pos": [
-    40,
-    900
+    514.870784376308,
+    1122.7106380545479
    ],
    "size": [
     340,
     60
    ],
-   "widgets_values": [
-    "clip_vision_h.safetensors"
-   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "CLIP_VISION",
@@ -319,29 +367,33 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPVisionLoader"
    },
-   "order": 8
+   "widgets_values": [
+    "clip_vision_h.safetensors"
+   ],
+   "widgets_values_named": {
+    "clip_name": "clip_vision_h.safetensors"
+   }
   },
   {
    "id": 9,
    "type": "LoadImage",
    "pos": [
-    40,
-    1160
+    41.840624984741225,
+    456.8973345288957
    ],
    "size": [
     340,
     314
    ],
-   "widgets_values": [
-    "portrait_heroine.png",
-    "image"
-   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "IMAGE",
@@ -359,29 +411,35 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
-   "order": 9
+   "widgets_values": [
+    "portrait_heroine.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "portrait_heroine.png",
+    "upload": "image"
+   }
   },
   {
    "id": 10,
    "type": "LoadVideo",
    "pos": [
-    40,
-    1420
+    49.202914285714314,
+    847.5787595136369
    ],
    "size": [
     340,
     300
    ],
-   "widgets_values": [
-    "video_wan2_2_14B_animate_original_video.mp4",
-    "image"
-   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "VIDEO",
@@ -392,26 +450,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadVideo"
    },
-   "order": 10
+   "widgets_values": [
+    "video_wan2_2_14B_animate_original_video.mp4",
+    "image"
+   ],
+   "widgets_values_named": {
+    "file": "video_wan2_2_14B_animate_original_video.mp4",
+    "upload": "image"
+   }
   },
   {
    "id": 11,
    "type": "GetVideoComponents",
    "pos": [
-    480,
-    900
+    492.88409404253275,
+    892.637640486363
    ],
    "size": [
     220,
     150
    ],
-   "widgets_values": [],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
    "inputs": [
     {
      "name": "video",
@@ -439,37 +505,53 @@
      "type": "FLOAT",
      "slot_index": 2,
      "links": []
+    },
+    {
+     "name": "bit_depth",
+     "type": "COMBO",
+     "links": null
+    },
+    {
+     "name": "color_space",
+     "type": "COMBO",
+     "links": null
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "GetVideoComponents"
-   },
-   "order": 11
+   }
   },
   {
    "id": 12,
    "type": "ImageScale",
    "pos": [
-    920,
-    120
+    960.4927666870117,
+    364.7976463827951
    ],
    "size": [
     260,
     130
    ],
-   "widgets_values": [
-    "lanczos",
-    640,
-    640,
-    "center"
-   ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
    "inputs": [
     {
      "name": "image",
      "type": "IMAGE",
      "link": 12
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "link": 40
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "link": 44
     }
    ],
    "outputs": [
@@ -485,12 +567,23 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "ImageScale"
    },
-   "order": 12
+   "widgets_values": [
+    "lanczos",
+    640,
+    640,
+    "center"
+   ],
+   "widgets_values_named": {
+    "upscale_method": "lanczos",
+    "width": 640,
+    "height": 640,
+    "crop": "center"
+   }
   },
   {
    "id": 13,
@@ -501,22 +594,21 @@
    ],
    "size": [
     300,
-    200
+    222
    ],
-   "widgets_values": [
-    "disable",
-    "disable",
-    "enable",
-    640,
-    "yolox_l.onnx",
-    "dw-ll_ucoco_384_bs5.torchscript.pt",
-    "disable"
-   ],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
    "inputs": [
     {
      "name": "image",
      "type": "IMAGE",
      "link": 13
+    },
+    {
+     "name": "resolution",
+     "type": "INT",
+     "link": 42
     }
    ],
    "outputs": [
@@ -535,12 +627,29 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfyui_controlnet_aux",
+    "ver": "59b1fc411ede8623b2997855b8018f0b3b6cf49f",
     "Node name for S&R": "DWPreprocessor"
    },
-   "order": 13
+   "widgets_values": [
+    "disable",
+    "disable",
+    "enable",
+    640,
+    "yolox_l.onnx",
+    "dw-ll_ucoco_384_bs5.torchscript.pt",
+    "disable"
+   ],
+   "widgets_values_named": {
+    "detect_hand": "disable",
+    "detect_body": "disable",
+    "detect_face": "enable",
+    "resolution": 640,
+    "bbox_detector": "yolox_l.onnx",
+    "pose_estimator": "dw-ll_ucoco_384_bs5.torchscript.pt",
+    "scale_stick_for_xinsr_cn": "disable"
+   }
   },
   {
    "id": 14,
@@ -551,22 +660,21 @@
    ],
    "size": [
     300,
-    200
+    222
    ],
-   "widgets_values": [
-    "enable",
-    "enable",
-    "disable",
-    640,
-    "yolox_l.onnx",
-    "dw-ll_ucoco_384_bs5.torchscript.pt",
-    "disable"
-   ],
+   "flags": {},
+   "order": 18,
+   "mode": 0,
    "inputs": [
     {
      "name": "image",
      "type": "IMAGE",
      "link": 14
+    },
+    {
+     "name": "resolution",
+     "type": "INT",
+     "link": 43
     }
    ],
    "outputs": [
@@ -585,12 +693,29 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfyui_controlnet_aux",
+    "ver": "59b1fc411ede8623b2997855b8018f0b3b6cf49f",
     "Node name for S&R": "DWPreprocessor"
    },
-   "order": 14
+   "widgets_values": [
+    "enable",
+    "enable",
+    "disable",
+    640,
+    "yolox_l.onnx",
+    "dw-ll_ucoco_384_bs5.torchscript.pt",
+    "disable"
+   ],
+   "widgets_values_named": {
+    "detect_hand": "enable",
+    "detect_body": "enable",
+    "detect_face": "disable",
+    "resolution": 640,
+    "bbox_detector": "yolox_l.onnx",
+    "pose_estimator": "dw-ll_ucoco_384_bs5.torchscript.pt",
+    "scale_stick_for_xinsr_cn": "disable"
+   }
   },
   {
    "id": 15,
@@ -601,12 +726,11 @@
    ],
    "size": [
     240,
-    80
+    82
    ],
-   "widgets_values": [
-    0,
-    1
-   ],
+   "flags": {},
+   "order": 19,
+   "mode": 0,
    "inputs": [
     {
      "name": "image",
@@ -624,27 +748,35 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "ImageFromBatch"
    },
-   "order": 15
+   "widgets_values": [
+    0,
+    1
+   ],
+   "widgets_values_named": {
+    "batch_index": 0,
+    "length": 1
+   }
   },
   {
    "id": 16,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    40,
-    1680
+    957.3254222433909,
+    812.1727458635601
    ],
    "size": [
     300,
     100
    ],
-   "widgets_values": [
-    "sam3.1_multiplex_fp16.safetensors"
-   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
      "name": "MODEL",
@@ -669,30 +801,32 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
-   "order": 16
+   "widgets_values": [
+    "sam3.1_multiplex_fp16.safetensors"
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "sam3.1_multiplex_fp16.safetensors"
+   }
   },
   {
    "id": 17,
    "type": "SAM3_Detect",
    "pos": [
-    1800,
-    120
+    1914.116080972726,
+    524.9282285714287
    ],
    "size": [
     300,
-    200
+    206
    ],
-   "widgets_values": [
-    0.5,
-    2,
-    false
-   ],
+   "flags": {},
+   "order": 20,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -706,8 +840,27 @@
     },
     {
      "name": "conditioning",
+     "shape": 7,
      "type": "CONDITIONING",
      "link": 22
+    },
+    {
+     "name": "bboxes",
+     "shape": 7,
+     "type": "BOUNDING_BOX",
+     "link": null
+    },
+    {
+     "name": "positive_coords",
+     "shape": 7,
+     "type": "STRING",
+     "link": null
+    },
+    {
+     "name": "negative_coords",
+     "shape": 7,
+     "type": "STRING",
+     "link": null
     }
    ],
    "outputs": [
@@ -726,27 +879,36 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SAM3_Detect"
    },
-   "order": 17
+   "widgets_values": [
+    0.5,
+    2,
+    false
+   ],
+   "widgets_values_named": {
+    "threshold": 0.5,
+    "refine_iterations": 2,
+    "individual_masks": false
+   }
   },
   {
    "id": 18,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    1160
+    1221.7548773860387,
+    1126.8695226139614
    ],
    "size": [
     280,
     100
    ],
-   "widgets_values": [
-    "person"
-   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -764,12 +926,17 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 18
+   "widgets_values": [
+    "person"
+   ],
+   "widgets_values_named": {
+    "text": "person"
+   }
   },
   {
    "id": 19,
@@ -780,12 +947,11 @@
    ],
    "size": [
     220,
-    80
+    82
    ],
-   "widgets_values": [
-    10,
-    true
-   ],
+   "flags": {},
+   "order": 21,
+   "mode": 0,
    "inputs": [
     {
      "name": "mask",
@@ -803,12 +969,19 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "GrowMask"
    },
-   "order": 19
+   "widgets_values": [
+    10,
+    true
+   ],
+   "widgets_values_named": {
+    "expand": 10,
+    "tapered_corners": true
+   }
   },
   {
    "id": 20,
@@ -819,11 +992,11 @@
    ],
    "size": [
     220,
-    60
+    82
    ],
-   "widgets_values": [
-    32
-   ],
+   "flags": {},
+   "order": 22,
+   "mode": 0,
    "inputs": [
     {
      "name": "masks",
@@ -842,12 +1015,19 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "BlockifyMask"
    },
-   "order": 20
+   "widgets_values": [
+    32,
+    "cpu"
+   ],
+   "widgets_values_named": {
+    "block_size": 32,
+    "device": "cpu"
+   }
   },
   {
    "id": 21,
@@ -858,11 +1038,11 @@
    ],
    "size": [
     240,
-    80
+    102
    ],
-   "widgets_values": [
-    "0, 0, 0"
-   ],
+   "flags": {},
+   "order": 23,
+   "mode": 0,
    "inputs": [
     {
      "name": "image",
@@ -885,27 +1065,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfyui-kjnodes",
+    "ver": "57105374f47d0fbb49c9c3926fb981702e0a4b5c",
     "Node name for S&R": "DrawMaskOnImage"
    },
-   "order": 21
+   "widgets_values": [
+    "0, 0, 0",
+    "cpu"
+   ],
+   "widgets_values_named": {
+    "color": "0, 0, 0",
+    "device": "cpu"
+   }
   },
   {
    "id": 22,
    "type": "CLIPVisionEncode",
    "pos": [
-    480,
-    1420
+    899.6532284493582,
+    1180.724509422084
    ],
    "size": [
     240,
     100
    ],
-   "widgets_values": [
-    "none"
-   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip_vision",
@@ -928,12 +1115,17 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPVisionEncode"
    },
-   "order": 22
+   "widgets_values": [
+    "none"
+   ],
+   "widgets_values_named": {
+    "crop": "none"
+   }
   },
   {
    "id": 23,
@@ -944,16 +1136,11 @@
    ],
    "size": [
     360,
-    300
+    358
    ],
-   "widgets_values": [
-    640,
-    640,
-    77,
-    1,
-    5,
-    0
-   ],
+   "flags": {},
+   "order": 24,
+   "mode": 0,
    "inputs": [
     {
      "name": "positive",
@@ -972,33 +1159,55 @@
     },
     {
      "name": "clip_vision_output",
+     "shape": 7,
      "type": "CLIP_VISION_OUTPUT",
      "link": 28
     },
     {
      "name": "reference_image",
+     "shape": 7,
      "type": "IMAGE",
      "link": 10
     },
     {
      "name": "face_video",
+     "shape": 7,
      "type": "IMAGE",
      "link": 17
     },
     {
      "name": "pose_video",
+     "shape": 7,
      "type": "IMAGE",
      "link": 18
     },
     {
      "name": "background_video",
+     "shape": 7,
      "type": "IMAGE",
      "link": 27
     },
     {
      "name": "character_mask",
+     "shape": 7,
      "type": "MASK",
      "link": 25
+    },
+    {
+     "name": "continue_motion",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": null
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "link": 41
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "link": 45
     }
    ],
    "outputs": [
@@ -1025,14 +1234,44 @@
      "links": [
       33
      ]
+    },
+    {
+     "name": "trim_latent",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "trim_image",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "video_frame_offset",
+     "type": "INT",
+     "links": null
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "WanAnimateToVideo"
    },
-   "order": 23
+   "widgets_values": [
+    640,
+    640,
+    77,
+    1,
+    5,
+    0
+   ],
+   "widgets_values_named": {
+    "width": 640,
+    "height": 640,
+    "length": 77,
+    "batch_size": 1,
+    "continue_motion_max_frames": 5,
+    "video_frame_offset": 0
+   }
   },
   {
    "id": 24,
@@ -1043,17 +1282,11 @@
    ],
    "size": [
     340,
-    260
+    262
    ],
-   "widgets_values": [
-    42,
-    "fixed",
-    6,
-    1.0,
-    "euler",
-    "simple",
-    1.0
-   ],
+   "flags": {},
+   "order": 25,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -1086,12 +1319,29 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "KSampler"
    },
-   "order": 24
+   "widgets_values": [
+    42,
+    "fixed",
+    6,
+    1,
+    "euler",
+    "simple",
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 42,
+    "control_after_generate": "fixed",
+    "steps": 6,
+    "cfg": 1,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1
+   }
   },
   {
    "id": 25,
@@ -1104,7 +1354,9 @@
     220,
     80
    ],
-   "widgets_values": [],
+   "flags": {},
+   "order": 26,
+   "mode": 0,
    "inputs": [
     {
      "name": "samples",
@@ -1127,12 +1379,11 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "order": 25
+   }
   },
   {
    "id": 26,
@@ -1143,16 +1394,22 @@
    ],
    "size": [
     240,
-    80
+    174
    ],
-   "widgets_values": [
-    16
-   ],
+   "flags": {},
+   "order": 27,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
      "type": "IMAGE",
      "link": 35
+    },
+    {
+     "name": "audio",
+     "shape": 7,
+     "type": "AUDIO",
+     "link": null
     }
    ],
    "outputs": [
@@ -1165,12 +1422,25 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CreateVideo"
    },
-   "order": 26
+   "widgets_values": [
+    16,
+    "auto",
+    "sRGB",
+    "auto",
+    "none"
+   ],
+   "widgets_values_named": {
+    "fps": 16,
+    "bit_depth": "auto",
+    "color_space": "sRGB",
+    "chroma_subsampling": "auto",
+    "codec": "none"
+   }
   },
   {
    "id": 27,
@@ -1183,11 +1453,9 @@
     340,
     300
    ],
-   "widgets_values": [
-    "wan-animate-mix",
-    "auto",
-    "auto"
-   ],
+   "flags": {},
+   "order": 28,
+   "mode": 0,
    "inputs": [
     {
      "name": "video",
@@ -1195,34 +1463,126 @@
      "link": 36
     }
    ],
-   "outputs": [],
-   "flags": {},
-   "mode": 0,
+   "outputs": [
+    {
+     "name": "video",
+     "type": "VIDEO",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveVideo"
    },
-   "order": 27
+   "widgets_values": [
+    "wan-animate-mix",
+    "auto",
+    "auto",
+    "auto"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "wan-animate-mix",
+    "format": "auto",
+    "format.codec": "auto",
+    "codec": "auto"
+   }
   },
   {
    "id": 28,
    "type": "MarkdownNote",
    "pos": [
-    -1700,
-    1500
+    87.39013620968251,
+    -406.9243358895653
    ],
    "size": [
-    420,
-    320
+    1166.7010369858165,
+    292.59177695771245
    ],
-   "widgets_values": [
-    "## wan-animate-mix.json\n\nPut YOUR character into footage, keeping the footage\n\n**Does:** character replacement (WanAnimateToVideo **Mix mode**) - a driving clip of a person in a scene + a **portrait** reference of our character -> the character plays that person's part, background and lighting kept. This is placement: the character lands *inside* real footage, not on a generated backdrop. Host: `wan2.2_animate_14B_int8_convrot` (18.4 GB, **Apache-2.0**, already on the box) + the lightx2v distill lora + our usual umt5/VAE/clip_vision.\n**Measured (E13c, 2026-10-11):** 77 frames at 640x640 in **375 s**; 33 frames at 848x480 in **240 s** - DWPose preprocessing included, so this is the *cheap* 14B route (the 6-step / cfg 1.0 distill recipe). Identity holds with a **portrait** reference; probe B proved a full-body reference loses the face on close-up-driven footage (same outfit, different woman).\n**Knobs:** the **reference image** (portrait! that is the identity knob); the **mask prompt** (`person` on `SAM3_Detect`) and `GrowMask`/`BlockifyMask` (10 / 32) if the driver's person is unusual; `length` (77 ships); the **prompt** describes the scene action, not the character (the reference already carries identity). Motion comes from `pose_video` (DWPose hand+body) and `face_video` (DWPose face), `reference_image_strength`-style tightening is not exposed on this node.\n**Traps:** the socket order is `positive, negative, vae, clip_vision_output, reference_image, face_video, pose_video, background_video, character_mask` - `reference_image` sits AFTER `clip_vision_output`. The mask and the video must share the canvas (a mismatched mask shows up as black 32-px blocks - measured). The output prepends the reference as frame 0 (81 frames out for `length` 77) - trim one second in the engine or with a slice. DWPose auto-downloads its detectors on first run (`custom_nodes/comfyui_controlnet_aux/ckpts/`). The relight lora ships in the chain (lightx2v -> relight - the official template includes it): measured on a\n    neutral-lit room the integration difference is subtle (subject-vs-background palette mismatch 27.6 -> 25.5\n    across matched frames, E13d) - on strongly-lit scenes it should matter more; re-measure if a composite\n    reads pasted.\n**Siblings:** `wan-animate-motion.json` (S15) is the Move mode - motion transfer onto a generated backdrop; this flow keeps the *footage's* background instead.\n\n---\n*How to run it: story **S31** in `HOWTO.md`  \u00b7  Why it is this way: **E13c** in `video/EXPERIMENTS.md`.*"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
    "inputs": [],
    "outputs": [],
-   "flags": {},
-   "mode": 0,
    "properties": {},
-   "order": 0
+   "widgets_values": [
+    "## wan-animate-mix.json\n\nPut YOUR character into footage, keeping the footage\n\n**Does:** character replacement (WanAnimateToVideo **Mix mode**) - a driving clip of a person in a scene + a **portrait** reference of our character -> the character plays that person's part, background and lighting kept. This is placement: the character lands *inside* real footage, not on a generated backdrop. Host: `wan2.2_animate_14B_int8_convrot` (18.4 GB, **Apache-2.0**, already on the box) + the lightx2v distill lora + our usual umt5/VAE/clip_vision.\n**Measured (E13c, 2026-10-11):** 77 frames at 640x640 in **375 s**; 33 frames at 848x480 in **240 s** - DWPose preprocessing included, so this is the *cheap* 14B route (the 6-step / cfg 1.0 distill recipe). Identity holds with a **portrait** reference; probe B proved a full-body reference loses the face on close-up-driven footage (same outfit, different woman).\n**Knobs:** the **reference image** (portrait! that is the identity knob); the **mask prompt** (`person` on `SAM3_Detect`) and `GrowMask`/`BlockifyMask` (10 / 32) if the driver's person is unusual; `length` (77 ships); the **prompt** describes the scene action, not the character (the reference already carries identity). Motion comes from `pose_video` (DWPose hand+body) and `face_video` (DWPose face), `reference_image_strength`-style tightening is not exposed on this node.\n**Traps:** the socket order is `positive, negative, vae, clip_vision_output, reference_image, face_video, pose_video, background_video, character_mask` - `reference_image` sits AFTER `clip_vision_output`. The mask and the video must share the canvas (a mismatched mask shows up as black 32-px blocks - measured). The output prepends the reference as frame 0 (81 frames out for `length` 77) - trim one second in the engine or with a slice. DWPose auto-downloads its detectors on first run (`custom_nodes/comfyui_controlnet_aux/ckpts/`). The relight lora ships in the chain (lightx2v -> relight - the official template includes it): measured on a\n    neutral-lit room the integration difference is subtle (subject-vs-background palette mismatch 27.6 -> 25.5\n    across matched frames, E13d) - on strongly-lit scenes it should matter more; re-measure if a composite\n    reads pasted.\n**Siblings:** `wan-animate-motion.json` (S15) is the Move mode - motion transfer onto a generated backdrop; this flow keeps the *footage's* background instead.\n\n---\n*How to run it: story **S31** in `HOWTO.md`  \u00b7  Why it is this way: **E13c** in `video/EXPERIMENTS.md`.*\n\n**size - edit ONLY the two `INT Constant` nodes** (multiples of 16): they drive the `ImageScale` hub, `WanAnimateToVideo`'s canvas, and both `DWPreprocessor` map resolutions. Sources can be any size - the hub normalizes them (center-cropped to the canvas aspect, not stretched). The shipped 640x640 square is the tested configuration; cost proportional to pixels - the 6-step LoRA keeps it cheap, but pixels still bite."
+   ],
+   "widgets_values_named": {
+    "text": "## wan-animate-mix.json\n\nPut YOUR character into footage, keeping the footage\n\n**Does:** character replacement (WanAnimateToVideo **Mix mode**) - a driving clip of a person in a scene + a **portrait** reference of our character -> the character plays that person's part, background and lighting kept. This is placement: the character lands *inside* real footage, not on a generated backdrop. Host: `wan2.2_animate_14B_int8_convrot` (18.4 GB, **Apache-2.0**, already on the box) + the lightx2v distill lora + our usual umt5/VAE/clip_vision.\n**Measured (E13c, 2026-10-11):** 77 frames at 640x640 in **375 s**; 33 frames at 848x480 in **240 s** - DWPose preprocessing included, so this is the *cheap* 14B route (the 6-step / cfg 1.0 distill recipe). Identity holds with a **portrait** reference; probe B proved a full-body reference loses the face on close-up-driven footage (same outfit, different woman).\n**Knobs:** the **reference image** (portrait! that is the identity knob); the **mask prompt** (`person` on `SAM3_Detect`) and `GrowMask`/`BlockifyMask` (10 / 32) if the driver's person is unusual; `length` (77 ships); the **prompt** describes the scene action, not the character (the reference already carries identity). Motion comes from `pose_video` (DWPose hand+body) and `face_video` (DWPose face), `reference_image_strength`-style tightening is not exposed on this node.\n**Traps:** the socket order is `positive, negative, vae, clip_vision_output, reference_image, face_video, pose_video, background_video, character_mask` - `reference_image` sits AFTER `clip_vision_output`. The mask and the video must share the canvas (a mismatched mask shows up as black 32-px blocks - measured). The output prepends the reference as frame 0 (81 frames out for `length` 77) - trim one second in the engine or with a slice. DWPose auto-downloads its detectors on first run (`custom_nodes/comfyui_controlnet_aux/ckpts/`). The relight lora ships in the chain (lightx2v -> relight - the official template includes it): measured on a\n    neutral-lit room the integration difference is subtle (subject-vs-background palette mismatch 27.6 -> 25.5\n    across matched frames, E13d) - on strongly-lit scenes it should matter more; re-measure if a composite\n    reads pasted.\n**Siblings:** `wan-animate-motion.json` (S15) is the Move mode - motion transfer onto a generated backdrop; this flow keeps the *footage's* background instead.\n\n---\n*How to run it: story **S31** in `HOWTO.md`  \u00b7  Why it is this way: **E13c** in `video/EXPERIMENTS.md`.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
+  },
+  {
+   "id": 39,
+   "type": "INTConstant",
+   "pos": [
+    40,
+    -180
+   ],
+   "size": [
+    220,
+    58
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "INT",
+     "type": "INT",
+     "slot_index": 0,
+     "links": [
+      40,
+      41,
+      42,
+      43
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "INTConstant"
+   },
+   "widgets_values": [
+    640
+   ],
+   "title": "out_width"
+  },
+  {
+   "id": 40,
+   "type": "INTConstant",
+   "pos": [
+    260,
+    -180
+   ],
+   "size": [
+    220,
+    58
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "INT",
+     "type": "INT",
+     "slot_index": 0,
+     "links": [
+      44,
+      45
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "INTConstant"
+   },
+   "widgets_values": [
+    640
+   ],
+   "title": "out_height"
   }
  ],
  "links": [
@@ -1521,18 +1881,67 @@
    27,
    0,
    "VIDEO"
+  ],
+  [
+   40,
+   39,
+   0,
+   12,
+   1,
+   "INT"
+  ],
+  [
+   41,
+   39,
+   0,
+   23,
+   10,
+   "INT"
+  ],
+  [
+   42,
+   39,
+   0,
+   13,
+   1,
+   "INT"
+  ],
+  [
+   43,
+   39,
+   0,
+   14,
+   1,
+   "INT"
+  ],
+  [
+   44,
+   40,
+   0,
+   12,
+   2,
+   "INT"
+  ],
+  [
+   45,
+   40,
+   0,
+   23,
+   11,
+   "INT"
   ]
  ],
  "groups": [],
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.7700000000000001,
    "offset": [
-    0,
-    0
+    -226.5350695413618,
+    -111.54492604829944
    ]
-  }
+  },
+  "frontendVersion": "1.59.6"
  },
  "version": 0.4
 }
