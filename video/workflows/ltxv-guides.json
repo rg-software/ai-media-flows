@@ -1,4 +1,6 @@
 {
+ "id": "d2b7763c-f851-4acc-bbb2-b2abb5266771",
+ "revision": 0,
  "last_node_id": 17,
  "last_link_id": 25,
  "nodes": [
@@ -6,15 +8,15 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    40,
-    120
+    44.94013788327018,
+    -3.5037611680614305
    ],
    "size": [
     300,
     120
    ],
    "flags": {},
-   "order": 1,
+   "order": 0,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -44,25 +46,30 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
    "widgets_values": [
     "ltxv-13b-0.9.8-distilled-fp8.safetensors"
-   ]
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "ltxv-13b-0.9.8-distilled-fp8.safetensors"
+   }
   },
   {
    "id": 2,
    "type": "CLIPLoader",
    "pos": [
     40,
-    280
+    180.74725903380147
    ],
    "size": [
     300,
     120
    ],
    "flags": {},
-   "order": 2,
+   "order": 1,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -77,27 +84,34 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPLoader"
    },
    "widgets_values": [
     "t5xxl_fp8_e4m3fn_scaled.safetensors",
     "ltxv",
     "default"
-   ]
+   ],
+   "widgets_values_named": {
+    "clip_name": "t5xxl_fp8_e4m3fn_scaled.safetensors",
+    "type": "ltxv",
+    "device": "default"
+   }
   },
   {
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    400,
-    40
+    480,
+    120
    ],
    "size": [
     400,
     180
    ],
    "flags": {},
-   "order": 3,
+   "order": 8,
    "mode": 0,
    "inputs": [
     {
@@ -117,25 +131,32 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
     "best quality, 4k, HDR, a red-haired sorceress in ornate blue and gold robes, tall, standing in a moonlit forest clearing"
-   ]
+   ],
+   "widgets_values_named": {
+    "text": "best quality, 4k, HDR, a red-haired sorceress in ornate blue and gold robes, tall, standing in a moonlit forest clearing"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    400,
-    260
+    480,
+    380
    ],
    "size": [
     400,
     180
    ],
    "flags": {},
-   "order": 4,
+   "order": 9,
    "mode": 0,
    "inputs": [
     {
@@ -155,25 +176,32 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
     "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion blur, flicker"
-   ]
+   ],
+   "widgets_values_named": {
+    "text": "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion blur, flicker"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
    "type": "LoadImage",
    "pos": [
     40,
-    480
+    640
    ],
    "size": [
     315,
     314
    ],
    "flags": {},
-   "order": 5,
+   "order": 2,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -184,29 +212,42 @@
      "links": [
       7
      ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "portrait_forest_sorceress.png",
+    "2d/portrait_forest_sorceress.png",
     "image"
-   ]
+   ],
+   "widgets_values_named": {
+    "image": "2d/portrait_forest_sorceress.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 6,
    "type": "LoadImage",
    "pos": [
-    40,
-    840
+    480,
+    640
    ],
    "size": [
     315,
     314
    ],
    "flags": {},
-   "order": 6,
+   "order": 3,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -217,29 +258,42 @@
      "links": [
       13
      ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "scene_forest_sorceress.png",
+    "2d/scene_forest_sorceress.png",
     "image"
-   ]
+   ],
+   "widgets_values_named": {
+    "image": "2d/scene_forest_sorceress.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 7,
    "type": "EmptyLTXVLatentVideo",
    "pos": [
-    400,
-    480
+    56.46713674711083,
+    402.6915091331538
    ],
    "size": [
     270,
     130
    ],
    "flags": {},
-   "order": 7,
+   "order": 4,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -253,6 +307,8 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "EmptyLTXVLatentVideo"
    },
    "widgets_values": [
@@ -260,21 +316,29 @@
     768,
     97,
     1
-   ]
+   ],
+   "widgets_values_named": {
+    "width": 768,
+    "height": 768,
+    "length": 97,
+    "batch_size": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 8,
    "type": "LTXVAddGuide",
    "pos": [
-    760,
-    40
+    920,
+    120
    ],
    "size": [
     340,
     300
    ],
    "flags": {},
-   "order": 8,
+   "order": 10,
    "mode": 0,
    "inputs": [
     {
@@ -301,6 +365,18 @@
      "name": "image",
      "type": "IMAGE",
      "link": 7
+    },
+    {
+     "name": "attention_mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
+    },
+    {
+     "name": "iclora_parameters",
+     "shape": 7,
+     "type": "IC_LORA_PARAMETERS",
+     "link": null
     }
    ],
    "outputs": [
@@ -330,26 +406,32 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LTXVAddGuide"
    },
    "widgets_values": [
     10,
-    1.0
-   ]
+    1
+   ],
+   "widgets_values_named": {
+    "frame_idx": 10,
+    "strength": 1
+   }
   },
   {
    "id": 9,
    "type": "LTXVAddGuide",
    "pos": [
-    1120,
-    40
+    1319.8505469368945,
+    100.07487854932515
    ],
    "size": [
     340,
     300
    ],
    "flags": {},
-   "order": 9,
+   "order": 11,
    "mode": 0,
    "inputs": [
     {
@@ -376,6 +458,18 @@
      "name": "image",
      "type": "IMAGE",
      "link": 13
+    },
+    {
+     "name": "attention_mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
+    },
+    {
+     "name": "iclora_parameters",
+     "shape": 7,
+     "type": "IC_LORA_PARAMETERS",
+     "link": null
     }
    ],
    "outputs": [
@@ -405,26 +499,32 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LTXVAddGuide"
    },
    "widgets_values": [
     40,
-    1.0
-   ]
+    1
+   ],
+   "widgets_values_named": {
+    "frame_idx": 40,
+    "strength": 1
+   }
   },
   {
    "id": 10,
    "type": "LTXVConditioning",
    "pos": [
-    1120,
-    400
+    1714.6697765276974,
+    110.0374772791057
    ],
    "size": [
     270,
     80
    ],
    "flags": {},
-   "order": 10,
+   "order": 12,
    "mode": 0,
    "inputs": [
     {
@@ -457,27 +557,39 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LTXVConditioning"
    },
    "widgets_values": [
-    25.0
-   ]
+    25
+   ],
+   "widgets_values_named": {
+    "frame_rate": 25
+   }
   },
   {
    "id": 11,
    "type": "LTXVScheduler",
    "pos": [
-    400,
-    1100
+    1321.1457327704998,
+    535.8943017704919
    ],
    "size": [
     270,
-    150
+    154
    ],
    "flags": {},
-   "order": 11,
+   "order": 5,
    "mode": 0,
-   "inputs": [],
+   "inputs": [
+    {
+     "name": "latent",
+     "shape": 7,
+     "type": "LATENT",
+     "link": null
+    }
+   ],
    "outputs": [
     {
      "name": "SIGMAS",
@@ -489,6 +601,8 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LTXVScheduler"
    },
    "widgets_values": [
@@ -497,21 +611,28 @@
     0.95,
     true,
     0.1
-   ]
+   ],
+   "widgets_values_named": {
+    "steps": 8,
+    "max_shift": 2.05,
+    "base_shift": 0.95,
+    "stretch": true,
+    "terminal": 0.1
+   }
   },
   {
    "id": 12,
    "type": "KSamplerSelect",
    "pos": [
-    40,
-    1100
+    1316.205437844076,
+    800.8345024710234
    ],
    "size": [
     270,
     60
    ],
    "flags": {},
-   "order": 12,
+   "order": 6,
    "mode": 0,
    "inputs": [],
    "outputs": [
@@ -525,18 +646,23 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "KSamplerSelect"
    },
    "widgets_values": [
     "euler"
-   ]
+   ],
+   "widgets_values_named": {
+    "sampler_name": "euler"
+   }
   },
   {
    "id": 13,
    "type": "SamplerCustom",
    "pos": [
-    760,
-    780
+    1811.9551336775137,
+    450.75973719932836
    ],
    "size": [
     320,
@@ -594,6 +720,8 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SamplerCustom"
    },
    "widgets_values": [
@@ -601,14 +729,20 @@
     42,
     "fixed",
     1
-   ]
+   ],
+   "widgets_values_named": {
+    "add_noise": true,
+    "noise_seed": 42,
+    "control_after_generate": "fixed",
+    "cfg": 1
+   }
   },
   {
    "id": 14,
    "type": "VAEDecode",
    "pos": [
-    1120,
-    780
+    2094.5618293840184,
+    185.68737384050553
    ],
    "size": [
     200,
@@ -640,20 +774,21 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "widgets_values": []
+   }
   },
   {
    "id": 15,
    "type": "CreateVideo",
    "pos": [
-    1120,
-    900
+    2379.095602881512,
+    26.779441727710832
    ],
    "size": [
     270,
-    130
+    174
    ],
    "flags": {},
    "order": 15,
@@ -666,6 +801,7 @@
     },
     {
      "name": "audio",
+     "shape": 7,
      "type": "AUDIO",
      "link": null
     }
@@ -681,6 +817,8 @@
     }
    ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CreateVideo"
    },
    "widgets_values": [
@@ -689,14 +827,21 @@
     "sRGB",
     "auto",
     "none"
-   ]
+   ],
+   "widgets_values_named": {
+    "fps": 25,
+    "bit_depth": "auto",
+    "color_space": "sRGB",
+    "chroma_subsampling": "auto",
+    "codec": "none"
+   }
   },
   {
    "id": 16,
    "type": "SaveVideo",
    "pos": [
-    1440,
-    900
+    2474.124614257938,
+    448.22364920054673
    ],
    "size": [
     300,
@@ -712,8 +857,16 @@
      "link": 23
     }
    ],
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "video",
+     "type": "VIDEO",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveVideo"
    },
    "widgets_values": [
@@ -721,18 +874,26 @@
     "auto",
     "auto",
     "auto"
-   ]
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "ltxv-guides",
+    "format": "auto",
+    "format.codec": "auto",
+    "codec": "auto"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 17,
    "type": "MarkdownNote",
    "pos": [
-    40,
-    -160
+    400.24071918413665,
+    -268.29468645559473
    ],
    "size": [
-    560,
-    340
+    826.345459663989,
+    253.35749308312552
    ],
    "flags": {},
    "order": 0,
@@ -743,8 +904,13 @@
     "Node name for S&R": "MarkdownNote"
    },
    "widgets_values": [
-    "## ltxv-guides.json\n\nKeyframe animation: our stills pinned at chosen frames\n\n**Does:** two stills + a prompt -> a clip that travels between the stills. **Chained `LTXVAddGuide` route\n(2026-11-23):** each guide node pins one still at its `frame_idx` on the 97-frame timeline - the indices are\n**editable widgets**, no offline guide-clip build. The latent stays empty (`EmptyLTXVLatentVideo`): every\npixel of direction comes from the guides and the prompt.\n\n**The old batch route (LTXVAddGuidesFromBatch + a padded guide video) is gone:** its transport required the\nguide clip to carry \"no pin\" as **byte-exact black**, and any noisy padding frame became an accidental guide\n(the measured E23 trap). The chain has no padding, so the trap is gone with it.\n\n**Knobs:** the two `LoadImage` stills (pick the key moments), the two **`frame_idx`** widgets (the pin\npositions on the 97-frame timeline), strength 1.0 shared. Canvas 768x768 (multiples of 32), 97 frames\n(8n+1), fps 25 on CreateVideo.\n\n*Measured: the batch route is E23; the chained route is its addendum in `video/EXPERIMENTS.md`.*\n\n*How to run it: story **S36** in HOWTO.md  \u00b7  Why it is this way: **E23** in \u000bideo/EXPERIMENTS.md.*"
-   ]
+    "## ltxv-guides.json\n\nKeyframe animation: our stills pinned at chosen frames\n\n**Does:** two stills + a prompt -> a clip that travels between the stills. **Chained `LTXVAddGuide` route\n(2026-11-23):** each guide node pins one still at its `frame_idx` on the 97-frame timeline - the indices are\n**editable widgets**, no offline guide-clip build. The latent stays empty (`EmptyLTXVLatentVideo`): every\npixel of direction comes from the guides and the prompt.\n\n**The old batch route (LTXVAddGuidesFromBatch + a padded guide video) is gone:** its transport required the\nguide clip to carry \"no pin\" as **byte-exact black**, and any noisy padding frame became an accidental guide\n(the measured E23 trap). The chain has no padding, so the trap is gone with it.\n\n**Knobs:** the two `LoadImage` stills (pick the key moments), the two **`frame_idx`** widgets (the pin\npositions on the 97-frame timeline), strength 1.0 shared. Canvas 768x768 (multiples of 32), 97 frames\n(8n+1), fps 25 on CreateVideo.\n\n*Measured: the batch route is E23; the chained route is its addendum in `video/EXPERIMENTS.md`.*\n\n*How to run it: story **S36** in HOWTO.md  \u00b7  Why it is this way: **E23** in \u000bideo/EXPERIMENTS.md.*\n\n**Measured (E23 addendum):** the chained route reproduces the batch route behavior exactly (A/B on the same stills - mean-color traces match frame-for-frame). And the transition character is **content-driven**: a close-up portrait vs a distant wide scene = LTX resolves it as a shot change (a cut). Keyframe travel reads smoothly when the change is camera/pose level between recognizably-same content (E23 arms B/D/E); shot-change pairs cut, legitimately."
+   ],
+   "widgets_values_named": {
+    "text": "## ltxv-guides.json\n\nKeyframe animation: our stills pinned at chosen frames\n\n**Does:** two stills + a prompt -> a clip that travels between the stills. **Chained `LTXVAddGuide` route\n(2026-11-23):** each guide node pins one still at its `frame_idx` on the 97-frame timeline - the indices are\n**editable widgets**, no offline guide-clip build. The latent stays empty (`EmptyLTXVLatentVideo`): every\npixel of direction comes from the guides and the prompt.\n\n**The old batch route (LTXVAddGuidesFromBatch + a padded guide video) is gone:** its transport required the\nguide clip to carry \"no pin\" as **byte-exact black**, and any noisy padding frame became an accidental guide\n(the measured E23 trap). The chain has no padding, so the trap is gone with it.\n\n**Knobs:** the two `LoadImage` stills (pick the key moments), the two **`frame_idx`** widgets (the pin\npositions on the 97-frame timeline), strength 1.0 shared. Canvas 768x768 (multiples of 32), 97 frames\n(8n+1), fps 25 on CreateVideo.\n\n*Measured: the batch route is E23; the chained route is its addendum in `video/EXPERIMENTS.md`.*\n\n*How to run it: story **S36** in HOWTO.md  \u00b7  Why it is this way: **E23** in \u000bideo/EXPERIMENTS.md.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -917,14 +1083,6 @@
    "IMAGE"
   ],
   [
-   23,
-   15,
-   0,
-   16,
-   0,
-   "VIDEO"
-  ],
-  [
    24,
    1,
    2,
@@ -939,10 +1097,27 @@
    13,
    5,
    "LATENT"
+  ],
+  [
+   23,
+   15,
+   0,
+   16,
+   0,
+   "VIDEO"
   ]
  ],
  "groups": [],
  "config": {},
- "extra": {},
+ "extra": {
+  "ds": {
+   "scale": 0.7112819817726928,
+   "offset": [
+    253.87414636130706,
+    -86.38641856052641
+   ]
+  },
+  "frontendVersion": "1.59.6"
+ },
  "version": 0.4
 }
