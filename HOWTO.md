@@ -219,7 +219,7 @@
 - *Steps:*
 	- put your character image and your driving clip in `input/`;
 	- open `video/workflows/wan-animate-motion.json` and set the **reference image** (`LoadImage`) and the **driving video** (`LoadVideo`);
-	- describe **scene, background and camera** in the positive prompt — *not* the motion, which comes from the video;
+	- describe **scene, background and camera** in the positive prompt's *Background description* part (the box labeled "Character Description / Background description") — *not* the motion, which comes from the video; keep the Character part pointing at the reference image, and leave the second positive box (the pose-branch prompt) at its shipped generic text.
 	- run. Shipped sample generates in ~1.5 min.
 - *Knobs:*
 	- `length` — frames (4n+1). **It is the FIRST N frames of the clip**: a longer clip is cut off at N, a shorter one repeats its last frame. In the shipped sample, the default 33 is about 1.4 s of the footage;
@@ -229,9 +229,9 @@
 	- the prompt's camera wording *is* the viewpoint control: the output camera is decoupled from the driving video.
 - *Notes:* its negative prompt (node 6) is the family's standard Chinese block and this flow samples at **cfg 1.0**, where the negative branch has zero weight - so it is inert here, and the Chinese is kept only for consistency with S28/S29 (where cfg is 6 and it *does* matter).
 - *Trap:* the output size comes from the **driving video**, snapped to a multiple of 16 — not from the node's defaults. **Don't swap the model for a GGUF quant.** Those same weights quantised that way make the flow silently ignore your driving video, while the reference image keeps working - so if the character never moves, that is why. The workflow's note has the explanation.
-- *Videos longer than ~1.5 sec:* the flow generates the first `length` frames and stops, so run **`uv run python scripts/wan_segment.py <clip> --ref <image> --out <result.mp4>`** - it probes the clip, works out how many segments it needs, runs each one continuing from the previous segment's last frame, and stitches them into one file at the clip's own fps. It is API-only, so it runs against the remote server from anywhere.
 - *Doing it by hand:* generate a segment, then add a `LoadImage` of its **last frame** wired to `continue_motion` and set `video_frame_offset` to **last pose + 1**. The node pins the frame you pass at pose `offset - 1` and generates `length` frames from there, so for 33-frame segments the offsets are 0, 33, **65**, 97; join the pieces with `A + B[trim_image:]` (that node output says how many frames overlap). It closes the join **and holds the camera** across the cut.
 - *More:* [`video/README.md`](video/README.md), and E1/E2/E3/E10/E12/E14 in [`video/EXPERIMENTS.md`](video/EXPERIMENTS.md).
+- *Videos longer than ~1.5 sec:* the flow generates the first `length` frames and stops, so run **`uv run python scripts/wan_segment.py <clip> --ref <image> --out <result.mp4>`** - it probes the clip, works out how many segments it needs, runs each one continuing from the previous segment's last frame, and stitches them into one file at the clip's own fps. It is API-only, so it runs against the remote server from anywhere.
 
 ### S16. Get a pose from a photo
 
