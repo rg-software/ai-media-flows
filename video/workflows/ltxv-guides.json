@@ -190,7 +190,7 @@
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/portrait_forest_sorceress.png",
+    "portrait_forest_sorceress.png",
     "image"
    ]
   },
@@ -223,7 +223,7 @@
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/scene_forest_sorceress.png",
+    "scene_forest_sorceress.png",
     "image"
    ]
   },

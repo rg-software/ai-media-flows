@@ -41,7 +41,7 @@
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/env_cottage.png",
+    "env_cottage.png",
     "image"
    ],
    "widgets_values_named": {

@@ -41,7 +41,7 @@
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/_work/E10_hero_base.png",
+    "E10_hero_base.png",
     "image"
    ],
    "widgets_values_named": {
@@ -88,7 +88,7 @@
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/_work/E10_hero_mask.png",
+    "E10_hero_mask.png",
     "image"
    ],
    "widgets_values_named": {

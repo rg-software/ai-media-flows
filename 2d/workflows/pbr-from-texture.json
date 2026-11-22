@@ -37,7 +37,7 @@
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/tex_stone_seamless.png",
+    "tex_stone_seamless.png",
     "image"
    ]
   },

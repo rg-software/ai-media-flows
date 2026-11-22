@@ -41,7 +41,7 @@
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/portrait_heroine.png",
+    "portrait_heroine.png",
     "image"
    ],
    "widgets_values_named": {

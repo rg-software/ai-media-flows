@@ -41,7 +41,7 @@
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "2d/tex_stone.png",
+    "tex_stone.png",
     "image"
    ],
    "widgets_values_named": {
