@@ -1,6 +1,6 @@
 {
- "last_node_id": 26,
- "last_link_id": 27,
+ "last_node_id": 22,
+ "last_link_id": 26,
  "nodes": [
   {
    "id": 1,
@@ -101,7 +101,7 @@
      "type": "MODEL",
      "slot_index": 0,
      "links": [
-      13
+      3
      ]
     }
    ],
@@ -134,8 +134,8 @@
      "type": "CLIP",
      "slot_index": 0,
      "links": [
-      3,
-      4
+      4,
+      5
      ]
     }
    ],
@@ -165,7 +165,7 @@
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 3
+     "link": 4
     }
    ],
    "outputs": [
@@ -174,7 +174,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      7
+      11
      ]
     }
    ],
@@ -203,7 +203,7 @@
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 4
+     "link": 5
     }
    ],
    "outputs": [
@@ -212,7 +212,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      8
+      12
      ]
     }
    ],
@@ -243,8 +243,8 @@
      "type": "VAE",
      "slot_index": 0,
      "links": [
-      9,
-      21
+      6,
+      20
      ]
     }
    ],
@@ -276,7 +276,7 @@
      "type": "AUDIO_ENCODER",
      "slot_index": 0,
      "links": [
-      5
+      7
      ]
     }
    ],
@@ -310,8 +310,8 @@
      "type": "AUDIO",
      "slot_index": 0,
      "links": [
-      6,
-      24
+      8,
+      23
      ]
     }
    ],
@@ -339,12 +339,12 @@
     {
      "name": "audio_encoder",
      "type": "AUDIO_ENCODER",
-     "link": 5
+     "link": 7
     },
     {
      "name": "audio",
      "type": "AUDIO",
-     "link": 6
+     "link": 8
     }
    ],
    "outputs": [
@@ -353,7 +353,7 @@
      "type": "AUDIO_ENCODER_OUTPUT",
      "slot_index": 0,
      "links": [
-      10
+      9
      ]
     }
    ],
@@ -385,7 +385,7 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      11
+      10
      ]
     },
     {
@@ -424,32 +424,32 @@
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "link": 7
+     "link": 11
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "link": 8
+     "link": 12
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 9
+     "link": 6
     },
     {
      "name": "audio_encoder_output",
      "type": "AUDIO_ENCODER_OUTPUT",
-     "link": 10
+     "link": 9
     },
     {
      "name": "ref_image",
      "type": "IMAGE",
-     "link": 11
+     "link": 10
     },
     {
      "name": "length",
      "type": "INT",
-     "link": 12
+     "link": 26
     }
    ],
    "outputs": [
@@ -458,7 +458,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      14
+      13
      ]
     },
     {
@@ -466,7 +466,7 @@
      "type": "CONDITIONING",
      "slot_index": 1,
      "links": [
-      15
+      14
      ]
     },
     {
@@ -474,7 +474,7 @@
      "type": "LATENT",
      "slot_index": 2,
      "links": [
-      16
+      15
      ]
     }
    ],
@@ -509,22 +509,22 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 13
+     "link": 3
     },
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "link": 14
+     "link": 13
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "link": 15
+     "link": 14
     },
     {
      "name": "latent_image",
      "type": "LATENT",
-     "link": 16
+     "link": 15
     }
    ],
    "outputs": [
@@ -533,8 +533,8 @@
      "type": "LATENT",
      "slot_index": 0,
      "links": [
-      17,
-      19
+      16,
+      17
      ]
     }
    ],
@@ -565,7 +565,7 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 17
+     "link": 16
     }
    ],
    "outputs": [
@@ -608,7 +608,7 @@
     {
      "name": "samples2",
      "type": "LATENT",
-     "link": 19
+     "link": 17
     }
    ],
    "outputs": [
@@ -617,7 +617,7 @@
      "type": "LATENT",
      "slot_index": 0,
      "links": [
-      20
+      19
      ]
     }
    ],
@@ -644,12 +644,12 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 20
+     "link": 19
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 21
+     "link": 20
     }
    ],
    "outputs": [
@@ -658,7 +658,7 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      22
+      21
      ]
     }
    ],
@@ -688,7 +688,7 @@
     {
      "name": "image",
      "type": "IMAGE",
-     "link": 22
+     "link": 21
     }
    ],
    "outputs": [
@@ -697,7 +697,7 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      23
+      22
      ]
     }
    ],
@@ -726,12 +726,12 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 23
+     "link": 22
     },
     {
      "name": "audio",
      "type": "AUDIO",
-     "link": 24
+     "link": 23
     }
    ],
    "outputs": [
@@ -740,7 +740,7 @@
      "type": "VIDEO",
      "slot_index": 0,
      "links": [
-      25
+      24
      ]
     }
    ],
@@ -771,7 +771,7 @@
     {
      "name": "video",
      "type": "VIDEO",
-     "link": 25
+     "link": 24
     }
    ],
    "outputs": [],
@@ -781,6 +781,38 @@
     "Node name for S&R": "SaveVideo"
    },
    "order": 18
+  },
+  {
+   "id": 21,
+   "type": "PrimitiveFloat",
+   "pos": [
+    40,
+    1680
+   ],
+   "size": [
+    300,
+    80
+   ],
+   "widgets_values": [
+    5.0
+   ],
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "slot_index": 0,
+     "links": [
+      25
+     ]
+    }
+   ],
+   "flags": {},
+   "mode": 0,
+   "properties": {
+    "Node name for S&R": "PrimitiveFloat"
+   },
+   "order": 19
   },
   {
    "id": 22,
@@ -800,7 +832,7 @@
     {
      "name": "values.a",
      "type": "FLOAT",
-     "link": 27
+     "link": 25
     }
    ],
    "outputs": [
@@ -815,7 +847,7 @@
      "type": "INT",
      "slot_index": 1,
      "links": [
-      12
+      26
      ]
     },
     {
@@ -844,7 +876,7 @@
     320
    ],
    "widgets_values": [
-    "## wan-s2v.json\n\nAn audio-driven performance: our character performs an audio file\n\n**Does:** a still **portrait** + an audio file -> a clip of the character *performing* it - head movement, expression and articulation (`WanSoundImageToVideo`, Wan2.2-S2V-14B). Broader than S32's lip-sync: the whole performance is audio-driven. The output **carries the audio** (aac). Host: `Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ` (16.65 GB, Apache-2.0) + **`wav2vec2_large_english`** audio encoder (631 MB - a different encoder from S32's chinese-base) + the **Wan2.2 4-step lightning lora** (1.23 GB - not our lightx2v I2V lora) + umt5/VAE.\n**Measured (E16, 2026-10-11):** a 5-s clip (80 frames at 16 fps) in **140 s** - the 4-step lora recipe. Identity holds through the performance (head tilts, blinks, mouth). Canvas **640x640** - a square portrait fits exactly.\n**Knobs:** the **audio** (drives the performance - trim it to `seconds`, see Traps); the **reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (5.0 ships) - a `ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 (`max(73,floor((a*16-4)/4+0.5)*4+1)`; the -4 compensates the first-frame hack's +3 output frames, and 73 is the model's floor, so the shortest clip this flow makes is 4.75 s). Sampling: **4 steps / cfg 1.0 / uni_pc / simple** with the Wan2.2 4-step lora. **fps is pinned at 16** on `CreateVideo` - the audio bucket is built for 16-fps video in the node code, so any other fps would desync the performance; it is deliberately not a knob.\n**Traps:** the checkpoint keeps its **as-downloaded name** (`Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ.safetensors` - the template's Kijai-original name is a different string). The audio encoder is per-route: S32 uses chinese-base, this flow uses large-english. Only the FIRST `length` frames' worth of audio conditions the motion (out-of-range frames read as silence) while `CreateVideo` muxes the whole audio file - **trim your audio to `seconds`** or the tail plays over motionless frames. The `LatentCut`/`LatentConcat` pair is the template's **first-frame duplication hack** (double latent frame 0, drop the first decode - that is where the +3 output frames come from), not extend plumbing: longer audio chains through **`WanSoundImageToVideoExtend`**, which this flow does not wire yet, so one run covers one `seconds`-long chunk.\n**Siblings:** `wan-infinitetalk.json` (S32) is the lip-sync route; this one performs.\n\n---\n*How to run it: story **S33** in `HOWTO.md`  \u00b7  Why it is this way: **E16** in `video/EXPERIMENTS.md`.*\n\n**Length:** set the `PrimitiveFloat` to the audio's duration in seconds - the math node converts it to the 4n+1 frame count. (An auto-length chain via `VAEEncodeAudio` was attempted but requires the Stable Audio Open VAE for audio encoding, which is not on the box.)"
+    "## wan-s2v.json\n\nAn audio-driven performance: our character performs an audio file\n\n**Does:** a still **portrait** + an audio file -> a clip of the character *performing* it - head movement, expression and articulation (`WanSoundImageToVideo`, Wan2.2-S2V-14B). Broader than S32's lip-sync: the whole performance is audio-driven. The output **carries the audio** (aac). Host: `Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ` (16.65 GB, Apache-2.0) + **`wav2vec2_large_english`** audio encoder (631 MB - a different encoder from S32's chinese-base) + the **Wan2.2 4-step lightning lora** (1.23 GB - not our lightx2v I2V lora) + umt5/VAE.\n**Measured (E16, 2026-10-11):** a 5-s clip (80 frames at 16 fps) in **140 s** - the 4-step lora recipe. Identity holds through the performance (head tilts, blinks, mouth). Canvas **640x640** - a square portrait fits exactly.\n**Knobs:** the **audio** (drives the performance - trim it to `seconds`, see Traps); the **reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (5.0 ships) - a `ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 (`max(73,floor((a*16-4)/4+0.5)*4+1)`; the -4 compensates the first-frame hack's +3 output frames, and 73 is the model's floor, so the shortest clip this flow makes is 4.75 s). Sampling: **4 steps / cfg 1.0 / uni_pc / simple** with the Wan2.2 4-step lora. **fps is pinned at 16** on `CreateVideo` - the audio bucket is built for 16-fps video in the node code, so any other fps would desync the performance; it is deliberately not a knob.\n**Traps:** the checkpoint keeps its **as-downloaded name** (`Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ.safetensors` - the template's Kijai-original name is a different string). The audio encoder is per-route: S32 uses chinese-base, this flow uses large-english. Only the FIRST `length` frames' worth of audio conditions the motion (out-of-range frames read as silence) while `CreateVideo` muxes the whole audio file - **trim your audio to `seconds`** or the tail plays over motionless frames. The `LatentCut`/`LatentConcat` pair is the template's **first-frame duplication hack** (double latent frame 0, drop the first decode - that is where the +3 output frames come from), not extend plumbing: longer audio chains through **`WanSoundImageToVideoExtend`**, which this flow does not wire yet, so one run covers one `seconds`-long chunk.\n**Siblings:** `wan-infinitetalk.json` (S32) is the lip-sync route; this one performs.\n\n---\n*How to run it: story **S33** in `HOWTO.md`  \u00b7  Why it is this way: **E16** in `video/EXPERIMENTS.md`.*"
    ],
    "inputs": [],
    "outputs": [],
@@ -852,84 +884,6 @@
    "mode": 0,
    "properties": {},
    "order": 0
-  },
-  {
-   "id": 25,
-   "type": "ComfyMathExpression",
-   "pos": [
-    -340,
-    440
-   ],
-   "size": [
-    260,
-    90
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "values.a",
-     "type": "FLOAT",
-     "link": 26
-    }
-   ],
-   "outputs": [
-    {
-     "name": "FLOAT",
-     "type": "FLOAT",
-     "slot_index": 0,
-     "links": [
-      27
-     ]
-    },
-    {
-     "name": "INT",
-     "type": "INT",
-     "slot_index": 1,
-     "links": []
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ComfyMathExpression"
-   },
-   "widgets_values": [
-    "a/10.78125"
-   ],
-   "title": "latent length -> seconds"
-  },
-  {
-   "id": 26,
-   "type": "PrimitiveFloat",
-   "pos": [
-    -80,
-    440
-   ],
-   "size": [
-    220,
-    60
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "FLOAT",
-     "type": "FLOAT",
-     "slot_index": 0,
-     "links": [
-      26
-     ]
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "PrimitiveFloat"
-   },
-   "widgets_values": [
-    5.0
-   ],
-   "title": "audio duration (seconds)"
   }
  ],
  "links": [
@@ -951,86 +905,6 @@
   ],
   [
    3,
-   4,
-   0,
-   5,
-   0,
-   "CLIP"
-  ],
-  [
-   4,
-   4,
-   0,
-   6,
-   0,
-   "CLIP"
-  ],
-  [
-   5,
-   8,
-   0,
-   10,
-   0,
-   "AUDIO_ENCODER"
-  ],
-  [
-   6,
-   9,
-   0,
-   10,
-   1,
-   "AUDIO"
-  ],
-  [
-   7,
-   5,
-   0,
-   12,
-   0,
-   "CONDITIONING"
-  ],
-  [
-   8,
-   6,
-   0,
-   12,
-   1,
-   "CONDITIONING"
-  ],
-  [
-   9,
-   7,
-   0,
-   12,
-   2,
-   "VAE"
-  ],
-  [
-   10,
-   10,
-   0,
-   12,
-   3,
-   "AUDIO_ENCODER_OUTPUT"
-  ],
-  [
-   11,
-   11,
-   0,
-   12,
-   4,
-   "IMAGE"
-  ],
-  [
-   12,
-   22,
-   1,
-   12,
-   5,
-   "INT"
-  ],
-  [
-   13,
    3,
    0,
    13,
@@ -1038,7 +912,79 @@
    "MODEL"
   ],
   [
-   14,
+   4,
+   4,
+   0,
+   5,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   4,
+   0,
+   6,
+   0,
+   "CLIP"
+  ],
+  [
+   6,
+   7,
+   0,
+   12,
+   2,
+   "VAE"
+  ],
+  [
+   7,
+   8,
+   0,
+   10,
+   0,
+   "AUDIO_ENCODER"
+  ],
+  [
+   8,
+   9,
+   0,
+   10,
+   1,
+   "AUDIO"
+  ],
+  [
+   9,
+   10,
+   0,
+   12,
+   3,
+   "AUDIO_ENCODER_OUTPUT"
+  ],
+  [
+   10,
+   11,
+   0,
+   12,
+   4,
+   "IMAGE"
+  ],
+  [
+   11,
+   5,
+   0,
+   12,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   12,
+   6,
+   0,
+   12,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   13,
    12,
    0,
    13,
@@ -1046,7 +992,7 @@
    "CONDITIONING"
   ],
   [
-   15,
+   14,
    12,
    1,
    13,
@@ -1054,7 +1000,7 @@
    "CONDITIONING"
   ],
   [
-   16,
+   15,
    12,
    2,
    13,
@@ -1062,11 +1008,19 @@
    "LATENT"
   ],
   [
-   17,
+   16,
    13,
    0,
    14,
    0,
+   "LATENT"
+  ],
+  [
+   17,
+   13,
+   0,
+   15,
+   1,
    "LATENT"
   ],
   [
@@ -1079,14 +1033,6 @@
   ],
   [
    19,
-   13,
-   0,
-   15,
-   1,
-   "LATENT"
-  ],
-  [
-   20,
    15,
    0,
    16,
@@ -1094,7 +1040,7 @@
    "LATENT"
   ],
   [
-   21,
+   20,
    7,
    0,
    16,
@@ -1102,7 +1048,7 @@
    "VAE"
   ],
   [
-   22,
+   21,
    16,
    0,
    17,
@@ -1110,7 +1056,7 @@
    "IMAGE"
   ],
   [
-   23,
+   22,
    17,
    0,
    18,
@@ -1118,7 +1064,7 @@
    "IMAGE"
   ],
   [
-   24,
+   23,
    9,
    0,
    18,
@@ -1126,7 +1072,7 @@
    "AUDIO"
   ],
   [
-   25,
+   24,
    18,
    0,
    19,
@@ -1134,20 +1080,20 @@
    "VIDEO"
   ],
   [
-   26,
-   26,
-   0,
    25,
-   0,
-   "FLOAT"
-  ],
-  [
-   27,
-   25,
+   21,
    0,
    22,
    0,
    "FLOAT"
+  ],
+  [
+   26,
+   22,
+   1,
+   12,
+   5,
+   "INT"
   ]
  ],
  "groups": [],
