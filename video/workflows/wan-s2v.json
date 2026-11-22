@@ -1,6 +1,6 @@
 {
  "last_node_id": 26,
- "last_link_id": 31,
+ "last_link_id": 27,
  "nodes": [
   {
    "id": 1,
@@ -101,7 +101,7 @@
      "type": "MODEL",
      "slot_index": 0,
      "links": [
-      3
+      13
      ]
     }
    ],
@@ -134,8 +134,8 @@
      "type": "CLIP",
      "slot_index": 0,
      "links": [
-      4,
-      5
+      3,
+      4
      ]
     }
    ],
@@ -165,7 +165,7 @@
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 4
+     "link": 3
     }
    ],
    "outputs": [
@@ -174,7 +174,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      11
+      7
      ]
     }
    ],
@@ -203,7 +203,7 @@
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 5
+     "link": 4
     }
    ],
    "outputs": [
@@ -212,7 +212,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      12
+      8
      ]
     }
    ],
@@ -243,8 +243,8 @@
      "type": "VAE",
      "slot_index": 0,
      "links": [
-      6,
-      20
+      9,
+      21
      ]
     }
    ],
@@ -276,7 +276,7 @@
      "type": "AUDIO_ENCODER",
      "slot_index": 0,
      "links": [
-      7
+      5
      ]
     }
    ],
@@ -310,9 +310,8 @@
      "type": "AUDIO",
      "slot_index": 0,
      "links": [
-      8,
-      23,
-      27
+      6,
+      24
      ]
     }
    ],
@@ -340,12 +339,12 @@
     {
      "name": "audio_encoder",
      "type": "AUDIO_ENCODER",
-     "link": 7
+     "link": 5
     },
     {
      "name": "audio",
      "type": "AUDIO",
-     "link": 8
+     "link": 6
     }
    ],
    "outputs": [
@@ -354,7 +353,7 @@
      "type": "AUDIO_ENCODER_OUTPUT",
      "slot_index": 0,
      "links": [
-      9
+      10
      ]
     }
    ],
@@ -386,7 +385,7 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      10
+      11
      ]
     },
     {
@@ -425,32 +424,32 @@
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "link": 11
+     "link": 7
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "link": 12
+     "link": 8
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 6
+     "link": 9
     },
     {
      "name": "audio_encoder_output",
      "type": "AUDIO_ENCODER_OUTPUT",
-     "link": 9
+     "link": 10
     },
     {
      "name": "ref_image",
      "type": "IMAGE",
-     "link": 10
+     "link": 11
     },
     {
      "name": "length",
      "type": "INT",
-     "link": 26
+     "link": 12
     }
    ],
    "outputs": [
@@ -459,7 +458,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      13
+      14
      ]
     },
     {
@@ -467,7 +466,7 @@
      "type": "CONDITIONING",
      "slot_index": 1,
      "links": [
-      14
+      15
      ]
     },
     {
@@ -475,7 +474,7 @@
      "type": "LATENT",
      "slot_index": 2,
      "links": [
-      15
+      16
      ]
     }
    ],
@@ -510,22 +509,22 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 3
+     "link": 13
     },
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "link": 13
+     "link": 14
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "link": 14
+     "link": 15
     },
     {
      "name": "latent_image",
      "type": "LATENT",
-     "link": 15
+     "link": 16
     }
    ],
    "outputs": [
@@ -534,8 +533,8 @@
      "type": "LATENT",
      "slot_index": 0,
      "links": [
-      16,
-      17
+      17,
+      19
      ]
     }
    ],
@@ -566,7 +565,7 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 16
+     "link": 17
     }
    ],
    "outputs": [
@@ -609,7 +608,7 @@
     {
      "name": "samples2",
      "type": "LATENT",
-     "link": 17
+     "link": 19
     }
    ],
    "outputs": [
@@ -618,7 +617,7 @@
      "type": "LATENT",
      "slot_index": 0,
      "links": [
-      19
+      20
      ]
     }
    ],
@@ -645,12 +644,12 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 19
+     "link": 20
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 20
+     "link": 21
     }
    ],
    "outputs": [
@@ -659,7 +658,7 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      21
+      22
      ]
     }
    ],
@@ -689,7 +688,7 @@
     {
      "name": "image",
      "type": "IMAGE",
-     "link": 21
+     "link": 22
     }
    ],
    "outputs": [
@@ -698,7 +697,7 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      22
+      23
      ]
     }
    ],
@@ -727,12 +726,12 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 22
+     "link": 23
     },
     {
      "name": "audio",
      "type": "AUDIO",
-     "link": 23
+     "link": 24
     }
    ],
    "outputs": [
@@ -741,7 +740,7 @@
      "type": "VIDEO",
      "slot_index": 0,
      "links": [
-      24
+      25
      ]
     }
    ],
@@ -772,7 +771,7 @@
     {
      "name": "video",
      "type": "VIDEO",
-     "link": 24
+     "link": 25
     }
    ],
    "outputs": [],
@@ -801,7 +800,7 @@
     {
      "name": "values.a",
      "type": "FLOAT",
-     "link": 31
+     "link": 27
     }
    ],
    "outputs": [
@@ -816,7 +815,7 @@
      "type": "INT",
      "slot_index": 1,
      "links": [
-      26
+      12
      ]
     },
     {
@@ -872,7 +871,7 @@
     {
      "name": "values.a",
      "type": "INT",
-     "link": 29
+     "link": 26
     }
    ],
    "outputs": [
@@ -881,7 +880,7 @@
      "type": "FLOAT",
      "slot_index": 0,
      "links": [
-      30
+      27
      ]
     },
     {
@@ -920,7 +919,7 @@
      "type": "FLOAT",
      "slot_index": 0,
      "links": [
-      31
+      26
      ]
     }
    ],
@@ -952,14 +951,6 @@
   ],
   [
    3,
-   3,
-   0,
-   13,
-   0,
-   "MODEL"
-  ],
-  [
-   4,
    4,
    0,
    5,
@@ -967,7 +958,7 @@
    "CLIP"
   ],
   [
-   5,
+   4,
    4,
    0,
    6,
@@ -975,15 +966,7 @@
    "CLIP"
   ],
   [
-   6,
-   7,
-   0,
-   12,
-   2,
-   "VAE"
-  ],
-  [
-   7,
+   5,
    8,
    0,
    10,
@@ -991,7 +974,7 @@
    "AUDIO_ENCODER"
   ],
   [
-   8,
+   6,
    9,
    0,
    10,
@@ -999,23 +982,7 @@
    "AUDIO"
   ],
   [
-   9,
-   10,
-   0,
-   12,
-   3,
-   "AUDIO_ENCODER_OUTPUT"
-  ],
-  [
-   10,
-   11,
-   0,
-   12,
-   4,
-   "IMAGE"
-  ],
-  [
-   11,
+   7,
    5,
    0,
    12,
@@ -1023,7 +990,7 @@
    "CONDITIONING"
   ],
   [
-   12,
+   8,
    6,
    0,
    12,
@@ -1031,7 +998,47 @@
    "CONDITIONING"
   ],
   [
+   9,
+   7,
+   0,
+   12,
+   2,
+   "VAE"
+  ],
+  [
+   10,
+   10,
+   0,
+   12,
+   3,
+   "AUDIO_ENCODER_OUTPUT"
+  ],
+  [
+   11,
+   11,
+   0,
+   12,
+   4,
+   "IMAGE"
+  ],
+  [
+   12,
+   22,
+   1,
+   12,
+   5,
+   "INT"
+  ],
+  [
    13,
+   3,
+   0,
+   13,
+   0,
+   "MODEL"
+  ],
+  [
+   14,
    12,
    0,
    13,
@@ -1039,7 +1046,7 @@
    "CONDITIONING"
   ],
   [
-   14,
+   15,
    12,
    1,
    13,
@@ -1047,7 +1054,7 @@
    "CONDITIONING"
   ],
   [
-   15,
+   16,
    12,
    2,
    13,
@@ -1055,19 +1062,11 @@
    "LATENT"
   ],
   [
-   16,
+   17,
    13,
    0,
    14,
    0,
-   "LATENT"
-  ],
-  [
-   17,
-   13,
-   0,
-   15,
-   1,
    "LATENT"
   ],
   [
@@ -1080,6 +1079,14 @@
   ],
   [
    19,
+   13,
+   0,
+   15,
+   1,
+   "LATENT"
+  ],
+  [
+   20,
    15,
    0,
    16,
@@ -1087,7 +1094,7 @@
    "LATENT"
   ],
   [
-   20,
+   21,
    7,
    0,
    16,
@@ -1095,7 +1102,7 @@
    "VAE"
   ],
   [
-   21,
+   22,
    16,
    0,
    17,
@@ -1103,7 +1110,7 @@
    "IMAGE"
   ],
   [
-   22,
+   23,
    17,
    0,
    18,
@@ -1111,7 +1118,7 @@
    "IMAGE"
   ],
   [
-   23,
+   24,
    9,
    0,
    18,
@@ -1119,7 +1126,7 @@
    "AUDIO"
   ],
   [
-   24,
+   25,
    18,
    0,
    19,
@@ -1128,23 +1135,15 @@
   ],
   [
    26,
-   22,
-   1,
-   12,
-   5,
-   "INT"
-  ],
-  [
-   30,
-   25,
+   26,
    0,
-   22,
+   25,
    0,
    "FLOAT"
   ],
   [
-   31,
-   26,
+   27,
+   25,
    0,
    22,
    0,
