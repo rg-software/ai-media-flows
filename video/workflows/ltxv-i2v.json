@@ -1,4 +1,6 @@
 {
+ "id": "11f7af56-6efa-4053-bbad-555d77dfa678",
+ "revision": 0,
  "last_node_id": 14,
  "last_link_id": 18,
  "nodes": [
@@ -6,16 +8,16 @@
    "id": 1,
    "type": "CheckpointLoaderSimple",
    "pos": [
-    40,
-    120
+    26.17144775390625,
+    -1.9428667340960146
    ],
    "size": [
     380,
-    90
+    98
    ],
-   "widgets_values": [
-    "ltxv-13b-0.9.8-distilled-fp8.safetensors"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -42,29 +44,32 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CheckpointLoaderSimple"
    },
-   "order": 0
+   "widgets_values": [
+    "ltxv-13b-0.9.8-distilled-fp8.safetensors"
+   ],
+   "widgets_values_named": {
+    "ckpt_name": "ltxv-13b-0.9.8-distilled-fp8.safetensors"
+   }
   },
   {
    "id": 2,
    "type": "CLIPLoader",
    "pos": [
-    40,
-    380
+    38.742876325334805,
+    202.74282836914062
    ],
    "size": [
     380,
-    90
+    106
    ],
-   "widgets_values": [
-    "t5xxl_fp8_e4m3fn_scaled.safetensors",
-    "ltxv",
-    "default"
-   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -77,12 +82,21 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPLoader"
    },
-   "order": 1
+   "widgets_values": [
+    "t5xxl_fp8_e4m3fn_scaled.safetensors",
+    "ltxv",
+    "default"
+   ],
+   "widgets_values_named": {
+    "clip_name": "t5xxl_fp8_e4m3fn_scaled.safetensors",
+    "type": "ltxv",
+    "device": "default"
+   }
   },
   {
    "id": 3,
@@ -95,9 +109,9 @@
     400,
     140
    ],
-   "widgets_values": [
-    "best quality, 4k, HDR, a red-haired sorceress in ornate blue and gold robes standing in a stone courtyard, she raises her right hand slowly and a bright fire spell ignites above her palm, embers drifting upward, her long hair and cloak stirring in the wind, cinematic lighting, smooth natural motion"
-   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -115,12 +129,19 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 2
+   "widgets_values": [
+    "best quality, 4k, HDR, a red-haired sorceress in ornate blue and gold robes standing in a stone courtyard, she raises her right hand slowly and a bright fire spell ignites above her palm, embers drifting upward, her long hair and cloak stirring in the wind, cinematic lighting, smooth natural motion"
+   ],
+   "widgets_values_named": {
+    "text": "best quality, 4k, HDR, a red-haired sorceress in ornate blue and gold robes standing in a stone courtyard, she raises her right hand slowly and a bright fire spell ignites above her palm, embers drifting upward, her long hair and cloak stirring in the wind, cinematic lighting, smooth natural motion"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 4,
@@ -133,9 +154,9 @@
     400,
     140
    ],
-   "widgets_values": [
-    "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion artifacts, fused fingers, bad anatomy, weird hand, ugly"
-   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -153,28 +174,34 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 3
+   "widgets_values": [
+    "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion artifacts, fused fingers, bad anatomy, weird hand, ugly"
+   ],
+   "widgets_values_named": {
+    "text": "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion artifacts, fused fingers, bad anatomy, weird hand, ugly"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 5,
    "type": "LoadImage",
    "pos": [
-    40,
-    640
+    37.48570469447543,
+    401.1429050990513
    ],
    "size": [
     380,
     420
    ],
-   "widgets_values": [
-    "char_heroine.png",
-    "image"
-   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -192,30 +219,36 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LoadImage"
    },
-   "order": 4
+   "widgets_values": [
+    "char_heroine.png",
+    "image"
+   ],
+   "widgets_values_named": {
+    "image": "char_heroine.png",
+    "upload": "image"
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 6,
    "type": "LTXVImgToVideo",
    "pos": [
-    920,
-    120
+    936.3429914202009,
+    123.77151489257812
    ],
    "size": [
     340,
     220
    ],
-   "widgets_values": [
-    768,
-    768,
-    97,
-    1
-   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
    "inputs": [
     {
      "name": "positive",
@@ -264,12 +297,27 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LTXVImgToVideo"
    },
-   "order": 5
+   "widgets_values": [
+    768,
+    768,
+    97,
+    1,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 768,
+    "height": 768,
+    "length": 97,
+    "batch_size": 1,
+    "strength": 1
+   },
+   "color": "#232",
+   "bgcolor": "#353"
   },
   {
    "id": 7,
@@ -282,9 +330,9 @@
     340,
     80
    ],
-   "widgets_values": [
-    25.0
-   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
    "inputs": [
     {
      "name": "positive",
@@ -315,32 +363,40 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LTXVConditioning"
    },
-   "order": 6
+   "widgets_values": [
+    25
+   ],
+   "widgets_values_named": {
+    "frame_rate": 25
+   }
   },
   {
    "id": 8,
    "type": "LTXVScheduler",
    "pos": [
-    40,
-    900
+    969.0285906110491,
+    488.91432407924094
    ],
    "size": [
     340,
     160
    ],
-   "widgets_values": [
-    8,
-    2.05,
-    0.95,
-    true,
-    0.1
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "latent",
+     "shape": 7,
+     "type": "LATENT",
+     "link": null
+    }
    ],
-   "inputs": [],
    "outputs": [
     {
      "name": "SIGMAS",
@@ -351,27 +407,40 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "LTXVScheduler"
    },
-   "order": 7
+   "widgets_values": [
+    8,
+    2.05,
+    0.95,
+    true,
+    0.1
+   ],
+   "widgets_values_named": {
+    "steps": 8,
+    "max_shift": 2.05,
+    "base_shift": 0.95,
+    "stretch": true,
+    "terminal": 0.1
+   }
   },
   {
    "id": 9,
    "type": "KSamplerSelect",
    "pos": [
-    40,
-    1160
+    986.6286097935267,
+    711.2001342773438
    ],
    "size": [
     340,
     60
    ],
-   "widgets_values": [
-    "euler"
-   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -383,30 +452,32 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "KSamplerSelect"
    },
-   "order": 8
+   "widgets_values": [
+    "euler"
+   ],
+   "widgets_values_named": {
+    "sampler_name": "euler"
+   }
   },
   {
    "id": 10,
    "type": "SamplerCustom",
    "pos": [
-    1800,
-    120
+    1463.0857718331472,
+    389.0286385672433
    ],
    "size": [
     360,
     260
    ],
-   "widgets_values": [
-    true,
-    42,
-    "fixed",
-    1.0
-   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -455,25 +526,38 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SamplerCustom"
    },
-   "order": 9
+   "widgets_values": [
+    true,
+    42,
+    "fixed",
+    1
+   ],
+   "widgets_values_named": {
+    "add_noise": true,
+    "noise_seed": 42,
+    "control_after_generate": "fixed",
+    "cfg": 1
+   }
   },
   {
    "id": 11,
    "type": "VAEDecode",
    "pos": [
-    2240,
-    120
+    1872.914324079241,
+    4.342943464006737
    ],
    "size": [
     220,
     80
    ],
-   "widgets_values": [],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
    "inputs": [
     {
      "name": "samples",
@@ -496,32 +580,37 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "VAEDecode"
-   },
-   "order": 10
+   }
   },
   {
    "id": 12,
    "type": "CreateVideo",
    "pos": [
-    2680,
-    120
+    2019.9999040876116,
+    174.05713326590404
    ],
    "size": [
     260,
-    100
+    174
    ],
-   "widgets_values": [
-    25
-   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
      "type": "IMAGE",
      "link": 17
+    },
+    {
+     "name": "audio",
+     "shape": 7,
+     "type": "AUDIO",
+     "link": null
     }
    ],
    "outputs": [
@@ -534,29 +623,40 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "CreateVideo"
    },
-   "order": 11
+   "widgets_values": [
+    25,
+    "auto",
+    "sRGB",
+    "auto",
+    "none"
+   ],
+   "widgets_values_named": {
+    "fps": 25,
+    "bit_depth": "auto",
+    "color_space": "sRGB",
+    "chroma_subsampling": "auto",
+    "codec": "none"
+   }
   },
   {
    "id": 13,
    "type": "SaveVideo",
    "pos": [
-    3120,
-    120
+    2170.857142857143,
+    497.14280918666293
    ],
    "size": [
     340,
     300
    ],
-   "widgets_values": [
-    "ltxv-i2v",
-    "auto",
-    "auto"
-   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
    "inputs": [
     {
      "name": "video",
@@ -564,34 +664,58 @@
      "link": 18
     }
    ],
-   "outputs": [],
-   "flags": {},
-   "mode": 0,
+   "outputs": [
+    {
+     "name": "video",
+     "type": "VIDEO",
+     "links": null
+    }
+   ],
    "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.46.0",
     "Node name for S&R": "SaveVideo"
    },
-   "order": 12
+   "widgets_values": [
+    "ltxv-i2v",
+    "auto",
+    "auto",
+    "auto"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "ltxv-i2v",
+    "format": "auto",
+    "format.codec": "auto",
+    "codec": "auto"
+   },
+   "color": "#322",
+   "bgcolor": "#533"
   },
   {
    "id": 14,
    "type": "MarkdownNote",
    "pos": [
-    -1400,
-    1000
+    476.3873234090345,
+    -283.5319039576059
    ],
    "size": [
-    420,
-    320
+    713.4633526414743,
+    268.0878390109206
    ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
    "widgets_values": [
     "## ltxv-i2v.json\n\nPrompt-driven animation of our character (no driving clip)\n\n**Does:** a still + a **descriptive prompt** -> a clip of the character performing it (`LTXVImgToVideo`, Lightricks LTX-Video v1). The VAE rides inside the checkpoint (`CheckpointLoaderSimple`); text comes from `t5xxl_fp8` with CLIP type `ltxv`. LTX wants **long descriptive prompts** (upstream's own warning - a short prompt visibly degrades it) and canvases in multiples of 32 with 8n+1 frames.\n**Measured (E22, 2026-10-15):** 13B-distilled-fp8 (ships): 97 frames at 768x768 in **35 s** cold / 5 s warm, **17.3 GB** peak; identity holds and the spell stays palm-scale. 2B-distilled-fp8: 15 s but identity slips and the spell overgrows (the quick-test arm). Shared config: bundled VAE, t5xxl_fp8 with CLIP type `ltxv`, 8 steps, no STG, cfg 1.\n**Knobs:** the **prompt** (elaborate, motion-first); the **checkpoint** (13B-distilled-fp8 ships - 35 s cold; 2B-distilled-fp8 is the 15-s quick-test arm, same graph via `--set`); **steps** on `LTXVScheduler` (8 ships for distilled); canvas/frames (32 / 8n+1).\n**Traps:** distilled runs with NO STG and cfg 1 (vendor multi-scale recipe); fps is 25 (`LTXVConditioning.frame_rate` + `CreateVideo`). This is v1, not v2 - v2 is 19B and does not fit this card.\n**Siblings:** `wan-vace-reference.json` (S28) is the other prompt-driven route (14B, 45 min); this one is the fast arm.\n\n---\n*How to run it: story **S35** in `HOWTO.md`  \u00b7  Why it is this way: **E22** in `video/EXPERIMENTS.md`.*"
    ],
-   "inputs": [],
-   "outputs": [],
-   "flags": {},
-   "mode": 0,
-   "properties": {},
-   "order": 0
+   "widgets_values_named": {
+    "text": "## ltxv-i2v.json\n\nPrompt-driven animation of our character (no driving clip)\n\n**Does:** a still + a **descriptive prompt** -> a clip of the character performing it (`LTXVImgToVideo`, Lightricks LTX-Video v1). The VAE rides inside the checkpoint (`CheckpointLoaderSimple`); text comes from `t5xxl_fp8` with CLIP type `ltxv`. LTX wants **long descriptive prompts** (upstream's own warning - a short prompt visibly degrades it) and canvases in multiples of 32 with 8n+1 frames.\n**Measured (E22, 2026-10-15):** 13B-distilled-fp8 (ships): 97 frames at 768x768 in **35 s** cold / 5 s warm, **17.3 GB** peak; identity holds and the spell stays palm-scale. 2B-distilled-fp8: 15 s but identity slips and the spell overgrows (the quick-test arm). Shared config: bundled VAE, t5xxl_fp8 with CLIP type `ltxv`, 8 steps, no STG, cfg 1.\n**Knobs:** the **prompt** (elaborate, motion-first); the **checkpoint** (13B-distilled-fp8 ships - 35 s cold; 2B-distilled-fp8 is the 15-s quick-test arm, same graph via `--set`); **steps** on `LTXVScheduler` (8 ships for distilled); canvas/frames (32 / 8n+1).\n**Traps:** distilled runs with NO STG and cfg 1 (vendor multi-scale recipe); fps is 25 (`LTXVConditioning.frame_rate` + `CreateVideo`). This is v1, not v2 - v2 is 19B and does not fit this card.\n**Siblings:** `wan-vace-reference.json` (S28) is the other prompt-driven route (14B, 45 min); this one is the fast arm.\n\n---\n*How to run it: story **S35** in `HOWTO.md`  \u00b7  Why it is this way: **E22** in `video/EXPERIMENTS.md`.*"
+   },
+   "color": "#432",
+   "bgcolor": "#653"
   }
  ],
  "links": [
@@ -744,12 +868,13 @@
  "config": {},
  "extra": {
   "ds": {
-   "scale": 0.7,
+   "scale": 0.4781094187555494,
    "offset": [
-    0,
-    0
+    80.08261452670025,
+    449.64604968079647
    ]
-  }
+  },
+  "frontendVersion": "1.59.6"
  },
  "version": 0.4
 }

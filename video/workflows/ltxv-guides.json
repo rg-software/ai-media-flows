@@ -1,6 +1,6 @@
 {
- "last_node_id": 16,
- "last_link_id": 20,
+ "last_node_id": 17,
+ "last_link_id": 25,
  "nodes": [
   {
    "id": 1,
@@ -10,12 +10,12 @@
     120
    ],
    "size": [
-    380,
-    90
+    300,
+    120
    ],
-   "widgets_values": [
-    "ltxv-13b-0.9.8-distilled-fp8.safetensors"
-   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -38,33 +38,32 @@
      "slot_index": 2,
      "links": [
       2,
-      10
+      9,
+      24
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "CheckpointLoaderSimple"
    },
-   "order": 0
+   "widgets_values": [
+    "ltxv-13b-0.9.8-distilled-fp8.safetensors"
+   ]
   },
   {
    "id": 2,
    "type": "CLIPLoader",
    "pos": [
     40,
-    380
+    280
    ],
    "size": [
-    380,
-    90
+    300,
+    120
    ],
-   "widgets_values": [
-    "t5xxl_fp8_e4m3fn_scaled.safetensors",
-    "ltxv",
-    "default"
-   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -77,27 +76,29 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "CLIPLoader"
    },
-   "order": 1
+   "widgets_values": [
+    "t5xxl_fp8_e4m3fn_scaled.safetensors",
+    "ltxv",
+    "default"
+   ]
   },
   {
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    120
+    400,
+    40
    ],
    "size": [
     400,
-    140
+    180
    ],
-   "widgets_values": [
-    "best quality, 4k, HDR, a red-haired sorceress in ornate blue and gold robes, the view drifts slowly from a full-body framing into a close-up portrait, her expression calm, hair and cloak stirring gently, cinematic lighting, smooth continuous motion, no cuts"
-   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -115,27 +116,27 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 2
+   "widgets_values": [
+    "best quality, 4k, HDR, a red-haired sorceress in ornate blue and gold robes, tall, standing in a moonlit forest clearing"
+   ]
   },
   {
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    380
+    400,
+    260
    ],
    "size": [
     400,
-    140
+    180
    ],
-   "widgets_values": [
-    "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion artifacts, fused fingers, bad anatomy, weird hand, ugly, static, abrupt cuts, flicker"
-   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
    "inputs": [
     {
      "name": "clip",
@@ -153,122 +154,93 @@
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "CLIPTextEncode"
    },
-   "order": 3
+   "widgets_values": [
+    "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion blur, flicker"
+   ]
   },
   {
    "id": 5,
-   "type": "LoadVideo",
+   "type": "LoadImage",
    "pos": [
     40,
-    640
+    480
    ],
    "size": [
-    380,
-    100
+    315,
+    314
    ],
-   "widgets_values": [
-    "guide_flf.mp4"
-   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
-     "name": "VIDEO",
-     "type": "VIDEO",
+     "name": "IMAGE",
+     "type": "IMAGE",
      "slot_index": 0,
      "links": [
       7
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
-    "Node name for S&R": "LoadVideo"
+    "Node name for S&R": "LoadImage"
    },
-   "order": 4
+   "widgets_values": [
+    "2d/portrait_forest_sorceress.png",
+    "image"
+   ]
   },
   {
    "id": 6,
-   "type": "GetVideoComponents",
+   "type": "LoadImage",
    "pos": [
-    480,
-    640
+    40,
+    840
    ],
    "size": [
-    300,
-    150
+    315,
+    314
    ],
-   "widgets_values": [],
-   "inputs": [
-    {
-     "name": "video",
-     "type": "VIDEO",
-     "link": 7
-    }
-   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [],
    "outputs": [
     {
-     "name": "images",
+     "name": "IMAGE",
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      8
+      13
      ]
-    },
-    {
-     "name": "audio",
-     "type": "AUDIO",
-     "slot_index": 1,
-     "links": []
-    },
-    {
-     "name": "fps",
-     "type": "FLOAT",
-     "slot_index": 2,
-     "links": []
-    },
-    {
-     "name": "bit_depth",
-     "type": "COMBO",
-     "slot_index": 3,
-     "links": []
-    },
-    {
-     "name": "color_space",
-     "type": "COMBO",
-     "slot_index": 4,
-     "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
-    "Node name for S&R": "GetVideoComponents"
+    "Node name for S&R": "LoadImage"
    },
-   "order": 5
+   "widgets_values": [
+    "2d/scene_forest_sorceress.png",
+    "image"
+   ]
   },
   {
    "id": 7,
    "type": "EmptyLTXVLatentVideo",
    "pos": [
-    40,
-    900
+    400,
+    480
    ],
    "size": [
-    340,
-    120
+    270,
+    130
    ],
-   "widgets_values": [
-    768,
-    768,
-    97,
-    1
-   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -276,31 +248,34 @@
      "type": "LATENT",
      "slot_index": 0,
      "links": [
-      9
+      8
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "EmptyLTXVLatentVideo"
    },
-   "order": 6
+   "widgets_values": [
+    768,
+    768,
+    97,
+    1
+   ]
   },
   {
    "id": 8,
-   "type": "LTXVAddGuidesFromBatch",
+   "type": "LTXVAddGuide",
    "pos": [
-    920,
-    120
+    760,
+    40
    ],
    "size": [
-    360,
-    160
+    340,
+    300
    ],
-   "widgets_values": [
-    1.0
-   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
    "inputs": [
     {
      "name": "positive",
@@ -315,17 +290,17 @@
     {
      "name": "vae",
      "type": "VAE",
-     "link": 10
+     "link": 9
     },
     {
      "name": "latent",
      "type": "LATENT",
-     "link": 9
+     "link": 8
     },
     {
-     "name": "images",
+     "name": "image",
      "type": "IMAGE",
-     "link": 8
+     "link": 7
     }
    ],
    "outputs": [
@@ -334,7 +309,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      11
+      10
      ]
     },
     {
@@ -342,7 +317,7 @@
      "type": "CONDITIONING",
      "slot_index": 1,
      "links": [
-      12
+      11
      ]
     },
     {
@@ -350,41 +325,57 @@
      "type": "LATENT",
      "slot_index": 2,
      "links": [
-      17
+      12
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
-    "Node name for S&R": "LTXVAddGuidesFromBatch"
+    "Node name for S&R": "LTXVAddGuide"
    },
-   "order": 7
+   "widgets_values": [
+    10,
+    1.0
+   ]
   },
   {
    "id": 9,
-   "type": "LTXVConditioning",
+   "type": "LTXVAddGuide",
    "pos": [
-    1360,
-    120
+    1120,
+    40
    ],
    "size": [
     340,
-    80
+    300
    ],
-   "widgets_values": [
-    25.0
-   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
    "inputs": [
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "link": 11
+     "link": 10
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
+     "link": 11
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 24
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
      "link": 12
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 13
     }
    ],
    "outputs": [
@@ -393,7 +384,7 @@
      "type": "CONDITIONING",
      "slot_index": 0,
      "links": [
-      13
+      14
      ]
     },
     {
@@ -401,35 +392,91 @@
      "type": "CONDITIONING",
      "slot_index": 1,
      "links": [
-      14
+      15
+     ]
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "slot_index": 2,
+     "links": [
+      25
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
-    "Node name for S&R": "LTXVConditioning"
+    "Node name for S&R": "LTXVAddGuide"
    },
-   "order": 8
+   "widgets_values": [
+    40,
+    1.0
+   ]
   },
   {
    "id": 10,
-   "type": "LTXVScheduler",
+   "type": "LTXVConditioning",
    "pos": [
-    40,
-    1160
+    1120,
+    400
    ],
    "size": [
-    340,
-    160
+    270,
+    80
    ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 14
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 15
+    }
+   ],
+   "outputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      16
+     ]
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "slot_index": 1,
+     "links": [
+      17
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LTXVConditioning"
+   },
    "widgets_values": [
-    8,
-    2.05,
-    0.95,
-    true,
-    0.1
+    25.0
+   ]
+  },
+  {
+   "id": 11,
+   "type": "LTXVScheduler",
+   "pos": [
+    400,
+    1100
    ],
+   "size": [
+    270,
+    150
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -437,31 +484,35 @@
      "type": "SIGMAS",
      "slot_index": 0,
      "links": [
-      16
+      19
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "LTXVScheduler"
    },
-   "order": 9
+   "widgets_values": [
+    8,
+    2.05,
+    0.95,
+    true,
+    0.1
+   ]
   },
   {
-   "id": 11,
+   "id": 12,
    "type": "KSamplerSelect",
    "pos": [
     40,
-    1420
+    1100
    ],
    "size": [
-    340,
+    270,
     60
    ],
-   "widgets_values": [
-    "euler"
-   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
    "inputs": [],
    "outputs": [
     {
@@ -469,34 +520,31 @@
      "type": "SAMPLER",
      "slot_index": 0,
      "links": [
-      15
+      18
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "KSamplerSelect"
    },
-   "order": 10
+   "widgets_values": [
+    "euler"
+   ]
   },
   {
-   "id": 12,
+   "id": 13,
    "type": "SamplerCustom",
    "pos": [
-    1800,
-    120
+    760,
+    780
    ],
    "size": [
-    360,
-    260
+    320,
+    250
    ],
-   "widgets_values": [
-    true,
-    42,
-    "fixed",
-    1.0
-   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
    "inputs": [
     {
      "name": "model",
@@ -506,27 +554,27 @@
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "link": 13
+     "link": 16
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "link": 14
+     "link": 17
     },
     {
      "name": "sampler",
      "type": "SAMPLER",
-     "link": 15
+     "link": 18
     },
     {
      "name": "sigmas",
      "type": "SIGMAS",
-     "link": 16
+     "link": 19
     },
     {
      "name": "latent_image",
      "type": "LATENT",
-     "link": 17
+     "link": 25
     }
    ],
    "outputs": [
@@ -535,7 +583,7 @@
      "type": "LATENT",
      "slot_index": 0,
      "links": [
-      18
+      21
      ]
     },
     {
@@ -545,30 +593,35 @@
      "links": []
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "SamplerCustom"
    },
-   "order": 11
+   "widgets_values": [
+    true,
+    42,
+    "fixed",
+    1
+   ]
   },
   {
-   "id": 13,
+   "id": 14,
    "type": "VAEDecode",
    "pos": [
-    2240,
-    120
+    1120,
+    780
    ],
    "size": [
-    220,
-    80
+    200,
+    50
    ],
-   "widgets_values": [],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
    "inputs": [
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 18
+     "link": 21
     },
     {
      "name": "vae",
@@ -582,36 +635,39 @@
      "type": "IMAGE",
      "slot_index": 0,
      "links": [
-      19
+      22
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "VAEDecode"
    },
-   "order": 12
+   "widgets_values": []
   },
   {
-   "id": 14,
+   "id": 15,
    "type": "CreateVideo",
    "pos": [
-    2680,
-    120
+    1120,
+    900
    ],
    "size": [
-    260,
-    100
+    270,
+    130
    ],
-   "widgets_values": [
-    25
-   ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
    "inputs": [
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 19
+     "link": 22
+    },
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": null
     }
    ],
    "outputs": [
@@ -620,68 +676,75 @@
      "type": "VIDEO",
      "slot_index": 0,
      "links": [
-      20
+      23
      ]
     }
    ],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "CreateVideo"
    },
-   "order": 13
+   "widgets_values": [
+    25,
+    "auto",
+    "sRGB",
+    "auto",
+    "none"
+   ]
   },
   {
-   "id": 15,
+   "id": 16,
    "type": "SaveVideo",
    "pos": [
-    3120,
-    120
+    1440,
+    900
    ],
    "size": [
-    340,
-    300
+    300,
+    120
    ],
-   "widgets_values": [
-    "ltxv-guides",
-    "auto",
-    "auto"
-   ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
    "inputs": [
     {
      "name": "video",
      "type": "VIDEO",
-     "link": 20
+     "link": 23
     }
    ],
    "outputs": [],
-   "flags": {},
-   "mode": 0,
    "properties": {
     "Node name for S&R": "SaveVideo"
    },
-   "order": 14
+   "widgets_values": [
+    "ltxv-guides",
+    "auto",
+    "auto",
+    "auto"
+   ]
   },
   {
-   "id": 16,
+   "id": 17,
    "type": "MarkdownNote",
    "pos": [
-    -1400,
-    980
+    40,
+    -160
    ],
    "size": [
-    420,
-    320
+    560,
+    340
    ],
-   "widgets_values": [
-    "## ltxv-guides.json\n\nKeyframe animation: our stills pinned at chosen frames\n\n**Does:** a guide clip (two stills + exact-black padding) + a prompt -> a clip that travels between the stills (`LTXVAddGuidesFromBatch`: batch index == frame index, strength 1.0 shared). The latent is empty (`EmptyLTXVLatentVideo`) - every pixel of direction comes from the guides and the prompt. Build the guide clip offline (see E23) - the padding must decode byte-exact black or every noisy frame becomes a guide. Host: 13B-distilled-fp8 + t5xxl_fp8 (`ltxv`), 768x768 (multiples of 32), 97 frames (8n+1).\n**Measured (E23, 2026-10-15):** PROBE - (A) same-still control, (B) full-body -> portrait.\n**Knobs:** the **guide stills** (identity lives here); **which frames** (batch position); **strength** (1.0 = hard pin, shared across guides); the **prompt** (must describe the TRAVEL, not a pose); steps 8 / euler / no STG / cfg 1 (distilled recipe).\n**Traps:** `LTXVAddGuideMulti` (per-guide strengths) does NOT submit through our sweep_workflow - its DynamicCombo sub-inputs must nest under the combo key and the sweeper flattens them (measured rejection E23). More guides = more non-black frames, no graph change. Guide stills are center-upscaled to the canvas, so mismatched aspects crop.\n**Siblings:** `ltxv-i2v.json` (S35) is prompt-only; this one pins frames.\n\n---\n*How to run it: story **S36** in `HOWTO.md`  \u00b7  Why it is this way: **E23** in `video/EXPERIMENTS.md`.*"
-   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
    "inputs": [],
    "outputs": [],
-   "flags": {},
-   "mode": 0,
-   "properties": {},
-   "order": 0
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "widgets_values": [
+    "## ltxv-guides.json\n\nKeyframe animation: our stills pinned at chosen frames\n\n**Does:** two stills + a prompt -> a clip that travels between the stills. **Chained `LTXVAddGuide` route\n(2026-11-23):** each guide node pins one still at its `frame_idx` on the 97-frame timeline - the indices are\n**editable widgets**, no offline guide-clip build. The latent stays empty (`EmptyLTXVLatentVideo`): every\npixel of direction comes from the guides and the prompt.\n\n**The old batch route (LTXVAddGuidesFromBatch + a padded guide video) is gone:** its transport required the\nguide clip to carry \"no pin\" as **byte-exact black**, and any noisy padding frame became an accidental guide\n(the measured E23 trap). The chain has no padding, so the trap is gone with it.\n\n**Knobs:** the two `LoadImage` stills (pick the key moments), the two **`frame_idx`** widgets (the pin\npositions on the 97-frame timeline), strength 1.0 shared. Canvas 768x768 (multiples of 32), 97 frames\n(8n+1), fps 25 on CreateVideo.\n\n*Measured: the batch route is E23; the chained route is its addendum in `video/EXPERIMENTS.md`.*\n\n*How to run it: story **S36** in HOWTO.md  \u00b7  Why it is this way: **E23** in \u000bideo/EXPERIMENTS.md.*"
+   ]
   }
  ],
  "links": [
@@ -689,7 +752,7 @@
    1,
    1,
    0,
-   12,
+   13,
    0,
    "MODEL"
   ],
@@ -697,7 +760,7 @@
    2,
    1,
    2,
-   13,
+   14,
    1,
    "VAE"
   ],
@@ -736,21 +799,13 @@
   [
    7,
    5,
-   0,
-   6,
-   0,
-   "VIDEO"
-  ],
-  [
-   8,
-   6,
    0,
    8,
    4,
    "IMAGE"
   ],
   [
-   9,
+   8,
    7,
    0,
    8,
@@ -758,7 +813,7 @@
    "LATENT"
   ],
   [
-   10,
+   9,
    1,
    2,
    8,
@@ -766,7 +821,7 @@
    "VAE"
   ],
   [
-   11,
+   10,
    8,
    0,
    9,
@@ -774,88 +829,120 @@
    "CONDITIONING"
   ],
   [
-   12,
+   11,
    8,
    1,
    9,
    1,
    "CONDITIONING"
+  ],
+  [
+   12,
+   8,
+   2,
+   9,
+   3,
+   "LATENT"
   ],
   [
    13,
-   9,
+   6,
    0,
-   12,
-   1,
-   "CONDITIONING"
+   9,
+   4,
+   "IMAGE"
   ],
   [
    14,
    9,
-   1,
-   12,
-   2,
+   0,
+   10,
+   0,
    "CONDITIONING"
   ],
   [
    15,
-   11,
-   0,
-   12,
-   3,
-   "SAMPLER"
+   9,
+   1,
+   10,
+   1,
+   "CONDITIONING"
   ],
   [
    16,
    10,
    0,
-   12,
-   4,
-   "SIGMAS"
+   13,
+   1,
+   "CONDITIONING"
   ],
   [
    17,
-   8,
+   10,
+   1,
+   13,
    2,
-   12,
-   5,
-   "LATENT"
+   "CONDITIONING"
   ],
   [
    18,
    12,
    0,
    13,
-   0,
-   "LATENT"
+   3,
+   "SAMPLER"
   ],
   [
    19,
+   11,
+   0,
+   13,
+   4,
+   "SIGMAS"
+  ],
+  [
+   21,
    13,
    0,
    14,
    0,
-   "IMAGE"
+   "LATENT"
   ],
   [
-   20,
+   22,
    14,
    0,
    15,
    0,
+   "IMAGE"
+  ],
+  [
+   23,
+   15,
+   0,
+   16,
+   0,
    "VIDEO"
+  ],
+  [
+   24,
+   1,
+   2,
+   9,
+   2,
+   "VAE"
+  ],
+  [
+   25,
+   9,
+   2,
+   13,
+   5,
+   "LATENT"
   ]
  ],
  "groups": [],
  "config": {},
- "extra": {
-  "ds": {
-   "scale": 0.7,
-   "offset": [
-    0,
-    0
-   ]
-  }
- },
+ "extra": {},
  "version": 0.4
 }
