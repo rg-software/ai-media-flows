@@ -870,7 +870,7 @@
    "inputs": [
     {
      "name": "values.a",
-     "type": "INT",
+     "type": "FLOAT",
      "link": 26
     }
    ],
