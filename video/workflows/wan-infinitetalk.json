@@ -1,1058 +1,1221 @@
 {
- "last_node_id": 23,
- "last_link_id": 26,
- "nodes": [
-  {
-   "id": 1,
-   "type": "UNETLoader",
-   "pos": [
-    40,
-    120
-   ],
-   "size": [
-    420,
-    90
-   ],
-   "widgets_values": [
-    "wan2.1_i2v_720p_14B_fp8_scaled.safetensors",
-    "default"
-   ],
-   "outputs": [
+  "id": "846633b0-18d8-4e10-9718-0b6ed9d26b66",
+  "revision": 0,
+  "last_node_id": 23,
+  "last_link_id": 26,
+  "nodes": [
     {
-     "name": "MODEL",
-     "type": "MODEL",
-     "slot_index": 0,
-     "links": [
-      1
-     ]
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [
+        3.188330091203966,
+        94.90114285714287
+      ],
+      "size": [
+        420,
+        90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "wan2.1_i2v_720p_14B_fp8_scaled.safetensors",
+        "default"
+      ],
+      "widgets_values_named": {
+        "unet_name": "wan2.1_i2v_720p_14B_fp8_scaled.safetensors",
+        "weight_dtype": "default"
+      }
+    },
+    {
+      "id": 2,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        478.32664072963166,
+        125.01975866263251
+      ],
+      "size": [
+        340,
+        82
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "LoraLoaderModelOnly"
+      },
+      "widgets_values": [
+        "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
+        1
+      ],
+      "widgets_values_named": {
+        "lora_name": "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
+        "strength_model": 1
+      }
+    },
+    {
+      "id": 3,
+      "type": "ModelPatchLoader",
+      "pos": [
+        8.208088753836478,
+        242.7930291791643
+      ],
+      "size": [
+        420,
+        60
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL_PATCH",
+          "type": "MODEL_PATCH",
+          "slot_index": 0,
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "ModelPatchLoader"
+      },
+      "widgets_values": [
+        "wan2.1_infiniteTalk_single_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "name": "wan2.1_infiniteTalk_single_fp16.safetensors"
+      }
+    },
+    {
+      "id": 4,
+      "type": "CLIPLoader",
+      "pos": [
+        8.208152583530932,
+        387.33813313075467
+      ],
+      "size": [
+        420,
+        106
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "slot_index": 0,
+          "links": [
+            2,
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "CLIPLoader"
+      },
+      "widgets_values": [
+        "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+        "wan",
+        "default"
+      ],
+      "widgets_values_named": {
+        "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+        "type": "wan",
+        "device": "default"
+      }
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncode",
+      "pos": [
+        474.98017750767303,
+        331.47551732526506
+      ],
+      "size": [
+        400,
+        120
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "a red-haired sorceress speaking to the camera, close-up portrait"
+      ],
+      "widgets_values_named": {
+        "text": "a red-haired sorceress speaking to the camera, close-up portrait"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": [
+        480,
+        517.8522413373674
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+      ],
+      "widgets_values_named": {
+        "text": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+      }
+    },
+    {
+      "id": 7,
+      "type": "VAELoader",
+      "pos": [
+        -468.67022887529674,
+        926.7720887538366
+      ],
+      "size": [
+        420,
+        60
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "slot_index": 0,
+          "links": [
+            10,
+            19,
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "Wan2_1_VAE_bf16.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "Wan2_1_VAE_bf16.safetensors"
+      }
+    },
+    {
+      "id": 8,
+      "type": "AudioEncoderLoader",
+      "pos": [
+        -1.831428571428546,
+        639.6169902736118
+      ],
+      "size": [
+        420,
+        60
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "AUDIO_ENCODER",
+          "type": "AUDIO_ENCODER",
+          "slot_index": 0,
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "AudioEncoderLoader"
+      },
+      "widgets_values": [
+        "wav2vec2-chinese-base_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "audio_encoder_name": "wav2vec2-chinese-base_fp16.safetensors"
+      }
+    },
+    {
+      "id": 9,
+      "type": "LoadAudio",
+      "pos": [
+        -470.3433328268868,
+        682.0936893615722
+      ],
+      "size": [
+        420,
+        180
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "slot_index": 0,
+          "links": [
+            5,
+            21,
+            23
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "LoadAudio"
+      },
+      "widgets_values": [
+        "audio_speaker1_woman.mp3",
+        null
+      ],
+      "widgets_values_named": {
+        "audio": "audio_speaker1_woman.mp3",
+        "upload": null
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 10,
+      "type": "AudioEncoderEncode",
+      "pos": [
+        535.2176644374302,
+        814.663847416469
+      ],
+      "size": [
+        300,
+        60
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio_encoder",
+          "type": "AUDIO_ENCODER",
+          "link": 4
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO_ENCODER_OUTPUT",
+          "type": "AUDIO_ENCODER_OUTPUT",
+          "slot_index": 0,
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "AudioEncoderEncode"
+      }
+    },
+    {
+      "id": 12,
+      "type": "LoadImage",
+      "pos": [
+        -474.25886187080437,
+        116.97700295901677
+      ],
+      "size": [
+        420,
+        500
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            12
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "slot_index": 1,
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "portrait_heroine.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "portrait_heroine.png",
+        "upload": "image"
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 11,
+      "type": "WanInfiniteTalkToVideo",
+      "pos": [
+        920,
+        120
+      ],
+      "size": [
+        360,
+        338
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 6
+        },
+        {
+          "name": "model_patch",
+          "type": "MODEL_PATCH",
+          "link": 7
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 8
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 9
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 10
+        },
+        {
+          "name": "audio_encoder_output_1",
+          "type": "AUDIO_ENCODER_OUTPUT",
+          "link": 11
+        },
+        {
+          "name": "clip_vision_output",
+          "shape": 7,
+          "type": "CLIP_VISION_OUTPUT",
+          "link": null
+        },
+        {
+          "name": "start_image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 12
+        },
+        {
+          "name": "previous_frames",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "widget": {
+            "name": "length"
+          },
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            14
+          ]
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "slot_index": 1,
+          "links": [
+            15
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "slot_index": 2,
+          "links": [
+            16
+          ]
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "slot_index": 3,
+          "links": [
+            17
+          ]
+        },
+        {
+          "name": "trim_image",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "WanInfiniteTalkToVideo"
+      },
+      "widgets_values": [
+        "single_speaker",
+        480,
+        832,
+        81,
+        9,
+        1
+      ],
+      "widgets_values_named": {
+        "mode": "single_speaker",
+        "width": 480,
+        "height": 832,
+        "length": 81,
+        "motion_frame_count": 9,
+        "audio_scale": 1
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 13,
+      "type": "KSampler",
+      "pos": [
+        1352.4439629528852,
+        116.22196346134334
+      ],
+      "size": [
+        340,
+        262
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 14
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 15
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 16
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        6,
+        1,
+        "euler",
+        "normal",
+        1
+      ],
+      "widgets_values_named": {
+        "seed": 42,
+        "control_after_generate": "fixed",
+        "steps": 6,
+        "cfg": 1,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 1
+      }
+    },
+    {
+      "id": 14,
+      "type": "VAEDecode",
+      "pos": [
+        1486.1806228571427,
+        875.1911308389284
+      ],
+      "size": [
+        220,
+        80
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 18
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 15,
+      "type": "CreateVideo",
+      "pos": [
+        1816.849970249285,
+        126.07398521571565
+      ],
+      "size": [
+        260,
+        174
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 20
+        },
+        {
+          "name": "audio",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "slot_index": 0,
+          "links": [
+            22
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        25,
+        8,
+        "sRGB",
+        "auto",
+        "none"
+      ],
+      "widgets_values_named": {
+        "fps": 25,
+        "bit_depth": 8,
+        "color_space": "sRGB",
+        "chroma_subsampling": "auto",
+        "codec": "none"
+      }
+    },
+    {
+      "id": 16,
+      "type": "SaveVideo",
+      "pos": [
+        1967.3262250335692,
+        502.6571296596419
+      ],
+      "size": [
+        340,
+        300
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "wan-infinitetalk",
+        "auto",
+        "auto",
+        "auto"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "wan-infinitetalk",
+        "format": "auto",
+        "format.codec": "auto",
+        "codec": "auto"
+      },
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 19,
+      "type": "ComfyMathExpression",
+      "pos": [
+        523.504660182408,
+        974.2684826747349
+      ],
+      "size": [
+        360,
+        140
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 26
+        },
+        {
+          "name": "values.b",
+          "shape": 7,
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "slot_index": 0,
+          "links": []
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "slot_index": 1,
+          "links": [
+            13
+          ]
+        },
+        {
+          "name": "BOOL",
+          "type": "BOOLEAN",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "ComfyMathExpression"
+      },
+      "widgets_values": [
+        "floor((a*25/10.78125-1)/4+0.5)*4+1"
+      ],
+      "widgets_values_named": {
+        "expression": "floor((a*25/10.78125-1)/4+0.5)*4+1"
+      }
+    },
+    {
+      "id": 17,
+      "type": "MarkdownNote",
+      "pos": [
+        -259.9097219960197,
+        -440.321835355638
+      ],
+      "size": [
+        834.2721492625847,
+        440.83735848137223
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "## wan-infinitetalk.json\n\nA talking head: our character speaks an audio file\n\n**Does:** a still **portrait** + an audio file -> a clip of the character speaking that audio (`WanInfiniteTalkToVideo`, InfiniteTalk single-speaker). The output **carries the audio** (aac) - a viewer's file with sound. Host: our on-box `wan2.1_i2v_720p_14B_fp8_scaled` with the InfiniteTalk patch applied (`model_patches/wan2.1_infiniteTalk_single_fp16`, 5.13 GB) + `wav2vec2-chinese-base` audio encoder + the lightx2v distill lora + umt5/VAE.\n**Measured (E15, 2026-10-11):** 81 frames (3.24 s of speech at 25 fps) in **210 s**; identity holds through speech (lip-band motion 1.9x forehead, articulation real); the patch applies to our 720p fp8 base, so the route's new weights are only ~5.3 GB. Reference = **portrait** (the E13c identity-knob lesson).\n**Knobs:** the **audio** on `LoadAudio` (replace `audio_speaker1_woman.mp3` - speech from TTS or recording; the audio is what drives the mouth); the **reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (3.24 ships) - how much audio to speak. A `ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 (`floor((a*25-1)/4+0.5)*4+1`), so there is no hand arithmetic; raising it raises VRAM. **`audio_scale`** (1.0) for lip-sync strength; **`motion_frame_count`** (9). Sampling: 6 steps / euler / normal, **no `ModelSamplingSD3`** (the template has none). **fps is pinned at 25** on `CreateVideo` - InfiniteTalk's audio conditioning is resampled for 25-fps video in the node code, so any other fps would desync the mouth; it is deliberately not a knob.\n**Traps:** lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 (the audio is embedded). The clip speaks the FIRST `length` frames' worth of audio (`audio_start=0, `audio_end=length`): audio past that is never read, and audio shorter than the window is padded with the first audio frame (idle mouth) - so **trim your audio to `seconds`**. Longer audio = chain segments: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s **`previous_frames`** (the official extend pattern); each continuation advances `length - motion_frame_count` frames (72 = 2.88 s at defaults - drop the node's `trim_image` leading frames when stitching), not a full segment. For real use reach for `scripts/talk_chain.py` instead of hand-wiring: it plans full chunks plus a trimmed last chunk from the audio duration, assembles in latent space, and muxes once (measured E21: 8.8 s -> 221 frames exact in 606 s). `single_speaker` needs no masks (masks are the two-speaker mode's region control). The patch loads through `ModelPatchLoader` from `models/model_patches/`.\n**Siblings:** `wan-animate-motion.json` (S15) drives motion from a *video*; this flow drives it from *audio*.\n\n---\n*How to run it: story **S32** in `HOWTO.md`  ·  Why it is this way: **E15** in `video/EXPERIMENTS.md`.*\n\n**Length is automatic (2026-11-23):** the audio file itself drives the frame count - `VAEEncodeAudio` measures the audio, a math chain converts latent length -> seconds -> 4n+1 frames at 25 fps, and the old manual `PrimitiveFloat` is gone. Swap the audio, press run; nothing to set. To make the character speak faster, time-stretch the AUDIO first (pitch-preserving) - the video length follows it."
+      ],
+      "widgets_values_named": {
+        "text": "## wan-infinitetalk.json\n\nA talking head: our character speaks an audio file\n\n**Does:** a still **portrait** + an audio file -> a clip of the character speaking that audio (`WanInfiniteTalkToVideo`, InfiniteTalk single-speaker). The output **carries the audio** (aac) - a viewer's file with sound. Host: our on-box `wan2.1_i2v_720p_14B_fp8_scaled` with the InfiniteTalk patch applied (`model_patches/wan2.1_infiniteTalk_single_fp16`, 5.13 GB) + `wav2vec2-chinese-base` audio encoder + the lightx2v distill lora + umt5/VAE.\n**Measured (E15, 2026-10-11):** 81 frames (3.24 s of speech at 25 fps) in **210 s**; identity holds through speech (lip-band motion 1.9x forehead, articulation real); the patch applies to our 720p fp8 base, so the route's new weights are only ~5.3 GB. Reference = **portrait** (the E13c identity-knob lesson).\n**Knobs:** the **audio** on `LoadAudio` (replace `audio_speaker1_woman.mp3` - speech from TTS or recording; the audio is what drives the mouth); the **reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (3.24 ships) - how much audio to speak. A `ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 (`floor((a*25-1)/4+0.5)*4+1`), so there is no hand arithmetic; raising it raises VRAM. **`audio_scale`** (1.0) for lip-sync strength; **`motion_frame_count`** (9). Sampling: 6 steps / euler / normal, **no `ModelSamplingSD3`** (the template has none). **fps is pinned at 25** on `CreateVideo` - InfiniteTalk's audio conditioning is resampled for 25-fps video in the node code, so any other fps would desync the mouth; it is deliberately not a knob.\n**Traps:** lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 (the audio is embedded). The clip speaks the FIRST `length` frames' worth of audio (`audio_start=0, `audio_end=length`): audio past that is never read, and audio shorter than the window is padded with the first audio frame (idle mouth) - so **trim your audio to `seconds`**. Longer audio = chain segments: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s **`previous_frames`** (the official extend pattern); each continuation advances `length - motion_frame_count` frames (72 = 2.88 s at defaults - drop the node's `trim_image` leading frames when stitching), not a full segment. For real use reach for `scripts/talk_chain.py` instead of hand-wiring: it plans full chunks plus a trimmed last chunk from the audio duration, assembles in latent space, and muxes once (measured E21: 8.8 s -> 221 frames exact in 606 s). `single_speaker` needs no masks (masks are the two-speaker mode's region control). The patch loads through `ModelPatchLoader` from `models/model_patches/`.\n**Siblings:** `wan-animate-motion.json` (S15) drives motion from a *video*; this flow drives it from *audio*.\n\n---\n*How to run it: story **S32** in `HOWTO.md`  ·  Why it is this way: **E15** in `video/EXPERIMENTS.md`.*\n\n**Length is automatic (2026-11-23):** the audio file itself drives the frame count - `VAEEncodeAudio` measures the audio, a math chain converts latent length -> seconds -> 4n+1 frames at 25 fps, and the old manual `PrimitiveFloat` is gone. Swap the audio, press run; nothing to set. To make the character speak faster, time-stretch the AUDIO first (pitch-preserving) - the video length follows it."
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 20,
+      "type": "VAEEncodeAudio",
+      "pos": [
+        -113.05392700589675,
+        1064.3916879305248
+      ],
+      "size": [
+        260,
+        60
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 23
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            25
+          ]
+        }
+      ],
+      "title": "audio duration sensor",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "VAEEncodeAudio"
+      }
+    },
+    {
+      "id": 21,
+      "type": "GetAudioLatentSize",
+      "pos": [
+        199.3412281333707,
+        1050.3558106316707
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 25
+        }
+      ],
+      "outputs": [
+        {
+          "name": "length",
+          "type": "INT",
+          "slot_index": 0,
+          "links": [
+            26
+          ]
+        },
+        {
+          "name": "audio_channels",
+          "type": "INT",
+          "slot_index": 1,
+          "links": []
+        },
+        {
+          "name": "batch_size",
+          "type": "INT",
+          "slot_index": 2,
+          "links": []
+        }
+      ],
+      "title": "audio latent length",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.46.0",
+        "Node name for S&R": "GetAudioLatentSize"
+      }
     }
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "UNETLoader"
-   },
-   "order": 0
-  },
-  {
-   "id": 2,
-   "type": "LoraLoaderModelOnly",
-   "pos": [
-    480,
-    120
-   ],
-   "size": [
-    340,
-    80
-   ],
-   "widgets_values": [
-    "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
-    1.0
-   ],
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 1
-    }
-   ],
-   "outputs": [
-    {
-     "name": "MODEL",
-     "type": "MODEL",
-     "slot_index": 0,
-     "links": [
-      6
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "LoraLoaderModelOnly"
-   },
-   "order": 1
-  },
-  {
-   "id": 3,
-   "type": "ModelPatchLoader",
-   "pos": [
-    40,
-    380
-   ],
-   "size": [
-    420,
-    60
-   ],
-   "widgets_values": [
-    "wan2.1_infiniteTalk_single_fp16.safetensors"
-   ],
-   "outputs": [
-    {
-     "name": "MODEL_PATCH",
-     "type": "MODEL_PATCH",
-     "slot_index": 0,
-     "links": [
-      7
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "ModelPatchLoader"
-   },
-   "order": 2
-  },
-  {
-   "id": 4,
-   "type": "CLIPLoader",
-   "pos": [
-    40,
-    640
-   ],
-   "size": [
-    420,
-    100
-   ],
-   "widgets_values": [
-    "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-    "wan",
-    "default"
-   ],
-   "outputs": [
-    {
-     "name": "CLIP",
-     "type": "CLIP",
-     "slot_index": 0,
-     "links": [
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
       2,
-      3
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "CLIPLoader"
-   },
-   "order": 3
-  },
-  {
-   "id": 5,
-   "type": "CLIPTextEncode",
-   "pos": [
-    480,
-    380
-   ],
-   "size": [
-    400,
-    120
-   ],
-   "widgets_values": [
-    "a red-haired sorceress speaking to the camera, close-up portrait"
-   ],
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 2
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "slot_index": 0,
-     "links": [
-      8
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "order": 4
-  },
-  {
-   "id": 6,
-   "type": "CLIPTextEncode",
-   "pos": [
-    480,
-    640
-   ],
-   "size": [
-    400,
-    200
-   ],
-   "widgets_values": [
-    "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
-   ],
-   "inputs": [
-    {
-     "name": "clip",
-     "type": "CLIP",
-     "link": 3
-    }
-   ],
-   "outputs": [
-    {
-     "name": "CONDITIONING",
-     "type": "CONDITIONING",
-     "slot_index": 0,
-     "links": [
-      9
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "CLIPTextEncode"
-   },
-   "order": 5
-  },
-  {
-   "id": 7,
-   "type": "VAELoader",
-   "pos": [
-    40,
-    900
-   ],
-   "size": [
-    420,
-    60
-   ],
-   "widgets_values": [
-    "Wan2_1_VAE_bf16.safetensors"
-   ],
-   "outputs": [
-    {
-     "name": "VAE",
-     "type": "VAE",
-     "slot_index": 0,
-     "links": [
-      10,
-      19,
-      24
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "VAELoader"
-   },
-   "order": 6
-  },
-  {
-   "id": 8,
-   "type": "AudioEncoderLoader",
-   "pos": [
-    40,
-    1160
-   ],
-   "size": [
-    420,
-    60
-   ],
-   "widgets_values": [
-    "wav2vec2-chinese-base_fp16.safetensors"
-   ],
-   "outputs": [
-    {
-     "name": "AUDIO_ENCODER",
-     "type": "AUDIO_ENCODER",
-     "slot_index": 0,
-     "links": [
-      4
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "AudioEncoderLoader"
-   },
-   "order": 7
-  },
-  {
-   "id": 9,
-   "type": "LoadAudio",
-   "pos": [
-    40,
-    1420
-   ],
-   "size": [
-    420,
-    180
-   ],
-   "widgets_values": [
-    "audio_speaker1_woman.mp3",
-    null,
-    null
-   ],
-   "outputs": [
-    {
-     "name": "AUDIO",
-     "type": "AUDIO",
-     "slot_index": 0,
-     "links": [
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      4,
+      0,
       5,
+      0,
+      "CLIP"
+    ],
+    [
+      3,
+      4,
+      0,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      4,
+      8,
+      0,
+      10,
+      0,
+      "AUDIO_ENCODER"
+    ],
+    [
+      5,
+      9,
+      0,
+      10,
+      1,
+      "AUDIO"
+    ],
+    [
+      14,
+      11,
+      0,
+      13,
+      0,
+      "MODEL"
+    ],
+    [
+      15,
+      11,
+      1,
+      13,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      16,
+      11,
+      2,
+      13,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      17,
+      11,
+      3,
+      13,
+      3,
+      "LATENT"
+    ],
+    [
+      18,
+      13,
+      0,
+      14,
+      0,
+      "LATENT"
+    ],
+    [
+      19,
+      7,
+      0,
+      14,
+      1,
+      "VAE"
+    ],
+    [
+      20,
+      14,
+      0,
+      15,
+      0,
+      "IMAGE"
+    ],
+    [
       21,
-      23
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "LoadAudio"
-   },
-   "order": 8
+      9,
+      0,
+      15,
+      1,
+      "AUDIO"
+    ],
+    [
+      23,
+      9,
+      0,
+      20,
+      0,
+      "AUDIO"
+    ],
+    [
+      24,
+      7,
+      0,
+      20,
+      1,
+      "VAE"
+    ],
+    [
+      25,
+      20,
+      0,
+      21,
+      0,
+      "LATENT"
+    ],
+    [
+      6,
+      2,
+      0,
+      11,
+      0,
+      "MODEL"
+    ],
+    [
+      7,
+      3,
+      0,
+      11,
+      1,
+      "MODEL_PATCH"
+    ],
+    [
+      8,
+      5,
+      0,
+      11,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      9,
+      6,
+      0,
+      11,
+      3,
+      "CONDITIONING"
+    ],
+    [
+      10,
+      7,
+      0,
+      11,
+      4,
+      "VAE"
+    ],
+    [
+      11,
+      10,
+      0,
+      11,
+      5,
+      "AUDIO_ENCODER_OUTPUT"
+    ],
+    [
+      22,
+      15,
+      0,
+      16,
+      0,
+      "VIDEO"
+    ],
+    [
+      26,
+      21,
+      0,
+      19,
+      0,
+      "INT"
+    ],
+    [
+      12,
+      12,
+      0,
+      11,
+      7,
+      "IMAGE"
+    ],
+    [
+      13,
+      19,
+      1,
+      11,
+      9,
+      "INT"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.3951317510376441,
+      "offset": [
+        773.7322871148294,
+        546.7065609199102
+      ]
+    },
+    "frontendVersion": "1.59.6"
   },
-  {
-   "id": 10,
-   "type": "AudioEncoderEncode",
-   "pos": [
-    480,
-    900
-   ],
-   "size": [
-    300,
-    60
-   ],
-   "widgets_values": [],
-   "inputs": [
-    {
-     "name": "audio_encoder",
-     "type": "AUDIO_ENCODER",
-     "link": 4
-    },
-    {
-     "name": "audio",
-     "type": "AUDIO",
-     "link": 5
-    }
-   ],
-   "outputs": [
-    {
-     "name": "AUDIO_ENCODER_OUTPUT",
-     "type": "AUDIO_ENCODER_OUTPUT",
-     "slot_index": 0,
-     "links": [
-      11
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "AudioEncoderEncode"
-   },
-   "order": 9
-  },
-  {
-   "id": 12,
-   "type": "LoadImage",
-   "pos": [
-    40,
-    1680
-   ],
-   "size": [
-    420,
-    500
-   ],
-   "widgets_values": [
-    "portrait_heroine.png",
-    "image"
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "slot_index": 0,
-     "links": [
-      12
-     ]
-    },
-    {
-     "name": "MASK",
-     "type": "MASK",
-     "slot_index": 1,
-     "links": []
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "inputs": [],
-   "properties": {
-    "Node name for S&R": "LoadImage"
-   },
-   "order": 10
-  },
-  {
-   "id": 11,
-   "type": "WanInfiniteTalkToVideo",
-   "pos": [
-    920,
-    120
-   ],
-   "size": [
-    360,
-    300
-   ],
-   "widgets_values": [
-    "single_speaker",
-    480,
-    832,
-    81,
-    9,
-    1.0
-   ],
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 6
-    },
-    {
-     "name": "model_patch",
-     "type": "MODEL_PATCH",
-     "link": 7
-    },
-    {
-     "name": "positive",
-     "type": "CONDITIONING",
-     "link": 8
-    },
-    {
-     "name": "negative",
-     "type": "CONDITIONING",
-     "link": 9
-    },
-    {
-     "name": "vae",
-     "type": "VAE",
-     "link": 10
-    },
-    {
-     "name": "audio_encoder_output_1",
-     "type": "AUDIO_ENCODER_OUTPUT",
-     "link": 11
-    },
-    {
-     "name": "start_image",
-     "type": "IMAGE",
-     "link": 12
-    },
-    {
-     "name": "length",
-     "type": "INT",
-     "link": 13
-    }
-   ],
-   "outputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "slot_index": 0,
-     "links": [
-      14
-     ]
-    },
-    {
-     "name": "positive",
-     "type": "CONDITIONING",
-     "slot_index": 1,
-     "links": [
-      15
-     ]
-    },
-    {
-     "name": "negative",
-     "type": "CONDITIONING",
-     "slot_index": 2,
-     "links": [
-      16
-     ]
-    },
-    {
-     "name": "latent",
-     "type": "LATENT",
-     "slot_index": 3,
-     "links": [
-      17
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "WanInfiniteTalkToVideo"
-   },
-   "order": 11
-  },
-  {
-   "id": 13,
-   "type": "KSampler",
-   "pos": [
-    1360,
-    120
-   ],
-   "size": [
-    340,
-    260
-   ],
-   "widgets_values": [
-    42,
-    "fixed",
-    6,
-    1.0,
-    "euler",
-    "normal",
-    1.0
-   ],
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 14
-    },
-    {
-     "name": "positive",
-     "type": "CONDITIONING",
-     "link": 15
-    },
-    {
-     "name": "negative",
-     "type": "CONDITIONING",
-     "link": 16
-    },
-    {
-     "name": "latent_image",
-     "type": "LATENT",
-     "link": 17
-    }
-   ],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "slot_index": 0,
-     "links": [
-      18
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "KSampler"
-   },
-   "order": 12
-  },
-  {
-   "id": 14,
-   "type": "VAEDecode",
-   "pos": [
-    1800,
-    120
-   ],
-   "size": [
-    220,
-    80
-   ],
-   "widgets_values": [],
-   "inputs": [
-    {
-     "name": "samples",
-     "type": "LATENT",
-     "link": 18
-    },
-    {
-     "name": "vae",
-     "type": "VAE",
-     "link": 19
-    }
-   ],
-   "outputs": [
-    {
-     "name": "IMAGE",
-     "type": "IMAGE",
-     "slot_index": 0,
-     "links": [
-      20
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "VAEDecode"
-   },
-   "order": 13
-  },
-  {
-   "id": 15,
-   "type": "CreateVideo",
-   "pos": [
-    2240,
-    120
-   ],
-   "size": [
-    260,
-    100
-   ],
-   "widgets_values": [
-    25,
-    8
-   ],
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 20
-    },
-    {
-     "name": "audio",
-     "type": "AUDIO",
-     "link": 21
-    }
-   ],
-   "outputs": [
-    {
-     "name": "VIDEO",
-     "type": "VIDEO",
-     "slot_index": 0,
-     "links": [
-      22
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "CreateVideo"
-   },
-   "order": 14
-  },
-  {
-   "id": 16,
-   "type": "SaveVideo",
-   "pos": [
-    2680,
-    120
-   ],
-   "size": [
-    340,
-    300
-   ],
-   "widgets_values": [
-    "wan-infinitetalk",
-    "auto",
-    "auto"
-   ],
-   "inputs": [
-    {
-     "name": "video",
-     "type": "VIDEO",
-     "link": 22
-    }
-   ],
-   "outputs": [],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "SaveVideo"
-   },
-   "order": 15
-  },
-  {
-   "id": 19,
-   "type": "ComfyMathExpression",
-   "pos": [
-    480,
-    1160
-   ],
-   "size": [
-    360,
-    140
-   ],
-   "widgets_values": [
-    "floor((a*25/10.78125-1)/4+0.5)*4+1"
-   ],
-   "inputs": [
-    {
-     "name": "values.a",
-     "type": "INT",
-     "link": 26
-    }
-   ],
-   "outputs": [
-    {
-     "name": "FLOAT",
-     "type": "FLOAT",
-     "slot_index": 0,
-     "links": []
-    },
-    {
-     "name": "INT",
-     "type": "INT",
-     "slot_index": 1,
-     "links": [
-      13
-     ]
-    }
-   ],
-   "flags": {},
-   "mode": 0,
-   "properties": {
-    "Node name for S&R": "ComfyMathExpression"
-   },
-   "order": 17
-  },
-  {
-   "id": 17,
-   "type": "MarkdownNote",
-   "pos": [
-    -1700,
-    1200
-   ],
-   "size": [
-    420,
-    320
-   ],
-   "widgets_values": [
-    "## wan-infinitetalk.json\n\nA talking head: our character speaks an audio file\n\n**Does:** a still **portrait** + an audio file -> a clip of the character speaking that audio (`WanInfiniteTalkToVideo`, InfiniteTalk single-speaker). The output **carries the audio** (aac) - a viewer's file with sound. Host: our on-box `wan2.1_i2v_720p_14B_fp8_scaled` with the InfiniteTalk patch applied (`model_patches/wan2.1_infiniteTalk_single_fp16`, 5.13 GB) + `wav2vec2-chinese-base` audio encoder + the lightx2v distill lora + umt5/VAE.\n**Measured (E15, 2026-10-11):** 81 frames (3.24 s of speech at 25 fps) in **210 s**; identity holds through speech (lip-band motion 1.9x forehead, articulation real); the patch applies to our 720p fp8 base, so the route's new weights are only ~5.3 GB. Reference = **portrait** (the E13c identity-knob lesson).\n**Knobs:** the **audio** on `LoadAudio` (replace `audio_speaker1_woman.mp3` - speech from TTS or recording; the audio is what drives the mouth); the **reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (3.24 ships) - how much audio to speak. A `ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 (`floor((a*25-1)/4+0.5)*4+1`), so there is no hand arithmetic; raising it raises VRAM. **`audio_scale`** (1.0) for lip-sync strength; **`motion_frame_count`** (9). Sampling: 6 steps / euler / normal, **no `ModelSamplingSD3`** (the template has none). **fps is pinned at 25** on `CreateVideo` - InfiniteTalk's audio conditioning is resampled for 25-fps video in the node code, so any other fps would desync the mouth; it is deliberately not a knob.\n**Traps:** lip-sync was **human-confirmed** on the probe clip (E15, 2026-10-11); for your own audio, play the output mp4 (the audio is embedded). The clip speaks the FIRST `length` frames' worth of audio (`audio_start=0, `audio_end=length`): audio past that is never read, and audio shorter than the window is padded with the first audio frame (idle mouth) - so **trim your audio to `seconds`**. Longer audio = chain segments: feed this flow's output IMAGE batch into a second `WanInfiniteTalkToVideo`'s **`previous_frames`** (the official extend pattern); each continuation advances `length - motion_frame_count` frames (72 = 2.88 s at defaults - drop the node's `trim_image` leading frames when stitching), not a full segment. For real use reach for `scripts/talk_chain.py` instead of hand-wiring: it plans full chunks plus a trimmed last chunk from the audio duration, assembles in latent space, and muxes once (measured E21: 8.8 s -> 221 frames exact in 606 s). `single_speaker` needs no masks (masks are the two-speaker mode's region control). The patch loads through `ModelPatchLoader` from `models/model_patches/`.\n**Siblings:** `wan-animate-motion.json` (S15) drives motion from a *video*; this flow drives it from *audio*.\n\n---\n*How to run it: story **S32** in `HOWTO.md`  \u00b7  Why it is this way: **E15** in `video/EXPERIMENTS.md`.*\n\n**Length is automatic (2026-11-23):** the audio file itself drives the frame count - `VAEEncodeAudio` measures the audio, a math chain converts latent length -> seconds -> 4n+1 frames at 25 fps, and the old manual `PrimitiveFloat` is gone. Swap the audio, press run; nothing to set. To make the character speak faster, time-stretch the AUDIO first (pitch-preserving) - the video length follows it."
-   ],
-   "inputs": [],
-   "outputs": [],
-   "flags": {},
-   "mode": 0,
-   "properties": {},
-   "order": 0
-  },
-  {
-   "id": 20,
-   "type": "VAEEncodeAudio",
-   "pos": [
-    -340,
-    200
-   ],
-   "size": [
-    260,
-    60
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "audio",
-     "type": "AUDIO",
-     "link": 23
-    },
-    {
-     "name": "vae",
-     "type": "VAE",
-     "link": 24
-    }
-   ],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "slot_index": 0,
-     "links": [
-      25
-     ]
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "VAEEncodeAudio"
-   },
-   "widgets_values": [],
-   "title": "audio duration sensor"
-  },
-  {
-   "id": 21,
-   "type": "GetAudioLatentSize",
-   "pos": [
-    -340,
-    300
-   ],
-   "size": [
-    260,
-    100
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "latent",
-     "type": "LATENT",
-     "link": 25
-    }
-   ],
-   "outputs": [
-    {
-     "name": "length",
-     "type": "INT",
-     "slot_index": 0,
-     "links": [
-      26
-     ]
-    },
-    {
-     "name": "audio_channels",
-     "type": "INT",
-     "slot_index": 1,
-     "links": []
-    },
-    {
-     "name": "batch_size",
-     "type": "INT",
-     "slot_index": 2,
-     "links": []
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "GetAudioLatentSize"
-   },
-   "widgets_values": [],
-   "title": "audio latent length"
-  }
- ],
- "links": [
-  [
-   1,
-   1,
-   0,
-   2,
-   0,
-   "MODEL"
-  ],
-  [
-   2,
-   4,
-   0,
-   5,
-   0,
-   "CLIP"
-  ],
-  [
-   3,
-   4,
-   0,
-   6,
-   0,
-   "CLIP"
-  ],
-  [
-   4,
-   8,
-   0,
-   10,
-   0,
-   "AUDIO_ENCODER"
-  ],
-  [
-   5,
-   9,
-   0,
-   10,
-   1,
-   "AUDIO"
-  ],
-  [
-   6,
-   2,
-   0,
-   11,
-   0,
-   "MODEL"
-  ],
-  [
-   7,
-   3,
-   0,
-   11,
-   1,
-   "MODEL_PATCH"
-  ],
-  [
-   8,
-   5,
-   0,
-   11,
-   2,
-   "CONDITIONING"
-  ],
-  [
-   9,
-   6,
-   0,
-   11,
-   3,
-   "CONDITIONING"
-  ],
-  [
-   10,
-   7,
-   0,
-   11,
-   4,
-   "VAE"
-  ],
-  [
-   11,
-   10,
-   0,
-   11,
-   5,
-   "AUDIO_ENCODER_OUTPUT"
-  ],
-  [
-   12,
-   12,
-   0,
-   11,
-   6,
-   "IMAGE"
-  ],
-  [
-   13,
-   19,
-   1,
-   11,
-   7,
-   "INT"
-  ],
-  [
-   14,
-   11,
-   0,
-   13,
-   0,
-   "MODEL"
-  ],
-  [
-   15,
-   11,
-   1,
-   13,
-   1,
-   "CONDITIONING"
-  ],
-  [
-   16,
-   11,
-   2,
-   13,
-   2,
-   "CONDITIONING"
-  ],
-  [
-   17,
-   11,
-   3,
-   13,
-   3,
-   "LATENT"
-  ],
-  [
-   18,
-   13,
-   0,
-   14,
-   0,
-   "LATENT"
-  ],
-  [
-   19,
-   7,
-   0,
-   14,
-   1,
-   "VAE"
-  ],
-  [
-   20,
-   14,
-   0,
-   15,
-   0,
-   "IMAGE"
-  ],
-  [
-   21,
-   9,
-   0,
-   15,
-   1,
-   "AUDIO"
-  ],
-  [
-   22,
-   15,
-   0,
-   16,
-   0,
-   "VIDEO"
-  ],
-  [
-   23,
-   9,
-   0,
-   20,
-   0,
-   "AUDIO"
-  ],
-  [
-   24,
-   7,
-   0,
-   20,
-   1,
-   "VAE"
-  ],
-  [
-   25,
-   20,
-   0,
-   21,
-   0,
-   "LATENT"
-  ],
-  [
-   26,
-   21,
-   0,
-   19,
-   0,
-   "INT"
-  ]
- ],
- "groups": [],
- "config": {},
- "extra": {
-  "ds": {
-   "scale": 0.7,
-   "offset": [
-    0,
-    0
-   ]
-  }
- },
- "version": 0.4
+  "version": 0.4
 }
