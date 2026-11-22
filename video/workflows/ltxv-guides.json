@@ -55,7 +55,7 @@
    "type": "CLIPLoader",
    "pos": [
     40,
-    380
+    280
    ],
    "size": [
     300,
@@ -89,8 +89,8 @@
    "id": 3,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    120
+    400,
+    40
    ],
    "size": [
     400,
@@ -127,8 +127,8 @@
    "id": 4,
    "type": "CLIPTextEncode",
    "pos": [
-    480,
-    380
+    400,
+    260
    ],
    "size": [
     400,
@@ -166,7 +166,7 @@
    "type": "LoadImage",
    "pos": [
     40,
-    640
+    480
    ],
    "size": [
     315,
@@ -198,8 +198,8 @@
    "id": 6,
    "type": "LoadImage",
    "pos": [
-    480,
-    640
+    40,
+    840
    ],
    "size": [
     315,
@@ -231,8 +231,8 @@
    "id": 7,
    "type": "EmptyLTXVLatentVideo",
    "pos": [
-    40,
-    900
+    400,
+    480
    ],
    "size": [
     270,
@@ -266,8 +266,8 @@
    "id": 8,
    "type": "LTXVAddGuide",
    "pos": [
-    920,
-    120
+    760,
+    40
    ],
    "size": [
     340,
@@ -341,8 +341,8 @@
    "id": 9,
    "type": "LTXVAddGuide",
    "pos": [
-    1280,
-    120
+    1120,
+    40
    ],
    "size": [
     340,
@@ -416,8 +416,8 @@
    "id": 10,
    "type": "LTXVConditioning",
    "pos": [
-    1360,
-    120
+    1120,
+    400
    ],
    "size": [
     270,
@@ -467,8 +467,8 @@
    "id": 11,
    "type": "LTXVScheduler",
    "pos": [
-    40,
-    1160
+    400,
+    1100
    ],
    "size": [
     270,
@@ -504,7 +504,7 @@
    "type": "KSamplerSelect",
    "pos": [
     40,
-    1420
+    1100
    ],
    "size": [
     270,
@@ -535,8 +535,8 @@
    "id": 13,
    "type": "SamplerCustom",
    "pos": [
-    1800,
-    120
+    760,
+    780
    ],
    "size": [
     320,
@@ -607,8 +607,8 @@
    "id": 14,
    "type": "VAEDecode",
    "pos": [
-    2240,
-    120
+    1120,
+    780
    ],
    "size": [
     200,
@@ -648,8 +648,8 @@
    "id": 15,
    "type": "CreateVideo",
    "pos": [
-    2680,
-    120
+    1120,
+    900
    ],
    "size": [
     270,
@@ -695,8 +695,8 @@
    "id": 16,
    "type": "SaveVideo",
    "pos": [
-    3120,
-    120
+    1440,
+    900
    ],
    "size": [
     300,
@@ -727,8 +727,8 @@
    "id": 17,
    "type": "MarkdownNote",
    "pos": [
-    -1400,
-    980
+    40,
+    -160
    ],
    "size": [
     560,
