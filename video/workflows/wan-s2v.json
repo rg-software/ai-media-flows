@@ -1,6 +1,6 @@
 {
- "last_node_id": 22,
- "last_link_id": 30,
+ "last_node_id": 26,
+ "last_link_id": 31,
  "nodes": [
   {
    "id": 1,
@@ -197,7 +197,7 @@
     200
    ],
    "widgets_values": [
-    "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+    "\u8272\u8c03\u8273\u4e3d\uff0c\u8fc7\u66dd\uff0c\u9759\u6001\uff0c\u7ec6\u8282\u6a21\u7cca\u4e0d\u6e05\uff0c\u5b57\u5e55\uff0c\u98ce\u683c\uff0c\u4f5c\u54c1\uff0c\u753b\u4f5c\uff0c\u753b\u9762\uff0c\u9759\u6b62\uff0c\u6574\u4f53\u53d1\u7070\uff0c\u6700\u5dee\u8d28\u91cf\uff0c\u4f4e\u8d28\u91cf\uff0cJPEG\u538b\u7f29\u6b8b\u7559\uff0c\u4e11\u964b\u7684\uff0c\u6b8b\u7f3a\u7684\uff0c\u591a\u4f59\u7684\u624b\u6307\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u624b\u90e8\uff0c\u753b\u5f97\u4e0d\u597d\u7684\u8138\u90e8\uff0c\u7578\u5f62\u7684\uff0c\u6bc1\u5bb9\u7684\uff0c\u5f62\u6001\u7578\u5f62\u7684\u80a2\u4f53\uff0c\u624b\u6307\u878d\u5408\uff0c\u9759\u6b62\u4e0d\u52a8\u7684\u753b\u9762\uff0c\u6742\u4e71\u7684\u80cc\u666f\uff0c\u4e09\u6761\u817f\uff0c\u80cc\u666f\u4eba\u5f88\u591a\uff0c\u5012\u7740\u8d70"
    ],
    "inputs": [
     {
@@ -801,7 +801,7 @@
     {
      "name": "values.a",
      "type": "FLOAT",
-     "link": 30
+     "link": 31
     }
    ],
    "outputs": [
@@ -845,7 +845,7 @@
     320
    ],
    "widgets_values": [
-    "## wan-s2v.json\n\nAn audio-driven performance: our character performs an audio file\n\n**Does:** a still **portrait** + an audio file -> a clip of the character *performing* it - head movement, expression and articulation (`WanSoundImageToVideo`, Wan2.2-S2V-14B). Broader than S32's lip-sync: the whole performance is audio-driven. The output **carries the audio** (aac). Host: `Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ` (16.65 GB, Apache-2.0) + **`wav2vec2_large_english`** audio encoder (631 MB - a different encoder from S32's chinese-base) + the **Wan2.2 4-step lightning lora** (1.23 GB - not our lightx2v I2V lora) + umt5/VAE.\n**Measured (E16, 2026-10-11):** a 5-s clip (80 frames at 16 fps) in **140 s** - the 4-step lora recipe. Identity holds through the performance (head tilts, blinks, mouth). Canvas **640x640** - a square portrait fits exactly.\n**Knobs:** the **audio** (drives the performance - trim it to `seconds`, see Traps); the **reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (5.0 ships) - a `ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 (`max(73,floor((a*16-4)/4+0.5)*4+1)`; the -4 compensates the first-frame hack's +3 output frames, and 73 is the model's floor, so the shortest clip this flow makes is 4.75 s). Sampling: **4 steps / cfg 1.0 / uni_pc / simple** with the Wan2.2 4-step lora. **fps is pinned at 16** on `CreateVideo` - the audio bucket is built for 16-fps video in the node code, so any other fps would desync the performance; it is deliberately not a knob.\n**Traps:** the checkpoint keeps its **as-downloaded name** (`Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ.safetensors` - the template's Kijai-original name is a different string). The audio encoder is per-route: S32 uses chinese-base, this flow uses large-english. Only the FIRST `length` frames' worth of audio conditions the motion (out-of-range frames read as silence) while `CreateVideo` muxes the whole audio file - **trim your audio to `seconds`** or the tail plays over motionless frames. The `LatentCut`/`LatentConcat` pair is the template's **first-frame duplication hack** (double latent frame 0, drop the first decode - that is where the +3 output frames come from), not extend plumbing: longer audio chains through **`WanSoundImageToVideoExtend`**, which this flow does not wire yet, so one run covers one `seconds`-long chunk.\n**Siblings:** `wan-infinitetalk.json` (S32) is the lip-sync route; this one performs.\n\n---\n*How to run it: story **S33** in `HOWTO.md`  ·  Why it is this way: **E16** in `video/EXPERIMENTS.md`.*\n\n**Length is automatic (2026-11-23):** the audio file drives the frame count - `VAEEncodeAudio` measures the audio, a math chain converts latent length -> seconds -> the 4n+1 frame count at 16 fps (min 73), and the old manual `PrimitiveFloat` is gone. Swap the audio, press run. To make the character perform faster, time-stretch the audio first."
+    "## wan-s2v.json\n\nAn audio-driven performance: our character performs an audio file\n\n**Does:** a still **portrait** + an audio file -> a clip of the character *performing* it - head movement, expression and articulation (`WanSoundImageToVideo`, Wan2.2-S2V-14B). Broader than S32's lip-sync: the whole performance is audio-driven. The output **carries the audio** (aac). Host: `Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ` (16.65 GB, Apache-2.0) + **`wav2vec2_large_english`** audio encoder (631 MB - a different encoder from S32's chinese-base) + the **Wan2.2 4-step lightning lora** (1.23 GB - not our lightx2v I2V lora) + umt5/VAE.\n**Measured (E16, 2026-10-11):** a 5-s clip (80 frames at 16 fps) in **140 s** - the 4-step lora recipe. Identity holds through the performance (head tilts, blinks, mouth). Canvas **640x640** - a square portrait fits exactly.\n**Knobs:** the **audio** (drives the performance - trim it to `seconds`, see Traps); the **reference** (portrait, face clear); **`seconds`** on `PrimitiveFloat` (5.0 ships) - a `ComfyMathExpression` turns it into **`length`** rounded to the model's required 4n+1 (`max(73,floor((a*16-4)/4+0.5)*4+1)`; the -4 compensates the first-frame hack's +3 output frames, and 73 is the model's floor, so the shortest clip this flow makes is 4.75 s). Sampling: **4 steps / cfg 1.0 / uni_pc / simple** with the Wan2.2 4-step lora. **fps is pinned at 16** on `CreateVideo` - the audio bucket is built for 16-fps video in the node code, so any other fps would desync the performance; it is deliberately not a knob.\n**Traps:** the checkpoint keeps its **as-downloaded name** (`Wan2_2-S2V-14B_fp8_e4m3fn_scaled_KJ.safetensors` - the template's Kijai-original name is a different string). The audio encoder is per-route: S32 uses chinese-base, this flow uses large-english. Only the FIRST `length` frames' worth of audio conditions the motion (out-of-range frames read as silence) while `CreateVideo` muxes the whole audio file - **trim your audio to `seconds`** or the tail plays over motionless frames. The `LatentCut`/`LatentConcat` pair is the template's **first-frame duplication hack** (double latent frame 0, drop the first decode - that is where the +3 output frames come from), not extend plumbing: longer audio chains through **`WanSoundImageToVideoExtend`**, which this flow does not wire yet, so one run covers one `seconds`-long chunk.\n**Siblings:** `wan-infinitetalk.json` (S32) is the lip-sync route; this one performs.\n\n---\n*How to run it: story **S33** in `HOWTO.md`  \u00b7  Why it is this way: **E16** in `video/EXPERIMENTS.md`.*\n\n**Length:** set the `PrimitiveFloat` to the audio's duration in seconds - the math node converts it to the 4n+1 frame count. (An auto-length chain via `VAEEncodeAudio` was attempted but requires the Stable Audio Open VAE for audio encoding, which is not on the box.)"
    ],
    "inputs": [],
    "outputs": [],
@@ -853,92 +853,6 @@
    "mode": 0,
    "properties": {},
    "order": 0
-  },
-  {
-   "id": 23,
-   "type": "VAEEncodeAudio",
-   "pos": [
-    -340,
-    200
-   ],
-   "size": [
-    260,
-    60
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "audio",
-     "type": "AUDIO",
-     "link": 27
-    }
-   ],
-   "outputs": [
-    {
-     "name": "LATENT",
-     "type": "LATENT",
-     "slot_index": 0,
-     "links": [
-      28
-     ]
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "VAEEncodeAudio"
-   },
-   "widgets_values": [],
-   "title": "audio duration sensor"
-  },
-  {
-   "id": 24,
-   "type": "GetAudioLatentSize",
-   "pos": [
-    -340,
-    300
-   ],
-   "size": [
-    260,
-    100
-   ],
-   "flags": {},
-   "order": 0,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "latent",
-     "type": "LATENT",
-     "link": 28
-    }
-   ],
-   "outputs": [
-    {
-     "name": "length",
-     "type": "INT",
-     "slot_index": 0,
-     "links": [
-      29
-     ]
-    },
-    {
-     "name": "audio_channels",
-     "type": "INT",
-     "slot_index": 1,
-     "links": []
-    },
-    {
-     "name": "batch_size",
-     "type": "INT",
-     "slot_index": 2,
-     "links": []
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "GetAudioLatentSize"
-   },
-   "widgets_values": [],
-   "title": "audio latent length"
   },
   {
    "id": 25,
@@ -984,6 +898,39 @@
     "a/10.78125"
    ],
    "title": "latent length -> seconds"
+  },
+  {
+   "id": 26,
+   "type": "PrimitiveFloat",
+   "pos": [
+    -80,
+    440
+   ],
+   "size": [
+    220,
+    60
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "FLOAT",
+     "type": "FLOAT",
+     "slot_index": 0,
+     "links": [
+      31
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "PrimitiveFloat"
+   },
+   "widgets_values": [
+    5.0
+   ],
+   "title": "audio duration (seconds)"
   }
  ],
  "links": [
@@ -1188,32 +1135,16 @@
    "INT"
   ],
   [
-   27,
-   9,
-   0,
-   23,
-   0,
-   "AUDIO"
-  ],
-  [
-   28,
-   23,
-   0,
-   24,
-   0,
-   "LATENT"
-  ],
-  [
-   29,
-   24,
-   0,
-   25,
-   0,
-   "INT"
-  ],
-  [
    30,
    25,
+   0,
+   22,
+   0,
+   "FLOAT"
+  ],
+  [
+   31,
+   26,
    0,
    22,
    0,
