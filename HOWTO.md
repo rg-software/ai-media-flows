@@ -454,7 +454,7 @@
 - *When:* you have dialogue or a voice line and want **your character saying it** - a talking-head clip with the audio embedded, for cutscenes, dialogue previews or pitches. The audio drives the mouth; the face is ours.
 - *Steps:*
 	- open `video/workflows/wan-infinitetalk.json` and set the **reference** on the `LoadImage` (node 12) - a **portrait**, face clear;
-	- set the **audio** on the `LoadAudio` (node 9) — the **frame count is automatic**: a `VAEEncodeAudio` + `GetAudioLatentSize` + math chain reads the audio's duration and converts it to the 4n+1 frame count at 25 fps, no manual setting needed;
+	- set the **audio** on the `LoadAudio` (node 9) — set the `PrimitiveFloat` to the audio's duration in seconds (the math node converts it to the 4n+1 frame count at 25 fps);
 	- run. 3.24 s of speech (81 frames at 25 fps) takes about **210 s**. The output mp4 **carries the audio**.
 - *Knobs:*
 	- the **audio** - it drives the mouth; the words are its business;
@@ -472,7 +472,7 @@
 
 - *When:* you have dialogue, a song or a voice line and want **your character performing it** - head movement, expression and articulation, not just lip-sync. This is the broader sibling of S32.
 - *Steps:*
-	- set the **audio** on the `LoadAudio` — the **frame count is automatic**: a `VAEEncodeAudio` + `GetAudioLatentSize` + math chain reads the audio's duration and converts it to the 4n+1 frame count at 16 fps (minimum 73), no manual setting needed;
+	- set the **audio** on the `LoadAudio` — set the `PrimitiveFloat` to the audio's duration in seconds (the math node converts it to the 4n+1 frame count at 16 fps, minimum 73);
 	- open `video/workflows/wan-s2v.json` and set the **reference** on the `LoadImage` (node 11) - a **portrait**; the shipped canvas is **640x640**, which a square portrait fits exactly;
 	- A 5-s clip (80 frames at 16 fps) takes about **140 s**, and the output mp4 **carries the audio**.
 - *Knobs:*
