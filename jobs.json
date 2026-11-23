@@ -233,7 +233,7 @@
   },
   {
    "want": "Generate music from a text prompt (instrumental-leaning default; vocal songs are fragile)",
-   "detail": "`audio/workflows/ace-step.json` (tags + optional lyrics; ACE-Step 1.5, MIT, 9.3 GB all-in-one)",
+   "detail": "`audio/workflows/ace-step.json` (tags + optional lyrics; ACE-Step 1.5, MIT, 9.3 GB all-in-one). Multilingual: the `language` combo (51 codes) is the only thing a non-English song changes - set it and write the lyric in that language (E41/E42/E47); ja lyrics even unlock the turbo's vocal (E47).",
    "story": "S19",
    "category": "audio"
   },
@@ -257,7 +257,7 @@
   },
   {
    "want": "Generate a song with reliable vocals (two arms split by style)",
-   "detail": "clear-lead styles -> `audio/workflows/ace-step-xl-sft.json` (MIT, lyric-full arm) | shouty/industrial styles -> `audio/workflows/ace-step-v1-35b.json` (MIT, faster and lighter)",
+   "detail": "clear-lead styles -> `audio/workflows/ace-step-xl-sft.json` (MIT, lyric-full arm) | shouty/industrial styles -> `audio/workflows/ace-step-v1-35b.json` (MIT, faster and lighter). Non-English lyrics: XL only - set `language` (51 codes) and write a real song in that language; v1 loses ru words (66%, E45) and collapses on ja (E47).",
    "story": "S23",
    "category": "audio"
   },
