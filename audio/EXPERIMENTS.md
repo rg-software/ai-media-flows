@@ -206,7 +206,7 @@ This is the third scenario born from a modality with the node surface already in
     - Levels all in family (-14.6 / -15.9 / -14.8 rms across the three arms; no take breaches the FS gate).
 - Next: the ears rank the three takes (the numbers only say turbo is out for lyrics). **Akanje respelling stays queued as E46** on the XL arm's text; the reproducible Iron Heart RU text is committed at `audio/workflows/scratch/ironheart-ru.txt` for any future language/model A/B.
 
-## E46 - akanje + stress marks on the Iron Heart RU: XL gains verse 1 and nudges up, v1 loses ground (words: XL 81%, v1 61%; ears pending)
+## E46 - akanje with stress marks on the Iron Heart RU: XL gains verse 1 and nudges up, v1 loses ground (words: XL 81%, v1 61%; ears pending)
 
 - Question: the user's E45 direction - "try akanje, with stress marks, the best bet altogether" - and specifically on v1, "the worst offender". Akanje: the model sings unstressed Russian о as [o] where a native delivery says [a]; the idea is to respell the lyric phonetically so the text encoder sees what should be sung.
 - Params: the committed Iron Heart RU text transformed programmatically (auditable word map): **every unstressed о respelled to а** (темноте -> темнате, колесо -> колеса, моторов -> маторав, молчанье -> малчанье, по -> па...) **and a combining acute on every stressed vowel** (incl. monosyllabic content words; ё left alone; function words unmarked). Arms: **XL** (`ace-step-xl-sft.json`, tags/language/seed as E44) and **v1** (`ace-step-v1-35b.json`) - turbo is out per E45. Arm JSONs: `output/fetched/e46/E46_{xl,v1}_ru_akanje.json`.
