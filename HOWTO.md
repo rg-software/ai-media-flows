@@ -375,7 +375,7 @@
 	- write the script in `dialog_text`, one line per `SPEAKER A:` / `SPEAKER B:` label;
 	- run: you get the **mixed scene plus each speaker's track**, all on the same timeline (silent where the other talks) - they drop straight onto a game timeline.
 - *Knobs:* `exaggeration` / `cfg_weight` / `temperature` / `seed` behave as in S26; optional `speaker_C_Audio` / `speaker_D_Audio` extend the cast to four.
-- *Traps:* **the references ARE the voices** - two close clips give two close voices (E26), a sung stem or your own clips give distinct ones (E26b). And this node needed a one-line pack patch on this box (torchaudio 2.11 routes `save()` to torchcodec); it is recorded in `comfyui/pinned-config.md`. Output is 24 kHz mono VO stems, near full scale - normalise.
+- *Traps:* **the references ARE the voices** - two close clips give two close voices (E26), a sung stem or your own clips give distinct ones (E26b). **No paralinguistic tags here either** - the dialog node runs the *standard* model (verified in the pack source: `ChatterboxTTS.from_pretrained`; the pack has no Turbo dialog node), so by E27 a `[laugh]` is read aloud as a word; for acted tags, generate the line in the S26 Turbo flow instead. And this node needed a one-line pack patch on this box (torchaudio 2.11 routes `save()` to torchcodec); it is recorded in `comfyui/pinned-config.md`. Output is 24 kHz mono VO stems, near full scale - normalise.
 - *More:* [`audio/README.md`](audio/README.md), and E26/E26b in [`audio/EXPERIMENTS.md`](audio/EXPERIMENTS.md).
 
 ### S28. Animate my own character from a prompt
