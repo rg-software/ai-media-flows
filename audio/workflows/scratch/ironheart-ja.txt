@@ -1,0 +1,69 @@
+# The Japanese Iron Heart - the reproducible text + settings (E47)
+#
+# Source: a faithful Japanese translation of the repo's own 188-word
+# "Iron heart" lyric (audio/workflows/yue2-cover.json / ace-step-v1-35b.json).
+# Plain orthography - no stress/respell markup (E43/E46 rejected that route).
+# The discipline is meter: consistent mora counts (~10-13) per line, mirroring
+# the English line lengths - per E44, the lyric's structure is the delivery
+# lever. Japanese has no end-rhyme tradition, so rhyme is not replicated.
+#
+# Settings (identical texts into all three ACE-Step arms):
+#   tags: Japanese pop-rock anthem, a clear, strong, close-mic female lead vocal singing in Japanese, bright electric guitars, warm piano, steady drums, uplifting and melodic
+#   language: ja   duration: 120   bpm: 120   timesignature: 4
+#   seed: the SeedNode (0 on the XL/v1 flows; turbo ships its own 31)
+#
+# Translation liberties (flagged): "iron heart" -> 鉄のハート (J-pop idiom),
+# "Everything we build is mine" -> 僕らのもの (ours), "hold the line" -> 陣を守れ
+# (hold the position), "on the anvil of the day" -> 金床の上の日を打つ.
+
+=== TAGS ===
+Japanese pop-rock anthem, a clear, strong, close-mic female lead vocal singing in Japanese, bright electric guitars, warm piano, steady drums, uplifting and melodic
+
+=== LYRICS ===
+[Verse]
+鋼は闇で息づき
+ピストンは時を数える
+火花は窓を眩ませ
+この手は力のかたち
+ハンマーは雨のように降り
+金床の上の日を打つ
+名もなきものを作ってる
+錆と粘土から
+
+[Chorus]
+鉄のハート 鉄のハート
+車輪を回せ 陣を守れ
+鉄のハート 鉄のハート
+作ったものは 僕らのもの
+
+[Verse]
+床を照らす炉の火
+影は壁を歩いてく
+エンジンの咆哮を聞いた
+それでも僕らは倒れない
+油と煙と借りた光
+リベットは拍子に打たれる
+僕らは夜を働く
+朝の鐘が鳴るまで
+
+[Chorus]
+鉄のハート 鉄のハート
+車輪を回せ 陣を守れ
+鉄のハート 鉄のハート
+作ったものは 僕らのもの
+
+[Bridge]
+金属が歌うとき
+沈黙が壊れるとき
+ものの形がわかるだろう
+その作ったものすべてから
+
+[Final Chorus]
+鉄のハート 鉄のハート
+車輪を回せ 陣を守れ
+鉄のハート 鉄のハート
+作ったものは 僕らのもの
+
+[Outro]
+車輪回せ 車輪回せ
+陣を守れ
