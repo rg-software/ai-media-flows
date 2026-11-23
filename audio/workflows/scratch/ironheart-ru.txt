@@ -1,0 +1,73 @@
+# The Russian Iron Heart - the reproducible text + settings (E44/E45)
+#
+# Source: a faithful rhymed Russian translation of the repo's own 188-word
+# "Iron heart" lyric (audio/workflows/yue2-cover.json / ace-step-v1-35b.json).
+# Measured on XL SFT (E44, 78% canonical word-forms) and used as the fixed text
+# for the 3-model Russian matrix (E45: turbo + v1).
+#
+# Settings (the E44 XL arm; the same texts go into turbo and v1):
+#   flow: audio/workflows/ace-step-xl-sft.json (XL SFT 4B, 50 steps / cfg 7,
+#         ModelSamplingAuraFlow shift 3)
+#   tags: pop-rock anthem, a clear, strong, close-mic female lead vocal singing in Russian, bright electric guitars, warm piano, steady drums, uplifting and melodic
+#   language: ru   duration: 120   bpm: 120   timesignature: 4   keyscale: E minor
+#   seed: the SeedNode (0) - the encoder's seed widget is shadowed by its link
+#   (E43 plumbing note): generation is deterministic for (text, seed).
+#   Arm JSONs live under output/fetched/e44 + e45 (not committed); rebuild by
+#   pasting the two strings below into any ACE-Step arm.
+#
+# Translation liberties (flagged in E44): clay -> ognya (fire, for the Q2 rhyme),
+# "mine" -> "dlya nas s toboy", "hold the line" -> "derzhi stroy".
+
+=== TAGS ===
+pop-rock anthem, a clear, strong, close-mic female lead vocal singing in Russian, bright electric guitars, warm piano, steady drums, uplifting and melodic
+
+=== LYRICS ===
+[Verse]
+Сталь дышит в темноте
+Поршни отсчитывают час
+Искры слепят в работе
+И сила — в каждой из нас
+
+Молоты — ровный дождь
+По наковальне дня
+Мы куём безымянное
+Из ржавчины и огня
+
+[Chorus]
+Железное сердце, железное сердце
+Крути колесо и держи строй
+Железное сердце, железное сердце
+Всё, что мы строим, — для нас с тобой
+
+[Verse]
+Вдоль пола — зарево печи
+Тени ходят по стене
+Рёв моторов — в тишине
+Но мы не падаем в ночи
+
+Масло, дым и чужой свет
+Каждая заклёпка — в срок
+В ночь уйдём работать — сна нет
+Пока не запоёт звонок
+
+[Chorus]
+Железное сердце, железное сердце
+Крути колесо и держи строй
+Железное сердце, железное сердце
+Всё, что мы строим, — для нас с тобой
+
+[Bridge]
+И когда металл поёт
+И когда трещит молчанье
+Форму вещей поймёт
+Тот, кто видит их деянья
+
+[Final Chorus]
+Железное сердце, железное сердце
+Крути колесо и держи строй
+Железное сердце, железное сердце
+Всё, что мы строим, — для нас с тобой
+
+[Outro]
+Крути колесо, крути колесо
+Держи строй
