@@ -257,7 +257,7 @@
   },
   {
    "want": "Generate a song with reliable vocals (two arms split by style)",
-   "detail": "clear-lead styles -> `audio/workflows/ace-step-xl-sft.json` (MIT, lyric-full arm) | shouty/industrial styles -> `audio/workflows/ace-step-v1-35b.json` (MIT, faster and lighter). Non-English lyrics: XL only - set `language` (51 codes) and write a real song in that language; v1 loses ru words (66%, E45) and collapses on ja (E47).",
+   "detail": "clear-lead styles -> `audio/workflows/ace-step-xl-sft.json` (MIT, lyric-full arm) | shouty/industrial styles -> `audio/workflows/ace-step-v1-35b.json` (MIT, faster and lighter). Non-English lyrics: set `language` (51 codes) and write a real song in that language; the model choice is per-language - ja = turbo or XL (E47), en/ru = XL only (v1 loses ru words, 66% E45, and collapses on ja).",
    "story": "S23",
    "category": "audio"
   },
