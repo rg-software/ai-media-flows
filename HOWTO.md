@@ -455,7 +455,6 @@
 - *Steps:*
 	- open `video/workflows/wan-infinitetalk.json` and set the **reference** on the `LoadImage` (node 12) - a **portrait**, face clear;
 	- set the **audio** on the `LoadAudio` (node 9) — set the `PrimitiveFloat` to the audio's duration in seconds (the math node converts it to the 4n+1 frame count at 25 fps);
-	- run. 3.24 s of speech (81 frames at 25 fps) takes about **210 s**. The output mp4 **carries the audio**.
 - *Knobs:*
 	- the **audio** - it drives the mouth; the words are its business;
 	- the **reference** - portrait, well-lit;
@@ -474,7 +473,6 @@
 - *Steps:*
 	- set the **audio** on the `LoadAudio` — set the `PrimitiveFloat` to the audio's duration in seconds (the math node converts it to the 4n+1 frame count at 16 fps, minimum 73);
 	- open `video/workflows/wan-s2v.json` and set the **reference** on the `LoadImage` (node 11) - a **portrait**; the shipped canvas is **640x640**, which a square portrait fits exactly;
-	- A 5-s clip (80 frames at 16 fps) takes about **140 s**, and the output mp4 **carries the audio**.
 - *Knobs:*
 	- the **audio** - it drives the whole performance;
 	- the **reference** - portrait, face clear;
